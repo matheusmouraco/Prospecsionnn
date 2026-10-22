@@ -254,7 +254,7 @@ export function aiProblems(ia: ProntidaoIA, mobile: PageSpeedResult | null, temC
     add({
       descricao_curta: 'Não tem um resumo próprio para assistentes de IA (llms.txt)',
       evidencia: 'Arquivo /llms.txt não encontrado',
-      gravidade: 1,
+      gravidade: 4, // high on purpose (Moura's call): a key GEO selling point for the agency
     });
   }
   return out;
