@@ -34,7 +34,7 @@ const envSchema = z.object({
   SNOV_DRAFT_LIST_ID: optionalString,
 
   SENDER_BRAND: z.string().trim().min(1).default('Matilab'),
-  SENDER_NAME: z.string().trim().min(1).default('Moura'),
+  SENDER_NAME: z.string().trim().min(1).default('Matheus Moura'),
   SENDER_WHATSAPP_URL: optionalString,
   DRAFT_BASE_URL: z.string().trim().url().default('https://analise.matilab.com.br'),
 

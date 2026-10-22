@@ -117,7 +117,9 @@ describe('generateEmail', () => {
 
 describe('renderEmail1', () => {
   it('has no link and no dash', () => {
-    const txt = renderEmail1('Ana', bom, 'Moura', 'Matilab');
+    const txt = renderEmail1('Ana', bom, 'Matheus Moura', 'Matilab');
+    expect(txt).toContain('Matheus Moura | Matilab');
+    expect(txt).toContain('**Assunto:** site da Dentelli');
     expect(txt).toContain('Oi Ana, tudo bem?');
     expect(txt).toContain('1. No celular, o site leva 47,7 segundos');
     expect(txt).not.toMatch(/https?:|www\.|—|–/);

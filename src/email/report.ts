@@ -10,7 +10,7 @@ export interface EmailReportItem {
 // Email 1 as the prospect will read it (same text as prompts/sequencia-snov.md).
 export function renderEmail1(nome: string | null, c: EmailGerado['campos'], remetente: string, marca: string): string {
   return [
-    `**Assunto:** ${c.nome_empresa}: dois pontos no site`,
+    `**Assunto:** site da ${c.nome_empresa}`,
     '',
     `Oi ${nome ?? '{primeiro_nome}'}, tudo bem?`,
     '',
@@ -23,8 +23,7 @@ export function renderEmail1(nome: string | null, c: EmailGerado['campos'], reme
     '',
     'Fiz um esboço de como o site de vocês poderia ficar resolvendo isso. Quer que eu te mande?',
     '',
-    remetente,
-    marca,
+    `${remetente} | ${marca}`,
     '',
     'Se não fizer sentido, é só responder "sair".',
   ].join('\n');
