@@ -15,7 +15,7 @@ describe('reply classification', () => {
   });
 
   it('maps each category to the action in CLAUDE.md', () => {
-    expect(CATEGORIAS.map(acaoPara)).toEqual(['gerar_esboco', 'notificar_moura', 'bloquear', 'bloquear', 'nenhuma', 'notificar_moura']);
+    expect(CATEGORIAS.map(acaoPara)).toEqual(['gerar_esboco', 'notificar_moura', 'retomar_6_meses', 'bloquear', 'nenhuma', 'notificar_moura']);
   });
 
   it('builds the draft and notifies Moura on any interest, even a bare price question', () => {
@@ -23,7 +23,7 @@ describe('reply classification', () => {
     expect(acoesPara({ categoria: 'interesse', pediu_esboco: false })).toEqual(['gerar_esboco', 'notificar_moura']);
     expect(acoesPara({ categoria: 'outro', pediu_esboco: false })).toEqual(['notificar_moura']);
     expect(acoesPara({ categoria: 'quer_ver', pediu_esboco: true })).toEqual(['gerar_esboco']);
-    expect(acoesPara({ categoria: 'nao', pediu_esboco: true })).toEqual(['bloquear']);
+    expect(acoesPara({ categoria: 'nao', pediu_esboco: true })).toEqual(['retomar_6_meses']);
   });
 
   it('sends only the reply to the model and applies the threshold', async () => {

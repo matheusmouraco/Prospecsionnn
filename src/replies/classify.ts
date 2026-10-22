@@ -40,7 +40,7 @@ export function applyThreshold(categoria: Categoria, confianca: number): Categor
   return confianca < MIN_CONFIANCA ? 'outro' : categoria;
 }
 
-export type Acao = 'gerar_esboco' | 'notificar_moura' | 'bloquear' | 'nenhuma';
+export type Acao = 'gerar_esboco' | 'notificar_moura' | 'bloquear' | 'retomar_6_meses' | 'nenhuma';
 
 // Moura's rule: any interest (price, deadline, call) also gets a draft, so he talks price with it ready.
 // `outro` gets a draft only when the person clearly asked for it.
@@ -54,7 +54,7 @@ export function acaoPara(categoria: Categoria): Acao {
     case 'quer_ver': return 'gerar_esboco';
     case 'interesse':
     case 'outro': return 'notificar_moura';
-    case 'nao':
+    case 'nao': return 'retomar_6_meses';
     case 'descadastro': return 'bloquear';
     case 'ausente': return 'nenhuma';
   }

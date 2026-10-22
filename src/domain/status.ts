@@ -50,7 +50,8 @@ export const TRANSITIONS: Record<ProspectStatus, readonly ProspectStatus[]> = {
   link_enviado: REPLY_OUTCOMES.filter((s) => s !== 'respondeu_quer_ver'),
   respondeu_interesse: ['notificado_moura'],
   notificado_moura: [],
-  respondeu_nao: [],
+  // "Agora não": contacted again after prospects.retomar_em (6 months), starting from a fresh analysis.
+  respondeu_nao: ['novo'],
   respondeu_descadastro: [],
   // An out-of-office reply can be followed by a real one.
   respondeu_ausente: REPLY_OUTCOMES.filter((s) => s !== 'respondeu_ausente'),

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { SnovAuthError, SnovClient } from '../src/snov/client.js';
+import { parseAddResult, SnovAuthError, SnovClient } from '../src/snov/client.js';
+import { parseReply } from '../src/snov/replies.js';
 
 type Call = { url: string; method: string; auth?: string; body?: string };
 
@@ -103,5 +104,43 @@ describe('SnovClient', () => {
     });
     await expect(client.getUserLists()).resolves.toEqual([]);
     expect(n).toBe(2);
+  });
+});
+
+describe('Snov outreach', () => {
+  it('adds a prospect with custom fields to the outreach list', async () => {
+    const { client, calls } = fakeSnov((c) => (c.url.endsWith('/oauth/access_token') ? tokenOk : { status: 200, body: { success: true, added: true } }));
+    const r = await client.addProspectToList('123', { email: 'bruna@sorriso.com.br', firstName: 'Bruna', customFields: { problema_1: 'Demora 7,2 s', saudacao: 'Oi Bruna' } });
+    expect(r).toMatchObject({ ok: true, added: true });
+    const call = calls.at(-1)!;
+    expect(call.url).toBe('https://api.snov.io/v1/add-prospect-to-list');
+    const form = new URLSearchParams(call.body);
+    expect(form.get('listId')).toBe('123');
+    expect(form.get('customFields[problema_1]')).toBe('Demora 7,2 s');
+    expect(form.get('updateContact')).toBe('1');
+  });
+
+  it('sends every do-not-email item as items[]', async () => {
+    const { client, calls } = fakeSnov((c) => (c.url.endsWith('/oauth/access_token') ? tokenOk : { status: 200, body: { success: true } }));
+    await client.addToDoNotEmailList(['a@x.com', 'y.com']);
+    expect(new URLSearchParams(calls.at(-1)!.body).getAll('items[]')).toEqual(['a@x.com', 'y.com']);
+  });
+
+  it('reads replies from a wrapped or bare array', async () => {
+    const { client, calls } = fakeSnov((c) => (c.url.endsWith('/oauth/access_token') ? tokenOk : { status: 200, body: { data: [{ id: 1 }] } }));
+    expect(await client.getEmailReplies('77')).toEqual([{ id: 1 }]);
+    expect(calls.at(-1)!.url).toBe('https://api.snov.io/v1/get-emails-replies?campaign_id=77');
+  });
+
+  it('reads the add result defensively', () => {
+    expect(parseAddResult({ success: false }).ok).toBe(false);
+    expect(parseAddResult({ success: true, updated: true })).toMatchObject({ ok: true, added: false, updated: true });
+  });
+
+  it('parses replies under different field names and strips html', () => {
+    expect(parseReply({ id: 9, prospect: { email: 'Bruna@Sorriso.com.br' }, body: '<p>Pode mandar!</p>', date: '2026-10-22 10:00' }))
+      .toEqual({ id: '9', email: 'bruna@sorriso.com.br', texto: 'Pode mandar!', recebida_em: '2026-10-22 10:00' });
+    expect(parseReply({ from: 'Bruna <bruna@x.com>', text: 'Sair' })?.email).toBe('bruna@x.com');
+    expect(parseReply({ id: 1 })).toBeNull();
   });
 });

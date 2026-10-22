@@ -8,6 +8,13 @@
 //   The reference says POST and the knowledge base says GET, so we try POST and fall back to GET on 405.
 //   Verified on a real list (Oct 2026): each prospect only has id, name, firstName, lastName, emails, source.
 // - https://api.snov.io/v1/get-prospect-by-id  id. Full record with company/site (shape confirmed via snov:inspect).
+// - POST https://api.snov.io/v1/add-prospect-to-list  email, fullName, firstName, lastName, companyName,
+//   companySite, listId (required), updateContact, customFields[nome]=valor (custom fields must exist in Snov).
+//   Response shape not documented; parseAddResult() accepts success/added/updated.
+// - POST https://api.snov.io/v1/do-not-email-list  items[] (emails or domains).
+// - GET  https://api.snov.io/v1/get-emails-replies  campaign_id. Prospect, subject/body, step, date per reply;
+//   exact field names not documented, see src/snov/replies.ts and `npm run respostas:ler -- --amostra`.
+// - Webhooks (campaign_reply received) exist via POST /v2/webhooks but need a premium plan; polling is used.
 // - Rate limit: 60 requests per minute across all endpoints.
 // Field names inside each prospect are not fully documented; see parseProspect() and `npm run snov:inspect`.
 import { logger } from '../lib/logger.js';
@@ -51,6 +58,32 @@ export interface SnovList {
   contacts: number | null;
   isDeleted: boolean;
 }
+
+export interface NovoProspect {
+  email: string;
+  firstName?: string | null;
+  fullName?: string | null;
+  companyName?: string | null;
+  companySite?: string | null;
+  customFields: Record<string, string>;
+}
+
+export interface AddResult {
+  ok: boolean;
+  added: boolean;
+  updated: boolean;
+  raw: unknown;
+}
+
+export function parseAddResult(raw: unknown): AddResult {
+  const b = (raw ?? {}) as Record<string, unknown>;
+  const added = b.added === true || b.success === true && b.updated !== true;
+  const updated = b.updated === true;
+  const ok = b.success !== false && (added || updated || b.success === true);
+  return { ok, added, updated, raw };
+}
+
+type Params = Record<string, string | string[]>;
 
 export interface ProspectPage {
   prospects: Record<string, unknown>[];
@@ -108,6 +141,31 @@ export class SnovClient {
     const inner = body.data;
     if (inner && typeof inner === 'object' && !Array.isArray(inner)) return inner as Record<string, unknown>;
     return body;
+  }
+
+  // Adds (or updates) a prospect in a list. A list linked to a campaign starts the sequence.
+  async addProspectToList(listId: string, p: NovoProspect): Promise<AddResult> {
+    const params: Params = { email: p.email, listId, updateContact: '1' };
+    if (p.firstName) params.firstName = p.firstName;
+    if (p.fullName) params.fullName = p.fullName;
+    if (p.companyName) params.companyName = p.companyName;
+    if (p.companySite) params.companySite = p.companySite;
+    for (const [k, v] of Object.entries(p.customFields)) params[`customFields[${k}]`] = v;
+    return parseAddResult(await this.request('POST', '/v1/add-prospect-to-list', params));
+  }
+
+  async addToDoNotEmailList(items: string[]): Promise<unknown> {
+    return this.request('POST', '/v1/do-not-email-list', { 'items[]': items });
+  }
+
+  async getEmailReplies(campaignId: string): Promise<Record<string, unknown>[]> {
+    const body = await this.request('GET', '/v1/get-emails-replies', { campaign_id: campaignId });
+    if (Array.isArray(body)) return body as Record<string, unknown>[];
+    const b = (body ?? {}) as Record<string, unknown>;
+    for (const key of ['data', 'replies', 'items', 'result']) {
+      if (Array.isArray(b[key])) return b[key] as Record<string, unknown>[];
+    }
+    return [];
   }
 
   async getProspectsPage(listId: string, page: number, perPage: number): Promise<ProspectPage> {
@@ -175,13 +233,14 @@ export class SnovClient {
     return this.token.value;
   }
 
-  private async request(method: 'GET' | 'POST', path: string, params: Record<string, string> = {}): Promise<unknown> {
+  private async request(method: 'GET' | 'POST', path: string, params: Params = {}): Promise<unknown> {
     let refreshed = false;
     for (let attempt = 0; ; attempt++) {
       const token = await this.getToken();
       await this.throttle();
 
-      const qs = new URLSearchParams(params).toString();
+      const form = toForm(params);
+      const qs = form.toString();
       const url = method === 'GET' && qs ? `${BASE_URL}${path}?${qs}` : `${BASE_URL}${path}`;
       const res = await this.fetch(url, {
         method,
@@ -189,7 +248,7 @@ export class SnovClient {
           Authorization: `Bearer ${token}`,
           ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
         },
-        ...(method === 'POST' ? { body: new URLSearchParams(params) } : {}),
+        ...(method === 'POST' ? { body: form } : {}),
       });
 
       if (res.status === 401 && !refreshed) {
@@ -215,6 +274,15 @@ export class SnovClient {
     if (wait > 0) await this.sleep(wait);
     this.lastRequestAt = this.now();
   }
+}
+
+// Repeated keys for arrays (items[]=a&items[]=b), as the Snov form API expects.
+function toForm(params: Params): URLSearchParams {
+  const form = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    for (const item of Array.isArray(v) ? v : [v]) form.append(k, item);
+  }
+  return form;
 }
 
 async function safeJson(res: Response): Promise<unknown> {

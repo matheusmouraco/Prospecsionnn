@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   canTransition,
-  FINAL_STATUSES,
+  FINAL_STATUSES, TRANSITIONS,
   PROSPECT_STATUSES,
   retryTarget,
 } from '../src/domain/status.js';
@@ -25,9 +25,13 @@ describe('state machine', () => {
 
   it('has the documented final states', () => {
     expect([...FINAL_STATUSES].sort()).toEqual(
-      ['descartado_site_bom', 'erro_final', 'notificado_moura', 'respondeu_descadastro', 'respondeu_nao',
+      ['descartado_site_bom', 'erro_final', 'notificado_moura', 'respondeu_descadastro',
         'sem_resposta', 'site_ok_ou_sem_site'].sort(),
     );
+  });
+
+  it('contacts an "agora não" again from a fresh analysis', () => {
+    expect(TRANSITIONS.respondeu_nao).toEqual(['novo']);
   });
 
   it('retries up to 3 times then gives up', () => {

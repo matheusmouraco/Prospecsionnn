@@ -64,7 +64,7 @@ novo > analisando > descartado_site_bom (fim)
                   > analisado > email_pronto > enviado_snov
 enviado_snov > respondeu_quer_ver > gerando_esboco > esboco_publicado > link_enviado
              > respondeu_interesse > notificado_moura (fim, humano assume)
-             > respondeu_nao (fim, bloqueado)
+             > respondeu_nao (volta para novo após retomar_em, 6 meses; decisão do Moura)
              > respondeu_descadastro (fim, bloqueado)
              > respondeu_ausente (aguarda, sem ação)
              > sem_resposta (fim após sequência)
@@ -236,6 +236,8 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run referencias [-- --refazer]`: captura os sites de `referencias/lista.txt` e os prints de `referencias/manuais/` e gera as fichas; catálogo em `out/referencias.md`
 - `npm run esbocos:aprovar -- site.com.br [--reprovar]`: aprovação manual do esboço
 - `npm run esbocos:ajustar -- site.com.br --pedidos ajustes.txt [--base versao.html]`: aplica ajustes (um por linha) mantendo o layout; não gera do zero. Cada geração ou ajuste move os arquivos anteriores para `out/esbocos/<dominio>/historico/<data>/`
+- `npm run snov:enviar -- [--limit N]`: manda os prospects `email_pronto` para a `SNOV_OUTREACH_LIST_ID` com os custom fields (respeita `MAX_NEW_PER_DAY` e `bloqueados`); relatório em `out/envio.md`. Com `DRY_RUN=true` só faz a prévia
+- `npm run respostas:ler -- [--amostra]`: lê as respostas da `SNOV_CAMPAIGN_ID`, classifica as novas e age (status, do-not-email, bloqueados, retomada em 6 meses); relatório em `out/respostas.md`. Com `DRY_RUN=true` só classifica. `--amostra` salva o JSON cru em `out/snov-respostas.json`
 - `npm run respostas:testar`: classifica as 20 respostas de exemplo (`test/fixtures/respostas.json`) e gera `out/classificacao.md` com a tabela de acerto (critério da Fase 6)
 - `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada. No Mac, cada esboço abre no navegador assim que fica pronto (`--sem-abrir` desliga).
 
@@ -244,7 +246,10 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - Classificador em `src/replies/classify.ts` (prompts `resposta-classificar.md` e `resposta-dados.md`), `MODEL_FAST` com esforço baixo. Antes de classificar, `stripQuoted` remove o email original citado.
 - Confiança abaixo de 0,8 vira `outro` (`categoria_modelo` guarda o que o modelo disse). Qualquer `interesse` (preço, prazo, ligação), mesmo sem pedir o esboço, gera o esboço **e** avisa o Moura para falar do preço (decisão do Moura, `acoesPara`). `outro` só gera esboço se `pediu_esboco`.
 - `acaoPara`: quer_ver > gerar_esboco; interesse e outro > notificar_moura; nao e descadastro > bloquear; ausente > nenhuma.
-- Leitura das respostas no Snov (webhook ou polling) ainda não implementada: exige conferir a doc (regra 9).
+- Leitura por polling de `GET /v1/get-emails-replies` (`campaign_id`); webhook `campaign_reply received` existe em `/v2/webhooks`, mas exige plano premium. Os nomes dos campos de cada resposta não estão documentados em detalhe: `src/snov/replies.ts` procura em vários nomes; conferir com `--amostra`.
+- `nao` não bloqueia para sempre (decisão do Moura): grava `prospects.retomar_em` (+6 meses) e o prospect volta para `novo` quando a data passa (`reactivateDue`, no início do `respostas:ler`). `descadastro` vai para a do-not-email do Snov (`POST /v1/do-not-email-list`, `items[]`) e para `bloqueados`.
+- Envio: `POST /v1/add-prospect-to-list` com `customFields[campo]` e `updateContact=1`. Os custom fields (`saudacao`, `nome_empresa`, `site_da_empresa`, `problema_1`, `problema_2`, `gancho`, `nicho`) precisam existir no Snov antes. O formato da resposta não é documentado; `parseAddResult` aceita success/added/updated.
+- Migration `0005_respostas_snov.sql` (aplicada): `respostas.snov_id` (único), `resumo`, `categoria_modelo`; `prospects.retomar_em`.
 
 ## Notas sobre o esboço (Fase 5)
 
