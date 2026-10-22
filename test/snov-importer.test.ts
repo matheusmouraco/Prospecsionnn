@@ -135,3 +135,24 @@ describe('runImport', () => {
     expect(raced.stats).toMatchObject({ inseridos: 0, ja_no_banco: 1, falhas_insercao: 0 });
   });
 });
+
+describe('runImport across many lists', () => {
+  it('stops at the cap, then the next run continues from where it stopped and moves to the next list', async () => {
+    const vistos = new Set<string>();
+    const seen = { seen: async (ids: string[]) => new Set(ids.filter((i) => vistos.has(i))), markSeen: async (ids: string[]) => { ids.forEach((i) => vistos.add(i)); } };
+    const lists = {
+      Dentistas: [p(1, 'a@a1.com.br', 'a1.com.br'), p(2, 'b@b1.com.br', 'b1.com.br'), p(3, 'c@c1.com.br', 'c1.com.br')],
+      Arquitetos: [p(4, 'd@d1.com.br', 'd1.com.br')],
+    };
+    const run = async () => {
+      const { store, inserted } = memoryStore();
+      const { stats } = await runImport({ source: source(lists), store, seen, maxNew: 2, listIds: ['Dentistas', 'Arquitetos'], write: true });
+      return { emails: inserted.map((c) => c.email), stats };
+    };
+    expect((await run()).emails).toEqual(['a@a1.com.br', 'b@b1.com.br']);
+    const second = await run();
+    expect(second.emails).toEqual(['c@c1.com.br', 'd@d1.com.br']);
+    expect(second.stats.ja_lidos).toBe(2);
+    expect((await run()).emails).toEqual([]);
+  });
+});

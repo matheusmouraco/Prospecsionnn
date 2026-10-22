@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { getEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
-import { InsertSkipped, supabaseImportStore } from '../snov/store.js';
+import { InsertSkipped, supabaseImportStore, supabaseSeenStore } from '../snov/store.js';
 import { snovClientFromEnv } from '../snov/index.js';
 import { runImport, type ImportStats } from '../snov/importer.js';
 
@@ -10,16 +10,26 @@ import { runImport, type ImportStats } from '../snov/importer.js';
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const preview = args.includes('--preview');
-  const listIds = args.filter((a) => !a.startsWith('--'));
+  const listIds = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--max');
   const env = getEnv();
-  const lists = listIds.length ? listIds : env.SNOV_SOURCE_LIST_IDS;
-  if (!lists.length) throw new Error('Nenhuma lista: preencha SNOV_SOURCE_LIST_IDS ou passe ids como argumento');
+  const source = snovClientFromEnv();
+  const configured = listIds.length ? listIds : env.SNOV_SOURCE_LIST_IDS;
+  const todas = configured.length === 1 && configured[0]!.toLowerCase() === 'todas';
+  const excluidas = new Set([...env.SNOV_EXCLUDE_LIST_IDS, env.SNOV_OUTREACH_LIST_ID, env.SNOV_DRAFT_LIST_ID].filter(Boolean));
+  // "todas": every list in the account, smallest first, except outreach/draft lists and SNOV_EXCLUDE_LIST_IDS.
+  const lists = todas
+    ? (await source.getUserLists()).filter((l) => !l.isDeleted && !excluidas.has(l.id)).sort((a, b) => (a.contacts ?? 0) - (b.contacts ?? 0)).map((l) => l.id)
+    : configured;
+  if (!lists.length) throw new Error('Nenhuma lista: preencha SNOV_SOURCE_LIST_IDS (ids ou "todas") ou passe ids como argumento');
+  const max = Number(args[args.indexOf('--max') + 1]) || env.IMPORT_MAX_PER_RUN;
 
   const log = logger.child({ etapa: 'importacao' });
   log.info('Lendo listas. Cada prospect gera 1 consulta de detalhes (limite do Snov: ~60 por minuto)', { listas: lists });
   const { stats, novos } = await runImport({
-    source: snovClientFromEnv(),
+    source,
     store: supabaseImportStore(),
+    seen: supabaseSeenStore(),
+    maxNew: max,
     listIds: lists,
     write: !preview,
     isSkip: (err) => err instanceof InsertSkipped,
@@ -35,6 +45,7 @@ async function main(): Promise<void> {
 
 function report(lists: string[], s: ImportStats, domains: string[], preview: boolean): string {
   const rows: [string, number][] = [
+    ['Já lidos em rodadas anteriores (pulados)', s.ja_lidos],
     ['Prospects lidos', s.lidos],
     ['Inválidos (sem id ou email)', s.invalidos],
     ['Email repetido entre listas', s.email_duplicado_na_lista],

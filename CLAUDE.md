@@ -228,7 +228,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run db:check`: confere conexão e existência das tabelas (critério da Fase 1)
 - `npm run snov:lists`: mostra as listas da conta e seus ids
 - `npm run snov:inspect -- <listId>`: salva 5 prospects crus em `out/snov-amostra.json` para conferir os nomes de campo
-- `npm run snov:import -- [--preview] [listIds...]`: importa e deduplica; relatório em `out/importacao.md` (critério da Fase 2)
+- `npm run snov:import -- [--preview] [--max N] [listIds...]`: importa e deduplica; relatório em `out/importacao.md` (critério da Fase 2). Com `SNOV_SOURCE_LIST_IDS=todas` lê todas as listas da conta (menores primeiro), menos a de saída, a do esboço e `SNOV_EXCLUDE_LIST_IDS`. Cada rodada lê até `IMPORT_MAX_PER_RUN` prospects novos; os já lidos ficam em `snov_vistos` (migration 0006) e são pulados, então a próxima rodada continua de onde parou e passa para a lista seguinte sozinha
 - `npm run analyze -- [--limit N]`: analisa prospects `novo` e gera `out/analises.md` (critério da Fase 3)
 - `npm run analyze -- --dominio site.com.br`: analisa um site avulso, sem mexer na fila
 - `npm run emails -- [--limit N]`: escreve os custom fields dos prospects `analisado`, grava em `emails`, move para `email_pronto` e gera `out/emails.md` (critério da Fase 4). Não envia nada.

@@ -33,6 +33,8 @@ const envSchema = z.object({
   SNOV_OUTREACH_LIST_ID: optionalString,
   SNOV_DRAFT_LIST_ID: optionalString,
   SNOV_CAMPAIGN_ID: optionalString,
+  SNOV_EXCLUDE_LIST_IDS: csvList, // with SNOV_SOURCE_LIST_IDS=todas, lists never read (clients, tests)
+  IMPORT_MAX_PER_RUN: positiveInt(300),
 
   SENDER_BRAND: z.string().trim().min(1).default('Matilab'),
   SENDER_NAME: z.string().trim().min(1).default('Matheus Moura'),

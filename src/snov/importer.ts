@@ -20,6 +20,8 @@ export interface ImportStats {
   contatos_extras_mesma_empresa: number;
   empresas_unicas_com_site: number;
   ja_no_banco: number;        // email or domain already in prospects/empresas
+  ja_lidos: number;           // Snov id processed in an earlier run
+  listas_lidas: number;
   bloqueados: number;
   novos: number;
   inseridos: number;
@@ -29,7 +31,7 @@ export interface ImportStats {
 export function emptyStats(): ImportStats {
   return {
     lidos: 0, invalidos: 0, enriquecidos: 0, sem_site: 0, site_pelo_email: 0, dominio_ignorado: 0, email_duplicado_na_lista: 0,
-    contatos_extras_mesma_empresa: 0, empresas_unicas_com_site: 0, ja_no_banco: 0, bloqueados: 0,
+    contatos_extras_mesma_empresa: 0, empresas_unicas_com_site: 0, ja_no_banco: 0, ja_lidos: 0, listas_lidas: 0, bloqueados: 0,
     novos: 0, inseridos: 0, falhas_insercao: 0,
   };
 }
@@ -140,11 +142,20 @@ export interface RawSource {
   getProspectById?(id: string): Promise<Record<string, unknown> | null>;
 }
 
+// Snov ids already processed in an earlier run (imported or discarded), so big lists are read once
+// and a run with a cap continues where the last one stopped.
+export interface SeenStore {
+  seen(ids: string[]): Promise<Set<string>>;
+  markSeen(ids: string[]): Promise<void>;
+}
+
 export interface RunImportOptions {
   source: RawSource;
   store: ImportStore;
   listIds: string[];
   write: boolean;
+  seen?: SeenStore;
+  maxNew?: number; // stop after this many unseen prospects (each costs ~1 s of Snov lookups)
   onInsertError?: (candidate: Candidate, err: unknown) => void;
   isSkip?: (err: unknown) => boolean;
   onEnrichError?: (snovId: string, err: unknown) => void;
@@ -154,11 +165,31 @@ export interface RunImportOptions {
 export async function runImport(opts: RunImportOptions): Promise<{ stats: ImportStats; novos: Candidate[] }> {
   const stats = emptyStats();
   const rows: { listId: string; raw: Record<string, unknown> }[] = [];
-  for (const listId of opts.listIds) {
+  const max = opts.maxNew ?? Infinity;
+  lists: for (const listId of opts.listIds) {
+    let page: Record<string, unknown>[] = [];
+    const flush = async () => {
+      const ids = page.map((r) => parseProspect(r)?.snovId).filter((id): id is string => !!id);
+      const known = opts.seen && ids.length ? await opts.seen.seen(ids) : new Set<string>();
+      for (const raw of page) {
+        const id = parseProspect(raw)?.snovId;
+        if (id && known.has(id)) {
+          stats.ja_lidos++;
+          continue;
+        }
+        if (rows.length >= max) return false;
+        rows.push({ listId, raw: await enrich(opts, raw, stats) });
+      }
+      page = [];
+      return true;
+    };
     for await (const raw of opts.source.iterateList(listId)) {
-      rows.push({ listId, raw: await enrich(opts, raw, stats) });
+      page.push(raw);
+      if (page.length >= 200 && !(await flush())) break lists;
     }
+    if (!(await flush())) break;
   }
+  stats.listas_lidas = opts.listIds.length;
 
   const candidates = selectCandidates(rows, stats);
   const novos = await filterNew(opts.store, candidates, stats);
@@ -177,6 +208,10 @@ export async function runImport(opts: RunImportOptions): Promise<{ stats: Import
         }
       }
     }
+  }
+  if (opts.write && opts.seen) {
+    const ids = rows.map((r) => parseProspect(r.raw)?.snovId).filter((id): id is string => !!id);
+    if (ids.length) await opts.seen.markSeen(ids);
   }
   return { stats, novos };
 }

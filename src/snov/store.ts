@@ -1,5 +1,5 @@
 import { getSupabase, type Db } from '../db/client.js';
-import type { Candidate, ImportStore } from './importer.js';
+import type { Candidate, ImportStore, SeenStore } from './importer.js';
 
 const CHUNK = 200;
 
@@ -45,6 +45,18 @@ export function supabaseImportStore(db: Db = getSupabase()): ImportStore {
       if (error) throw new Error(`importar_prospect falhou: ${error.message}`);
       // Lost a race with another import or a block added meanwhile.
       if (data !== true) throw new InsertSkipped(`${c.domain} já existe ou está bloqueado`);
+    },
+  };
+}
+
+export function supabaseSeenStore(db: Db = getSupabase()): SeenStore {
+  return {
+    seen: (ids) => collect(db, 'snov_vistos', 'snov_id', ids),
+    async markSeen(ids) {
+      for (let i = 0; i < ids.length; i += 500) {
+        const { error } = await db.from('snov_vistos').upsert(ids.slice(i, i + 500).map((snov_id) => ({ snov_id })), { ignoreDuplicates: true });
+        if (error) throw new Error(`Falha ao registrar prospects lidos: ${error.message}`);
+      }
     },
   };
 }
