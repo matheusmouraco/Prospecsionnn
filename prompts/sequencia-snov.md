@@ -11,6 +11,12 @@ Os problemas já chegam numerados ("1. ...", "2. ..."). Quando o site só tem do
 Não use o "First name" do Snov na saudação: em caixas como contato@ ou ibo@ ele traz a sigla da empresa.
 O campo `saudacao` já vem pronto ("Oi Bruna" ou "Olá").
 
+Assinatura: a campanha roda em 3 caixas (bruno@, isabella@ e matheus@matilabsites.com), então o nome
+não fica fixo no texto. Onde aparece `{assinatura}`, use a assinatura da própria conta (no Snov:
+Email accounts > conta > Sender name e Signature; no editor da campanha, inserir a assinatura).
+Cada conta: Sender name "Bruno | Matilab", "Isabella | Matilab", "Matheus Moura | Matilab" e a
+assinatura com o mesmo nome.
+
 Configuração da campanha:
 - Parar a sequência quando o contato responder.
 - Follow-ups com o assunto em branco, para irem na mesma conversa do email 1 (aparecem como "Re: ...").
@@ -45,7 +51,7 @@ Olhando com calma, anotei alguns pontos:
 
 Montei um esboço de como o site de vocês ficaria com isso resolvido. Quer que eu te mande?
 
-Matheus Moura | Matilab
+{assinatura}
 
 Se não fizer sentido, é só responder "sair".
 
@@ -57,7 +63,7 @@ Se não fizer sentido, é só responder "sair".
 
 O esboço já está pronto. Se quiser, te mando por aqui mesmo, sem compromisso.
 
-Matheus Moura | Matilab
+{assinatura}
 
 Se não fizer sentido, é só responder "sair".
 
@@ -70,6 +76,6 @@ Se não fizer sentido, é só responder "sair".
 Se em algum momento fizer sentido melhorar o {site_da_empresa}, o esboço continua guardado. É só responder este email.
 
 Abraço,
-Matheus Moura | Matilab
+{assinatura}
 
 Se não fizer sentido, é só responder "sair".
