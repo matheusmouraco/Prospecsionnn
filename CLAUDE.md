@@ -236,7 +236,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run referencias [-- --refazer]`: captura os sites de `referencias/lista.txt` e os prints de `referencias/manuais/` e gera as fichas; catálogo em `out/referencias.md`
 - `npm run esbocos:aprovar -- site.com.br [--reprovar]`: aprovação manual do esboço
 - `npm run esbocos:ajustar -- site.com.br --pedidos ajustes.txt [--base versao.html]`: aplica ajustes (um por linha) mantendo o layout; não gera do zero. Cada geração ou ajuste move os arquivos anteriores para `out/esbocos/<dominio>/historico/<data>/`
-- `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada.
+- `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada. No Mac, cada esboço abre no navegador assim que fica pronto (`--sem-abrir` desliga).
 
 ## Notas sobre o esboço (Fase 5)
 

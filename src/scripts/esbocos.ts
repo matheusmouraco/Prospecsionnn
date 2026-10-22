@@ -1,4 +1,6 @@
+import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { launchBrowser } from '../analysis/browser.js';
 import { getEnv, requireEnv } from '../config/env.js';
 import { isPaused } from '../db/control.js';
@@ -8,6 +10,12 @@ import { logger } from '../lib/logger.js';
 
 const OUT_DIR = 'out/esbocos';
 const log = logger.child({ etapa: 'esboco' });
+
+// On the Mac each finished draft opens in the browser right away (off on the VPS or with --sem-abrir).
+function abrir(dominio: string): void {
+  if (process.platform !== 'darwin' || process.argv.includes('--sem-abrir')) return;
+  spawn('open', [join(OUT_DIR, dominio, 'index.html')], { detached: true, stdio: 'ignore' }).unref();
+}
 
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
@@ -43,6 +51,7 @@ async function main(): Promise<void> {
         });
         const slug = await saveDraft(id, input.empresa, e);
         feitos.push({ ...e, slug });
+        if (e.html) abrir(e.dominio);
         log.info(e.aprovado ? 'Esboço aprovado' : 'Esboço abaixo da nota mínima', { dominio: e.dominio, nota: e.nota, tentativas: e.tentativas, custo_usd: Number(e.custo_usd.toFixed(3)) });
       } catch (err) {
         log.error('Falha ao gerar esboço', { empresa: id, err });
