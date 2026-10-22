@@ -4,13 +4,17 @@ import { roleTier } from './roles.js';
 
 export interface Candidate extends SnovProspect {
   domain: string;
+  // 'site': from the company website field; 'email': no website, taken from a corporate email domain.
+  domainSource: 'site' | 'email';
   listId: string;
 }
 
 export interface ImportStats {
   lidos: number;
   invalidos: number;          // no id or no usable email
+  enriquecidos: number;       // details fetched with get-prospect-by-id
   sem_site: number;
+  site_pelo_email: number;    // no website in Snov, domain taken from the corporate email
   dominio_ignorado: number;
   email_duplicado_na_lista: number;
   contatos_extras_mesma_empresa: number;
@@ -24,7 +28,7 @@ export interface ImportStats {
 
 export function emptyStats(): ImportStats {
   return {
-    lidos: 0, invalidos: 0, sem_site: 0, dominio_ignorado: 0, email_duplicado_na_lista: 0,
+    lidos: 0, invalidos: 0, enriquecidos: 0, sem_site: 0, site_pelo_email: 0, dominio_ignorado: 0, email_duplicado_na_lista: 0,
     contatos_extras_mesma_empresa: 0, empresas_unicas_com_site: 0, ja_no_banco: 0, bloqueados: 0,
     novos: 0, inseridos: 0, falhas_insercao: 0,
   };
@@ -60,17 +64,25 @@ export function selectCandidates(
     }
     seenEmails.add(p.email);
 
-    const domain = normalizeDomain(p.website);
-    if (!domain) {
-      stats.sem_site++;
-      continue;
-    }
-    if (isIgnoredDomain(domain)) {
-      stats.dominio_ignorado++;
+    const siteDomain = normalizeDomain(p.website);
+    const emailDomain = normalizeDomain(p.email.split('@')[1]);
+    let domain: string;
+    let domainSource: Candidate['domainSource'];
+    if (siteDomain && !isIgnoredDomain(siteDomain)) {
+      domain = siteDomain;
+      domainSource = 'site';
+    } else if (emailDomain && !isIgnoredDomain(emailDomain)) {
+      domain = emailDomain;
+      domainSource = 'email';
+      stats.site_pelo_email++;
+    } else {
+      // Website pointed to a social/marketplace page vs. no website at all (email was generic too).
+      if (siteDomain) stats.dominio_ignorado++;
+      else stats.sem_site++;
       continue;
     }
 
-    const candidate: Candidate = { ...p, domain, listId };
+    const candidate: Candidate = { ...p, domain, domainSource, listId };
     const current = byDomain.get(domain);
     if (!current) {
       byDomain.set(domain, candidate);
@@ -123,6 +135,8 @@ export async function filterNew(store: ImportStore, candidates: Candidate[], sta
 
 export interface RawSource {
   iterateList(listId: string): AsyncIterable<Record<string, unknown>>;
+  // Optional detail lookup; list rows lack company, position and website.
+  getProspectById?(id: string): Promise<Record<string, unknown> | null>;
 }
 
 export interface RunImportOptions {
@@ -132,6 +146,7 @@ export interface RunImportOptions {
   write: boolean;
   onInsertError?: (candidate: Candidate, err: unknown) => void;
   isSkip?: (err: unknown) => boolean;
+  onEnrichError?: (snovId: string, err: unknown) => void;
 }
 
 // Phase 2 pipeline: read lists > one contact per domain > drop known/blocked > insert as `novo`.
@@ -139,7 +154,9 @@ export async function runImport(opts: RunImportOptions): Promise<{ stats: Import
   const stats = emptyStats();
   const rows: { listId: string; raw: Record<string, unknown> }[] = [];
   for (const listId of opts.listIds) {
-    for await (const raw of opts.source.iterateList(listId)) rows.push({ listId, raw });
+    for await (const raw of opts.source.iterateList(listId)) {
+      rows.push({ listId, raw: await enrich(opts, raw, stats) });
+    }
   }
 
   const candidates = selectCandidates(rows, stats);
@@ -161,4 +178,20 @@ export async function runImport(opts: RunImportOptions): Promise<{ stats: Import
     }
   }
   return { stats, novos };
+}
+
+// Merges the full record into a list row when the row lacks website or position.
+async function enrich(opts: RunImportOptions, raw: Record<string, unknown>, stats: ImportStats) {
+  const parsed = parseProspect(raw);
+  if (!opts.source.getProspectById || !parsed || (parsed.website && parsed.position)) return raw;
+  try {
+    const detail = await opts.source.getProspectById(parsed.snovId);
+    if (!detail) return raw;
+    stats.enriquecidos++;
+    // List fields win for id and emails; detail fills everything else.
+    return { ...detail, ...raw, emails: raw.emails ?? detail.emails };
+  } catch (err) {
+    opts.onEnrichError?.(parsed.snovId, err);
+    return raw;
+  }
 }

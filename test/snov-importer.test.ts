@@ -56,8 +56,8 @@ describe('runImport', () => {
     const { stats } = await runImport({
       source: source({
         L1: [
-          p(1, 'a@semsite.com', null),
-          p(2, 'b@x.com', 'instagram.com/loja'),
+          p(1, 'a@gmail.com', null),
+          p(2, 'b@hotmail.com', 'instagram.com/loja'),
           p(3, 'c@ja.com.br', 'ja.com.br'),
           p(4, 'velho@outro.com.br', 'outro.com.br'),
           p(5, 'saiu@b1.com.br', 'b1.com.br'),
@@ -76,6 +76,44 @@ describe('runImport', () => {
     expect(stats).toMatchObject({
       lidos: 9, sem_site: 1, dominio_ignorado: 1, email_duplicado_na_lista: 1,
       ja_no_banco: 2, bloqueados: 3, novos: 1, inseridos: 1,
+    });
+  });
+
+  it('falls back to the corporate email domain when there is no usable website', async () => {
+    const { store, inserted } = memoryStore();
+    const { stats } = await runImport({
+      source: source({
+        L: [
+          p(1, 'dra@clinicasorriso.com.br', null),
+          p(2, 'joao@odontojoao.com.br', 'instagram.com/odontojoao'),
+          p(3, 'ana@gmail.com', null),
+        ],
+      }),
+      store, listIds: ['L'], write: true,
+    });
+    expect(inserted.map((c) => [c.domain, c.domainSource])).toEqual([
+      ['clinicasorriso.com.br', 'email'],
+      ['odontojoao.com.br', 'email'],
+    ]);
+    expect(stats).toMatchObject({ site_pelo_email: 2, sem_site: 1 });
+  });
+
+  it('fetches details for rows without website or position and keeps list emails', async () => {
+    const { store, inserted } = memoryStore();
+    const calls: string[] = [];
+    const src = {
+      ...source({ L: [{ id: 'x1', firstName: 'Ana', emails: [{ email: 'ana@gmail.com' }] }] }),
+      async getProspectById(id: string) {
+        calls.push(id);
+        return { id, emails: [], social: [{ companyName: 'Clínica Ana', position: 'Proprietária', site: 'https://clinicaana.com.br' }] };
+      },
+    };
+    const { stats } = await runImport({ source: src, store, listIds: ['L'], write: true });
+    expect(calls).toEqual(['x1']);
+    expect(stats.enriquecidos).toBe(1);
+    expect(inserted[0]).toMatchObject({
+      email: 'ana@gmail.com', domain: 'clinicaana.com.br', domainSource: 'site',
+      companyName: 'Clínica Ana', position: 'Proprietária',
     });
   });
 

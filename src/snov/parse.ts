@@ -62,7 +62,8 @@ function customFields(raw: Raw): Raw {
 const CUSTOM_WEBSITE_KEYS = ['Company Website', 'Website', 'Site', 'company website', 'website', 'site'];
 
 function firstJob(raw: Raw): Raw | undefined {
-  const jobs = raw.currentJob ?? raw.currentJobs ?? raw.jobs;
+  // get-prospect-by-id lists jobs under `social` (companyName, position, site) in the docs sample.
+  const jobs = raw.currentJob ?? raw.currentJobs ?? raw.jobs ?? raw.social;
   if (Array.isArray(jobs)) return asObject(jobs[0]);
   return asObject(jobs);
 }

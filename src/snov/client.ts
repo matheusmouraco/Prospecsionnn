@@ -6,6 +6,8 @@
 // - GET  https://api.snov.io/v1/get-user-lists
 // - https://api.snov.io/v1/prospect-list  listId (required), page, perPage (max 5000). Free, no credits.
 //   The reference says POST and the knowledge base says GET, so we try POST and fall back to GET on 405.
+//   Verified on a real list (Oct 2026): each prospect only has id, name, firstName, lastName, emails, source.
+// - https://api.snov.io/v1/get-prospect-by-id  id. Full record with company/site (shape confirmed via snov:inspect).
 // - Rate limit: 60 requests per minute across all endpoints.
 // Field names inside each prospect are not fully documented; see parseProspect() and `npm run snov:inspect`.
 import { logger } from '../lib/logger.js';
@@ -60,6 +62,7 @@ export class SnovClient {
   private token: { value: string; expiresAt: number } | undefined;
   private lastRequestAt = 0;
   private prospectListMethod: 'POST' | 'GET' = 'POST';
+  private prospectByIdMethod: 'POST' | 'GET' = 'POST';
   private readonly fetch: FetchLike;
   private readonly sleep: (ms: number) => Promise<void>;
   private readonly now: () => number;
@@ -81,6 +84,30 @@ export class SnovClient {
       contacts: typeof r.contacts === 'number' ? r.contacts : null,
       isDeleted: r.isDeleted === true,
     }));
+  }
+
+  // Full prospect record (company, position, site). prospect-list only returns id, name and emails.
+  // Endpoint per snov.io/api: /v1/get-prospect-by-id with `id`. Response shape not fully documented;
+  // returns the `data` object when wrapped, otherwise the body itself. Null when not found.
+  async getProspectById(id: string): Promise<Record<string, unknown> | null> {
+    let data: unknown;
+    try {
+      data = await this.request(this.prospectByIdMethod, '/v1/get-prospect-by-id', { id });
+    } catch (err) {
+      if (err instanceof SnovApiError && err.status === 405 && this.prospectByIdMethod === 'POST') {
+        this.prospectByIdMethod = 'GET';
+        data = await this.request('GET', '/v1/get-prospect-by-id', { id });
+      } else if (err instanceof SnovApiError && err.status === 404) {
+        return null;
+      } else {
+        throw err;
+      }
+    }
+    const body = (data ?? {}) as Record<string, unknown>;
+    if (body.success === false) return null;
+    const inner = body.data;
+    if (inner && typeof inner === 'object' && !Array.isArray(inner)) return inner as Record<string, unknown>;
+    return body;
   }
 
   async getProspectsPage(listId: string, page: number, perPage: number): Promise<ProspectPage> {

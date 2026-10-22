@@ -16,6 +16,7 @@ async function main(): Promise<void> {
   if (!lists.length) throw new Error('Nenhuma lista: preencha SNOV_SOURCE_LIST_IDS ou passe ids como argumento');
 
   const log = logger.child({ etapa: 'importacao' });
+  log.info('Lendo listas. Cada prospect gera 1 consulta de detalhes (limite do Snov: ~60 por minuto)', { listas: lists });
   const { stats, novos } = await runImport({
     source: snovClientFromEnv(),
     store: supabaseImportStore(),
@@ -23,6 +24,7 @@ async function main(): Promise<void> {
     write: !preview,
     isSkip: (err) => err instanceof InsertSkipped,
     onInsertError: (c, err) => log.error('Falha ao inserir prospect', { dominio: c.domain, err }),
+    onEnrichError: (id, err) => log.warn('Falha ao buscar detalhes do prospect', { snov_id: id, err }),
   });
 
   await mkdir('out', { recursive: true });
@@ -36,7 +38,9 @@ function report(lists: string[], s: ImportStats, domains: string[], preview: boo
     ['Prospects lidos', s.lidos],
     ['Inválidos (sem id ou email)', s.invalidos],
     ['Email repetido entre listas', s.email_duplicado_na_lista],
-    ['Sem site', s.sem_site],
+    ['Detalhes buscados no Snov', s.enriquecidos],
+    ['Sem site e com email genérico (descartados)', s.sem_site],
+    ['Domínio tirado do email corporativo (sem site no Snov)', s.site_pelo_email],
     ['Domínio ignorado (rede social, marketplace, email genérico)', s.dominio_ignorado],
     ['Contatos extras da mesma empresa', s.contatos_extras_mesma_empresa],
     ['**Empresas únicas com site**', s.empresas_unicas_com_site],
