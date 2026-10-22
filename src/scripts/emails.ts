@@ -33,7 +33,7 @@ async function main(): Promise<void> {
     try {
       if (!p.empresa_id) throw new Error('Prospect sem empresa');
       const dados = await loadEmailInput(p.empresa_id);
-      const email = await generateEmail(dados);
+      const email = await generateEmail({ ...dados, primeiro_nome: p.primeiro_nome });
       await saveEmail(p.id, email);
       await advance(p, 'email_pronto');
       items.push({ dominio: dados.dominio, primeiro_nome: p.primeiro_nome, email });

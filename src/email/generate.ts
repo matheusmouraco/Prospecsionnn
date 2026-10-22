@@ -3,11 +3,13 @@ import type { Problema } from '../analysis/checks.js';
 import { getEnv } from '../config/env.js';
 import { parseJson } from '../lib/claude.js';
 import { loadPrompt } from '../lib/prompts.js';
+import { saudacao } from './greeting.js';
 import { chooseProblems, type ProblemaEscolhido } from './select.js';
 import { validateCampos, type CamposEmail, type Fonte } from './validate.js';
 
 const CamposSchema = z.object({
   nome_empresa: z.string(),
+  site_da_empresa: z.string(),
   problema_1: z.string(),
   problema_2: z.string(),
   gancho: z.string(),
@@ -20,6 +22,7 @@ const INSTRUCAO_IA =
   'Um dos problemas é sobre aparecer em buscas feitas com inteligência artificial: no gancho, lembre que hoje muitos clientes também pesquisam no ChatGPT, no Gemini e no Google com IA antes de escolher, e que o site precisa estar preparado para aparecer lá.';
 
 export interface EmailInput {
+  primeiro_nome: string | null;
   empresa: string | null;
   dominio: string;
   nicho: string | null;
@@ -81,7 +84,7 @@ export async function generateEmail(input: EmailInput, deps: { parse?: typeof pa
       maxTokens: 4000,
     });
     custo += costUsd;
-    const campos = trimAll(data);
+    const campos = trimAll({ saudacao: saudacao(input.primeiro_nome, input.dominio, input.empresa), ...data });
     const issues = validateCampos(campos, fontes);
     if (!issues.length) return { campos, problemas_usados: [p1, p2], tentativas: attempt, custo_usd: custo };
     feedback =

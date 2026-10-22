@@ -8,13 +8,13 @@ export interface EmailReportItem {
 }
 
 // Email 1 as the prospect will read it (same text as prompts/sequencia-snov.md).
-export function renderEmail1(nome: string | null, c: EmailGerado['campos'], remetente: string, marca: string): string {
+export function renderEmail1(c: EmailGerado['campos'], remetente: string, marca: string): string {
   return [
-    `**Assunto:** site da ${c.nome_empresa}`,
+    `**Assunto:** ${c.site_da_empresa}`,
     '',
-    `Oi ${nome ?? '{primeiro_nome}'}, tudo bem?`,
+    `${c.saudacao}, tudo bem?`,
     '',
-    `Dei uma olhada no site da ${c.nome_empresa} e anotei dois pontos:`,
+    `Dei uma olhada no ${c.site_da_empresa} e anotei dois pontos:`,
     '',
     `1. ${c.problema_1}`,
     `2. ${c.problema_2}`,
@@ -32,8 +32,8 @@ export function renderEmail1(nome: string | null, c: EmailGerado['campos'], reme
 // Phase 4 criterion: out/emails.md, each email traceable to measured evidence.
 export function renderEmailReport(items: EmailReportItem[], remetente: string, marca: string): string {
   const lines = ['# Emails gerados', '', `Gerado em ${new Date().toISOString()}. Limite por campo: ${MAX_FIELD_CHARS} caracteres.`, ''];
-  for (const { dominio, primeiro_nome, email } of items) {
-    lines.push(`## ${dominio}`, '', '> ' + renderEmail1(primeiro_nome, email.campos, remetente, marca).split('\n').join('\n> '), '');
+  for (const { dominio, email } of items) {
+    lines.push(`## ${dominio}`, '', '> ' + renderEmail1(email.campos, remetente, marca).split('\n').join('\n> '), '');
     lines.push('| Campo | Caracteres | Valor |', '| --- | ---: | --- |');
     for (const k of CAMPOS) lines.push(`| ${k} | ${email.campos[k].length} | ${email.campos[k].replace(/\|/g, '/')} |`);
     lines.push('', '**De onde veio cada problema:**', '');

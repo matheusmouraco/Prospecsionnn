@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { parseJson } from '../src/lib/claude.js';
 import type { Problema } from '../src/analysis/checks.js';
 import { generateEmail, SemProblemasSuficientes } from '../src/email/generate.js';
+import { saudacao } from '../src/email/greeting.js';
 import { renderEmail1 } from '../src/email/report.js';
 import { chooseProblems } from '../src/email/select.js';
 import { numbersIn, validateCampos, type CamposEmail } from '../src/email/validate.js';
@@ -48,7 +49,9 @@ const fontes = [
   { campo: 'problema_2' as const, texto: 'Não tem um resumo próprio para assistentes de IA (llms.txt). Arquivo /llms.txt não encontrado' },
 ];
 const bom: CamposEmail = {
+  saudacao: 'Oi Bruna',
   nome_empresa: 'Dentelli',
+  site_da_empresa: 'site da Dentelli',
   problema_1: 'No celular, o site leva 47,7 segundos para mostrar o conteúdo principal. A maioria das pessoas desiste bem antes disso.',
   problema_2: 'O site não tem um resumo preparado para assistentes como o ChatGPT, então eles têm pouca informação para indicar a clínica.',
   gancho: 'Hoje muita gente pergunta para o ChatGPT ou para o Google qual dentista procurar, e quem não aparece lá perde o paciente para o vizinho.',
@@ -63,7 +66,9 @@ describe('validateCampos', () => {
   it('rejects invented numbers, jargon, dashes, links, AI phrases, stats and long fields', () => {
     const issues = validateCampos(
       {
+        saudacao: 'Olá',
         nome_empresa: 'Dentelli',
+        site_da_empresa: 'site Dentelli',
         problema_1: 'O LCP é de 47,7 s e 53% das pessoas desistem — péssimo.',
         problema_2: 'Veja em www.dentelli.com.br, no cenário atual falta o llms.txt.',
         gancho: 'Hoje 70% dos clientes pesquisam com IA.',
@@ -80,6 +85,7 @@ describe('validateCampos', () => {
     expect(all).toContain('problema_2 usa termo técnico (llms.txt)');
     expect(all).toContain('gancho não pode ter números (70)');
     expect(all).toContain('nicho tem 256 caracteres');
+    expect(all).toContain('site_da_empresa precisa começar com');
   });
 
   it('normalizes decimal separators and does not flag words that contain jargon letters', () => {
@@ -89,11 +95,12 @@ describe('validateCampos', () => {
 });
 
 describe('generateEmail', () => {
-  const input = { empresa: 'DENTELLI ODONTOLOGIA LTDA', dominio: 'dentelli.com.br', nicho: 'clínica odontológica', titulos: ['Dentelli'], problemas: dentelli };
+  const input = { primeiro_nome: 'bruna', empresa: 'DENTELLI ODONTOLOGIA LTDA', dominio: 'dentelli.com.br', nicho: 'clínica odontológica', titulos: ['Dentelli'], problemas: dentelli };
 
   it('rewrites until the fields pass validation, telling the model what failed', async () => {
     const calls: string[] = [];
-    const answers = [{ ...bom, problema_1: 'O LCP é de 47,7 s.' }, bom];
+    const { saudacao: _s, ...modelo } = bom;
+    const answers = [{ ...modelo, problema_1: 'O LCP é de 47,7 s.' }, modelo];
     const parse = (async (opts: { content: Array<{ type: string; text?: string }>; system: string }) => {
       calls.push(opts.content.map((c) => c.text ?? '').join(''));
       if (calls.length === 1) expect(opts.system).toContain('ChatGPT, no Gemini e no Google com IA');
@@ -115,12 +122,31 @@ describe('generateEmail', () => {
   });
 });
 
+describe('saudacao', () => {
+  it.each([
+    ['ibo', 'iboodontologia.com.br', 'IBO Odontologia', 'Olá'],
+    ['Bruna', 'dentelli.com.br', 'Dentelli', 'Oi Bruna'],
+    ['bruna', 'dentelli.com.br', 'Dentelli', 'Oi Bruna'],
+    ['Patricia Mirthes', 'odontocompany.com', 'OdontoCompany', 'Oi Patricia'],
+    ['MARIANA', 'biofx.com.br', 'BioFX', 'Oi Mariana'],
+    ['contato', 'x.com.br', null, 'Olá'],
+    ['Recepção', 'x.com.br', null, 'Olá'],
+    ['CIROD', 'cirod.com.br', 'CIROD', 'Olá'],
+    ['Mateus', 'cirod.com.br', 'CIROD', 'Oi Mateus'],
+    ['DM', 'dentistamais.com', null, 'Olá'],
+    [null, 'x.com.br', null, 'Olá'],
+  ])('%s at %s -> %s', (nome, dominio, empresa, esperado) => {
+    expect(saudacao(nome, dominio, empresa)).toBe(esperado);
+  });
+});
+
 describe('renderEmail1', () => {
   it('has no link and no dash', () => {
-    const txt = renderEmail1('Ana', bom, 'Matheus Moura', 'Matilab');
+    const txt = renderEmail1(bom, 'Matheus Moura', 'Matilab');
     expect(txt).toContain('Matheus Moura | Matilab');
     expect(txt).toContain('**Assunto:** site da Dentelli');
-    expect(txt).toContain('Oi Ana, tudo bem?');
+    expect(txt).toContain('Oi Bruna, tudo bem?');
+    expect(txt).toContain('Dei uma olhada no site da Dentelli e anotei');
     expect(txt).toContain('1. No celular, o site leva 47,7 segundos');
     expect(txt).not.toMatch(/https?:|www\.|—|–/);
   });
