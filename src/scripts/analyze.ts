@@ -5,7 +5,7 @@ import { renderReport, type ReportItem } from '../analysis/report.js';
 import { getEmpresa, saveAnalise } from '../analysis/store.js';
 import { getEnv, requireEnv } from '../config/env.js';
 import { isPaused } from '../db/control.js';
-import { advance, claimProspects, fail, markInProgress, type ProspectRow } from '../db/queue.js';
+import { advance, claimProspects, fail, markInProgress, retry, type ProspectRow } from '../db/queue.js';
 import { logger } from '../lib/logger.js';
 
 const OUT_DIR = 'out/analises';
@@ -38,7 +38,13 @@ async function main(): Promise<void> {
         log.warn('Sistema pausado (controle.pausado). Nada foi analisado.');
         return;
       }
-      // Stuck rows first (crashed mid-analysis, lock expired), then new ones.
+      // Failed analyses go back to 'analisando' (up to MAX_ATTEMPTS), then are picked up below.
+      for (const failed of await claimProspects('erro', 100)) {
+        if (failed.status_anterior !== 'analisando') continue;
+        const to = await retry(failed);
+        log.info('Nova tentativa de análise', { prospect: failed.id, tentativa: failed.tentativas + 1, destino: to });
+      }
+      // Stuck rows first (crashed mid-analysis or retried, lock expired), then new ones.
       const stuck = await claimProspects('analisando', limit);
       const fresh = stuck.length < limit ? await claimProspects('novo', limit - stuck.length) : [];
       const batch: ProspectRow[] = [...stuck, ...fresh];

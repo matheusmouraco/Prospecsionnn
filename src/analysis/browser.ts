@@ -31,8 +31,11 @@ function isSslError(message: string): boolean {
   return /ERR_CERT|SSL|ERR_SSL|certificate/i.test(message);
 }
 
+// Waits for the DOM, then gives the full load a bounded extra time: some sites have a resource
+// that never finishes, and the page is already usable (seen on orthopride.com.br).
 async function open(page: Page, url: string): Promise<void> {
-  await page.goto(url, { waitUntil: 'load', timeout: NAV_TIMEOUT_MS });
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: NAV_TIMEOUT_MS });
+  await page.waitForLoadState('load', { timeout: 20_000 }).catch(() => undefined);
   await page.waitForLoadState('networkidle', { timeout: 10_000 }).catch(() => undefined);
   await page.waitForTimeout(SETTLE_MS);
 }
