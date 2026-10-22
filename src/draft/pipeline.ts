@@ -5,14 +5,17 @@ import type { Problema } from '../analysis/checks.js';
 import type { Marca } from '../analysis/facts.js';
 import { logger } from '../lib/logger.js';
 import { computeGains, measureDraft } from './gains.js';
-import { buildBrief, generateDraftHtml } from './generate.js';
+import { join as joinPath } from 'node:path';
+import { PRINTS } from '../references/capture.js';
+import { REFERENCIAS_DIR } from '../references/list.js';
+import type { FichaRef } from '../references/select.js';
+import { buildBrief, generateDraftHtml, visualContext } from './generate.js';
 import { judgeDraft, type Juizo } from './judge.js';
 import {
   applyMandatory,
   extractHtml,
   injectComparativo,
   injectJsonLd,
-  templateUsado,
   validateDraft,
   type LinhaComparativo,
 } from './rules.js';
@@ -28,6 +31,7 @@ export interface EsbocoInput {
   marca: Marca;
   problemas: Problema[];
   printOriginal: string | null;
+  referencias: FichaRef[];
 }
 
 export interface EsbocoDeps {
@@ -37,6 +41,7 @@ export interface EsbocoDeps {
   whatsapp: string;
   model: string;
   minScore: number;
+  referenciasDir?: string;
   generate?: typeof generateDraftHtml;
   judge?: typeof judgeDraft;
 }
@@ -44,7 +49,7 @@ export interface EsbocoDeps {
 export interface Esboco {
   dominio: string;
   html: string;
-  template: string | null;
+  referencias: string[]; // urls of the references used
   nota: number;
   aprovado: boolean;
   tentativas: number;
@@ -81,14 +86,19 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
   const url = `https://${input.dominio}`;
   const fonteNumeros = [input.empresa, input.dominio, ...input.marca.titulos, ...input.marca.paragrafos, input.marca.telefone ?? '', input.marca.endereco ?? ''].join(' ');
 
+  const visual = await visualContext(input.referencias, input.printOriginal, deps.referenciasDir);
+  const refUrls = input.referencias.map((r) => r.url);
   let best: Esboco | null = null;
   let feedback: string[] = [];
   let custo = 0;
   const recusas: string[][] = [];
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const brief = await buildBrief({ empresa: input.empresa, url, nicho: input.nicho, marca: input.marca, problemas: input.problemas }, feedback);
-    const gen = await (deps.generate ?? generateDraftHtml)(deps.model, deps.agencia, brief);
+    const brief = await buildBrief(
+      { empresa: input.empresa, url, nicho: input.nicho, marca: input.marca, problemas: input.problemas, referencias: input.referencias },
+      feedback,
+    );
+    const gen = await (deps.generate ?? generateDraftHtml)(deps.model, deps.agencia, brief, visual);
     custo += gen.costUsd;
 
     const raw = extractHtml(gen.text);
@@ -135,6 +145,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
 
     const juizo = await (deps.judge ?? judgeDraft)({
       model: deps.model,
+      referencias: input.referencias.map((r) => ({ url: r.url, print: joinPath(deps.referenciasDir ?? REFERENCIAS_DIR, r.slug, PRINTS.desktop) })),
       original: input.printOriginal,
       desktop: files.desktop,
       mobile: files.mobile,
@@ -147,11 +158,11 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
       ],
     });
     custo += juizo.custo_usd;
-    log.info('Esboço avaliado', { dominio: input.dominio, tentativa: attempt, nota: juizo.nota, template: templateUsado(final) });
+    log.info('Esboço avaliado', { dominio: input.dominio, tentativa: attempt, nota: juizo.nota, originalidade: juizo.originalidade, nivel: juizo.nivel_referencia });
 
     if (!best || juizo.nota > best.nota) {
       best = {
-        dominio: input.dominio, html: final, template: templateUsado(final), nota: juizo.nota,
+        dominio: input.dominio, html: final, referencias: refUrls, nota: juizo.nota,
         aprovado: juizo.nota >= deps.minScore, tentativas: attempt, ganhos, juizo, arquivos: files, custo_usd: 0, recusas,
       };
     }
@@ -160,7 +171,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
   }
 
   if (!best) {
-    return { dominio: input.dominio, html: '', template: null, nota: 0, aprovado: false, tentativas: MAX_ATTEMPTS, ganhos: [], juizo: null, arquivos: null, custo_usd: custo, recusas };
+    return { dominio: input.dominio, html: '', referencias: refUrls, nota: 0, aprovado: false, tentativas: MAX_ATTEMPTS, ganhos: [], juizo: null, arquivos: null, custo_usd: custo, recusas };
   }
   // The best version is the one served.
   await writeFile(join(dir, 'index.html'), best.html);

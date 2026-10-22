@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { analyzeSite, type Analise } from '../analysis/analyze.js';
 import { launchBrowser } from '../analysis/browser.js';
 import { renderReport, type ReportItem } from '../analysis/report.js';
-import { getEmpresa, saveAnalise } from '../analysis/store.js';
+import { getEmpresa, getEmpresaByDomain, saveAnalise } from '../analysis/store.js';
 import { getEnv, requireEnv } from '../config/env.js';
 import { isPaused } from '../db/control.js';
 import { advance, claimProspects, fail, markInProgress, retry, type ProspectRow } from '../db/queue.js';
@@ -31,8 +31,14 @@ async function main(): Promise<void> {
 
   try {
     if (dominio) {
-      const analise = await analyzeSite({ dominio, empresa: null, lista: null }, { browser, pagespeedKey, outDir: OUT_DIR });
-      items.push({ analise, empresa: null, decisao: decide(analise) });
+      // Re-analysis of a company already in the database replaces its analysis (status is kept).
+      const empresa = await getEmpresaByDomain(dominio);
+      const analise = await analyzeSite({ dominio, empresa: empresa?.nome ?? null, lista: null }, { browser, pagespeedKey, outDir: OUT_DIR });
+      if (empresa) {
+        await saveAnalise(empresa.id, analise);
+        log.info('Análise atualizada no banco', { dominio });
+      }
+      items.push({ analise, empresa: empresa?.nome ?? null, decisao: decide(analise) });
     } else {
       if (await isPaused()) {
         log.warn('Sistema pausado (controle.pausado). Nada foi analisado.');

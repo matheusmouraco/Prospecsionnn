@@ -3,9 +3,9 @@ Site atual: {{url}}
 Nicho detectado no site: {{nicho}}
 
 Logo: {{logo}}
-Cores encontradas no site (das mais presentes para as menos): {{cores}}
-Variáveis de cor do site: {{variaveis_css}}
-Fontes do site: títulos {{fonte_titulo}}; texto {{fonte_corpo}}
+Cores encontradas no site atual (das mais presentes para as menos): {{cores}}
+Variáveis de cor do site atual: {{variaveis_css}}
+Fontes do site atual: títulos {{fonte_titulo}}; texto {{fonte_corpo}}
 Telefone: {{telefone}}
 Endereço: {{endereco}}
 
@@ -18,6 +18,9 @@ Títulos do site atual:
 Textos do site atual:
 {{paragrafos}}
 
-Problemas medidos no site atual (a proposta precisa resolver os que forem de layout, celular, contato e leitura por IA):
+Problemas medidos no site atual (a proposta precisa resolver os de layout, celular, contato e leitura por IA):
 {{problemas}}
+
+Referências escolhidas para esta empresa (os prints vêm acima):
+{{referencias}}
 {{feedback}}

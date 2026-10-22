@@ -13,6 +13,12 @@ export async function getEmpresa(id: string, db: Db = getSupabase()): Promise<Em
   return data as EmpresaRow;
 }
 
+export async function getEmpresaByDomain(dominio: string, db: Db = getSupabase()): Promise<EmpresaRow | null> {
+  const { data, error } = await db.from('empresas').select('id, dominio, nome').eq('dominio', dominio).maybeSingle();
+  if (error) throw new Error(`Falha ao buscar ${dominio}: ${error.message}`);
+  return (data as EmpresaRow | null) ?? null;
+}
+
 // One analysis per company (rule 2): re-running replaces the previous one.
 // Prints are local paths until Phase 7 moves them to private R2 storage.
 export async function saveAnalise(empresaId: string, a: Analise, db: Db = getSupabase()): Promise<void> {

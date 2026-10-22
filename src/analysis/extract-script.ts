@@ -34,9 +34,31 @@ export const EXTRACT_SCRIPT = String.raw`(() => {
   const phoneMatch = bodyText.match(/\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}/);
   const addrMatch = bodyText.match(/(?:Rua|R\.|Avenida|Av\.|Alameda|Travessa|Rodovia|Praça)\s[^\n]{5,90}/i);
 
-  // Logo: img with "logo" in src/alt/class, then og:image, then apple-touch-icon.
-  const logoImg = imgs.find((i) => /logo/i.test((i.getAttribute('src') || '') + ' ' + (i.getAttribute('alt') || '') + ' ' + (i.className || '')));
+  // Logo, in order: <img> with "logo" in src/alt/class/id (or inside an element named logo),
+  // inline <svg> named logo or first in the header, CSS background on a logo element,
+  // first image in the header, then og:image and apple-touch-icon.
+  const logoName = (el) => /logo|brand|marca/i.test([el.getAttribute('src'), el.getAttribute('alt'), el.getAttribute('class'), el.id, el.getAttribute('aria-label')].join(' '));
+  const header = document.querySelector('header, [class*="header" i], [id*="header" i], nav');
+  const logoImg = imgs.find((i) => logoName(i) || (i.closest('a, div, span') && logoName(i.closest('a, div, span'))));
+  const svgToData = (svg) => {
+    const clone = svg.cloneNode(true);
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    const r = svg.getBoundingClientRect();
+    if (!clone.getAttribute('width') && r.width) clone.setAttribute('width', String(Math.round(r.width)));
+    if (!clone.getAttribute('height') && r.height) clone.setAttribute('height', String(Math.round(r.height)));
+    const markup = new XMLSerializer().serializeToString(clone);
+    return markup.length < 60000 ? 'data:image/svg+xml;utf8,' + encodeURIComponent(markup) : null;
+  };
+  const svgs = Array.from(document.querySelectorAll('svg')).filter((s) => { const r = s.getBoundingClientRect(); return r.width >= 40 && r.height >= 16 && r.top < 300; });
+  const logoSvg = svgs.find((s) => logoName(s) || (s.closest('a, div, span') && logoName(s.closest('a, div, span'))))
+    || (header ? svgs.find((s) => header.contains(s)) : null);
+  const bgUrl = (el) => { const m = getComputedStyle(el).backgroundImage.match(/url\(["']?([^"')]+)["']?\)/); return m ? m[1] : null; };
+  const logoBgEl = Array.from(document.querySelectorAll('[class*="logo" i], [id*="logo" i]')).find((el) => bgUrl(el));
+  const headerImg = header ? Array.from(header.querySelectorAll('img')).find((i) => i.getBoundingClientRect().width >= 40) : null;
   const logo = abs(logoImg && (logoImg.currentSrc || logoImg.getAttribute('src')))
+    || (logoSvg ? svgToData(logoSvg) : null)
+    || abs(logoBgEl && bgUrl(logoBgEl))
+    || abs(headerImg && (headerImg.currentSrc || headerImg.getAttribute('src')))
     || abs(attr('meta[property="og:image"]', 'content'))
     || abs(attr('link[rel*="apple-touch-icon"]', 'href'));
 
@@ -76,8 +98,15 @@ export const EXTRACT_SCRIPT = String.raw`(() => {
   const font = (sel) => { const el = document.querySelector(sel); return el ? getComputedStyle(el).fontFamily : null; };
   const headings = Array.from(document.querySelectorAll('h1,h2,h3')).filter(visible).map(txt).filter(Boolean);
   const paragraphs = Array.from(document.querySelectorAll('p')).filter(visible).map(txt).filter((t) => t.length > 40);
-  const photos = imgs.filter((i) => i.naturalWidth >= 600 && i !== logoImg)
-    .map((i) => abs(i.currentSrc || i.getAttribute('src'))).filter(Boolean);
+  // Reusable photos: large <img> (including lazy data-src/srcset) and large CSS background images.
+  const lazySrc = (i) => i.currentSrc || i.getAttribute('data-src') || i.getAttribute('data-lazy-src')
+    || ((i.getAttribute('srcset') || i.getAttribute('data-srcset') || '').split(',').pop() || '').trim().split(' ')[0] || i.getAttribute('src');
+  const bigImgs = imgs.filter((i) => i !== logoImg && i !== headerImg && (i.naturalWidth >= 600 || i.getBoundingClientRect().width >= 300));
+  const bgPhotos = Array.from(document.querySelectorAll('body *')).slice(0, 4000).filter((el) => {
+    const r = el.getBoundingClientRect();
+    return r.width >= 300 && r.height >= 200 && bgUrl(el) && !/\.svg|gradient/i.test(bgUrl(el) || '');
+  }).map((el) => bgUrl(el));
+  const photos = [...bigImgs.map(lazySrc), ...bgPhotos].map(abs).filter((u) => u && !u.startsWith('data:'));
 
   // schema.org types from JSON-LD (including @graph) and microdata.
   const ldTypes = [];
@@ -141,7 +170,7 @@ export const EXTRACT_SCRIPT = String.raw`(() => {
       paragrafos: paragraphs.slice(0, 8).map((t) => t.slice(0, 400)),
       telefone: phoneMatch ? phoneMatch[0] : null,
       endereco: addrMatch ? addrMatch[0].trim() : null,
-      fotos: Array.from(new Set(photos)).slice(0, 12),
+      fotos: Array.from(new Set(photos)).slice(0, 16),
     },
   };
 })()`;

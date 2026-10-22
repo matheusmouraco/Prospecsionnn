@@ -7,15 +7,15 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { Problema } from '../src/analysis/checks.js';
 import type { Marca } from '../src/analysis/facts.js';
 import { computeGains, measureDraft } from '../src/draft/gains.js';
-import { loadTemplates } from '../src/draft/generate.js';
 import { createDraft } from '../src/draft/pipeline.js';
 import {
-  applyMandatory, COMPARATIVO_MARKER, extractHtml, faixaTexto, injectComparativo, injectJsonLd, templateUsado, validateDraft,
+  applyMandatory, COMPARATIVO_MARKER, extractHtml, faixaTexto, injectComparativo, injectJsonLd, validateDraft,
 } from '../src/draft/rules.js';
 import { makeSlug } from '../src/draft/store.js';
 
 const WHATS = 'https://wa.me/5541999999999';
-const template = (name: string) => readFileSync(new URL(`../templates/${name}.html`, import.meta.url), 'utf8');
+// Hand-written pages used as stand-ins for the model's output.
+const template = (name: string) => readFileSync(new URL(`./fixtures/esbocos/${name}.html`, import.meta.url), 'utf8');
 // What a well-behaved model would return: the template with every placeholder filled.
 const filled = (name: string, extra = '') =>
   template(name)
@@ -28,11 +28,10 @@ const filled = (name: string, extra = '') =>
 const check = { agencia: 'Matilab', empresa: 'Clínica Sorriso', whatsapp: WHATS, fonteNumeros: 'Telefone (41) 3333-4444. Rua das Flores, 123' };
 
 describe('draft rules', () => {
-  it('every template passes the rules once filled', () => {
+  it('well-formed pages pass the rules', () => {
     for (const t of ['saude', 'profissional', 'negocios']) {
       const html = applyMandatory(filled(t), check);
       expect(validateDraft(html, check), t).toEqual([]);
-      expect(templateUsado(html)).toBe(t);
       expect(html).toContain(faixaTexto('Matilab', 'Clínica Sorriso'));
       expect(html).not.toContain('%%WHATSAPP%%');
     }
@@ -80,12 +79,6 @@ describe('draft rules', () => {
     expect(html).not.toContain(COMPARATIVO_MARKER);
   });
 
-  it('templates are loaded for the prompt', async () => {
-    const t = await loadTemplates();
-    expect(t).toContain('### saude');
-    expect(t).toContain('### negocios');
-    expect(t).toContain('%%WHATSAPP%%');
-  });
 });
 
 const P = (descricao_curta: string, gravidade: number, origem: Problema['origem'] = 'medido'): Problema =>
@@ -124,7 +117,7 @@ describe('createDraft', () => {
     titulos: ['Clínica Sorriso'], paragrafos: ['Implantes e ortodontia em Curitiba.'], telefone: '(41) 3333-4444', endereco: 'Rua das Flores, 123, Curitiba', fotos: [],
   };
   const input = {
-    dominio: 'sorriso.com.br', empresa: 'Clínica Sorriso', nicho: 'clínica odontológica', marca, printOriginal: null,
+    dominio: 'sorriso.com.br', empresa: 'Clínica Sorriso', nicho: 'clínica odontológica', marca, printOriginal: null, referencias: [],
     problemas: [P('O botão de contato não aparece na primeira tela do celular', 2), P('O site não responde as dúvidas que os clientes perguntam para a IA', 2)],
   };
 
@@ -143,12 +136,12 @@ describe('createDraft', () => {
     let j = 0;
     const judge = async () => {
       const nota = notas[j++]!;
-      return { fidelidade_marca: nota, qualidade_visual: nota, legibilidade_celular: nota, conteudo: nota, nota, feedback: nota < 80 ? ['hero apertado no celular'] : [], resumo: 'ok', custo_usd: 0.05 };
+      return { nivel_referencia: nota, originalidade: nota, fidelidade_marca: nota, legibilidade_celular: nota, conteudo: nota, nota, feedback: nota < 80 ? ['hero apertado no celular'] : [], resumo: 'ok', custo_usd: 0.05 };
     };
     const outDir = await mkdtemp(join(tmpdir(), 'esboco-'));
     const e = await createDraft(input, { browser, outDir, agencia: 'Matilab', whatsapp: WHATS, model: 'claude-opus-5-5', minScore: 80, generate, judge });
 
-    expect(e).toMatchObject({ aprovado: true, nota: 88, tentativas: 3, template: 'profissional' });
+    expect(e).toMatchObject({ aprovado: true, nota: 88, tentativas: 3 });
     expect(e.custo_usd).toBeCloseTo(1.6);
     expect(e.recusas[0]!.join()).toContain('500');
     expect(briefs[1]).toContain('500');                     // rule feedback sent back
@@ -156,7 +149,7 @@ describe('createDraft', () => {
     expect(e.ganhos.map((g) => g.item)).toEqual(['Contato no celular', 'Perguntas frequentes']);
 
     const saved = await readFile(join(outDir, 'sorriso.com.br', 'index.html'), 'utf8');
-    expect(saved).toContain('<!-- template: profissional');
+    expect(saved).toContain('<!-- template: profissional'); // the third answer was kept
     expect(saved).toContain('data-secao="comparativo"');
     expect(saved).toContain('application/ld+json');
     expect(saved).toContain(`href="${WHATS}"`);

@@ -233,17 +233,20 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run analyze -- --dominio site.com.br`: analisa um site avulso, sem mexer na fila
 - `npm run emails -- [--limit N]`: escreve os custom fields dos prospects `analisado`, grava em `emails`, move para `email_pronto` e gera `out/emails.md` (critério da Fase 4). Não envia nada.
 
-- `npm run esbocos -- [--limit N | --dominio site.com.br]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada.
+- `npm run referencias [-- --refazer]`: captura os sites de `referencias/lista.txt` e gera as fichas; catálogo em `out/referencias.md`
+- `npm run esbocos:aprovar -- site.com.br [--reprovar]`: aprovação manual do esboço
+- `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada.
 
 ## Notas sobre o esboço (Fase 5)
 
-- Templates em `/templates` (`saude`, `profissional`, `negocios`): o MODEL_DESIGN escolhe e adapta, nunca cria do zero. Botões usam `%%WHATSAPP%%`, trocado pelo `SENDER_WHATSAPP_URL`. O marcador `<!-- COMPARATIVO -->` recebe a seção comparativa.
-- `src/draft/rules.ts`: o código força a faixa com o texto exato, o noindex e remove scripts; recusa (e manda refazer) form/input, botão sem WhatsApp, texto de exemplo esquecido, travessão e qualquer número que não exista no texto do site original.
-- Dados estruturados schema.org da empresa são injetados pelo código, só com fatos reais.
-- Comparativo "site atual vs proposta" (`src/draft/gains.ts`): o mesmo script de extração roda no esboço; só entra problema medido no original que passou a estar resolvido no esboço (até 3). Velocidade, HTTPS, sitemap e llms.txt ficam de fora porque só dá para medir depois de publicado.
-- Juiz (`MODEL_DESIGN`) compara prints do esboço com o print do site atual. Abaixo de `JUDGE_MIN_SCORE`, refaz com o feedback; 3 tentativas; guarda a melhor. Sem aprovação, `aprovado=false` (na Fase 7 isso vira aviso ao Moura em vez de envio).
-- Geração usa streaming, cache do prompt (instruções + templates) e fallback do servidor (`fallbacks: "default"`).
-- `esbocos` guarda slug, nota e tentativas; `url` e `expira_em` só são preenchidos ao publicar (Fase 7).
+- **Decisão do Moura (out/2026):** templates genéricos ficaram com cara de IA. Agora cada esboço é **personalizado**, criado pelo MODEL_DESIGN em esforço `max`, usando como régua sites de referência. Os templates antigos viraram fixtures de teste (`test/fixtures/esbocos/`).
+- Referências: `referencias/lista.txt` (trabalhos da Matilab + mercado; `*` = favorito, régua de qualidade). `npm run referencias` captura prints (não versionados) e gera `referencias/<slug>/ficha.json` (versionada) com segmentos, estilo, tipografia, paleta, padrões e nível. Rodar uma vez em cada máquina.
+- Para cada empresa: `chooseReferences` pega a referência mais próxima do nicho + uma favorita. O gerador recebe os prints delas, o print do site atual e a ficha. Inspiração, nunca copiar texto/imagem.
+- Direção de arte em `prompts/esboco-gerar.md` (lista do que dá cara de IA e é proibido). Juiz em `prompts/esboco-juiz.md` com notas de nível das referências e originalidade; nota geral não passa de 70 se uma delas ficar abaixo de 70.
+- `src/draft/rules.ts`: o código força a faixa com o texto exato, o noindex e remove scripts; recusa form/input, botão sem WhatsApp (`%%WHATSAPP%%`), texto de exemplo, travessão e número que não exista no texto do site original. schema.org da empresa injetado pelo código. Marcador `<!-- COMPARATIVO -->` recebe o comparativo medido (`src/draft/gains.ts`).
+- **Aprovação manual obrigatória** (`esbocos.aprovado`): `npm run esbocos:aprovar -- site.com.br` (ou `--reprovar`). Gerar de novo zera a aprovação. Só esboço aprovado pode ser publicado/enviado (Fase 7).
+- `npm run esbocos -- --refazer --limit 5` refaz os não aprovados. `npm run analyze -- --dominio x` grava a análise nova no banco se a empresa existir (útil depois de melhorar o extrator).
+- Extrator de marca acha logo em `<img>`, SVG inline, fundo CSS ou primeira imagem do cabeçalho, e fotos em `<img>` lazy/srcset e fundos CSS.
 
 ## Notas sobre o email (Fase 4)
 

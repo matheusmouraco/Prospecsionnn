@@ -5,8 +5,9 @@ import { parseJson } from '../lib/claude.js';
 import { loadPrompt } from '../lib/prompts.js';
 
 export const JuizSchema = z.object({
+  nivel_referencia: z.number(),
+  originalidade: z.number(),
   fidelidade_marca: z.number(),
-  qualidade_visual: z.number(),
   legibilidade_celular: z.number(),
   conteudo: z.number(),
   nota: z.number(),
@@ -24,6 +25,7 @@ async function image(path: string): Promise<Anthropic.ImageBlockParam> {
 
 export interface JudgeInput {
   model: string;
+  referencias: { url: string; print: string }[]; // desktop first screen of each reference (quality bar)
   original: string | null; // desktop fold of the current site, when available
   desktop: string;
   mobile: string;
@@ -33,6 +35,7 @@ export interface JudgeInput {
 
 export async function judgeDraft(i: JudgeInput, deps: { parse?: typeof parseJson } = {}): Promise<Juizo> {
   const content: Anthropic.ContentBlockParam[] = [];
+  for (const r of i.referencias) content.push({ type: 'text', text: `Referência (${r.url}):` }, await image(r.print));
   if (i.original) content.push({ type: 'text', text: 'Site atual (computador):' }, await image(i.original));
   content.push(
     { type: 'text', text: 'Proposta, computador, primeira tela:' },
@@ -48,13 +51,14 @@ export async function judgeDraft(i: JudgeInput, deps: { parse?: typeof parseJson
     system: await loadPrompt('esboco-juiz'),
     content,
     schema: JuizSchema,
-    effort: 'medium',
-    maxTokens: 8000,
+    effort: 'high',
+    maxTokens: 16000,
   });
   return {
     ...data,
+    nivel_referencia: clamp(data.nivel_referencia),
+    originalidade: clamp(data.originalidade),
     fidelidade_marca: clamp(data.fidelidade_marca),
-    qualidade_visual: clamp(data.qualidade_visual),
     legibilidade_celular: clamp(data.legibilidade_celular),
     conteudo: clamp(data.conteudo),
     nota: clamp(data.nota),

@@ -26,7 +26,8 @@ async function main(): Promise<void> {
   }
 
   const dominio = arg('dominio');
-  const ids = dominio ? [await empresaIdByDomain(dominio)] : await draftCandidates(Number(arg('limit') ?? 5));
+  const refazer = process.argv.includes('--refazer');
+  const ids = dominio ? [await empresaIdByDomain(dominio)] : await draftCandidates(Number(arg('limit') ?? 5), refazer);
   log.info('Esboços para gerar', { quantidade: ids.length });
 
   const browser = await launchBrowser();
@@ -35,7 +36,8 @@ async function main(): Promise<void> {
     for (const id of ids) {
       try {
         const input = await loadDraftInput(id);
-        log.info('Gerando esboço', { dominio: input.dominio });
+        if (!input.referencias.length) log.warn('Nenhuma referência capturada; rode npm run referencias antes', { dominio: input.dominio });
+        log.info('Gerando esboço', { dominio: input.dominio, referencias: input.referencias.map((r) => r.url) });
         const e = await createDraft(input, {
           browser, outDir: OUT_DIR, agencia: env.SENDER_BRAND, whatsapp, model: env.MODEL_DESIGN, minScore: env.JUDGE_MIN_SCORE,
         });
@@ -61,9 +63,9 @@ function report(items: (Esboco & { slug: string })[], min: number): string {
   const lines = [
     '# Esboços gerados', '',
     `Gerado em ${new Date().toISOString()}. Nota mínima do juiz: ${min}. Abra o index.html de cada pasta no navegador.`, '',
-    '| Site | Template | Nota | Situação | Tentativas | Custo | Arquivo |',
+    '| Site | Referências | Nota | Situação | Tentativas | Custo | Arquivo |',
     '| --- | --- | ---: | --- | ---: | ---: | --- |',
-    ...items.map((e) => `| ${e.dominio} | ${e.template ?? '-'} | ${e.nota} | ${e.aprovado ? 'aprovado' : 'abaixo da nota, avisar Moura'} | ${e.tentativas} | US$ ${e.custo_usd.toFixed(2)} | \`out/esbocos/${e.dominio}/index.html\` |`),
+    ...items.map((e) => `| ${e.dominio} | ${e.referencias.map((u) => new URL(u).hostname.replace(/^www\./, '')).join(', ') || '-'} | ${e.nota} | ${e.aprovado ? 'aprovado' : 'abaixo da nota, avisar Moura'} | ${e.tentativas} | US$ ${e.custo_usd.toFixed(2)} | \`out/esbocos/${e.dominio}/index.html\` |`),
     '',
   ];
   for (const e of items) {
@@ -71,13 +73,13 @@ function report(items: (Esboco & { slug: string })[], min: number): string {
     if (e.juizo) {
       lines.push(
         `- **Resumo do juiz:** ${e.juizo.resumo}`,
-        `- **Notas:** marca ${e.juizo.fidelidade_marca}, visual ${e.juizo.qualidade_visual}, celular ${e.juizo.legibilidade_celular}, conteúdo ${e.juizo.conteudo}`,
+        `- **Notas:** nível das referências ${e.juizo.nivel_referencia}, originalidade ${e.juizo.originalidade}, marca ${e.juizo.fidelidade_marca}, celular ${e.juizo.legibilidade_celular}, conteúdo ${e.juizo.conteudo}`,
       );
       if (e.juizo.feedback.length) lines.push(`- **Pontos a melhorar:** ${e.juizo.feedback.join('; ')}`);
     }
     lines.push(`- **Comparativo medido:** ${e.ganhos.map((g) => `${g.item} (${g.atual} > ${g.proposta})`).join('; ') || 'nenhum'}`);
     if (e.recusas.length) lines.push(`- **Versões recusadas pelas regras:** ${e.recusas.map((r) => r.join(', ')).join(' | ')}`);
-    lines.push(`- **Endereço futuro:** /${e.slug}`, '');
+    lines.push(`- **Aprovação:** pendente. Depois de revisar no navegador: \`npm run esbocos:aprovar -- ${e.dominio}\``, `- **Endereço futuro:** /${e.slug}`, '');
   }
   return lines.join('\n');
 }
