@@ -93,8 +93,8 @@ describe('draft rules', () => {
     const one = injectComparativo(filled('saude'), [{ item: 'Leitura no celular', atual: 'a', proposta: 'b' }]);
     expect(one).not.toContain('data-secao="comparativo"');
     expect(one).not.toContain(COMPARATIVO_MARKER);
-    const html = injectSelo(one, 'data:image/webp;base64,AA', 'Matilab', { razao: 'Matilab Tecnologias', cnpj: '40.283.248/0001-21' });
-    expect(html).toContain(`Copyright © ${new Date().getFullYear()} Matilab Tecnologias. Todos os direitos reservados. CNPJ nº 40.283.248/0001-21`);
+    const html = injectSelo(one, 'data:image/webp;base64,AA', 'Matilab', { razao: 'Matilab Tecnologia', cnpj: '40.283.248/0001-21' });
+    expect(html).toContain(`Copyright © ${new Date().getFullYear()} Matilab Tecnologia. Todos os direitos reservados. CNPJ nº 40.283.248/0001-21`);
     expect(html).toMatch(/data-secao="selo"[\s\S]*<\/body>/);
     expect(html).toContain('alt="Selo de qualidade Matilab"');
   });
