@@ -19,6 +19,14 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 
 ---
 
+## Decisões do Moura (out/2026) que mudam o plano original
+
+- Envio por várias contas Gmail (sem domínio secundário nem Workspace), cada uma bem abaixo do limite: 10/dia na primeira semana, até 15 a 20/dia. Rastreamento de abertura e clique desligados, texto puro.
+- Sem Cloudflare: esboços publicados na **Vercel** (domínio matilab.com.br já está lá) em `analise.matilab.com.br`; prints no Supabase Storage privado; sistema rodando no VPS da Hostinger.
+- Esboços **não expiram** por enquanto (servem de case). A faixa de proposta conceitual e o noindex continuam.
+- Controle pelo **Telegram** (comandos, botões e mensagem livre interpretada pelo Claude, só com ações permitidas) + painel complementar na Vercel.
+- Primeiro email mais rico: algo específico do site + até 3 achados medidos + o que faria + oferta do esboço, sem link e sem bajulação.
+
 ## Regras inegociáveis
 
 1. **Nunca inventar problema.** Todo problema citado em email ou página precisa vir de uma métrica medida (PageSpeed, HTML, print). Se não foi medido, não entra.
