@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { devices, type Browser, type BrowserContextOptions } from 'playwright';
 import type { Problema } from '../analysis/checks.js';
@@ -17,6 +17,7 @@ import {
   extractHtml,
   injectComparativo,
   injectJsonLd,
+  injectSelo,
   validateDraft,
   type LinhaComparativo,
 } from './rules.js';
@@ -24,6 +25,13 @@ import {
 const log = logger.child({ etapa: 'esboco' });
 const MAX_ATTEMPTS = 3;
 const LONGA_HEIGHT = 2_700;
+const SELO = join(import.meta.dirname, '..', '..', 'assets', 'selo-matilab.webp');
+
+let seloSrc: string | null = null;
+async function selo(): Promise<string> {
+  seloSrc ??= `data:image/webp;base64,${(await readFile(SELO)).toString('base64')}`;
+  return seloSrc;
+}
 
 export interface EsbocoInput {
   dominio: string;
@@ -119,7 +127,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
 
     const medidas = await measureDraft(deps.browser, html);
     const ganhos = computeGains(input.problemas, medidas);
-    const final = injectComparativo(
+    const final = injectSelo(injectComparativo(
       injectJsonLd(html, {
         nome: input.empresa,
         url,
@@ -130,7 +138,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
         logo: input.marca.logo_url,
       }),
       ganhos,
-    );
+    ), await selo(), deps.agencia);
 
     const files = {
       html: join(dir, `tentativa-${attempt}.html`),

@@ -85,6 +85,7 @@ export function validateDraft(html: string, c: DraftCheck): string[] {
   const sobras = texto.match(/\[[A-ZÀ-Úa-zà-ú][^\]]{2,80}\]/g);
   if (sobras) issues.push(`sobraram textos de exemplo do template: ${[...new Set(sobras)].slice(0, 5).join(', ')}`);
   if (/[—–]/.test(texto)) issues.push('o texto usa travessão; reescreva sem ele');
+  if (/<(s|del|strike)\b|line-through/i.test(html)) issues.push('não use texto riscado (<s>, <del> ou line-through); escreva só a frase final');
 
   const permitidos = new Set(numbersIn(c.fonteNumeros));
   const inventados = [...new Set(numbersIn(texto).filter((n) => !ORDINAL.test(n) && !permitidos.has(n)))];
@@ -135,20 +136,45 @@ export interface LinhaComparativo {
   proposta: string;
 }
 
+// Measured gains as cards. Fewer than 2 gains reads as weak, so the section is left out.
 export function injectComparativo(html: string, linhas: LinhaComparativo[]): string {
-  const rows = linhas
-    .map((l) => `<tr><th scope="row">${escapeHtml(l.item)}</th><td>${escapeHtml(l.atual)}</td><td>${escapeHtml(l.proposta)}</td></tr>`)
+  if (linhas.length < 2) return html.replace(COMPARATIVO_MARKER, '');
+  const cards = linhas
+    .map(
+      (l) => `<article class="cmp-card">
+            <h3>${escapeHtml(l.item)}</h3>
+            <p class="cmp-antes"><span>Hoje</span>${escapeHtml(l.atual)}</p>
+            <p class="cmp-depois"><span>Na proposta</span>${escapeHtml(l.proposta)}</p>
+          </article>`,
+    )
     .join('');
-  const section = `<section class="comparativo" data-secao="comparativo" style="padding:72px 0">
-      <div class="container" style="max-width:900px">
-        <h2>Site atual e proposta</h2>
-        <p style="margin-bottom:28px;opacity:.8">Itens medidos no site atual e nesta proposta.</p>
-        <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:16px">
-          <thead><tr><th style="text-align:left;padding:12px 8px;border-bottom:2px solid currentColor"></th><th style="text-align:left;padding:12px 8px;border-bottom:2px solid currentColor">Site atual</th><th style="text-align:left;padding:12px 8px;border-bottom:2px solid currentColor">Proposta</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table></div>
+  const section = `<section class="comparativo" data-secao="comparativo">
+      <div class="cmp-wrap">
+        <p class="cmp-rotulo">Medido no site atual</p>
+        <h2>O que esta proposta resolve</h2>
+        <div class="cmp-grid">${cards}</div>
       </div>
-      <style>.comparativo td,.comparativo tbody th{padding:14px 8px;border-bottom:1px solid #0000001a;text-align:left;vertical-align:top}.comparativo tbody th{font-weight:600}</style>
+      <style>
+        .comparativo{padding:88px 24px;background:#fff;color:#111}
+        .cmp-wrap{max-width:1080px;margin:0 auto}
+        .cmp-rotulo{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin:0 0 12px}
+        .comparativo h2{margin:0 0 40px}
+        .cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+        .cmp-card{border:1px solid #0000001a;border-radius:16px;padding:28px;background:#fff}
+        .cmp-card h3{margin:0 0 20px;font-size:20px}
+        .cmp-card p{margin:0;font-size:15px;line-height:1.5}
+        .cmp-card span{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;opacity:.55}
+        .cmp-antes{padding-bottom:16px;margin-bottom:16px!important;border-bottom:1px dashed #0000001f;opacity:.7}
+        .cmp-depois{font-weight:600}
+      </style>
     </section>`;
   return html.replace(COMPARATIVO_MARKER, section);
+}
+
+// Matilab quality seal at the very end of every draft, added by code so no version ships without it.
+export function injectSelo(html: string, src: string, agencia: string): string {
+  const selo = `<div class="selo-agencia" data-secao="selo" style="background:#fff;padding:40px 24px;text-align:center;border-top:1px solid #0000000f">
+    <img src="${src}" alt="Selo de qualidade ${escapeHtml(agencia)}" width="200" style="width:200px;max-width:60%;height:auto;display:inline-block">
+  </div>`;
+  return html.replace(/<\/body>/i, `${selo}\n</body>`);
 }

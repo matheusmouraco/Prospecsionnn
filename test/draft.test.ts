@@ -9,7 +9,7 @@ import type { Marca } from '../src/analysis/facts.js';
 import { computeGains, measureDraft } from '../src/draft/gains.js';
 import { createDraft } from '../src/draft/pipeline.js';
 import {
-  applyMandatory, COMPARATIVO_MARKER, extractHtml, faixaTexto, injectComparativo, injectJsonLd, validateDraft,
+  applyMandatory, COMPARATIVO_MARKER, extractHtml, faixaTexto, injectComparativo, injectJsonLd, injectSelo, validateDraft,
 } from '../src/draft/rules.js';
 import { makeSlug } from '../src/draft/store.js';
 
@@ -82,11 +82,25 @@ describe('draft rules', () => {
   it('injects schema.org data and the comparison table', () => {
     const html = injectComparativo(
       injectJsonLd(filled('saude'), { nome: 'Clínica Sorriso', url: 'https://sorriso.com.br', nicho: 'clínica odontológica', telefone: '(41) 3333-4444', endereco: null, descricao: null, logo: null }),
-      [{ item: 'Contato no celular', atual: 'Sem botão', proposta: 'Botão visível' }],
+      [{ item: 'Contato no celular', atual: 'Sem botão', proposta: 'Botão visível' }, { item: 'Perguntas frequentes', atual: 'Sem FAQ', proposta: 'Com FAQ' }],
     );
     expect(html).toContain('"@type":"Dentist"');
-    expect(html).toContain('<th scope="row">Contato no celular</th>');
+    expect(html).toContain('<h3>Contato no celular</h3>');
     expect(html).not.toContain(COMPARATIVO_MARKER);
+  });
+
+  it('leaves the comparison out with a single gain and adds the seal at the end', () => {
+    const one = injectComparativo(filled('saude'), [{ item: 'Leitura no celular', atual: 'a', proposta: 'b' }]);
+    expect(one).not.toContain('data-secao="comparativo"');
+    expect(one).not.toContain(COMPARATIVO_MARKER);
+    const html = injectSelo(one, 'data:image/webp;base64,AA', 'Matilab');
+    expect(html).toMatch(/data-secao="selo"[\s\S]*<\/body>/);
+    expect(html).toContain('alt="Selo de qualidade Matilab"');
+  });
+
+  it('rejects struck-through copy', () => {
+    const html = applyMandatory(filled('saude').replace('</h1>', ' <s>frio</s></h1>'), check);
+    expect(validateDraft(html, check).join()).toContain('riscado');
   });
 
 });
@@ -162,6 +176,7 @@ describe('createDraft', () => {
     expect(saved).toContain('<!-- template: profissional'); // the third answer was kept
     expect(saved).toContain('data-secao="comparativo"');
     expect(saved).toContain('application/ld+json');
+    expect(saved).toContain('data-secao="selo"');
     expect(saved).toContain(`href="${WHATS}"`);
     expect((await stat(e.arquivos!.mobile)).size).toBeGreaterThan(5000);
   }, 120_000);
