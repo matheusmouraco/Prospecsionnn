@@ -177,6 +177,7 @@ export interface Legal {
 
 // Agency footer at the very end of every draft, added by code so it is identical everywhere:
 // small gray copyright + CNPJ on the left, quality seal on the right (stacked on phones).
+// It also makes every reload start at the top (Moura's call).
 export function injectSelo(html: string, src: string, agencia: string, legal?: Legal): string {
   const ano = new Date().getFullYear();
   const texto = legal
@@ -194,6 +195,7 @@ export function injectSelo(html: string, src: string, agencia: string, legal?: L
       .rodape-agencia img{width:110px;height:auto;display:block;flex-shrink:0}
       @media (max-width:640px){.ra-wrap{flex-direction:column-reverse;text-align:center;gap:14px}}
     </style>
+    <script>if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0);addEventListener('load',function(){window.scrollTo(0,0)});</script>
   </footer>`;
   return html.replace(/<\/body>/i, `${rodape}\n</body>`);
 }

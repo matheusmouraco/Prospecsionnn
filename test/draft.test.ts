@@ -97,6 +97,7 @@ describe('draft rules', () => {
     expect(html).toContain(`Copyright © ${new Date().getFullYear()} Matilab Tecnologia. Todos os direitos reservados. CNPJ nº 40.283.248/0001-21`);
     expect(html).toMatch(/data-secao="selo"[\s\S]*<\/body>/);
     expect(html).toContain('alt="Selo de qualidade Matilab"');
+    expect(html).toContain("history.scrollRestoration='manual'");
   });
 
   it('rejects struck-through copy', () => {
