@@ -95,3 +95,9 @@ export async function markInProgress(
     .eq('status', prospect.status);
   if (error) throw new Error(`Falha ao marcar prospect ${prospect.id} como ${to}: ${error.message}`);
 }
+
+// Releases a claimed prospect without changing its status (work redone in place).
+export async function release(prospect: Pick<ProspectRow, 'id' | 'status'>, db: Db = getSupabase()): Promise<void> {
+  const { error } = await db.from('prospects').update({ locked_at: null }).eq('id', prospect.id).eq('status', prospect.status);
+  if (error) throw new Error(`Falha ao liberar prospect ${prospect.id}: ${error.message}`);
+}

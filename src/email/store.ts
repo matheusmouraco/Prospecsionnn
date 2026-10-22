@@ -9,6 +9,7 @@ export interface DadosParaEmail {
   empresa: string | null;
   nicho: string | null;
   titulos: string[];
+  paragrafos: string[];
   problemas: Problema[];
 }
 
@@ -26,11 +27,18 @@ export async function loadEmailInput(empresaId: string, db: Db = getSupabase()):
     empresa: (emp.nome as string | null) ?? null,
     nicho: (emp.nicho as string | null) ?? null,
     titulos: marca.titulos ?? [],
+    paragrafos: marca.paragrafos ?? [],
     problemas: (an.problemas ?? []) as Problema[],
   };
 }
 
-// `campos` keeps the five Snov fields plus `fontes`: the problems (with evidence) each sentence came from.
+// Drops the emails not sent yet, so a rewrite replaces them (`--refazer`).
+export async function deleteUnsent(prospectId: string, db: Db = getSupabase()): Promise<void> {
+  const { error } = await db.from('emails').delete().eq('prospect_id', prospectId).is('enviado_em', null);
+  if (error) throw new Error(`Falha ao apagar email antigo do prospect ${prospectId}: ${error.message}`);
+}
+
+// `campos` keeps the Snov fields plus `fontes`: the problems (with evidence) each sentence came from.
 export async function saveEmail(prospectId: string, email: EmailGerado, db: Db = getSupabase()): Promise<void> {
   const { error } = await db.from('emails').insert({
     prospect_id: prospectId,

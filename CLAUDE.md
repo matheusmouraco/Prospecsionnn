@@ -274,9 +274,10 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 
 ## Notas sobre o email (Fase 4)
 
-- Quem escolhe os dois problemas é o código (`src/email/select.ts`): problema_1 é o mais grave (medido ganha empate); problema_2 é o problema `ia` mais grave quando existe, senão o próximo de outro tipo. O Claude só reescreve.
+- Quem escolhe os problemas (até 3) é o código (`src/email/select.ts`): problema_1 é o mais grave (medido ganha empate); problema_2 é o problema `ia` mais grave quando existe, senão o próximo de outro tipo; problema_3 é o mais grave de um tipo ainda não usado. O Claude só reescreve. O código numera ("1. ", "2. ", "3. ") depois de validar; sem terceiro problema, `problema_3` vai vazio.
+- Formato do primeiro email (decisão do Moura, out/2026): `observacao` (algo específico do site, neutro, sem elogio; números só se estiverem no texto do site) + até 3 achados + `gancho` + `sugestao` (o que faríamos, sem números nem promessa) + oferta do esboço. `npm run emails -- --refazer` reescreve os `email_pronto` ainda não enviados.
 - `src/email/validate.ts` recusa: consequência dentro da frase do problema ("desiste", "vai embora", "perde"; consequência só no gancho), campo acima de 255 caracteres, travessão, jargão técnico, frase de IA, link, número que não está na evidência do problema e qualquer número no gancho (sem estatística inventada). Recusou, o Claude reescreve com a lista do que corrigir (até 3 tentativas).
-- Campos do Snov: `saudacao` (código, `src/email/greeting.ts`: "Oi Bruna" ou "Olá" quando o first name é sigla da empresa ou caixa genérica), `nome_empresa`, `site_da_empresa` (Claude escolhe o artigo: "site do Grupo Rios"), `problema_1`, `problema_2`, `gancho`, `nicho`. A sequência não usa o First name do Snov.
+- Campos do Snov: `saudacao` (código, `src/email/greeting.ts`: "Oi Bruna" ou "Olá" quando o first name é sigla da empresa ou caixa genérica), `nome_empresa`, `site_da_empresa` (Claude escolhe o artigo: "site do Grupo Rios"), `observacao`, `problema_1`, `problema_2`, `problema_3`, `gancho`, `sugestao`, `nicho`. A sequência não usa o First name do Snov.
 - `emails.campos` guarda os campos do Snov e `fontes`, com o problema e a evidência de onde cada frase saiu.
 - Texto da sequência para montar no Snov: `prompts/sequencia-snov.md` (não é usado pelo código).
 - "Site abandonado" só com © de 3 anos ou mais atrás (© 2024 em 2026 não conta).

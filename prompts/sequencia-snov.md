@@ -3,7 +3,10 @@
 Não é usado pelo código: é o texto da campanha que fica dentro do Snov.
 Onde aparece `{campo}`, insira a variável correspondente pelo seletor de variáveis do Snov
 (todos são custom fields com estes nomes exatos: `saudacao`, `nome_empresa`, `site_da_empresa`,
-`problema_1`, `problema_2`, `gancho`, `nicho`).
+`observacao`, `problema_1`, `problema_2`, `problema_3`, `gancho`, `sugestao`, `nicho`).
+
+Os problemas já chegam numerados ("1. ...", "2. ..."). Quando o site só tem dois problemas medidos,
+`problema_3` vem vazio e no email sobra só uma linha em branco.
 
 Não use o "First name" do Snov na saudação: em caixas como contato@ ou ibo@ ele traz a sigla da empresa.
 O campo `saudacao` já vem pronto ("Oi Bruna" ou "Olá").
@@ -28,14 +31,19 @@ Alternativas para teste A/B no Snov:
 
 {saudacao}, tudo bem?
 
-Dei uma olhada no {site_da_empresa} e anotei dois pontos:
+{observacao}
 
-1. {problema_1}
-2. {problema_2}
+Olhando com calma, anotei alguns pontos:
+
+{problema_1}
+{problema_2}
+{problema_3}
 
 {gancho}
 
-Fiz um esboço de como o site de vocês poderia ficar resolvendo isso. Quer que eu te mande?
+{sugestao}
+
+Montei um esboço de como o site de vocês ficaria com isso resolvido. Quer que eu te mande?
 
 Matheus Moura | Matilab
 

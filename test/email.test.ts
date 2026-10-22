@@ -22,21 +22,27 @@ const dentelli: Problema[] = [
 describe('chooseProblems', () => {
   it('takes the most severe (measured wins ties) and an AI problem as the second', () => {
     const [p1, p2] = chooseProblems(dentelli)!;
-    expect(p1.descricao_curta).toContain('47,7 segundos');
+    expect(p1!.descricao_curta).toContain('47,7 segundos');
     expect(p2!.tipo).toBe('ia');
     expect(p2!.gravidade).toBe(4);
   });
 
   it('without AI problems, picks the next most severe of another type', () => {
     const [p1, p2] = chooseProblems(dentelli.filter((p) => p.tipo !== 'ia'))!;
-    expect(p1.tipo).toBe('velocidade');
+    expect(p1!.tipo).toBe('velocidade');
     expect(p2!.tipo).toBe('design');
   });
 
   it('when the worst is already AI, the second is another type', () => {
     const [p1, p2] = chooseProblems([P('ia', 5, 'IA bloqueada', 'robots.txt bloqueia GPTBot'), P('ia', 4, 'Sem llms', 'sem arquivo'), P('seo', 2, 'Sem título', 'sem title')])!;
-    expect(p1.tipo).toBe('ia');
+    expect(p1!.tipo).toBe('ia');
     expect(p2!.tipo).toBe('seo');
+  });
+
+  it('adds a third problem of a type not used yet', () => {
+    const escolhidos = chooseProblems(dentelli)!;
+    expect(escolhidos.map((p) => p.tipo)).toEqual(['velocidade', 'ia', 'design']);
+    expect(chooseProblems(dentelli.slice(0, 2))!).toHaveLength(2);
   });
 
   it('ignores problems without evidence', () => {
@@ -52,9 +58,12 @@ const bom: CamposEmail = {
   saudacao: 'Oi Bruna',
   nome_empresa: 'Dentelli',
   site_da_empresa: 'site da Dentelli',
+  observacao: 'Entrei no site da Dentelli e vi que vocês apresentam cada tratamento separado, com foto da equipe.',
   problema_1: 'No celular, o site leva 47,7 segundos para mostrar o conteúdo principal.',
   problema_2: 'O site não tem um resumo preparado para assistentes como o ChatGPT, então eles têm pouca informação para indicar a clínica.',
+  problema_3: '',
   gancho: 'Hoje muita gente pergunta para o ChatGPT ou para o Google qual dentista procurar, e quem não aparece lá perde o paciente para o vizinho.',
+  sugestao: 'Eu deixaria o site leve para abrir rápido no celular e organizaria as informações para as IAs entenderem o que vocês fazem.',
   nicho: 'clínica odontológica',
 };
 
@@ -69,9 +78,12 @@ describe('validateCampos', () => {
         saudacao: 'Olá',
         nome_empresa: 'Dentelli',
         site_da_empresa: 'site Dentelli',
+        observacao: 'Adorei o site, desde 1998 com 500 pacientes.',
         problema_1: 'O LCP é de 47,7 s e 53% das pessoas desistem — péssimo.',
         problema_2: 'Veja em www.dentelli.com.br, no cenário atual falta o llms.txt.',
+        problema_3: 'Sobrou um terceiro.',
         gancho: 'Hoje 70% dos clientes pesquisam com IA.',
+        sugestao: 'Garanto que vai dobrar em 30 dias.',
         nicho: 'x'.repeat(256),
       },
       fontes,
@@ -86,6 +98,17 @@ describe('validateCampos', () => {
     expect(all).toContain('gancho não pode ter números (70)');
     expect(all).toContain('nicho tem 256 caracteres');
     expect(all).toContain('site_da_empresa precisa começar com');
+    expect(all).toContain('observacao soa como elogio (Adorei)');
+    expect(all).toContain('observacao cita números que não estão no texto do site: 1998, 500');
+    expect(all).toContain('sugestao promete resultado (Garanto)');
+    expect(all).toContain('sugestao não pode ter números (30)');
+    expect(all).toContain('problema_3 precisa ficar vazio');
+  });
+
+  it('accepts numbers in the observation when they come from the site text', () => {
+    const c = { ...bom, observacao: 'Vi no site de vocês que a clínica atende desde 1998.' };
+    expect(validateCampos(c, fontes, 'Dentelli, cuidando de sorrisos desde 1998')).toEqual([]);
+    expect(validateCampos({ ...bom, observacao: 'Vi que o site é ótimo.' }, fontes).join()).toContain('elogio (ótimo)');
   });
 
   it('rejects consequences inside a problem sentence but allows them in the hook', () => {
@@ -105,7 +128,8 @@ describe('generateEmail', () => {
 
   it('rewrites until the fields pass validation, telling the model what failed', async () => {
     const calls: string[] = [];
-    const { saudacao: _s, ...modelo } = bom;
+    const { saudacao: _s, ...base } = bom;
+    const modelo = { ...base, problema_3: 'A parte de baixo da página inicial fica vazia, só com fundo cinza.' };
     const answers = [{ ...modelo, problema_1: 'O LCP é de 47,7 s.' }, modelo];
     const parse = (async (opts: { content: Array<{ type: string; text?: string }>; system: string }) => {
       calls.push(opts.content.map((c) => c.text ?? '').join(''));
@@ -115,7 +139,13 @@ describe('generateEmail', () => {
 
     const r = await generateEmail(input, { parse });
     expect(r.tentativas).toBe(2);
-    expect(r.campos).toEqual(bom);
+    expect(r.campos).toEqual({
+      ...bom,
+      problema_1: `1. ${bom.problema_1}`,
+      problema_2: `2. ${bom.problema_2}`,
+      problema_3: `3. ${modelo.problema_3}`,
+    });
+    expect(r.problemas_usados).toHaveLength(3);
     expect(r.custo_usd).toBeCloseTo(0.02);
     expect(calls[1]).toContain('termo técnico (LCP)');
     expect(calls[0]).toContain('LCP de 47,7 s');
@@ -153,8 +183,10 @@ describe('renderEmail1', () => {
     expect(txt).toContain('Matheus Moura | Matilab');
     expect(txt).toContain('**Assunto:** site da Dentelli');
     expect(txt).toContain('Oi Bruna, tudo bem?');
-    expect(txt).toContain('Dei uma olhada no site da Dentelli e anotei');
-    expect(txt).toContain('1. No celular, o site leva 47,7 segundos');
+    expect(txt).toContain('Entrei no site da Dentelli');
+    expect(txt).toContain('anotei alguns pontos');
+    expect(txt).toContain('Eu deixaria o site leve');
+    expect(txt).toContain('Quer que eu te mande?');
     expect(txt).not.toMatch(/https?:|www\.|—|–/);
   });
 });
