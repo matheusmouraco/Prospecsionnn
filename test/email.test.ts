@@ -52,7 +52,7 @@ const bom: CamposEmail = {
   saudacao: 'Oi Bruna',
   nome_empresa: 'Dentelli',
   site_da_empresa: 'site da Dentelli',
-  problema_1: 'No celular, o site leva 47,7 segundos para mostrar o conteúdo principal. A maioria das pessoas desiste bem antes disso.',
+  problema_1: 'No celular, o site leva 47,7 segundos para mostrar o conteúdo principal.',
   problema_2: 'O site não tem um resumo preparado para assistentes como o ChatGPT, então eles têm pouca informação para indicar a clínica.',
   gancho: 'Hoje muita gente pergunta para o ChatGPT ou para o Google qual dentista procurar, e quem não aparece lá perde o paciente para o vizinho.',
   nicho: 'clínica odontológica',
@@ -86,6 +86,12 @@ describe('validateCampos', () => {
     expect(all).toContain('gancho não pode ter números (70)');
     expect(all).toContain('nicho tem 256 caracteres');
     expect(all).toContain('site_da_empresa precisa começar com');
+  });
+
+  it('rejects consequences inside a problem sentence but allows them in the hook', () => {
+    const issues = validateCampos({ ...bom, problema_1: 'O site leva 47,7 segundos no celular, e muita gente desiste na hora.' }, fontes);
+    expect(issues.join()).toContain('problema_1 supõe uma consequência (desiste)');
+    expect(validateCampos({ ...bom, gancho: 'Quem espera demais no celular desiste e vai para outra clínica.' }, fontes)).toEqual([]);
   });
 
   it('normalizes decimal separators and does not flag words that contain jargon letters', () => {
@@ -133,6 +139,7 @@ describe('saudacao', () => {
     ['Recepção', 'x.com.br', null, 'Olá'],
     ['CIROD', 'cirod.com.br', 'CIROD', 'Olá'],
     ['Mateus', 'cirod.com.br', 'CIROD', 'Oi Mateus'],
+    ['Odontoclinic', 'odontoclinic.com.br', 'Odontoclinic', 'Olá'],
     ['DM', 'dentistamais.com', null, 'Olá'],
     [null, 'x.com.br', null, 'Olá'],
   ])('%s at %s -> %s', (nome, dominio, empresa, esperado) => {

@@ -17,6 +17,8 @@ export const CAMPOS: (keyof CamposEmail)[] = ['saudacao', 'nome_empresa', 'site_
 const JARGAO = /\b(LCP|CLS|TBT|FCP|PageSpeed|Lighthouse|schema|JSON|robots\.txt|llms\.txt|sitemap|HTML|meta ?tags?|meta description|Open Graph|H1|viewport|alt text|SEO|GEO|HTTPS|SSL|favicon|JavaScript|DOM|crawlers?|renderiza\w*|pixels?|px)\b|\bog:/i;
 // Phrases that read as AI-written.
 const FRASES_IA = /(espero que (esteja|você esteja) bem|no cenário atual|no mundo de hoje|nos dias de hoje|em um mundo cada vez mais|vale ressaltar|é importante destacar|não é apenas|mergulhar|alavancar|potencializar)/i;
+// Consequences belong in the hook; a problem sentence states only the measured fact (rule 1).
+const CONSEQUENCIA = /(desist\w*|vai embora|vão embora|perde\w*|perder|acaba(m)? sem|deixa(m)? de (ver|achar|encontrar|ligar))/i;
 const TRAVESSAO = /[—–]/;
 const LINK = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|com\.br|net|org|br)\b)/i;
 
@@ -43,6 +45,9 @@ export function validateCampos(c: CamposEmail, fontes: Fonte[]): string[] {
     if (TRAVESSAO.test(v)) issues.push(`${campo} usa travessão; reescreva sem ele`);
     if (JARGAO.test(v)) issues.push(`${campo} usa termo técnico (${v.match(JARGAO)![0]}); use linguagem de dono de negócio`);
     if (FRASES_IA.test(v)) issues.push(`${campo} usa frase de efeito artificial (${v.match(FRASES_IA)![0]})`);
+    if ((campo === 'problema_1' || campo === 'problema_2') && CONSEQUENCIA.test(v)) {
+      issues.push(`${campo} supõe uma consequência (${v.match(CONSEQUENCIA)![0]}); deixe só o fato medido e leve a consequência para o gancho`);
+    }
     if (campo !== 'nome_empresa' && campo !== 'site_da_empresa' && LINK.test(v)) issues.push(`${campo} contém link ou endereço de site; o primeiro email não pode ter link`);
   }
   const site = c.site_da_empresa ?? '';

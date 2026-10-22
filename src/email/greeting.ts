@@ -13,17 +13,16 @@ function capitalize(word: string): string {
 }
 
 // "Oi Bruna" when the Snov first name looks like a person, otherwise "Olá".
-// An all-lowercase or all-caps token that also appears in the domain or company name
-// is the company's name or acronym (e.g. "ibo" for iboodontologia.com.br), not a person.
+// A token that also appears in the domain or company name is the company's name or acronym
+// ("ibo" for iboodontologia.com.br, "Odontoclinic" for odontoclinic.com.br), not a person.
+// A real name inside the brand ("Mariana" at marianaodonto) also gets "Olá", which is harmless.
 export function saudacao(primeiroNome: string | null, dominio: string, empresa: string | null): string {
   const token = (primeiroNome ?? '').trim().split(/\s+/)[0]?.replace(/[^\p{L}'-]/gu, '') ?? '';
   if (token.length < 3) return 'Olá';
   const f = fold(token);
   if (GENERICOS.has(f)) return 'Olá';
 
-  const isLower = token === token.toLowerCase();
-  const isCaps = token === token.toUpperCase();
   const marca = fold(`${dominio.split('.')[0] ?? ''} ${empresa ?? ''}`);
-  if ((isLower || isCaps) && marca.includes(f)) return 'Olá';
+  if (marca.includes(f)) return 'Olá';
   return `Oi ${capitalize(token)}`;
 }
