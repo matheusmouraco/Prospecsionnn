@@ -139,6 +139,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
 
     const medidas = await measureDraft(deps.browser, html);
     const ganhos = computeGains(input.problemas, medidas);
+    // Moura removed the comparison section from the page (out/2026); gains stay in the report only.
     const final = injectSelo(injectComparativo(
       injectJsonLd(html, {
         nome: input.empresa,
@@ -149,7 +150,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
         descricao: medidas.desktop.meta_description,
         logo: input.marca.logo_url,
       }),
-      ganhos,
+      [],
     ), await selo(), deps.agencia);
 
     const files = {
@@ -173,9 +174,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
       desktopLonga: files.desktopLonga,
       checagens: [
         'Faixa de proposta conceitual, noindex, sem formulário e botão de WhatsApp: ok',
-        ganhos.length
-          ? `Comparativo com ${ganhos.length} ganhos medidos: ${ganhos.map((g) => g.item).join(', ')}`
-          : 'Nenhum ganho mensurável no comparativo',
+        'A página não tem seção de comparativo (decisão da agência); não penalize a ausência',
       ],
     });
     custo += juizo.custo_usd;

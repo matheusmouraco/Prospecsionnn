@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { launchBrowser } from '../analysis/browser.js';
 import { getEnv, requireEnv } from '../config/env.js';
 import { adjustDraftHtml, stripInjected } from '../draft/adjust.js';
-import { computeGains, measureDraft } from '../draft/gains.js';
+import { measureDraft } from '../draft/gains.js';
 import { arquivar, selo } from '../draft/pipeline.js';
 import { applyMandatory, extractHtml, injectComparativo, injectJsonLd, injectSelo, validateDraft } from '../draft/rules.js';
 import { empresaIdByDomain, loadDraftInput, setApproval } from '../draft/store.js';
@@ -55,7 +55,7 @@ async function main(): Promise<void> {
     const final = injectSelo(injectComparativo(injectJsonLd(html, {
       nome: input.empresa, url: `https://${dominio}`, nicho: input.nicho, telefone: input.marca.telefone,
       endereco: input.marca.endereco, descricao: medidas.desktop.meta_description, logo: input.marca.logo_url,
-    }), computeGains(input.problemas, medidas)), await selo(), env.SENDER_BRAND);
+    }), []), await selo(), env.SENDER_BRAND);
     const baseCopy = await readFile(basePath, 'utf8');
     await arquivar(dir);
     await writeFile(join(dir, 'base.html'), baseCopy);

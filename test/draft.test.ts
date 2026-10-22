@@ -174,7 +174,7 @@ describe('createDraft', () => {
 
     const saved = await readFile(join(outDir, 'sorriso.com.br', 'index.html'), 'utf8');
     expect(saved).toContain('<!-- template: profissional'); // the third answer was kept
-    expect(saved).toContain('data-secao="comparativo"');
+    expect(saved).not.toContain('data-secao="comparativo"');
     expect(saved).toContain('application/ld+json');
     expect(saved).toContain('data-secao="selo"');
     expect(saved).toContain(`href="${WHATS}"`);

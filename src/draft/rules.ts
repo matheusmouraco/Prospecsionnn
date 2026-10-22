@@ -173,8 +173,8 @@ export function injectComparativo(html: string, linhas: LinhaComparativo[]): str
 
 // Matilab quality seal at the very end of every draft, added by code so no version ships without it.
 export function injectSelo(html: string, src: string, agencia: string): string {
-  const selo = `<div class="selo-agencia" data-secao="selo" style="background:#fff;padding:40px 24px;text-align:center;border-top:1px solid #0000000f">
-    <img src="${src}" alt="Selo de qualidade ${escapeHtml(agencia)}" width="200" style="width:200px;max-width:60%;height:auto;display:inline-block">
+  const selo = `<div class="selo-agencia" data-secao="selo" style="background:#fff;padding:28px 24px;text-align:center;border-top:1px solid #0000000f">
+    <img src="${src}" alt="Selo de qualidade ${escapeHtml(agencia)}" width="110" style="width:110px;max-width:35%;height:auto;display:inline-block">
   </div>`;
   return html.replace(/<\/body>/i, `${selo}\n</body>`);
 }
