@@ -1,0 +1,22 @@
+[
+  { "empresa": "Clínica Sorriso", "esperado": "quer_ver", "texto": "Oi Matheus, pode mandar sim! Fiquei curiosa." },
+  { "empresa": "Odonto Vale", "esperado": "quer_ver", "texto": "Manda aí pra eu dar uma olhada.\n\nEm qua., 22 de out. de 2026 às 09:12, Matheus Moura escreveu:\n> Oi Bruna, vi que o site da Odonto Vale demora 7,2 segundos..." },
+  { "empresa": "Dentelli", "esperado": "quer_ver", "texto": "Bom dia. Tenho interesse em ver o esboço, obrigado." },
+  { "empresa": "Rios Odontologia", "esperado": "quer_ver", "texto": "Opa, quero ver sim. Faz tempo que penso em mexer no site." },
+  { "empresa": "Cirod", "esperado": "interesse", "texto": "Quanto custa um site novo? E em quanto tempo fica pronto?" },
+  { "empresa": "IBO Odontologia", "esperado": "interesse", "texto": "Pode me ligar amanhã depois das 14h? Meu número é (62) 99999-0000." },
+  { "empresa": "Clube do Dente", "esperado": "interesse", "texto": "Manda o esboço e já me passa um orçamento também, por favor." },
+  { "empresa": "Maison Odontologia", "esperado": "interesse", "texto": "Quem cuida disso aqui é a Carla, do marketing. Fala com ela: carla@maison.com.br" },
+  { "empresa": "Biofx", "esperado": "nao", "texto": "Obrigado, mas já temos uma agência cuidando do site." },
+  { "empresa": "Kerr Dental", "esperado": "nao", "texto": "No momento não temos interesse." },
+  { "empresa": "Sorri Fácil", "esperado": "nao", "texto": "Agora não é prioridade pra gente, quem sabe ano que vem." },
+  { "empresa": "Dentista Mais", "esperado": "descadastro", "texto": "Sair" },
+  { "empresa": "Orthopride", "esperado": "descadastro", "texto": "Por favor me remova da sua lista e não envie mais emails." },
+  { "empresa": "Clínica Corb", "esperado": "descadastro", "texto": "Isso é spam. Como conseguiram meu email? Vou denunciar." },
+  { "empresa": "Salutz", "esperado": "ausente", "texto": "Estou de férias até 05/11 com acesso limitado ao email. Em caso de urgência, ligue para a recepção." },
+  { "empresa": "Odontoclinic", "esperado": "ausente", "texto": "Mensagem automática: este endereço não é mais monitorado. Escreva para contato@odontoclinic.com.br." },
+  { "empresa": "NF Empreendimentos", "esperado": "ausente", "texto": "Out of office: I am currently away and will respond when I return on Monday." },
+  { "empresa": "Dio Inteligência", "esperado": "outro", "texto": "Quem é você? Já trabalhamos juntos?" },
+  { "empresa": "Ricca Arte", "esperado": "outro", "texto": "Vou ver com meu sócio." },
+  { "empresa": "Zoom Facilidades", "esperado": "outro", "texto": "Recebido." }
+]

@@ -21,7 +21,8 @@
     "esbocos": "tsx src/scripts/esbocos.ts",
     "referencias": "tsx src/scripts/referencias.ts",
     "esbocos:aprovar": "tsx src/scripts/esbocos-aprovar.ts",
-    "esbocos:ajustar": "tsx src/scripts/esbocos-ajustar.ts"
+    "esbocos:ajustar": "tsx src/scripts/esbocos-ajustar.ts",
+    "respostas:testar": "tsx src/scripts/respostas-testar.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",

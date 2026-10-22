@@ -236,7 +236,15 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run referencias [-- --refazer]`: captura os sites de `referencias/lista.txt` e os prints de `referencias/manuais/` e gera as fichas; catálogo em `out/referencias.md`
 - `npm run esbocos:aprovar -- site.com.br [--reprovar]`: aprovação manual do esboço
 - `npm run esbocos:ajustar -- site.com.br --pedidos ajustes.txt [--base versao.html]`: aplica ajustes (um por linha) mantendo o layout; não gera do zero. Cada geração ou ajuste move os arquivos anteriores para `out/esbocos/<dominio>/historico/<data>/`
+- `npm run respostas:testar`: classifica as 20 respostas de exemplo (`test/fixtures/respostas.json`) e gera `out/classificacao.md` com a tabela de acerto (critério da Fase 6)
 - `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada. No Mac, cada esboço abre no navegador assim que fica pronto (`--sem-abrir` desliga).
+
+## Notas sobre as respostas (Fase 6)
+
+- Classificador em `src/replies/classify.ts` (prompts `resposta-classificar.md` e `resposta-dados.md`), `MODEL_FAST` com esforço baixo. Antes de classificar, `stripQuoted` remove o email original citado.
+- Confiança abaixo de 0,8 vira `outro` (`categoria_modelo` guarda o que o modelo disse). Aceitou o esboço e perguntou preço = `interesse` (humano assume).
+- `acaoPara`: quer_ver > gerar_esboco; interesse e outro > notificar_moura; nao e descadastro > bloquear; ausente > nenhuma.
+- Leitura das respostas no Snov (webhook ou polling) ainda não implementada: exige conferir a doc (regra 9).
 
 ## Notas sobre o esboço (Fase 5)
 
