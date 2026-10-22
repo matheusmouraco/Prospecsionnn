@@ -1,11 +1,13 @@
 -- Prospector Matilab: initial schema.
--- Status list must match src/domain/status.ts (test/migration.test.ts checks it).
+-- Status list must match src/domain/status.ts (test/status.test.ts checks it).
+-- Everything lives in its own schema so it never mixes with other apps in the same project.
 
-create extension if not exists pgcrypto;
+create schema if not exists prospector;
+set search_path = prospector, public;
 
 -- Keeps updated_at current on every update.
 create or replace function set_updated_at() returns trigger
-language plpgsql as $$
+language plpgsql set search_path = prospector, pg_temp as $$
 begin
   new.updated_at = now();
   return new;
@@ -126,7 +128,7 @@ insert into controle (chave, valor) values
 -- in the last 15 minutes and rows another cycle is claiming right now.
 create or replace function claim_prospects(p_status text, p_limit int)
 returns setof prospects
-language sql as $$
+language sql set search_path = prospector, pg_temp as $$
   update prospects p
      set locked_at = now()
    where p.id in (
@@ -143,7 +145,7 @@ $$;
 -- Adds p_valor to one counter of the day's metrics, creating the row if needed.
 create or replace function incrementar_metrica(p_campo text, p_valor numeric, p_dia date default current_date)
 returns void
-language plpgsql as $$
+language plpgsql set search_path = prospector, pg_temp as $$
 begin
   if p_campo not in ('enviados', 'bounces', 'respostas', 'positivas', 'descadastros', 'esbocos_gerados', 'custo_api_usd') then
     raise exception 'campo de métrica inválido: %', p_campo;
@@ -166,19 +168,20 @@ alter table bloqueados enable row level security;
 alter table metricas_diarias enable row level security;
 alter table controle enable row level security;
 
--- Only the service role may call the RPCs. Role checks keep this runnable on plain Postgres.
-revoke execute on function claim_prospects(text, int) from public;
-revoke execute on function incrementar_metrica(text, numeric, date) from public;
+-- Only the backend (service role) may touch this schema. anon/authenticated get nothing,
+-- even if the schema is exposed in the API settings.
+revoke all on schema prospector from public;
+revoke execute on all functions in schema prospector from public;
+alter default privileges in schema prospector revoke execute on functions from public;
 
 do $$
 begin
-  if exists (select 1 from pg_roles where rolname = 'anon') then
-    revoke execute on function claim_prospects(text, int) from anon, authenticated;
-    revoke execute on function incrementar_metrica(text, numeric, date) from anon, authenticated;
-  end if;
   if exists (select 1 from pg_roles where rolname = 'service_role') then
-    grant execute on function claim_prospects(text, int) to service_role;
-    grant execute on function incrementar_metrica(text, numeric, date) to service_role;
+    grant usage on schema prospector to service_role;
+    grant select, insert, update, delete on all tables in schema prospector to service_role;
+    grant execute on all functions in schema prospector to service_role;
+    alter default privileges in schema prospector grant select, insert, update, delete on tables to service_role;
+    alter default privileges in schema prospector grant execute on functions to service_role;
   end if;
 end;
 $$;

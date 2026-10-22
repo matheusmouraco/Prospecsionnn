@@ -1,6 +1,5 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
 import { assertTransition, retryTarget, type ProspectStatus } from '../domain/status.js';
-import { getSupabase } from './client.js';
+import { getSupabase, type Db } from './client.js';
 
 export interface ProspectRow {
   id: string;
@@ -23,7 +22,7 @@ export interface ProspectRow {
 export async function claimProspects(
   status: ProspectStatus,
   limit: number,
-  db: SupabaseClient = getSupabase(),
+  db: Db = getSupabase(),
 ): Promise<ProspectRow[]> {
   const { data, error } = await db.rpc('claim_prospects', { p_status: status, p_limit: limit });
   if (error) throw new Error(`claim_prospects falhou: ${error.message}`);
@@ -34,7 +33,7 @@ export async function claimProspects(
 export async function advance(
   prospect: Pick<ProspectRow, 'id' | 'status'>,
   to: ProspectStatus,
-  db: SupabaseClient = getSupabase(),
+  db: Db = getSupabase(),
 ): Promise<void> {
   assertTransition(prospect.status, to);
   const { error } = await db
@@ -49,7 +48,7 @@ export async function advance(
 export async function fail(
   prospect: Pick<ProspectRow, 'id' | 'status' | 'tentativas'>,
   err: unknown,
-  db: SupabaseClient = getSupabase(),
+  db: Db = getSupabase(),
 ): Promise<void> {
   const message = (err instanceof Error ? err.message : String(err)).slice(0, 1000);
   const { error } = await db
@@ -69,7 +68,7 @@ export async function fail(
 // Sends a failed prospect back to the step it failed in, or to erro_final after MAX_ATTEMPTS.
 export async function retry(
   prospect: Pick<ProspectRow, 'id' | 'status_anterior' | 'tentativas'>,
-  db: SupabaseClient = getSupabase(),
+  db: Db = getSupabase(),
 ): Promise<ProspectStatus> {
   const to = retryTarget(prospect.status_anterior, prospect.tentativas);
   const { error } = await db

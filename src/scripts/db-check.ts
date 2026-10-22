@@ -1,4 +1,4 @@
-import { getSupabase, TABLES } from '../db/client.js';
+import { DB_SCHEMA, getSupabase, TABLES } from '../db/client.js';
 import { isPaused } from '../db/control.js';
 import { getEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
@@ -11,6 +11,13 @@ async function main(): Promise<void> {
 
   for (const table of TABLES) {
     const { count, error } = await db.from(table).select('*', { count: 'exact', head: true });
+    if (error?.code === 'PGRST106') {
+      logger.error(
+        `O schema "${DB_SCHEMA}" não está liberado na API. No Supabase: Project Settings > Data API > Exposed schemas, adicione "${DB_SCHEMA}" e salve.`,
+      );
+      process.exitCode = 1;
+      return;
+    }
     if (error) {
       missing.push(table);
       logger.error('Tabela inacessível', { tabela: table, motivo: error.message });

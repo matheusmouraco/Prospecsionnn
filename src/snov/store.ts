@@ -1,11 +1,10 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
-import { getSupabase } from '../db/client.js';
+import { getSupabase, type Db } from '../db/client.js';
 import type { Candidate, ImportStore } from './importer.js';
 
 const CHUNK = 200;
 
 async function collect(
-  db: SupabaseClient,
+  db: Db,
   table: string,
   column: string,
   values: string[],
@@ -26,7 +25,7 @@ async function collect(
 
 export class InsertSkipped extends Error {}
 
-export function supabaseImportStore(db: SupabaseClient = getSupabase()): ImportStore {
+export function supabaseImportStore(db: Db = getSupabase()): ImportStore {
   return {
     existingDomains: (d) => collect(db, 'empresas', 'dominio', d),
     existingEmails: (e) => collect(db, 'prospects', 'email', e),

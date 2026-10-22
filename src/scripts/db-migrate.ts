@@ -13,14 +13,15 @@ export async function migrate(connectionString: string, dir = MIGRATIONS_DIR): P
   const applied: string[] = [];
   try {
     await client.query(`
-      create table if not exists _migrations (
+      create schema if not exists prospector;
+      create table if not exists prospector._migrations (
         nome text primary key,
         aplicada_em timestamptz default now()
       );
-      alter table _migrations enable row level security;
+      alter table prospector._migrations enable row level security;
     `);
     const done = new Set(
-      (await client.query<{ nome: string }>('select nome from _migrations')).rows.map((r) => r.nome),
+      (await client.query<{ nome: string }>('select nome from prospector._migrations')).rows.map((r) => r.nome),
     );
     const files = (await readdir(dir)).filter((f) => f.endsWith('.sql')).sort();
 
@@ -30,7 +31,7 @@ export async function migrate(connectionString: string, dir = MIGRATIONS_DIR): P
       await client.query('begin');
       try {
         await client.query(sql);
-        await client.query('insert into _migrations (nome) values ($1)', [file]);
+        await client.query('insert into prospector._migrations (nome) values ($1)', [file]);
         await client.query('commit');
         applied.push(file);
         logger.info('Migration aplicada', { arquivo: file });

@@ -1,3 +1,5 @@
+set search_path = prospector, public;
+
 -- Inserts a company and its single contact atomically. Returns false, inserting nothing,
 -- when the domain or the email is already registered or blocked.
 create or replace function importar_prospect(
@@ -10,7 +12,7 @@ create or replace function importar_prospect(
   p_cargo text,
   p_lista_origem text
 ) returns boolean
-language plpgsql as $$
+language plpgsql set search_path = prospector, pg_temp as $$
 declare
   v_empresa_id uuid;
 begin
@@ -52,9 +54,6 @@ revoke execute on function importar_prospect(text, text, text, text, text, text,
 
 do $$
 begin
-  if exists (select 1 from pg_roles where rolname = 'anon') then
-    revoke execute on function importar_prospect(text, text, text, text, text, text, text, text) from anon, authenticated;
-  end if;
   if exists (select 1 from pg_roles where rolname = 'service_role') then
     grant execute on function importar_prospect(text, text, text, text, text, text, text, text) to service_role;
   end if;
