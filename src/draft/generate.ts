@@ -74,7 +74,7 @@ export async function visualContext(refs: FichaRef[], printOriginal: string | nu
   return out;
 }
 
-// One custom HTML page from MODEL_DESIGN at maximum effort. The art direction is a stable,
+// One custom HTML page from MODEL_DESIGN at high effort (max spent the whole output budget thinking). The art direction is a stable,
 // cached prefix; references, brand and content change per company.
 export async function generateDraftHtml(
   model: string,
@@ -88,7 +88,7 @@ export async function generateDraftHtml(
     model,
     system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
     content: [...visual, { type: 'text', text: brief }],
-    effort: 'max',
+    effort: 'high',
     maxTokens: 128000,
   });
 }

@@ -239,7 +239,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 
 ## Notas sobre o esboço (Fase 5)
 
-- **Decisão do Moura (out/2026):** templates genéricos ficaram com cara de IA. Agora cada esboço é **personalizado**, criado pelo MODEL_DESIGN em esforço `max`, usando como régua sites de referência. Os templates antigos viraram fixtures de teste (`test/fixtures/esbocos/`).
+- **Decisão do Moura (out/2026):** templates genéricos ficaram com cara de IA. Agora cada esboço é **personalizado**, criado pelo MODEL_DESIGN em esforço `high` (`max` gastou 128 mil tokens pensando e cortou o HTML), usando como régua sites de referência. Os templates antigos viraram fixtures de teste (`test/fixtures/esbocos/`).
 - Referências: `referencias/lista.txt` (trabalhos da Matilab + mercado; `*` = favorito, régua de qualidade). `npm run referencias` captura prints (não versionados) e gera `referencias/<slug>/ficha.json` (versionada) com segmentos, estilo, tipografia, paleta, padrões, movimento (bibliotecas detectadas na página) e nível. Rodar uma vez em cada máquina. Prints salvos à mão (png/jpg/webp) vão em `referencias/manuais/` (não versionada) e viram referências `manual-<nome>`, sem print de celular.
 - Para cada empresa: `chooseReferences` pega a referência mais próxima do nicho + uma favorita. O gerador recebe os prints delas, o print do site atual e a ficha. Inspiração, nunca copiar texto/imagem.
 - Direção de arte em `prompts/esboco-gerar.md` (lista do que dá cara de IA e é proibido). Juiz em `prompts/esboco-juiz.md` com notas de nível das referências e originalidade; nota geral não passa de 70 se uma delas ficar abaixo de 70.
