@@ -42,10 +42,11 @@ export function applyThreshold(categoria: Categoria, confianca: number): Categor
 
 export type Acao = 'gerar_esboco' | 'notificar_moura' | 'bloquear' | 'nenhuma';
 
-// Moura's rule: wants the draft and asked about price > build the draft and also notify him.
+// Moura's rule: any interest (price, deadline, call) also gets a draft, so he talks price with it ready.
+// `outro` gets a draft only when the person clearly asked for it.
 export function acoesPara(c: Pick<Classificacao, 'categoria' | 'pediu_esboco'>): Acao[] {
-  const base = acaoPara(c.categoria);
-  return c.pediu_esboco && base === 'notificar_moura' ? ['gerar_esboco', 'notificar_moura'] : [base];
+  if (c.categoria === 'interesse' || (c.categoria === 'outro' && c.pediu_esboco)) return ['gerar_esboco', 'notificar_moura'];
+  return [acaoPara(c.categoria)];
 }
 
 export function acaoPara(categoria: Categoria): Acao {
