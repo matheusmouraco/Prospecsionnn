@@ -74,7 +74,6 @@ export function validateDraft(html: string, c: DraftCheck): string[] {
   if (/<form\b/i.test(html)) issues.push('a página não pode ter <form>');
   if (/<(input|textarea|select)\b/i.test(html)) issues.push('a página não pode ter campos de formulário (input, textarea, select)');
   if (!html.includes(`href="${escapeHtml(c.whatsapp)}"`)) issues.push('o botão principal precisa levar ao WhatsApp (%%WHATSAPP%%)');
-  if (!html.includes(COMPARATIVO_MARKER)) issues.push(`mantenha o marcador ${COMPARATIVO_MARKER} antes da seção de contato`);
   if (!/<meta[^>]+name="viewport"/i.test(html)) issues.push('falta a meta tag viewport');
   for (const [, body] of html.matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)) {
     const bad = body!.match(SCRIPT_PROIBIDO);

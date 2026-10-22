@@ -70,7 +70,7 @@ describe('draft rules', () => {
     expect(issues).toContain('números que não existem no site original: 500, 1998');
     expect(issues).toContain('sobraram textos de exemplo');
     expect(issues).toContain('travessão');
-    expect(issues).toContain('COMPARATIVO');
+    expect(issues).not.toContain('COMPARATIVO'); // the comparison section was dropped, the marker is optional
   });
 
   it('extracts the html from a fenced answer and builds slugs', () => {

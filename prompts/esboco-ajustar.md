@@ -9,7 +9,7 @@ Troca de imagem: use outra foto da lista de fotos do site da empresa que você r
 Regras que continuam valendo:
 - Português do Brasil, sem travessão, sem texto riscado.
 - Não invente números, depoimentos, prêmios, preços ou fatos que não estejam na página.
-- Mantenha `href="%%WHATSAPP%%"` em todo link de contato, o comentário `<!-- COMPARATIVO -->` e a faixa `data-secao="faixa"`.
+- Mantenha `href="%%WHATSAPP%%"` em todo link de contato e a faixa `data-secao="faixa"`.
 - Nenhum `<form>`, `<input>`, `<textarea>` ou `<select>`.
 
 Responda apenas com o documento HTML completo, de `<!doctype html>` até `</html>`.
