@@ -235,6 +235,8 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - Referência confirmada (out/2026): token em `POST /v1/oauth/access_token` (1h), `GET /v1/get-user-lists`, `/v1/prospect-list` (listId, page, perPage até 5000, sem custo de crédito), limite de 60 req/min.
 - A doc diverge sobre `prospect-list` ser POST ou GET: o cliente tenta POST e cai para GET em 405.
 - **Confirmado numa lista real:** `prospect-list` devolve só `id, name, firstName, lastName, emails, source`. Empresa, cargo e site vêm de `/v1/get-prospect-by-id` (1 chamada por prospect, ~1/s pelo limite). O importador faz essa consulta para quem não tem site ou cargo.
+- Páginas de franquia (`franquia.`, `franqueado.`, `seja-franqueado.`...) são descartadas, sem plano B pelo email (decisão do Moura).
+- Empresas fora do nicho da lista entram normalmente: análise, email e esboço se adaptam ao nicho detectado no site (`nicho_detectado`), não ao nome da lista.
 - Sem site no Snov: usa o domínio do email corporativo como site (`domainSource = 'email'`). Email genérico (gmail etc.) sem site é descartado.
 - O formato da resposta do `get-prospect-by-id` ainda não foi confirmado com dados reais. `src/snov/parse.ts` procura em vários nomes (inclui `social[]`). Rodar `snov:inspect` e ajustar lá se preciso, com teste.
 - Inserção sempre via RPC `importar_prospect` (empresa + contato na mesma transação; recusa domínio/email já existente ou bloqueado).

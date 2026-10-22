@@ -1,4 +1,4 @@
-import { isIgnoredDomain, normalizeDomain } from './domain.js';
+import { isFranchiseDomain, isIgnoredDomain, normalizeDomain } from './domain.js';
 import { parseProspect, type SnovProspect } from './parse.js';
 import { roleTier } from './roles.js';
 
@@ -71,7 +71,8 @@ export function selectCandidates(
     if (siteDomain && !isIgnoredDomain(siteDomain)) {
       domain = siteDomain;
       domainSource = 'site';
-    } else if (emailDomain && !isIgnoredDomain(emailDomain)) {
+    } else if (emailDomain && !isIgnoredDomain(emailDomain) && !(siteDomain && isFranchiseDomain(siteDomain))) {
+      // A franchise-sales page means a franchise network: skip it instead of falling back to the email.
       domain = emailDomain;
       domainSource = 'email';
       stats.site_pelo_email++;

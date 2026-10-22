@@ -23,13 +23,15 @@ describe('normalizeDomain', () => {
 describe('isIgnoredDomain', () => {
   it('ignores social, marketplaces, generic email and subdomains of them', () => {
     for (const d of ['instagram.com', 'm.facebook.com', 'linktr.ee', 'wa.me', 'gmail.com', 'sites.google.com',
-      'produto.mercadolivre.com.br', 'loja.business.site']) {
+      'produto.mercadolivre.com.br', 'loja.business.site', 'franqueado.oralcentter.com.br',
+      'franquia.qualiteodontologia.com.br', 'sejafranqueado.marca.com.br', 'seja-franqueado.marca.com.br']) {
       expect(isIgnoredDomain(d), d).toBe(true);
     }
   });
 
   it('keeps real company domains', () => {
-    for (const d of ['loja.com.br', 'padaria.wixsite.com', 'notinstagram.com', 'gmail.com.br.loja.net']) {
+    for (const d of ['loja.com.br', 'padaria.wixsite.com', 'notinstagram.com', 'gmail.com.br.loja.net',
+      'odontocompany.com', 'franquiasdobrasil.com.br']) {
       expect(isIgnoredDomain(d), d).toBe(false);
     }
   });

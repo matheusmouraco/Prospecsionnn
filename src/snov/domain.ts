@@ -38,6 +38,14 @@ export function normalizeDomain(input: string | null | undefined): string | null
   return host;
 }
 
+// Franchise-sales subdomains (franquia.marca.com.br) are not the business's own site.
+const FRANCHISE_SUBDOMAIN = /^(franquia|franquias|franqueado|franqueados|seja-?franqueado|franchising|franchise)\./;
+
+export function isFranchiseDomain(domain: string): boolean {
+  return FRANCHISE_SUBDOMAIN.test(domain);
+}
+
 export function isIgnoredDomain(domain: string): boolean {
+  if (isFranchiseDomain(domain)) return true;
   return IGNORED_DOMAINS.some((d) => domain === d || domain.endsWith(`.${d}`));
 }

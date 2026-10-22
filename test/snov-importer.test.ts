@@ -87,6 +87,7 @@ describe('runImport', () => {
           p(1, 'dra@clinicasorriso.com.br', null),
           p(2, 'joao@odontojoao.com.br', 'instagram.com/odontojoao'),
           p(3, 'ana@gmail.com', null),
+          p(4, 'expansao@oralcentter.com.br', 'https://franqueado.oralcentter.com.br'),
         ],
       }),
       store, listIds: ['L'], write: true,
@@ -95,7 +96,7 @@ describe('runImport', () => {
       ['clinicasorriso.com.br', 'email'],
       ['odontojoao.com.br', 'email'],
     ]);
-    expect(stats).toMatchObject({ site_pelo_email: 2, sem_site: 1 });
+    expect(stats).toMatchObject({ site_pelo_email: 2, sem_site: 1, dominio_ignorado: 1 });
   });
 
   it('fetches details for rows without website or position and keeps list emails', async () => {
