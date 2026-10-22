@@ -171,10 +171,30 @@ export function injectComparativo(html: string, linhas: LinhaComparativo[]): str
   return html.replace(COMPARATIVO_MARKER, section);
 }
 
-// Matilab quality seal at the very end of every draft, added by code so no version ships without it.
-export function injectSelo(html: string, src: string, agencia: string): string {
-  const selo = `<div class="selo-agencia" data-secao="selo" style="background:#fff;padding:28px 24px;text-align:center;border-top:1px solid #0000000f">
-    <img src="${src}" alt="Selo de qualidade ${escapeHtml(agencia)}" width="110" style="width:110px;max-width:35%;height:auto;display:inline-block">
-  </div>`;
-  return html.replace(/<\/body>/i, `${selo}\n</body>`);
+export interface Legal {
+  razao: string;
+  cnpj: string;
+}
+
+// Agency footer at the very end of every draft, added by code so it is identical everywhere:
+// small gray copyright + CNPJ on the left, quality seal on the right (stacked on phones).
+export function injectSelo(html: string, src: string, agencia: string, legal?: Legal): string {
+  const ano = new Date().getFullYear();
+  const texto = legal
+    ? `Copyright © ${ano} ${escapeHtml(legal.razao)}. Todos os direitos reservados. CNPJ nº ${escapeHtml(legal.cnpj)}`
+    : `Proposta conceitual por ${escapeHtml(agencia)}`;
+  const rodape = `<footer class="rodape-agencia" data-secao="selo">
+    <div class="ra-wrap">
+      <p class="ra-legal">${texto}</p>
+      <img src="${src}" alt="Selo de qualidade ${escapeHtml(agencia)}" width="110">
+    </div>
+    <style>
+      .rodape-agencia{background:#fff;border-top:1px solid #0000000f;padding:22px 24px}
+      .ra-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+      .ra-legal{margin:0;font:400 12px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#8a8f98;letter-spacing:.01em}
+      .rodape-agencia img{width:110px;height:auto;display:block;flex-shrink:0}
+      @media (max-width:640px){.ra-wrap{flex-direction:column-reverse;text-align:center;gap:14px}}
+    </style>
+  </footer>`;
+  return html.replace(/<\/body>/i, `${rodape}\n</body>`);
 }

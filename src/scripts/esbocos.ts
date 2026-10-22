@@ -47,7 +47,7 @@ async function main(): Promise<void> {
         if (!input.referencias.length) log.warn('Nenhuma referência capturada; rode npm run referencias antes', { dominio: input.dominio });
         log.info('Gerando esboço', { dominio: input.dominio, referencias: input.referencias.map((r) => r.url) });
         const e = await createDraft(input, {
-          browser, outDir: OUT_DIR, agencia: env.SENDER_BRAND, whatsapp, model: env.MODEL_DESIGN, minScore: env.JUDGE_MIN_SCORE,
+          browser, outDir: OUT_DIR, agencia: env.SENDER_BRAND, legal: { razao: env.SENDER_RAZAO_SOCIAL, cnpj: env.SENDER_CNPJ }, whatsapp, model: env.MODEL_DESIGN, minScore: env.JUDGE_MIN_SCORE,
         });
         const slug = await saveDraft(id, input.empresa, e);
         feitos.push({ ...e, slug });

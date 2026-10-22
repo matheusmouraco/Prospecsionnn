@@ -4,6 +4,8 @@ Aplique somente os ajustes pedidos. Todo o resto continua idêntico: estrutura, 
 
 Se um ajuste pede um tipo de mudança geral (por exemplo "onde tiver bege coloque branco"), aplique em todos os lugares onde ela vale, inclusive nas variáveis CSS.
 
+Troca de imagem: use outra foto da lista de fotos do site da empresa que você recebe, escolhendo uma sem texto escrito por cima e que funcione no recorte. Nunca use imagem de banco, de outro site ou inventada. Se nenhuma foto servir, resolva o bloco sem foto (tipografia, cor e forma) e mantenha o resto igual. Para logos de parceiros ou clientes que estão cortados, mostre a imagem inteira (`object-fit: contain`, sem recorte e com altura suficiente).
+
 Regras que continuam valendo:
 - Português do Brasil, sem travessão, sem texto riscado.
 - Não invente números, depoimentos, prêmios, preços ou fatos que não estejam na página.

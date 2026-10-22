@@ -39,7 +39,7 @@ async function main(): Promise<void> {
   let extra: string[] = [];
   let html: string | null = null;
   for (let tentativa = 1; tentativa <= 2 && !html; tentativa++) {
-    const gen = await adjustDraftHtml(env.MODEL_DESIGN, env.SENDER_BRAND, base, [...pedidos, ...extra]);
+    const gen = await adjustDraftHtml(env.MODEL_DESIGN, env.SENDER_BRAND, base, [...pedidos, ...extra], input.marca.fotos);
     const raw = extractHtml(gen.text);
     if (!raw) { extra = ['responda com o HTML completo']; continue; }
     const candidate = applyMandatory(raw, { agencia: env.SENDER_BRAND, empresa: input.empresa, whatsapp });
@@ -55,7 +55,7 @@ async function main(): Promise<void> {
     const final = injectSelo(injectComparativo(injectJsonLd(html, {
       nome: input.empresa, url: `https://${dominio}`, nicho: input.nicho, telefone: input.marca.telefone,
       endereco: input.marca.endereco, descricao: medidas.desktop.meta_description, logo: input.marca.logo_url,
-    }), []), await selo(), env.SENDER_BRAND);
+    }), []), await selo(), env.SENDER_BRAND, { razao: env.SENDER_RAZAO_SOCIAL, cnpj: env.SENDER_CNPJ });
     const baseCopy = await readFile(basePath, 'utf8');
     await arquivar(dir);
     await writeFile(join(dir, 'base.html'), baseCopy);

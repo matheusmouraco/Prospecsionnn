@@ -19,6 +19,7 @@ import {
   injectJsonLd,
   injectSelo,
   validateDraft,
+  type Legal,
   type LinhaComparativo,
 } from './rules.js';
 
@@ -49,6 +50,7 @@ export interface EsbocoDeps {
   browser: Browser;
   outDir: string;
   agencia: string;
+  legal?: Legal;
   whatsapp: string;
   model: string;
   minScore: number;
@@ -151,7 +153,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
         logo: input.marca.logo_url,
       }),
       [],
-    ), await selo(), deps.agencia);
+    ), await selo(), deps.agencia, deps.legal);
 
     const files = {
       html: join(dir, `tentativa-${attempt}.html`),

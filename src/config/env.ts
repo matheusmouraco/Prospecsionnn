@@ -38,6 +38,8 @@ const envSchema = z.object({
 
   SENDER_BRAND: z.string().trim().min(1).default('Matilab'),
   SENDER_NAME: z.string().trim().min(1).default('Matheus Moura'),
+  SENDER_RAZAO_SOCIAL: z.string().trim().min(1).default('Matilab Tecnologias'),
+  SENDER_CNPJ: z.string().trim().min(1).default('40.283.248/0001-21'),
   SENDER_WHATSAPP_URL: optionalString,
   DRAFT_BASE_URL: z.string().trim().url().default('https://analise.matilab.com.br'),
 
