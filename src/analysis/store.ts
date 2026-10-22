@@ -26,6 +26,7 @@ export async function saveAnalise(empresaId: string, a: Analise, db: Db = getSup
       marca: a.marca ? { ...a.marca, acesso: a.acesso, resumo: a.resumo } : { acesso: a.acesso, resumo: a.resumo },
       problemas: a.problemas,
       nota_site: a.nota_site,
+      prontidao_ia: a.prontidao_ia,
     },
     { onConflict: 'empresa_id' },
   );

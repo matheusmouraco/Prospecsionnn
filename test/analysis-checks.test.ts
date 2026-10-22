@@ -4,7 +4,7 @@ import type { Captura, DomFacts } from '../src/analysis/facts.js';
 import { parsePageSpeed, type PageSpeedResult } from '../src/analysis/pagespeed.js';
 
 const facts = (over: Partial<DomFacts> = {}): DomFacts => ({
-  url_final: 'https://loja.com.br/', title: 'Loja', meta_description: 'Resumo', h1: ['Loja'], tem_viewport: true,
+  url_final: 'https://loja.com.br/', dados_estruturados: [], tem_faq: false, controles_sem_nome: 0, texto_renderizado_chars: 2000, title: 'Loja', meta_description: 'Resumo', h1: ['Loja'], tem_viewport: true,
   lang: 'pt-BR', imagens: 4, imagens_sem_alt: 0, links_whatsapp: 1, links_telefone: 0, links_email: 0,
   contato_visivel_na_dobra: true, formularios: 0, anos_copyright: [2026], tem_favicon: true, og_title: 'Loja',
   og_image: null, rolagem_horizontal: false, fonte_corpo_px: 16, altura_pagina: 3000,

@@ -14,6 +14,10 @@ export interface Marca {
 
 export interface DomFacts {
   url_final: string;
+  dados_estruturados: string[];
+  tem_faq: boolean;
+  controles_sem_nome: number;
+  texto_renderizado_chars: number;
   title: string | null;
   meta_description: string | null;
   h1: string[];

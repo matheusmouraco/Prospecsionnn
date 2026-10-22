@@ -1,7 +1,9 @@
 import type { Captura } from './facts.js';
+import type { ProntidaoIA } from './ai-readiness.js';
 import type { PageSpeedResult } from './pagespeed.js';
 
-export const TIPOS_PROBLEMA = ['mobile', 'velocidade', 'seo', 'design', 'conversao', 'tecnico'] as const;
+// 'ia': readiness for AI search (GEO) and AI agents that browse sites.
+export const TIPOS_PROBLEMA = ['mobile', 'velocidade', 'seo', 'design', 'conversao', 'tecnico', 'ia'] as const;
 export type TipoProblema = (typeof TIPOS_PROBLEMA)[number];
 
 // Every problem carries the measurement that proves it (rule 1: never invent a problem).
@@ -178,4 +180,82 @@ export function measuredProblems(
     }
   }
   return out.sort((a, b) => b.gravidade - a.gravidade);
+}
+
+// Business types that tell Google and AI assistants what the company is and where it is.
+const TIPOS_NEGOCIO = /Organization|LocalBusiness|Dentist|Medical|Physician|Clinic|Hospital|Store|Restaurant|Professional|Service|Attorney|Accounting|Architect|Engineer|HomeAndConstruction|HealthAndBeauty|EducationalOrganization|Corporation/i;
+
+// AI search (GEO) and agent-navigation problems. Each one is a fetched or measured fact.
+export function aiProblems(ia: ProntidaoIA, mobile: PageSpeedResult | null, temContatoNoTexto: boolean): Problema[] {
+  const out: Problema[] = [];
+  const add = (p: Omit<Problema, 'origem' | 'tipo'>) => out.push({ ...p, tipo: 'ia', origem: 'medido' });
+
+  if (ia.bots_bloqueados.length) {
+    add({
+      descricao_curta: 'O site impede que ChatGPT e outras IAs leiam o conteúdo',
+      evidencia: `O robots.txt bloqueia: ${ia.bots_bloqueados.join(', ')}`,
+      gravidade: 5,
+    });
+  }
+  const html = ia.texto_html_chars;
+  const render = ia.texto_renderizado_chars;
+  if (html !== null && render !== null && render >= 400 && html < render * 0.3) {
+    add({
+      descricao_curta: 'Para as IAs a página aparece quase vazia',
+      evidencia: `O HTML entregue tem ${html} caracteres de texto; o texto só chega a ${render} caracteres depois que a programação da página roda, e a maioria dos robôs de IA não roda essa programação`,
+      gravidade: 4,
+    });
+  }
+  if (!ia.dados_estruturados.some((t) => TIPOS_NEGOCIO.test(t))) {
+    add({
+      descricao_curta: 'Google e IAs não recebem de forma organizada o que a empresa faz, onde fica e como contatar',
+      evidencia: ia.dados_estruturados.length
+        ? `Dados estruturados encontrados (${ia.dados_estruturados.join(', ')}), mas nenhum descreve a empresa`
+        : 'Nenhum dado estruturado schema.org (JSON-LD ou microdata) na página inicial',
+      gravidade: 3,
+    });
+  }
+  if (!ia.tem_faq) {
+    add({
+      descricao_curta: 'O site não responde as dúvidas que os clientes perguntam para a IA',
+      evidencia: 'Nenhuma seção de perguntas frequentes e nenhum FAQPage na página inicial',
+      gravidade: 2,
+    });
+  }
+  if (!temContatoNoTexto) {
+    add({
+      descricao_curta: 'Uma IA que lê o site não encontra telefone nem endereço',
+      evidencia: 'Nenhum telefone ou endereço em texto na página inicial (só em imagem ou ausente)',
+      gravidade: 2,
+    });
+  }
+  if (ia.controles_sem_nome !== null && ia.controles_sem_nome >= 3) {
+    add({
+      descricao_curta: 'Assistentes de IA que navegam sozinhos não entendem parte dos botões',
+      evidencia: `${ia.controles_sem_nome} botões ou links sem texto nem rótulo na página inicial`,
+      gravidade: 2,
+    });
+  }
+  if (mobile?.acessibilidade != null && mobile.acessibilidade < 70) {
+    add({
+      descricao_curta: 'O site é difícil de usar por leitores de tela e agentes de IA',
+      evidencia: `Google PageSpeed: acessibilidade ${mobile.acessibilidade}/100`,
+      gravidade: 2,
+    });
+  }
+  if (!ia.sitemap) {
+    add({
+      descricao_curta: 'O Google não recebe a lista de páginas do site',
+      evidencia: 'sitemap.xml não encontrado nem indicado no robots.txt',
+      gravidade: 1,
+    });
+  }
+  if (!ia.llms_txt) {
+    add({
+      descricao_curta: 'Não tem um resumo próprio para assistentes de IA (llms.txt)',
+      evidencia: 'Arquivo /llms.txt não encontrado',
+      gravidade: 1,
+    });
+  }
+  return out;
 }

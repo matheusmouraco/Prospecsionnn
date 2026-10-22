@@ -79,8 +79,39 @@ export const EXTRACT_SCRIPT = String.raw`(() => {
   const photos = imgs.filter((i) => i.naturalWidth >= 600 && i !== logoImg)
     .map((i) => abs(i.currentSrc || i.getAttribute('src'))).filter(Boolean);
 
+  // schema.org types from JSON-LD (including @graph) and microdata.
+  const ldTypes = [];
+  const walk = (n) => {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) { n.forEach(walk); return; }
+    const t = n['@type'];
+    if (t) (Array.isArray(t) ? t : [t]).forEach((x) => ldTypes.push(String(x)));
+    if (n['@graph']) walk(n['@graph']);
+  };
+  for (const s of Array.from(document.querySelectorAll('script[type="application/ld+json"]'))) {
+    try { walk(JSON.parse(s.textContent || '')); } catch {}
+  }
+  for (const el of Array.from(document.querySelectorAll('[itemtype]'))) {
+    const t = (el.getAttribute('itemtype') || '').split('/').pop();
+    if (t) ldTypes.push(t);
+  }
+  const faqHeading = Array.from(document.querySelectorAll('h1,h2,h3,h4,summary,button'))
+    .some((el) => /perguntas frequentes|d[uú]vidas frequentes|faq/i.test(txt(el)));
+  // Controls an AI agent cannot identify: no visible text, aria-label, title or alt on an inner image.
+  const nameless = Array.from(document.querySelectorAll('a[href],button,[role="button"],input[type="submit"],input[type="button"]'))
+    .filter(visible)
+    .filter((el) => {
+      const label = (el.getAttribute('aria-label') || el.getAttribute('title') || el.getAttribute('value') || '').trim();
+      const imgAlt = Array.from(el.querySelectorAll('img[alt]')).some((i) => (i.getAttribute('alt') || '').trim());
+      return !txt(el) && !label && !imgAlt && !el.getAttribute('aria-labelledby');
+    }).length;
+
   return {
     url_final: location.href,
+    dados_estruturados: Array.from(new Set(ldTypes)),
+    tem_faq: faqHeading || ldTypes.includes('FAQPage'),
+    controles_sem_nome: nameless,
+    texto_renderizado_chars: (bodyText || '').replace(/\s+/g, ' ').trim().length,
     title: document.title ? document.title.trim() : null,
     meta_description: (attr('meta[name="description"]', 'content') || '').trim() || null,
     h1: Array.from(document.querySelectorAll('h1')).map(txt).filter(Boolean),

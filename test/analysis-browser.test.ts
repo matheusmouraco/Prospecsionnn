@@ -65,9 +65,15 @@ describe('analyzeSite with a real browser', () => {
 
     const a = await analyzeSite(
       { dominio: 'clinicasorriso.test', empresa: 'Clínica Sorriso', lista: '40679415' },
-      { browser, pagespeedKey: 'k', outDir, pagespeed, vision },
+      { browser, pagespeedKey: 'k', outDir, pagespeed, vision, fetch: async (u: string) =>
+        u.endsWith('/robots.txt') ? new Response('User-agent: GPTBot\nDisallow: /', { headers: { 'content-type': 'text/plain' } }) : new Response('', { status: 404 }) },
     );
 
+    expect(a.prontidao_ia).toMatchObject({ bots_bloqueados: ['GPTBot'], dados_estruturados: ['WebSite'], tem_faq: false, controles_sem_nome: 3 });
+    expect(a.problemas.filter((p) => p.tipo === 'ia').map((p) => p.descricao_curta)).toEqual(expect.arrayContaining([
+      'O site impede que ChatGPT e outras IAs leiam o conteúdo',
+      'Assistentes de IA que navegam sozinhos não entendem parte dos botões',
+    ]));
     expect(['erro_ssl', 'ok'], JSON.stringify(a.acesso)).toContain(a.acesso.status);
     expect(psiCalls).toHaveLength(2);
     for (const f of Object.values(a.prints!)) expect((await stat(f)).size).toBeGreaterThan(1000);

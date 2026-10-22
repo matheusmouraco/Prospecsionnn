@@ -50,6 +50,16 @@ export function renderReport(items: ReportItem[], minScore: number): string {
         `- **Marca:** logo ${a.marca.logo_url ? `[link](${a.marca.logo_url})` : 'não encontrado'}; cores ${a.marca.cores.join(', ') || '-'}; fontes ${a.marca.fonte_titulo ?? '-'} / ${a.marca.fonte_corpo ?? '-'}`,
       );
     }
+    const ia = a.prontidao_ia;
+    if (ia) {
+      const sim = (b: boolean) => (b ? 'sim' : 'não');
+      lines.push(
+        `- **Busca por IA (GEO):** IAs bloqueadas no robots.txt: ${ia.bots_bloqueados.join(', ') || 'nenhuma'}; ` +
+          `texto sem JavaScript ${ia.texto_html_chars ?? '-'} de ${ia.texto_renderizado_chars ?? '-'} caracteres; ` +
+          `dados estruturados: ${ia.dados_estruturados.join(', ') || 'nenhum'}; FAQ ${sim(ia.tem_faq)}; ` +
+          `sitemap ${sim(ia.sitemap)}; llms.txt ${sim(ia.llms_txt)}; botões sem nome ${ia.controles_sem_nome ?? '-'}`,
+      );
+    }
     lines.push('', '| Gravidade | Tipo | Problema | Evidência | Origem |', '| ---: | --- | --- | --- | --- |');
     for (const p of a.problemas) {
       lines.push(`| ${p.gravidade} | ${p.tipo} | ${p.descricao_curta} | ${p.evidencia.replace(/\|/g, '/')} | ${p.origem} |`);

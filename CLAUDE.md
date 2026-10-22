@@ -235,6 +235,8 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 ## Notas sobre a análise (Fase 3)
 
 - Problemas vêm de duas fontes, marcadas em `origem`: `medido` (PageSpeed e HTML, em `src/analysis/checks.ts`, com o número na evidência) e `visual` (Claude, só o que aparece no print). O Claude nunca reescreve os medidos.
+- **Busca por IA (GEO) e agentes:** `src/analysis/ai-readiness.ts` mede robots.txt bloqueando robôs de IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended...), texto que só existe com JavaScript, dados estruturados schema.org, FAQ, telefone/endereço em texto, botões sem nome (agentes que navegam), acessibilidade do PageSpeed, sitemap e llms.txt. Vira problemas do tipo `ia` e fica em `analises.prontidao_ia`.
+- Pedido do Moura para os emails (Fase 4): usar o ângulo "seus clientes hoje também pesquisam no ChatGPT, Gemini e no Google com IA, e seu site não está preparado para aparecer lá", sempre apoiado num problema `ia` medido do próprio site. Não citar estatísticas de mercado sem fonte.
 - O nicho usado no email e no esboço é `empresas.nicho` (detectado no site), não o nome da lista.
 - Prints ficam em `out/analises/<dominio>/` e o caminho local vai para `analises.print_*_url`. Na Fase 7 passam para o R2 privado.
 - Cores da marca: variáveis CSS do `:root` + 5 cores mais presentes medidas no DOM (por área), não por pixel do print.
