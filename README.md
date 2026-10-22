@@ -26,6 +26,17 @@ Onde achar cada valor no painel do Supabase:
 
 Se preferir não usar `db:migrate`, dá para colar o conteúdo de `supabase/migrations/0001_init.sql` no SQL Editor do Supabase. Depois disso o `db:migrate` não deve ser usado nesse banco (ele não saberá que a migration já foi aplicada).
 
+## Fase 2 (Snov)
+
+```bash
+# no .env: SNOV_CLIENT_ID, SNOV_CLIENT_SECRET (Snov > Settings > API)
+npm run db:migrate                 # aplica a migration 0002
+npm run snov:lists                 # descubra os ids e coloque em SNOV_SOURCE_LIST_IDS
+npm run snov:inspect               # confira em out/snov-amostra.json se "interpretado.website" veio preenchido
+npm run snov:import -- --preview   # contagem de empresas únicas com site, sem gravar
+npm run snov:import                # grava no banco
+```
+
 ## Comandos
 
 | Comando | O que faz |
@@ -35,6 +46,10 @@ Se preferir não usar `db:migrate`, dá para colar o conteúdo de `supabase/migr
 | `npm run build` | Compila para `dist/` |
 | `npm run db:migrate` | Aplica migrations pendentes de `supabase/migrations/` |
 | `npm run db:check` | Critério da Fase 1: conexão ok e todas as tabelas acessíveis |
+| `npm run snov:lists` | Lista as listas do Snov com os ids |
+| `npm run snov:inspect -- <id>` | Salva uma amostra crua da lista em `out/snov-amostra.json` |
+| `npm run snov:import -- --preview` | Lê e deduplica sem gravar nada (relatório em `out/importacao.md`) |
+| `npm run snov:import` | Importa de verdade para o banco, status `novo` |
 
 ## Segurança
 

@@ -2,7 +2,7 @@
   "name": "prospector-matilab",
   "version": "0.1.0",
   "private": true,
-  "description": "Prospecção fria automatizada da Matilab",
+  "description": "Prospec\u00e7\u00e3o fria automatizada da Matilab",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -12,7 +12,10 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:migrate": "tsx src/scripts/db-migrate.ts",
-    "db:check": "tsx src/scripts/db-check.ts"
+    "db:check": "tsx src/scripts/db-check.ts",
+    "snov:lists": "tsx src/scripts/snov-lists.ts",
+    "snov:inspect": "tsx src/scripts/snov-inspect.ts",
+    "snov:import": "tsx src/scripts/snov-import.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",

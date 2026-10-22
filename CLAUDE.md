@@ -9,7 +9,7 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 ## Status das fases
 
 - [x] Fase 1: Setup (código pronto; falta rodar `npm run db:migrate` e `npm run db:check` com o `.env` real)
-- [ ] Fase 2: Snov
+- [x] Fase 2: Snov (código pronto; falta rodar `snov:inspect` e `snov:import` com credenciais reais)
 - [ ] Fase 3: Análise
 - [ ] Fase 4: Email
 - [ ] Fase 5: Esboço
@@ -222,3 +222,13 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run typecheck` / `npm test` / `npm run build`
 - `npm run db:migrate`: aplica `supabase/migrations/*.sql` em ordem (precisa `SUPABASE_DB_URL`)
 - `npm run db:check`: confere conexão e existência das tabelas (critério da Fase 1)
+- `npm run snov:lists`: mostra as listas da conta e seus ids
+- `npm run snov:inspect -- <listId>`: salva 5 prospects crus em `out/snov-amostra.json` para conferir os nomes de campo
+- `npm run snov:import -- [--preview] [listIds...]`: importa e deduplica; relatório em `out/importacao.md` (critério da Fase 2)
+
+## Notas sobre a API do Snov
+
+- Referência confirmada (out/2026): token em `POST /v1/oauth/access_token` (1h), `GET /v1/get-user-lists`, `/v1/prospect-list` (listId, page, perPage até 5000, sem custo de crédito), limite de 60 req/min.
+- A doc diverge sobre `prospect-list` ser POST ou GET: o cliente tenta POST e cai para GET em 405.
+- O nome do campo do site da empresa não está documentado com clareza. `src/snov/parse.ts` procura em vários nomes. Se o `snov:inspect` mostrar outro nome, ajustar lá e adicionar um teste.
+- Inserção sempre via RPC `importar_prospect` (empresa + contato na mesma transação; recusa domínio/email já existente ou bloqueado).
