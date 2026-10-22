@@ -12,7 +12,7 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 - [x] Fase 2: Snov (28 dentistas importados da lista 40679415)
 - [x] Fase 3: Análise (10 sites reais analisados e aprovados pelo Moura)
 - [x] Fase 4: Email (21 emails reais gerados e revisados pelo Moura; campos `saudacao` e `site_da_empresa` acrescentados na revisão. O envio ao Snov, com custom fields + lista de saída, ainda não foi feito: exige conferir os endpoints na doc, regra 9)
-- [ ] Fase 5: Esboço
+- [ ] Fase 5: Esboço (código e templates prontos e testados; falta rodar `npm run esbocos -- --limit 5` com dados reais e revisar)
 - [ ] Fase 6: Respostas
 - [ ] Fase 7: Cloudflare + Telegram + travas + resumo diário
 - [ ] Fase 8: Produção
@@ -232,6 +232,18 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run analyze -- [--limit N]`: analisa prospects `novo` e gera `out/analises.md` (critério da Fase 3)
 - `npm run analyze -- --dominio site.com.br`: analisa um site avulso, sem mexer na fila
 - `npm run emails -- [--limit N]`: escreve os custom fields dos prospects `analisado`, grava em `emails`, move para `email_pronto` e gera `out/emails.md` (critério da Fase 4). Não envia nada.
+
+- `npm run esbocos -- [--limit N | --dominio site.com.br]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada.
+
+## Notas sobre o esboço (Fase 5)
+
+- Templates em `/templates` (`saude`, `profissional`, `negocios`): o MODEL_DESIGN escolhe e adapta, nunca cria do zero. Botões usam `%%WHATSAPP%%`, trocado pelo `SENDER_WHATSAPP_URL`. O marcador `<!-- COMPARATIVO -->` recebe a seção comparativa.
+- `src/draft/rules.ts`: o código força a faixa com o texto exato, o noindex e remove scripts; recusa (e manda refazer) form/input, botão sem WhatsApp, texto de exemplo esquecido, travessão e qualquer número que não exista no texto do site original.
+- Dados estruturados schema.org da empresa são injetados pelo código, só com fatos reais.
+- Comparativo "site atual vs proposta" (`src/draft/gains.ts`): o mesmo script de extração roda no esboço; só entra problema medido no original que passou a estar resolvido no esboço (até 3). Velocidade, HTTPS, sitemap e llms.txt ficam de fora porque só dá para medir depois de publicado.
+- Juiz (`MODEL_DESIGN`) compara prints do esboço com o print do site atual. Abaixo de `JUDGE_MIN_SCORE`, refaz com o feedback; 3 tentativas; guarda a melhor. Sem aprovação, `aprovado=false` (na Fase 7 isso vira aviso ao Moura em vez de envio).
+- Geração usa streaming, cache do prompt (instruções + templates) e fallback do servidor (`fallbacks: "default"`).
+- `esbocos` guarda slug, nota e tentativas; `url` e `expira_em` só são preenchidos ao publicar (Fase 7).
 
 ## Notas sobre o email (Fase 4)
 

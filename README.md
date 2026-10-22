@@ -64,6 +64,17 @@ open -e out/emails.md
 
 Gera os campos personalizados (sem enviar nada) e mostra cada email 1 montado. O texto da sequência para criar no Snov está em `prompts/sequencia-snov.md`.
 
+## Fase 5 (Esboços)
+
+```bash
+# no .env: SENDER_WHATSAPP_URL=https://wa.me/55DDDNUMERO
+npm run esbocos -- --limit 5
+open -e out/esbocos.md
+open out/esbocos/<site>/index.html
+```
+
+Gera a página "seu site, só que melhor" de 5 empresas analisadas, com nota do juiz. Nada é publicado.
+
 ## Comandos
 
 | Comando | O que faz |

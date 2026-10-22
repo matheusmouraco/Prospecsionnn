@@ -88,3 +88,48 @@ export async function parseJson<T extends z.ZodType>(opts: ParseJsonOptions<T>):
   }
   throw new Error('Claude não devolveu JSON válido após 2 tentativas');
 }
+
+export interface GenerateTextOptions {
+  model: string;
+  system: Anthropic.Beta.BetaTextBlockParam[];
+  content: Anthropic.Beta.BetaContentBlockParam[];
+  effort?: 'low' | 'medium' | 'high' | 'xhigh' | 'max';
+  maxTokens?: number;
+  recordCost?: (usd: number) => Promise<void>;
+  anthropic?: Anthropic;
+}
+
+// Long free-text output (e.g. a full HTML page). Streams to avoid HTTP timeouts and enables the
+// server-side fallback, so a refusal by the main model is retried on a fallback model in the same call.
+export async function generateText(opts: GenerateTextOptions): Promise<{ text: string; costUsd: number; model: string }> {
+  const anthropic = opts.anthropic ?? getAnthropic();
+  const record = opts.recordCost ?? ((usd: number) => incrementMetric('custo_api_usd', usd));
+
+  const response = await anthropic.beta.messages
+    .stream({
+      model: opts.model,
+      max_tokens: opts.maxTokens ?? 64000,
+      system: opts.system,
+      messages: [{ role: 'user', content: opts.content }],
+      ...(opts.effort ? { output_config: { effort: opts.effort } } : {}),
+      betas: ['server-side-fallback-2026-07-01'],
+      fallbacks: 'default',
+    })
+    .finalMessage();
+
+  const servedBy = response.model ?? opts.model;
+  const usd = costUsd(servedBy, response.usage);
+  await record(usd);
+  log.info('Chamada ao Claude (texto longo)', {
+    modelo: servedBy,
+    tokens_entrada: response.usage.input_tokens,
+    tokens_cache: response.usage.cache_read_input_tokens ?? 0,
+    tokens_saida: response.usage.output_tokens,
+    custo_usd: Number(usd.toFixed(4)),
+  });
+
+  if (response.stop_reason === 'refusal') throw new ClaudeRefusalError(response.stop_details?.category ?? null);
+  if (response.stop_reason === 'max_tokens') throw new Error('Resposta do Claude cortada por limite de tamanho');
+  const text = response.content.map((b) => (b.type === 'text' ? b.text : '')).join('');
+  return { text, costUsd: usd, model: servedBy };
+}

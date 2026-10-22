@@ -17,7 +17,8 @@
     "snov:inspect": "tsx src/scripts/snov-inspect.ts",
     "snov:import": "tsx src/scripts/snov-import.ts",
     "analyze": "tsx src/scripts/analyze.ts",
-    "emails": "tsx src/scripts/emails.ts"
+    "emails": "tsx src/scripts/emails.ts",
+    "esbocos": "tsx src/scripts/esbocos.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",
