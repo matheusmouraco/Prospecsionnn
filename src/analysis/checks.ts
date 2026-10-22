@@ -135,7 +135,7 @@ export function measuredProblems(
       });
     }
     const ultimoAno = d.anos_copyright.length ? Math.max(...d.anos_copyright) : null;
-    if (ultimoAno !== null && ultimoAno <= anoAtual - 2) {
+    if (ultimoAno !== null && ultimoAno <= anoAtual - 3) {
       add({
         tipo: 'design',
         descricao_curta: 'O site passa a impressão de abandonado',

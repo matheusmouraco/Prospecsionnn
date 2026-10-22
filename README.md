@@ -55,6 +55,15 @@ open -e out/analises.md
 
 Os prints ficam em `out/analises/<dominio>/`.
 
+## Fase 4 (Emails)
+
+```bash
+npm run emails -- --limit 10
+open -e out/emails.md
+```
+
+Gera os campos personalizados (sem enviar nada) e mostra cada email 1 montado. O texto da sequência para criar no Snov está em `prompts/sequencia-snov.md`.
+
 ## Comandos
 
 | Comando | O que faz |
@@ -69,6 +78,7 @@ Os prints ficam em `out/analises/<dominio>/`.
 | `npm run snov:import -- --preview` | Lê e deduplica sem gravar nada (relatório em `out/importacao.md`) |
 | `npm run snov:import` | Importa de verdade para o banco, status `novo` |
 | `npm run analyze -- --limit 10` | Analisa sites da fila e gera `out/analises.md` |
+| `npm run emails -- --limit 10` | Escreve os campos do email e gera `out/emails.md` (não envia) |
 
 ## Segurança
 

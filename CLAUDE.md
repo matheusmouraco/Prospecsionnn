@@ -10,8 +10,8 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 
 - [x] Fase 1: Setup (migrations aplicadas e schema `prospector` exposto no projeto `metodo-tracao`; falta rodar `npm run db:check` com o `.env` real)
 - [x] Fase 2: Snov (28 dentistas importados da lista 40679415)
-- [ ] Fase 3: Análise (código pronto e testado; falta rodar `npm run analyze -- --limit 10` com as chaves reais e revisar `out/analises.md`)
-- [ ] Fase 4: Email
+- [x] Fase 3: Análise (10 sites reais analisados e aprovados pelo Moura)
+- [ ] Fase 4: Email (geração pronta e testada; falta rodar `npm run emails -- --limit 10` com dados reais. O envio ao Snov, com custom fields + lista de saída, ainda não foi feito: exige conferir os endpoints na doc, regra 9)
 - [ ] Fase 5: Esboço
 - [ ] Fase 6: Respostas
 - [ ] Fase 7: Cloudflare + Telegram + travas + resumo diário
@@ -231,6 +231,15 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run snov:import -- [--preview] [listIds...]`: importa e deduplica; relatório em `out/importacao.md` (critério da Fase 2)
 - `npm run analyze -- [--limit N]`: analisa prospects `novo` e gera `out/analises.md` (critério da Fase 3)
 - `npm run analyze -- --dominio site.com.br`: analisa um site avulso, sem mexer na fila
+- `npm run emails -- [--limit N]`: escreve os custom fields dos prospects `analisado`, grava em `emails`, move para `email_pronto` e gera `out/emails.md` (critério da Fase 4). Não envia nada.
+
+## Notas sobre o email (Fase 4)
+
+- Quem escolhe os dois problemas é o código (`src/email/select.ts`): problema_1 é o mais grave (medido ganha empate); problema_2 é o problema `ia` mais grave quando existe, senão o próximo de outro tipo. O Claude só reescreve.
+- `src/email/validate.ts` recusa: campo acima de 255 caracteres, travessão, jargão técnico, frase de IA, link, número que não está na evidência do problema e qualquer número no gancho (sem estatística inventada). Recusou, o Claude reescreve com a lista do que corrigir (até 3 tentativas).
+- `emails.campos` guarda os 5 campos do Snov e `fontes`, com o problema e a evidência de onde cada frase saiu.
+- Texto da sequência para montar no Snov: `prompts/sequencia-snov.md` (não é usado pelo código).
+- "Site abandonado" só com © de 3 anos ou mais atrás (© 2024 em 2026 não conta).
 
 ## Notas sobre a análise (Fase 3)
 

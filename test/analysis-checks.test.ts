@@ -58,9 +58,9 @@ describe('measuredProblems', () => {
     expect(probs[0]!.gravidade).toBe(5); // sorted by severity
   });
 
-  it('does not call a recent copyright year abandoned', () => {
-    const probs = measuredProblems(ok({ anos_copyright: [2025] }), null, null, 2026);
-    expect(probs.some((p) => p.tipo === 'design')).toBe(false);
+  it('does not call a recent copyright year abandoned (needs 3+ years)', () => {
+    expect(measuredProblems(ok({ anos_copyright: [2024] }), null, null, 2026).some((p) => p.tipo === 'design')).toBe(false);
+    expect(measuredProblems(ok({ anos_copyright: [2023] }), null, null, 2026).some((p) => p.tipo === 'design')).toBe(true);
   });
 
   it('reports access problems', () => {
