@@ -8,7 +8,7 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 
 ## Status das fases
 
-- [x] Fase 1: Setup (migrations 0001 e 0002 aplicadas no projeto Supabase `metodo-tracao`; falta expor o schema `prospector` na Data API e rodar `npm run db:check`)
+- [x] Fase 1: Setup (migrations aplicadas e schema `prospector` exposto no projeto `metodo-tracao`; falta rodar `npm run db:check` com o `.env` real)
 - [x] Fase 2: Snov (código pronto; falta rodar `snov:inspect` e `snov:import` com credenciais reais)
 - [ ] Fase 3: Análise
 - [ ] Fase 4: Email
@@ -78,6 +78,8 @@ Cada ciclo do cron pega registros por status e avança um passo. Nunca processar
 ## Banco (Supabase)
 
 Projeto Supabase: `metodo-tracao` (ref `bzarlpqkbbvhuwmmdzem`), compartilhado com outros apps (Método Tração, gd, srg, buscaepoxi...). Por isso **tudo do prospector fica no schema Postgres `prospector`**, nunca em `public`. Só a `service_role` tem acesso ao schema; anon/authenticated não têm nem `usage`. Funções sempre com `set search_path = prospector, pg_temp`. O cliente usa `db: { schema: 'prospector' }` (`src/db/client.ts`).
+
+Schemas expostos na API: neste projeto são definidos **no banco** (`alter role authenticator set pgrst.db_schemas = ...`), o que sobrepõe o campo Exposed schemas do painel. Valor atual: `public, graphql_public, nexoleum, buscaepoxi, prospector`. Ao mexer, manter todos os existentes e rodar `notify pgrst, 'reload config'`.
 
 Schema em `supabase/migrations/`. Controle de aplicadas em `prospector._migrations` (usado pelo `db:migrate`; se aplicar migration por outro meio, registrar lá também). Tabelas: `empresas`, `prospects`, `analises`, `emails`, `respostas`, `esbocos`, `bloqueados`, `metricas_diarias`, `controle`. Nunca editar uma migration já aplicada; criar uma nova.
 

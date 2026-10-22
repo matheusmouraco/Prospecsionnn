@@ -13,7 +13,7 @@ A especificação completa (regras, máquina de estados, fases) está em [`CLAUD
 
 O sistema usa o projeto Supabase **metodo-tracao**, que também guarda outros apps. Todas as tabelas do prospector ficam no schema `prospector`, separadas do resto. As migrations 0001 e 0002 já foram aplicadas.
 
-Passo manual obrigatório (uma vez): no painel do Supabase, **Project Settings > Data API > Exposed schemas**, adicione `prospector` e salve. Sem isso o backend não enxerga as tabelas. É seguro: só a service role tem permissão nesse schema.
+O schema `prospector` já está exposto na API. Neste projeto essa configuração fica no próprio banco (`pgrst.db_schemas` do role `authenticator`) e tem prioridade sobre o campo Exposed schemas do painel. É seguro: só a service role tem permissão nesse schema.
 
 ## Primeiros passos (Fase 1)
 
