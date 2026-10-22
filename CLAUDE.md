@@ -13,7 +13,7 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 - [x] Fase 3: Análise (10 sites reais analisados e aprovados pelo Moura)
 - [x] Fase 4: Email (21 emails reais gerados e revisados pelo Moura; campos `saudacao` e `site_da_empresa` acrescentados na revisão. O envio ao Snov, com custom fields + lista de saída, ainda não foi feito: exige conferir os endpoints na doc, regra 9)
 - [x] Fase 5: Esboço (5 esboços reais gerados e aprovados pelo Moura: ibo, dentelli, cirod, rios, dentista na sua casa; 1 versão por empresa, ~US$0,90 e ~6 min cada)
-- [ ] Fase 6: Respostas
+- [x] Fase 6: Respostas (20 de 20 no teste com respostas de exemplo, US$0,06; falta ligar à leitura real do Snov, regra 9)
 - [ ] Fase 7: Cloudflare + Telegram + travas + resumo diário
 - [ ] Fase 8: Produção
 

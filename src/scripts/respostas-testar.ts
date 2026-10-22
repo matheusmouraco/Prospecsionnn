@@ -1,7 +1,7 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { getEnv, requireEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
-import { acaoPara, acoesPara, CATEGORIAS, classifyReply, type Categoria, type Classificacao } from '../replies/classify.js';
+import { acoesPara, CATEGORIAS, classifyReply, type Categoria, type Classificacao } from '../replies/classify.js';
 
 const log = logger.child({ etapa: 'respostas' });
 const FIXTURE = 'test/fixtures/respostas.json';
@@ -35,7 +35,7 @@ function report(linhas: (Exemplo & Classificacao)[]): string {
     '| Categoria | Acertos | Ação do sistema |', '| --- | ---: | --- |',
     ...CATEGORIAS.map((c) => {
       const grupo = linhas.filter((l) => l.esperado === c);
-      return `| ${c} | ${grupo.filter((l) => l.categoria === c).length} de ${grupo.length} | ${acaoPara(c)} |`;
+      return `| ${c} | ${grupo.filter((l) => l.categoria === c).length} de ${grupo.length} | ${acoesPara({ categoria: c, pediu_esboco: false }).join(' + ')} |`;
     }),
     '', '## Respostas', '',
     '| | Resposta | Esperado | Obtido | Confiança | Ações | Resumo |', '| --- | --- | --- | --- | ---: | --- | --- |',
