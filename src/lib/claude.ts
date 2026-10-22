@@ -105,7 +105,7 @@ export async function generateText(opts: GenerateTextOptions): Promise<{ text: s
   const anthropic = opts.anthropic ?? getAnthropic();
   const record = opts.recordCost ?? ((usd: number) => incrementMetric('custo_api_usd', usd));
 
-  const response = await anthropic.beta.messages
+  const stream = anthropic.beta.messages
     .stream({
       model: opts.model,
       max_tokens: opts.maxTokens ?? 64000,
@@ -114,8 +114,9 @@ export async function generateText(opts: GenerateTextOptions): Promise<{ text: s
       ...(opts.effort ? { output_config: { effort: opts.effort } } : {}),
       betas: ['server-side-fallback-2026-07-01'],
       fallbacks: 'default',
-    })
-    .finalMessage();
+    });
+  const stop = progress(stream);
+  const response = await stream.finalMessage().finally(stop);
 
   const servedBy = response.model ?? opts.model;
   const usd = costUsd(servedBy, response.usage);
@@ -132,4 +133,27 @@ export async function generateText(opts: GenerateTextOptions): Promise<{ text: s
   if (response.stop_reason === 'max_tokens') throw new Error('Resposta do Claude cortada por limite de tamanho');
   const text = response.content.map((b) => (b.type === 'text' ? b.text : '')).join('');
   return { text, costUsd: usd, model: servedBy };
+}
+
+const FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+
+// Live "working" line in the terminal while a long generation streams (only when a person is watching).
+function progress(stream: { on(event: 'text', cb: (delta: string) => void): unknown }): () => void {
+  if (!process.stderr.isTTY) return () => undefined;
+  const start = Date.now();
+  let chars = 0;
+  let frame = 0;
+  stream.on('text', (delta) => {
+    chars += delta.length;
+  });
+  const tick = setInterval(() => {
+    const s = Math.floor((Date.now() - start) / 1000);
+    const tempo = s >= 60 ? `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, '0')}s` : `${s}s`;
+    const fase = chars ? `escrevendo a página (${chars.toLocaleString('pt-BR')} caracteres)` : 'pensando no design';
+    process.stderr.write(`\r\x1b[2K${FRAMES[frame++ % FRAMES.length]} Claude ${fase} · ${tempo}`);
+  }, 250);
+  return () => {
+    clearInterval(tick);
+    process.stderr.write('\r\x1b[2K');
+  };
 }
