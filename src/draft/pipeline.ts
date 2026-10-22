@@ -4,6 +4,7 @@ import { devices, type Browser, type BrowserContextOptions } from 'playwright';
 import type { Problema } from '../analysis/checks.js';
 import type { Marca } from '../analysis/facts.js';
 import { logger } from '../lib/logger.js';
+import { revealPage } from '../lib/page.js';
 import { computeGains, measureDraft } from './gains.js';
 import { join as joinPath } from 'node:path';
 import { PRINTS } from '../references/capture.js';
@@ -66,7 +67,7 @@ async function shoot(browser: Browser, html: string, options: BrowserContextOpti
     const page = await context.newPage();
     await page.setContent(html, { waitUntil: 'load', timeout: 45_000 }).catch(() => undefined);
     await page.waitForLoadState('networkidle', { timeout: 10_000 }).catch(() => undefined);
-    await page.waitForTimeout(800);
+    await revealPage(page);
     if (fullHeight) {
       const height = Math.min(await page.evaluate('document.documentElement.scrollHeight') as number, fullHeight);
       await page.screenshot({ path, fullPage: true, clip: { x: 0, y: 0, width: options.viewport?.width ?? 1440, height } });

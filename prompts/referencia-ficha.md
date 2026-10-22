@@ -8,4 +8,5 @@ Descreva o site de forma que outro designer consiga reproduzir o nível e o esti
 - **paleta**: cores e como são usadas (fundo, destaque, contraste).
 - **padroes**: de 4 a 8 padrões de layout e seção concretos que fazem este site funcionar (por exemplo: "hero com título de 5 a 7 palavras em 80px, foto sangrando à direita e selo de prova social abaixo do botão").
 - **destaques**: de 2 a 5 detalhes de acabamento que separam este site de um site genérico.
+- **movimento**: como o site usa animação e interação, a partir das bibliotecas detectadas e do que os prints sugerem (por exemplo: "rolagem suave com Lenis, títulos que sobem palavra por palavra ao entrar na tela, imagens com parallax leve, seção de serviços fixa enquanto os cards passam"). Se não houver nada, diga "estático".
 - **nivel**: de 0 a 100, o quanto este site é de alto nível visual comparado aos melhores sites brasileiros atuais.

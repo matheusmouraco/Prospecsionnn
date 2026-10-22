@@ -30,6 +30,7 @@ export function describeReferencias(refs: FichaRef[]): string {
       `- Paleta: ${r.paleta}`,
       `- Padrões: ${r.padroes.join('; ')}`,
       `- Destaques: ${r.destaques.join('; ')}`,
+      `- Movimento: ${r.movimento ?? '-'}${r.bibliotecas?.length ? ` (usa ${r.bibliotecas.join(', ')})` : ''}`,
     ].join('\n'))
     .join('\n\n');
 }

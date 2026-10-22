@@ -14,7 +14,7 @@ Faça:
 - Cor da marca usada com intenção: uma cor dominante, neutros bem escolhidos e um destaque. Contraste de leitura sempre bom.
 - Fotos reais da empresa em destaque, grandes, com recortes bem pensados (`object-fit`, proporções variadas). Se houver poucas fotos, construa a força visual com tipografia, cor, formas e espaço, nunca com imagem genérica.
 - Detalhes de acabamento de site premium: rótulos pequenos acima dos títulos, linhas finas, números de seção, hover cuidadoso, sombras sutis só quando fazem sentido, bordas e raios consistentes.
-- Movimento leve só com CSS (entrada suave, `animation-timeline: view()` quando couber), respeitando `prefers-reduced-motion`.
+- Movimento e interação no nível das referências: a página não pode ser estática. Use o que a ficha de movimento das referências descreve, por exemplo: rolagem suave, títulos que entram palavra por palavra, imagens que revelam com máscara, parallax leve em fotos, seção fixa enquanto o conteúdo passa, faixa de texto correndo (marquee), números de seção que acompanham a rolagem, botões magnéticos, cursor e hovers cuidadosos. Movimento a serviço da leitura, nunca exagerado ou lento.
 - No celular, uma composição desenhada para 390px, não apenas o computador empilhado: título com tamanho certo, botões fáceis de tocar, seções mais curtas.
 - Textos curtos, específicos e com a voz da empresa, a partir do conteúdo real. Frases que só essa empresa poderia dizer.
 
@@ -40,7 +40,9 @@ Não faça (é o que dá cara de IA):
 - Logo após o `<body>`, a faixa: `<div class="faixa-conceito" data-secao="faixa"></div>`, fixa no topo (`position: sticky; top: 0; z-index` alto), fundo escuro neutro, texto branco de 12 a 13px, centralizado, sem cobrir o conteúdo. O texto é preenchido automaticamente.
 - Todo botão ou link de contato usa exatamente `href="%%WHATSAPP%%"`, incluindo um botão flutuante de WhatsApp visível na primeira tela do celular.
 - O comentário exato `<!-- COMPARATIVO -->` antes da seção de contato; ali entra, automaticamente, um comparativo medido entre o site atual e a proposta, que herda as fontes da página.
-- Nenhum `<form>`, `<input>`, `<textarea>`, `<select>` ou `<script>`.
+- Nenhum `<form>`, `<input>`, `<textarea>` ou `<select>`.
+- Scripts só para movimento. Bibliotecas permitidas, sempre com versão fixa e só destes endereços: `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js`, `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js` e `https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js`. Seu código vai em um `<script>` inline no fim do `<body>`. Proibido: fetch, XMLHttpRequest, WebSocket, cookies, localStorage, eval, window.open ou mudar a URL (o código recusa).
+- Todo o conteúdo precisa estar visível sem JavaScript: os estados iniciais escondidos (opacidade 0, deslocado) só valem com a classe `js` no `<html>`, que o seu script adiciona na primeira linha. Se uma biblioteca não carregar, nada some. Com `prefers-reduced-motion: reduce`, desligue animações e rolagem suave.
 - Imagens com `alt` descritivo; botões e links com texto ou `aria-label`; cabeçalhos em ordem (um `<h1>`).
 - Um único arquivo HTML com o CSS em `<style>`. Fontes só do Google Fonts.
 

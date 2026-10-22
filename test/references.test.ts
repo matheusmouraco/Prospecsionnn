@@ -22,7 +22,7 @@ não é url`);
 
 const ficha = (slug: string, segmentos: string[], nivel: number, favorito = false): FichaRef => ({
   slug, url: `https://${slug}.com`, segmentos, nivel, favorito,
-  estilo: '', tipografia: '', paleta: '', padroes: [], destaques: [], fontes: [], cores: [],
+  estilo: '', tipografia: '', paleta: '', padroes: [], destaques: [], fontes: [], cores: [], movimento: 'estático', bibliotecas: [],
 } as Ficha & { slug: string });
 
 const fichas = [

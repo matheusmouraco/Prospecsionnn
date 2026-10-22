@@ -19,11 +19,21 @@ export function templateUsado(html: string): string | null {
   return html.match(/<!--\s*template:\s*([a-z-]+)/i)?.[1]?.toLowerCase() ?? null;
 }
 
+// Animation libraries the draft may load (pinned versions, public CDNs). Anything else is removed.
+export const SCRIPTS_PERMITIDOS = /^https:\/\/(cdnjs\.cloudflare\.com\/ajax\/libs\/(gsap|lenis)\/|cdn\.jsdelivr\.net\/npm\/(gsap|lenis|@studio-freight\/lenis|splitting|swiper)@\d)/i;
+
+// Inline scripts are for motion only: nothing that sends, stores or evaluates data.
+const SCRIPT_PROIBIDO = /\b(fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|eval|Function)\s*\(|new\s+(WebSocket|Function|Worker)|document\.cookie|localStorage|sessionStorage|indexedDB|window\.open|location\s*=|location\.(href|assign|replace)/;
+
 // Enforces what the code can enforce by itself (rule 5): exact banner text, noindex,
-// WhatsApp link and no scripts (structured data is injected later by the code).
+// WhatsApp link, and only allowed external scripts (structured data is injected later by the code).
 export function applyMandatory(html: string, o: { agencia: string; empresa: string; whatsapp: string }): string {
   let out = html.replace(/%%WHATSAPP%%/g, escapeHtml(o.whatsapp));
-  out = out.replace(/<script\b[\s\S]*?<\/script>/gi, '');
+  out = out.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (tag, attrs: string) => {
+    const src = attrs.match(/\bsrc\s*=\s*["']([^"']+)["']/i)?.[1];
+    if (src) return SCRIPTS_PERMITIDOS.test(src) ? tag : '';
+    return /application\/ld\+json/i.test(attrs) ? '' : tag; // structured data comes from the code
+  });
   out = out.replace(
     /(<[^>]+data-secao="faixa"[^>]*>)[\s\S]*?(<\/[a-z]+>)/i,
     `$1${escapeHtml(faixaTexto(o.agencia, o.empresa))}$2`,
@@ -66,6 +76,10 @@ export function validateDraft(html: string, c: DraftCheck): string[] {
   if (!html.includes(`href="${escapeHtml(c.whatsapp)}"`)) issues.push('o botão principal precisa levar ao WhatsApp (%%WHATSAPP%%)');
   if (!html.includes(COMPARATIVO_MARKER)) issues.push(`mantenha o marcador ${COMPARATIVO_MARKER} antes da seção de contato`);
   if (!/<meta[^>]+name="viewport"/i.test(html)) issues.push('falta a meta tag viewport');
+  for (const [, body] of html.matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)) {
+    const bad = body!.match(SCRIPT_PROIBIDO);
+    if (bad) issues.push(`o JavaScript da página só pode animar; remova "${bad[0].trim()}"`);
+  }
 
   const texto = visibleText(html);
   const sobras = texto.match(/\[[A-ZÀ-Úa-zà-ú][^\]]{2,80}\]/g);

@@ -9,3 +9,4 @@ out/
 
 # Reference screenshots are recaptured on each machine (npm run referencias); the design notes are versioned
 referencias/*/*.png
+referencias/manuais/

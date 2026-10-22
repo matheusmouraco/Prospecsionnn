@@ -233,17 +233,17 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run analyze -- --dominio site.com.br`: analisa um site avulso, sem mexer na fila
 - `npm run emails -- [--limit N]`: escreve os custom fields dos prospects `analisado`, grava em `emails`, move para `email_pronto` e gera `out/emails.md` (critério da Fase 4). Não envia nada.
 
-- `npm run referencias [-- --refazer]`: captura os sites de `referencias/lista.txt` e gera as fichas; catálogo em `out/referencias.md`
+- `npm run referencias [-- --refazer]`: captura os sites de `referencias/lista.txt` e os prints de `referencias/manuais/` e gera as fichas; catálogo em `out/referencias.md`
 - `npm run esbocos:aprovar -- site.com.br [--reprovar]`: aprovação manual do esboço
 - `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada.
 
 ## Notas sobre o esboço (Fase 5)
 
 - **Decisão do Moura (out/2026):** templates genéricos ficaram com cara de IA. Agora cada esboço é **personalizado**, criado pelo MODEL_DESIGN em esforço `max`, usando como régua sites de referência. Os templates antigos viraram fixtures de teste (`test/fixtures/esbocos/`).
-- Referências: `referencias/lista.txt` (trabalhos da Matilab + mercado; `*` = favorito, régua de qualidade). `npm run referencias` captura prints (não versionados) e gera `referencias/<slug>/ficha.json` (versionada) com segmentos, estilo, tipografia, paleta, padrões e nível. Rodar uma vez em cada máquina.
+- Referências: `referencias/lista.txt` (trabalhos da Matilab + mercado; `*` = favorito, régua de qualidade). `npm run referencias` captura prints (não versionados) e gera `referencias/<slug>/ficha.json` (versionada) com segmentos, estilo, tipografia, paleta, padrões, movimento (bibliotecas detectadas na página) e nível. Rodar uma vez em cada máquina. Prints salvos à mão (png/jpg/webp) vão em `referencias/manuais/` (não versionada) e viram referências `manual-<nome>`, sem print de celular.
 - Para cada empresa: `chooseReferences` pega a referência mais próxima do nicho + uma favorita. O gerador recebe os prints delas, o print do site atual e a ficha. Inspiração, nunca copiar texto/imagem.
 - Direção de arte em `prompts/esboco-gerar.md` (lista do que dá cara de IA e é proibido). Juiz em `prompts/esboco-juiz.md` com notas de nível das referências e originalidade; nota geral não passa de 70 se uma delas ficar abaixo de 70.
-- `src/draft/rules.ts`: o código força a faixa com o texto exato, o noindex e remove scripts; recusa form/input, botão sem WhatsApp (`%%WHATSAPP%%`), texto de exemplo, travessão e número que não exista no texto do site original. schema.org da empresa injetado pelo código. Marcador `<!-- COMPARATIVO -->` recebe o comparativo medido (`src/draft/gains.ts`).
+- `src/draft/rules.ts`: o código força a faixa com o texto exato e o noindex; scripts só para animação (GSAP/ScrollTrigger e Lenis de CDN com versão fixa, mais JS inline sem fetch, cookies, storage, eval ou troca de URL; o resto é removido ou recusado). Conteúdo visível sem JS (padrão `html.js`), respeitando `prefers-reduced-motion`; recusa form/input, botão sem WhatsApp (`%%WHATSAPP%%`), texto de exemplo, travessão e número que não exista no texto do site original. schema.org da empresa injetado pelo código. Marcador `<!-- COMPARATIVO -->` recebe o comparativo medido (`src/draft/gains.ts`).
 - **Aprovação manual obrigatória** (`esbocos.aprovado`): `npm run esbocos:aprovar -- site.com.br` (ou `--reprovar`). Gerar de novo zera a aprovação. Só esboço aprovado pode ser publicado/enviado (Fase 7).
 - `npm run esbocos -- --refazer --limit 5` refaz os não aprovados. `npm run analyze -- --dominio x` grava a análise nova no banco se a empresa existir (útil depois de melhorar o extrator).
 - Extrator de marca acha logo em `<img>`, SVG inline, fundo CSS ou primeira imagem do cabeçalho, e fotos em `<img>` lazy/srcset e fundos CSS.

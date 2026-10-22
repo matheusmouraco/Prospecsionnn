@@ -37,15 +37,25 @@ describe('draft rules', () => {
     }
   });
 
-  it('removes scripts, restores noindex and the exact banner text', () => {
+  it('keeps animation scripts, drops unknown external scripts, restores noindex and the banner text', () => {
     const raw = filled('saude')
       .replace('<meta name="robots" content="noindex, nofollow">', '')
-      .replace('</body>', '<script>alert(1)</script></body>')
+      .replace('</body>', `<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://evil.example.com/tracker.js"></script>
+<script>document.documentElement.classList.add('js'); gsap.from('h1', { y: 40, opacity: 0 });</script></body>`)
       .replace(/(data-secao="faixa">)[^<]*/, '$1Texto errado');
     const html = applyMandatory(raw, check);
     expect(html).toMatch(/noindex/);
-    expect(html).not.toContain('alert(1)');
+    expect(html).toContain('gsap/3.12.5/gsap.min.js');
+    expect(html).toContain("gsap.from('h1'");
+    expect(html).not.toContain('evil.example.com');
+    expect(validateDraft(html, check)).toEqual([]);
     expect(html).toContain('Proposta conceitual criada pela Matilab para Clínica Sorriso. Este não é o site oficial.');
+  });
+
+  it('rejects scripts that send or store data', () => {
+    const html = applyMandatory(filled('saude').replace('</body>', "<script>fetch('https://x.com', { method: 'POST' }); localStorage.setItem('a', 1)</script></body>"), check);
+    expect(validateDraft(html, check).join()).toContain('o JavaScript da página só pode animar; remova "fetch("');
   });
 
   it('rejects forms, invented numbers, leftovers, dashes and missing pieces', () => {

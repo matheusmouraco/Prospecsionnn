@@ -4,6 +4,7 @@ import { htmlTextLength } from '../analysis/ai-readiness.js';
 import type { Problema } from '../analysis/checks.js';
 import { EXTRACT_SCRIPT } from '../analysis/extract-script.js';
 import type { DomFacts } from '../analysis/facts.js';
+import { revealPage } from '../lib/page.js';
 import type { LinhaComparativo } from './rules.js';
 
 const DESKTOP: BrowserContextOptions = { viewport: { width: 1440, height: 900 }, locale: 'pt-BR' };
@@ -20,7 +21,7 @@ async function factsFor(browser: Browser, html: string, options: BrowserContextO
   try {
     const page = await context.newPage();
     await page.setContent(html, { waitUntil: 'load', timeout: 30_000 }).catch(() => undefined);
-    await page.waitForTimeout(500);
+    await revealPage(page);
     return (await page.evaluate(EXTRACT_SCRIPT)) as DomFacts;
   } finally {
     await context.close();
