@@ -20,7 +20,8 @@
     "emails": "tsx src/scripts/emails.ts",
     "esbocos": "tsx src/scripts/esbocos.ts",
     "referencias": "tsx src/scripts/referencias.ts",
-    "esbocos:aprovar": "tsx src/scripts/esbocos-aprovar.ts"
+    "esbocos:aprovar": "tsx src/scripts/esbocos-aprovar.ts",
+    "esbocos:ajustar": "tsx src/scripts/esbocos-ajustar.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",

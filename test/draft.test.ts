@@ -181,3 +181,22 @@ describe('createDraft', () => {
     expect((await stat(e.arquivos!.mobile)).size).toBeGreaterThan(5000);
   }, 120_000);
 });
+
+describe('draft adjustment', () => {
+  it('strips code-injected parts so they can be re-injected after the edit', async () => {
+    const { stripInjected } = await import('../src/draft/adjust.js');
+    const page = injectSelo(
+      injectComparativo(
+        injectJsonLd(applyMandatory(filled('saude'), check), { nome: 'X', url: 'https://x.com', nicho: null, telefone: null, endereco: null, descricao: null, logo: null }),
+        [{ item: 'A', atual: 'a', proposta: 'b' }, { item: 'B', atual: 'c', proposta: 'd' }],
+      ),
+      'data:image/webp;base64,AA', 'Matilab',
+    );
+    const base = stripInjected(page, WHATS);
+    expect(base).toContain(COMPARATIVO_MARKER);
+    expect(base).not.toContain('data-secao="selo"');
+    expect(base).not.toContain('application/ld+json');
+    expect(base).toContain('href="%%WHATSAPP%%"');
+    expect(validateDraft(applyMandatory(base, check), check)).toEqual([]);
+  });
+});

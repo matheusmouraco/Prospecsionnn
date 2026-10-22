@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { devices, type Browser, type BrowserContextOptions } from 'playwright';
 import type { Problema } from '../analysis/checks.js';
@@ -28,7 +28,7 @@ const LONGA_HEIGHT = 2_700;
 const SELO = join(import.meta.dirname, '..', '..', 'assets', 'selo-matilab.webp');
 
 let seloSrc: string | null = null;
-async function selo(): Promise<string> {
+export async function selo(): Promise<string> {
   seloSrc ??= `data:image/webp;base64,${(await readFile(SELO)).toString('base64')}`;
   return seloSrc;
 }
@@ -87,11 +87,21 @@ async function shoot(browser: Browser, html: string, options: BrowserContextOpti
   }
 }
 
+// Moves the current files of a draft folder to historico/<timestamp>/, so a new run never loses a version.
+export async function arquivar(dir: string): Promise<void> {
+  await mkdir(dir, { recursive: true });
+  const files = (await readdir(dir)).filter((f) => f !== 'historico');
+  if (!files.length) return;
+  const dest = join(dir, 'historico', new Date().toISOString().replace(/[:.]/g, '-'));
+  await mkdir(dest, { recursive: true });
+  for (const f of files) await rename(join(dir, f), join(dest, f));
+}
+
 // Generate > enforce rules > measure gains > render > judge, up to 3 times. Keeps the best version;
 // `aprovado` is false when no version reached the minimum score (Moura is notified instead of sending).
 export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise<Esboco> {
   const dir = join(deps.outDir, input.dominio);
-  await mkdir(dir, { recursive: true });
+  await arquivar(dir);
   const url = `https://${input.dominio}`;
   const fonteNumeros = [input.empresa, input.dominio, ...input.marca.titulos, ...input.marca.paragrafos, input.marca.telefone ?? '', input.marca.endereco ?? ''].join(' ');
 
