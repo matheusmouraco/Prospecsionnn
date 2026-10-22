@@ -9,8 +9,8 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 ## Status das fases
 
 - [x] Fase 1: Setup (migrations aplicadas e schema `prospector` exposto no projeto `metodo-tracao`; falta rodar `npm run db:check` com o `.env` real)
-- [x] Fase 2: Snov (código pronto; falta rodar `snov:inspect` e `snov:import` com credenciais reais)
-- [ ] Fase 3: Análise
+- [x] Fase 2: Snov (28 dentistas importados da lista 40679415)
+- [ ] Fase 3: Análise (código pronto e testado; falta rodar `npm run analyze -- --limit 10` com as chaves reais e revisar `out/analises.md`)
 - [ ] Fase 4: Email
 - [ ] Fase 5: Esboço
 - [ ] Fase 6: Respostas
@@ -229,6 +229,18 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run snov:lists`: mostra as listas da conta e seus ids
 - `npm run snov:inspect -- <listId>`: salva 5 prospects crus em `out/snov-amostra.json` para conferir os nomes de campo
 - `npm run snov:import -- [--preview] [listIds...]`: importa e deduplica; relatório em `out/importacao.md` (critério da Fase 2)
+- `npm run analyze -- [--limit N]`: analisa prospects `novo` e gera `out/analises.md` (critério da Fase 3)
+- `npm run analyze -- --dominio site.com.br`: analisa um site avulso, sem mexer na fila
+
+## Notas sobre a análise (Fase 3)
+
+- Problemas vêm de duas fontes, marcadas em `origem`: `medido` (PageSpeed e HTML, em `src/analysis/checks.ts`, com o número na evidência) e `visual` (Claude, só o que aparece no print). O Claude nunca reescreve os medidos.
+- O nicho usado no email e no esboço é `empresas.nicho` (detectado no site), não o nome da lista.
+- Prints ficam em `out/analises/<dominio>/` e o caminho local vai para `analises.print_*_url`. Na Fase 7 passam para o R2 privado.
+- Cores da marca: variáveis CSS do `:root` + 5 cores mais presentes medidas no DOM (por área), não por pixel do print.
+- O script de extração (`src/analysis/extract-script.ts`) é JS em texto: funções compiladas pelo tsx quebram dentro do `page.evaluate`.
+- Custo de cada chamada ao Claude: `src/lib/cost.ts` (tabela de preços por modelo) somado em `metricas_diarias.custo_api_usd`.
+- Playwright fixado em 1.56.1. No Mac/VPS rodar `npx playwright install chromium` uma vez.
 
 ## Notas sobre a API do Snov
 

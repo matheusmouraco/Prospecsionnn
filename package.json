@@ -15,12 +15,15 @@
     "db:check": "tsx src/scripts/db-check.ts",
     "snov:lists": "tsx src/scripts/snov-lists.ts",
     "snov:inspect": "tsx src/scripts/snov-inspect.ts",
-    "snov:import": "tsx src/scripts/snov-import.ts"
+    "snov:import": "tsx src/scripts/snov-import.ts",
+    "analyze": "tsx src/scripts/analyze.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.1.0",
     "@supabase/supabase-js": "^2.118.0",
     "dotenv": "^18.0.8",
     "pg": "^8.23.1",
+    "playwright": "^1.56.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {

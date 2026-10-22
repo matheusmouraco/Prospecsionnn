@@ -79,3 +79,19 @@ export async function retry(
   if (error) throw new Error(`Falha ao reprocessar prospect ${prospect.id}: ${error.message}`);
   return to;
 }
+
+// Moves a claimed prospect into a working state while keeping the lock, so a crash leaves it
+// reclaimable by claimProspects(status) once the 15-minute lock expires.
+export async function markInProgress(
+  prospect: Pick<ProspectRow, 'id' | 'status'>,
+  to: ProspectStatus,
+  db: Db = getSupabase(),
+): Promise<void> {
+  assertTransition(prospect.status, to);
+  const { error } = await db
+    .from('prospects')
+    .update({ status: to, locked_at: new Date().toISOString() })
+    .eq('id', prospect.id)
+    .eq('status', prospect.status);
+  if (error) throw new Error(`Falha ao marcar prospect ${prospect.id} como ${to}: ${error.message}`);
+}

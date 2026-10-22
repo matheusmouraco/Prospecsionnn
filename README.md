@@ -43,6 +43,18 @@ npm run snov:import -- --preview   # contagem de empresas únicas com site, sem 
 npm run snov:import                # grava no banco
 ```
 
+## Fase 3 (Análise)
+
+```bash
+npx playwright install chromium     # uma vez: baixa o navegador usado nos prints
+# no .env: PAGESPEED_API_KEY e ANTHROPIC_API_KEY
+npm run analyze -- --dominio algumsite.com.br   # teste com um site avulso
+npm run analyze -- --limit 10                   # 10 prospects da fila
+open -e out/analises.md
+```
+
+Os prints ficam em `out/analises/<dominio>/`.
+
 ## Comandos
 
 | Comando | O que faz |
@@ -56,6 +68,7 @@ npm run snov:import                # grava no banco
 | `npm run snov:inspect -- <id>` | Salva uma amostra crua da lista em `out/snov-amostra.json` |
 | `npm run snov:import -- --preview` | Lê e deduplica sem gravar nada (relatório em `out/importacao.md`) |
 | `npm run snov:import` | Importa de verdade para o banco, status `novo` |
+| `npm run analyze -- --limit 10` | Analisa sites da fila e gera `out/analises.md` |
 
 ## Segurança
 
