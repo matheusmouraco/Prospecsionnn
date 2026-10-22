@@ -11,6 +11,7 @@ Classifique a resposta em uma categoria:
 
 Regras:
 - Leia só a resposta da pessoa, não o email original citado.
-- Se aceitou o esboço e também perguntou preço, é interesse (o humano precisa assumir).
+- Se aceitou o esboço e também perguntou preço, prazo ou pediu conversa, é interesse (o humano precisa assumir), com `pediu_esboco` verdadeiro: o esboço é feito mesmo assim.
+- `pediu_esboco`: verdadeiro sempre que a pessoa aceitou ou pediu o esboço, em qualquer categoria; falso caso contrário.
 - `confianca` vai de 0 a 1 e reflete o quanto a categoria é clara pelo texto. Use abaixo de 0,8 sempre que houver ambiguidade real.
 - `resumo`: uma frase curta em português, sem travessão, dizendo o que a pessoa quer.

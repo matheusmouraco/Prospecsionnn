@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { acaoPara, applyThreshold, CATEGORIAS, classifyReply, stripQuoted } from '../src/replies/classify.js';
+import { acaoPara, acoesPara, applyThreshold, CATEGORIAS, classifyReply, stripQuoted } from '../src/replies/classify.js';
 
 describe('reply classification', () => {
   it('keeps only what the person wrote', () => {
@@ -18,11 +18,18 @@ describe('reply classification', () => {
     expect(CATEGORIAS.map(acaoPara)).toEqual(['gerar_esboco', 'notificar_moura', 'bloquear', 'bloquear', 'nenhuma', 'notificar_moura']);
   });
 
+  it('builds the draft and notifies Moura when the person wants the draft and asks the price', () => {
+    expect(acoesPara({ categoria: 'interesse', pediu_esboco: true })).toEqual(['gerar_esboco', 'notificar_moura']);
+    expect(acoesPara({ categoria: 'interesse', pediu_esboco: false })).toEqual(['notificar_moura']);
+    expect(acoesPara({ categoria: 'quer_ver', pediu_esboco: true })).toEqual(['gerar_esboco']);
+    expect(acoesPara({ categoria: 'nao', pediu_esboco: true })).toEqual(['bloquear']);
+  });
+
   it('sends only the reply to the model and applies the threshold', async () => {
     let sent = '';
     const parse = (async (o: { content: { text: string }[] }) => {
       sent = o.content[0]!.text;
-      return { data: { categoria: 'interesse', confianca: 0.6, resumo: 'Quer saber o preço' }, costUsd: 0.001 };
+      return { data: { categoria: 'interesse', confianca: 0.6, resumo: 'Quer saber o preço', pediu_esboco: false }, costUsd: 0.001 };
     }) as never;
     const c = await classifyReply('claude-sonnet-5-5', 'Matilab', { empresa: 'Cirod', texto: 'Quanto custa?\n> email antigo' }, { parse });
     expect(sent).toContain('Quanto custa?');

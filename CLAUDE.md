@@ -242,7 +242,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 ## Notas sobre as respostas (Fase 6)
 
 - Classificador em `src/replies/classify.ts` (prompts `resposta-classificar.md` e `resposta-dados.md`), `MODEL_FAST` com esforço baixo. Antes de classificar, `stripQuoted` remove o email original citado.
-- Confiança abaixo de 0,8 vira `outro` (`categoria_modelo` guarda o que o modelo disse). Aceitou o esboço e perguntou preço = `interesse` (humano assume).
+- Confiança abaixo de 0,8 vira `outro` (`categoria_modelo` guarda o que o modelo disse). Aceitou o esboço e perguntou preço = `interesse` com `pediu_esboco=true`: o esboço é gerado **e** o Moura é avisado para falar do preço (decisão do Moura, `acoesPara`).
 - `acaoPara`: quer_ver > gerar_esboco; interesse e outro > notificar_moura; nao e descadastro > bloquear; ausente > nenhuma.
 - Leitura das respostas no Snov (webhook ou polling) ainda não implementada: exige conferir a doc (regra 9).
 

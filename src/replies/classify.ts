@@ -11,6 +11,7 @@ const ClassificacaoSchema = z.object({
   categoria: z.enum(CATEGORIAS),
   confianca: z.number(),
   resumo: z.string(),
+  pediu_esboco: z.boolean(),
 });
 
 export interface Classificacao {
@@ -18,6 +19,7 @@ export interface Classificacao {
   categoria_modelo: Categoria; // what the model said
   confianca: number;
   resumo: string;
+  pediu_esboco: boolean; // accepted the draft, even when the category is interesse
   custo_usd: number;
 }
 
@@ -39,6 +41,12 @@ export function applyThreshold(categoria: Categoria, confianca: number): Categor
 }
 
 export type Acao = 'gerar_esboco' | 'notificar_moura' | 'bloquear' | 'nenhuma';
+
+// Moura's rule: wants the draft and asked about price > build the draft and also notify him.
+export function acoesPara(c: Pick<Classificacao, 'categoria' | 'pediu_esboco'>): Acao[] {
+  const base = acaoPara(c.categoria);
+  return c.pediu_esboco && base === 'notificar_moura' ? ['gerar_esboco', 'notificar_moura'] : [base];
+}
 
 export function acaoPara(categoria: Categoria): Acao {
   switch (categoria) {
@@ -72,6 +80,7 @@ export async function classifyReply(
     categoria_modelo: data.categoria,
     confianca,
     resumo: data.resumo,
+    pediu_esboco: data.pediu_esboco || data.categoria === 'quer_ver',
     custo_usd: costUsd,
   };
 }

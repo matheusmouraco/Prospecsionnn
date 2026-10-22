@@ -1,7 +1,7 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { getEnv, requireEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
-import { acaoPara, CATEGORIAS, classifyReply, type Categoria, type Classificacao } from '../replies/classify.js';
+import { acaoPara, acoesPara, CATEGORIAS, classifyReply, type Categoria, type Classificacao } from '../replies/classify.js';
 
 const log = logger.child({ etapa: 'respostas' });
 const FIXTURE = 'test/fixtures/respostas.json';
@@ -38,8 +38,8 @@ function report(linhas: (Exemplo & Classificacao)[]): string {
       return `| ${c} | ${grupo.filter((l) => l.categoria === c).length} de ${grupo.length} | ${acaoPara(c)} |`;
     }),
     '', '## Respostas', '',
-    '| | Resposta | Esperado | Obtido | Confiança | Resumo |', '| --- | --- | --- | --- | ---: | --- |',
-    ...linhas.map((l) => `| ${l.categoria === l.esperado ? 'ok' : 'ERRO'} | ${cel(l.texto)} | ${l.esperado} | ${l.categoria}${l.categoria !== l.categoria_modelo ? ` (modelo: ${l.categoria_modelo})` : ''} | ${l.confianca.toFixed(2)} | ${cel(l.resumo)} |`),
+    '| | Resposta | Esperado | Obtido | Confiança | Ações | Resumo |', '| --- | --- | --- | --- | ---: | --- | --- |',
+    ...linhas.map((l) => `| ${l.categoria === l.esperado ? 'ok' : 'ERRO'} | ${cel(l.texto)} | ${l.esperado} | ${l.categoria}${l.categoria !== l.categoria_modelo ? ` (modelo: ${l.categoria_modelo})` : ''} | ${l.confianca.toFixed(2)} | ${acoesPara(l).join(' + ')} | ${cel(l.resumo)} |`),
     '',
   ].join('\n');
 }
