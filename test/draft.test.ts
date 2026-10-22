@@ -145,11 +145,11 @@ describe('createDraft', () => {
     problemas: [P('O botão de contato não aparece na primeira tela do celular', 2), P('O site não responde as dúvidas que os clientes perguntam para a IA', 2)],
   };
 
-  it('regenerates after a rule violation and after a low score, then keeps the approved version', async () => {
+  it('regenerates only after a rule violation; a low score never triggers a new design', async () => {
     const answers = [
       filled('saude', '<p>Mais de 500 pacientes</p>'), // invented number: rejected by rules
-      filled('negocios'),                               // judged 60
-      filled('profissional'),                           // judged 88
+      filled('profissional'),                           // judged 60: kept, not regenerated
+      filled('negocios'),                               // never requested
     ];
     const briefs: string[] = [];
     const generate = async (_m: string, _a: string, brief: string) => {
@@ -165,11 +165,11 @@ describe('createDraft', () => {
     const outDir = await mkdtemp(join(tmpdir(), 'esboco-'));
     const e = await createDraft(input, { browser, outDir, agencia: 'Matilab', whatsapp: WHATS, model: 'claude-opus-5-5', minScore: 80, generate, judge });
 
-    expect(e).toMatchObject({ aprovado: true, nota: 88, tentativas: 3 });
-    expect(e.custo_usd).toBeCloseTo(1.6);
+    expect(e).toMatchObject({ aprovado: false, nota: 60, tentativas: 2 });
+    expect(briefs).toHaveLength(2);
+    expect(e.custo_usd).toBeCloseTo(1.05);
     expect(e.recusas[0]!.join()).toContain('500');
     expect(briefs[1]).toContain('500');                     // rule feedback sent back
-    expect(briefs[2]).toContain('hero apertado no celular'); // judge feedback sent back
     expect(e.ganhos.map((g) => g.item)).toEqual(['Contato no celular', 'Perguntas frequentes']);
 
     const saved = await readFile(join(outDir, 'sorriso.com.br', 'index.html'), 'utf8');

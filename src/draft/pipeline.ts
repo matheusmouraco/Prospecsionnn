@@ -23,6 +23,8 @@ import {
 } from './rules.js';
 
 const log = logger.child({ etapa: 'esboco' });
+// One design per company (Moura's call: the first version is usually the best, and it saves time and money).
+// Extra attempts only happen when the code rejects the page for breaking a hard rule.
 const MAX_ATTEMPTS = 3;
 const LONGA_HEIGHT = 2_700;
 const SELO = join(import.meta.dirname, '..', '..', 'assets', 'selo-matilab.webp');
@@ -97,8 +99,8 @@ export async function arquivar(dir: string): Promise<void> {
   for (const f of files) await rename(join(dir, f), join(dest, f));
 }
 
-// Generate > enforce rules > measure gains > render > judge, up to 3 times. Keeps the best version;
-// `aprovado` is false when no version reached the minimum score (Moura is notified instead of sending).
+// Generate > enforce rules > measure gains > render > judge, once. A rule violation (form, invented number...)
+// is sent back for a fix, up to 3 tries. `aprovado` is false below the minimum score (Moura reviews it).
 export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise<Esboco> {
   const dir = join(deps.outDir, input.dominio);
   await arquivar(dir);
@@ -107,7 +109,7 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
 
   const visual = await visualContext(input.referencias, input.printOriginal, deps.referenciasDir);
   const refUrls = input.referencias.map((r) => r.url);
-  let best: Esboco | null = null;
+  let best = null as Esboco | null;
   let feedback: string[] = [];
   let custo = 0;
   const recusas: string[][] = [];
@@ -179,14 +181,11 @@ export async function createDraft(input: EsbocoInput, deps: EsbocoDeps): Promise
     custo += juizo.custo_usd;
     log.info('Esboço avaliado', { dominio: input.dominio, tentativa: attempt, nota: juizo.nota, originalidade: juizo.originalidade, nivel: juizo.nivel_referencia });
 
-    if (!best || juizo.nota > best.nota) {
-      best = {
-        dominio: input.dominio, html: final, referencias: refUrls, nota: juizo.nota,
-        aprovado: juizo.nota >= deps.minScore, tentativas: attempt, ganhos, juizo, arquivos: files, custo_usd: 0, recusas,
-      };
-    }
-    if (juizo.nota >= deps.minScore) break;
-    feedback = juizo.feedback.length ? juizo.feedback : [`nota ${juizo.nota}: ${juizo.resumo}`];
+    best = {
+      dominio: input.dominio, html: final, referencias: refUrls, nota: juizo.nota,
+      aprovado: juizo.nota >= deps.minScore, tentativas: attempt, ganhos, juizo, arquivos: files, custo_usd: 0, recusas,
+    };
+    break; // the judge scores and comments, but never triggers a new design
   }
 
   if (!best) {
