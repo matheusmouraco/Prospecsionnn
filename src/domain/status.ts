@@ -48,7 +48,8 @@ export const TRANSITIONS: Record<ProspectStatus, readonly ProspectStatus[]> = {
   gerando_esboco: ['esboco_publicado', 'notificado_moura'],
   esboco_publicado: ['link_enviado'],
   link_enviado: REPLY_OUTCOMES.filter((s) => s !== 'respondeu_quer_ver'),
-  respondeu_interesse: ['notificado_moura'],
+  // Price/meeting questions also get the draft (Moura's call), besides the Telegram alert.
+  respondeu_interesse: ['notificado_moura', 'gerando_esboco'],
   notificado_moura: [],
   // "Agora não": contacted again after prospects.retomar_em (6 months), starting from a fresh analysis.
   respondeu_nao: ['novo'],

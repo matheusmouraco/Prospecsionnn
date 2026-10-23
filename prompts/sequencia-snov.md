@@ -79,3 +79,21 @@ Abraço,
 {assinatura}
 
 Se não fizer sentido, é só responder "sair".
+
+---
+
+## Campanha 2: "Esboço pronto" (lista `SNOV_DRAFT_LIST_ID`)
+
+O sistema coloca o lead nessa lista só depois que o Moura aprova o esboço no Telegram, com o custom field
+`link_esboco` preenchido (mais os mesmos campos da campanha 1). Um email só, sem follow-up, parar ao responder,
+texto puro, rastreamento desligado, mesmas 3 caixas e mesma agenda.
+
+**Assunto:** esboço do {site_da_empresa}
+
+{saudacao}, como combinado, aqui está o esboço:
+
+{link_esboco}
+
+É uma proposta conceitual, montada a partir do site atual de vocês. Se quiser conversar sobre colocar no ar, é só responder aqui ou me chamar no WhatsApp pelo botão da página.
+
+{assinatura}

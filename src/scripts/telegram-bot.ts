@@ -1,6 +1,7 @@
 import { requireEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
 import { telegram } from '../telegram/client.js';
+import { ajustar, aprovarEEnviar, naoEnviar } from '../flow/lead-esboco.js';
 import { interpretar, type Turno } from '../telegram/assistant.js';
 import { executar, resumoAtual, type Resposta } from '../telegram/commands.js';
 
@@ -27,7 +28,21 @@ async function main(): Promise<void> {
   let offset = 0;
   const historico: Turno[] = [];
   // Slash commands run directly; anything else goes through the assistant, which can only pick allowed actions.
+  let ajustePendente: string | null = null; // prospect id waiting for Moura's adjustment text
   const responder = async (texto: string): Promise<Resposta> => {
+    const [cmd, id] = texto.trim().split(/\s+/);
+    if (cmd === '/esb_ok' && id) return { texto: await aprovarEEnviar(id) };
+    if (cmd === '/esb_no' && id) return { texto: await naoEnviar(id) };
+    if (cmd === '/esb_aj' && id) {
+      ajustePendente = id;
+      return { texto: 'O que eu mudo? Escreva os ajustes (um por linha ou separados por ponto e vírgula).' };
+    }
+    if (ajustePendente && !texto.startsWith('/')) {
+      const pid = ajustePendente;
+      ajustePendente = null;
+      await telegram('sendMessage', { chat_id: dono, text: '✏️ Ajustando, leva uns minutos...' });
+      return { texto: await ajustar(pid, texto) };
+    }
     if (texto.startsWith('/')) return executar(texto);
     const i = await interpretar(texto, await resumoAtual(), historico);
     historico.push({ de: 'moura', texto }, { de: 'bot', texto: i.resposta });

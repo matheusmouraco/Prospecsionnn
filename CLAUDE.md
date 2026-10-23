@@ -237,6 +237,8 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run snov:lists`: mostra as listas da conta e seus ids
 - `npm run esbocos:publicar -- [site.com.br ...]`: grava no banco o HTML dos esboços aprovados informados e refaz o deploy estático na Vercel (projeto `VERCEL_PROJECT`, time `VERCEL_TEAM_ID`) com todos os publicados em `/<slug>`, `X-Robots-Tag: noindex` e robots.txt bloqueando tudo. Com `DRY_RUN=true` vira deploy de prévia (URL protegida da Vercel); com `false` vai para produção e liga o domínio de `DRAFT_BASE_URL`. Avisa no Telegram
 - `npm run telegram:bot`: bot que fica ouvindo o Moura: comandos (/status, /pausar motivo, /retomar, /painel, /ajuda, com botões) e mensagem livre, interpretada pelo `MODEL_FAST` (`src/telegram/assistant.ts`, prompt `telegram-assistente.md`) que só escolhe entre as mesmas ações; ignora qualquer outro chat
+- `npm run agendador`: processo sempre ligado que roda todos os ciclos no horário (ver seção VPS)
+- `npm run ciclo:esbocos`: gera esboço para os leads que pediram e pede aprovação no Telegram
 - `npm run painel`: monta o painel (funil, respostas, esboços, custo de 14 dias) com dados do banco e publica como deploy de PRÉVIA no projeto `VERCEL_PANEL_PROJECT` (só abre logado na Vercel; dados de leads nunca ficam públicos). Manda o link no Telegram
 - `npm run snov:teste -- email@seu.com [outro@seu.com] [--dominio site.com.br] --confirmar`: coloca os SEUS emails na lista de saída com os campos reais de uma empresa analisada, para receber o email como ela receberia. Ignora o DRY_RUN de propósito (só os emails digitados recebem) e não mexe na fila nem nas métricas; sem `--confirmar` só mostra os campos
 - `npm run travas`: confere as métricas do dia e pausa tudo + avisa no Telegram se bounce > 3%, descadastros > 1% (a partir de 10 envios) ou custo > `MAX_DAILY_API_COST_USD`
@@ -260,8 +262,13 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 
 - Projeto em `/opt/prospector`, copiado do Mac por `deploy/enviar-para-vps.sh` (rsync com `.env`, prints das referências e `out/`; sem git no VPS). Rodar de novo a cada atualização.
 - Primeira vez: `ssh root@72.61.57.12 'bash /opt/prospector/deploy/vps-setup.sh'` (fuso São Paulo, Node 22, Chromium, pm2 com início no boot).
-- pm2 (`deploy/ecosystem.config.cjs`): `bot` sempre ligado, `travas` a cada 30 min, `resumo` às 19h. Ciclos de importação, análise, email, envio e respostas entram na Fase 8.
+- pm2 (`deploy/ecosystem.config.cjs`): só `bot` e `agendador`, sempre ligados. O agendador (`src/scripts/agendador.ts`, horários em `src/scheduler/jobs.ts`, relógio de São Paulo) roda: importar 7h00, analisar 7h20 e emails 8h00 (seg a sex, pulam se já houver 40 em `email_pronto`), enviar 8h15 (seg a sex), respostas e esboços a cada 30 min das 8h às 20h (seg a sáb), travas a cada 30 min e resumo às 19h. Mesmo job falhando 3 vezes seguidas pausa tudo e avisa (trava de autenticação). Deploy ou reinício nunca dispara job fora do horário.
 - Só um bot pode ouvir o Telegram por vez: com o VPS ligado, não rodar `telegram:bot` no Mac.
+
+## Esboço para quem pediu (Fase 8)
+
+- `npm run ciclo:esbocos` (no agendador): pega leads `respondeu_quer_ver` e `respondeu_interesse`, move para `gerando_esboco`, gera o esboço se ainda não existir (`npm run esbocos -- --dominio`) e manda no Telegram os prints de computador e celular com os botões Aprovar e enviar / Ajustar / Não enviar (`src/flow/lead-esboco.ts`).
+- Aprovar: aprova, publica (produção, ou prévia com DRY_RUN) e coloca o lead na `SNOV_DRAFT_LIST_ID` com `link_esboco` (campanha 2 de `prompts/sequencia-snov.md`); status vai a `link_enviado`. Com DRY_RUN nada vai ao lead. Ajustar: o bot pede o texto e roda `esbocos:ajustar`, depois manda a nova versão. Não enviar: `notificado_moura`.
 
 ## Notas sobre a publicação (Fase 7)
 
