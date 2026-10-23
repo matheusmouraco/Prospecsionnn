@@ -20,3 +20,29 @@ export async function motivoPausa(db: Db = getSupabase()): Promise<string> {
   const { data } = await db.from('controle').select('valor').eq('chave', 'motivo_pausa').maybeSingle();
   return (data?.valor as string | undefined) ?? '';
 }
+
+export interface Andamento {
+  status: Record<string, number>;
+  agora: string[];           // domains being analyzed right now
+  ultimos: { dominio: string; status: string; em: string }[];
+  porHora: number;           // prospects that moved in the last hour
+}
+
+// Live view for /andamento: queue by status, what is running and the recent pace.
+export async function andamento(db: Db = getSupabase()): Promise<Andamento> {
+  const status: Record<string, number> = {};
+  for (const s of ['novo', 'analisando', 'analisado', 'email_pronto', 'enviado_snov', 'descartado_site_bom', 'erro', 'gerando_esboco']) {
+    status[s] = await contarStatus([s], db);
+  }
+  const umaHora = new Date(Date.now() - 3600_000).toISOString();
+  const { data, error } = await db.from('prospects').select('status, updated_at, empresas(dominio)')
+    .gte('updated_at', umaHora).order('updated_at', { ascending: false }).limit(500);
+  if (error) throw new Error(`Falha ao ler andamento: ${error.message}`);
+  const rows = (data ?? []) as unknown as { status: string; updated_at: string; empresas: { dominio: string } | null }[];
+  return {
+    status,
+    agora: rows.filter((r) => r.status === 'analisando' || r.status === 'gerando_esboco').map((r) => r.empresas?.dominio ?? '?'),
+    ultimos: rows.filter((r) => r.status !== 'analisando').slice(0, 5).map((r) => ({ dominio: r.empresas?.dominio ?? '?', status: r.status, em: r.updated_at })),
+    porHora: rows.filter((r) => r.status !== 'analisando').length,
+  };
+}

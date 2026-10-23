@@ -45,6 +45,7 @@ async function main(): Promise<void> {
     { command: 'importar', description: 'Puxa leads novos do Snov' },
     { command: 'esboco', description: 'Gera esboço: /esboco site.com.br' },
     { command: 'aprovar', description: 'Aprova esboço: /aprovar site.com.br' },
+    { command: 'andamento', description: 'O que está rodando agora e o ritmo' },
     { command: 'config', description: 'Limites, modo e ciclos, com botões' },
     { command: 'emails', description: 'Escreve emails: /emails 50' },
     { command: 'enviar', description: 'Manda para a campanha agora' },

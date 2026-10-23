@@ -2,7 +2,7 @@ import { getEnv } from '../config/env.js';
 import { isPaused, setPaused } from '../db/control.js';
 import { businessDay } from '../lib/dates.js';
 import { renderResumo } from '../monitor/locks.js';
-import { contarStatus, metricasDoDia, motivoPausa } from '../monitor/store.js';
+import { andamento, contarStatus, metricasDoDia, motivoPausa } from '../monitor/store.js';
 import { readFile } from 'node:fs/promises';
 import { runNpm } from '../lib/run.js';
 import { publishPainel } from '../panel/publish.js';
@@ -29,6 +29,7 @@ export async function resumoAtual(): Promise<string> {
 export const AJUDA = [
   'Dia a dia:',
   '/status: como está o sistema hoje',
+  '/andamento: o que está rodando agora, em qual empresa e o ritmo',
   '/config: limites, modo e ciclos automáticos, com botões',
   '/pausar motivo e /retomar',
   '/painel: atualiza o painel na Vercel',
@@ -110,14 +111,42 @@ const DOMINIO = /^[a-z0-9.-]+\.[a-z]{2,}$/i;
 const limpaDominio = (d = '') => d.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
 
 // Long jobs run in the background and report back on Telegram when they finish.
+const emAndamento = new Map<string, { inicio: number; passo: string }>();
 function emSegundoPlano(titulo: string, passos: [string, string[]][], depois?: () => Promise<string>): void {
+  const chave = `${titulo}#${Date.now()}`;
   void (async () => {
-    for (const [script, args] of passos) {
-      const r = await runNpm(script, args);
-      if (r.code !== 0) return notify(`⚠️ ${titulo} falhou:\n${r.saida.slice(-600)}`);
+    try {
+      for (const [script, args] of passos) {
+        emAndamento.set(chave, { inicio: emAndamento.get(chave)?.inicio ?? Date.now(), passo: script });
+        const r = await runNpm(script, args);
+        if (r.code !== 0) return notify(`⚠️ ${titulo} falhou:\n${r.saida.slice(-600)}`);
+      }
+      await notify(depois ? await depois() : `✅ ${titulo}: pronto.`);
+    } finally {
+      emAndamento.delete(chave);
     }
-    await notify(depois ? await depois() : `✅ ${titulo}: pronto.`);
   })();
+}
+
+const PASSOS: Record<string, string> = { analyze: 'analisando sites', emails: 'escrevendo emails', esbocos: 'criando esboço', 'snov:import': 'importando do Snov', 'snov:enviar': 'enviando', 'respostas:ler': 'lendo respostas', 'esbocos:ajustar': 'ajustando esboço' };
+
+export async function textoAndamento(): Promise<string> {
+  const [a, m] = await Promise.all([andamento(), metricasDoDia()]);
+  const min = (t: number) => Math.round((Date.now() - t) / 60000);
+  const tarefas = [...emAndamento.entries()].map(([k, v]) => `• ${k.split('#')[0]}: ${PASSOS[v.passo] ?? v.passo} (há ${min(v.inicio)} min)`);
+  const ritmo = a.porHora ? `${a.porHora} empresas na última hora` : 'nenhuma empresa avançou na última hora';
+  const s = a.status;
+  return [
+    '⏱️ Andamento agora',
+    tarefas.length ? `Rodando pelo Telegram:\n${tarefas.join('\n')}` : 'Nenhuma tarefa do Telegram rodando (o automático segue no horário).',
+    a.agora.length ? `Trabalhando em: ${a.agora.join(', ')}` : '',
+    `Ritmo: ${ritmo}`,
+    a.ultimos.length ? `Últimas: ${a.ultimos.map((u) => `${u.dominio} (${u.status.replace(/_/g, ' ')})`).join(', ')}` : '',
+    '',
+    `Fila: ${s.novo} para analisar, ${s.analisado} analisadas esperando email, ${s.email_pronto} emails prontos, ${s.enviado_snov} enviadas`,
+    `Descartadas (site bom): ${s.descartado_site_bom}${s.erro ? `, com erro: ${s.erro}` : ''}`,
+    `Gasto hoje: US$${m.custo_api_usd.toFixed(2)}`,
+  ].filter((l, i, arr) => l || arr[i - 1]).join('\n');
 }
 
 const trecho = async (arquivo: string, max = 3500) => (await readFile(arquivo, 'utf8').catch(() => '')).slice(0, max);
@@ -281,6 +310,9 @@ export async function executar(comando: string, confirmado = false): Promise<Res
       const r = await runNpm('esbocos:aprovar', [d]);
       return { texto: r.code === 0 ? `✅ Esboço de ${d} aprovado.` : `Não consegui aprovar: ${r.saida.slice(-300)}` };
     }
+    case '/andamento':
+    case '/agora':
+      return { texto: await textoAndamento(), botoes: [{ texto: '🔄 Atualizar', dados: '/andamento' }] };
     case '/config':
     case '/ajustes':
       return textoConfig();
