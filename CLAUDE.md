@@ -257,7 +257,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 ## VPS (Hostinger KVM2, Ubuntu 24.04, 72.61.57.12)
 
 - Projeto em `/opt/prospector`, copiado do Mac por `deploy/enviar-para-vps.sh` (rsync com `.env`, prints das referências e `out/`; sem git no VPS). Rodar de novo a cada atualização.
-- Primeira vez: `ssh root@72.61.57.12 'bash /opt/prospector/deploy/vps-setup.sh'` (fuso São Paulo, Node 20, Chromium, pm2 com início no boot).
+- Primeira vez: `ssh root@72.61.57.12 'bash /opt/prospector/deploy/vps-setup.sh'` (fuso São Paulo, Node 22, Chromium, pm2 com início no boot).
 - pm2 (`deploy/ecosystem.config.cjs`): `bot` sempre ligado, `travas` a cada 30 min, `resumo` às 19h. Ciclos de importação, análise, email, envio e respostas entram na Fase 8.
 - Só um bot pode ouvir o Telegram por vez: com o VPS ligado, não rodar `telegram:bot` no Mac.
 
