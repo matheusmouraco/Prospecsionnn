@@ -14,6 +14,7 @@
     "db:migrate": "tsx src/scripts/db-migrate.ts",
     "db:check": "tsx src/scripts/db-check.ts",
     "snov:lists": "tsx src/scripts/snov-lists.ts",
+    "telegram:setup": "tsx src/scripts/telegram-setup.ts",
     "snov:inspect": "tsx src/scripts/snov-inspect.ts",
     "snov:import": "tsx src/scripts/snov-import.ts",
     "analyze": "tsx src/scripts/analyze.ts",
