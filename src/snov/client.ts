@@ -12,7 +12,7 @@
 //   companySite, listId (required), updateContact, customFields[nome]=valor (custom fields must exist in Snov).
 //   Response shape not documented; parseAddResult() accepts success/added/updated.
 // - POST https://api.snov.io/v1/do-not-email-list  items[] (emails or domains).
-// - GET  https://api.snov.io/v1/get-emails-replies  campaign_id. Prospect, subject/body, step, date per reply;
+// - GET  https://api.snov.io/v1/get-emails-replies  campaignId (campaign_id returned HTTP 400 on a real account). Prospect, subject/body, step, date per reply;
 //   exact field names not documented, see src/snov/replies.ts and `npm run respostas:ler -- --amostra`.
 // - Webhooks (campaign_reply received) exist via POST /v2/webhooks but need a premium plan; polling is used.
 // - Rate limit: 60 requests per minute across all endpoints.
@@ -159,7 +159,7 @@ export class SnovClient {
   }
 
   async getEmailReplies(campaignId: string): Promise<Record<string, unknown>[]> {
-    const body = await this.request('GET', '/v1/get-emails-replies', { campaign_id: campaignId });
+    const body = await this.request('GET', '/v1/get-emails-replies', { campaignId });
     if (Array.isArray(body)) return body as Record<string, unknown>[];
     const b = (body ?? {}) as Record<string, unknown>;
     for (const key of ['data', 'replies', 'items', 'result']) {
@@ -264,7 +264,11 @@ export class SnovClient {
         continue;
       }
       if (res.status === 401) throw new SnovAuthError(`Snov recusou o token em ${path}`);
-      if (!res.ok) throw new SnovApiError(`Snov respondeu HTTP ${res.status} em ${method} ${path}`, res.status);
+      if (!res.ok) {
+        // The error body says which parameter is wrong; it never carries the token.
+        const detalhe = (await res.text().catch(() => '')).slice(0, 300);
+        throw new SnovApiError(`Snov respondeu HTTP ${res.status} em ${method} ${path}${detalhe ? `: ${detalhe}` : ''}`, res.status);
+      }
       return safeJson(res);
     }
   }

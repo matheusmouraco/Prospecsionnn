@@ -129,7 +129,7 @@ describe('Snov outreach', () => {
   it('reads replies from a wrapped or bare array', async () => {
     const { client, calls } = fakeSnov((c) => (c.url.endsWith('/oauth/access_token') ? tokenOk : { status: 200, body: { data: [{ id: 1 }] } }));
     expect(await client.getEmailReplies('77')).toEqual([{ id: 1 }]);
-    expect(calls.at(-1)!.url).toBe('https://api.snov.io/v1/get-emails-replies?campaign_id=77');
+    expect(calls.at(-1)!.url).toBe('https://api.snov.io/v1/get-emails-replies?campaignId=77');
   });
 
   it('reads the add result defensively', () => {
