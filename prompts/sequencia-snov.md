@@ -85,13 +85,13 @@ Se não fizer sentido, é só responder "sair".
 ## Campanha 2: "Esboço pronto" (lista `SNOV_DRAFT_LIST_ID`, campanha 3206570)
 
 O sistema coloca o lead nessa lista só depois que o Moura aprova o esboço no Telegram, com o custom field
-`link_esboco` preenchido (mais os mesmos campos da campanha 1). Sai SÓ da caixa matheus@ (passagem de bastão:
-a API de respostas não informa qual caixa recebeu a resposta). Um email só, sem follow-up, parar ao responder,
+`link_esboco` preenchido (mais os mesmos campos da campanha 1). Rodízio entre as 3 caixas (decisão do Moura),
+por isso o texto não depende de quem mandou o primeiro email. Um email só, sem follow-up, parar ao responder,
 texto puro, rastreamento desligado, mesma agenda.
 
 **Assunto:** esboço do {site_da_empresa}
 
-{saudacao}, aqui é o Matheus, sócio da Matilab. Recebi seu retorno e preparei o esboço do site de vocês:
+{saudacao}, como combinado, aqui está o esboço do site de vocês:
 
 {link_esboco}
 
