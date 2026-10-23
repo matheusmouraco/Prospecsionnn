@@ -22,6 +22,11 @@ async function main(): Promise<void> {
     { command: 'pausar', description: 'Pausa tudo' },
     { command: 'retomar', description: 'Volta a rodar' },
     { command: 'painel', description: 'Atualiza o painel na Vercel' },
+    { command: 'analisar', description: 'Analisa um site: /analisar site.com.br' },
+    { command: 'fila', description: 'Analisa e escreve emails: /fila 50' },
+    { command: 'importar', description: 'Puxa leads novos do Snov' },
+    { command: 'esboco', description: 'Gera esboço: /esboco site.com.br' },
+    { command: 'aprovar', description: 'Aprova esboço: /aprovar site.com.br' },
     { command: 'ajuda', description: 'Lista de comandos' },
   ] });
   log.info('Bot do Telegram ouvindo');
@@ -48,7 +53,8 @@ async function main(): Promise<void> {
     historico.push({ de: 'moura', texto }, { de: 'bot', texto: i.resposta });
     if (historico.length > 16) historico.splice(0, historico.length - 16);
     if (i.acao === 'nenhuma') return { texto: i.resposta };
-    const r = await executar(i.acao === 'pausar' ? `/pausar ${i.motivo}` : `/${i.acao}`);
+    const arg = i.acao === 'pausar' ? i.motivo : ['analisar', 'esboco', 'aprovar'].includes(i.acao) ? i.dominio : ['fila', 'importar'].includes(i.acao) ? String(i.quantidade || '') : '';
+    const r = await executar(`/${i.acao} ${arg}`.trim());
     return { ...r, texto: `${i.resposta}\n\n${r.texto}` };
   };
   for (;;) {

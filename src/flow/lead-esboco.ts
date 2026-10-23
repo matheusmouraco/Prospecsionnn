@@ -44,10 +44,17 @@ export async function prints(dominio: string): Promise<{ desktop: Buffer; mobile
 export async function pedirAprovacao(lead: LeadEsboco): Promise<void> {
   const dono = requireEnv('TELEGRAM_CHAT_ID');
   const p = await prints(lead.dominio);
-  await sendPhoto(dono, p.desktop, `${lead.empresa ?? lead.dominio} (computador)`);
-  await sendPhoto(dono, p.mobile, 'Celular');
-  await sendMessageWithButtons(dono,
-    `🎨 ${lead.empresa ?? lead.dominio} pediu o esboço (${lead.email}).\nConfere acima. Aprovando, eu publico e mando o link para o lead.`,
+  await sendPhoto(dono, p.desktop, `O que fizemos para ${lead.empresa ?? lead.dominio} (computador)`);
+  await sendPhoto(dono, p.mobile, 'O que fizemos (celular)');
+  await sendMessageWithButtons(dono, [
+    `🔥 ${lead.empresa ?? lead.dominio} quer ver o esboço.`,
+    `Contato: ${lead.email}`,
+    lead.resposta ? `O cliente falou: "${lead.resposta.replace(/\s+/g, ' ').slice(0, 400)}"` : '',
+    `Site atual: https://${lead.dominio}`,
+    'O que fizemos: prints acima.',
+    '',
+    'Posso enviar para ele?',
+  ].filter((l, i, a) => l || a[i - 1]).join('\n'),
     [[{ texto: '✅ Aprovar e enviar', dados: `/esb_ok ${lead.id}` }, { texto: '✏️ Ajustar', dados: `/esb_aj ${lead.id}` }], [{ texto: '🚫 Não enviar', dados: `/esb_no ${lead.id}` }]]);
 }
 

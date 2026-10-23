@@ -236,7 +236,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run db:check`: confere conexão e existência das tabelas (critério da Fase 1)
 - `npm run snov:lists`: mostra as listas da conta e seus ids
 - `npm run esbocos:publicar -- [site.com.br ...]`: grava no banco o HTML dos esboços aprovados informados e refaz o deploy estático na Vercel (projeto `VERCEL_PROJECT`, time `VERCEL_TEAM_ID`) com todos os publicados em `/<slug>`, `X-Robots-Tag: noindex` e robots.txt bloqueando tudo. Com `DRY_RUN=true` vira deploy de prévia (URL protegida da Vercel); com `false` vai para produção e liga o domínio de `DRAFT_BASE_URL`. Avisa no Telegram
-- `npm run telegram:bot`: bot que fica ouvindo o Moura: comandos (/status, /pausar motivo, /retomar, /painel, /ajuda, com botões) e mensagem livre, interpretada pelo `MODEL_FAST` (`src/telegram/assistant.ts`, prompt `telegram-assistente.md`) que só escolhe entre as mesmas ações; ignora qualquer outro chat
+- `npm run telegram:bot`: bot que fica ouvindo o Moura: comandos (/status, /pausar motivo, /retomar, /painel, /analisar site, /fila N, /importar N, /esboco site, /aprovar site, /ajuda, com botões; os longos rodam em segundo plano e avisam ao terminar) e mensagem livre, interpretada pelo `MODEL_FAST` (`src/telegram/assistant.ts`, prompt `telegram-assistente.md`) que só escolhe entre as mesmas ações; ignora qualquer outro chat
 - `npm run agendador`: processo sempre ligado que roda todos os ciclos no horário (ver seção VPS)
 - `npm run ciclo:esbocos`: gera esboço para os leads que pediram e pede aprovação no Telegram
 - `npm run painel`: monta o painel (funil, respostas, esboços, custo de 14 dias) com dados do banco e publica como deploy de PRÉVIA no projeto `VERCEL_PANEL_PROJECT` (só abre logado na Vercel; dados de leads nunca ficam públicos). Manda o link no Telegram
@@ -279,7 +279,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 ## Notas sobre o Telegram (Fase 7)
 
 - `src/telegram/notify.ts`: `notify` nunca derruba o pipeline; em DRY_RUN a mensagem vai com o prefixo "[teste, DRY_RUN]". O `respostas:ler` avisa o Moura (`formatLead`) em toda resposta com `notificar_moura`.
-- Comandos em `src/telegram/commands.ts` (`executar`), só ações da lista. Mensagem livre: `interpretar` devolve `{acao, motivo, resposta}` com `acao` em nenhuma/status/pausar/retomar/painel; o bot guarda as últimas 8 falas em memória.
+- Comandos em `src/telegram/commands.ts` (`executar`), só ações da lista. Mensagem livre: `interpretar` devolve `{acao, motivo, resposta}` com `acao` em nenhuma/status/pausar/retomar/painel/analisar/fila/importar/esboco/aprovar (com `dominio` e `quantidade`); nada disso envia email a lead; o bot guarda as últimas 8 falas em memória.
 - Trava de falha repetida: o agendador pausa tudo e avisa quando o mesmo ciclo falha 3 vezes seguidas (cobre erro de autenticação do Snov e da Anthropic).
 
 ## Notas sobre as respostas (Fase 6)
