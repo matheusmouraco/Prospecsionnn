@@ -29,11 +29,11 @@ entrega e a abertura.
 
 ## Email 1 (dia 0), sem link
 
-**Assunto (principal):** {site_da_empresa}
+**Assunto:** sobre o {site_da_empresa}
 
-Alternativas para teste A/B no Snov:
-- vi o {site_da_empresa}
-- esboço para o {site_da_empresa}
+O assunto precisa de texto fixo além da variável: assunto só com variável trava no Snov a opção
+"Enviar mesmo assim", e o contato sem `problema_3` ficaria parado em "A verificar". Não usar
+"site da {nome_empresa}": o artigo muda ("site do Grupo Rios").
 
 {saudacao}, tudo bem?
 
