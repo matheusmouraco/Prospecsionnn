@@ -66,7 +66,7 @@ const envSchema = z.object({
   MIN_SITE_SCORE_TO_SKIP: z.coerce.number().int().min(0).max(100).default(75),
   JUDGE_MIN_SCORE: z.coerce.number().int().min(0).max(100).default(80),
   DRAFT_TTL_DAYS: positiveInt(30),
-  MAX_DAILY_API_COST_USD: z.coerce.number().positive().default(10),
+  MAX_DAILY_API_COST_USD: z.coerce.number().positive().default(50),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
 });
 
