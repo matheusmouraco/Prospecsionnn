@@ -19,6 +19,14 @@ export async function getEmpresaByDomain(dominio: string, db: Db = getSupabase()
   return (data as EmpresaRow | null) ?? null;
 }
 
+// Sites Moura sends on Telegram (not from Snov): the company exists without a prospect, so it is never
+// emailed and the importer later skips the domain (rule 2).
+export async function createEmpresa(dominio: string, nome: string, db: Db = getSupabase()): Promise<EmpresaRow> {
+  const { data, error } = await db.from('empresas').upsert({ dominio, nome }, { onConflict: 'dominio', ignoreDuplicates: false }).select('id, dominio, nome').single();
+  if (error) throw new Error(`Falha ao cadastrar ${dominio}: ${error.message}`);
+  return data as EmpresaRow;
+}
+
 // One analysis per company (rule 2): re-running replaces the previous one.
 // Prints are local paths until Phase 7 moves them to private R2 storage.
 export async function saveAnalise(empresaId: string, a: Analise, db: Db = getSupabase()): Promise<void> {

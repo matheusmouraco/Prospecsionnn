@@ -35,3 +35,18 @@ describe('telegram settings', () => {
     expect(comandoDe({ acao: 'analisar', quantidade: 40 })).toBe('/analisar 40');
   });
 });
+
+describe('telegram confirmation', () => {
+  it('maps the site action with the company name', () => {
+    expect(comandoDe({ acao: 'site', dominio: 'x.com.br', valor: 'Clínica X' })).toBe('/site x.com.br Clínica X');
+  });
+
+  it('keeps pending commands until the button is used once', async () => {
+    const { pedirConfirmacao, tirarPendente } = await import('../src/telegram/commands.js');
+    const r = pedirConfirmacao('Vai pausar', '/pausar viagem');
+    expect(r.texto).toContain('Confirma?');
+    const id = r.botoes![0]!.dados.split(' ')[1];
+    expect(tirarPendente(id)).toBe('/pausar viagem');
+    expect(tirarPendente(id)).toBeNull();
+  });
+});

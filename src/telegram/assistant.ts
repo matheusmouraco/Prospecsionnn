@@ -5,7 +5,7 @@ import { loadPrompt } from '../lib/prompts.js';
 
 export const ACOES = [
   'nenhuma', 'status', 'config', 'pausar', 'retomar', 'painel', 'analisar', 'fila', 'importar', 'emails', 'enviar', 'respostas',
-  'rodar', 'esboco', 'aprovar', 'bloquear', 'relatorio', 'limite', 'custo', 'lote', 'estoque', 'nota', 'modo', 'auto',
+  'rodar', 'site', 'esboco', 'aprovar', 'bloquear', 'relatorio', 'limite', 'custo', 'lote', 'estoque', 'nota', 'modo', 'auto',
 ] as const;
 
 const Intencao = z.object({

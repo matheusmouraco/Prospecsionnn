@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { analyzeSite, type Analise } from '../analysis/analyze.js';
 import { launchBrowser } from '../analysis/browser.js';
 import { renderReport, type ReportItem } from '../analysis/report.js';
-import { getEmpresa, getEmpresaByDomain, saveAnalise } from '../analysis/store.js';
+import { createEmpresa, getEmpresa, getEmpresaByDomain, saveAnalise } from '../analysis/store.js';
 import { getEnv, requireEnv } from '../config/env.js';
 import { isPaused } from '../db/control.js';
 import { advance, claimProspects, fail, markInProgress, retry, type ProspectRow } from '../db/queue.js';
@@ -18,6 +18,8 @@ function arg(name: string): string | undefined {
 
 // Phase 3. `npm run analyze -- --limit 10` analyzes queued prospects (status novo) and writes
 // out/analises.md. `npm run analyze -- --dominio site.com.br` analyzes one site without touching the queue.
+const nomeDoDominio = (d: string) => d.split('.')[0]!.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
 async function main(): Promise<void> {
   const env = getEnv();
   const pagespeedKey = requireEnv('PAGESPEED_API_KEY');
@@ -32,7 +34,9 @@ async function main(): Promise<void> {
   try {
     if (dominio) {
       // Re-analysis of a company already in the database replaces its analysis (status is kept).
-      const empresa = await getEmpresaByDomain(dominio);
+      // --criar (sites sent on Telegram): registers the company so the draft can be generated and published.
+      const nome = arg('nome');
+      const empresa = (await getEmpresaByDomain(dominio)) ?? (process.argv.includes('--criar') ? await createEmpresa(dominio, nome || nomeDoDominio(dominio)) : null);
       const analise = await analyzeSite({ dominio, empresa: empresa?.nome ?? null, lista: null }, { browser, pagespeedKey, outDir: OUT_DIR });
       if (empresa) {
         await saveAnalise(empresa.id, analise);

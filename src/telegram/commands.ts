@@ -54,6 +54,8 @@ export const AJUDA = [
   'Empresas e relatórios:',
   '/bloquear site.com.br: nunca contatar essa empresa',
   '/esboco site.com.br e /aprovar site.com.br',
+  '/site site.com.br: analisa, cria o esboço e publica (ou só cole o link de qualquer site)',
+  '/ajustar site.com.br: pede ajustes no esboço publicado',
   '/relatorio emails (ou analises, envio, respostas, importacao, esbocos): manda o arquivo',
   '',
   'Ou escreva normal, que eu entendo. /ajuda mostra esta lista.',
@@ -122,10 +124,104 @@ const trecho = async (arquivo: string, max = 3500) => (await readFile(arquivo, '
 
 export interface Resposta { texto: string; botoes?: { texto: string; dados: string }[]; linhas?: { texto: string; dados: string }[][] }
 
+// Extra check before anything that changes, costs or sends: the bot explains what will happen and
+// waits for the ✅ button. The pending command stays in memory (a bot restart expires the button).
+const pendentes = new Map<string, string>();
+export function pedirConfirmacao(explicacao: string, comando: string, rotulo = '✅ Sim, pode fazer'): Resposta {
+  const id = Math.random().toString(36).slice(2, 8);
+  pendentes.set(id, comando);
+  if (pendentes.size > 50) pendentes.delete(pendentes.keys().next().value!);
+  return { texto: `${explicacao}\n\nConfirma?`, botoes: [{ texto: rotulo, dados: `/ok ${id}` }, { texto: '❌ Cancelar', dados: '/cancelar' }] };
+}
+export function tirarPendente(id: string | undefined): string | null {
+  const c = id ? pendentes.get(id) ?? null : null;
+  if (id) pendentes.delete(id);
+  return c;
+}
+
+const CICLOS: Record<string, string> = {
+  importar: 'lê as listas do Snov e coloca empresas novas na fila (não custa API)',
+  analisar: 'analisa os sites da fila (PageSpeed, prints e Claude), cerca de US$0,07 por empresa',
+  emails: 'escreve o email das empresas já analisadas, cerca de US$0,03 por empresa',
+  enviar: 'manda os emails prontos para a campanha do Snov (no modo teste só monta a prévia)',
+  respostas: 'lê as respostas da campanha, classifica e age (esboço, aviso para você, bloqueio de quem pediu para sair)',
+  esbocos: 'gera o esboço de quem pediu e te manda para aprovar',
+  travas: 'confere bounce, descadastros e custo e pausa tudo se passar do limite',
+  resumo: 'manda o resumo do dia aqui',
+};
+
+// Returns what will happen (null = safe to run without asking).
+export async function explicacao(cmd: string, resto: string[]): Promise<string | null> {
+  const a = await lerAjustes();
+  const real = modoReal(a);
+  const n = (padrao: number, max: number) => numero(resto[0], padrao, max);
+  const d = limpaDominio(resto[0]);
+  switch (cmd) {
+    case '/pausar':
+      return `⏸️ Pausar tudo\nParam o envio, as análises, os emails, a leitura de respostas e os esboços até você mandar /retomar. Travas e resumo continuam.${resto.length ? `\nMotivo: ${resto.join(' ')}` : ''}`;
+    case '/retomar':
+      return `▶️ Retomar\nOs ciclos automáticos voltam a rodar no horário. Modo atual: ${real ? 'REAL, os emails vão para os leads' : 'teste, nada vai para leads'}.`;
+    case '/importar':
+      return `📥 Importar até ${n(300, 2000)} leads\nLê as listas do Snov e grava as empresas novas na fila. Não manda email e não custa API. Leva cerca de ${Math.ceil(n(300, 2000) / 60)} minutos.`;
+    case '/fila': {
+      const q = n(20, 300);
+      return `⚙️ Analisar e escrever o email de até ${q} empresas\nCusto estimado: US$${(q * 0.1).toFixed(0)}. Tempo: cerca de ${Math.ceil(q * 1.2)} minutos.\nNão envia nada: os emails ficam prontos esperando o envio.`;
+    }
+    case '/analisar':
+      if (/^\d+$/.test(resto[0] ?? '')) return `🔍 Analisar até ${n(20, 300)} empresas da fila\nCusto estimado: US$${(n(20, 300) * 0.07).toFixed(0)}. Sites bons (nota ${valorAtual(a, 'MIN_SITE_SCORE_TO_SKIP')} ou mais) são descartados. Não envia nada.`;
+      return DOMINIO.test(d) ? `🔍 Analisar ${d}\nMede velocidade, SEO, celular e prontidão para IA e te manda o resultado. Cerca de US$0,07 e 2 minutos. Não mexe na fila.` : null;
+    case '/emails':
+      return `✉️ Escrever o email de até ${n(20, 300)} empresas já analisadas\nCusto estimado: US$${(n(20, 300) * 0.03).toFixed(0)}. Não envia nada.`;
+    case '/enviar':
+      return real
+        ? `📤 Envio REAL\nOs emails prontos entram na campanha do Snov e os leads começam a receber, até o limite de ${valorAtual(a, 'MAX_NEW_PER_DAY')} empresas hoje.`
+        : '📤 Envio em modo teste\nSó monta a prévia de quem seria enviado. Nada vai para leads.';
+    case '/respostas':
+      return `📬 Ler as respostas agora\nClassifica as respostas novas da campanha e age: quem pediu ganha esboço, quem perguntou preço te avisa, quem pediu para sair é bloqueado para sempre.${real ? '' : ' No modo teste só classifica.'}`;
+    case '/rodar': {
+      const j = (resto[0] ?? '').toLowerCase();
+      return CICLOS[j] ? `▶️ Rodar o ciclo ${j} agora\nO que ele faz: ${CICLOS[j]}.` : null;
+    }
+    case '/esboco':
+      return DOMINIO.test(d) ? `🎨 Gerar o esboço de ${d}\nCusto cerca de US$0,90, leva uns 6 minutos. Fica no ar em ${getEnv().DRAFT_BASE_URL.replace(/^https?:\/\//, '')} (sem aparecer no Google) e eu te mando o link. Não vai para ninguém.` : null;
+    case '/site':
+      return DOMINIO.test(d) ? `🎨 Criar esboço para ${d}\n1. Analiso o site (cerca de 2 min)\n2. Crio o esboço (cerca de 6 min)\n3. Publico em ${getEnv().DRAFT_BASE_URL.replace(/^https?:\/\//, '')} e te mando os prints e o link\nCusto cerca de US$1. A empresa entra no banco e nunca recebe email de prospecção.` : null;
+    case '/aprovar':
+      return DOMINIO.test(d) ? `✅ Aprovar o esboço de ${d}\nMarca como aprovado por você. Isso libera o envio do link para o lead quando ele vier da campanha.` : null;
+    case '/bloquear':
+      return DOMINIO.test(d) ? `🚫 Bloquear ${d} para sempre\nNunca recebe email, mesmo se aparecer de novo em outra lista do Snov.` : null;
+    case '/auto': {
+      const [nome, estado] = resto;
+      if (!nome || !JOBS_OPCIONAIS.includes(nome)) return null;
+      const desligar = estado ? /^(off|desligar|nao|não)$/i.test(estado) : !desligados(a).has(nome);
+      return desligar
+        ? `⛔ Desligar o ciclo ${nome}\nEle para de rodar sozinho (${CICLOS[nome]}). Você ainda pode rodar na mão com /rodar ${nome}.`
+        : `✅ Ligar o ciclo ${nome}\nEle volta a rodar sozinho no horário (${CICLOS[nome]}).`;
+    }
+    case '/modo':
+      return (resto[0] ?? '').toLowerCase() === 'real'
+        ? `⚠️ Ligar o envio DE VERDADE\nOs leads da fila entram na campanha do Snov e recebem email (até ${valorAtual(a, 'MAX_NEW_PER_DAY')} empresas por dia, de segunda a sexta às 8h15), e os esboços aprovados vão para o lead.`
+        : null;
+    default: {
+      const aj = AJUSTES.find((x) => `/${x.comando}` === cmd);
+      if (!aj) return null;
+      const v = validarNumero(aj, resto[0]);
+      if (typeof v === 'string') return null; // the command itself answers with the validation message
+      return `🔧 Mudar ${aj.descricao}\nDe ${valorAtual(a, aj.nome)} para ${v}. Vale a partir do próximo ciclo.`;
+    }
+  }
+}
+
 // Only these actions exist; anything else gets the help text.
-export async function executar(comando: string): Promise<Resposta> {
+export async function executar(comando: string, confirmado = false): Promise<Resposta> {
   const [cmd, ...resto] = comando.trim().split(/\s+/);
-  switch ((cmd ?? '').toLowerCase().replace(/@\w+$/, '')) {
+  const nome = (cmd ?? '').toLowerCase().replace(/@\w+$/, '');
+  if (nome === '/cancelar') return { texto: '👍 Cancelado, nada foi feito.' };
+  if (!confirmado) {
+    const e = await explicacao(nome, resto);
+    if (e) return pedirConfirmacao(e, comando);
+  }
+  switch (nome) {
     case '/start':
     case '/ajuda':
     case '/help':
@@ -171,6 +267,14 @@ export async function executar(comando: string): Promise<Resposta> {
       emSegundoPlano(`Esboço de ${d}`, [['esbocos', ['--dominio', d, '--sem-abrir']]], async () => `🎨 Esboço de ${d} pronto (prints acima). Para aprovar: /aprovar ${d}`);
       return { texto: `🎨 Gerando o esboço de ${d}. Leva uns 6 minutos.` };
     }
+    case '/site': {
+      const d = limpaDominio(resto[0]);
+      if (!DOMINIO.test(d)) return { texto: 'Me manda o site assim: /site site.com.br' };
+      const nomeEmpresa = resto.slice(1).join(' ');
+      emSegundoPlano(`Esboço de ${d}`, [['analyze', ['--dominio', d, '--criar', ...(nomeEmpresa ? ['--nome', nomeEmpresa] : [])]], ['esbocos', ['--dominio', d, '--sem-abrir']]],
+        async () => `✅ Processo de ${d} terminado (prints e link acima).`);
+      return { texto: `🎨 Começando ${d}: análise e depois o esboço. Uns 8 minutos, te mando os prints e o link.` };
+    }
     case '/aprovar': {
       const d = limpaDominio(resto[0]);
       if (!DOMINIO.test(d)) return { texto: 'Me manda o site assim: /aprovar site.com.br' };
@@ -198,12 +302,6 @@ export async function executar(comando: string): Promise<Resposta> {
         return { texto: '🧪 Modo teste ligado. Nada vai para leads; envios viram prévia.' };
       }
       if (alvo === 'real') {
-        return {
-          texto: '⚠️ Isso liga o envio DE VERDADE: os leads da fila entram na campanha do Snov e recebem email, e esboços aprovados vão para o lead. Confirma?',
-          botoes: [{ texto: '✅ Sim, ligar envio real', dados: '/modo confirmar-real' }, { texto: 'Cancelar', dados: '/config' }],
-        };
-      }
-      if (alvo === 'confirmar-real') {
         await salvarAjuste(CHAVE_MODO, 'false');
         const a = await lerAjustes();
         return { texto: `🟢 Envio real ligado. Até ${valorAtual(a, 'MAX_NEW_PER_DAY')} empresas novas por dia, de segunda a sexta às 8h15.\nPara voltar: /modo teste`, botoes: [{ texto: '🧪 Voltar para teste', dados: '/modo teste' }] };
@@ -267,7 +365,7 @@ export function comandoDe(i: { acao: string; motivo?: string; dominio?: string; 
   const args: Record<string, string> = {
     pausar: i.motivo ?? '',
     analisar: d || q,
-    esboco: d, aprovar: d, bloquear: d,
+    esboco: d, aprovar: d, bloquear: d, site: `${d} ${v}`.trim(),
     fila: q, importar: q, emails: q, enviar: q,
     limite: q, custo: q, lote: q, estoque: q, nota: q,
     modo: v === 'real' ? 'real' : v === 'teste' ? 'teste' : '',

@@ -6,11 +6,11 @@ import { devices } from 'playwright';
 import { launchBrowser } from '../analysis/browser.js';
 import { getEnv, requireEnv } from '../config/env.js';
 import { claimProspects, markInProgress } from '../db/queue.js';
-import { markPublished, setApproval } from '../draft/store.js';
+import { setApproval } from '../draft/store.js';
 import { logger } from '../lib/logger.js';
 import { revealPage } from '../lib/page.js';
 import { runNpm } from '../lib/run.js';
-import { publicarTodos } from '../publish/publicar.js';
+import { publicarEsboco } from '../publish/publicar.js';
 import { SnovClient } from '../snov/client.js';
 import { loadEnvio } from '../snov/outreach-store.js';
 import { sendMessageWithButtons, sendPhoto } from '../telegram/client.js';
@@ -44,6 +44,7 @@ export async function prints(dominio: string): Promise<{ desktop: Buffer; mobile
 export async function pedirAprovacao(lead: LeadEsboco): Promise<void> {
   const dono = requireEnv('TELEGRAM_CHAT_ID');
   const p = await prints(lead.dominio);
+  const link = await publicarEsboco(lead.dominio).catch((err) => { log.warn('Não consegui publicar o esboço', { err }); return null; });
   await sendPhoto(dono, p.desktop, `O que fizemos para ${lead.empresa ?? lead.dominio} (computador)`);
   await sendPhoto(dono, p.mobile, 'O que fizemos (celular)');
   await sendMessageWithButtons(dono, [
@@ -51,7 +52,7 @@ export async function pedirAprovacao(lead: LeadEsboco): Promise<void> {
     `Contato: ${lead.email}`,
     lead.resposta ? `O cliente falou: "${lead.resposta.replace(/\s+/g, ' ').slice(0, 400)}"` : '',
     `Site atual: https://${lead.dominio}`,
-    'O que fizemos: prints acima.',
+    link ? `O que fizemos (já no ar): ${link}` : 'O que fizemos: prints acima (não consegui publicar o link).',
     '',
     'Posso enviar para ele?',
   ].filter((l, i, a) => l || a[i - 1]).join('\n'),
@@ -67,7 +68,7 @@ export async function cicloEsbocos(limit = 3): Promise<number> {
       const lead = await loadLead(p.id);
       if (!lead.esboco || !existsSync(htmlPath(lead.dominio))) {
         log.info('Gerando esboço para lead', { dominio: lead.dominio });
-        const r = await runNpm('esbocos', ['--dominio', lead.dominio, '--sem-abrir']);
+        const r = await runNpm('esbocos', ['--dominio', lead.dominio, '--sem-abrir', '--sem-telegram', '--sem-publicar']);
         if (r.code !== 0 || !existsSync(htmlPath(lead.dominio))) throw new Error(`esbocos falhou: ${r.saida.slice(-500)}`);
       }
       await pedirAprovacao(await loadLead(p.id));
@@ -85,11 +86,8 @@ export async function aprovarEEnviar(prospectId: string): Promise<string> {
   const lead = await loadLead(prospectId);
   if (lead.status !== 'gerando_esboco') return `Esse lead já foi tratado (situação: ${lead.status}).`;
   await setApproval(lead.dominio, true);
-  const base = env.DRAFT_BASE_URL.replace(/\/$/, '');
-  const slug = await markPublished(lead.dominio, await readFile(htmlPath(lead.dominio), 'utf8'), base);
-  const pub = await publicarTodos();
-  const link = pub.producao ? `${base}/${slug}` : `${pub.deploy}/${slug}`;
-  if (env.DRY_RUN) return `🔎 [DRY_RUN] Esboço aprovado e publicado em prévia: ${link}\nNada foi enviado ao lead.`;
+  const link = await publicarEsboco(lead.dominio);
+  if (env.DRY_RUN) return `🔎 Modo teste: esboço aprovado e no ar em ${link}\nNada foi enviado ao lead.`;
 
   const listId = requireEnv('SNOV_DRAFT_LIST_ID');
   const e = await loadEnvio(prospectId).catch(() => null);
@@ -119,4 +117,20 @@ export async function naoEnviar(prospectId: string): Promise<string> {
   if (lead.status !== 'gerando_esboco') return `Esse lead já foi tratado (situação: ${lead.status}).`;
   await setStatus(prospectId, 'gerando_esboco', 'notificado_moura');
   return `Ok, não envio. ${lead.email} fica com você.`;
+}
+
+// Adjusts a draft by domain (sites sent on Telegram or any draft), republishes it and sends the new version.
+export async function ajustarSite(dominio: string, pedido: string): Promise<string> {
+  const file = join(tmpdir(), `ajuste-${dominio}.txt`);
+  await writeFile(file, pedido.split(/\n|;/).map((l) => l.trim()).filter(Boolean).join('\n'));
+  const r = await runNpm('esbocos:ajustar', [dominio, '--pedidos', file]);
+  if (r.code !== 0) return `Não consegui ajustar: ${r.saida.slice(-400)}`;
+  const dono = requireEnv('TELEGRAM_CHAT_ID');
+  const link = await publicarEsboco(dominio).catch(() => null);
+  const p = await prints(dominio);
+  await sendPhoto(dono, p.desktop, `Nova versão de ${dominio} (computador)`);
+  await sendPhoto(dono, p.mobile, 'Celular');
+  await sendMessageWithButtons(dono, link ? `✏️ Ajustado e no ar: ${link}` : '✏️ Ajustado (não consegui publicar; veja os prints).',
+    [[{ texto: '✏️ Ajustar de novo', dados: `/ajustar ${dominio}` }, { texto: '✅ Aprovar', dados: `/aprovar ${dominio}` }]]);
+  return 'Pronto, nova versão acima.';
 }

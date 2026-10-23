@@ -8,7 +8,8 @@ import { createDraft, type Esboco } from '../draft/pipeline.js';
 import { draftCandidates, empresaIdByDomain, loadDraftInput, saveDraft } from '../draft/store.js';
 import { prints } from '../flow/lead-esboco.js';
 import { logger } from '../lib/logger.js';
-import { sendPhoto } from '../telegram/client.js';
+import { publicarEsboco } from '../publish/publicar.js';
+import { sendMessageWithButtons, sendPhoto } from '../telegram/client.js';
 
 const OUT_DIR = 'out/esbocos';
 const log = logger.child({ etapa: 'esboco' });
@@ -19,14 +20,29 @@ function abrir(dominio: string): void {
   spawn('open', [join(OUT_DIR, dominio, 'index.html')], { detached: true, stdio: 'ignore' }).unref();
 }
 
-// Each finished draft also goes to Telegram (desktop and phone prints), so Moura reviews it from anywhere.
-async function enviarTelegram(dominio: string, nota: number, empresa: string): Promise<void> {
+// Each finished draft is published on DRAFT_BASE_URL (Moura's decision, --sem-publicar turns it off) and
+// goes to Telegram with the desktop and phone prints and the link, so he reviews it from anywhere.
+async function publicarEAvisar(dominio: string, nota: number, empresa: string): Promise<void> {
   const env = getEnv();
+  let link: string | null = null;
+  if (!process.argv.includes('--sem-publicar') && env.VERCEL_TOKEN) {
+    try {
+      link = await publicarEsboco(dominio);
+      log.info('Esboço publicado', { dominio, link });
+    } catch (err) {
+      log.warn('Não consegui publicar o esboço', { dominio, err });
+    }
+  }
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID || process.argv.includes('--sem-telegram')) return;
   try {
     const p = await prints(dominio);
     await sendPhoto(env.TELEGRAM_CHAT_ID, p.desktop, `🎨 Esboço pronto: ${empresa} (${dominio}), nota ${nota}. Computador`);
-    await sendPhoto(env.TELEGRAM_CHAT_ID, p.mobile, 'Celular. Para aprovar: npm run esbocos:aprovar -- ' + dominio);
+    await sendPhoto(env.TELEGRAM_CHAT_ID, p.mobile, 'Celular');
+    await sendMessageWithButtons(env.TELEGRAM_CHAT_ID, [
+      `🎨 ${empresa}`,
+      `Site atual: https://${dominio}`,
+      link ? `Esboço no ar: ${link}` : 'Não consegui publicar; veja os prints acima.',
+    ].join('\n'), [[{ texto: '✏️ Ajustar', dados: `/ajustar ${dominio}` }, { texto: '✅ Aprovar', dados: `/aprovar ${dominio}` }]]);
   } catch (err) {
     log.warn('Não consegui mandar o esboço no Telegram', { dominio, err });
   }
@@ -68,7 +84,7 @@ async function main(): Promise<void> {
         feitos.push({ ...e, slug });
         if (e.html) {
           abrir(e.dominio);
-          await enviarTelegram(e.dominio, e.nota, input.empresa);
+          await publicarEAvisar(e.dominio, e.nota, input.empresa);
         }
         log.info(e.aprovado ? 'Esboço aprovado' : 'Esboço abaixo da nota mínima', { dominio: e.dominio, nota: e.nota, tentativas: e.tentativas, custo_usd: Number(e.custo_usd.toFixed(3)) });
       } catch (err) {

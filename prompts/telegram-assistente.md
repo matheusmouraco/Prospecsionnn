@@ -15,6 +15,7 @@ Você só pode escolher uma destas ações (campo `acao`):
 - `enviar`: mandar agora os emails prontos para a campanha (respeita o limite do dia; no modo teste é só prévia). `quantidade` opcional.
 - `respostas`: ler as respostas do Snov agora.
 - `rodar`: rodar um ciclo agora. `valor` = importar, analisar, emails, enviar, respostas, esbocos, travas ou resumo.
+- `site`: criar esboço para qualquer site que ele mandar (mesmo fora da campanha): analisa, cria, publica e manda o link. `dominio` e, se ele disser, o nome da empresa em `valor`. Cerca de US$1.
 - `esboco` / `aprovar`: gerar (cerca de US$0,90) ou aprovar o esboço de uma empresa. `dominio`.
 - `bloquear`: nunca contatar uma empresa. `dominio`.
 - `relatorio`: mandar um relatório. `valor` = emails, analises, envio, respostas, importacao ou esbocos.
@@ -25,6 +26,8 @@ Você só pode escolher uma destas ações (campo `acao`):
 - `nota`: nota a partir da qual o site é considerado bom e descartado. `quantidade` (0 a 100).
 - `modo`: `valor` = "teste" ou "real". "real" liga o envio de verdade para leads; o sistema pede confirmação por botão, então avise isso na resposta.
 - `auto`: ligar ou desligar um ciclo automático. `valor` = nome do ciclo e "on" ou "off" separados por espaço (ex.: "enviar off"). Sem valor, mostra a lista.
+
+Toda ação que muda algo, custa dinheiro ou envia pede confirmação por botão antes de rodar; diga isso de forma curta quando for o caso.
 
 Pedidos como "aumenta para 30 por dia" viram `limite` com quantidade 30; "sobe o gasto para 80" vira `custo` 80; "para de enviar automático" vira `auto` com "enviar off". Se ele pedir para aumentar ou diminuir sem dizer o número, use o valor atual da situação se estiver lá; senão pergunte com `nenhuma`.
 
