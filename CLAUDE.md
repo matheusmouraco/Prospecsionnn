@@ -235,6 +235,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run db:migrate`: aplica `supabase/migrations/*.sql` em ordem (precisa `SUPABASE_DB_URL`)
 - `npm run db:check`: confere conexão e existência das tabelas (critério da Fase 1)
 - `npm run snov:lists`: mostra as listas da conta e seus ids
+- `npm run esbocos:publicar -- [site.com.br ...]`: grava no banco o HTML dos esboços aprovados informados e refaz o deploy estático na Vercel (projeto `VERCEL_PROJECT`, time `VERCEL_TEAM_ID`) com todos os publicados em `/<slug>`, `X-Robots-Tag: noindex` e robots.txt bloqueando tudo. Com `DRY_RUN=true` vira deploy de prévia (URL protegida da Vercel); com `false` vai para produção e liga o domínio de `DRAFT_BASE_URL`. Avisa no Telegram
 - `npm run telegram:bot`: bot que fica ouvindo os comandos do Moura (/status, /pausar motivo, /retomar, /ajuda, com botões); ignora qualquer outro chat
 - `npm run travas`: confere as métricas do dia e pausa tudo + avisa no Telegram se bounce > 3%, descadastros > 1% (a partir de 10 envios) ou custo > `MAX_DAILY_API_COST_USD`
 - `npm run resumo`: manda o resumo do dia no Telegram (19h no cron do VPS)
@@ -252,6 +253,12 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run respostas:ler -- [--amostra]`: lê as respostas da `SNOV_CAMPAIGN_ID`, classifica as novas e age (status, do-not-email, bloqueados, retomada em 6 meses); relatório em `out/respostas.md`. Com `DRY_RUN=true` só classifica. `--amostra` salva o JSON cru em `out/snov-respostas.json`
 - `npm run respostas:testar`: classifica as 20 respostas de exemplo (`test/fixtures/respostas.json`) e gera `out/classificacao.md` com a tabela de acerto (critério da Fase 6)
 - `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada. No Mac, cada esboço abre no navegador assim que fica pronto (`--sem-abrir` desliga).
+
+## Notas sobre a publicação (Fase 7)
+
+- matilab.com.br tem DNS na Hostinger (dns-parking), não na Vercel: o `analise` precisa de um CNAME para `cname.vercel-dns.com` feito no painel da Hostinger.
+- O MCP da Vercel não tem permissão de criar projeto; o primeiro deploy pelo `VERCEL_TOKEN` cria o `matilab-analise`.
+- Migration `0007_esboco_publicacao.sql` (aplicada): `esbocos.html`, `esbocos.publicado_em`. Esboços não expiram (decisão do Moura): `expira_em` fica nulo.
 
 ## Notas sobre o Telegram (Fase 7)
 

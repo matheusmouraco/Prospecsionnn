@@ -60,6 +60,10 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN: optionalString,
   TELEGRAM_CHAT_ID: optionalString,
 
+  VERCEL_TOKEN: optionalString,
+  VERCEL_TEAM_ID: z.string().trim().min(1).default('team_EZr88WUvWf8Z5tTgpeDfnbBn'),
+  VERCEL_PROJECT: z.string().trim().min(1).default('matilab-analise'),
+
   DRY_RUN: dryRun,
   BATCH_SIZE: positiveInt(20),
   MAX_NEW_PER_DAY: positiveInt(60),
@@ -82,6 +86,7 @@ export const SECRET_KEYS = [
   'SUPABASE_DB_URL',
   'CLOUDFLARE_API_TOKEN',
   'TELEGRAM_BOT_TOKEN',
+  'VERCEL_TOKEN',
 ] as const satisfies readonly (keyof Env)[];
 
 export function parseEnv(source: Record<string, string | undefined>): Env {

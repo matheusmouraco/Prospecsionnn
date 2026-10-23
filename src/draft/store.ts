@@ -78,3 +78,24 @@ export async function setApproval(dominio: string, aprovado: boolean, db: Db = g
   if (error) throw new Error(`Falha ao atualizar aprovação de ${dominio}: ${error.message}`);
   if (!data?.length) throw new Error(`${dominio} ainda não tem esboço`);
 }
+
+// Stores the approved HTML and marks it published. Refuses drafts not approved by Moura.
+export async function markPublished(dominio: string, html: string, url: string, db: Db = getSupabase()): Promise<string> {
+  const empresaId = await empresaIdByDomain(dominio, db);
+  const { data, error } = await db.from('esbocos').select('slug, aprovado').eq('empresa_id', empresaId).maybeSingle();
+  if (error) throw new Error(`Falha ao ler esboço de ${dominio}: ${error.message}`);
+  if (!data) throw new Error(`${dominio} ainda não tem esboço`);
+  if (!data.aprovado) throw new Error(`${dominio}: esboço não aprovado. Rode npm run esbocos:aprovar -- ${dominio}`);
+  const slug = data.slug as string;
+  const { error: e2 } = await db.from('esbocos')
+    .update({ html, url: `${url}/${slug}`, publicado_em: new Date().toISOString(), expira_em: null })
+    .eq('empresa_id', empresaId);
+  if (e2) throw new Error(`Falha ao marcar ${dominio} como publicado: ${e2.message}`);
+  return slug;
+}
+
+export async function publishedDrafts(db: Db = getSupabase()): Promise<{ slug: string; html: string }[]> {
+  const { data, error } = await db.from('esbocos').select('slug, html').not('publicado_em', 'is', null).eq('aprovado', true);
+  if (error) throw new Error(`Falha ao listar esboços publicados: ${error.message}`);
+  return (data ?? []).filter((d) => d.html).map((d) => ({ slug: d.slug as string, html: d.html as string }));
+}
