@@ -50,3 +50,20 @@ describe('telegram confirmation', () => {
     expect(tirarPendente(id)).toBeNull();
   });
 });
+
+describe('telegram reports', () => {
+  it('renders the week with reply rates per niche', async () => {
+    const { renderSemana } = await import('../src/telegram/dados.js');
+    const t = renderSemana({ de: '2026-10-19', ate: '2026-10-25', enviados: 75, respostas: 6, positivas: 3, descadastros: 1, bounces: 0, esbocos: 3, custo: 12.5,
+      nichos: [{ nicho: 'odontologia', enviados: 40, positivas: 3 }] });
+    expect(t).toContain('19/10 a 25/10');
+    expect(t).toContain('Respostas: 6 (8,0% dos enviados)');
+    expect(t).toContain('odontologia: 3 de 40 (7,5%)');
+  });
+
+  it('turns buttons with url into link buttons', async () => {
+    const { teclado } = await import('../src/telegram/client.js');
+    expect(teclado([[{ texto: 'Esboço', dados: '', url: 'https://x' }, { texto: 'Ok', dados: '/rev_ok' }]]))
+      .toEqual([[{ text: 'Esboço', url: 'https://x' }, { text: 'Ok', callback_data: '/rev_ok' }]]);
+  });
+});

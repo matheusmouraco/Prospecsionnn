@@ -101,3 +101,9 @@ export async function release(prospect: Pick<ProspectRow, 'id' | 'status'>, db: 
   const { error } = await db.from('prospects').update({ locked_at: null }).eq('id', prospect.id).eq('status', prospect.status);
   if (error) throw new Error(`Falha ao liberar prospect ${prospect.id}: ${error.message}`);
 }
+
+export async function prospectById(id: string, db: Db = getSupabase()): Promise<ProspectRow> {
+  const { data, error } = await db.from('prospects').select('*').eq('id', id).single();
+  if (error) throw new Error(`Prospect ${id} não encontrado: ${error.message}`);
+  return data as ProspectRow;
+}

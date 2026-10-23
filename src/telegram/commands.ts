@@ -10,7 +10,8 @@ import { notify } from './notify.js';
 import { AJUSTES, CHAVE_DESLIGADOS, CHAVE_MODO, desligados, lerAjustes, salvarAjuste, validarNumero, type Ajustes } from '../control/ajustes.js';
 import { JOBS, JOBS_OPCIONAIS, ajustarJob } from '../scheduler/jobs.js';
 import { block } from '../replies/store.js';
-import { sendDocument } from './client.js';
+import { sendDocument, type Botao } from './client.js';
+import { leadsQuentes, NOME_STATUS, renderSemana, resumoSemana } from './dados.js';
 
 export const LEAD_STATUS = ['respondeu_interesse', 'notificado_moura'];
 
@@ -54,6 +55,10 @@ export const AJUDA = [
   '',
   'Empresas e relatórios:',
   '/bloquear site.com.br: nunca contatar essa empresa',
+  '/leads: quem respondeu, em que pé está, com botões para o esboço e para responder',
+  '/revisao: mostra os próximos emails da fila (também chega sozinho às 7h50)',
+  '/semana: a semana em números (também chega sexta às 18h)',
+  '/lista 41711292: importa só essa lista do Snov (ou cole o link da lista)',
   '/esboco site.com.br e /aprovar site.com.br',
   '/site site.com.br: analisa, cria o esboço e publica (ou só cole o link de qualquer site)',
   '/ajustar site.com.br: pede ajustes no esboço publicado',
@@ -151,7 +156,7 @@ export async function textoAndamento(): Promise<string> {
 
 const trecho = async (arquivo: string, max = 3500) => (await readFile(arquivo, 'utf8').catch(() => '')).slice(0, max);
 
-export interface Resposta { texto: string; botoes?: { texto: string; dados: string }[]; linhas?: { texto: string; dados: string }[][] }
+export interface Resposta { texto: string; botoes?: Botao[]; linhas?: Botao[][] }
 
 // Extra check before anything that changes, costs or sends: the bot explains what will happen and
 // waits for the ✅ button. The pending command stays in memory (a bot restart expires the button).
@@ -177,6 +182,8 @@ const CICLOS: Record<string, string> = {
   esbocos: 'gera o esboço de quem pediu e te manda para aprovar',
   travas: 'confere bounce, descadastros e custo e pausa tudo se passar do limite',
   resumo: 'manda o resumo do dia aqui',
+  revisao: 'manda os próximos 3 emails para você revisar (dias úteis, 7h50)',
+  semana: 'manda a semana em números (sexta, 18h)',
 };
 
 // Returns what will happen (null = safe to run without asking).
@@ -207,6 +214,13 @@ export async function explicacao(cmd: string, resto: string[]): Promise<string |
         : '📤 Envio em modo teste\nSó monta a prévia de quem seria enviado. Nada vai para leads.';
     case '/respostas':
       return `📬 Ler as respostas agora\nClassifica as respostas novas da campanha e age: quem pediu ganha esboço, quem perguntou preço te avisa, quem pediu para sair é bloqueado para sempre.${real ? '' : ' No modo teste só classifica.'}`;
+    case '/lista': {
+      const id = resto[0] ?? '';
+      if (!/^\d{5,}$/.test(id)) return null;
+      return `📥 Importar só a lista ${id} do Snov\nLê até ${numero(resto[1], 300, 2000)} leads dessa lista, tira repetidos e bloqueados e coloca os novos na fila. Não manda email e não custa API.`;
+    }
+    case '/revisao':
+      return null;
     case '/rodar': {
       const j = (resto[0] ?? '').toLowerCase();
       return CICLOS[j] ? `▶️ Rodar o ciclo ${j} agora\nO que ele faz: ${CICLOS[j]}.` : null;
@@ -310,6 +324,39 @@ export async function executar(comando: string, confirmado = false): Promise<Res
       const r = await runNpm('esbocos:aprovar', [d]);
       return { texto: r.code === 0 ? `✅ Esboço de ${d} aprovado.` : `Não consegui aprovar: ${r.saida.slice(-300)}` };
     }
+    case '/leads': {
+      const leads = await leadsQuentes();
+      if (!leads.length) return { texto: '🔥 Nenhum lead respondeu ainda. Quando responderem, aparecem aqui.' };
+      const quando = (d: string) => new Date(d).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+      const texto = ['🔥 Leads quentes', ...leads.map((l, i) => [
+        `\n${i + 1}. ${l.empresa ?? l.dominio ?? l.email} (${l.nome ?? 'sem nome'})`,
+        `   ${NOME_STATUS[l.status] ?? l.status} · ${quando(l.quando)}`,
+        l.resumo ? `   "${l.resumo.slice(0, 140)}"` : '',
+        `   ${l.email}`,
+      ].filter(Boolean).join('\n'))].join('\n');
+      const linhas: Botao[][] = leads.slice(0, 8).map((l, i) => [
+        ...(l.esboco ? [{ texto: `${i + 1}. 🎨 Esboço`, dados: '', url: l.esboco }] : []),
+        ...(l.dominio ? [{ texto: `${i + 1}. 🌐 Site`, dados: '', url: `https://${l.dominio}` }] : []),
+        { texto: `${i + 1}. ✍️ Responder`, dados: `/resp ${l.prospect_id}` },
+      ]);
+      return { texto: texto.slice(0, 4000), linhas };
+    }
+    case '/semana':
+      return { texto: renderSemana(await resumoSemana()) };
+    case '/revisao': {
+      const q = String(numero(resto[0], 3, 10));
+      const r = await runNpm('revisao', ['--quantos', q]);
+      return { texto: r.code === 0 ? '✉️ Mandei acima os próximos emails da fila.' : `Não consegui montar a revisão: ${r.saida.slice(-300)}` };
+    }
+    case '/lista': {
+      const id = resto[0] ?? '';
+      if (!/^\d{5,}$/.test(id)) return { texto: 'Me manda o número da lista (ou cole o link dela do Snov): /lista 41711292' };
+      const env = getEnv();
+      if ([env.SNOV_OUTREACH_LIST_ID, env.SNOV_DRAFT_LIST_ID].includes(id)) return { texto: 'Essa é a lista de saída da campanha, não dá para importar dela.' };
+      const max = String(numero(resto[1], 300, 2000));
+      emSegundoPlano(`Importação da lista ${id}`, [['snov:import', ['--max', max, id]]], async () => `📥 Lista ${id} importada:\n\n${await trecho('out/importacao.md', 1500)}`);
+      return { texto: `📥 Lendo a lista ${id} do Snov...` };
+    }
     case '/andamento':
     case '/agora':
       return { texto: await textoAndamento(), botoes: [{ texto: '🔄 Atualizar', dados: '/andamento' }] };
@@ -401,7 +448,7 @@ export function comandoDe(i: { acao: string; motivo?: string; dominio?: string; 
     fila: q, importar: q, emails: q, enviar: q,
     limite: q, custo: q, lote: q, estoque: q, nota: q,
     modo: v === 'real' ? 'real' : v === 'teste' ? 'teste' : '',
-    rodar: v, relatorio: v, auto: v,
+    rodar: v, relatorio: v, auto: v, lista: `${v} ${q}`.trim(), revisao: q,
   };
   return `/${i.acao} ${args[i.acao] ?? ''}`.trim();
 }

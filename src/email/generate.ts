@@ -32,6 +32,7 @@ export interface EmailInput {
   titulos: string[];
   paragrafos?: string[];
   problemas: Problema[];
+  instrucao?: string; // Moura's request when rewriting one email from Telegram
 }
 
 export interface EmailGerado {
@@ -89,7 +90,7 @@ export async function generateEmail(input: EmailInput, deps: { parse?: typeof pa
     ...(p3 ? [{ campo: 'problema_3' as const, texto: fonte(p3) }] : []),
   ];
 
-  let feedback = '';
+  let feedback = input.instrucao ? `\n\nPedido do ${env.SENDER_NAME.split(' ')[0]} para esta versão (siga, sem quebrar nenhuma regra): ${input.instrucao}` : '';
   let custo = 0;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     const { data, costUsd } = await parse({

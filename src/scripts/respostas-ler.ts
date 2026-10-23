@@ -72,7 +72,8 @@ async function main(): Promise<void> {
     linhas.push(`| ${p.dominio ?? r.email} | ${r.texto.replace(/\s+/g, ' ').replace(/\|/g, '/').slice(0, 90)} | ${c.categoria} | ${c.confianca.toFixed(2)} | ${acoes.join(' + ')} | ${c.resumo.replace(/\|/g, '/')} |`);
     log.info('Resposta classificada', { dominio: p.dominio, categoria: c.categoria, confianca: c.confianca, acoes });
     if (acoes.includes('notificar_moura')) {
-      await notify(formatLead({ nome: p.primeiro_nome ?? null, empresa: p.empresa, dominio: p.dominio, email: r.email, categoria: c.categoria, resumo: c.resumo, texto: r.texto }));
+      await notify(formatLead({ nome: p.primeiro_nome ?? null, empresa: p.empresa, dominio: p.dominio, email: r.email, categoria: c.categoria, resumo: c.resumo, texto: r.texto }),
+        [{ texto: '✍️ Rascunhar resposta', dados: `/resp ${p.id}` }]);
     }
     if (env.DRY_RUN) continue;
 

@@ -7,7 +7,10 @@ import { launchBrowser } from '../analysis/browser.js';
 import { getEnv, requireEnv } from '../config/env.js';
 import { claimProspects, markInProgress } from '../db/queue.js';
 import { setApproval } from '../draft/store.js';
+import { z } from 'zod';
+import { parseJson } from '../lib/claude.js';
 import { logger } from '../lib/logger.js';
+import { loadPrompt } from '../lib/prompts.js';
 import { revealPage } from '../lib/page.js';
 import { runNpm } from '../lib/run.js';
 import { publicarEsboco } from '../publish/publicar.js';
@@ -133,4 +136,27 @@ export async function ajustarSite(dominio: string, pedido: string): Promise<stri
   await sendMessageWithButtons(dono, link ? `✏️ Ajustado e no ar: ${link}` : '✏️ Ajustado (não consegui publicar; veja os prints).',
     [[{ texto: '✏️ Ajustar de novo', dados: `/ajustar ${dominio}` }, { texto: '✅ Aprovar', dados: `/aprovar ${dominio}` }]]);
   return 'Pronto, nova versão acima.';
+}
+
+// The Snov API cannot send or reply to emails (checked in the docs, out/2026), so the bot drafts the
+// reply and Moura pastes it in the Snov inbox. Moura's instruction is the only source of new facts.
+export async function rascunharResposta(prospectId: string, pedido: string): Promise<string> {
+  const env = getEnv();
+  const lead = await loadLead(prospectId);
+  const system = await loadPrompt('resposta-lead', { dono: env.SENDER_NAME.split(' ')[0] ?? 'Moura', marca: env.SENDER_BRAND });
+  const { data } = await parseJson({
+    model: env.MODEL_FAST,
+    system,
+    content: [{ type: 'text', text: [
+      `Lead: ${lead.primeiro_nome ?? '(sem nome)'} da ${lead.empresa ?? lead.dominio} (site ${lead.dominio})`,
+      `O que o lead escreveu: ${(lead.resposta ?? '(não encontrado)').replace(/\s+/g, ' ').slice(0, 1500)}`,
+      `Link do esboço: ${lead.esboco?.url ?? '(não tem)'}`,
+      `O que ${env.SENDER_NAME.split(' ')[0]} quer responder: ${pedido}`,
+    ].join('\n') }],
+    schema: z.object({ texto: z.string().min(1) }),
+    effort: 'low',
+    maxTokens: 1500,
+  });
+  const texto = data.texto.replace(/\s+[—–]\s+/g, ', ');
+  return `✍️ Resposta para ${lead.email}:\n\n${texto}\n\nCopie e responda pela caixa de entrada do Snov (Inbox), na mesma conversa. A API do Snov não deixa eu enviar por você.`;
 }

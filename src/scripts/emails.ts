@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { getEnv, requireEnv } from '../config/env.js';
 import { isPaused } from '../db/control.js';
-import { advance, claimProspects, fail, release } from '../db/queue.js';
+import { advance, claimProspects, fail, prospectById, release } from '../db/queue.js';
 import { generateEmail, SemProblemasSuficientes } from '../email/generate.js';
 import { renderEmailReport, type EmailReportItem } from '../email/report.js';
 import { deleteUnsent, loadEmailInput, saveEmail } from '../email/store.js';
@@ -23,6 +23,21 @@ async function main(): Promise<void> {
   const limit = Number(arg('limit') ?? env.BATCH_SIZE);
   if (await isPaused()) {
     log.warn('Sistema pausado (controle.pausado). Nenhum email foi gerado.');
+    return;
+  }
+
+  // One email rewritten from Telegram (morning review): `--prospect <id> --instrucao "texto"`.
+  const unico = arg('prospect');
+  if (unico) {
+    const p = await prospectById(unico);
+    if (p.status !== 'email_pronto') throw new Error(`Esse email já saiu da fila (situação: ${p.status})`);
+    const dados = await loadEmailInput(p.empresa_id!);
+    const email = await generateEmail({ ...dados, primeiro_nome: p.primeiro_nome, instrucao: arg('instrucao') });
+    await deleteUnsent(p.id);
+    await saveEmail(p.id, email);
+    await mkdir('out', { recursive: true });
+    await writeFile('out/email-reescrito.md', renderEmailReport([{ dominio: dados.dominio, primeiro_nome: p.primeiro_nome, email }], env.SENDER_NAME, env.SENDER_BRAND));
+    log.info('Email reescrito', { dominio: dados.dominio });
     return;
   }
 

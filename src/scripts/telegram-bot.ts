@@ -1,7 +1,9 @@
 import { getEnv, requireEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
-import { telegram } from '../telegram/client.js';
-import { ajustar, ajustarSite, aprovarEEnviar, naoEnviar } from '../flow/lead-esboco.js';
+import { teclado, telegram } from '../telegram/client.js';
+import { ajustar, ajustarSite, aprovarEEnviar, naoEnviar, rascunharResposta } from '../flow/lead-esboco.js';
+import { runNpm } from '../lib/run.js';
+import { readFile } from 'node:fs/promises';
 import { loadLead } from '../flow/store.js';
 import { interpretar, type Turno } from '../telegram/assistant.js';
 import { comandoDe, executar, pedirConfirmacao, resumoAtual, textoConfig, tirarPendente, type Resposta } from '../telegram/commands.js';
@@ -60,6 +62,10 @@ async function main(): Promise<void> {
     { command: 'auto', description: 'Liga e desliga ciclos automáticos' },
     { command: 'bloquear', description: 'Nunca contatar: /bloquear site.com.br' },
     { command: 'relatorio', description: 'Manda um relatório: /relatorio emails' },
+    { command: 'leads', description: 'Quem respondeu e em que pé está' },
+    { command: 'revisao', description: 'Mostra os próximos emails para revisar' },
+    { command: 'semana', description: 'A semana em números' },
+    { command: 'lista', description: 'Importa uma lista do Snov: /lista 41711292' },
     { command: 'site', description: 'Esboço de qualquer site: /site site.com.br' },
     { command: 'ajustar', description: 'Ajusta um esboço: /ajustar site.com.br' },
     { command: 'ajuda', description: 'Lista de comandos' },
@@ -69,7 +75,7 @@ async function main(): Promise<void> {
   const historico: Turno[] = [];
   // Slash commands run directly; anything else goes through the assistant, which can only pick allowed actions.
   // Prospect id (lead flow) or domain (/ajustar) waiting for Moura's adjustment text.
-  let ajustePendente: { tipo: 'lead' | 'site'; id: string } | null = null;
+  let ajustePendente: { tipo: 'lead' | 'site' | 'email' | 'resposta'; id: string } | null = null;
   const responder = async (texto: string, confirmado = false): Promise<Resposta> => {
     await aplicarAjustesNoProcesso();
     const [cmd, id] = texto.trim().split(/\s+/);
@@ -94,6 +100,15 @@ async function main(): Promise<void> {
       ajustePendente = { tipo: 'lead', id };
       return { texto: 'O que eu mudo? Escreva os ajustes (um por linha ou separados por ponto e vírgula).' };
     }
+    if (cmd === '/rev_ok') return { texto: '👍 Fica como está.' };
+    if (cmd === '/rev_aj' && id) {
+      ajustePendente = { tipo: 'email', id };
+      return { texto: 'O que eu mudo nesse email? (ex.: "mais curto", "tira o ponto do cookie", "fala da velocidade primeiro"). Cerca de US$0,03.' };
+    }
+    if (cmd === '/resp' && id) {
+      ajustePendente = { tipo: 'resposta', id };
+      return { texto: 'O que você quer responder? Escreva do seu jeito (ex.: "o site sai por 3 mil, prazo 20 dias, marca uma call quinta") que eu deixo pronto para colar.' };
+    }
     if (cmd === '/ajustar') {
       const d = (id ?? '').toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
       if (!d.includes('.')) return { texto: 'Me manda assim: /ajustar site.com.br' };
@@ -103,9 +118,20 @@ async function main(): Promise<void> {
     if (ajustePendente && !texto.startsWith('/')) {
       const alvo = ajustePendente;
       ajustePendente = null;
+      if (alvo.tipo === 'resposta') return { texto: await rascunharResposta(alvo.id, texto) };
+      if (alvo.tipo === 'email') {
+        await telegram('sendMessage', { chat_id: dono, text: '✏️ Reescrevendo...' });
+        const r = await runNpm('emails', ['--prospect', alvo.id, '--instrucao', texto]);
+        if (r.code !== 0) return { texto: `Não consegui reescrever: ${r.saida.slice(-300)}` };
+        const novo = (await readFile('out/email-reescrito.md', 'utf8').catch(() => '')).replace(/\*\*/g, '').slice(0, 3500);
+        return { texto: `✉️ Nova versão:\n\n${novo}`, linhas: [[{ texto: '✅ Está bom', dados: '/rev_ok' }, { texto: '✏️ Reescrever de novo', dados: `/rev_aj ${alvo.id}` }]] };
+      }
       await telegram('sendMessage', { chat_id: dono, text: '✏️ Ajustando, leva uns minutos...' });
       return { texto: alvo.tipo === 'lead' ? await ajustar(alvo.id, texto) : await ajustarSite(alvo.id, texto) };
     }
+    // A Snov list link: import only that list.
+    const lista = !texto.startsWith('/') && texto.match(/snov\.io\/\S*?lists?\/(\d{5,})/i)?.[1];
+    if (lista) return executar(`/lista ${lista}`);
     // A pasted link (e.g. a site a client sent on WhatsApp): offer to build the draft.
     const link = !texto.startsWith('/') && linkColado(texto);
     if (link) {
@@ -143,7 +169,7 @@ async function main(): Promise<void> {
         await telegram('sendMessage', {
           chat_id: dono,
           text: r.texto,
-          ...(r.botoes || r.linhas ? { reply_markup: { inline_keyboard: (r.linhas ?? [r.botoes!]).map((l) => l.map((b) => ({ text: b.texto, callback_data: b.dados }))) } } : {}),
+          ...(r.botoes || r.linhas ? { reply_markup: { inline_keyboard: teclado(r.linhas ?? [r.botoes!]) } } : {}),
         });
         log.info('Comando do Telegram', { comando: texto.split(/\s/)[0] });
       } catch (err) {

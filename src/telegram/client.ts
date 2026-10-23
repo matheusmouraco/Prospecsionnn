@@ -19,12 +19,12 @@ export async function sendMessage(chatId: string, text: string): Promise<void> {
   await telegram('sendMessage', { chat_id: chatId, text });
 }
 
-export interface Botao { texto: string; dados: string }
+export interface Botao { texto: string; dados: string; url?: string } // url: opens a link instead of a command
 
 export async function sendMessageWithButtons(chatId: string, text: string, botoes: Botao[][]): Promise<void> {
   await telegram('sendMessage', {
     chat_id: chatId, text,
-    reply_markup: { inline_keyboard: botoes.map((linha) => linha.map((b) => ({ text: b.texto, callback_data: b.dados }))) },
+    reply_markup: { inline_keyboard: teclado(botoes) },
   });
 }
 
@@ -51,3 +51,6 @@ export async function sendDocument(chatId: string, conteudo: Buffer, nome: strin
   const json = (await res.json()) as { ok: boolean; description?: string };
   if (!json.ok) throw new Error(`Telegram sendDocument falhou: ${json.description ?? res.status}`);
 }
+
+export const teclado = (linhas: Botao[][]) =>
+  linhas.map((l) => l.map((b) => (b.url ? { text: b.texto, url: b.url } : { text: b.texto, callback_data: b.dados })));

@@ -1,18 +1,20 @@
 import { getEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
-import { sendMessage } from './client.js';
+import { sendMessage, sendMessageWithButtons, type Botao } from './client.js';
 
 const log = logger.child({ etapa: 'telegram' });
 
 // Sends a message to Moura. Never throws: a Telegram outage must not stop the pipeline.
-export async function notify(text: string): Promise<boolean> {
+export async function notify(text: string, botoes?: Botao[]): Promise<boolean> {
   const env = getEnv();
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) {
     log.warn('Telegram não configurado; aviso não enviado', { texto: text.slice(0, 120) });
     return false;
   }
   try {
-    await sendMessage(env.TELEGRAM_CHAT_ID, env.DRY_RUN ? `[teste, DRY_RUN]\n${text}` : text);
+    const texto = env.DRY_RUN ? `[teste, DRY_RUN]\n${text}` : text;
+    if (botoes?.length) await sendMessageWithButtons(env.TELEGRAM_CHAT_ID, texto, [botoes]);
+    else await sendMessage(env.TELEGRAM_CHAT_ID, texto);
     return true;
   } catch (err) {
     log.error('Falha ao enviar aviso no Telegram', { err });

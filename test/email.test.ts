@@ -181,7 +181,7 @@ describe('renderEmail1', () => {
   it('has no link and no dash', () => {
     const txt = renderEmail1(bom, 'Matheus Moura', 'Matilab');
     expect(txt).toContain('Matheus Moura | Matilab');
-    expect(txt).toContain('**Assunto:** site da Dentelli');
+    expect(txt).toContain('**Assunto:** sobre o site da Dentelli');
     expect(txt).toContain('Oi Bruna, tudo bem?');
     expect(txt).toContain('Entrei no site da Dentelli');
     expect(txt).toContain('anotei alguns pontos');

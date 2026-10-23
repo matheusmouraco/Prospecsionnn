@@ -33,7 +33,9 @@
     "esbocos:ajustar": "tsx src/scripts/esbocos-ajustar.ts",
     "respostas:testar": "tsx src/scripts/respostas-testar.ts",
     "respostas:ler": "tsx src/scripts/respostas-ler.ts",
-    "snov:enviar": "tsx src/scripts/snov-enviar.ts"
+    "snov:enviar": "tsx src/scripts/snov-enviar.ts",
+    "revisao": "tsx src/scripts/revisao-emails.ts",
+    "semana": "tsx src/scripts/resumo-semanal.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",
