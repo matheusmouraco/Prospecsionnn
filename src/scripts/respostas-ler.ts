@@ -57,7 +57,14 @@ async function main(): Promise<void> {
     if (await replyKnown(r.id)) continue;
     const p = await prospectByEmail(r.email);
     if (!p) {
-      log.warn('Resposta de email que não está no banco', { email: r.email });
+      // `--teste`: replies from the addresses used in snov:teste are classified and announced, nothing is saved.
+      if (process.argv.includes('--teste')) {
+        const c = await classifyReply(env.MODEL_FAST, env.SENDER_BRAND, { empresa: r.email, texto: r.texto });
+        const acoes = acoesPara(c);
+        linhas.push(`| ${r.email} (teste) | ${r.texto.replace(/\s+/g, ' ').replace(/\|/g, '/').slice(0, 90)} | ${c.categoria} | ${c.confianca.toFixed(2)} | ${acoes.join(' + ')} | ${c.resumo.replace(/\|/g, '/')} |`);
+        await notify(formatLead({ nome: null, empresa: 'Teste', dominio: null, email: r.email, categoria: c.categoria, resumo: c.resumo, texto: r.texto }));
+        log.info('Resposta de teste classificada', { email: r.email, categoria: c.categoria, acoes });
+      } else log.warn('Resposta de email que não está no banco', { email: r.email });
       continue;
     }
     const c = await classifyReply(env.MODEL_FAST, env.SENDER_BRAND, { empresa: p.empresa ?? p.dominio ?? r.email, texto: r.texto });
