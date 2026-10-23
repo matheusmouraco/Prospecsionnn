@@ -254,6 +254,13 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run respostas:testar`: classifica as 20 respostas de exemplo (`test/fixtures/respostas.json`) e gera `out/classificacao.md` com a tabela de acerto (critério da Fase 6)
 - `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada. No Mac, cada esboço abre no navegador assim que fica pronto (`--sem-abrir` desliga).
 
+## VPS (Hostinger KVM2, Ubuntu 24.04, 72.61.57.12)
+
+- Projeto em `/opt/prospector`, copiado do Mac por `deploy/enviar-para-vps.sh` (rsync com `.env`, prints das referências e `out/`; sem git no VPS). Rodar de novo a cada atualização.
+- Primeira vez: `ssh root@72.61.57.12 'bash /opt/prospector/deploy/vps-setup.sh'` (fuso São Paulo, Node 20, Chromium, pm2 com início no boot).
+- pm2 (`deploy/ecosystem.config.cjs`): `bot` sempre ligado, `travas` a cada 30 min, `resumo` às 19h. Ciclos de importação, análise, email, envio e respostas entram na Fase 8.
+- Só um bot pode ouvir o Telegram por vez: com o VPS ligado, não rodar `telegram:bot` no Mac.
+
 ## Notas sobre a publicação (Fase 7)
 
 - matilab.com.br tem DNS na Hostinger (dns-parking), não na Vercel: o `analise` precisa de um CNAME para `cname.vercel-dns.com` feito no painel da Hostinger.
