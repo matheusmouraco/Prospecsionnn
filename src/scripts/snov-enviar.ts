@@ -46,7 +46,7 @@ async function main(): Promise<void> {
         continue;
       }
       const r = await snov.addProspectToList(listId, {
-        email: e.email, firstName: e.primeiro_nome, companyName: e.empresa, companySite: e.dominio ? `https://${e.dominio}` : null, customFields: e.campos,
+        email: e.email, firstName: e.primeiro_nome, fullName: e.primeiro_nome ?? e.empresa ?? e.email.split('@')[0], companyName: e.empresa, companySite: e.dominio ? `https://${e.dominio}` : null, customFields: e.campos,
       });
       if (!r.ok) throw new Error(`Snov não confirmou a inclusão: ${JSON.stringify(r.raw).slice(0, 300)}`);
       await markSent(e.email_id);

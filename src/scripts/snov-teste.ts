@@ -28,9 +28,10 @@ async function main(): Promise<void> {
   const snov = new SnovClient({ clientId: requireEnv('SNOV_CLIENT_ID'), clientSecret: requireEnv('SNOV_CLIENT_SECRET') });
   for (const email of destinos) {
     const r = await snov.addProspectToList(listId, {
-      email, firstName: null, companyName: e.empresa, companySite: e.dominio ? `https://${e.dominio}` : null, customFields: e.campos,
+      email, firstName: null, fullName: e.empresa ?? email.split('@')[0], companyName: e.empresa, companySite: e.dominio ? `https://${e.dominio}` : null, customFields: e.campos,
     });
-    log.info(r.ok ? 'Email de teste na lista de saída' : 'Snov não confirmou', { email, lista: listId, dry_run_ignorado: env.DRY_RUN });
+    if (!r.ok) throw new Error(`Snov não incluiu ${email}: ${JSON.stringify(r.raw).slice(0, 300)}`);
+    log.info('Email de teste na lista de saída', { email, lista: listId, novo: r.added, atualizado: r.updated, dry_run_ignorado: env.DRY_RUN });
   }
 }
 
