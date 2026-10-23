@@ -15,7 +15,7 @@ async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const i = args.indexOf('--dominio');
   const dominio = i >= 0 ? args[i + 1]! : await firstReadyDomain();
-  const destinos = args.filter((a, j) => EMAIL.test(a) && j !== i + 1);
+  const destinos = args.filter((a, j) => EMAIL.test(a) && (i < 0 || j !== i + 1));
   if (!destinos.length) throw new Error('Informe pelo menos um email seu: npm run snov:teste -- voce@gmail.com --confirmar');
 
   const e = await loadEnvio(await prospectIdByDomain(dominio));
