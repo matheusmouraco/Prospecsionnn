@@ -1,7 +1,8 @@
 import { requireEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
 import { telegram } from '../telegram/client.js';
-import { executar } from '../telegram/commands.js';
+import { interpretar, type Turno } from '../telegram/assistant.js';
+import { executar, resumoAtual, type Resposta } from '../telegram/commands.js';
 
 const log = logger.child({ etapa: 'telegram' });
 
@@ -19,10 +20,22 @@ async function main(): Promise<void> {
     { command: 'status', description: 'Como está o sistema hoje' },
     { command: 'pausar', description: 'Pausa tudo' },
     { command: 'retomar', description: 'Volta a rodar' },
+    { command: 'painel', description: 'Atualiza o painel na Vercel' },
     { command: 'ajuda', description: 'Lista de comandos' },
   ] });
   log.info('Bot do Telegram ouvindo');
   let offset = 0;
+  const historico: Turno[] = [];
+  // Slash commands run directly; anything else goes through the assistant, which can only pick allowed actions.
+  const responder = async (texto: string): Promise<Resposta> => {
+    if (texto.startsWith('/')) return executar(texto);
+    const i = await interpretar(texto, await resumoAtual(), historico);
+    historico.push({ de: 'moura', texto }, { de: 'bot', texto: i.resposta });
+    if (historico.length > 16) historico.splice(0, historico.length - 16);
+    if (i.acao === 'nenhuma') return { texto: i.resposta };
+    const r = await executar(i.acao === 'pausar' ? `/pausar ${i.motivo}` : `/${i.acao}`);
+    return { ...r, texto: `${i.resposta}\n\n${r.texto}` };
+  };
   for (;;) {
     let updates: Update[] = [];
     try {
@@ -39,7 +52,7 @@ async function main(): Promise<void> {
       if (u.callback_query) await telegram('answerCallbackQuery', { callback_query_id: u.callback_query.id }).catch(() => undefined);
       if (chat !== dono || !texto) continue;
       try {
-        const r = await executar(texto);
+        const r = await responder(texto);
         await telegram('sendMessage', {
           chat_id: dono,
           text: r.texto,

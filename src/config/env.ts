@@ -63,6 +63,7 @@ const envSchema = z.object({
   VERCEL_TOKEN: optionalString,
   VERCEL_TEAM_ID: z.string().trim().min(1).default('team_EZr88WUvWf8Z5tTgpeDfnbBn'),
   VERCEL_PROJECT: z.string().trim().min(1).default('matilab-analise'),
+  VERCEL_PANEL_PROJECT: z.string().trim().min(1).default('matilab-painel'),
 
   DRY_RUN: dryRun,
   BATCH_SIZE: positiveInt(20),

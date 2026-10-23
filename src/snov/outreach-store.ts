@@ -48,3 +48,20 @@ export async function markSent(emailId: string, db: Db = getSupabase()): Promise
   const { error } = await db.from('emails').update({ enviado_em: new Date().toISOString() }).eq('id', emailId);
   if (error) throw new Error(`Falha ao marcar email ${emailId} como enviado: ${error.message}`);
 }
+
+// The prospect of a domain that already has an email written (used by snov:teste to borrow real fields).
+export async function prospectIdByDomain(dominio: string, db: Db = getSupabase()): Promise<string> {
+  const { data, error } = await db.from('prospects').select('id, empresas!inner(dominio)').eq('empresas.dominio', dominio).limit(1);
+  if (error) throw new Error(`Falha ao buscar ${dominio}: ${error.message}`);
+  if (!data?.length) throw new Error(`${dominio} não está no banco`);
+  return data[0]!.id as string;
+}
+
+export async function firstReadyDomain(db: Db = getSupabase()): Promise<string> {
+  const { data, error } = await db.from('prospects').select('empresas(dominio)').eq('status', 'email_pronto').limit(1);
+  if (error) throw new Error(`Falha ao buscar prospect pronto: ${error.message}`);
+  const emp = data?.[0]?.empresas as { dominio?: string } | { dominio?: string }[] | undefined;
+  const dominio = Array.isArray(emp) ? emp[0]?.dominio : emp?.dominio;
+  if (!dominio) throw new Error('Nenhum prospect com email pronto; rode npm run emails primeiro');
+  return dominio;
+}

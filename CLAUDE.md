@@ -236,7 +236,9 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run db:check`: confere conexão e existência das tabelas (critério da Fase 1)
 - `npm run snov:lists`: mostra as listas da conta e seus ids
 - `npm run esbocos:publicar -- [site.com.br ...]`: grava no banco o HTML dos esboços aprovados informados e refaz o deploy estático na Vercel (projeto `VERCEL_PROJECT`, time `VERCEL_TEAM_ID`) com todos os publicados em `/<slug>`, `X-Robots-Tag: noindex` e robots.txt bloqueando tudo. Com `DRY_RUN=true` vira deploy de prévia (URL protegida da Vercel); com `false` vai para produção e liga o domínio de `DRAFT_BASE_URL`. Avisa no Telegram
-- `npm run telegram:bot`: bot que fica ouvindo os comandos do Moura (/status, /pausar motivo, /retomar, /ajuda, com botões); ignora qualquer outro chat
+- `npm run telegram:bot`: bot que fica ouvindo o Moura: comandos (/status, /pausar motivo, /retomar, /painel, /ajuda, com botões) e mensagem livre, interpretada pelo `MODEL_FAST` (`src/telegram/assistant.ts`, prompt `telegram-assistente.md`) que só escolhe entre as mesmas ações; ignora qualquer outro chat
+- `npm run painel`: monta o painel (funil, respostas, esboços, custo de 14 dias) com dados do banco e publica como deploy de PRÉVIA no projeto `VERCEL_PANEL_PROJECT` (só abre logado na Vercel; dados de leads nunca ficam públicos). Manda o link no Telegram
+- `npm run snov:teste -- email@seu.com [outro@seu.com] [--dominio site.com.br] --confirmar`: coloca os SEUS emails na lista de saída com os campos reais de uma empresa analisada, para receber o email como ela receberia. Ignora o DRY_RUN de propósito (só os emails digitados recebem) e não mexe na fila nem nas métricas; sem `--confirmar` só mostra os campos
 - `npm run travas`: confere as métricas do dia e pausa tudo + avisa no Telegram se bounce > 3%, descadastros > 1% (a partir de 10 envios) ou custo > `MAX_DAILY_API_COST_USD`
 - `npm run resumo`: manda o resumo do dia no Telegram (19h no cron do VPS)
 - `npm run telegram:setup`: descobre o `TELEGRAM_CHAT_ID` (de quem mandou mensagem ao bot) e envia uma mensagem de teste
@@ -270,7 +272,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 ## Notas sobre o Telegram (Fase 7)
 
 - `src/telegram/notify.ts`: `notify` nunca derruba o pipeline; em DRY_RUN a mensagem vai com o prefixo "[teste, DRY_RUN]". O `respostas:ler` avisa o Moura (`formatLead`) em toda resposta com `notificar_moura`.
-- Comandos em `src/telegram/commands.ts` (`executar`), só ações da lista. Mensagem livre interpretada pelo Claude ainda não existe.
+- Comandos em `src/telegram/commands.ts` (`executar`), só ações da lista. Mensagem livre: `interpretar` devolve `{acao, motivo, resposta}` com `acao` em nenhuma/status/pausar/retomar/painel; o bot guarda as últimas 8 falas em memória.
 - Trava de erro de autenticação por 3 ciclos ainda não existe (depende do agendador do VPS).
 
 ## Notas sobre as respostas (Fase 6)

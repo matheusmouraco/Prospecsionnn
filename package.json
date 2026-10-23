@@ -17,6 +17,8 @@
     "telegram:setup": "tsx src/scripts/telegram-setup.ts",
     "telegram:bot": "tsx src/scripts/telegram-bot.ts",
     "travas": "tsx src/scripts/travas.ts",
+    "painel": "tsx src/scripts/painel.ts",
+    "snov:teste": "tsx src/scripts/snov-teste.ts",
     "esbocos:publicar": "tsx src/scripts/esbocos-publicar.ts",
     "resumo": "tsx src/scripts/resumo-diario.ts",
     "snov:inspect": "tsx src/scripts/snov-inspect.ts",

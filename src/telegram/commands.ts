@@ -2,6 +2,7 @@ import { isPaused, setPaused } from '../db/control.js';
 import { businessDay } from '../lib/dates.js';
 import { renderResumo } from '../monitor/locks.js';
 import { contarStatus, metricasDoDia, motivoPausa } from '../monitor/store.js';
+import { publishPainel } from '../panel/publish.js';
 
 export const LEAD_STATUS = ['respondeu_interesse', 'notificado_moura'];
 
@@ -17,6 +18,8 @@ export const AJUDA = [
   '/status: como está o sistema hoje',
   '/pausar motivo: pausa envios, análises e respostas',
   '/retomar: volta a rodar',
+  '/painel: atualiza o painel na Vercel e manda o link',
+  'Ou escreva normal, que eu entendo.',
   '/ajuda: esta lista',
 ].join('\n');
 
@@ -41,6 +44,8 @@ export async function executar(comando: string): Promise<Resposta> {
     case '/retomar':
       await setPaused(false);
       return { texto: '▶️ Rodando de novo.' };
+    case '/painel':
+      return { texto: `📈 Painel atualizado (abre logado na Vercel):\n${await publishPainel()}` };
     default:
       return { texto: `Não entendi.\n\n${AJUDA}` };
   }
