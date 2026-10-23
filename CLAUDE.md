@@ -280,7 +280,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 
 - `src/telegram/notify.ts`: `notify` nunca derruba o pipeline; em DRY_RUN a mensagem vai com o prefixo "[teste, DRY_RUN]". O `respostas:ler` avisa o Moura (`formatLead`) em toda resposta com `notificar_moura`.
 - Comandos em `src/telegram/commands.ts` (`executar`), só ações da lista. Mensagem livre: `interpretar` devolve `{acao, motivo, resposta}` com `acao` em nenhuma/status/pausar/retomar/painel; o bot guarda as últimas 8 falas em memória.
-- Trava de erro de autenticação por 3 ciclos ainda não existe (depende do agendador do VPS).
+- Trava de falha repetida: o agendador pausa tudo e avisa quando o mesmo ciclo falha 3 vezes seguidas (cobre erro de autenticação do Snov e da Anthropic).
 
 ## Notas sobre as respostas (Fase 6)
 
