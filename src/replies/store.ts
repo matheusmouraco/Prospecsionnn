@@ -10,11 +10,11 @@ export async function replyKnown(snovId: string, db: Db = getSupabase()): Promis
 
 export async function prospectByEmail(email: string, db: Db = getSupabase()) {
   const { data, error } = await db
-    .from('prospects').select('id, status, tentativas, empresa_id, email, empresas(nome, dominio)').eq('email', email).maybeSingle();
+    .from('prospects').select('id, status, tentativas, empresa_id, email, primeiro_nome, empresas(nome, dominio)').eq('email', email).maybeSingle();
   if (error) throw new Error(`Falha ao buscar prospect ${email}: ${error.message}`);
   if (!data) return null;
   const emp = (Array.isArray(data.empresas) ? data.empresas[0] : data.empresas) as { nome: string | null; dominio: string | null } | null;
-  return { ...(data as unknown as Pick<ProspectRow, 'id' | 'status' | 'tentativas' | 'empresa_id' | 'email'>), empresa: emp?.nome ?? null, dominio: emp?.dominio ?? null };
+  return { ...(data as unknown as Pick<ProspectRow, 'id' | 'status' | 'tentativas' | 'empresa_id' | 'email' | 'primeiro_nome'>), empresa: emp?.nome ?? null, dominio: emp?.dominio ?? null };
 }
 
 export async function saveReply(

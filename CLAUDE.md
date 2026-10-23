@@ -235,6 +235,9 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run db:migrate`: aplica `supabase/migrations/*.sql` em ordem (precisa `SUPABASE_DB_URL`)
 - `npm run db:check`: confere conexão e existência das tabelas (critério da Fase 1)
 - `npm run snov:lists`: mostra as listas da conta e seus ids
+- `npm run telegram:bot`: bot que fica ouvindo os comandos do Moura (/status, /pausar motivo, /retomar, /ajuda, com botões); ignora qualquer outro chat
+- `npm run travas`: confere as métricas do dia e pausa tudo + avisa no Telegram se bounce > 3%, descadastros > 1% (a partir de 10 envios) ou custo > `MAX_DAILY_API_COST_USD`
+- `npm run resumo`: manda o resumo do dia no Telegram (19h no cron do VPS)
 - `npm run telegram:setup`: descobre o `TELEGRAM_CHAT_ID` (de quem mandou mensagem ao bot) e envia uma mensagem de teste
 - `npm run snov:inspect -- <listId>`: salva 5 prospects crus em `out/snov-amostra.json` para conferir os nomes de campo
 - `npm run snov:import -- [--preview] [--max N] [listIds...]`: importa e deduplica; relatório em `out/importacao.md` (critério da Fase 2). Com `SNOV_SOURCE_LIST_IDS=todas` lê todas as listas da conta (menores primeiro), menos a de saída, a do esboço e `SNOV_EXCLUDE_LIST_IDS`. Cada rodada lê até `IMPORT_MAX_PER_RUN` prospects novos; os já lidos ficam em `snov_vistos` (migration 0006) e são pulados, então a próxima rodada continua de onde parou e passa para a lista seguinte sozinha
@@ -249,6 +252,12 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run respostas:ler -- [--amostra]`: lê as respostas da `SNOV_CAMPAIGN_ID`, classifica as novas e age (status, do-not-email, bloqueados, retomada em 6 meses); relatório em `out/respostas.md`. Com `DRY_RUN=true` só classifica. `--amostra` salva o JSON cru em `out/snov-respostas.json`
 - `npm run respostas:testar`: classifica as 20 respostas de exemplo (`test/fixtures/respostas.json`) e gera `out/classificacao.md` com a tabela de acerto (critério da Fase 6)
 - `npm run esbocos -- [--limit N | --dominio site.com.br | --refazer]`: gera esboços em `out/esbocos/<dominio>/index.html` com nota do juiz e `out/esbocos.md` (critério da Fase 5). Não publica nada. No Mac, cada esboço abre no navegador assim que fica pronto (`--sem-abrir` desliga).
+
+## Notas sobre o Telegram (Fase 7)
+
+- `src/telegram/notify.ts`: `notify` nunca derruba o pipeline; em DRY_RUN a mensagem vai com o prefixo "[teste, DRY_RUN]". O `respostas:ler` avisa o Moura (`formatLead`) em toda resposta com `notificar_moura`.
+- Comandos em `src/telegram/commands.ts` (`executar`), só ações da lista. Mensagem livre interpretada pelo Claude ainda não existe.
+- Trava de erro de autenticação por 3 ciclos ainda não existe (depende do agendador do VPS).
 
 ## Notas sobre as respostas (Fase 6)
 

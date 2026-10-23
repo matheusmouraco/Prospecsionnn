@@ -8,6 +8,7 @@ import { acoesPara, classifyReply, type Categoria } from '../replies/classify.js
 import { block, prospectByEmail, reactivateDue, replyKnown, saveReply, setRetomar } from '../replies/store.js';
 import { SnovClient } from '../snov/client.js';
 import { parseReply } from '../snov/replies.js';
+import { formatLead, notify } from '../telegram/notify.js';
 
 const log = logger.child({ etapa: 'respostas' });
 const SEIS_MESES_MS = 182 * 24 * 60 * 60 * 1000;
@@ -63,6 +64,9 @@ async function main(): Promise<void> {
     const acoes = acoesPara(c);
     linhas.push(`| ${p.dominio ?? r.email} | ${r.texto.replace(/\s+/g, ' ').replace(/\|/g, '/').slice(0, 90)} | ${c.categoria} | ${c.confianca.toFixed(2)} | ${acoes.join(' + ')} | ${c.resumo.replace(/\|/g, '/')} |`);
     log.info('Resposta classificada', { dominio: p.dominio, categoria: c.categoria, confianca: c.confianca, acoes });
+    if (acoes.includes('notificar_moura')) {
+      await notify(formatLead({ nome: p.primeiro_nome ?? null, empresa: p.empresa, dominio: p.dominio, email: r.email, categoria: c.categoria, resumo: c.resumo, texto: r.texto }));
+    }
     if (env.DRY_RUN) continue;
 
     await saveReply({ snov_id: r.id, prospect_id: p.id, texto: r.texto, recebida_em: r.recebida_em, c, acoes });
@@ -80,7 +84,7 @@ async function main(): Promise<void> {
     } catch (err) {
       log.warn('Status do prospect não mudou', { dominio: p.dominio, de: p.status, para: destino, err });
     }
-    // gerar_esboco and notificar_moura run from the new status (esbocos and Telegram, Phase 7).
+    // gerar_esboco runs from the new status (esbocos).
   }
 
   await writeFile('out/respostas.md', [
