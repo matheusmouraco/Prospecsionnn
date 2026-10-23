@@ -185,6 +185,7 @@ const CICLOS: Record<string, string> = {
   resumo: 'manda o resumo do dia aqui',
   revisao: 'manda os próximos 3 emails para você revisar às 8h05; sem resposta em 5 minutos, vão como estão às 8h15',
   semana: 'manda a semana em números (sexta, 18h)',
+  estoque: 'avisa quando os emails prontos ou as empresas da fila estão acabando, com botões para preparar mais (dias úteis, 9h)',
 };
 
 // Returns what will happen (null = safe to run without asking).
