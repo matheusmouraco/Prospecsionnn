@@ -18,7 +18,7 @@ export const AJUSTES: Ajuste[] = [
   { nome: 'MAX_DAILY_API_COST_USD', comando: 'custo', descricao: 'teto de gasto de API por dia (US$)', min: 1, max: 500, padrao: 50 },
   { nome: 'MIN_SITE_SCORE_TO_SKIP', comando: 'nota', descricao: 'nota a partir da qual o site é bom e é descartado', min: 0, max: 100, padrao: 75 },
   { nome: 'AUTO_LOTE', comando: 'lote', descricao: 'empresas analisadas e escritas por dia no automático', min: 1, max: 300, padrao: 20 },
-  { nome: 'AUTO_FILA_MAX', comando: 'estoque', descricao: 'emails prontos guardados antes de parar de analisar', min: 1, max: 1000, padrao: 40 },
+  { nome: 'AUTO_FILA_MAX', comando: 'estoque', descricao: 'emails prontos guardados antes de parar de analisar', min: 1, max: 1000, padrao: 60 },
 ];
 
 export const PREFIXO = 'ajuste:';

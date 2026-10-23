@@ -89,12 +89,16 @@ O sistema coloca o lead nessa lista só depois que o Moura aprova o esboço no T
 por isso o texto não depende de quem mandou o primeiro email. Um email só, sem follow-up, parar ao responder,
 texto puro, rastreamento desligado, mesma agenda.
 
-**Assunto:** esboço do {site_da_empresa}
+**Assunto:** Re: sobre o {site_da_empresa}
 
-{saudacao}, como combinado, aqui está o esboço do site de vocês:
+(o "Re:" faz o email parecer continuação da conversa do primeiro contato)
+
+{saudacao},
+
+{mensagem_esboco}
 
 {link_esboco}
 
-É uma proposta conceitual, montada a partir do site atual. Se fizer sentido conversar sobre colocar no ar, é só responder aqui ou me chamar no WhatsApp pelo botão da página.
-
 {assinatura}
+
+`mensagem_esboco` é escrita pelo sistema para cada lead, respondendo ao que ele disse, e aparece no Telegram antes de você aprovar (botão ✍️ Mudar mensagem). Precisa existir como custom field no Snov com esse nome exato.

@@ -19,6 +19,7 @@ import { loadEnvio } from '../snov/outreach-store.js';
 import { sendMessageWithButtons, sendPhoto } from '../telegram/client.js';
 import { notify } from '../telegram/notify.js';
 import { loadLead, setStatus, type LeadEsboco } from './store.js';
+import { getSupabase } from '../db/client.js';
 
 const log = logger.child({ etapa: 'esboco-lead' });
 const DIR = 'out/esbocos';
@@ -43,11 +44,56 @@ export async function prints(dominio: string): Promise<{ desktop: Buffer; mobile
   }
 }
 
-// Sends Moura the draft for review, with the approve / adjust / skip buttons.
+// The middle of the "esboço pronto" email (custom field `mensagem_esboco`, max 255 chars), written for
+// what this lead said. Kept in `controle` until Moura approves, so he can see and change it first.
+const chaveMsg = (id: string) => `msg_esboco:${id}`;
+export async function gerarMensagem(lead: LeadEsboco, pedido = ''): Promise<string> {
+  const env = getEnv();
+  const system = await loadPrompt('mensagem-esboco', {
+    dono: env.SENDER_NAME.split(' ')[0] ?? 'Moura', marca: env.SENDER_BRAND,
+    pedido: pedido ? `- Pedido do ${env.SENDER_NAME.split(' ')[0]} para esta versão: ${pedido}` : '',
+  });
+  let extra = '';
+  for (let i = 0; i < 3; i++) {
+    const { data } = await parseJson({
+      model: env.MODEL_FAST, system, effort: 'low', maxTokens: 1000,
+      content: [{ type: 'text', text: `Empresa: ${lead.empresa ?? lead.dominio}\nO que o lead escreveu: ${(lead.resposta ?? '(não encontrado)').replace(/\s+/g, ' ').slice(0, 1000)}${extra}` }],
+      schema: z.object({ mensagem: z.string().min(1) }),
+    });
+    const m = data.mensagem.trim();
+    const erros = [m.length > 255 && `tem ${m.length} caracteres, o máximo é 255`, /[—–]/.test(m) && 'tem travessão', /https?:|www\./i.test(m) && 'tem link'].filter(Boolean);
+    if (!erros.length) {
+      await getSupabase().from('controle').upsert({ chave: chaveMsg(lead.id), valor: m });
+      return m;
+    }
+    extra = `\n\nSua versão "${m}" foi recusada: ${erros.join(', ')}. Reescreva.`;
+  }
+  throw new Error('Não consegui escrever a mensagem do esboço dentro das regras');
+}
+async function mensagemSalva(id: string): Promise<string | null> {
+  const { data } = await getSupabase().from('controle').select('valor').eq('chave', chaveMsg(id)).maybeSingle();
+  return (data?.valor as string | undefined) || null;
+}
+
+export async function mudarMensagem(prospectId: string, pedido: string): Promise<string> {
+  const lead = await loadLead(prospectId);
+  const m = await gerarMensagem(lead, pedido);
+  await sendMessageWithButtons(requireEnv('TELEGRAM_CHAT_ID'), `✍️ Nova mensagem para ${lead.email}:\n\n${saudacaoDe(lead)},\n\n${m}\n\n${lead.esboco?.url ?? '(link do esboço)'}`, botoesAprovacao(lead.id));
+  return 'Mensagem atualizada acima.';
+}
+
+const saudacaoDe = (lead: LeadEsboco) => (lead.primeiro_nome ? `Oi ${lead.primeiro_nome.split(' ')[0]}` : 'Olá');
+const botoesAprovacao = (id: string) => [
+  [{ texto: '✅ Aprovar e enviar', dados: `/esb_ok ${id}` }, { texto: '✍️ Mudar mensagem', dados: `/esb_msg ${id}` }],
+  [{ texto: '✏️ Ajustar esboço', dados: `/esb_aj ${id}` }, { texto: '🚫 Não enviar', dados: `/esb_no ${id}` }],
+];
+
+// Sends Moura the draft for review: prints, link, the ready message and the approve / change / skip buttons.
 export async function pedirAprovacao(lead: LeadEsboco): Promise<void> {
   const dono = requireEnv('TELEGRAM_CHAT_ID');
   const p = await prints(lead.dominio);
   const link = await publicarEsboco(lead.dominio).catch((err) => { log.warn('Não consegui publicar o esboço', { err }); return null; });
+  const mensagem = (await mensagemSalva(lead.id)) ?? (await gerarMensagem(lead).catch((err) => { log.warn('Não consegui escrever a mensagem', { err }); return null; }));
   await sendPhoto(dono, p.desktop, `O que fizemos para ${lead.empresa ?? lead.dominio} (computador)`);
   await sendPhoto(dono, p.mobile, 'O que fizemos (celular)');
   await sendMessageWithButtons(dono, [
@@ -57,9 +103,11 @@ export async function pedirAprovacao(lead: LeadEsboco): Promise<void> {
     `Site atual: https://${lead.dominio}`,
     link ? `O que fizemos (já no ar): ${link}` : 'O que fizemos: prints acima (não consegui publicar o link).',
     '',
+    mensagem ? `✉️ Email que vai para ele:\n\n${saudacaoDe(lead)},\n\n${mensagem}\n\n${link ?? '(link do esboço)'}` : '',
+    '',
     'Posso enviar para ele?',
   ].filter((l, i, a) => l || a[i - 1]).join('\n'),
-    [[{ texto: '✅ Aprovar e enviar', dados: `/esb_ok ${lead.id}` }, { texto: '✏️ Ajustar', dados: `/esb_aj ${lead.id}` }], [{ texto: '🚫 Não enviar', dados: `/esb_no ${lead.id}` }]]);
+    botoesAprovacao(lead.id));
 }
 
 // Cycle: leads who asked for the draft (or asked about price) get one generated, then wait for Moura.
@@ -97,7 +145,8 @@ export async function aprovarEEnviar(prospectId: string): Promise<string> {
   const snov = new SnovClient({ clientId: requireEnv('SNOV_CLIENT_ID'), clientSecret: requireEnv('SNOV_CLIENT_SECRET') });
   const r = await snov.addProspectToList(listId, {
     email: lead.email, firstName: lead.primeiro_nome, fullName: lead.primeiro_nome ?? lead.empresa ?? lead.email.split('@')[0],
-    companyName: lead.empresa, companySite: `https://${lead.dominio}`, customFields: { ...(e?.campos ?? {}), link_esboco: link },
+    companyName: lead.empresa, companySite: `https://${lead.dominio}`,
+    customFields: { ...(e?.campos ?? {}), link_esboco: link, mensagem_esboco: (await mensagemSalva(prospectId)) ?? (await gerarMensagem(lead)) },
   });
   if (!r.ok) throw new Error(`Snov não incluiu o lead na lista do esboço: ${JSON.stringify(r.raw).slice(0, 200)}`);
   await setStatus(prospectId, 'gerando_esboco', 'esboco_publicado');

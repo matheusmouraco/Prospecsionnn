@@ -1,7 +1,7 @@
 import { getEnv, requireEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
 import { teclado, telegram } from '../telegram/client.js';
-import { ajustar, ajustarSite, aprovarEEnviar, naoEnviar, rascunharResposta } from '../flow/lead-esboco.js';
+import { ajustar, ajustarSite, aprovarEEnviar, mudarMensagem, naoEnviar, rascunharResposta } from '../flow/lead-esboco.js';
 import { runNpm } from '../lib/run.js';
 import { readFile } from 'node:fs/promises';
 import { loadLead } from '../flow/store.js';
@@ -75,7 +75,7 @@ async function main(): Promise<void> {
   const historico: Turno[] = [];
   // Slash commands run directly; anything else goes through the assistant, which can only pick allowed actions.
   // Prospect id (lead flow) or domain (/ajustar) waiting for Moura's adjustment text.
-  let ajustePendente: { tipo: 'lead' | 'site' | 'email' | 'resposta'; id: string } | null = null;
+  let ajustePendente: { tipo: 'lead' | 'site' | 'email' | 'resposta' | 'mensagem'; id: string } | null = null;
   const responder = async (texto: string, confirmado = false): Promise<Resposta> => {
     await aplicarAjustesNoProcesso();
     const [cmd, id] = texto.trim().split(/\s+/);
@@ -100,6 +100,10 @@ async function main(): Promise<void> {
       ajustePendente = { tipo: 'lead', id };
       return { texto: 'O que eu mudo? Escreva os ajustes (um por linha ou separados por ponto e vírgula).' };
     }
+    if (cmd === '/esb_msg' && id) {
+      ajustePendente = { tipo: 'mensagem', id };
+      return { texto: 'Como você quer a mensagem? (ex.: "mais curta", "fala que o prazo a gente vê na call", "mais informal")' };
+    }
     if (cmd === '/rev_ok') return { texto: '👍 Fica como está.' };
     if (cmd === '/rev_aj' && id) {
       ajustePendente = { tipo: 'email', id };
@@ -119,6 +123,7 @@ async function main(): Promise<void> {
       const alvo = ajustePendente;
       ajustePendente = null;
       if (alvo.tipo === 'resposta') return { texto: await rascunharResposta(alvo.id, texto) };
+      if (alvo.tipo === 'mensagem') return { texto: await mudarMensagem(alvo.id, texto) };
       if (alvo.tipo === 'email') {
         await telegram('sendMessage', { chat_id: dono, text: '✏️ Reescrevendo...' });
         const r = await runNpm('emails', ['--prospect', alvo.id, '--instrucao', texto]);

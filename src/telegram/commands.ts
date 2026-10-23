@@ -48,7 +48,7 @@ export const AJUDA = [
   '/limite 20: empresas novas enviadas por dia',
   '/custo 50: teto de gasto por dia em US$',
   '/lote 30: quantas o automático analisa por dia',
-  '/estoque 40: emails prontos guardados antes de parar de analisar',
+  '/estoque 60: emails prontos guardados antes de parar de analisar',
   '/nota 75: nota a partir da qual o site é bom e é descartado',
   '/modo teste ou /modo real: liga ou desliga o envio de verdade',
   '/auto: liga e desliga cada ciclo automático',
@@ -56,7 +56,7 @@ export const AJUDA = [
   'Empresas e relatórios:',
   '/bloquear site.com.br: nunca contatar essa empresa',
   '/leads: quem respondeu, em que pé está, com botões para o esboço e para responder',
-  '/revisao: mostra os próximos emails da fila (também chega sozinho às 7h50)',
+  '/revisao: mostra os próximos emails da fila (chega sozinho às 8h05; sem resposta em 5 min, vão como estão)',
   '/semana: a semana em números (também chega sexta às 18h)',
   '/lista 41711292: importa só essa lista do Snov (ou cole o link da lista)',
   '/esboco site.com.br e /aprovar site.com.br',
@@ -97,6 +97,7 @@ export async function textoConfig(): Promise<Resposta> {
       [real ? { texto: '🧪 Voltar para teste', dados: '/modo teste' } : { texto: '🟢 Ligar envio real', dados: '/modo real' }],
       [{ texto: `Limite ${Math.max(1, limite - 5)}`, dados: `/limite ${Math.max(1, limite - 5)}` }, { texto: `Limite ${limite + 5}`, dados: `/limite ${limite + 5}` }],
       [{ texto: `Custo US$${Math.max(1, custo - 10)}`, dados: `/custo ${Math.max(1, custo - 10)}` }, { texto: `Custo US$${custo + 10}`, dados: `/custo ${custo + 10}` }],
+      [{ texto: '➕ Preparar mais 50 emails hoje', dados: '/fila 50' }, { texto: '➕ Mais 100', dados: '/fila 100' }],
       [{ texto: '🔁 Ciclos automáticos', dados: '/auto' }],
     ],
   };
@@ -182,7 +183,7 @@ const CICLOS: Record<string, string> = {
   esbocos: 'gera o esboço de quem pediu e te manda para aprovar',
   travas: 'confere bounce, descadastros e custo e pausa tudo se passar do limite',
   resumo: 'manda o resumo do dia aqui',
-  revisao: 'manda os próximos 3 emails para você revisar (dias úteis, 7h50)',
+  revisao: 'manda os próximos 3 emails para você revisar às 8h05; sem resposta em 5 minutos, vão como estão às 8h15',
   semana: 'manda a semana em números (sexta, 18h)',
 };
 
@@ -272,7 +273,10 @@ export async function executar(comando: string, confirmado = false): Promise<Res
     case '/status':
     case '/resumo': {
       const pausado = await isPaused();
-      return { texto: await resumoAtual(), botoes: [pausado ? { texto: '▶️ Retomar', dados: '/retomar' } : { texto: '⏸️ Pausar', dados: '/pausar pelo botão' }] };
+      return { texto: await resumoAtual(), linhas: [
+        [pausado ? { texto: '▶️ Retomar', dados: '/retomar' } : { texto: '⏸️ Pausar', dados: '/pausar pelo botão' }, { texto: '⏱️ Andamento', dados: '/andamento' }],
+        [{ texto: '➕ Preparar mais 50 emails', dados: '/fila 50' }, { texto: '➕ Mais 100', dados: '/fila 100' }],
+      ] };
     }
     case '/pausar':
       await setPaused(true, resto.join(' ') || 'pausado pelo Telegram');

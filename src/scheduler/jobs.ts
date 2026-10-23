@@ -23,7 +23,7 @@ export const JOBS: Job[] = [
   { nome: 'esbocos', script: 'ciclo:esbocos', quando: (m) => m.dia >= 1 && m.dia <= 6 && m.hora >= 8 && m.hora <= 20 && cada30(15)(m) },
   { nome: 'travas', script: 'travas', quando: cada30(25) },
   { nome: 'resumo', script: 'resumo', quando: as(19, 0) },
-  { nome: 'revisao', script: 'revisao', quando: (m) => util(m) && as(7, 50)(m) },
+  { nome: 'revisao', script: 'revisao', quando: (m) => util(m) && as(8, 5)(m) }, // 10 min before sending
   { nome: 'semana', script: 'semana', quando: (m) => m.dia === 5 && as(18, 0)(m) },
 ];
 

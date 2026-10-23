@@ -291,6 +291,8 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - Aviso de custo: `travas` avisa uma vez por dia quando o gasto passa de 70% de `MAX_DAILY_API_COST_USD` (controle `alerta_custo`).
 - Semana em números: `npm run semana` (sexta 18h ou `/semana`): métricas de 7 dias e taxa de resposta positiva por nicho.
 - Lista do Snov: link `snov.io/.../list/<id>` colado ou `/lista <id> [N]` importa só essa lista (recusa a lista de saída e a do esboço).
+- Mensagem do esboço: ao pedir aprovação, `gerarMensagem` escreve o custom field `mensagem_esboco` (até 255 caracteres, responde ao que o lead disse, sem link nem travessão; prompt `mensagem-esboco.md`), guardado em `controle` (`msg_esboco:<id>`) e mostrado no Telegram com ✍️ Mudar mensagem. Aprovar manda `link_esboco` + `mensagem_esboco` para a campanha 2 (assunto "Re: sobre o {site_da_empresa}").
+- Decisões do Moura (out/2026): estoque 60 e 20 empresas novas por dia (salvos em `controle`); revisão da manhã às 8h05, sem resposta em 5 minutos vai como está no envio das 8h15; botões "Preparar mais 50/100 emails" no /status e /config (rodam /fila, que ignora o estoque).
 - Trava de falha repetida: o agendador pausa tudo e avisa quando o mesmo ciclo falha 3 vezes seguidas (cobre erro de autenticação do Snov e da Anthropic).
 
 ## Notas sobre as respostas (Fase 6)
