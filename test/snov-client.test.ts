@@ -142,5 +142,7 @@ describe('Snov outreach', () => {
       .toEqual({ id: '9', email: 'bruna@sorriso.com.br', texto: 'Pode mandar!', recebida_em: '2026-10-22 10:00' });
     expect(parseReply({ from: 'Bruna <bruna@x.com>', text: 'Sair' })?.email).toBe('bruna@x.com');
     expect(parseReply({ id: 1 })).toBeNull();
+    expect(parseReply({ id: 5, prospectEmail: 'eu@x.com', emails: [{ body: 'Olá...' }, { body: 'Quero ver o esboço', date: '2026-10-23' }] }))
+      .toEqual({ id: '5', email: 'eu@x.com', texto: 'Quero ver o esboço', recebida_em: '2026-10-23' });
   });
 });

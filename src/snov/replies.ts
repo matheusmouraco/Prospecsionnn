@@ -34,12 +34,14 @@ export function parseReply(raw: Obj): RespostaSnov | null {
   const prospect = asObj(raw.prospect) ?? asObj(raw.contact);
   const emailRaw = pick(raw, ['prospectEmail', 'prospect_email', 'email', 'from', 'fromEmail', 'from_email']) ?? pick(prospect, ['email']);
   const email = typeof emailRaw === 'string' ? (emailRaw.match(/[^\s<>"]+@[^\s<>"]+/)?.[0] ?? '').toLowerCase() : '';
-  const msg = asObj(raw.message) ?? asObj(raw.reply);
-  const bodyRaw = pick(raw, ['text', 'body', 'replyText', 'reply_text', 'content', 'message']) ?? pick(msg, ['text', 'body', 'content']);
+  // Real get-emails-replies items keep the messages in `emails` (array); the reply is the newest one.
+  const lista = Array.isArray(raw.emails) ? (raw.emails as unknown[]).map(asObj).filter(Boolean) as Obj[] : [];
+  const msg = asObj(raw.message) ?? asObj(raw.reply) ?? lista.at(-1);
+  const bodyRaw = pick(raw, ['text', 'body', 'replyText', 'reply_text', 'content', 'message']) ?? pick(msg, ['text', 'body', 'content', 'message', 'replyText', 'reply', 'emailBody', 'html', 'snippet']);
   const texto = typeof bodyRaw === 'string' ? stripHtml(bodyRaw) : '';
   if (!email || !texto) return null;
-  const date = pick(raw, ['date', 'created_at', 'createdAt', 'replied_at', 'repliedAt', 'received_at']) ?? pick(msg, ['date', 'created_at']);
-  const idRaw = pick(raw, ['id', 'reply_id', 'replyId', 'message_id', 'messageId']);
+  const date = pick(raw, ['date', 'created_at', 'createdAt', 'replied_at', 'repliedAt', 'received_at']) ?? pick(msg, ['date', 'created_at', 'createdAt', 'sentAt', 'receivedAt', 'replied_at']);
+  const idRaw = pick(raw, ['id', 'reply_id', 'replyId', 'message_id', 'messageId', 'statisticsDataId', 'hash']);
   const recebida_em = typeof date === 'string' || typeof date === 'number' ? String(date) : null;
   return { id: idRaw !== undefined ? String(idRaw) : `${email}|${recebida_em ?? ''}|${texto.slice(0, 40)}`, email, texto, recebida_em };
 }
