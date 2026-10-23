@@ -2,7 +2,8 @@ import { isPaused, setPaused } from '../db/control.js';
 import { logger } from '../lib/logger.js';
 import { runNpm } from '../lib/run.js';
 import { contarStatus } from '../monitor/store.js';
-import { dueJobs, MAX_FALHAS_SEGUIDAS, momento, type Job } from '../scheduler/jobs.js';
+import { aplicarAjustesNoProcesso, desligados, lerAjustes, type Ajustes } from '../control/ajustes.js';
+import { ajustarJob, dueJobs, JOBS_OPCIONAIS, MAX_FALHAS_SEGUIDAS, momento, type Job } from '../scheduler/jobs.js';
 import { notify } from '../telegram/notify.js';
 
 const log = logger.child({ etapa: 'agendador' });
@@ -42,7 +43,20 @@ function tick(): void {
   const chave = `${m.dia}-${m.hora}-${m.minuto}`;
   if (chave === ultimo) return;
   ultimo = chave;
-  for (const job of dueJobs(m)) void executar(job);
+  const jobs = dueJobs(m);
+  if (!jobs.length) return;
+  void (async () => {
+    const a: Ajustes = await lerAjustes().catch(() => ({}));
+    await aplicarAjustesNoProcesso();
+    const off = desligados(a);
+    for (const job of jobs) {
+      if (JOBS_OPCIONAIS.includes(job.nome) && off.has(job.nome)) {
+        log.info('Ciclo desligado pelo Telegram; pulando', { job: job.nome });
+        continue;
+      }
+      void executar(ajustarJob(job, a));
+    }
+  })();
 }
 
 log.info('Agendador ligado');

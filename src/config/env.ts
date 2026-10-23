@@ -111,6 +111,12 @@ export function getEnv(): Env {
   return cached;
 }
 
+// Long-running processes (the Telegram bot) call this after the Telegram settings change process.env.
+export function reloadEnv(): Env {
+  cached = undefined;
+  return getEnv();
+}
+
 type OptionalKey = Extract<
   { [K in keyof Env]-?: undefined extends Env[K] ? K : never }[keyof Env],
   keyof Env

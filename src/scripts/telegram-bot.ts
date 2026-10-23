@@ -3,7 +3,8 @@ import { logger } from '../lib/logger.js';
 import { telegram } from '../telegram/client.js';
 import { ajustar, aprovarEEnviar, naoEnviar } from '../flow/lead-esboco.js';
 import { interpretar, type Turno } from '../telegram/assistant.js';
-import { executar, resumoAtual, type Resposta } from '../telegram/commands.js';
+import { comandoDe, executar, resumoAtual, textoConfig, type Resposta } from '../telegram/commands.js';
+import { aplicarAjustesNoProcesso } from '../control/ajustes.js';
 
 const log = logger.child({ etapa: 'telegram' });
 
@@ -27,6 +28,20 @@ async function main(): Promise<void> {
     { command: 'importar', description: 'Puxa leads novos do Snov' },
     { command: 'esboco', description: 'Gera esboço: /esboco site.com.br' },
     { command: 'aprovar', description: 'Aprova esboço: /aprovar site.com.br' },
+    { command: 'config', description: 'Limites, modo e ciclos, com botões' },
+    { command: 'emails', description: 'Escreve emails: /emails 50' },
+    { command: 'enviar', description: 'Manda para a campanha agora' },
+    { command: 'respostas', description: 'Lê as respostas do Snov agora' },
+    { command: 'rodar', description: 'Roda um ciclo agora' },
+    { command: 'limite', description: 'Empresas novas por dia: /limite 20' },
+    { command: 'custo', description: 'Teto de gasto por dia: /custo 50' },
+    { command: 'lote', description: 'Análises por dia no automático: /lote 30' },
+    { command: 'estoque', description: 'Emails prontos guardados: /estoque 40' },
+    { command: 'nota', description: 'Nota de site bom: /nota 75' },
+    { command: 'modo', description: 'Envio real ou teste: /modo real' },
+    { command: 'auto', description: 'Liga e desliga ciclos automáticos' },
+    { command: 'bloquear', description: 'Nunca contatar: /bloquear site.com.br' },
+    { command: 'relatorio', description: 'Manda um relatório: /relatorio emails' },
     { command: 'ajuda', description: 'Lista de comandos' },
   ] });
   log.info('Bot do Telegram ouvindo');
@@ -35,6 +50,7 @@ async function main(): Promise<void> {
   // Slash commands run directly; anything else goes through the assistant, which can only pick allowed actions.
   let ajustePendente: string | null = null; // prospect id waiting for Moura's adjustment text
   const responder = async (texto: string): Promise<Resposta> => {
+    await aplicarAjustesNoProcesso();
     const [cmd, id] = texto.trim().split(/\s+/);
     if (cmd === '/esb_ok' && id) return { texto: await aprovarEEnviar(id) };
     if (cmd === '/esb_no' && id) return { texto: await naoEnviar(id) };
@@ -49,12 +65,11 @@ async function main(): Promise<void> {
       return { texto: await ajustar(pid, texto) };
     }
     if (texto.startsWith('/')) return executar(texto);
-    const i = await interpretar(texto, await resumoAtual(), historico);
+    const i = await interpretar(texto, `${await resumoAtual()}\n\n${(await textoConfig()).texto}`, historico);
     historico.push({ de: 'moura', texto }, { de: 'bot', texto: i.resposta });
     if (historico.length > 16) historico.splice(0, historico.length - 16);
     if (i.acao === 'nenhuma') return { texto: i.resposta };
-    const arg = i.acao === 'pausar' ? i.motivo : ['analisar', 'esboco', 'aprovar'].includes(i.acao) ? i.dominio : ['fila', 'importar'].includes(i.acao) ? String(i.quantidade || '') : '';
-    const r = await executar(`/${i.acao} ${arg}`.trim());
+    const r = await executar(comandoDe(i));
     return { ...r, texto: `${i.resposta}\n\n${r.texto}` };
   };
   for (;;) {
@@ -77,7 +92,7 @@ async function main(): Promise<void> {
         await telegram('sendMessage', {
           chat_id: dono,
           text: r.texto,
-          ...(r.botoes ? { reply_markup: { inline_keyboard: [r.botoes.map((b) => ({ text: b.texto, callback_data: b.dados }))] } } : {}),
+          ...(r.botoes || r.linhas ? { reply_markup: { inline_keyboard: (r.linhas ?? [r.botoes!]).map((l) => l.map((b) => ({ text: b.texto, callback_data: b.dados }))) } } : {}),
         });
         log.info('Comando do Telegram', { comando: texto.split(/\s/)[0] });
       } catch (err) {

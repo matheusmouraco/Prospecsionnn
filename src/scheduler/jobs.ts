@@ -36,5 +36,19 @@ export function momento(d: Date = new Date()): Momento {
 
 export const dueJobs = (m: Momento, jobs: Job[] = JOBS) => jobs.filter((j) => j.quando(m));
 
+// Jobs Moura can switch off on Telegram. travas and resumo always run (safety and the daily report).
+export const JOBS_OPCIONAIS = ['importar', 'analisar', 'emails', 'enviar', 'respostas', 'esbocos'];
+
+// Applies the Telegram settings: batch size of the daily analysis/emails and how many ready emails to stock.
+export function ajustarJob(job: Job, a: Record<string, string>): Job {
+  const lote = Number(a.AUTO_LOTE);
+  const max = Number(a.AUTO_FILA_MAX);
+  return {
+    ...job,
+    ...(lote > 0 && job.args?.[0] === '--limit' ? { args: ['--limit', String(lote)] } : {}),
+    ...(max > 0 && job.precisaFila ? { precisaFila: { ...job.precisaFila, maximo: max } } : {}),
+  };
+}
+
 // Rule 6: the same job failing 3 times in a row (auth error, API down...) pauses everything.
 export const MAX_FALHAS_SEGUIDAS = 3;

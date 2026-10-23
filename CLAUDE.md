@@ -280,6 +280,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 
 - `src/telegram/notify.ts`: `notify` nunca derruba o pipeline; em DRY_RUN a mensagem vai com o prefixo "[teste, DRY_RUN]". O `respostas:ler` avisa o Moura (`formatLead`) em toda resposta com `notificar_moura`.
 - Comandos em `src/telegram/commands.ts` (`executar`), só ações da lista. Mensagem livre: `interpretar` devolve `{acao, motivo, resposta}` com `acao` em nenhuma/status/pausar/retomar/painel/analisar/fila/importar/esboco/aprovar (com `dominio` e `quantidade`); nada disso envia email a lead; o bot guarda as últimas 8 falas em memória.
+- Ajustes pelo Telegram (`src/control/ajustes.ts`): `/config` com botões, `/limite`, `/custo`, `/lote`, `/estoque`, `/nota`, `/modo teste|real` (real pede confirmação por botão), `/auto ciclo on|off`, `/rodar ciclo`, `/emails N`, `/enviar N`, `/respostas`, `/analisar N`, `/bloquear site`, `/relatorio nome`. Ficam em `controle` (chave `ajuste:<VAR>`) e sobrepõem o `.env` em todo script iniciado por `runNpm` e dentro do bot e do agendador (`aplicarAjustesNoProcesso`). Se o banco falhar ao ler, `DRY_RUN` é forçado para true.
 - Trava de falha repetida: o agendador pausa tudo e avisa quando o mesmo ciclo falha 3 vezes seguidas (cobre erro de autenticação do Snov e da Anthropic).
 
 ## Notas sobre as respostas (Fase 6)

@@ -39,3 +39,15 @@ export async function sendPhoto(chatId: string, png: Buffer, caption = ''): Prom
   const json = (await res.json()) as { ok: boolean; description?: string };
   if (!json.ok) throw new Error(`Telegram sendPhoto falhou: ${json.description ?? res.status}`);
 }
+
+// Sends a local file (reports in out/*.md) as a Telegram document.
+export async function sendDocument(chatId: string, conteudo: Buffer, nome: string, caption = ''): Promise<void> {
+  const token = requireEnv('TELEGRAM_BOT_TOKEN');
+  const form = new FormData();
+  form.append('chat_id', chatId);
+  if (caption) form.append('caption', caption.slice(0, 1000));
+  form.append('document', new Blob([new Uint8Array(conteudo)], { type: 'text/markdown' }), nome);
+  const res = await fetch(`${API}/bot${token}/sendDocument`, { method: 'POST', body: form });
+  const json = (await res.json()) as { ok: boolean; description?: string };
+  if (!json.ok) throw new Error(`Telegram sendDocument falhou: ${json.description ?? res.status}`);
+}
