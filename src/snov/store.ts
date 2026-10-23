@@ -1,7 +1,19 @@
 import { getSupabase, type Db } from '../db/client.js';
 import type { Candidate, ImportStore, SeenStore } from './importer.js';
 
-const CHUNK = 200;
+// Small chunks keep the `in(...)` URL short; Snov ids are long hashes.
+const CHUNK = 50;
+
+// Network blips ("fetch failed") are retried a few times before giving up.
+async function withRetry<T extends { error: { message: string } | null }>(run: () => PromiseLike<T>): Promise<T> {
+  let last: T | undefined;
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    last = await run();
+    if (!last.error || !/fetch failed|network|timeout|ECONNRESET/i.test(last.error.message)) return last;
+    await new Promise((r) => setTimeout(r, attempt * 2000));
+  }
+  return last!;
+}
 
 async function collect(
   db: Db,
@@ -13,7 +25,7 @@ async function collect(
   const unique = [...new Set(values)];
   for (let i = 0; i < unique.length; i += CHUNK) {
     const slice = unique.slice(i, i + CHUNK);
-    const { data, error } = await db.from(table).select(column).in(column, slice);
+    const { data, error } = await withRetry(() => db.from(table).select(column).in(column, slice));
     if (error) throw new Error(`Falha ao consultar ${table}.${column}: ${error.message}`);
     for (const row of (data ?? []) as unknown as Record<string, string | null>[]) {
       const v = row[column];
