@@ -13,7 +13,7 @@ Fluxo resumido: puxa prospects das listas do Snov.io > analisa o site de cada em
 - [x] Fase 3: Análise (10 sites reais analisados e aprovados pelo Moura)
 - [x] Fase 4: Email (21 emails reais gerados e revisados pelo Moura; campos `saudacao` e `site_da_empresa` acrescentados na revisão. O envio ao Snov, com custom fields + lista de saída, ainda não foi feito: exige conferir os endpoints na doc, regra 9)
 - [x] Fase 5: Esboço (5 esboços reais gerados e aprovados pelo Moura: ibo, dentelli, cirod, rios, dentista na sua casa; 1 versão por empresa, ~US$0,90 e ~6 min cada)
-- [x] Fase 6: Respostas (20 de 20 no teste com respostas de exemplo, US$0,06; falta ligar à leitura real do Snov, regra 9)
+- [x] Fase 6: Respostas (20 de 20 no teste com respostas de exemplo, US$0,06; leitura real do Snov testada com 2 respostas do Moura, as duas classificadas como quer_ver)
 - [x] Fase 7: Vercel + Telegram + travas + resumo diário (5 esboços no ar em analise.matilab.com.br com noindex conferido; bot, travas a cada 30 min e resumo das 19h rodando no VPS via pm2)
 - [ ] Fase 8: Produção
 
@@ -280,7 +280,7 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - Classificador em `src/replies/classify.ts` (prompts `resposta-classificar.md` e `resposta-dados.md`), `MODEL_FAST` com esforço baixo. Antes de classificar, `stripQuoted` remove o email original citado.
 - Confiança abaixo de 0,8 vira `outro` (`categoria_modelo` guarda o que o modelo disse). Qualquer `interesse` (preço, prazo, ligação), mesmo sem pedir o esboço, gera o esboço **e** avisa o Moura para falar do preço (decisão do Moura, `acoesPara`). `outro` só gera esboço se `pediu_esboco`.
 - `acaoPara`: quer_ver > gerar_esboco; interesse e outro > notificar_moura; nao e descadastro > bloquear; ausente > nenhuma.
-- Leitura por polling de `GET /v1/get-emails-replies` (`campaign_id`); webhook `campaign_reply received` existe em `/v2/webhooks`, mas exige plano premium. Os nomes dos campos de cada resposta não estão documentados em detalhe: `src/snov/replies.ts` procura em vários nomes; conferir com `--amostra`.
+- Leitura por polling de `GET /v1/get-emails-replies` (`campaignId`; `campaign_id` dá HTTP 400). **Confirmado com resposta real (out/2026):** cada item traz `prospectEmail`, `statisticsDataId`, `customField_*` e as mensagens em `emails[]` (a resposta é a última); webhook `campaign_reply received` existe em `/v2/webhooks`, mas exige plano premium. Os nomes dos campos de cada resposta não estão documentados em detalhe: `src/snov/replies.ts` procura em vários nomes; conferir com `--amostra`.
 - `nao` não bloqueia para sempre (decisão do Moura): grava `prospects.retomar_em` (+6 meses) e o prospect volta para `novo` quando a data passa (`reactivateDue`, no início do `respostas:ler`). `descadastro` vai para a do-not-email do Snov (`POST /v1/do-not-email-list`, `items[]`) e para `bloqueados`.
 - Envio: `POST /v1/add-prospect-to-list` com `customFields[campo]` e `updateContact=1`. Os custom fields (`saudacao`, `nome_empresa`, `site_da_empresa`, `problema_1`, `problema_2`, `gancho`, `nicho`) precisam existir no Snov antes. O formato da resposta não é documentado; `parseAddResult` aceita success/added/updated.
 - Migration `0005_respostas_snov.sql` (aplicada): `respostas.snov_id` (único), `resumo`, `categoria_modelo`; `prospects.retomar_em`.
