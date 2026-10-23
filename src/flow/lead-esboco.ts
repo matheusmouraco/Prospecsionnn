@@ -21,7 +21,7 @@ const log = logger.child({ etapa: 'esboco-lead' });
 const DIR = 'out/esbocos';
 const htmlPath = (dominio: string) => join(DIR, dominio, 'index.html');
 
-async function prints(dominio: string): Promise<{ desktop: Buffer; mobile: Buffer }> {
+export async function prints(dominio: string): Promise<{ desktop: Buffer; mobile: Buffer }> {
   const html = await readFile(htmlPath(dominio), 'utf8');
   const browser = await launchBrowser();
   try {

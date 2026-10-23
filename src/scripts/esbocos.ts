@@ -6,7 +6,9 @@ import { getEnv, requireEnv } from '../config/env.js';
 import { isPaused } from '../db/control.js';
 import { createDraft, type Esboco } from '../draft/pipeline.js';
 import { draftCandidates, empresaIdByDomain, loadDraftInput, saveDraft } from '../draft/store.js';
+import { prints } from '../flow/lead-esboco.js';
 import { logger } from '../lib/logger.js';
+import { sendPhoto } from '../telegram/client.js';
 
 const OUT_DIR = 'out/esbocos';
 const log = logger.child({ etapa: 'esboco' });
@@ -15,6 +17,19 @@ const log = logger.child({ etapa: 'esboco' });
 function abrir(dominio: string): void {
   if (process.platform !== 'darwin' || process.argv.includes('--sem-abrir')) return;
   spawn('open', [join(OUT_DIR, dominio, 'index.html')], { detached: true, stdio: 'ignore' }).unref();
+}
+
+// Each finished draft also goes to Telegram (desktop and phone prints), so Moura reviews it from anywhere.
+async function enviarTelegram(dominio: string, nota: number, empresa: string): Promise<void> {
+  const env = getEnv();
+  if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID || process.argv.includes('--sem-telegram')) return;
+  try {
+    const p = await prints(dominio);
+    await sendPhoto(env.TELEGRAM_CHAT_ID, p.desktop, `🎨 Esboço pronto: ${empresa} (${dominio}), nota ${nota}. Computador`);
+    await sendPhoto(env.TELEGRAM_CHAT_ID, p.mobile, 'Celular. Para aprovar: npm run esbocos:aprovar -- ' + dominio);
+  } catch (err) {
+    log.warn('Não consegui mandar o esboço no Telegram', { dominio, err });
+  }
 }
 
 function arg(name: string): string | undefined {
@@ -51,7 +66,10 @@ async function main(): Promise<void> {
         });
         const slug = await saveDraft(id, input.empresa, e);
         feitos.push({ ...e, slug });
-        if (e.html) abrir(e.dominio);
+        if (e.html) {
+          abrir(e.dominio);
+          await enviarTelegram(e.dominio, e.nota, input.empresa);
+        }
         log.info(e.aprovado ? 'Esboço aprovado' : 'Esboço abaixo da nota mínima', { dominio: e.dominio, nota: e.nota, tentativas: e.tentativas, custo_usd: Number(e.custo_usd.toFixed(3)) });
       } catch (err) {
         log.error('Falha ao gerar esboço', { empresa: id, err });

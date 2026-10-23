@@ -1,3 +1,4 @@
+import { getEnv } from '../config/env.js';
 import { isPaused, setPaused } from '../db/control.js';
 import { businessDay } from '../lib/dates.js';
 import { renderResumo } from '../monitor/locks.js';
@@ -10,7 +11,12 @@ export async function resumoAtual(): Promise<string> {
   const [m, leads, erros, pausado, motivo] = await Promise.all([
     metricasDoDia(), contarStatus(LEAD_STATUS), contarStatus(['erro_final']), isPaused(), motivoPausa(),
   ]);
-  return renderResumo(businessDay(), m, { leads, erros, pausado, motivo });
+  const env = getEnv();
+  const pendentes = [
+    !env.SNOV_DRAFT_LIST_ID && 'criar no Snov a lista e a campanha "esboço pronto" e pôr SNOV_DRAFT_LIST_ID no .env',
+  ].filter(Boolean);
+  const texto = renderResumo(businessDay(), m, { leads, erros, pausado, motivo });
+  return pendentes.length ? `${texto}\n\n📌 Falta fazer:\n${pendentes.map((p) => `• ${p}`).join('\n')}` : texto;
 }
 
 export const AJUDA = [
