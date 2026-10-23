@@ -448,7 +448,7 @@ export function comandoDe(i: { acao: string; motivo?: string; dominio?: string; 
   const args: Record<string, string> = {
     pausar: i.motivo ?? '',
     analisar: d || q,
-    esboco: d, aprovar: d, bloquear: d, site: `${d} ${v}`.trim(),
+    esboco: d, aprovar: d, bloquear: d, site: `${d} ${v}`.trim(), ajustar: `${d} ${v}`.trim(),
     fila: q, importar: q, emails: q, enviar: q,
     limite: q, custo: q, lote: q, estoque: q, nota: q,
     modo: v === 'real' ? 'real' : v === 'teste' ? 'teste' : '',

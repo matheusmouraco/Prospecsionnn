@@ -3,7 +3,9 @@ import { logger } from '../lib/logger.js';
 import { teclado, telegram } from '../telegram/client.js';
 import { ajustar, ajustarSite, aprovarEEnviar, mudarMensagem, naoEnviar, rascunharResposta } from '../flow/lead-esboco.js';
 import { runNpm } from '../lib/run.js';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
+import { notify } from '../telegram/notify.js';
 import { loadLead } from '../flow/store.js';
 import { interpretar, type Turno } from '../telegram/assistant.js';
 import { comandoDe, executar, pedirConfirmacao, resumoAtual, textoConfig, tirarPendente, type Resposta } from '../telegram/commands.js';
@@ -116,6 +118,19 @@ async function main(): Promise<void> {
     if (cmd === '/ajustar') {
       const d = (id ?? '').toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
       if (!d.includes('.')) return { texto: 'Me manda assim: /ajustar site.com.br' };
+      if (!existsSync(`out/esbocos/${d}/index.html`)) {
+        return { texto: `${d} ainda não tem esboço. Quer que eu crie?`, botoes: [{ texto: '🎨 Criar esboço', dados: `/site ${d}` }, { texto: '❌ Não', dados: '/cancelar' }] };
+      }
+      // Requests already in the message ("/ajustar site.com.br troca a cor; tira a foto"): confirm and run.
+      const pedidos = texto.trim().replace(/^\/ajustar\s+\S+\s*/i, '').trim();
+      if (pedidos) {
+        if (!confirmado) {
+          const lista = pedidos.split(/\n|;/).map((l) => l.trim()).filter(Boolean);
+          return pedirConfirmacao(`✏️ Ajustar o esboço de ${d}\n${lista.map((l) => `• ${l}`).join('\n')}\n\nMantenho o layout, aplico só isso, publico de novo no mesmo link e te mando os prints. Cerca de US$0,50 e 3 a 5 minutos.`, texto);
+        }
+        void ajustarSite(d, pedidos).catch((err: unknown) => notify(`⚠️ Não consegui ajustar ${d}: ${err instanceof Error ? err.message.slice(0, 300) : String(err)}`));
+        return { texto: `✏️ Ajustando ${d}. Te aviso com a nova versão e o link.` };
+      }
       ajustePendente = { tipo: 'site', id: d };
       return { texto: `O que eu mudo no esboço de ${d}? Escreva os ajustes (um por linha ou separados por ponto e vírgula). Cada ajuste custa cerca de US$0,50.` };
     }
@@ -151,7 +166,12 @@ async function main(): Promise<void> {
     historico.push({ de: 'moura', texto }, { de: 'bot', texto: i.resposta });
     if (historico.length > 16) historico.splice(0, historico.length - 16);
     if (i.acao === 'nenhuma') return { texto: i.resposta };
-    const r = await executar(comandoDe(i));
+    const comando = comandoDe(i);
+    if (i.acao === 'ajustar') {
+      const r = await responder(comando);
+      return { ...r, texto: `${i.resposta}\n\n${r.texto}` };
+    }
+    const r = await executar(comando);
     return { ...r, texto: `${i.resposta}\n\n${r.texto}` };
   };
   for (;;) {

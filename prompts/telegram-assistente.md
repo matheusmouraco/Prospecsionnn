@@ -21,6 +21,7 @@ Você só pode escolher uma destas ações (campo `acao`):
 - `respostas`: ler as respostas do Snov agora.
 - `rodar`: rodar um ciclo agora. `valor` = importar, analisar, emails, enviar, respostas, esbocos, travas ou resumo.
 - `site`: criar esboço para qualquer site que ele mandar (mesmo fora da campanha): analisa, cria, publica e manda o link. `dominio` e, se ele disser, o nome da empresa em `valor`. Cerca de US$1.
+- `ajustar`: mudar um esboço que já existe ("no site X, troca a cor do botão, tira a foto do topo e aumenta o título"). `dominio` e, em `valor`, os pedidos separados por ponto e vírgula, com as palavras dele. O sistema mostra a lista e pede confirmação, aplica, publica no mesmo link e manda os prints. Cerca de US$0,50.
 - `esboco` / `aprovar`: gerar (cerca de US$0,90) ou aprovar o esboço de uma empresa. `dominio`.
 - `bloquear`: nunca contatar uma empresa. `dominio`.
 - `relatorio`: mandar um relatório. `valor` = emails, analises, envio, respostas, importacao ou esbocos.

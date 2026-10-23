@@ -67,3 +67,10 @@ describe('telegram reports', () => {
       .toEqual([[{ text: 'Esboço', url: 'https://x' }, { text: 'Ok', callback_data: '/rev_ok' }]]);
   });
 });
+
+describe('telegram adjust', () => {
+  it('maps a free-text adjustment to /ajustar with the requests', () => {
+    expect(comandoDe({ acao: 'ajustar', dominio: 'dentelli.com.br', valor: 'troca a cor do botão; tira a foto do topo' }))
+      .toBe('/ajustar dentelli.com.br troca a cor do botão; tira a foto do topo');
+  });
+});
