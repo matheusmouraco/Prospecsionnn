@@ -74,3 +74,20 @@ describe('telegram adjust', () => {
       .toBe('/ajustar dentelli.com.br troca a cor do botão; tira a foto do topo');
   });
 });
+
+describe('full status', () => {
+  it('shows queue, emails, replies, drafts, cost and settings', async () => {
+    const { renderStatusCompleto } = await import('../src/telegram/dados.js');
+    const t = renderStatusCompleto({
+      status: { novo: 312, email_pronto: 225, descartado_site_bom: 41, erro: 12, enviado_snov: 0 },
+      empresas: 590, lidosSnov: 600, emailsEscritos: 225, emailsEnviados: 0, bloqueados: 3,
+      esbocos: { total: 5, publicados: 5, aprovados: 5 }, respostas: {}, custo: { hoje: 1.2, semana: 15.17, total: 30 }, enviadosTotal: 0,
+    }, { modoReal: false, pausado: false, motivo: '', limite: 20, estoque: 60, teto: 50, desligados: [] }, new Date('2026-10-26T13:00:00Z'));
+    expect(t).toContain('Esperando análise: 312');
+    expect(t).toContain('Prontos para enviar: 225 (dá para 11 dias com 20 por dia)');
+    expect(t).toContain('Gerados: 5 · No ar: 5');
+    expect(t).toContain('7 dias: US$15.17');
+    expect(t).toContain('🧪 teste');
+    expect(t.length).toBeLessThan(4000);
+  });
+});

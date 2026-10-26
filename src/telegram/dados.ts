@@ -119,3 +119,112 @@ export function renderSemana(s: Semana): string {
     ...s.nichos.map((n) => `• ${n.nicho}: ${n.positivas} de ${n.enviados} (${pct(n.positivas, n.enviados)})`),
   ].join('\n');
 }
+
+export interface StatusCompleto {
+  status: Record<string, number>;
+  empresas: number;
+  lidosSnov: number;
+  emailsEscritos: number;
+  emailsEnviados: number;
+  esbocos: { total: number; publicados: number; aprovados: number };
+  respostas: Record<string, number>;
+  bloqueados: number;
+  custo: { hoje: number; semana: number; total: number };
+  enviadosTotal: number;
+}
+
+async function contar(db: Db, tabela: string, filtro?: (q: any) => any): Promise<number> { // eslint-disable-line @typescript-eslint/no-explicit-any
+  let q = db.from(tabela).select('*', { count: 'exact', head: true });
+  if (filtro) q = filtro(q);
+  const { count, error } = await q;
+  if (error) throw new Error(`Falha ao contar ${tabela}: ${error.message}`);
+  return count ?? 0;
+}
+
+// Everything at once for /status: queue by stage, what was produced (emails, drafts), replies, blocks and cost.
+export async function statusCompleto(hoje: string, db: Db = getSupabase()): Promise<StatusCompleto> {
+  const { data: ps, error } = await db.from('prospects').select('status').limit(20000);
+  if (error) throw new Error(`Falha ao ler a fila: ${error.message}`);
+  const status: Record<string, number> = {};
+  for (const p of (ps ?? []) as { status: string }[]) status[p.status] = (status[p.status] ?? 0) + 1;
+
+  const { data: rs } = await db.from('respostas').select('categoria').limit(20000);
+  const respostas: Record<string, number> = {};
+  for (const r of (rs ?? []) as { categoria: string | null }[]) respostas[r.categoria ?? 'outro'] = (respostas[r.categoria ?? 'outro'] ?? 0) + 1;
+
+  const { data: ms } = await db.from('metricas_diarias').select('dia, custo_api_usd, enviados').limit(5000);
+  const semanaAtras = new Date(Date.parse(hoje) - 6 * 86400_000).toISOString().slice(0, 10);
+  const metricas = (ms ?? []) as { dia: string; custo_api_usd: number | string | null; enviados: number | null }[];
+  const soma = (f: (m: (typeof metricas)[number]) => boolean) => metricas.filter(f).reduce((s, m) => s + Number(m.custo_api_usd ?? 0), 0);
+
+  const [empresas, lidosSnov, emailsEscritos, emailsEnviados, esbTotal, esbPub, esbApr, bloqueados] = await Promise.all([
+    contar(db, 'empresas'),
+    contar(db, 'snov_vistos'),
+    contar(db, 'emails'),
+    contar(db, 'emails', (q) => q.not('enviado_em', 'is', null)),
+    contar(db, 'esbocos'),
+    contar(db, 'esbocos', (q) => q.not('publicado_em', 'is', null)),
+    contar(db, 'esbocos', (q) => q.eq('aprovado', true)),
+    contar(db, 'bloqueados'),
+  ]);
+  return {
+    status, empresas, lidosSnov, emailsEscritos, emailsEnviados, bloqueados, respostas,
+    esbocos: { total: esbTotal, publicados: esbPub, aprovados: esbApr },
+    custo: { hoje: soma((m) => m.dia === hoje), semana: soma((m) => m.dia >= semanaAtras), total: soma(() => true) },
+    enviadosTotal: metricas.reduce((s, m) => s + Number(m.enviados ?? 0), 0),
+  };
+}
+
+export interface ContextoStatus { modoReal: boolean; pausado: boolean; motivo: string; limite: number; estoque: number; teto: number; desligados: string[] }
+
+export function renderStatusCompleto(s: StatusCompleto, c: ContextoStatus, agora = new Date()): string {
+  const n = (k: string) => s.status[k] ?? 0;
+  const soma = (ks: string[]) => ks.reduce((t, k) => t + n(k), 0);
+  const usd = (v: number) => `US$${v.toFixed(2)}`;
+  const respondeu = soma(['respondeu_quer_ver', 'respondeu_interesse', 'respondeu_nao', 'respondeu_descadastro', 'respondeu_ausente', 'gerando_esboco', 'esboco_publicado', 'link_enviado', 'notificado_moura']);
+  const enviadas = n('enviado_snov') + n('sem_resposta') + respondeu;
+  const pct = (a: number, b: number) => (b ? ` (${((a / b) * 100).toFixed(1).replace('.', ',')}%)` : '');
+  const dias = Math.floor(n('email_pronto') / Math.max(c.limite, 1));
+  const hora = agora.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  const r = s.respostas;
+  return [
+    `📊 Status completo · ${hora}`,
+    c.pausado ? `⏸️ PAUSADO${c.motivo ? `: ${c.motivo}` : ''}` : '▶️ Rodando',
+    `Modo: ${c.modoReal ? '🟢 REAL (envia para leads)' : '🧪 teste (nada vai para leads)'}`,
+    '',
+    '📥 Base',
+    `• Lidos das listas do Snov: ${s.lidosSnov}`,
+    `• Empresas no banco: ${s.empresas}`,
+    `• Bloqueados (nunca contatar): ${s.bloqueados}`,
+    '',
+    '⚙️ Fila',
+    `• Esperando análise: ${n('novo')}${n('analisando') ? ` (analisando agora: ${n('analisando')})` : ''}`,
+    `• Analisadas, esperando email: ${n('analisado')}`,
+    `• Descartadas (site já é bom): ${n('descartado_site_bom')}`,
+    `• Com erro: ${n('erro') + n('erro_final')}${n('erro_final') ? ` (${n('erro_final')} sem solução)` : ''}`,
+    '',
+    '✉️ Emails',
+    `• Escritos no total: ${s.emailsEscritos}`,
+    `• Prontos para enviar: ${n('email_pronto')} (dá para ${dias} dia${dias === 1 ? '' : 's'} com ${c.limite} por dia)`,
+    `• Empresas já na campanha: ${enviadas}${s.enviadosTotal !== enviadas ? ` (envios registrados: ${s.enviadosTotal})` : ''}`,
+    `• Sequência terminada sem resposta: ${n('sem_resposta')}`,
+    '',
+    '💬 Respostas',
+    `• Responderam: ${respondeu}${pct(respondeu, enviadas)}`,
+    `• Pediram esboço: ${r.quer_ver ?? 0} · Interesse/preço: ${r.interesse ?? 0}`,
+    `• Não agora: ${r.nao ?? 0} · Saíram: ${r.descadastro ?? 0} · Ausentes: ${r.ausente ?? 0} · Outras: ${r.outro ?? 0}`,
+    `• Esperando sua aprovação de esboço: ${n('gerando_esboco')}`,
+    `• Com você (conversa): ${n('notificado_moura')}`,
+    '',
+    '🎨 Esboços',
+    `• Gerados: ${s.esbocos.total} · No ar: ${s.esbocos.publicados} · Aprovados: ${s.esbocos.aprovados}`,
+    `• Links enviados a leads: ${n('link_enviado')}`,
+    '',
+    '💰 Gasto de API',
+    `• Hoje: ${usd(s.custo.hoje)} de ${usd(c.teto)} · 7 dias: ${usd(s.custo.semana)} · Total: ${usd(s.custo.total)}`,
+    '',
+    '🔧 Ajustes',
+    `• ${c.limite} empresas novas por dia · estoque ${c.estoque} · teto ${usd(c.teto)}/dia`,
+    c.desligados.length ? `• Ciclos desligados: ${c.desligados.join(', ')}` : '• Todos os ciclos automáticos ligados',
+  ].join('\n');
+}

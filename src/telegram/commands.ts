@@ -7,11 +7,12 @@ import { readFile } from 'node:fs/promises';
 import { runNpm } from '../lib/run.js';
 import { publishPainel } from '../panel/publish.js';
 import { notify } from './notify.js';
+import { renderEmail1 } from '../email/report.js';
 import { AJUSTES, CHAVE_DESLIGADOS, CHAVE_MODO, desligados, lerAjustes, salvarAjuste, validarNumero, type Ajustes } from '../control/ajustes.js';
 import { JOBS, JOBS_OPCIONAIS, ajustarJob } from '../scheduler/jobs.js';
 import { block } from '../replies/store.js';
 import { sendDocument, type Botao } from './client.js';
-import { leadsQuentes, NOME_STATUS, renderSemana, resumoSemana } from './dados.js';
+import { leadsQuentes, NOME_STATUS, proximosEmails, renderSemana, renderStatusCompleto, resumoSemana, statusCompleto } from './dados.js';
 
 export const LEAD_STATUS = ['respondeu_interesse', 'notificado_moura'];
 
@@ -29,7 +30,8 @@ export async function resumoAtual(): Promise<string> {
 
 export const AJUDA = [
   'Dia a dia:',
-  '/status: como está o sistema hoje',
+  '/status: tudo de uma vez (fila, emails, respostas, esboços, gasto, ajustes)',
+  '/resumo: só o resumo do dia (o mesmo das 19h)',
   '/andamento: o que está rodando agora, em qual empresa e o ritmo',
   '/config: limites, modo e ciclos automáticos, com botões',
   '/pausar motivo e /retomar',
@@ -62,12 +64,25 @@ export const AJUDA = [
   '/esboco site.com.br e /aprovar site.com.br',
   '/site site.com.br: analisa, cria o esboço e publica (ou só cole o link de qualquer site)',
   '/ajustar site.com.br: pede ajustes no esboço publicado',
-  '/relatorio emails (ou analises, envio, respostas, importacao, esbocos): manda o arquivo',
+  '/relatorio prontos: todos os emails prontos, na ordem de envio (ou emails, analises, envio, respostas, importacao, esbocos: último lote de cada etapa)',
   '',
   'Ou escreva normal, que eu entendo. /ajuda mostra esta lista.',
 ].join('\n');
 
-const RELATORIOS = ['emails', 'analises', 'envio', 'respostas', 'importacao', 'esbocos'];
+// Every ready email straight from the database, in the order they will be sent.
+async function relatorioProntos(): Promise<string> {
+  const env = getEnv();
+  const emails = await proximosEmails(5000);
+  const linhas = [`# Emails prontos para enviar (${emails.length})`, '', `Gerado em ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}, na ordem em que vão sair.`, ''];
+  emails.forEach((e, i) => {
+    const fontes = ((e.campos as unknown as { fontes?: { descricao_curta: string; evidencia: string }[] }).fontes ?? []);
+    linhas.push(`## ${i + 1}. ${e.empresa ?? e.dominio} (${e.dominio})`, `Para: ${e.email}`, '', renderEmail1(e.campos, env.SENDER_NAME, env.SENDER_BRAND), '');
+    if (fontes.length) linhas.push('De onde veio cada problema:', ...fontes.map((f, j) => `- ${j + 1}. ${f.descricao_curta}. Evidência: ${f.evidencia}`), '');
+  });
+  return linhas.join('\n');
+}
+
+const RELATORIOS = ['prontos', 'emails', 'analises', 'envio', 'respostas', 'importacao', 'esbocos'];
 
 const valorAtual = (a: Ajustes, nome: string): string => {
   const env = getEnv() as unknown as Record<string, unknown>;
@@ -271,12 +286,19 @@ export async function executar(comando: string, confirmado = false): Promise<Res
     case '/ajuda':
     case '/help':
       return { texto: AJUDA };
-    case '/status':
-    case '/resumo': {
-      const pausado = await isPaused();
-      return { texto: await resumoAtual(), linhas: [
+    case '/resumo':
+      return { texto: await resumoAtual() };
+    case '/status': {
+      const [pausado, motivo, a] = await Promise.all([isPaused(), motivoPausa(), lerAjustes()]);
+      const texto = renderStatusCompleto(await statusCompleto(businessDay()), {
+        modoReal: modoReal(a), pausado, motivo,
+        limite: Number(valorAtual(a, 'MAX_NEW_PER_DAY')), estoque: Number(valorAtual(a, 'AUTO_FILA_MAX')), teto: Number(valorAtual(a, 'MAX_DAILY_API_COST_USD')),
+        desligados: [...desligados(a)],
+      });
+      return { texto, linhas: [
         [pausado ? { texto: '▶️ Retomar', dados: '/retomar' } : { texto: '⏸️ Pausar', dados: '/pausar pelo botão' }, { texto: '⏱️ Andamento', dados: '/andamento' }],
         [{ texto: '➕ Preparar mais 50 emails', dados: '/fila 50' }, { texto: '➕ Mais 100', dados: '/fila 100' }],
+        [{ texto: '🔥 Leads', dados: '/leads' }, { texto: '📄 Relatórios', dados: '/relatorio' }, { texto: '⚙️ Config', dados: '/config' }],
       ] };
     }
     case '/pausar':
@@ -422,7 +444,7 @@ export async function executar(comando: string, confirmado = false): Promise<Res
     case '/relatorio': {
       const nome = (resto[0] ?? '').toLowerCase().replace(/\.md$/, '');
       if (!RELATORIOS.includes(nome)) return { texto: 'Qual relatório?', linhas: RELATORIOS.map((r) => [{ texto: `📄 ${r}`, dados: `/relatorio ${r}` }]) };
-      const conteudo = await readFile(`out/${nome}.md`).catch(() => null);
+      const conteudo = nome === 'prontos' ? Buffer.from(await relatorioProntos()) : await readFile(`out/${nome}.md`).catch(() => null);
       if (!conteudo) return { texto: `Ainda não tem out/${nome}.md no servidor.` };
       await sendDocument(getEnv().TELEGRAM_CHAT_ID ?? '', conteudo, `${nome}.md`);
       return { texto: `📄 ${nome}.md enviado acima.` };
