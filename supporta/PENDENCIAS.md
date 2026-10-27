@@ -27,7 +27,7 @@ A conexão da Vercel que eu uso não tem permissão para cadastrar variáveis ne
 - [ ] `CRON_SECRET` (aleatório). Sem ela, os relatórios mensais não rodam.
 
 - [x] WhatsApp `+55 11 99264-4010`, CNPJ `40.283.248/0001-21` e razão social `Matilab Tecnologia` já estão no código como padrão. Confirme se a razão social exata é essa (com ou sem "Ltda") porque aparece no rodapé e nos Termos.
-- [ ] `NEXT_PUBLIC_EMAIL` (o e-mail de contato ainda aparece como `[EMAIL]` no rodapé e no contato)
+- [x] E-mail de contato `contato@supporta.com.br` no código. Confirme que a caixa existe e recebe (MX da Hostinger).
 - [ ] `PSI_API_KEY`: Google Cloud > ativar PageSpeed Insights API > criar chave. Sem ela o diagnóstico grátis falha muitas vezes (o Google limita).
 - [ ] `RESEND_API_KEY`, `EMAIL_FROM` (domínio verificado no Resend com SPF e DKIM), `TEAM_EMAIL`
 - [ ] `ADMIN_PASSWORD` (12+ caracteres) para abrir o `/admin`
