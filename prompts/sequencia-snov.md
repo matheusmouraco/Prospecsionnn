@@ -101,4 +101,8 @@ texto puro, rastreamento desligado, mesma agenda.
 
 {assinatura}
 
+Opcional (com `SUPPORTA_URL` no `.env`): o sistema também preenche `link_supporta`, o checkout da assinatura Supporta já com o modelo do nicho, o nome e o site da empresa. Para usar, criar o custom field `link_supporta` no Snov e acrescentar ao texto, depois do link do esboço, uma linha como:
+
+Se quiser esse site no ar, sem custo de criação: {link_supporta}
+
 `mensagem_esboco` é escrita pelo sistema para cada lead, respondendo ao que ele disse, e aparece no Telegram antes de você aprovar (botão ✍️ Mudar mensagem). Precisa existir como custom field no Snov com esse nome exato.

@@ -270,6 +270,10 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 - `npm run ciclo:esbocos` (no agendador): pega leads `respondeu_quer_ver` e `respondeu_interesse`, move para `gerando_esboco`, gera o esboço se ainda não existir (`npm run esbocos -- --dominio`) e manda no Telegram os prints de computador e celular com os botões Aprovar e enviar / Ajustar / Não enviar (`src/flow/lead-esboco.ts`).
 - Aprovar: aprova, publica (produção, ou prévia com DRY_RUN) e coloca o lead na `SNOV_DRAFT_LIST_ID` com `link_esboco` (campanha 2 de `prompts/sequencia-snov.md`); status vai a `link_enviado`. Com DRY_RUN nada vai ao lead. Ajustar: o bot pede o texto e roda `esbocos:ajustar`, depois manda a nova versão. Não enviar: `notificado_moura`.
 
+## Integração com a Supporta
+
+- Com `SUPPORTA_URL` no `.env`, o Aprovar e enviar também manda o custom field `link_supporta` (`src/flow/supporta.ts`): checkout `/assinar/start` da Supporta com `modelo` (nicho detectado mapeado para o template), `site`, `empresa` e `origem=matilab-esboco`, sempre até 255 caracteres. O custom field precisa existir no Snov e entrar no texto da campanha 2 (`prompts/sequencia-snov.md`). O site da Supporta fica em `supporta/` (app Next.js separado, ver `supporta/README.md`).
+
 ## Notas sobre a publicação (Fase 7)
 
 - matilab.com.br tem DNS na Hostinger (dns-parking), não na Vercel: o `analise` precisa de um CNAME para `cname.vercel-dns.com` feito no painel da Hostinger.

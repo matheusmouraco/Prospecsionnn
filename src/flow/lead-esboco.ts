@@ -20,6 +20,7 @@ import { sendMessageWithButtons, sendPhoto } from '../telegram/client.js';
 import { notify } from '../telegram/notify.js';
 import { loadLead, setStatus, type LeadEsboco } from './store.js';
 import { getSupabase } from '../db/client.js';
+import { linkSupporta } from './supporta.js';
 
 const log = logger.child({ etapa: 'esboco-lead' });
 const DIR = 'out/esbocos';
@@ -146,7 +147,10 @@ export async function aprovarEEnviar(prospectId: string): Promise<string> {
   const r = await snov.addProspectToList(listId, {
     email: lead.email, firstName: lead.primeiro_nome, fullName: lead.primeiro_nome ?? lead.empresa ?? lead.email.split('@')[0],
     companyName: lead.empresa, companySite: `https://${lead.dominio}`,
-    customFields: { ...(e?.campos ?? {}), link_esboco: link, mensagem_esboco: (await mensagemSalva(prospectId)) ?? (await gerarMensagem(lead)) },
+    customFields: {
+      ...(e?.campos ?? {}), link_esboco: link, mensagem_esboco: (await mensagemSalva(prospectId)) ?? (await gerarMensagem(lead)),
+      ...(env.SUPPORTA_URL ? { link_supporta: linkSupporta(env.SUPPORTA_URL, lead) } : {}),
+    },
   });
   if (!r.ok) throw new Error(`Snov não incluiu o lead na lista do esboço: ${JSON.stringify(r.raw).slice(0, 200)}`);
   await setStatus(prospectId, 'gerando_esboco', 'esboco_publicado');

@@ -42,6 +42,7 @@ const envSchema = z.object({
   SENDER_CNPJ: z.string().trim().min(1).default('40.283.248/0001-21'),
   SENDER_WHATSAPP_URL: optionalString,
   DRAFT_BASE_URL: z.string().trim().url().default('https://analise.matilab.com.br'),
+  SUPPORTA_URL: optionalString, // Supporta site; when set, the "esboço pronto" email gets link_supporta (subscription checkout)
 
   ANTHROPIC_API_KEY: optionalString,
   MODEL_FAST: z.string().trim().min(1).default('claude-sonnet-5-5'),
