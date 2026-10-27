@@ -50,6 +50,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
   const [sending, setSending] = useState(false);
   const [serverError, setServerError] = useState("");
   const [canceled, setCanceled] = useState(false);
+  const [origem, setOrigem] = useState({ origem: "", site: "", modelo: "" });
   const headingRef = useRef<HTMLHeadingElement>(null);
   const started = useRef(false);
 
@@ -57,6 +58,12 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
     const params = new URLSearchParams(window.location.search);
     const modelo = params.get("modelo");
     if (modelo && segments.some((s) => s.slug === modelo)) setBriefing((b) => ({ ...b, segmento: modelo }));
+    // Vindo do esboço da Matilab (ou de outro link pronto): já preenche empresa e site.
+    const empresa = params.get("empresa")?.slice(0, 120);
+    const siteAtual = params.get("site")?.slice(0, 200);
+    if (empresa) setCompany((c) => ({ ...c, empresa }));
+    if (siteAtual) setBriefing((b) => ({ ...b, siteAtual }));
+    setOrigem({ origem: params.get("origem")?.slice(0, 60) ?? "", site: siteAtual ?? "", modelo: modelo ?? "" });
     setCanceled(params.get("cancelado") === "1");
     if (!started.current) {
       started.current = true;
@@ -116,7 +123,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ plan: plan.id, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, aceite }),
+        body: JSON.stringify({ plan: plan.id, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, aceite, origem }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Não foi possível continuar.");

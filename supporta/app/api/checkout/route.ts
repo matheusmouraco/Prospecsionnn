@@ -5,6 +5,8 @@ import { isEmail, sendToWebhook } from "@/lib/leads";
 import { getPaymentProvider } from "@/lib/payments";
 import { getPlan } from "@/lib/plans";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { createSubscription, setProviderIds } from "@/lib/repo";
+import { briefingSignature } from "@/lib/tokens";
 import { absoluteUrl, site, termsAcceptanceText } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -57,12 +59,31 @@ export async function POST(request: Request) {
     userAgent: str(request.headers.get("user-agent"), 300),
   };
 
+  const origem = {
+    origem: str(body?.origem?.origem, 60),
+    site: str(body?.origem?.site, 120),
+    modelo: str(body?.origem?.modelo, 40),
+  };
+
   const reference = `sup_${randomUUID()}`;
-  const successUrl = absoluteUrl(`/obrigado?plano=${plan.id}&ref=${reference}`);
+  const thanks = `/obrigado?plano=${plan.id}&ref=${reference}&t=${briefingSignature(reference)}`;
+  const successUrl = absoluteUrl(thanks);
   const cancelUrl = absoluteUrl(`/assinar/${plan.id}?cancelado=1`);
 
   const provider = getPaymentProvider();
-  const record = { reference, plan: plan.id, price: plan.price, customer, briefing, acceptance, provider: provider?.name ?? "teste" };
+  const record = { reference, plan: plan.id, price: plan.price, customer, briefing, acceptance, origem, provider: provider?.name ?? "teste" };
+  const testMode = !provider && process.env.VERCEL_ENV !== "production";
+  await createSubscription({
+    referencia: reference,
+    plano: plan.id,
+    valor: plan.price,
+    status: testMode ? "teste" : "aguardando_pagamento",
+    provedor: provider?.name ?? "teste",
+    customer,
+    briefing,
+    origem,
+    aceite: acceptance,
+  });
 
   if (!provider) {
     if (process.env.VERCEL_ENV === "production") {
@@ -71,7 +92,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "O pagamento está indisponível agora. Recebemos seus dados e vamos chamar você no WhatsApp." }, { status: 503 });
     }
     await sendToWebhook("assinatura_teste", record);
-    return NextResponse.json({ redirectUrl: `/obrigado?plano=${plan.id}&ref=${reference}&teste=1` });
+    return NextResponse.json({ redirectUrl: `${thanks}&teste=1` });
   }
 
   try {
@@ -84,6 +105,7 @@ export async function POST(request: Request) {
       remoteIp: ip,
       metadata: { aceite_em: acceptance.acceptedAt, aceite_ip: ip, termos_versao: acceptance.termsVersion },
     });
+    await setProviderIds(reference, { customerId: result.providerCustomerId, subscriptionId: result.providerSubscriptionId });
     await sendToWebhook("assinatura_iniciada", { ...record, providerCustomerId: result.providerCustomerId, providerSubscriptionId: result.providerSubscriptionId });
     return NextResponse.json({ redirectUrl: result.redirectUrl });
   } catch (err) {

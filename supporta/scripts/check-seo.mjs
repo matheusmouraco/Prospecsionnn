@@ -17,6 +17,7 @@ const decode = (s) => s.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/
 let problems = 0;
 for (const file of files.sort()) {
   const html = await readFile(file, "utf8");
+  if (html.includes("Essa página não existe.")) continue; // rota que responde 404 de propósito (ex.: /cases sem cases)
   const route = file.slice(root.length).replace(/\.html$/, "").replace(/\/index$/, "") || "/";
   const title = decode(html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "");
   const desc = decode(html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "");

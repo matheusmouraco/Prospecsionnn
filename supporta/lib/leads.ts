@@ -12,7 +12,7 @@ export async function sendToWebhook(type: string, payload: Record<string, unknow
         "content-type": "application/json",
         ...(process.env.LEAD_WEBHOOK_SECRET ? { "x-webhook-secret": process.env.LEAD_WEBHOOK_SECRET } : {}),
       },
-      body: JSON.stringify({ type, sentAt: new Date().toISOString(), ...payload }),
+      body: JSON.stringify({ ...payload, type, sentAt: new Date().toISOString() }),
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) console.error(`[leads] webhook respondeu ${res.status} para "${type}".`);

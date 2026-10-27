@@ -1,8 +1,13 @@
 import { Symbol } from "@/components/brand/Symbol";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
+    <>
+    <Header />
+    <main id="conteudo">
     <section className="py-24 md:py-36">
       <div className="container-site">
         <Symbol className="h-16 w-16" />
@@ -15,5 +20,8 @@ export default function NotFound() {
         </div>
       </div>
     </section>
+    </main>
+    <Footer />
+    </>
   );
 }

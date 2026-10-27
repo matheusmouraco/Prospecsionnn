@@ -15,7 +15,7 @@ export const metadata: Metadata = pageMetadata({
 
 const next = [
   { n: "01", title: "Confirmação do pagamento", text: "Você recebe a confirmação por e-mail assim que o cartão for aprovado." },
-  { n: "02", title: "Briefing completo pelo WhatsApp", text: "Em até 1 dia útil a gente chama você para o briefing de 10 minutos e para receber logo e fotos." },
+  { n: "02", title: "Briefing completo", text: "Leva uns 10 minutos: informações da empresa, serviços, logo e fotos. Dá para fazer agora mesmo pelo botão acima." },
   { n: "03", title: "Primeira versão para aprovar", text: "Você recebe o link da primeira versão, pede os ajustes e aprova." },
   { n: "04", title: "Site no ar", text: "Publicamos com domínio, SSL, dados estruturados, llms.txt e tudo configurado." },
 ];

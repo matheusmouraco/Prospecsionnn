@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { PlanId } from "@/lib/plans";
-import type { CheckoutInput, CheckoutResult, PaymentEvent, PaymentProvider } from "./types";
+import type { CheckoutInput, CheckoutResult, Invoice, PaymentEvent, PaymentProvider } from "./types";
 
 // Stripe Billing via Checkout Session (modo subscription). Sem SDK para manter o bundle leve:
 // chamadas REST com form-encoding e verificação manual da assinatura do webhook.
@@ -68,6 +68,7 @@ export const stripeProvider: PaymentProvider = {
     const event = JSON.parse(payload);
     const obj = event?.data?.object ?? {};
     const map: Record<string, PaymentEvent["type"]> = {
+      "checkout.session.completed": "subscription_linked",
       "invoice.paid": "payment_approved",
       "invoice.payment_failed": "payment_refused",
       "customer.subscription.deleted": "subscription_canceled",
@@ -76,9 +77,38 @@ export const stripeProvider: PaymentProvider = {
       type: map[event.type] ?? "ignored",
       provider: "stripe",
       providerEvent: event.type,
-      reference: obj?.metadata?.reference ?? obj?.subscription_details?.metadata?.reference ?? obj?.parent?.subscription_details?.metadata?.reference,
-      subscriptionId: typeof obj.subscription === "string" ? obj.subscription : obj.id,
+      reference: obj?.client_reference_id ?? obj?.metadata?.reference ?? obj?.subscription_details?.metadata?.reference ?? obj?.parent?.subscription_details?.metadata?.reference,
+      subscriptionId: typeof obj.subscription === "string" ? obj.subscription : obj.object === "subscription" ? obj.id : undefined,
+      customerId: typeof obj.customer === "string" ? obj.customer : undefined,
       amount: typeof obj.amount_paid === "number" ? obj.amount_paid / 100 : undefined,
+      raw: { type: event.type, id: obj.id, status: obj.status },
     };
+  },
+
+  async listInvoices(customerId: string): Promise<Invoice[]> {
+    const res = await fetch(`https://api.stripe.com/v1/invoices?customer=${encodeURIComponent(customerId)}&limit=12`, {
+      headers: { authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}` },
+      signal: AbortSignal.timeout(10_000),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(`Stripe: ${data?.error?.message ?? res.status}`);
+    return (data.data ?? []).map((i: { id: string; created: number; amount_due: number; status: string; hosted_invoice_url: string | null }) => ({
+      id: i.id,
+      dueDate: new Date(i.created * 1000).toISOString().slice(0, 10),
+      value: i.amount_due / 100,
+      status: i.status,
+      url: i.hosted_invoice_url,
+    }));
+  },
+
+  async manageUrl(customerId: string, returnUrl: string) {
+    const res = await fetch("https://api.stripe.com/v1/billing_portal/sessions", {
+      method: "POST",
+      headers: { authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`, "content-type": "application/x-www-form-urlencoded" },
+      body: form({ customer: customerId, return_url: returnUrl, locale: "pt-BR" }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    const data = await res.json();
+    return res.ok ? (data.url as string) : null;
   },
 };

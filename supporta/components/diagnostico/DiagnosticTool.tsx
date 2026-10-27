@@ -14,6 +14,7 @@ type Report = {
   lcpSeconds: number | null;
   checks: { id: string; label: string; ok: boolean; detail: string }[];
   recommendations: { title: string; text: string }[];
+  emailSent?: boolean;
 };
 
 const steps = ["Abrindo o seu site", "Medindo a velocidade no celular", "Conferindo título, descrição e dados estruturados", "Procurando llms.txt e robots.txt", "Montando o relatório"];
@@ -134,6 +135,7 @@ export function DiagnosticTool() {
         <div ref={resultRef} tabIndex={-1} className="mt-2 space-y-4 focus:outline-none">
           <div className="rounded-[2rem] border border-line bg-white p-6 md:p-8">
             <p className="label-mono text-graphite">Relatório · celular</p>
+            {report.emailSent ? <p className="mt-2 text-sm text-graphite">Também enviamos este relatório para {email}.</p> : null}
             <h2 className="mt-3 break-words text-2xl tracking-[-0.04em] md:text-3xl">{report.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}</h2>
             {report.scores ? (
               <div className="mt-8 grid grid-cols-2 gap-6 md:grid-cols-4">

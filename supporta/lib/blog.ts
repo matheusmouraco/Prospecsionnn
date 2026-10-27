@@ -5,10 +5,71 @@ export type Post = {
   description: string;
   date: string;
   readingMinutes: number;
+  segment?: string;
 };
 
 // O corpo de cada artigo fica em content/blog/<slug>.mdx.
 export const posts: Post[] = [
+  {
+    slug: "prestador-de-servico-nas-ias",
+    title: "Como o prestador de serviço local aparece nas IAs",
+    metaTitle: "Prestador de serviço local: como aparecer nas IAs",
+    description:
+      "Área de atendimento em texto, Google Meu Negócio completo e nome, endereço e telefone iguais em todo lugar. O que o prestador local precisa para aparecer.",
+    date: "2026-10-26",
+    readingMinutes: 4,
+    segment: "servicos",
+  },
+  {
+    slug: "arquiteto-no-google-e-nas-ias",
+    title: "Como o arquiteto aparece no Google e nas IAs",
+    metaTitle: "Como o arquiteto aparece no Google e nas IAs",
+    description:
+      "Portfólio com texto, uma página por projeto e imagens leves. Veja o que o site do arquiteto precisa para ser encontrado no Google e citado pelas IAs.",
+    date: "2026-10-25",
+    readingMinutes: 4,
+    segment: "arquitetura",
+  },
+  {
+    slug: "clinica-de-saude-nas-ias",
+    title: "Como a clínica de saúde aparece nas IAs",
+    metaTitle: "Clínica de saúde nas IAs: como aparecer no ChatGPT",
+    description:
+      "Páginas por especialidade, profissionais identificados e conteúdo sem promessa de cura, dentro da Resolução CFM 2.336/2023. Veja o que fazer.",
+    date: "2026-10-24",
+    readingMinutes: 4,
+    segment: "saude",
+  },
+  {
+    slug: "restaurante-no-google-e-nas-ias",
+    title: "Como o restaurante aparece no Google e nas IAs",
+    metaTitle: "Como o restaurante aparece no Google e nas IAs",
+    description:
+      "Cardápio em texto e não em PDF, horários certos e dados estruturados. O que o site do restaurante precisa para ser encontrado no Google e nas IAs.",
+    date: "2026-10-23",
+    readingMinutes: 4,
+    segment: "restaurante",
+  },
+  {
+    slug: "advogado-nas-ias",
+    title: "Como o escritório de advocacia aparece nas IAs",
+    metaTitle: "Como o escritório de advocacia aparece nas IAs",
+    description:
+      "Conteúdo informativo por área de atuação, dentro do Provimento 205/2021 da OAB. Veja como o escritório pode ser citado pelo ChatGPT e outras IAs.",
+    date: "2026-10-22",
+    readingMinutes: 4,
+    segment: "advocacia",
+  },
+  {
+    slug: "dentista-no-chatgpt",
+    title: "Como o dentista aparece no ChatGPT",
+    metaTitle: "Como o dentista aparece no ChatGPT e nas IAs",
+    description:
+      "Páginas por tratamento, dados estruturados e conteúdo dentro das regras do CFO. Veja o que o site do dentista precisa para ser citado pelas IAs.",
+    date: "2026-10-21",
+    readingMinutes: 4,
+    segment: "odontologia",
+  },
   {
     slug: "seo-aeo-geo-diferenca",
     title: "SEO, AEO e GEO: a diferença",

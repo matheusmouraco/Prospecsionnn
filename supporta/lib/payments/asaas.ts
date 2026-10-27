@@ -1,4 +1,4 @@
-import type { CheckoutInput, CheckoutResult, PaymentEvent, PaymentProvider } from "./types";
+import type { CheckoutInput, CheckoutResult, Invoice, PaymentEvent, PaymentProvider } from "./types";
 
 // Asaas: cliente + assinatura mensal no cartão. O cliente paga a 1ª fatura na página segura do Asaas
 // (invoiceUrl) e o cartão fica salvo para as próximas cobranças. Nenhum dado de cartão passa pelo nosso servidor.
@@ -81,7 +81,16 @@ export const asaasProvider: PaymentProvider = {
       providerEvent: event,
       reference: payment.externalReference ?? body?.subscription?.externalReference,
       subscriptionId: payment.subscription ?? body?.subscription?.id,
+      customerId: payment.customer ?? body?.subscription?.customer,
       amount: payment.value,
+      raw: { event, id: payment.id ?? body?.subscription?.id, status: payment.status, billingType: payment.billingType },
     };
+  },
+
+  async listInvoices(customerId: string): Promise<Invoice[]> {
+    const data = await asaas<{ data: { id: string; dueDate: string; value: number; status: string; invoiceUrl: string | null }[] }>(
+      `/payments?customer=${encodeURIComponent(customerId)}&limit=12`,
+    );
+    return (data.data ?? []).map((p) => ({ id: p.id, dueDate: p.dueDate, value: p.value, status: p.status, url: p.invoiceUrl }));
   },
 };

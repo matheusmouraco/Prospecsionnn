@@ -76,8 +76,8 @@ export function TemplatesTabs({ segments }: { segments: Segment[] }) {
             <Link href={`/assinar/start?modelo=${seg.slug}`} className={buttonClass("primary", "lg")} data-track="plan_click" data-track-plan="start" data-track-origin={`modelo:${seg.slug}`}>
               Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
             </Link>
-            <Link href={`/modelos/${seg.slug}`} className={buttonClass("outline", "lg")}>
-              Ver detalhes
+            <Link href={`/demo/${seg.slug}`} className={buttonClass("outline", "lg")}>
+              Ver demo navegável
             </Link>
           </div>
         </div>

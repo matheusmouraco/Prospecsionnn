@@ -55,6 +55,9 @@ export const plans: Plan[] = [
 
 export const planIds = plans.map((p) => p.id);
 
+/** Ajustes incluídos por mês (null = ilimitado). */
+export const adjustmentsPerMonth: Record<PlanId, number | null> = { start: 1, pro: 3, premium: null };
+
 export function getPlan(id: string) {
   return plans.find((p) => p.id === id);
 }

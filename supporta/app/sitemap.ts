@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/blog";
+import { cases } from "@/lib/cases";
 import { segments } from "@/lib/segments";
 import { absoluteUrl } from "@/lib/site";
 
@@ -20,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/geo", 0.8),
     page("/blog", 0.6, "weekly"),
     ...posts.map((p) => ({ url: absoluteUrl(`/blog/${p.slug}`), lastModified: new Date(`${p.date}T12:00:00Z`), changeFrequency: "yearly" as const, priority: 0.6 })),
+    ...(cases.length ? [page("/cases", 0.6)] : []),
     page("/termos", 0.2, "yearly"),
     page("/privacidade", 0.2, "yearly"),
   ];

@@ -3,7 +3,7 @@ import { absoluteUrl } from "@/lib/site";
 
 // Buscadores e robôs de IA liberados de propósito: é o que faz a Supporta poder ser citada.
 const bots = ["Googlebot", "Bingbot", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "PerplexityBot", "Google-Extended"];
-const disallow = ["/api/", "/assinar/", "/obrigado"];
+const disallow = ["/api/", "/assinar/", "/obrigado", "/briefing", "/cliente", "/admin"];
 
 export default function robots(): MetadataRoute.Robots {
   return {

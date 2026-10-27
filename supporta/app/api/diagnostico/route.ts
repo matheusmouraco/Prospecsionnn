@@ -5,6 +5,9 @@ import { recommendations } from "@/lib/diagnostico/recommendations";
 import { normalizeUrl } from "@/lib/diagnostico/safe-fetch";
 import { isEmail, sendToWebhook } from "@/lib/leads";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { sendEmail } from "@/lib/email/send";
+import { diagnosticEmail } from "@/lib/email/templates";
+import { saveLead } from "@/lib/repo";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -46,7 +49,9 @@ export async function POST(request: Request) {
     recommendations: recommendations(psi, checks),
   };
 
-  await sendToWebhook("diagnostico", { email, ip, report });
+  // Relatório por e-mail, lead no banco e no CRM. Nada disso pode atrasar a resposta por falha externa.
+  const [sent] = await Promise.all([sendEmail({ to: email, ...diagnosticEmail(report) }), sendToWebhook("diagnostico", { email, ip, report })]);
+  await saveLead({ email, site: report.url, ip, relatorio: report, enviado: sent, origem: String(body?.origem ?? "").slice(0, 60) || undefined });
 
-  return NextResponse.json(report);
+  return NextResponse.json({ ...report, emailSent: sent });
 }

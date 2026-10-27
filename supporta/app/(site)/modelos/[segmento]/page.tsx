@@ -12,6 +12,8 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { faqSchema, serviceSchema } from "@/lib/schema";
 import { getSegment, segments } from "@/lib/segments";
+import { posts } from "@/lib/blog";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ segmento: string }> };
@@ -47,8 +49,8 @@ export default async function SegmentPage({ params }: Props) {
           <Button href={`/assinar/start?modelo=${seg.slug}`} size="lg" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
             Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
           </Button>
-          <Button href="/diagnostico" size="lg" variant="outline">
-            Testar meu site atual
+          <Button href={`/demo/${seg.slug}`} size="lg" variant="outline">
+            Ver demo navegável
           </Button>
         </div>
       </PageHero>
@@ -116,6 +118,21 @@ export default async function SegmentPage({ params }: Props) {
           <PlanCards />
         </div>
       </Section>
+
+      {posts.filter((p) => p.segment === seg.slug).map((post) => (
+        <section key={post.slug} aria-label="Artigo relacionado" className="pb-20 md:pb-28">
+          <div className="container-site">
+            <Link href={`/blog/${post.slug}`} className="group flex flex-col justify-between gap-4 rounded-[2rem] border border-line bg-white p-7 transition-colors hover:border-ink md:flex-row md:items-center md:p-9">
+              <span>
+                <span className="label-mono text-graphite">Leia no blog</span>
+                <span className="mt-2 block text-2xl font-semibold tracking-[-0.04em]">{post.title}</span>
+                <span className="mt-2 block text-graphite">{post.description}</span>
+              </span>
+              <ArrowRight aria-hidden strokeWidth={1.75} className="h-6 w-6 shrink-0 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </section>
+      ))}
 
       <Section tone="white" labelledBy="seg-faq">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">

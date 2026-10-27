@@ -25,7 +25,7 @@ export type CheckoutResult = {
   providerSubscriptionId?: string;
 };
 
-export type PaymentEventType = "payment_approved" | "payment_refused" | "subscription_canceled" | "ignored";
+export type PaymentEventType = "payment_approved" | "payment_refused" | "subscription_canceled" | "subscription_linked" | "ignored";
 
 export type PaymentEvent = {
   type: PaymentEventType;
@@ -33,8 +33,12 @@ export type PaymentEvent = {
   providerEvent: string;
   reference?: string;
   subscriptionId?: string;
+  customerId?: string;
   amount?: number;
+  raw?: unknown;
 };
+
+export type Invoice = { id: string; dueDate: string; value: number; status: string; url: string | null };
 
 /** Contrato que todo provedor implementa. Trocar de provedor = trocar PAYMENT_PROVIDER no .env. */
 export interface PaymentProvider {
@@ -42,4 +46,8 @@ export interface PaymentProvider {
   createSubscriptionCheckout(input: CheckoutInput): Promise<CheckoutResult>;
   /** Valida a autenticidade do webhook e traduz para um evento nosso. Lança erro se inválido. */
   parseWebhook(request: Request): Promise<PaymentEvent>;
+  /** Últimas faturas do cliente, para a área do cliente. */
+  listInvoices(customerId: string): Promise<Invoice[]>;
+  /** Página do provedor onde o cliente troca o cartão sozinho, quando o provedor oferece. */
+  manageUrl?(customerId: string, returnUrl: string): Promise<string | null>;
 }

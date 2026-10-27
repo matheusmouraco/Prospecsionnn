@@ -8,7 +8,9 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "check:seo": "node scripts/check-seo.mjs",
-    "check:copy": "node scripts/check-copy.mjs"
+    "check:copy": "node scripts/check-copy.mjs",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/db-migrate.mjs",
+    "test": "node --test --experimental-strip-types --no-warnings test/*.test.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -16,6 +18,7 @@
     "@next/mdx": "^16.4.3",
     "lucide-react": "^1.61.0",
     "next": "^16.4.3",
+    "postgres": "^3.4.9",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "remark-gfm": "^4.0.1"

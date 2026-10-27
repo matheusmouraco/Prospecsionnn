@@ -1,6 +1,9 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
 import { getPlan } from "@/lib/plans";
 
@@ -8,6 +11,7 @@ import { getPlan } from "@/lib/plans";
 export function CheckoutComplete() {
   const [label, setLabel] = useState("");
   const [test, setTest] = useState(false);
+  const [briefing, setBriefing] = useState("");
   const sent = useRef(false);
 
   useEffect(() => {
@@ -16,6 +20,8 @@ export function CheckoutComplete() {
     setTest(params.get("teste") === "1");
     if (plan) setLabel(`Plano ${plan.name}, R$${plan.price}/mês.`);
     const ref = params.get("ref") ?? "";
+    const t = params.get("t") ?? "";
+    if (/^sup_[0-9a-f-]{36}$/.test(ref) && t) setBriefing(`/briefing?ref=${ref}&t=${encodeURIComponent(t)}`);
     if (plan && !sent.current) {
       sent.current = true;
       const key = `supporta-done-${ref}`;
@@ -29,9 +35,19 @@ export function CheckoutComplete() {
 
   if (!label) return null;
   return (
-    <p className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-full bg-pink-light px-4 py-2 text-[15px] font-medium">
-      {label}
-      {test ? <span className="label-mono text-graphite">modo teste, nenhuma cobrança feita</span> : null}
-    </p>
+    <div className="mt-6">
+      <p className="inline-flex flex-wrap items-center gap-2 rounded-full bg-pink-light px-4 py-2 text-[15px] font-medium">
+        {label}
+        {test ? <span className="label-mono text-graphite">modo teste, nenhuma cobrança feita</span> : null}
+      </p>
+      {briefing ? (
+        <div className="mt-6">
+          <Link href={briefing} className={buttonClass("primary", "lg")}>
+            Preencher o briefing agora (10 minutos) <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
+          </Link>
+          <p className="mt-2 text-sm text-graphite">O link também vai por e-mail assim que o pagamento for confirmado.</p>
+        </div>
+      ) : null}
+    </div>
   );
 }

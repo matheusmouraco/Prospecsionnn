@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AiProblem } from "@/components/home/AiProblem";
+import { Cases } from "@/components/home/Cases";
 import { CompareTable } from "@/components/home/CompareTable";
 import { CostComparison } from "@/components/home/CostComparison";
 import { DiagnosticCta } from "@/components/home/DiagnosticCta";
@@ -60,6 +61,7 @@ export default function Home() {
         <CompareTable />
       </Section>
 
+      <Cases />
       <CostComparison />
       <DiagnosticCta />
 
