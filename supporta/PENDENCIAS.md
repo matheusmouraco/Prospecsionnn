@@ -1,21 +1,17 @@
 # O que fica com você (Moura)
 
 Lista do que só você pode fazer para a Supporta funcionar 100%. Marque conforme for resolvendo.
-O site já está publicado na Vercel (projeto `supportasite`, publicado a partir do branch `ccr-5a451054-muwj01` do GitHub, pasta `supporta`). Enquanto o DNS não mudar, o supporta.com.br continua mostrando o que está na Hostinger.
+Site no ar em https://supporta.com.br (Vercel, projeto `supportasite`, pasta `supporta`), com `www` redirecionando para o principal. `/teleprompter/` e `/casafirme/` continuam no ar com `noindex, nofollow`.
 
-## 1. Domínio supporta.com.br (para o site novo aparecer)
+## 1. Publicação e domínio
 
-- [ ] Na Vercel, projeto `supportasite` > Settings > General: confirmar **Root Directory = `supporta`** e Framework = Next.js (eu passei isso no deploy, mas não consegui gravar no projeto). Em Settings > Git, ligar o repositório `matheusmouraco/prospecsionnn` para publicar sozinho a cada push.
-- [ ] Settings > Domains: adicionar `supporta.com.br` e `www.supporta.com.br` (o www redirecionando para o principal).
-
-- [ ] No painel da Hostinger, em DNS do supporta.com.br, trocar **só** estes registros (não mexa em MX, TXT de e-mail nem nos servidores de nome):
-  - `A` do `@` (raiz) para o IP que a Vercel mostrar no projeto `supportasite` (Settings > Domains).
-  - `CNAME` do `www` para `cname.vercel-dns.com` (o www redireciona para supporta.com.br).
-- [ ] Esperar a Vercel marcar o domínio como "Valid Configuration" e o SSL ficar ativo.
-- [ ] Conferir depois da troca: https://supporta.com.br, https://supporta.com.br/teleprompter/ e https://supporta.com.br/casafirme/.
-  - O teleprompter e o casafirme foram copiados da Hostinger sem nenhuma alteração para `public/teleprompter` e `public/casafirme`, e saem com `X-Robots-Tag: noindex, nofollow`.
-  - **Se você mudar algum deles na Hostinger, a mudança não aparece mais no ar.** Copie a pasta nova para `supporta/public/` e publique de novo.
-- [ ] Se tinha outra pasta ou arquivo na Hostinger que precisa continuar no ar, me avise antes de trocar o DNS: só copiei esses dois.
+- [x] Root Directory `supporta`, domínios na Vercel e DNS na Hostinger (feito por você em 27/10/2026)
+- [ ] **Branch de produção.** O repositório não tem `main`: o branch padrão é `ccr-f93647ec-c2h8kz`, que não tem a pasta `supporta`. Todo o código da Supporta está em `ccr-5a451054-muwj01`, que já contém tudo do padrão. Escolha um:
+  - Vercel > `supportasite` > Settings > Git > Production Branch = `ccr-5a451054-muwj01`; ou
+  - juntar o `ccr-5a451054-muwj01` no branch padrão (eu abro o PR se você pedir).
+  Enquanto isso, um push no branch padrão gera build com erro (não derruba o site, só não publica) e os meus pushes viram prévia. Por isso, até lá, eu publico produção manualmente.
+- [ ] **CDN da Hostinger.** O supporta.com.br ainda está cadastrado como site na hospedagem com CDN. Se o CDN for reativado ou alguém clicar em "Redefinir registros DNS", ela recoloca o `ALIAS @` e derruba o site novo. Se não for usar aquela hospedagem para a raiz, desative o CDN.
+- [ ] O teleprompter e o casafirme foram copiados da Hostinger sem alteração para `supporta/public/`. **Mudanças feitas na Hostinger não aparecem mais no ar:** copie a pasta nova para `supporta/public/` e publique de novo.
 
 ## 2. Banco de dados
 
@@ -30,7 +26,8 @@ A conexão da Vercel que eu uso não tem permissão para cadastrar variáveis ne
 - [ ] `SESSION_SECRET` (32+ caracteres aleatórios, `openssl rand -base64 48`). **Sem ela, a área do cliente e o link do briefing ficam desligados** (o site avisa e manda para o WhatsApp).
 - [ ] `CRON_SECRET` (aleatório). Sem ela, os relatórios mensais não rodam.
 
-- [ ] `NEXT_PUBLIC_WHATSAPP`, `NEXT_PUBLIC_EMAIL`, `NEXT_PUBLIC_RAZAO_SOCIAL`, `NEXT_PUBLIC_CNPJ` (enquanto não preencher, o site mostra os colchetes no rodapé e no contato)
+- [x] WhatsApp `+55 11 99264-4010`, CNPJ `40.283.248/0001-21` e razão social `Matilab Tecnologia` já estão no código como padrão. Confirme se a razão social exata é essa (com ou sem "Ltda") porque aparece no rodapé e nos Termos.
+- [ ] `NEXT_PUBLIC_EMAIL` (o e-mail de contato ainda aparece como `[EMAIL]` no rodapé e no contato)
 - [ ] `PSI_API_KEY`: Google Cloud > ativar PageSpeed Insights API > criar chave. Sem ela o diagnóstico grátis falha muitas vezes (o Google limita).
 - [ ] `RESEND_API_KEY`, `EMAIL_FROM` (domínio verificado no Resend com SPF e DKIM), `TEAM_EMAIL`
 - [ ] `ADMIN_PASSWORD` (12+ caracteres) para abrir o `/admin`
@@ -50,6 +47,7 @@ A conexão da Vercel que eu uso não tem permissão para cadastrar variáveis ne
 ## 5. Decisões de negócio que eu supus
 
 - [ ] Prazos de entrega: 7, 15 e 30 dias úteis (`lib/site.ts`)
+- [x] Modelo: assinatura do site, não venda. O site fica no ar enquanto a assinatura estiver ativa; mínimo de 12 meses e, a partir do 13º mês, mês a mês com cancelamento quando quiser (já está no site, nas FAQs, no checkout e nos Termos)
 - [ ] Regra de cancelamento antes dos 12 meses (está entre colchetes nos Termos)
 - [ ] Renovação do domínio a partir do 2º ano: inclusa ou cobrada?
 - [ ] O que é entregue quando o cliente cancela

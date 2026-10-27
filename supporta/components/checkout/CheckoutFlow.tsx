@@ -253,7 +253,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
             <ul className="mt-4 space-y-1.5 text-[15px] text-graphite">
               <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Cobrança recorrente no cartão de crédito, todo mês</li>
               <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Sem custo de criação</li>
-              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Fidelidade de 12 meses. É o que permite não cobrar a criação do site.</li>
+              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação. Depois, segue mês a mês e você cancela quando quiser.</li>
             </ul>
             <p className="mt-4 text-sm text-graphite">
               Quer outro plano? <Link href="/planos" className="link text-ink">Ver os planos</Link>
@@ -274,7 +274,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
               <span className="text-[15px] leading-relaxed">
                 Li e aceito os{" "}
                 <Link href="/termos" target="_blank" className="link font-medium">Termos</Link>
-                , incluindo a fidelidade de 12 meses. Também li a{" "}
+                 da assinatura, incluindo o prazo mínimo de 12 meses. Também li a{" "}
                 <Link href="/privacidade" target="_blank" className="link">Política de Privacidade</Link>.
               </span>
             </label>

@@ -26,12 +26,14 @@ const rows: { label: string; v: V[] }[] = [
   { label: "Robôs das IAs liberados", v: ["Depende do construtor", "Raramente conferido", "Às vezes", true] },
   { label: "Ajustes depois de pronto", v: ["Você faz", "Cobrado à parte", "Cobrado à parte", "Inclusos no plano"] },
   { label: "Se a pessoa sumir", v: ["Não se aplica", "Site fica sem suporte", "Contrato", "Contrato e área do cliente"] },
+  { label: "Modelo de contratação", v: ["Assinatura do construtor", "Compra do site", "Compra do site", "Assinatura do site (mínimo de 12 meses)"] },
+  { label: "Se parar de pagar", v: ["Site sai do ar", "Site continua, sem manutenção", "Site continua, sem manutenção", "Site sai do ar; o domínio é seu"] },
 ];
 
 const faq: FaqItem[] = [
   { q: "Vale a pena fazer o site sozinho num construtor?", a: "Vale se você tem tempo e gosta de mexer. O custo aparece no seu tempo: escrever textos, ajustar no celular, cuidar de SEO e manter atualizado. Muita gente começa e o site fica pela metade." },
   { q: "Quando faz sentido contratar uma agência?", a: "Quando o projeto é grande ou muito específico: lojas virtuais complexas, sistemas, integrações. Para um site institucional de empresa local, a assinatura costuma resolver com menos custo e menos dor de cabeça." },
-  { q: "O site da Supporta é meu?", a: "O domínio e o conteúdo são seus. O código e a estrutura de publicação são da Supporta, como num aluguel com manutenção inclusa. Os detalhes estão nos Termos." },
+  { q: "O site da Supporta é meu?", a: "A Supporta é uma assinatura, não a venda de um site. O domínio e o conteúdo que você envia são seus; o site fica no ar e mantido enquanto a assinatura estiver ativa. É como uma assinatura de serviço: você não paga uma obra, paga para ter o site funcionando todo mês." },
 ];
 
 function Cell({ v, highlight }: { v: V; highlight: boolean }) {

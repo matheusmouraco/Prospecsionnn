@@ -44,13 +44,13 @@ export default function TermosPage() {
 
       <h2>3. Fidelidade de 12 meses</h2>
       <p>
-        A assinatura tem prazo mínimo de 12 (doze) meses contados da primeira cobrança. <strong>É o que permite não cobrar a criação do site:</strong> o custo de
-        criação é diluído nas mensalidades desse período.
+        A contratação é uma <strong>assinatura</strong>, e não a compra de um site: o site fica publicado e mantido enquanto a assinatura estiver ativa. A
+        assinatura tem prazo mínimo de 12 (doze) meses contados da primeira cobrança. <strong>É o que permite não cobrar a criação do site.</strong>
       </p>
       <p>
         Em caso de cancelamento pelo Cliente antes do fim dos 12 meses, será devida [REGRA_DE_CANCELAMENTO_ANTECIPADO, por exemplo: multa de X% sobre as
-        mensalidades restantes ou valor proporcional ao custo de criação], conforme revisão jurídica. Após os 12 meses, a assinatura segue por prazo indeterminado
-        e pode ser cancelada a qualquer momento, sem multa, com aviso pelo WhatsApp ou e-mail.
+        mensalidades restantes], conforme revisão jurídica. Após os 12 meses, a assinatura segue por prazo indeterminado, com cobrança mensal no mesmo valor
+        (salvo reajuste comunicado conforme o item 10), e pode ser cancelada a qualquer momento, sem multa, com aviso pelo WhatsApp ou e-mail.
       </p>
       <p>O aceite destes Termos é registrado com data, hora, IP e versão do documento no momento da contratação.</p>
 
@@ -85,8 +85,8 @@ export default function TermosPage() {
         regulamentadas (como saúde, odontologia e advocacia), o Cliente é responsável por revisar e aprovar os textos conforme as regras do seu conselho de classe.
       </p>
       <p>
-        O conteúdo do Cliente pertence ao Cliente. O código, os modelos e o sistema de publicação pertencem à Supporta. Ao final da assinatura, [DEFINIR_O_QUE_E_ENTREGUE:
-        por exemplo, exportação dos textos e imagens].
+        O conteúdo do Cliente pertence ao Cliente. O código, os modelos e o sistema de publicação pertencem à Supporta. Com o fim da assinatura, o site deixa de ser publicado e
+        mantido pela Supporta. [DEFINIR_O_QUE_E_ENTREGUE: por exemplo, os textos e imagens enviados pelo Cliente].
       </p>
 
       <h2>9. Disponibilidade e limitações</h2>

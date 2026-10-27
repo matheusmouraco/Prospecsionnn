@@ -53,7 +53,7 @@ export default function Home() {
           id="planos-title"
           label="Planos"
           title="Quanto custa o site por assinatura?"
-          lead="De R$89 a R$389 por mês, sem custo de criação. Pagamento recorrente no cartão e fidelidade de 12 meses, que é o que permite não cobrar a criação do site."
+          lead="De R$89 a R$389 por mês, sem custo de criação. É uma assinatura: o site fica no ar enquanto ela estiver ativa, com mínimo de 12 meses e, depois, mês a mês."
         />
         <div className="mt-12 md:mt-16">
           <PlanCards />

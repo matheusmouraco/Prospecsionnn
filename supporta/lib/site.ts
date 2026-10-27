@@ -8,10 +8,10 @@ export const site = {
   signature: "A IA sempre se apoia em alguma fonte. Faça ser a sua.",
   description:
     "Site profissional, hospedagem, manutenção e GEO numa assinatura só. A partir de R$89/mês, sem custo de criação.",
-  whatsapp: env(process.env.NEXT_PUBLIC_WHATSAPP, "[WHATSAPP]"),
+  whatsapp: env(process.env.NEXT_PUBLIC_WHATSAPP, "+55 11 99264-4010"),
   email: env(process.env.NEXT_PUBLIC_EMAIL, "[EMAIL]"),
-  razaoSocial: env(process.env.NEXT_PUBLIC_RAZAO_SOCIAL, "[RAZAO_SOCIAL]"),
-  cnpj: env(process.env.NEXT_PUBLIC_CNPJ, "[CNPJ]"),
+  razaoSocial: env(process.env.NEXT_PUBLIC_RAZAO_SOCIAL, "Matilab Tecnologia"),
+  cnpj: env(process.env.NEXT_PUBLIC_CNPJ, "40.283.248/0001-21"),
   instagram: env(process.env.NEXT_PUBLIC_INSTAGRAM, ""),
   locale: "pt_BR",
   // Prazos de entrega em dias úteis, contados a partir do briefing completo. Confirmar antes de publicar.
@@ -19,7 +19,7 @@ export const site = {
   termsVersion: "2026-10",
 };
 
-export const termsAcceptanceText = "Li e aceito os Termos, incluindo a fidelidade de 12 meses";
+export const termsAcceptanceText = "Li e aceito os Termos da assinatura, incluindo o prazo mínimo de 12 meses";
 
 /** Número só com dígitos, pronto para o wa.me. Vazio enquanto for placeholder. */
 export function whatsappDigits() {

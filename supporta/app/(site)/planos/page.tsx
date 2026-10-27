@@ -25,7 +25,7 @@ export default function PlanosPage() {
         crumbs={[{ name: "Planos", path: "/planos" }]}
         label="Planos"
         title="Quanto custa ter um site profissional?"
-        lead="De R$89 a R$389 por mês, com site, hospedagem, manutenção e GEO inclusos. Sem custo de criação: a fidelidade de 12 meses é o que permite não cobrar a criação do site."
+        lead="De R$89 a R$389 por mês, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e depois mês a mês."
       />
       <section aria-label="Planos" className="pb-20 md:pb-28">
         <div className="container-site">

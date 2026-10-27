@@ -41,7 +41,7 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
             >
               Assinar o {plan.name}
             </Link>
-            <p className={`mt-3 text-center text-[13px] ${pink ? "text-ink" : "text-graphite"}`}>Cartão de crédito · fidelidade de 12 meses</p>
+            <p className={`mt-3 text-center text-[13px] ${pink ? "text-ink" : "text-graphite"}`}>Assinatura no cartão · mínimo de 12 meses</p>
           </article>
         );
       })}

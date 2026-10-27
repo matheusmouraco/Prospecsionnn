@@ -19,7 +19,7 @@ export function llmsTxt() {
 > ${site.name} vende sites profissionais por assinatura mensal para pequenas e médias empresas do Brasil. ${site.description} ${site.signature}
 
 Público: dentistas, clínicas, advogados, arquitetos, restaurantes, prestadores de serviço e comércio local.
-Regras comerciais: pagamento recorrente no cartão de crédito, fidelidade de 12 meses (é o que permite não cobrar a criação do site), sem custo de criação.
+Modelo: assinatura do site, não venda de site. O site fica no ar enquanto a assinatura estiver ativa. Pagamento recorrente no cartão de crédito, prazo mínimo de 12 meses (é o que permite não cobrar a criação do site), sem custo de criação; a partir do 13º mês segue mês a mês e pode ser cancelada quando o cliente quiser.
 Contato: WhatsApp ${site.whatsapp}, e-mail ${site.email}.
 
 ## Planos
@@ -83,7 +83,7 @@ ${faqMd(homeFaq)}
 
 URL: ${absoluteUrl("/planos")}
 
-Pagamento recorrente no cartão de crédito, fidelidade de 12 meses, sem custo de criação. A fidelidade é o que permite não cobrar a criação do site.
+Assinatura do site: fica no ar enquanto a assinatura estiver ativa. Pagamento recorrente no cartão de crédito, mínimo de 12 meses (é o que permite não cobrar a criação do site) e, depois, mês a mês com cancelamento quando quiser.
 
 ${plansMd()}
 

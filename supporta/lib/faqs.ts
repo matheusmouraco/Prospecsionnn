@@ -3,15 +3,19 @@ export type Faq = { q: string; a: string };
 export const homeFaq: Faq[] = [
   {
     q: "Por que tem fidelidade de 12 meses?",
-    a: "É o que permite não cobrar a criação do site. Em vez de pagar milhares de reais de entrada, você divide o investimento em 12 mensalidades e recebe o site pronto, hospedado e cuidado desde o primeiro mês.",
+    a: "É o que permite não cobrar a criação do site. A Supporta não vende um site: é uma assinatura. Você paga a mensalidade e tem o site no ar, hospedado e cuidado, enquanto a assinatura estiver ativa. Os 12 meses são o prazo mínimo do contrato.",
+  },
+  {
+    q: "E depois dos 12 meses?",
+    a: "A assinatura continua mês a mês, no mesmo valor, e o site segue no ar. A partir do 13º mês você pode cancelar quando quiser, sem multa.",
   },
   {
     q: "Como funciona o cancelamento?",
     a: "Depois dos 12 meses, você cancela quando quiser, sem multa, com aviso pelo WhatsApp ou e-mail. Antes disso, vale a regra de cancelamento antecipado descrita nos Termos de Uso, que você lê antes de assinar.",
   },
   {
-    q: "O que acontece com o domínio se eu cancelar?",
-    a: "O domínio .com.br é registrado no CPF ou CNPJ da sua empresa, então ele é seu. Se cancelar, a gente orienta a transferência e você continua com o endereço.",
+    q: "O que acontece com o site e o domínio se eu cancelar?",
+    a: "O site fica no ar enquanto a assinatura estiver ativa. Com o cancelamento, ele sai do ar. O domínio .com.br é registrado no CPF ou CNPJ da sua empresa, então ele continua seu: a gente orienta a transferência e você mantém o endereço.",
   },
   {
     q: "Qual o prazo para o site ficar pronto?",
@@ -50,11 +54,11 @@ export const billingFaq: Faq[] = [
   },
   {
     q: "Tem custo de criação ou taxa de setup?",
-    a: "Não. Você paga só a mensalidade do plano escolhido. A criação do site está diluída na fidelidade de 12 meses.",
+    a: "Não. Você paga só a mensalidade do plano escolhido. Criação, hospedagem e manutenção fazem parte da assinatura.",
   },
   {
     q: "Por que tem fidelidade de 12 meses?",
-    a: "É o que permite não cobrar a criação do site. O custo de fazer o site é dividido nas 12 primeiras mensalidades.",
+    a: "É o que permite não cobrar a criação do site. Depois dos 12 meses, a assinatura segue mês a mês e pode ser cancelada quando você quiser.",
   },
   {
     q: "O valor da mensalidade muda?",
