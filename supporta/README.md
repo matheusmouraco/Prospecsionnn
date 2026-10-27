@@ -117,7 +117,7 @@ Lighthouse 12, celular, throttling simulado:
 
 **Domínio e Vercel**
 - [ ] Criar o projeto na Vercel com Root Directory = `supporta`
-- [ ] Apontar o domínio (`www.supporta.com.br` e redirecionar o apex) e conferir o SSL
+- [ ] Apontar o domínio (`supporta.com.br`, com o `www` redirecionando para ele) e conferir o SSL. Passo a passo em `PENDENCIAS.md`
 - [ ] Preencher `NEXT_PUBLIC_SITE_URL` com a URL final (canonical, sitemap, OG e llms.txt dependem dela)
 
 **Variáveis de ambiente (Production e Preview)**

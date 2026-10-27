@@ -49,7 +49,7 @@ export async function safeFetch(url: URL, { maxBytes = 1_500_000, timeoutMs = 10
     const res = await fetch(current, {
       redirect: "manual",
       signal: AbortSignal.timeout(timeoutMs),
-      headers: { "user-agent": "SupportaDiagnostico/1.0 (+https://www.supporta.com.br/diagnostico)", accept: "text/html,text/plain,*/*" },
+      headers: { "user-agent": "SupportaDiagnostico/1.0 (+https://supporta.com.br/diagnostico)", accept: "text/html,text/plain,*/*" },
     });
     if (res.status >= 300 && res.status < 400 && res.headers.get("location")) {
       const next = new URL(res.headers.get("location")!, current);

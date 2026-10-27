@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { posts } from "./blog";
+import { glossary } from "./glossary";
 import { billingFaq, geoFaq, homeFaq, type Faq } from "./faqs";
 import { plans } from "./plans";
 import { segments } from "./segments";
@@ -32,6 +33,11 @@ ${plans.map((p) => `- Plano ${p.name}, R$${p.price}/mês: ${p.features.join("; "
 - [Modelos](${absoluteUrl("/modelos")}): modelos de site por segmento.
 ${segments.map((s) => `- [${s.title}](${absoluteUrl(`/modelos/${s.slug}`)}): ${s.metaDescription}`).join("\n")}
 - [GEO](${absoluteUrl("/geo")}): guia simples sobre SEO, AEO, GEO e llms.txt.
+- [Quanto custa um site](${absoluteUrl("/quanto-custa-um-site")}): o que entra no preço de um site e calculadora de custo em 1 a 3 anos.
+- [Comparativo](${absoluteUrl("/comparativo")}): construtor de sites, freelancer, agência e assinatura Supporta.
+- [Perguntas frequentes](${absoluteUrl("/perguntas-frequentes")}): todas as dúvidas sobre assinatura, pagamento e GEO.
+- [Glossário](${absoluteUrl("/glossario")}): SEO, AEO, GEO, llms.txt, dados estruturados e outros termos explicados.
+- [Sobre](${absoluteUrl("/sobre")}) e [Contato](${absoluteUrl("/contato")}).
 - [Diagnóstico grátis](${absoluteUrl("/diagnostico")}): ferramenta que mede a nota do site no PageSpeed (celular) e checa título, descrição, dados estruturados, llms.txt e robots.txt.
 
 ## Blog
@@ -108,6 +114,10 @@ ${faqMd(s.faq)}`,
 URL: ${absoluteUrl("/geo")}
 
 ${faqMd(geoFaq)}
+
+# Glossário
+
+${glossary.map((t) => `- **${t.term}**: ${t.definition}`).join("\n")}
 
 # Blog
 

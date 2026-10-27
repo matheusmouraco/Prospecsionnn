@@ -11,6 +11,10 @@ const columns = [
       { href: "/modelos", label: "Modelos" },
       { href: "/#como-funciona", label: "Como funciona" },
       { href: "/diagnostico", label: "Diagnóstico grátis" },
+      { href: "/quanto-custa-um-site", label: "Quanto custa um site" },
+      { href: "/comparativo", label: "Comparativo" },
+      { href: "/sobre", label: "Sobre" },
+      { href: "/contato", label: "Contato" },
     ],
   },
   {
@@ -18,7 +22,9 @@ const columns = [
     links: [
       { href: "/geo", label: "O que é GEO" },
       { href: "/blog", label: "Blog" },
-      { href: "/#duvidas", label: "Dúvidas" },
+      { href: "/perguntas-frequentes", label: "Perguntas frequentes" },
+      { href: "/glossario", label: "Glossário" },
+      { href: "/cliente", label: "Área do cliente" },
       { href: "/llms.txt", label: "llms.txt" },
     ],
   },

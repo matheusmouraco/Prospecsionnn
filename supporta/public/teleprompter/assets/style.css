@@ -1,0 +1,881 @@
+/* ============================================================================
+   PrompterSync
+   Linguagem visual: equipamento de estudio, nao painel de SaaS.
+   Tema escuro travado (a tela de leitura precisa ser escura, e alternar tema
+   no meio de uma gravacao seria um erro). Acento ambar de console de broadcast.
+   Alvos de toque grandes: isso e operado com pressa, as vezes no escuro.
+   ============================================================================ */
+
+/* A fonte do roteiro e embutida de proposito.
+   Usando a fonte do sistema, o celular do apresentador (Roboto, San Francisco)
+   e o computador do operador (Segoe UI, Helvetica) renderizam com metricas
+   diferentes: o mesmo texto na mesma largura quebra em pontos distintos e o
+   comprimento total chega a variar quase 8%. Isso descola o espelho do painel
+   da tela real. Com a fonte embutida, todos os aparelhos medem igual.
+   Inter, licenca SIL Open Font License 1.1. */
+@font-face {
+    font-family: "InterLeitura";
+    src: url("fontes/inter-latin.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: block;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+:root {
+    --fundo: #0b0b0d;
+    --fundo-2: #141417;
+    --fundo-3: #1c1c21;
+    --linha: #2a2a31;
+    --linha-forte: #3a3a44;
+
+    --texto: #f2f2f4;
+    --texto-2: #a1a1ad;
+    --texto-3: #6e6e7a;
+
+    --acento: #ffb020;
+    --acento-fraco: rgba(255, 176, 32, 0.14);
+    --ativo: #ff3b30;
+    --ok: #32d74b;
+
+    --raio: 10px;
+    --raio-g: 14px;
+
+    --fonte-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text",
+        "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --fonte-num: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+        "Liberation Mono", monospace;
+    /* Usada apenas no roteiro (tela de leitura e espelho do painel), para os
+       dois lados quebrarem as linhas exatamente nos mesmos pontos. */
+    --fonte-leitura: "InterLeitura", ui-sans-serif, system-ui, sans-serif;
+
+    --transicao: 140ms cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: var(--fonte-ui);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+}
+
+svg {
+    display: block;
+}
+
+/* Qualquer regra com `display` explicito venceria o [hidden] do navegador.
+   Esta linha garante que esconder pelo atributo continue funcionando. */
+[hidden] {
+    display: none !important;
+}
+
+/* --------------------------------------------------------------- estruturas */
+
+.envelope {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 32px 24px 96px;
+}
+
+.topo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    font-size: 17px;
+    color: var(--texto);
+    text-decoration: none;
+}
+
+.marca .glifo {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--acento);
+    color: #201500;
+    display: grid;
+    place-items: center;
+}
+
+.crescer {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ------------------------------------------------------------------ botoes */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: var(--raio);
+    background: var(--fundo-3);
+    color: var(--texto);
+    font-weight: 500;
+    font-size: 14.5px;
+    border: 1px solid var(--linha);
+    transition: background var(--transicao), border-color var(--transicao),
+        transform var(--transicao);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: #26262c;
+    border-color: var(--linha-forte);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-principal {
+    background: var(--acento);
+    border-color: var(--acento);
+    color: #201500;
+    font-weight: 600;
+}
+
+.btn-principal:hover {
+    background: #ffbe45;
+    border-color: #ffbe45;
+}
+
+.btn-fantasma {
+    background: transparent;
+    border-color: transparent;
+    color: var(--texto-2);
+}
+
+.btn-fantasma:hover {
+    background: var(--fundo-3);
+    color: var(--texto);
+    border-color: transparent;
+}
+
+.btn-icone {
+    width: 44px;
+    padding: 0;
+}
+
+.btn-perigo:hover {
+    background: rgba(255, 59, 48, 0.14);
+    border-color: rgba(255, 59, 48, 0.4);
+    color: #ff6b62;
+}
+
+/* ------------------------------------------------------------------- home */
+
+.abertura {
+    margin-bottom: 30px;
+}
+
+.abertura h1 {
+    font-size: 30px;
+    letter-spacing: -0.028em;
+    margin: 0 0 8px;
+    font-weight: 600;
+}
+
+.abertura p {
+    margin: 0;
+    color: var(--texto-2);
+    max-width: 58ch;
+}
+
+.barra-secao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 34px 0 16px;
+}
+
+.barra-secao h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--texto-3);
+    margin: 0;
+    font-weight: 600;
+}
+
+.grade-roteiros {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.cartao {
+    background: var(--fundo-2);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-g);
+    padding: 18px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color var(--transicao), background var(--transicao);
+}
+
+.cartao:hover {
+    border-color: var(--linha-forte);
+    background: #17171b;
+}
+
+.cartao h3 {
+    margin: 0;
+    font-size: 16.5px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cartao .meta {
+    font-family: var(--fonte-num);
+    font-size: 12.5px;
+    color: var(--texto-3);
+    display: flex;
+    gap: 14px;
+}
+
+.cartao .acoes {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.vazio {
+    border: 1px dashed var(--linha-forte);
+    border-radius: var(--raio-g);
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--texto-2);
+}
+
+.vazio p {
+    margin: 0 0 18px;
+}
+
+/* ------------------------------------------------------------- painel */
+
+.painel {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: start;
+}
+
+@media (max-width: 1000px) {
+    .painel {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.bloco {
+    background: var(--fundo-2);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-g);
+    padding: 18px;
+}
+
+.bloco > .rotulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 12.5px;
+    color: var(--texto-3);
+}
+
+.editor {
+    width: 100%;
+    min-height: 46vh;
+    resize: vertical;
+    background: var(--fundo);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    padding: 16px;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--texto);
+}
+
+.editor::placeholder {
+    color: var(--texto-3);
+}
+
+.editor:focus {
+    outline: none;
+    border-color: var(--linha-forte);
+}
+
+/* transporte (play, pular) */
+.transporte {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 6px 0 18px;
+}
+
+.tecla {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--fundo-3);
+    border: 1px solid var(--linha);
+    display: grid;
+    place-items: center;
+    color: var(--texto);
+    transition: background var(--transicao), transform var(--transicao);
+}
+
+.tecla:hover {
+    background: #2a2a31;
+}
+
+.tecla:active {
+    transform: scale(0.94);
+}
+
+.tecla-mestra {
+    width: 74px;
+    height: 74px;
+    background: var(--acento);
+    border-color: var(--acento);
+    color: #201500;
+}
+
+.tecla-mestra:hover {
+    background: #ffbe45;
+}
+
+.tecla-mestra[data-tocando="1"] {
+    background: var(--ativo);
+    border-color: var(--ativo);
+    color: #fff;
+}
+
+.tecla-mestra[data-tocando="1"]:hover {
+    background: #ff5349;
+}
+
+/* controles deslizantes */
+.controle {
+    margin-bottom: 20px;
+}
+
+.controle .cabeca {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 9px;
+    font-size: 13.5px;
+    color: var(--texto-2);
+}
+
+.controle .valor {
+    font-family: var(--fonte-num);
+    color: var(--texto);
+    font-size: 13px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 26px;
+    background: transparent;
+    margin: 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--fundo-3);
+    border: 1px solid var(--linha);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--texto);
+    border: none;
+    margin-top: -9px;
+    transition: transform var(--transicao);
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.15);
+}
+
+input[type="range"]::-moz-range-track {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--fundo-3);
+    border: 1px solid var(--linha);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--texto);
+    border: none;
+}
+
+/* interruptores */
+.opcao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 11px 0;
+    border-top: 1px solid var(--linha);
+}
+
+.opcao:first-of-type {
+    border-top: none;
+}
+
+.opcao .nome {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--texto-2);
+    font-size: 14px;
+}
+
+.chave {
+    width: 48px;
+    height: 28px;
+    border-radius: 14px;
+    background: var(--fundo-3);
+    border: 1px solid var(--linha);
+    position: relative;
+    transition: background var(--transicao), border-color var(--transicao);
+    flex: none;
+}
+
+.chave::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--texto-2);
+    transition: transform var(--transicao), background var(--transicao);
+}
+
+.chave[aria-checked="true"] {
+    background: var(--acento-fraco);
+    border-color: var(--acento);
+}
+
+.chave[aria-checked="true"]::after {
+    transform: translateX(20px);
+    background: var(--acento);
+}
+
+/* status da conexao */
+.conexao {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    color: var(--texto-2);
+    padding: 12px 14px;
+    background: var(--fundo);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+}
+
+.pisca {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--texto-3);
+    flex: none;
+}
+
+.pisca[data-estado="ligado"] {
+    background: var(--ok);
+}
+
+.pisca[data-estado="ativo"] {
+    background: var(--ativo);
+}
+
+.pisca[data-estado="erro"] {
+    background: var(--ativo);
+}
+
+/* progresso da leitura */
+.trilha {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--fundo-3);
+    overflow: hidden;
+    border: 1px solid var(--linha);
+}
+
+.trilha > span {
+    display: block;
+    height: 100%;
+    background: var(--acento);
+    width: 0;
+}
+
+/* enderecos */
+.endereco {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.endereco code {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--fonte-num);
+    font-size: 12.5px;
+    color: var(--texto-2);
+    background: var(--fundo);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    padding: 11px 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.qr {
+    background: #fff;
+    padding: 12px;
+    border-radius: var(--raio);
+    width: fit-content;
+    margin: 14px auto 0;
+}
+
+.qr svg {
+    display: block;
+}
+
+/* campo de texto */
+.campo {
+    width: 100%;
+    height: 44px;
+    background: var(--fundo);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    padding: 0 14px;
+}
+
+.campo:focus {
+    outline: none;
+    border-color: var(--acento);
+}
+
+/* dialogo */
+dialog {
+    border: 1px solid var(--linha-forte);
+    border-radius: var(--raio-g);
+    background: var(--fundo-2);
+    color: var(--texto);
+    padding: 22px;
+    width: min(440px, calc(100vw - 40px));
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.62);
+}
+
+dialog h2 {
+    margin: 0 0 16px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+}
+
+.dialogo-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+/* aviso */
+.aviso {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 13px 15px;
+    border-radius: var(--raio);
+    background: rgba(255, 176, 32, 0.09);
+    border: 1px solid rgba(255, 176, 32, 0.28);
+    color: #ffd58a;
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+.aviso svg {
+    flex: none;
+    margin-top: 1px;
+}
+
+/* ------------------------------------------------------------- perfis */
+
+.perfis {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    background: var(--fundo);
+    padding: 6px 8px 6px 4px;
+    transition: border-color var(--transicao), background var(--transicao);
+}
+
+.perfil:hover {
+    border-color: var(--linha-forte);
+}
+
+.perfil-ativo {
+    border-color: var(--acento);
+    background: var(--acento-fraco);
+}
+
+.perfil-aplicar {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    text-align: left;
+}
+
+.perfil-nome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    font-size: 14.5px;
+    color: var(--texto);
+}
+
+.perfil-ativo .perfil-nome {
+    color: var(--acento);
+}
+
+.perfil-meta {
+    font-family: var(--fonte-num);
+    font-size: 11.5px;
+    color: var(--texto-3);
+}
+
+/* --------------------------------------------------- espelho da leitura */
+
+.espelho-caixa {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--raio);
+    background: #000;
+    border: 1px solid var(--linha);
+    display: flex;
+    justify-content: center;
+}
+
+/* A tela e montada no tamanho real do aparelho e so depois encolhida, para
+   as linhas quebrarem exatamente onde quebram no celular do apresentador. */
+.espelho-tela {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    transform-origin: top center;
+    flex: none;
+}
+
+.espelho-fita {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    color: #fff;
+    font-weight: 500;
+    white-space: pre-wrap;
+    word-break: break-word;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.espelho-guia {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 2px solid rgba(255, 59, 48, 0.6);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ======================================================== tela de leitura */
+
+.leitura {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    overflow: hidden;
+    touch-action: none;
+    cursor: pointer;
+}
+
+.leitura .janela {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.leitura .fita {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: 0 auto;
+    color: #fff;
+    font-weight: 500;
+    white-space: pre-wrap;
+    word-break: break-word;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.leitura .guia {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 2px solid rgba(255, 59, 48, 0.6);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.leitura .selo {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    /* Fundo solido de proposito: este selo fica sobre o roteiro, e translucido
+       ele competia com o texto justamente quando a pessoa precisa ler. */
+    background: #16161a;
+    border: 1px solid #2a2a31;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 12.5px;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+    transition: opacity 240ms ease;
+}
+
+.leitura .selo[data-oculto="1"] {
+    opacity: 0;
+}
+
+.leitura .cortina {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    background: #000;
+    color: var(--texto-2);
+    text-align: center;
+    padding: 28px;
+}
+
+.leitura .cortina h2 {
+    color: var(--texto);
+    font-size: 19px;
+    margin: 16px 0 8px;
+    font-weight: 600;
+}
+
+.leitura .cortina p {
+    margin: 0;
+    max-width: 42ch;
+    font-size: 14.5px;
+}
+
+/* respeita quem pediu menos movimento: sem transicoes decorativas */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

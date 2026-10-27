@@ -3,7 +3,7 @@ const env = (value: string | undefined, fallback: string) => (value && value.tri
 
 export const site = {
   name: "Supporta",
-  url: env(process.env.NEXT_PUBLIC_SITE_URL, "https://www.supporta.com.br").replace(/\/$/, ""),
+  url: env(process.env.NEXT_PUBLIC_SITE_URL, "https://supporta.com.br").replace(/\/$/, ""),
   tagline: "Seu site no ar. Todo mês.",
   signature: "A IA sempre se apoia em alguma fonte. Faça ser a sua.",
   description:
