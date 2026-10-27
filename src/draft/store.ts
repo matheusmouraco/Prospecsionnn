@@ -96,10 +96,11 @@ export async function markPublished(dominio: string, html: string, url: string, 
   return slug;
 }
 
-export async function publishedDrafts(db: Db = getSupabase()): Promise<{ slug: string; html: string }[]> {
-  const { data, error } = await db.from('esbocos').select('slug, html').not('publicado_em', 'is', null);
+export async function publishedDrafts(db: Db = getSupabase()): Promise<{ slug: string; html: string; slugsAntigos: string[] }[]> {
+  const { data, error } = await db.from('esbocos').select('slug, html, slugs_antigos').not('publicado_em', 'is', null);
   if (error) throw new Error(`Falha ao listar esboços publicados: ${error.message}`);
-  return (data ?? []).filter((d) => d.html).map((d) => ({ slug: d.slug as string, html: d.html as string }));
+  return (data ?? []).filter((d) => d.html)
+    .map((d) => ({ slug: d.slug as string, html: d.html as string, slugsAntigos: (d.slugs_antigos as string[] | null) ?? [] }));
 }
 
 export async function draftLink(dominio: string, db: Db = getSupabase()): Promise<string | null> {

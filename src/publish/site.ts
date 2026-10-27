@@ -1,6 +1,7 @@
 export interface Publicado {
   slug: string;
   html: string;
+  slugsAntigos?: string[];
 }
 
 export interface Arquivo {
@@ -9,11 +10,16 @@ export interface Arquivo {
 }
 
 // Static site with every published draft at /<slug>. noindex on every response (rule 5),
-// and a blank root page so nobody browses a list of drafts.
+// and a blank root page so nobody browses a list of drafts. Old slugs of a renamed draft redirect to the new one.
 export function buildSite(drafts: Publicado[]): Arquivo[] {
+  const atuais = new Set(drafts.map((d) => d.slug));
+  const redirects = drafts.flatMap((d) => (d.slugsAntigos ?? [])
+    .filter((antigo) => antigo && !atuais.has(antigo))
+    .map((antigo) => ({ source: `/${antigo}`, destination: `/${d.slug}`, permanent: true })));
   const config = {
     cleanUrls: true,
     trailingSlash: false,
+    ...(redirects.length ? { redirects } : {}),
     headers: [{ source: '/(.*)', headers: [
       { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
       { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
