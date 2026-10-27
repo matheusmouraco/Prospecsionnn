@@ -1,9 +1,12 @@
 # O que fica com você (Moura)
 
 Lista do que só você pode fazer para a Supporta funcionar 100%. Marque conforme for resolvendo.
-O site já está publicado na Vercel (projeto `supportasite`). Enquanto o DNS não mudar, o supporta.com.br continua mostrando o que está na Hostinger.
+O site já está publicado na Vercel (projeto `supportasite`, publicado a partir do branch `ccr-5a451054-muwj01` do GitHub, pasta `supporta`). Enquanto o DNS não mudar, o supporta.com.br continua mostrando o que está na Hostinger.
 
 ## 1. Domínio supporta.com.br (para o site novo aparecer)
+
+- [ ] Na Vercel, projeto `supportasite` > Settings > General: confirmar **Root Directory = `supporta`** e Framework = Next.js (eu passei isso no deploy, mas não consegui gravar no projeto). Em Settings > Git, ligar o repositório `matheusmouraco/prospecsionnn` para publicar sozinho a cada push.
+- [ ] Settings > Domains: adicionar `supporta.com.br` e `www.supporta.com.br` (o www redirecionando para o principal).
 
 - [ ] No painel da Hostinger, em DNS do supporta.com.br, trocar **só** estes registros (não mexa em MX, TXT de e-mail nem nos servidores de nome):
   - `A` do `@` (raiz) para o IP que a Vercel mostrar no projeto `supportasite` (Settings > Domains).
@@ -22,7 +25,10 @@ O site já está publicado na Vercel (projeto `supportasite`). Enquanto o DNS n�
 
 ## 3. Chaves e contas (variáveis na Vercel, projeto `supportasite`)
 
-Já cadastradas por mim: `NEXT_PUBLIC_SITE_URL`, `SESSION_SECRET` e `CRON_SECRET` (aleatórios, você não precisa saber o valor).
+A conexão da Vercel que eu uso não tem permissão para cadastrar variáveis nem alterar o projeto, então todas ficam com você (Settings > Environment Variables). `NEXT_PUBLIC_SITE_URL` já vale `https://supporta.com.br` por padrão no código.
+
+- [ ] `SESSION_SECRET` (32+ caracteres aleatórios, `openssl rand -base64 48`). **Sem ela, a área do cliente e o link do briefing ficam desligados** (o site avisa e manda para o WhatsApp).
+- [ ] `CRON_SECRET` (aleatório). Sem ela, os relatórios mensais não rodam.
 
 - [ ] `NEXT_PUBLIC_WHATSAPP`, `NEXT_PUBLIC_EMAIL`, `NEXT_PUBLIC_RAZAO_SOCIAL`, `NEXT_PUBLIC_CNPJ` (enquanto não preencher, o site mostra os colchetes no rodapé e no contato)
 - [ ] `PSI_API_KEY`: Google Cloud > ativar PageSpeed Insights API > criar chave. Sem ela o diagnóstico grátis falha muitas vezes (o Google limita).

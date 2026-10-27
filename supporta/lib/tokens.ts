@@ -2,6 +2,12 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 // Tokens assinados (HMAC) para links de briefing e acesso à área do cliente. Sem tabela de sessão.
 
+/** Em produção sem SESSION_SECRET, links assinados ficam desligados (nada quebra, só não são gerados). */
+export function hasSecret() {
+  const s = process.env.SESSION_SECRET;
+  return Boolean(s && s.length >= 32) || process.env.VERCEL_ENV !== "production";
+}
+
 function secret() {
   const s = process.env.SESSION_SECRET;
   if (!s || s.length < 32) {
@@ -30,7 +36,7 @@ export function createToken(payload: Record<string, unknown>, ttlSeconds: number
 }
 
 export function readToken<T extends Record<string, unknown>>(token: string | undefined | null): T | null {
-  if (!token) return null;
+  if (!token || !hasSecret()) return null;
   const [body, signature] = token.split(".");
   if (!body || !signature || !verifySignature(body, signature)) return null;
   try {
@@ -43,5 +49,5 @@ export function readToken<T extends Record<string, unknown>>(token: string | und
 }
 
 /** Assinatura do link do briefing (a referência da assinatura já é um UUID aleatório). */
-export const briefingSignature = (reference: string) => sign(`briefing:${reference}`).slice(0, 24);
-export const isBriefingSignature = (reference: string, sig: string) => briefingSignature(reference) === sig;
+export const briefingSignature = (reference: string) => (hasSecret() ? sign(`briefing:${reference}`).slice(0, 24) : "");
+export const isBriefingSignature = (reference: string, sig: string) => hasSecret() && Boolean(sig) && briefingSignature(reference) === sig;

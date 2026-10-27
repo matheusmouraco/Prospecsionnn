@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     if (process.env.VERCEL_ENV === "production") {
       console.error("[checkout] nenhum provedor de pagamento configurado em produção.");
       await sendToWebhook("assinatura_sem_pagamento", record);
-      return NextResponse.json({ error: "O pagamento está indisponível agora. Recebemos seus dados e vamos chamar você no WhatsApp." }, { status: 503 });
+      return NextResponse.json({ error: "A assinatura pelo site ainda não está liberada. Fale com a gente no WhatsApp para assinar agora." }, { status: 503 });
     }
     await sendToWebhook("assinatura_teste", record);
     return NextResponse.json({ redirectUrl: `${thanks}&teste=1` });

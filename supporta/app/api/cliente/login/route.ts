@@ -6,11 +6,13 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { getClientByEmail } from "@/lib/repo";
 import { loginToken } from "@/lib/session";
 import { absoluteUrl } from "@/lib/site";
+import { hasSecret } from "@/lib/tokens";
 
 export const runtime = "nodejs";
 
 // Sempre responde a mesma coisa, exista ou não o e-mail (não revela quem é cliente).
 export async function POST(request: Request) {
+  if (!hasSecret()) return NextResponse.json({ error: "A área do cliente está em configuração. Fale com a gente no WhatsApp." }, { status: 503 });
   const ip = clientIp(request.headers);
   if (!rateLimit(`login:${ip}`, 8, 60 * 60 * 1000).ok) return NextResponse.json({ error: "Muitas tentativas. Tente mais tarde." }, { status: 429 });
   const body = await request.json().catch(() => null);
