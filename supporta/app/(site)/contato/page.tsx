@@ -26,7 +26,7 @@ export default function ContatoPage() {
         title="Como falar com a Supporta?"
         lead="Pelo WhatsApp, com gente de verdade do outro lado. Se preferir, mande um e-mail."
       />
-      <section aria-label="Canais de contato" className="pb-20 md:pb-28">
+      <section aria-label="Canais de contato" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site grid gap-4 md:grid-cols-2">
           {cards.map(({ icon: Icon, ...c }) => (
             <div key={c.title} className="rounded-[2rem] border border-line bg-white p-7 md:p-9">

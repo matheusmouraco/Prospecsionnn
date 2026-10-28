@@ -44,7 +44,7 @@ export default function ModelosPage() {
         title="Qual modelo de site combina com o seu negócio?"
         lead="Cada modelo foi desenhado para o que o cliente daquele segmento procura primeiro. Escolha o seu e a gente aplica a sua marca."
       />
-      <section aria-label="Galeria de modelos" className="pb-20 md:pb-28">
+      <section aria-label="Galeria de modelos" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <ul className="container-site grid gap-6 md:grid-cols-2">
           {segments.map((s) => (
             <li key={s.slug}>

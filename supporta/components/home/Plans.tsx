@@ -13,7 +13,7 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
         return (
           <article
             key={plan.id}
-            className={`flex flex-col rounded-[2rem] p-7 md:p-8 ${pink ? "on-pink bg-pink text-ink lg:-my-4 lg:py-12" : "border border-line bg-white text-ink"}`}
+            className={`flex flex-col rounded-[2rem] p-7 md:p-8 ${pink ? "on-pink neon-glow bg-pink text-ink lg:-my-4 lg:py-12" : "border border-line bg-white text-ink"}`}
           >
             <div className="flex items-center justify-between">
               <H className="text-2xl tracking-[-0.04em]">{plan.name}</H>

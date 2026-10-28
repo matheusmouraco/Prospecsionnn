@@ -45,7 +45,7 @@ export default function DiagnosticoPage() {
         title="Qual a nota do seu site no Google?"
         lead="Digite o endereço e o seu e-mail. Em menos de um minuto você vê as 4 notas do PageSpeed no celular, se o site está pronto pras IAs e 3 recomendações práticas."
       />
-      <section aria-label="Ferramenta de diagnóstico" className="pb-20 md:pb-28">
+      <section aria-label="Ferramenta de diagnóstico" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site max-w-5xl">
           <DiagnosticTool />
         </div>

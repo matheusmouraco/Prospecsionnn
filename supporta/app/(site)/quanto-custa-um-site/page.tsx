@@ -38,7 +38,7 @@ export default function QuantoCustaPage() {
         title="Quanto custa um site para a minha empresa?"
         lead="O custo real de um site soma criação, hospedagem, domínio e manutenção. Coloque os valores que você recebeu e veja o total em 1, 2 ou 3 anos."
       />
-      <section aria-label="Calculadora de custo" className="pb-20 md:pb-28">
+      <section aria-label="Calculadora de custo" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
           <CostCalculator />
         </div>

@@ -53,7 +53,7 @@ export default function ComparativoPage() {
         title="Qual a melhor forma de ter um site para a minha empresa?"
         lead="Depende de quanto tempo você tem e de quanto quer investir de uma vez. Esta comparação mostra o que muda em cada caminho, sem marca e sem preço inventado."
       />
-      <section aria-label="Tabela comparativa" className="pb-20 md:pb-28">
+      <section aria-label="Tabela comparativa" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
           <div className="relative overflow-x-auto rounded-[2rem] border border-line bg-white">
             <table className="w-full min-w-[760px] text-left text-[15px]">

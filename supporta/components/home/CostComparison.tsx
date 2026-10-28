@@ -48,7 +48,7 @@ export function CostComparison() {
           <p className="label-mono text-graphite">Supporta Start</p>
           <p className="mt-3 text-5xl font-semibold tracking-[-0.06em]">{formatBRL(supportaTotal)}</p>
           <div className="mt-6 h-4 w-full rounded-full bg-line" aria-hidden>
-            <div className="h-4 rounded-full bg-pink" style={{ width: `${pct}%` }} />
+            <div className="neon-bar h-4 rounded-full" style={{ width: `${pct}%` }} />
           </div>
           <ul className="mt-6 divide-y divide-line">
             {supporta.map((i) => (

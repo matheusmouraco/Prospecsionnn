@@ -10,7 +10,7 @@ const cited = [
 
 export function AiProblem() {
   return (
-    <Section tone="ink" labelledBy="ia-title">
+    <Section tone="ink" labelledBy="ia-title" className="glow-field">
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <div>
           <SectionHeading id="ia-title" tone="dark" label="O novo boca a boca" title="Sua empresa aparece no ChatGPT?" />
@@ -22,12 +22,12 @@ export function AiProblem() {
               Ela cita quem virou fonte: sites claros, rápidos e organizados que explicam bem o que a empresa faz e onde atende. Se o seu site não é assim, a indicação vai para o concorrente.
             </p>
           </div>
-          <Button href="/diagnostico" variant="paper" size="lg" className="mt-8">
+          <Button href="/diagnostico" variant="neon" size="lg" className="mt-8">
             Testar meu site grátis <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
           </Button>
         </div>
 
-        <figure aria-label="Exemplo de conversa com uma IA" className="rounded-3xl border border-line-dark bg-card-dark p-5 md:p-7">
+        <figure aria-label="Exemplo de conversa com uma IA" className="neon-ring rounded-3xl border border-line-dark bg-card-dark/90 p-5 md:p-7">
           <div className="flex justify-end">
             <p className="max-w-[85%] rounded-3xl rounded-br-lg bg-paper px-5 py-3 text-[15px] text-ink">
               Qual dentista você indica para implante aqui no bairro?
@@ -45,8 +45,8 @@ export function AiProblem() {
                   <span className="rounded-full bg-ink px-2.5 py-1 font-mono text-[11px] text-mist">fonte: {c.source}</span>
                 </li>
               ))}
-              <li className="fade-up flex items-center justify-between gap-2 rounded-2xl px-4 py-3 dashed-pill" style={{ animationDelay: "800ms" }}>
-                <span className="text-[15px] font-medium text-pink">4. sua empresa?</span>
+              <li className="fade-up neon-pulse flex items-center justify-between gap-2 rounded-2xl px-4 py-3 dashed-pill shadow-[0_0_18px_rgb(255_61_113/0.35)]" style={{ animationDelay: "800ms" }}>
+                <span className="neon-text text-[15px] font-medium">4. sua empresa?</span>
                 <span className="font-mono text-[11px] text-pink">fonte: ?</span>
               </li>
             </ol>

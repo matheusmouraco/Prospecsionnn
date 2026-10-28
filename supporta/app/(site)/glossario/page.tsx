@@ -23,7 +23,7 @@ export default function GlossarioPage() {
         lead="O que quer dizer cada sigla que aparece quando o assunto é site, Google e IA."
       >
         <nav aria-label="Letras" className="mt-8 flex flex-wrap gap-2">
-          {letters.map((l) => <a key={l} href={`#letra-${l}`} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 font-medium hover:border-ink">{l}</a>)}
+          {letters.map((l) => <a key={l} href={`#letra-${l}`} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-paper/25 font-medium hover:border-paper">{l}</a>)}
         </nav>
       </PageHero>
       <section aria-label="Termos" className="bg-white py-16 md:py-24">

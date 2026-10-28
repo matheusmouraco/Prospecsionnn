@@ -17,7 +17,7 @@ export default function CasesPage() {
   return (
     <>
       <PageHero crumbs={[{ name: "Cases", path: "/cases" }]} label="Clientes" title="Antes e depois, com números medidos" lead="Notas do PageSpeed do Google no celular, medidas antes e depois de cada site Supporta." />
-      <section aria-label="Cases" className="pb-20">
+      <section aria-label="Cases" className="pb-20 pt-12 md:pt-16">
         <ul className="container-site grid gap-4 md:grid-cols-3">
           {cases.map((c) => <li key={c.slug}><CaseCard c={c} /></li>)}
         </ul>

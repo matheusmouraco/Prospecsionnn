@@ -13,7 +13,7 @@ export function ProofStrip() {
       <ul className="container-site grid grid-cols-2 gap-x-6 gap-y-5 py-7 md:grid-cols-4">
         {items.map(({ icon: Icon, text }) => (
           <li key={text} className="flex items-center gap-3 text-[15px] font-medium tracking-[-0.01em] md:text-base">
-            <Icon aria-hidden strokeWidth={1.75} className="h-5 w-5 shrink-0 text-ink" />
+            <Icon aria-hidden strokeWidth={1.75} className="h-5 w-5 shrink-0 text-pink drop-shadow-[0_0_6px_rgb(255_61_113/0.55)]" />
             {text}
           </li>
         ))}

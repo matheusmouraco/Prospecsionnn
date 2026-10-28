@@ -1,6 +1,6 @@
 import { Section, SectionHeading } from "@/components/ui/Section";
 
-const layers = [
+const layers: { tag: string; title: string; text: string; offset: string; tone: string; dark?: boolean }[] = [
   {
     tag: "SEO",
     title: "Aparecer no Google",
@@ -13,7 +13,8 @@ const layers = [
     title: "Virar a resposta direta",
     text: "Textos que respondem as perguntas reais dos clientes na primeira frase. É o que aparece nos destaques do Google e nas buscas por voz.",
     offset: "lg:ml-[6%]",
-    tone: "bg-pink-light",
+    tone: "bg-ink text-paper neon-ring",
+    dark: true,
   },
   {
     tag: "GEO",
@@ -36,9 +37,9 @@ export function Layers() {
       <ol className="mt-12 space-y-4 md:mt-16">
         {layers.map((l) => (
           <li key={l.tag} className={`grid gap-3 rounded-[2rem] p-6 md:grid-cols-[120px_1fr_1.4fr] md:items-center md:gap-8 md:rounded-full md:px-10 md:py-7 lg:max-w-[86%] ${l.tone} ${l.offset}`}>
-            <span className="label-mono text-graphite">{l.tag}</span>
+            <span className={`label-mono ${l.dark ? "neon-text" : "text-graphite"}`}>{l.tag}</span>
             <h3 className="text-2xl tracking-[-0.04em] md:text-[28px]">{l.title}</h3>
-            <p className="leading-relaxed text-graphite">{l.text}</p>
+            <p className={`leading-relaxed ${l.dark ? "text-mist" : "text-graphite"}`}>{l.text}</p>
           </li>
         ))}
       </ol>

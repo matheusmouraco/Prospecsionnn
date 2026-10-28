@@ -23,7 +23,7 @@ export default function BlogPage() {
         title="Como ser encontrado no Google e nas IAs"
         lead="Guias curtos, sem jargão, para quem tem uma empresa e quer ser achado pelos clientes."
       />
-      <section aria-label="Artigos" className="pb-20 md:pb-28">
+      <section aria-label="Artigos" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <ul className="container-site grid gap-4 md:grid-cols-3">
           {posts.map((post) => (
             <li key={post.slug}>

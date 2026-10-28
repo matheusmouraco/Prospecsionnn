@@ -46,16 +46,16 @@ export default async function SegmentPage({ params }: Props) {
         lead={seg.intro}
       >
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button href={`/assinar/start?modelo=${seg.slug}`} size="lg" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
+          <Button href={`/assinar/start?modelo=${seg.slug}`} size="lg" variant="neon" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
             Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
           </Button>
-          <Button href={`/demo/${seg.slug}`} size="lg" variant="outline">
+          <Button href={`/demo/${seg.slug}`} size="lg" variant="outline-dark">
             Ver demo navegável
           </Button>
         </div>
       </PageHero>
 
-      <section aria-label="Prévia do modelo" className="pb-20 md:pb-28">
+      <section aria-label="Prévia do modelo" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
           <div className="relative pb-12 pr-[16%]">
             <BrowserFrame url={`${seg.slug}.supporta.com.br`} scroll distance="58%">

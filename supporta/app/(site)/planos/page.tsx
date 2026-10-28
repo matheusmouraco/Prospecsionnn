@@ -27,7 +27,7 @@ export default function PlanosPage() {
         title="Quanto custa ter um site profissional?"
         lead="De R$89 a R$389 por mês, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e depois mês a mês."
       />
-      <section aria-label="Planos" className="pb-20 md:pb-28">
+      <section aria-label="Planos" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
           <PlanCards headingLevel="h2" />
           <CompareTable open />
