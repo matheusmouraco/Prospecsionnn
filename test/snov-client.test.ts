@@ -117,7 +117,14 @@ describe('Snov outreach', () => {
     const form = new URLSearchParams(call.body);
     expect(form.get('listId')).toBe('123');
     expect(form.get('customFields[problema_1]')).toBe('Demora 7,2 s');
-    expect(form.get('updateContact')).toBe('1');
+    expect(form.get('createDuplicates')).toBe('1');
+    expect(form.get('updateContact')).toBeNull();
+  });
+
+  it('treats an update without addition as failure (prospect not in the list)', async () => {
+    const { parseAddResult } = await import('../src/snov/client.js');
+    expect(parseAddResult({ success: true, added: false, updated: true }).ok).toBe(false);
+    expect(parseAddResult({ success: true, id: 'x', added: true, updated: false }).ok).toBe(true);
   });
 
   it('sends every do-not-email item as items[]', async () => {
@@ -134,7 +141,7 @@ describe('Snov outreach', () => {
 
   it('reads the add result defensively', () => {
     expect(parseAddResult({ success: false }).ok).toBe(false);
-    expect(parseAddResult({ success: true, updated: true })).toMatchObject({ ok: true, added: false, updated: true });
+    expect(parseAddResult({ success: true, updated: true })).toMatchObject({ ok: false, added: false, updated: true });
   });
 
   it('parses replies under different field names and strips html', () => {
@@ -144,5 +151,17 @@ describe('Snov outreach', () => {
     expect(parseReply({ id: 1 })).toBeNull();
     expect(parseReply({ id: 5, prospectEmail: 'eu@x.com', emails: [{ body: 'Olá...' }, { body: 'Quero ver o esboço', date: '2026-10-23' }] }))
       .toEqual({ id: '5', email: 'eu@x.com', texto: 'Quero ver o esboço', recebida_em: '2026-10-23' });
+  });
+});
+
+describe('email from another company', () => {
+  it('flags a corporate email whose domain is not the analyzed site', async () => {
+    const { outraEmpresa } = await import('../src/snov/outreach-store.js');
+    expect(outraEmpresa('gabriel@sani.med.br', 'unb.br')).toBe(true);
+    expect(outraEmpresa('thais@radiomed.med.br', 'ilikia.com')).toBe(true);
+    expect(outraEmpresa('camila@caliandrasaude.com.br', 'caliandrasaude.com.br')).toBe(false);
+    expect(outraEmpresa('ana@gmail.com', 'clinica.com.br')).toBe(false);
+    expect(outraEmpresa('ana@mail.clinica.com.br', 'clinica.com.br')).toBe(false);
+    expect(outraEmpresa('ana@sorriso.com', 'sorriso.com.br')).toBe(false);
   });
 });

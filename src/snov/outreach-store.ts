@@ -65,3 +65,14 @@ export async function firstReadyDomain(db: Db = getSupabase()): Promise<string> 
   if (!dominio) throw new Error('Nenhum prospect com email pronto; rode npm run emails primeiro');
   return dominio;
 }
+
+const GENERICOS = /^(gmail|hotmail|outlook|live|yahoo|icloud|uol|bol|terra|ig|globo|msn)\./i;
+// The email is from a corporate domain that is not the analyzed site (Snov had another company's site):
+// the email would talk about a site that is not theirs.
+export function outraEmpresa(email: string, dominio: string | null): boolean {
+  const d = email.split('@')[1]?.toLowerCase() ?? '';
+  if (!dominio || !d || GENERICOS.test(d)) return false;
+  const raiz = (x: string) => x.replace(/^www\./, '').split('.')[0]!;
+  return d !== dominio && !d.endsWith(`.${dominio}`) && !dominio.endsWith(`.${d}`) && raiz(d) !== raiz(dominio);
+}
+
