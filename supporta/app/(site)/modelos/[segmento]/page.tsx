@@ -49,7 +49,7 @@ export default async function SegmentPage({ params }: Props) {
           <Button href={`/assinar/start?modelo=${seg.slug}`} size="lg" variant="neon" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
             Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
           </Button>
-          <Button href={`/demo/${seg.slug}`} size="lg" variant="outline-dark">
+          <Button href={`/demo/${seg.slug}`} size="lg" variant="outline">
             Ver demo navegável
           </Button>
         </div>

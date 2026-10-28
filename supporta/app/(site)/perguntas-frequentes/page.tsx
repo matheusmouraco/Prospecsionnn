@@ -30,7 +30,7 @@ export default function PerguntasPage() {
         lead={`${all.length} respostas diretas sobre a assinatura, o pagamento e como aparecer no Google e nas IAs.`}
       >
         <nav aria-label="Temas" className="mt-8 flex flex-wrap gap-2">
-          {groups.map((g) => <a key={g.id} href={`#${g.id}`} className="rounded-full border border-paper/25 px-4 py-2 text-[15px] hover:border-paper">{g.title}</a>)}
+          {groups.map((g) => <a key={g.id} href={`#${g.id}`} className="rounded-full border border-ink/15 px-4 py-2 text-[15px] hover:border-ink">{g.title}</a>)}
         </nav>
       </PageHero>
       {groups.map((g, i) => (

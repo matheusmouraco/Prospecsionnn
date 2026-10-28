@@ -175,6 +175,45 @@
   animation: neon-pulse 3.2s ease-in-out infinite;
 }
 
+/* Vitrine de templates passando no hero. */
+@keyframes marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-50% - 10px));
+  }
+}
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-y {
+  animation: marquee-y 40s linear infinite;
+}
+.marquee-x {
+  animation: marquee-x 50s linear infinite;
+}
+.marquee-frame:hover .marquee-y,
+.marquee-frame:hover .marquee-x,
+.marquee-frame:focus-within .marquee-y {
+  animation-play-state: paused;
+}
+.marquee-frame {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+@media (max-width: 1023px) {
+  .marquee-frame {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  }
+}
+
 /* Barras do hero entrando uma a uma. */
 @keyframes bar-in {
   from {
@@ -238,7 +277,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .mock-scroll {
+  .mock-scroll,
+  .marquee-y,
+  .marquee-x {
     animation: none !important;
   }
 }

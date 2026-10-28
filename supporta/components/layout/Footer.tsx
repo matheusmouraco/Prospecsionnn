@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
+import { aiDisclaimer } from "@/components/ui/AiLogos";
 import { segments } from "@/lib/segments";
 import { site, whatsappUrl } from "@/lib/site";
 
@@ -76,6 +77,7 @@ export function Footer() {
         <div className="mt-16 flex flex-col gap-4 border-t border-line-dark pt-8 text-sm text-mist md:flex-row md:items-center md:justify-between">
           <p>
             © {year} {site.razaoSocial}. CNPJ {site.cnpj}.
+            <span className="mt-1 block text-xs">{aiDisclaimer}</span>
           </p>
           <ul className="flex gap-6">
             <li><Link href="/termos" className="hover:text-paper">Termos de Uso</Link></li>

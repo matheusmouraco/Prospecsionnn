@@ -99,8 +99,8 @@ export default function GeoPage() {
           <ol className="flex flex-wrap gap-2">
             {sections.map((s, i) => (
               <li key={s.id}>
-                <a href={`#${s.id}`} className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-4 py-2 text-[15px] hover:border-paper">
-                  <span className="font-mono text-xs text-mist">{String(i + 1).padStart(2, "0")}</span>
+                <a href={`#${s.id}`} className="inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-[15px] hover:border-ink">
+                  <span className="font-mono text-xs text-graphite">{String(i + 1).padStart(2, "0")}</span>
                   {s.title.replace("?", "")}
                 </a>
               </li>

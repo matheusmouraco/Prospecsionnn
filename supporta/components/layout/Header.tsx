@@ -38,16 +38,16 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className={`sticky top-0 z-40 bg-ink text-paper transition-[border-color] ${scrolled ? "border-b border-line-dark" : "border-b border-transparent"}`}>
+    <header className={`sticky top-0 z-40 bg-white text-ink transition-[border-color] ${scrolled ? "border-b border-line" : "border-b border-transparent"}`}>
       <div className="container-site flex h-[72px] items-center justify-between gap-6">
         <Link href="/" aria-label="Supporta, página inicial" className="shrink-0">
-          <Logo tone="dark" />
+          <Logo />
         </Link>
         <nav aria-label="Principal" className="hidden lg:block">
           <ul className="flex items-center gap-8">
             {nav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="text-[15px] font-medium text-mist transition-colors hover:text-paper">
+                <Link href={item.href} className="text-[15px] font-medium text-graphite transition-colors hover:text-ink">
                   {item.label}
                 </Link>
               </li>
@@ -66,7 +66,7 @@ export function Header() {
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="menu-mobile"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-paper/25 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 lg:hidden"
           >
             <Menu aria-hidden strokeWidth={1.75} className="h-5 w-5" />
             <span className="sr-only">Abrir menu</span>

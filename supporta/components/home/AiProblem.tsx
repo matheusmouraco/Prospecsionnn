@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { AiLogos } from "@/components/ui/AiLogos";
 import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
 
@@ -34,7 +35,10 @@ export function AiProblem() {
             </p>
           </div>
           <div className="mt-6 space-y-4">
-            <p className="label-mono text-mist">Resposta da IA</p>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="label-mono text-mist">Resposta da IA</p>
+              <AiLogos only={["chatgpt", "gemini", "perplexity", "claude"]} tone="dark" names={false} size={18} className="gap-x-3" />
+            </div>
             <p className="text-[15px] leading-relaxed text-paper/90">Com base em avaliações e nos sites das clínicas, estas são boas opções:</p>
             <ol className="space-y-2.5">
               {cited.map((c, i) => (

@@ -16,14 +16,15 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section aria-labelledby="page-title" className="glow-field pb-14 pt-8 text-paper md:pb-20 md:pt-12">
-      <div className="container-site">
-        <Breadcrumbs items={crumbs} tone="dark" />
-        <SectionLabel tone="dark" className="mt-10">{label}</SectionLabel>
+    <section aria-labelledby="page-title" className="relative overflow-hidden bg-white pb-14 pt-8 md:pb-20 md:pt-12">
+      <div aria-hidden className="pointer-events-none absolute -right-40 -top-40 h-[480px] w-[640px] rounded-full bg-[radial-gradient(closest-side,rgb(255_61_113/0.14),transparent)]" />
+      <div className="container-site relative">
+        <Breadcrumbs items={crumbs} />
+        <SectionLabel className="mt-10">{label}</SectionLabel>
         <h1 id="page-title" className="mt-4 max-w-4xl text-[clamp(2.5rem,7vw,5rem)] leading-[1] tracking-[-0.055em]">
           {title}
         </h1>
-        {lead ? <p className="mt-6 max-w-2xl text-lg leading-relaxed text-mist md:text-xl">{lead}</p> : null}
+        {lead ? <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphite md:text-xl">{lead}</p> : null}
         {children}
       </div>
     </section>

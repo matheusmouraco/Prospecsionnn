@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import Link from "next/link";
+import { AiLogos } from "@/components/ui/AiLogos";
 import { buttonClass } from "@/components/ui/Button";
 import { plans } from "@/lib/plans";
 
@@ -32,6 +33,12 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
                 </li>
               ))}
             </ul>
+            {plan.id === "premium" ? (
+              <div className="mt-6 rounded-2xl bg-paper p-4">
+                <p className="label-mono text-graphite">Monitoramento mensal em</p>
+                <AiLogos only={["chatgpt", "gemini", "perplexity"]} size={18} className="mt-3 gap-x-4" />
+              </div>
+            ) : null}
             <Link
               href={`/assinar/${plan.id}`}
               className={buttonClass(pink ? "primary" : "outline", "lg", "mt-8 w-full")}
