@@ -27,17 +27,17 @@ export default function BlogPage() {
         <ul className="container-site grid gap-4 md:grid-cols-3">
           {posts.map((post) => (
             <li key={post.slug}>
-              <article className="flex h-full flex-col rounded-[2rem] border border-line bg-white p-7 transition-colors hover:border-ink">
+              <article className="group relative flex h-full cursor-pointer flex-col rounded-[2rem] border border-line bg-white p-7 transition-[border-color,box-shadow] hover:border-pink hover:shadow-[0_0_0_1px_rgb(255_61_113/0.6),0_0_24px_rgb(255_61_113/0.25)] has-[:focus-visible]:border-pink">
                 <p className="label-mono text-graphite">
                   <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.readingMinutes} min
                 </p>
                 <h2 className="mt-5 text-2xl tracking-[-0.04em]">
-                  <Link href={`/blog/${post.slug}`} className="after:absolute after:inset-0 relative">
+                  <Link href={`/blog/${post.slug}`} className="after:absolute after:inset-0 after:rounded-[2rem] after:content-[''] focus-visible:outline-none">
                     {post.title}
                   </Link>
                 </h2>
                 <p className="mt-3 flex-1 leading-relaxed text-graphite">{post.description}</p>
-                <span aria-hidden className="mt-6 inline-flex items-center gap-2 font-medium">
+                <span aria-hidden className="mt-6 inline-flex items-center gap-2 font-medium text-ink group-hover:text-pink">
                   Ler artigo <ArrowRight strokeWidth={1.75} className="h-4 w-4" />
                 </span>
               </article>

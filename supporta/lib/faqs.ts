@@ -20,7 +20,7 @@ export const homeFaq: Faq[] = [
   },
   {
     q: "O que acontece com o site e o domínio se eu cancelar?",
-    a: "O site fica no ar enquanto a assinatura estiver ativa. Com o cancelamento, ele sai do ar. O domínio .com.br é registrado no CPF ou CNPJ da sua empresa, então ele continua seu: a gente orienta a transferência e você mantém o endereço.",
+    a: "O site fica no ar enquanto a assinatura estiver ativa. Com o cancelamento ele sai do ar e nada é entregue, porque você assinou um serviço, não comprou um site. O domínio .com.br é registrado no seu CPF ou CNPJ, então o endereço continua seu. A partir do 2º ano, a renovação do domínio é paga por você direto no Registro.br.",
   },
   {
     q: "Qual o prazo para o site ficar pronto?",
@@ -75,7 +75,7 @@ export const billingFaq: Faq[] = [
   },
   {
     q: "O que acontece se o cartão for recusado?",
-    a: "A gente avisa por e-mail e WhatsApp e tenta de novo nos dias seguintes. Você pode trocar o cartão a qualquer momento. O site só sai do ar depois de avisos e de um prazo descrito nos Termos.",
+    a: "A gente avisa por e-mail e WhatsApp e tenta de novo nos dias seguintes. Você pode trocar o cartão a qualquer momento. O site só sai do ar depois de 15 dias de atraso, e volta assim que o pagamento é regularizado.",
   },
   {
     q: "Recebo nota fiscal?",

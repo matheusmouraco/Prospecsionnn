@@ -16,7 +16,7 @@ export default function TermosPage() {
     <LegalPage title="Termos de Uso e da Assinatura" path="/termos" updated="outubro de 2026">
       <p>
         Estes Termos regulam a contratação dos serviços da {site.name}, nome fantasia de <strong>{site.razaoSocial}</strong>, inscrita no CNPJ sob o
-        nº <strong>{site.cnpj}</strong>, com sede em [ENDERECO_COMPLETO] (&quot;Supporta&quot;), por pessoas físicas ou jurídicas (&quot;Cliente&quot;). Versão {site.termsVersion}.
+        nº <strong>{site.cnpj}</strong>, com sede na {site.address.street}, {site.address.city}/{site.address.state} (&quot;Supporta&quot;), por pessoas físicas ou jurídicas (&quot;Cliente&quot;). Versão {site.termsVersion}.
       </p>
 
       <h2>1. O serviço</h2>
@@ -36,7 +36,7 @@ export default function TermosPage() {
 
       <h2>2. Pagamento</h2>
       <p>
-        A assinatura é cobrada no cartão de crédito informado pelo Cliente, por meio de parceiro de pagamento ([NOME_DO_PROVEDOR_DE_PAGAMENTO]), em um dos dois
+        A assinatura é cobrada no cartão de crédito informado pelo Cliente, por meio de parceiro de pagamento (Stripe), em um dos dois
         ciclos escolhidos na contratação:
       </p>
       <ul>
@@ -50,8 +50,9 @@ export default function TermosPage() {
       </ul>
       <p>Não há custo de criação em nenhum dos ciclos. O Cliente pode trocar de ciclo na renovação, com aviso pelo WhatsApp ou e-mail.</p>
       <p>
-        Em caso de recusa do cartão, a Supporta avisará o Cliente e fará novas tentativas. Persistindo a falta de pagamento por mais de [PRAZO_INADIMPLENCIA] dias,
-        o site poderá ser suspenso até a regularização.
+        Em caso de recusa do cartão, a Supporta avisará o Cliente e fará novas tentativas. Com {site.overdue.suspendAfterDays} dias de atraso, o site poderá ser suspenso (fora do ar) até a regularização. Com{" "}
+        {site.overdue.cancelAfterDays} dias de atraso, a Supporta poderá encerrar a assinatura; se isso ocorrer dentro do prazo mínimo, aplica-se a multa do item 3
+        sobre as mensalidades que faltam, além dos valores em atraso.
       </p>
 
       <h2>3. Prazo mínimo de {billing.minMonths} meses, multa e desconto</h2>
@@ -77,8 +78,8 @@ export default function TermosPage() {
 
       <h2>4. Direito de arrependimento</h2>
       <p>
-        Conforme o art. 49 do Código de Defesa do Consumidor, quando aplicável, o Cliente pode desistir da contratação em até 7 (sete) dias da assinatura, com
-        devolução integral dos valores pagos. [VALIDAR_APLICACAO_A_CONTRATANTES_PJ]
+        Conforme o art. 49 do Código de Defesa do Consumidor, o Cliente pode desistir da contratação em até 7 (sete) dias da assinatura, com
+        devolução integral dos valores pagos. Esse direito vale tanto para pessoas físicas (CPF) quanto para empresas (CNPJ).
       </p>
 
       <h2>5. Prazos de entrega</h2>
@@ -96,8 +97,8 @@ export default function TermosPage() {
 
       <h2>7. Domínio</h2>
       <p>
-        O domínio .com.br incluso no primeiro ano é registrado em nome do Cliente (CPF ou CNPJ informado). A partir do segundo ano, a renovação é [INCLUSA_OU_COBRADA,
-        definir]. Em caso de cancelamento, a Supporta orienta a transferência do domínio, que permanece do Cliente.
+        O domínio .com.br incluso no primeiro ano é registrado em nome do Cliente (CPF ou CNPJ informado). A partir do segundo ano, a renovação do domínio é paga pelo Cliente, diretamente ao Registro.br, e não faz parte da mensalidade. Em caso de cancelamento,
+        o domínio continua registrado em nome do Cliente.
       </p>
 
       <h2>8. Conteúdo e propriedade</h2>
@@ -106,8 +107,9 @@ export default function TermosPage() {
         regulamentadas (como saúde, odontologia e advocacia), o Cliente é responsável por revisar e aprovar os textos conforme as regras do seu conselho de classe.
       </p>
       <p>
-        O conteúdo do Cliente pertence ao Cliente. O código, os modelos e o sistema de publicação pertencem à Supporta. Com o fim da assinatura, o site deixa de ser publicado e
-        mantido pela Supporta. [DEFINIR_O_QUE_E_ENTREGUE: por exemplo, os textos e imagens enviados pelo Cliente].
+        O conteúdo do Cliente pertence ao Cliente. O código, os modelos e o sistema de publicação pertencem à Supporta. Por se tratar de uma assinatura, <strong>nada é entregue ao Cliente com o fim dela</strong>: o site deixa de ser publicado e o
+        código, o layout, o design e os textos e imagens produzidos pela Supporta não são transferidos. Os materiais que o próprio Cliente enviou (logo, fotos e
+        textos dele) continuam sendo dele, e o domínio continua registrado em seu nome.
       </p>
 
       <h2>9. Disponibilidade e limitações</h2>
@@ -130,7 +132,7 @@ export default function TermosPage() {
       </p>
 
       <h2>12. Foro</h2>
-      <p>Fica eleito o foro da comarca de [CIDADE_UF], ressalvado o direito do consumidor de propor ação no foro do seu domicílio.</p>
+      <p>Fica eleito o foro da comarca de São Paulo/SP, ressalvado o direito do consumidor de propor ação no foro do seu domicílio.</p>
 
       <p>
         Contato: {site.email} · WhatsApp {site.whatsapp}

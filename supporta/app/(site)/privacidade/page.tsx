@@ -21,7 +21,7 @@ export default function PrivacidadePage() {
       <ul>
         <li><strong>Diagnóstico grátis:</strong> endereço do site analisado, e-mail e IP.</li>
         <li><strong>Assinatura:</strong> nome, nome da empresa, CPF ou CNPJ, e-mail, WhatsApp, informações do briefing e registro do aceite dos Termos (data, hora, IP e navegador).</li>
-        <li><strong>Pagamento:</strong> os dados do cartão são digitados direto na página do provedor de pagamento ([NOME_DO_PROVEDOR]). Não recebemos nem armazenamos o número do cartão.</li>
+        <li><strong>Pagamento:</strong> os dados do cartão são digitados direto na página do provedor de pagamento (Stripe). Não recebemos nem armazenamos o número do cartão.</li>
         <li><strong>Navegação:</strong> com o seu consentimento, cookies de medição do Google Analytics e do Meta Pixel.</li>
       </ul>
 
@@ -37,13 +37,13 @@ export default function PrivacidadePage() {
       <h2>3. Com quem compartilhamos</h2>
       <p>Somente com fornecedores necessários para o serviço, sob contrato:</p>
       <ul>
-        <li>Provedor de pagamento ([NOME_DO_PROVEDOR]);</li>
+        <li>Provedor de pagamento (Stripe);</li>
         <li>Hospedagem do site (Vercel Inc., com servidores fora do Brasil);</li>
         <li>Google (PageSpeed Insights, que recebe só o endereço do site analisado, e Google Analytics, se você aceitar);</li>
         <li>Meta (Meta Pixel, se você aceitar);</li>
-        <li>Nossa ferramenta de atendimento e CRM ([NOME_DO_CRM]).</li>
+        <li>Nossas ferramentas de atendimento (WhatsApp e e-mail) e de gestão de clientes.</li>
       </ul>
-      <p>Alguns desses fornecedores ficam fora do Brasil. A transferência internacional segue o art. 33 da LGPD. [VALIDAR_MECANISMO_DE_TRANSFERENCIA]</p>
+      <p>Alguns desses fornecedores ficam fora do Brasil. A transferência internacional segue o art. 33 da LGPD e se apoia nas cláusulas contratuais de proteção de dados adotadas por esses fornecedores.</p>
 
       <h2>4. Cookies</h2>
       <p>
@@ -53,8 +53,8 @@ export default function PrivacidadePage() {
 
       <h2>5. Por quanto tempo guardamos</h2>
       <p>
-        Dados do diagnóstico: até [PRAZO, por exemplo 24 meses] ou até você pedir a exclusão. Dados da assinatura: durante o contrato e pelo prazo legal após o fim
-        (obrigações fiscais e defesa em processos). [VALIDAR_PRAZOS]
+        Dados do diagnóstico: até 24 meses ou até você pedir a exclusão. Dados da assinatura: durante o contrato e pelo prazo legal após o fim
+        (obrigações fiscais e defesa em processos), em geral 5 anos.
       </p>
 
       <h2>6. Seus direitos</h2>
@@ -67,7 +67,7 @@ export default function PrivacidadePage() {
       <p>Usamos conexão criptografada (HTTPS), acesso restrito aos dados e fornecedores com práticas reconhecidas de segurança.</p>
 
       <h2>8. Encarregado (DPO)</h2>
-      <p>Encarregado pelo tratamento de dados: [NOME_DO_ENCARREGADO], e-mail {site.email}.</p>
+      <p>Encarregado pelo tratamento de dados: {site.dpo}, e-mail {site.email}. Endereço: {site.address.street}, {site.address.city}/{site.address.state}.</p>
 
       <h2>9. Alterações</h2>
       <p>Esta Política pode ser atualizada. A versão vigente fica sempre nesta página, com a data de atualização no topo.</p>

@@ -13,10 +13,15 @@ export const site = {
   razaoSocial: env(process.env.NEXT_PUBLIC_RAZAO_SOCIAL, "Matilab Tecnologia"),
   cnpj: env(process.env.NEXT_PUBLIC_CNPJ, "40.283.248/0001-21"),
   instagram: env(process.env.NEXT_PUBLIC_INSTAGRAM, ""),
+  address: { street: "Alameda Vicente Pinzon, 173", city: "São Paulo", state: "SP", country: "BR" },
+  /** Encarregado pelo tratamento de dados pessoais (LGPD). */
+  dpo: env(process.env.NEXT_PUBLIC_ENCARREGADO, "Matheus Moura"),
+  /** Dias de atraso até o site ser suspenso e até a assinatura ser encerrada. */
+  overdue: { suspendAfterDays: 15, cancelAfterDays: 60 },
   locale: "pt_BR",
   // Prazos de entrega em dias úteis, contados a partir do briefing completo. Confirmar antes de publicar.
   deliveryDays: { start: 7, pro: 15, premium: 30 } as Record<string, number>,
-  termsVersion: "2026-10-29",
+  termsVersion: "2026-10-29b",
 };
 
 export const termsAcceptanceText = "Li e aceito os Termos da assinatura, incluindo o prazo mínimo de 12 meses e a multa por cancelamento antecipado";

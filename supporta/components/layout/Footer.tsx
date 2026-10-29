@@ -76,7 +76,7 @@ export function Footer() {
         </div>
         <div className="mt-16 flex flex-col gap-4 border-t border-line-dark pt-8 text-sm text-mist md:flex-row md:items-center md:justify-between">
           <p>
-            © {year} {site.razaoSocial}. CNPJ {site.cnpj}.
+            © {year} {site.razaoSocial}. CNPJ {site.cnpj}. {site.address.street}, {site.address.city}/{site.address.state}.
             <span className="mt-1 block text-xs">{aiDisclaimer}</span>
           </p>
           <ul className="flex gap-6">

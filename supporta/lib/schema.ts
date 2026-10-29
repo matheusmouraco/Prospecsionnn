@@ -17,6 +17,13 @@ export function organizationSchema() {
     description: site.description,
     email: site.email,
     taxID: site.cnpj,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: site.address.street,
+      addressLocality: site.address.city,
+      addressRegion: site.address.state,
+      addressCountry: site.address.country,
+    },
     areaServed: { "@type": "Country", name: "Brasil" },
     contactPoint: {
       "@type": "ContactPoint",

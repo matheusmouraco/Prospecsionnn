@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/Button";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { formatDate, getPost, posts } from "@/lib/blog";
-import { articleSchema } from "@/lib/schema";
+import { articleSchema, faqSchema } from "@/lib/schema";
+import { Faq } from "@/components/ui/Faq";
+import type { Faq as FaqItem } from "@/lib/faqs";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -29,7 +31,11 @@ export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();
-  const { default: Content } = await import(`@/content/blog/${slug}.mdx`);
+  const mod = await import(`@/content/blog/${slug}.mdx`);
+  const Content = mod.default;
+  // Perguntas frequentes exportadas pelo próprio artigo (export const faq): viram seção na página e FAQPage nos dados estruturados.
+  const exported = (mod as { faq?: unknown }).faq;
+  const faq: FaqItem[] = Array.isArray(exported) ? (exported as FaqItem[]) : [];
   const others = posts.filter((p) => p.slug !== slug);
 
   return (
@@ -45,6 +51,14 @@ export default async function PostPage({ params }: Props) {
             <div className="mt-8 [&>p:first-child]:text-xl [&>p:first-child]:text-ink">
               <Content />
             </div>
+            {faq.length ? (
+              <section aria-labelledby="faq-artigo" className="mt-14">
+                <h2 id="faq-artigo" className="text-2xl font-semibold tracking-[-0.04em] md:text-3xl">Perguntas frequentes</h2>
+                <div className="mt-6">
+                  <Faq items={faq} />
+                </div>
+              </section>
+            ) : null}
             <div className="mt-14 rounded-[2rem] bg-ink p-7 text-paper md:p-9">
               <p className="text-2xl font-semibold tracking-[-0.04em]">Seu site está pronto pro Google e pras IAs?</p>
               <p className="mt-2 text-mist">Descubra em menos de um minuto, de graça.</p>
@@ -68,7 +82,7 @@ export default async function PostPage({ params }: Props) {
         </div>
       </article>
       <FinalCta />
-      <JsonLd data={articleSchema({ title: post.title, description: post.description, path: `/blog/${post.slug}`, date: post.date })} />
+      <JsonLd data={[articleSchema({ title: post.title, description: post.description, path: `/blog/${post.slug}`, date: post.date }), ...(faq.length ? [faqSchema(faq)] : [])]} />
     </>
   );
 }

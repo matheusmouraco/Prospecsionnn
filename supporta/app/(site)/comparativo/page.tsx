@@ -33,7 +33,7 @@ const rows: { label: string; v: V[] }[] = [
 const faq: FaqItem[] = [
   { q: "Vale a pena fazer o site sozinho num construtor?", a: "Vale se você tem tempo e gosta de mexer. O custo aparece no seu tempo: escrever textos, ajustar no celular, cuidar de SEO e manter atualizado. Muita gente começa e o site fica pela metade." },
   { q: "Quando faz sentido contratar uma agência?", a: "Quando o projeto é grande ou muito específico: lojas virtuais complexas, sistemas, integrações. Para um site institucional de empresa local, a assinatura costuma resolver com menos custo e menos dor de cabeça." },
-  { q: "O site da Supporta é meu?", a: "A Supporta é uma assinatura, não a venda de um site. O domínio e o conteúdo que você envia são seus; o site fica no ar e mantido enquanto a assinatura estiver ativa. É como uma assinatura de serviço: você não paga uma obra, paga para ter o site funcionando todo mês." },
+  { q: "O site da Supporta é meu?", a: "A Supporta é uma assinatura, não a venda de um site. O site fica no ar e mantido enquanto a assinatura estiver ativa e, se ela acabar, nada é entregue. O domínio é registrado no seu CPF ou CNPJ e continua seu. É como uma assinatura de serviço: você não paga uma obra, paga para ter o site funcionando todo mês." },
 ];
 
 function Cell({ v, highlight }: { v: V; highlight: boolean }) {
