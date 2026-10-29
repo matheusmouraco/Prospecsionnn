@@ -204,11 +204,6 @@
 .marquee-x {
   animation: marquee-x 50s linear infinite;
 }
-.marquee-frame:hover .marquee-y,
-.marquee-frame:hover .marquee-x,
-.marquee-frame:focus-within .marquee-y {
-  animation-play-state: paused;
-}
 .marquee-frame {
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
@@ -233,9 +228,6 @@
   margin-left: -6%;
   transform: rotateX(22deg) rotateY(-16deg) rotateZ(8deg) translateY(-6%);
   transform-origin: 50% 30%;
-}
-.marquee-wall:hover .marquee-y {
-  animation-play-state: paused;
 }
 /* Grade clara que some nas bordas (heros brancos). */
 .grid-light {
