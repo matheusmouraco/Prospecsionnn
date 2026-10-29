@@ -21,10 +21,7 @@ export const vitrine: VitrineItem[] = [
   { slug: "cervejaria", name: "Cervejaria", category: "Comida e eventos" },
   { slug: "floricultura", name: "Floricultura", category: "Comida e eventos" },
   { slug: "eventos", name: "Eventos", category: "Comida e eventos" },
-  { slug: "parque", name: "Parque e lazer", category: "Comida e eventos" },
-  { slug: "agencia", name: "Agência criativa", category: "Agências e estúdios" },
   { slug: "agencia-criativa", name: "Estúdio criativo", category: "Agências e estúdios" },
-  { slug: "agencia-digital", name: "Agência digital", category: "Agências e estúdios" },
   { slug: "marketing", name: "Marketing digital", category: "Agências e estúdios" },
   { slug: "estudio-design", name: "Estúdio de design", category: "Agências e estúdios" },
   { slug: "grafica", name: "Gráfica", category: "Agências e estúdios" },
@@ -32,7 +29,6 @@ export const vitrine: VitrineItem[] = [
   { slug: "coworking", name: "Coworking", category: "Negócios e tecnologia" },
   { slug: "comunidade", name: "Comunidade e associação", category: "Negócios e tecnologia" },
   { slug: "saas", name: "Software e SaaS", category: "Negócios e tecnologia" },
-  { slug: "produto", name: "Página de produto", category: "Negócios e tecnologia" },
 ];
 
 export const vitrineUrl = (slug: string) => `/vitrine/${slug}/index.html`;

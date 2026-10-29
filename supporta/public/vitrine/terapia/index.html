@@ -26,6 +26,13 @@
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/jquery-ui.css">
     <link rel="stylesheet" href="assets/css/main.css">
+<style id="supporta-fix">
+/* Leitura do hero: véu escuro sobre a foto, por baixo do texto. */
+.hero-inner{position:relative;isolation:isolate}
+.hero-one-image::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(24,16,14,.82) 0%,rgba(24,16,14,.62) 45%,rgba(24,16,14,.25) 100%)}
+.hero-one-image{position:absolute;inset:0;z-index:-1}
+.hero-content h1,.hero-content h2,.hero-content p{text-shadow:0 1px 18px rgba(0,0,0,.35)}
+</style>
 </head>
 
 <body class="personal_therapist">
@@ -954,9 +961,9 @@
 
 
 <div id="supporta-demo-bar" style="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483647;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:8px 8px 8px 16px;border-radius:999px;background:#0B0B0F;color:#F5F5F2;font:500 14px/1.2 Inter,'Helvetica Neue',Arial,sans-serif;box-shadow:0 0 0 1px rgba(255,61,113,.6),0 0 24px rgba(255,61,113,.35)">
-  <span style="white-space:nowrap">Modelo de site da <strong>Supporta</strong></span>
+  <span style="white-space:nowrap;color:#F5F5F2">Modelo de site da <strong style="color:#FFFFFF;font-weight:700">Supporta</strong></span>
   <a href="/planos" style="white-space:nowrap;padding:9px 16px;border-radius:999px;background:#FF3D71;color:#0B0B0F;text-decoration:none;font-weight:600">Quero um assim</a>
-  <a href="/modelos" aria-label="Voltar para os modelos" style="color:#A6A6B0;text-decoration:none;padding:0 6px">✕</a>
+  <a href="/modelos" aria-label="Voltar para os modelos" style="color:#A6A6B0 !important;text-decoration:none;padding:0 6px">✕</a>
 </div>
 </body>
 
