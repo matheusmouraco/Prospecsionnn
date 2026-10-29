@@ -1,0 +1,116 @@
+.thm-btn {
+	gap: 20px;
+	line-height: 1;
+	font-size: 18px;
+	overflow: hidden;
+	font-weight: 500;
+	position: relative;
+	align-items: center;
+	display: inline-flex;
+	padding: 0 5px 0 20px;
+	letter-spacing: -0.01em;
+	justify-content: center;
+	color: var(--color-white);
+	@include transition(.3s);
+	@include border-radius(5px);
+	background: linear-gradient(259deg, #8348ff 0%, #402c71 100%);
+	.btn_label {
+		position: relative;
+		display: inline-block;
+		padding: 20px 0px;
+		transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.31, 1);
+		&::before {
+			top: 120%;
+			left: 50%;
+			width: 100%;
+			display: block;
+			position: absolute;
+			content: attr(data-text);
+			transform: translateX(-50%);
+		}
+	}
+	.xb-icon {
+		height: 50px;
+		width: 50px;
+		z-index: 1;
+		@include center;
+		position: relative;
+		overflow: hidden;
+		background: var(--color-white);
+	}
+	&:hover {
+		color: var(--color-white);
+		.btn_label {
+			transform: translateY(-86%);
+		}
+	}
+}
+
+.digital-btn {
+	gap: 0;
+	padding: 0;
+	background: none;
+	border-radius: 0;
+	.text_box {
+		padding: 0 30px;
+		@include border-radius(100px);
+		background: var(--color-primary);
+	}
+	.btn_label {
+		padding: 21px 0px;
+	}
+	.arrow {
+		height: 30px;
+		width: 30px;
+		@include center;
+		@include border-radius(100px);
+		background: var(--color-primary);
+	}
+}
+
+.consulting-btn {
+	gap: 15px;
+	color: #020411;
+	padding: 0 47px;
+	font-weight: 700;
+	font-size: 16px;
+	z-index: 1;
+	text-transform: uppercase;
+	@include border-radius(100px);
+	background: linear-gradient(90deg, #e9792f 0%, #fde14d 61.54%, #33a8d4 100%);
+	&::before {
+		position: absolute;
+		content: '';
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		z-index: -1;
+		opacity: 0;
+		border-radius: inherit;
+		@include transition(.4s);
+		background: linear-gradient(90deg, #33a8d4 0%, #fde14d 61.54%, #e9792f 100%);
+		
+	}
+	.btn_label {
+		padding: 24px 0px;
+	}
+	.xb-arrow {
+		@include transition(.3s); 
+	}
+	&:hover {
+		color: #020411;
+		&::before {
+			opacity: 1;
+		}
+		.btn_label {
+			transform: translateY(-84%);
+		}
+		.xb-arrow {
+			transform: rotate(40deg);
+		}
+	}
+}
+
+
+

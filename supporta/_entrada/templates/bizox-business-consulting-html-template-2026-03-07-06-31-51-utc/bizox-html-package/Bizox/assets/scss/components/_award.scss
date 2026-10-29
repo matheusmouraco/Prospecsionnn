@@ -1,0 +1,86 @@
+.brand_award {
+    max-height: 639px;
+    position: relative;
+    justify-content: end;
+    @include respond(md) {
+        margin-top: 100px;
+        max-height: 530px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    @include respond(xs) {
+        max-height: 450px;
+    }
+    .xb-item {
+        &--holder {
+            &:not(:last-child) {
+                margin-right: 30px;
+                @include respond(lg) {
+                    margin-right: 20px;
+                }
+            }
+            &.change-holder {
+                margin-top: -139px;
+            }
+        }
+        &--item {
+            width: 160px;
+            height: 180px;
+            @include center;
+            @include border-radius(10px);
+            background: var(--color-white);
+            box-shadow: 0 8px 18px 0 rgba(221, 221, 231, 0.95);
+            @include respond(lg) {
+                width: 120px;
+                height: 120px;
+            }
+            @include respond(xs) {
+                height: 105px;
+                width: 100px;
+            }
+            &:not(:last-child) {
+                margin-bottom: 30px;
+                @include respond(lg) {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+        &--img {
+            @include respond(lg) {
+                max-width: 60px;
+            }
+        }
+    }
+    .xb-shape {
+        .shape {
+            z-index: 1;
+            position: absolute;
+            &--one {
+                top: -30px;
+                right: -50px;
+            }
+            &--two {
+                bottom: 0;
+                right: -50px;
+            }
+        }
+    }
+}
+.award-sec-title {
+    gap: 115px;
+    @include respond(laptop) {
+        gap: 75px;
+    }
+    @include respond(lg) {
+        gap: 55px;
+    }
+    @include respond(md) {
+        padding-top: 145px;
+        gap: 20px;
+    }
+    .content {
+        max-width: 554px;
+    }
+}

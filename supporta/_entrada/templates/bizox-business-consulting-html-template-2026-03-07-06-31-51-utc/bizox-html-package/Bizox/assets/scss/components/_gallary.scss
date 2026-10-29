@@ -1,0 +1,31 @@
+.xb-gallary-wrap {
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    @include respond(lg) {
+        gap: 20px;
+    }
+}
+.xb-gallary-inner {
+    gap: 30px;
+    display: grid;
+    grid-template-columns: 1.3fr 2fr 2fr 1.3fr;
+    
+    @include respond(lg) {
+        gap: 20px;
+    }
+    @include respond(xs) {
+        gap: 20px 0;
+        grid-template-columns: 1fr;
+    }
+}
+.cp-gallary-wrap .grallary-img img {
+    @include respond(lg) {
+        height: 198px;
+        max-width: 400px;
+    }
+    @include respond(xs) {
+        height: 120px;
+        max-width: 210px;
+    }
+}

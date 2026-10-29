@@ -1,0 +1,189 @@
+.xb-career-item {
+    width: 100%;
+    overflow: hidden;
+    gap: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 45px 30px 48px;
+    justify-content: space-between;
+    background: var(--color-white);
+    @include respond(xs) {
+        padding: 45px 20px 48px;
+    }
+    &:not(:last-child) {
+        margin-bottom: 20px;
+    }
+    .xb-item {
+        &--title {
+            font-size: 28px;
+            margin-bottom: 23px;
+            color: var(--color-secondary);
+            @media only screen and (max-width: 1023px) {
+                max-width: 600px;
+            }
+            @include respond(md) {
+                font-size: 24px;
+            }
+            @include respond(xs) {
+                font-size: 22px;
+            }
+            a {
+                color: currentColor;
+            }
+        }
+        &--holder {
+            gap: 83px;
+            @include respond(xs) {
+                gap: 20px;
+            }
+            li {
+                gap: 9px;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                color: var(--color-secondary);
+                @include respond(xs) {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+.xb-career-menu {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    button {
+        color: var(--color-white);
+    }
+}
+.xb-career-wrapper {
+    margin: 0 -30px;
+    background: #f8f5ff;
+    @include respond(laptop) {
+        margin: 0;
+    }
+    @include respond(lg) {
+        margin: 0;
+    }
+}
+.xb-career-details-left-inner {
+    padding: 55px 60px 72px;
+    border-right: 1px solid #d1d1d3;
+    @include respond(lg) {
+        padding: 55px 25px 72px;
+    }
+    @include respond(md) {
+        border-right: none;
+    }
+    @include respond(xs) {
+        padding: 55px 18px 72px;
+    }
+}
+.xb-career-details-title {
+    padding: 40px 60px;
+    border-bottom: 1px solid #d1d1d3;
+    @include respond(lg) {
+        padding: 40px 25px;
+    }
+    @include respond(xs) {
+        padding: 40px 18px;
+    }
+}
+.xb-career-meta {
+    gap: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 35px 60px;
+    border-bottom: 1px solid #d1d1d3;
+    @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+        gap: 20px;
+    }
+    @include respond(lg) {
+        gap: 10px;
+        padding: 35px 25px;
+    }
+    @include respond(md) {
+        justify-content: space-between;
+    }
+    @include respond(xs) {
+        padding: 35px 18px;
+    }
+    li {
+        gap: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 18px;
+        align-items: center;
+        color: rgba(25, 27, 33, 0.5);
+        @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+            gap: 20px;
+        }
+        span {
+            color: var(--color-secondary);
+        }
+    }
+}
+.xb-career-content-title {
+    font-size: 28px;
+}
+.xb-career-list {
+    strong {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--color-secondary);
+    }
+    li {
+        margin-left: 23px;
+        &.text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--color-secondary);
+            font-family: var(--font-heading);
+        }
+    }
+}
+.xb-career-value-list {
+    li:not(:last-child) {
+        margin-bottom: 25px;
+    }
+}
+.xb-career-list-item {
+    margin-left: -1px;
+    border-left: 1px solid #d1d1d3;
+    @include respond(md) {
+        margin-left: 0;
+        border-left: none;
+    }
+    .xb-career-meta:first-child {
+        padding: 52.5px 60px;
+        @include respond(lg) {
+            padding: 50px 25px;
+        }
+        @include respond(md) {
+            padding: 35px 25px;
+        }
+        @include respond(xs) {
+            padding: 35px 18px;
+        }
+    }
+}
+.xb-apply-btn {
+    position: sticky;
+    top: 80px;
+    a {
+        margin: 60px;
+        text-align: center;
+        width: unset !important;
+        display: block !important;
+        padding: 20px 20px !important;
+        @include respond(lg) {
+            margin: 60px 25px;
+        }
+        @include respond(xs) {
+            margin: 60px 18px;
+        }
+    }
+}

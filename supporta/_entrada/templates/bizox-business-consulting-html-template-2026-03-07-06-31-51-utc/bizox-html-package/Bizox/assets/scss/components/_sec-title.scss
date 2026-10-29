@@ -1,0 +1,113 @@
+/*----------------------------------------*/
+/*  28. sec-title
+/*----------------------------------------*/
+.sec-title {
+    align-items: flex-start;
+    .title {
+        font-weight: 500;
+        font-size: 60px;
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+        color: var(--color-secondary);
+        font-family: var(--font-heading);
+        @include respond(laptop) {
+            font-size: 54px;
+        }
+        @include respond(lg) {
+            font-size: 48px;
+        }
+        @include respond(xs) {
+            font-size: 38px;
+        }
+    }
+    .sub-title {
+        font-size: 16px;
+        font-weight: 400;
+        padding-left: 20px;
+        position: relative;
+        display: inline-block;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--color-heading);
+        &::before,
+        &::after {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 50%;
+            height: 12px;
+            width: 12px;
+            @include border-radius(100px);
+            transform: translateY(-50%);
+            background: var(--color-primary);
+        }
+        &::after {
+            display: none;
+            left: auto;
+            right: -20px;
+        }
+    }
+    .xb-holder {
+        flex-grow: 1;
+        flex-basis: 0;
+        transform: translateY(-5px);
+        @include respond(md) {
+            flex-grow: unset;
+            flex-basis: unset;
+            transform: translateY(0);
+        }
+    }
+    &--three {
+        .sub_title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 30px;
+            display: inline-block;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .title {
+            font-weight: 500;
+            font-size: 65px;
+            color: #fffffa;
+            line-height: 72px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            font-family: var(--font-body);
+            @include respond(lg) {
+                font-size: 55px;
+            }
+            @include respond(md) {
+                font-size: 48px;
+                line-height: 62px;
+            }
+            @include respond(xs) {
+                font-size: 38px;
+                line-height: 1.2;
+            }
+            span {
+                background: linear-gradient(90deg, #e9792f 0%, #fde14d 46.63%, #33a8d4 69.71%);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+    }
+}
+.sec-title-wrap {
+    gap: 30px;
+    .sec-title {
+        gap: 70px;
+        @include respond(lg) {
+            gap: 50px;
+        }
+        @include respond(md) {
+            gap: 20px;
+        }
+    }
+}
+.sub-sec-title {
+    .sub-title::after {
+        display: block;
+    }
+}

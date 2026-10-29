@@ -1,0 +1,267 @@
+.technology-section {
+    z-index: 1;
+    position: relative;
+    &::before {
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 0;
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+        background: rgba(25, 27, 33, 0.85);
+    }
+}
+.xb-technology-inner {
+    display: flex;
+    align-items: center;
+    @include respond(md) {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+.xb-technology-item {
+    padding: 10px;
+    display: inline-block;
+    backdrop-filter: blur(8px);
+    @include border-radius(10px);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    .xb-item {
+        &--inner {
+            gap: 16px;
+            padding: 11px;
+            display: flex;
+            align-items: center;
+            border-radius: inherit;
+            background: var(--color-white);
+            @include respond(md) {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            @include respond(xs) {
+                justify-content: start;
+            }
+            @include respond(sm) {
+                justify-content: center;
+            }
+        }
+        &--title {
+            font-size: 20px;
+            @include respond(md) {
+                font-size: 16px;
+            }
+        }
+        &--icon {
+            height: 46px;
+            width: 46px;
+            @include center;
+            background: #191b21;
+            @include border-radius(7px);
+            img {
+                width: 44px;
+            }
+        }
+    }
+    &:nth-child(3) {
+        .xb-item--icon img {
+            width: 34px;
+        }
+    }
+}
+.xb-technology-item-left {
+    gap: 40px;
+    min-width: 294px;
+    display: inline-flex;
+    flex-direction: column;
+    @media only screen and (max-width: 1600px) {
+        gap: 15px;
+    }
+    @include respond(md) {
+        min-width: 100%;
+        flex-direction: row;
+    }
+    @include respond(xs) {
+        flex-direction: column;
+    }
+    @include respond(sm) {
+        gap: 10px;
+        flex-direction: row;
+    }
+}
+.xb-technology-item-middle {
+    display: flex;
+    position: relative;
+    @media only screen and (max-width: 1600px) {
+        max-width: 50%;
+    }
+    @include respond(laptop) {
+        max-width: 46%;
+    }
+    @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+        max-width: 38%;
+    }
+    @include respond(lg) {
+        max-width: 30%;
+    }
+    @media only screen and (max-width: 1023px) {
+        max-width: 28%;
+    }
+    @include respond(md) {
+        max-width: 100%;
+    }
+    .xb-img {
+        img {
+            &:nth-child(1) {
+                @include respond(md) {
+                    display: none;
+                }
+            }
+            &:nth-child(2) {
+                display: none;
+                @include respond(md) {
+                    display: block;
+                }
+                @include respond(sm) {
+                    margin: 0 auto;
+                    max-width: 90%;
+                }
+            }
+        }
+    }
+    .xb-badge {
+        left: 50%;
+        bottom: 50%;
+        height: 210px;
+        width: 210px;
+        transform: translateY(50%);
+        @media only screen and (max-width: 1600px) {
+            left: 41%;
+        }
+        @include respond(laptop) {
+            width: 170px;
+            height: 170px;
+        }
+        @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+            left: 38%;
+            width: 150px;
+            height: 150px;
+        }
+        @include respond(lg) {
+            width: 130px;
+            height: 130px;
+            left: 33%;
+        }
+        @media only screen and (max-width: 1023px) {
+            left: 30%;
+        }
+        @include respond(md) {
+            bottom: 47%;
+            left: 38%;
+        }
+        @include respond(xs) {
+            left: 35%;
+            height: 110px;
+            width: 110px;
+        }
+        @include respond(sm) {
+            left: 40%;
+        }
+        .img {
+            top: 17px;
+            left: 17px;
+            @include respond(laptop) {
+                top: 13px;
+                left: 13px;
+                max-width: 141px;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                top: 12px;
+                left: 12px;
+                max-width: 125px;
+            }
+            @include respond(lg) {
+                top: 9px;
+                left: 9px;
+                max-width: 110px;
+            }
+            @include respond(xs) {
+                top: 7px;
+                left: 7px;
+                max-width: 95px;
+            }
+        }
+        .badge-logo {
+            @include respond(laptop) {
+                max-width: 35px;
+            }
+            @include respond(lg) {
+                max-width: 35px;
+            }
+            @include respond(xs) {
+                max-width: 26px;
+            }
+        }
+    }
+}
+.xb-technology-tools {
+    gap: 30px;
+    display: flex;
+    align-items: center;
+    @media only screen and (max-width: 1600px) {
+        gap: 20px;
+    }
+    @include respond(laptop) {
+        gap: 10px;
+    }
+    @include respond(lg) {
+        gap: 10px;
+    }
+    &:not(:last-child) {
+        margin-bottom: 21px;
+        @media only screen and (max-width: 1600px) {
+            margin-bottom: 15px;
+        }
+        @include respond(lg) {
+            margin-bottom: 15px;
+        }
+    }
+    .xb-technology-item {
+        padding: 9px;
+        .xb-item--inner {
+            height: 80px;
+            width: 80px;
+            justify-content: center;
+            @include respond(laptop) {
+                width: 73px;
+                height: 73px;
+            }
+            @include respond(lg) {
+                width: 73px;
+                height: 73px;
+            }
+            @include respond(xs) {
+                width: 60px;
+                height: 60px;
+            }
+            @include respond(sm) {
+                height: 70px;
+                width: 70px;
+            }
+            img {
+                @include respond(laptop) {
+                    max-width: 35px;
+                }
+                @include respond(lg) {
+                    max-width: 35px;
+                }
+            }
+        }
+    }
+}
+.xb-technology-wrapper .sec-title-wrap {
+    gap: 0;
+    @include respond(lg) {
+        gap: 30px;
+    }
+}

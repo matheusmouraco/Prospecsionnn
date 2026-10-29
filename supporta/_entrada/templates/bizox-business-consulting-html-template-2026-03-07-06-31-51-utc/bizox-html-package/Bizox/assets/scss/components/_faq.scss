@@ -1,0 +1,297 @@
+.service__blockchain {
+    .accordion_box {
+        .block {
+            overflow: hidden;
+            border-radius: 0 0 10px 10px;
+            border-top: 5px solid #8348ff;
+            background: rgba(20, 21, 25, 0.6);
+            .acc-btn {
+                gap: 30px;
+                display: flex;
+                flex-wrap: wrap;
+                cursor: pointer;
+                align-items: center;
+                justify-content: space-between;
+                padding: 42px 30px;
+                @include respond(lg) {
+                    padding: 42px 120px 42px 30px;
+                }
+                @include respond(xs) {
+                    padding: 42px 20px;
+                }
+                .title {
+                    font-size: 34px;
+                    color: var(--color-white);
+                    @include respond(xs) {
+                        font-size: 28px;
+                    }
+                    a {
+                        color: currentColor;
+                    }
+                }
+                .holder {
+                    display: inline-flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                }
+                .keyword a {
+                    padding: 6.5px 10px;
+                    @include transition(.3s);
+                    color: var(--color-white);
+                    @include border-radius(30px);
+                    background: rgba(255, 255, 255, 0.1);
+                    &:hover {
+                        background: var(--color-primary);
+                    }
+                }
+            }
+            .acc_body {
+                display: none;
+                position: relative;
+                &::before {
+                    position: absolute;
+                    content: '';
+                    inset: 0;
+                    height: 100%;
+                    width: 100%;
+                    z-index: 1;
+                    opacity: 0;
+                    @include transition(.3s);
+                    backdrop-filter: blur(6px);
+                    background: rgba(255, 255, 255, 0.08);
+                }
+                &.current {
+                    display: block;
+                }
+                .arrow {
+                    height: 214px;
+                    width: 214px;
+                    @include center;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    opacity: 0;
+                    z-index: 2;
+                    @include transition(.3s);
+                    @include border-radius(100%);
+                    transform: translate(-50%, -50%) scale(0.5);
+                    background: linear-gradient(259deg, #8348ff 0%, #402c71 100%);
+                    @include respond(laptop) {
+                        height: 170px;
+                        width: 170px;
+                        padding: 55px;
+                    }
+                    @include respond(lg) {
+                        height: 150px;
+                        width: 150px;
+                        padding: 55px;
+                    }
+                    @include respond(md) {
+                        height: 130px;
+                        width: 130px;
+                        padding: 40px;
+                    }
+                    @include respond(xs) {
+                        height: 80px;
+                        width: 80px;
+                        padding: 25px;
+                    }
+                }
+                &:hover {
+                    &::before {
+                        opacity: 1;
+                    }
+                    .arrow {
+                        opacity: 1;
+                        transform: translate(-50%, -50%) scale(1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.career-faq {
+    border: 1px solid #D1D1D3;
+    .accordion_box {
+        .block {
+            .acc-btn {
+                font-size: 24px;
+                font-weight: 500;
+                padding: 26px 30px;
+                position: relative;
+                cursor: pointer;
+                letter-spacing: -0.04em;
+                color: var(--color-secondary);
+                background: var(--color-white);
+                border-bottom: 1px solid #D1D1D3;
+                font-family: var(--font-heading);
+                @include respond(xs) {
+                    font-size: 20px;
+                    padding: 26px 20px;
+                }
+                .number {
+                    color: rgba(25, 27, 33, 0.5);
+                }
+                .arrow {
+                    position: absolute;
+                    top: 22px;
+                    right: 30px;
+                    height: 36px;
+                    width: 36px;
+                    border-radius: 100%;
+                    background: #f8f5ff;
+                    @include transition(.3s);
+                    @include respond(xs) {
+                        right: 20px;
+                    }
+                    &::before {
+                        top: 4px;
+                        left: 11px;
+                        font-size: 18px;
+                        content: "\f067";
+                        font-weight: 400;
+                        position: absolute;
+                        color: var(--color-secondary);
+                        font-family: "Font Awesome 5 Pro";
+                        @include transition(0.6s cubic-bezier(0.165, 0.84, 0.44, 1));
+                    }
+                }
+            }
+            .acc_body {
+                display: none;
+                &.current {
+                    display: block;
+                }
+            }
+            .content {
+                padding: 20px 40px 30px 30px;
+                @include respond(xs) {
+                    padding: 20px 30px 30px 30px;
+                }
+                p {
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 28px;
+                    max-width: 631px;
+                    letter-spacing: -0.01em;
+                    color: var(--color-secondary);
+                }
+            }
+            .list {
+                margin-top: 15px;
+                li {
+                    gap: 10px;
+                    display: flex;
+                    align-items: center;
+                    font-size: 16px;
+                    font-weight: 500;
+                    i {
+                        color: var(--color-primary);
+                    }
+                    &:not(:last-child) {
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+            &.active-block {
+                .acc-btn {
+                    .number {
+                        color: var(--color-secondary);
+                    }
+                    .arrow {
+                        background: linear-gradient(259deg, #8348ff 0%, #402c71 100%);
+                        &::before {
+                            content: "\f068";
+                            color: var(--color-white);
+                            transform: rotate(180deg);
+                            -webkit-transform: rotate(180deg);
+                            -ms-transform: rotate(180deg);
+                            -moz-transform: rotate(180deg);
+                            -o-transform: rotate(180deg);
+                        }
+                    }
+                }
+            } 
+            &:last-child {
+                .acc-btn {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
+.xb-faq-wrap {
+    margin-right: 118px;
+    @include respond(lg) {
+        margin-right: 50px;
+    }
+    @include respond(md) {
+        margin-right: 0;
+    }
+    .sec-title-wrap {
+        @include respond(lg) {
+            margin-bottom: 60px;
+        }
+        .sec-title {
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                gap: 15px;
+            }
+            @include respond(lg) {
+                gap: 15px;
+            }
+            @include respond(md) {
+                gap: 15px 180px;
+            }
+            @include respond(xs) {
+                gap: 15px 0;
+            }
+            @include respond(xs) {
+                gap: 15px 70px;
+            }
+       }
+    }
+}
+.pr-faq-wrap {
+    margin-left: 100px;
+    @include respond(lg) {
+        margin-left: 50px;
+    }
+    @include respond(md) {
+        margin-left: 0;
+    }
+}
+.pricing-faq {
+    .block {
+        .acc_body .content {
+            padding: 30px 65px 40px 30px;
+            @include respond(xs) {
+                padding: 30px 25px 40px;
+            }
+            p {
+                max-width: 100%;
+            }
+        }
+    }
+}
+.faq-img {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    z-index: -1;
+    @include respond(laptop) {
+        left: -100px;
+    }
+    @include respond(lg) {
+        left: -170px;
+    }
+    @include respond(md) {
+        left: 0;
+        bottom: 30px;
+        position: relative;
+    }
+    @include respond(xs) {
+        bottom: 10px;
+    }
+}

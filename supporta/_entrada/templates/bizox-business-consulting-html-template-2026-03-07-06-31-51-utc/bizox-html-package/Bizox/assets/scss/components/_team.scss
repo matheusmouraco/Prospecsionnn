@@ -1,0 +1,292 @@
+.xb-team-item {
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    min-height: 550px;
+    max-width: 520px;
+    @include respond(xs) {
+        min-height: 500px;
+    }
+    &:not(:last-child) {
+        margin-bottom: 60px;
+        @media only screen and (min-width: 1500px) and (max-width: 1600px) {
+            margin-bottom: 10px;
+        }
+        @include respond(laptop) {
+            margin-bottom: 15px;
+        }
+        @include respond(lg) {
+            margin-bottom: 40px;
+        }
+        @include respond(md) {
+            margin-bottom: 17px;
+        }
+        @include respond(xs) {
+            margin-bottom: 20px;
+        }
+    }
+    &::before {
+        position: absolute;
+        content: '';
+        height: 60%;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, rgba(25, 27, 33, 0) 4.28%, rgba(25, 27, 33, 0.3) 32.71%, #191b21 100%);
+    }
+    .xb-item {
+        &--holder {
+            position: absolute;
+            z-index: 1;
+            bottom: 40px;
+            width: 100%;
+            padding: 0 40px;
+            text-align: left;
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                padding: 0 20px;
+            }
+            @include respond(lg) {
+                padding: 0 20px;
+            }
+        }
+        &--name {
+            font-size: 28px;
+            text-transform: capitalize;
+            color: var(--color-white);
+        }
+        &--link {
+            height: 50px;
+            width: 50px;
+            font-size: 20px;
+            @include center;
+            @include border-radius(5px);
+            color: var(--color-secondary);
+            background: var(--color-white);
+            &:hover {
+                color: var(--color-white);
+                background: var(--color-primary);
+            }
+        }
+    }
+    .glassy-shape {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        @include transition(.3s);
+        @media only screen and (max-width: 1600px) {
+            left: 0;
+        }
+        @include respond(laptop) {
+            left: -50px;
+        }
+        @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+            left: -82px;
+        }
+        @include respond(lg) {
+            left: -30px;
+        }
+        @include respond(md) {
+            left: -90px;
+        }
+        @include respond(xs) {
+            top: -50px;
+        }
+        @include respond(sm) {
+            left: 0;
+        }
+    }
+    &:hover {
+        .glassy-shape {
+            transform: scale(3);
+        }
+    }
+    &--middle {
+        max-width: 100%;
+        min-height: 700px;
+        @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+            min-height: 550px;
+        }
+        @include respond(xs) {
+            min-height: 500px;
+        }
+        .glassy-shape {
+            @media only screen and (max-width: 1600px) {
+                left: -45px;
+            }
+            @include respond(laptop) {
+                left: -95px;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                left: -62px;
+                top: -75px;
+            }
+            @include respond(lg) {
+                left: -65px;
+            }
+            @media only screen and (max-width: 1023px) {
+                left: -71px;
+            }
+            @include respond(md) {
+                left: 70px;
+                transform: scale(1.2);
+            }
+            @include respond(xs) {
+                left: -102px;
+                top: -105px;
+                transform: scale(0.8);
+            }
+            @include respond(sm) {
+                left: -35px;
+                top: -130px;
+                transform: scale(0.87);
+            }
+            svg {
+                @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                    width: 480px;
+                }
+            }
+        }
+    }
+}
+.xb-team-top {
+    .title {
+        max-width: 593px;
+        @include respond(lg) {
+            max-width: 450px;
+        }
+        @include respond(md) {
+            max-width: 100%;
+        }
+    }
+    .content {
+        max-width: 462px;
+        margin-right: 62px;
+        @media only screen and (max-width: 1600px) {
+            margin-right: 0;
+        }
+        @include respond(lg) {
+            max-width: 330px;
+        }
+        @include respond(md) {
+            max-width: 90%;
+        }
+    }
+}
+.xb-team-col {
+    @include respond(md) {
+        gap: 30px;
+        display: flex;
+    }
+    @include respond(xs) {
+        flex-wrap: wrap;
+    }
+}
+.ab-team-inner {
+    .xb-item {
+        &--list {
+            gap: 20px;
+            padding: 25px 0 70px;
+            border-top: 1px solid #d9d9d9;
+            @include respond(laptop) {
+                gap: 5px;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                gap: 20px 70px;
+                justify-content: start;
+            }
+            @include respond(lg) {
+                gap: 20px 70px;
+                justify-content: start; 
+            }
+            @include respond(md) {
+                gap: 20px 30px;
+            }
+            li {
+                gap: 10px;
+                display: flex;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--color-white);
+            }
+        }
+        &--img {
+            margin: 0 -70px;
+        }
+    }
+}
+.xb-team-bottom {
+    margin-top: -190px;
+    @include respond(laptop) {
+        margin-top: -220px;
+    }
+    @include respond(lg) {
+       margin-top: 12px;
+    }
+    @include respond(md) {
+       margin-top: 50px;
+    }
+    .xb-content {
+        margin: 0 auto;
+        max-width: 540px;
+        margin-bottom: 40px;
+        @include respond(laptop) {
+            max-width: 430px;
+        }
+    }
+}
+.xb-team-inner_wrap {
+    @include respond(md) {
+        gap: 30px;
+    }
+    @include respond(xs) {
+        gap: 0;
+        margin-bottom: 20px;
+        flex-direction: column;
+    }
+    &.left {
+        @include respond(lg) {
+            margin-right: 13px;
+        }
+        @include respond(md) {
+            margin-right: 0;
+        }
+    }
+    &.middle {
+        position: sticky;
+        top: 100px;
+        margin: 0 -10px;
+        @include respond(laptop) {
+            margin: 0;
+        }
+        @include respond(lg) {
+            gap: 50px;
+            display: flex;
+            margin: 43px 0 0;
+        }
+        @include respond(md) {
+            gap: 8px;
+            margin: 17px 0 0;
+            flex-direction: column;
+        }
+        @include respond(xs) {
+            margin: 0;
+        }
+    }
+    &.team-middle {
+        top: 0;
+        
+        position: relative;
+    }
+    &.right {
+        text-align: end;
+        @include respond(lg) {
+            text-align: left;
+            margin-left: 13px;
+        }
+        @include respond(md) {
+            margin-left: 0;
+        }
+    }
+}

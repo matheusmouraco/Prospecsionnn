@@ -1,0 +1,546 @@
+.about-sec-title {
+    gap: 109px;
+    @media only screen and (max-width: 1600px) {
+        margin-right: -115px;
+    }
+    @include respond(laptop) {
+        gap: 75px;
+    }
+    @include respond(lg) {
+        gap: 50px;
+        margin-right: -70px;
+    }
+    @include respond(md) {
+        gap: 20px;
+        margin-right: 0;
+    }
+    .content {
+        max-width: 745px;
+    }
+    .content-text {
+        max-width: 997px;
+    }
+    .title-font-65 {
+        font-size: 65px;
+        @include respond(laptop) {
+            font-size: 54px;
+        }
+        @include respond(lg) {
+            font-size: 42px;
+        }
+        @include respond(xs) {
+            font-size: 38px;
+        }
+    }
+}
+.xb-about-video {
+    width: 262px;
+    height: 320px;
+    overflow: hidden;
+    margin-left: -25px;
+    border-radius: 0 0 150px 150px;
+    @media only screen and (max-width: 1600px) {
+        margin-left: 150px;
+    }
+    @include respond(laptop) {
+        margin-left: 100px;
+    }
+    @include respond(lg) {
+        width: 230px;
+        margin-left: 85px;
+    }
+    @include respond(md) {
+        margin-left: 0;
+    }
+    @include respond(xs) {
+        margin-top: 45px;
+    }
+    video {
+        object-position: 58% center;
+    }
+}
+.xb-video video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.xb-countdown-item {
+    z-index: 1;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    padding: 20px 60px 30px;
+    backdrop-filter: blur(3px);
+    @include border-radius(500px);
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+        padding: 20px 40px 20px;
+    }
+    @include respond(lg) {
+        padding: 15px 40px 20px;
+    }
+    @include respond(md) {
+        padding: 13px 35px 18px;
+    }
+    @include respond(xs) {
+        text-align: start;
+    }
+    &:last-child {
+        margin-right: 110px;
+        @include respond(laptop) {
+            margin-right: 0;
+        }
+        @include respond(lg) {
+            margin-right: 25px;
+        }
+        @include respond(md) {
+            margin-right: 0;
+        }
+    }
+    .xb-item {
+        &--number {
+            font-size: 65px;
+            color: var(--color-primary);
+            @include respond(laptop) {
+                font-size: 60px;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                font-size: 50px;
+            }
+            @include respond(lg) {
+                font-size: 48px;
+            }
+            @include respond(md) {
+                font-size: 42px;
+            }
+        }
+        &--text {
+            margin-top: -7px;
+            color: var(--color-white);
+            @include respond(xs) {
+                margin-top: 3px;
+                line-height: 24px;
+            }
+        }
+    }
+}
+.xb-countdown-wrap {
+    gap: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 5px;
+    align-items: center;
+    justify-content: end;
+    @media (min-width: 1920px) {
+        padding-left: 200px;
+    }
+    @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+        margin-left: -40px;
+        padding-top: 35px;
+    }
+    @include respond(lg) {
+        margin-left: -70px;
+        padding-top: 45px;
+    }
+    @include respond(xs) {
+        margin-left: 0;
+        justify-content: start;
+    }
+}
+.xb-about-section {
+    overflow: hidden;
+    
+    @include respond(xs) {
+        max-height: 100%;
+    }
+}
+.xb-about-line-inner {
+	position: absolute;
+    z-index: -2;
+	left: 0;
+	top: 150px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+    .line {
+        position: absolute;
+        width: 2px;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.1);
+        .dot { 
+            opacity: 0; 
+            z-index: 1;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, -50%);
+            width: 19px;
+            height: 19px;
+            padding: 5px;
+            border-radius: 50%;
+            background-color: var(--color-white);
+            &:after,
+            &::before {
+                content: '';
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                border-radius: 50%;
+                animation: ripple 2s infinite;
+                transform: translate(-50%, -50%);
+                background-color: var(--color-white);
+            }
+            &::before {
+                animation-delay: 0s;
+            }
+            &::after {
+                animation-delay: 0.5s;
+            }
+            span {
+                z-index: 2;
+                width: 100%;
+                height: 100%;
+                display: inherit;
+                position: relative;
+                border-radius: inherit;
+                background: var(--color-primary);
+            }
+        }
+        &.act {
+            background-color: var(--color-primary);
+            .dot {
+                opacity: 1; 
+            }
+        }
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}
+@-webkit-keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}
+.xb-about-img {
+    margin-right: 45px;
+    overflow: hidden;
+    @include border-radius(10px);
+    @media only screen and (max-width: 1600px) {
+        margin-right: 0;
+    }
+    @include respond(md) {
+        max-width: 400px;
+    }
+    @include respond(xs) {
+        max-width: 100%;
+    }
+    img {
+        @include respond(sm) {
+            width: 100%;
+        }
+    }
+}
+.xb-about-clint {
+    margin-left: -40px;
+    overflow: hidden;
+    display: inline-block;
+    background: #f8f5ff;
+    @include border-radius(10px);
+    @media only screen and (max-width: 1600px) {
+        margin-left: 0;
+    }
+    @include respond(laptop) {
+        margin-right: 45px;
+    }
+    @include respond(lg) {
+        width: 100%;
+    }
+    .xb-item {
+        &--holder {
+            gap: 30px;
+            padding: 30px;
+            padding-bottom: 0;
+        }
+        &--title {
+            font-size: 34px;
+            color: var(--color-secondary);
+            @include respond(xs) {
+                font-size: 32px;
+            }
+        }
+        &--img {
+            margin-top: 95px;
+            text-align: center;
+            position: relative;
+        }
+        &--clint {
+            position: absolute;
+            left: 30px;
+            bottom: 30px;
+        }
+    }
+}
+.xb-about-result {
+    overflow: hidden;
+    margin-left: -100px;
+    background: #f8f5ff;
+    padding: 30px 30px 54px;
+    @include border-radius(10px);
+    @media only screen and (max-width: 1600px) {
+        margin-left: 0;
+    }
+    @include respond(laptop) {
+        margin-left: -45px;
+        padding: 30px 20px 54px;
+    }
+    @include respond(lg) {
+        margin-left: -10px;
+    }
+    @include respond(xs) {
+        margin-left: 0;
+    }
+    .xb-title {
+        font-size: 34px;
+        margin-bottom: 35px;
+        color: var(--color-secondary);
+        @include respond(xs) {
+            font-size: 32px;
+        }
+    }
+}
+.xb-result-item {
+    &:not(:last-child) {
+        margin-bottom: 40px;
+    }
+    .xb-text {
+        font-weight: 500;
+        font-size: 15px;
+        margin-bottom: 3px;
+        display: inline-block;
+        text-transform: uppercase;
+        color: var(--color-secondary);
+        @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+            margin-bottom: 15px;
+        }
+    }
+    .progress {
+        height: 39px;
+        overflow: unset;
+        @include border-radius(30px);
+        background: var(--color-white);
+        border: 1px solid rgba(25, 27, 33, 0.5);
+    }
+    .progress-bar {
+        text-align: left; 
+        padding-left: 15px;
+        font-weight: 700;
+        font-size: 18px;
+        overflow: unset;
+        position: relative;
+        background: #ffc83e;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        @include border-radius(30px);
+        color: var(--color-secondary);
+        font-family: var(--font-heading);
+    }
+    .progress-btn {
+        position: absolute;
+        height: 79px;
+        width: 79px;
+        right: 0;
+        top: 50%;
+        padding: 2px;
+        @include border-radius(100px);
+        transform: translateY(-50%);
+        background: var(--color-white);
+        .inner {
+            background:  #ffc83e;
+            border-radius: inherit;
+            @include center;
+            height: 100%;
+            border: 2px solid rgba(25, 27, 33, 0.5);
+        }
+    }
+    &.middle {
+        .progress-bar,
+        .progress-btn .inner {
+            background: #FF8139;
+        }
+    }
+    &.last {
+        .progress-bar,
+        .progress-btn .inner {
+            background: #33CCCC;
+        }
+    }
+}
+.dm-about-wrapper .about-sec-title {
+    @media only screen and (max-width: 1600px) {
+        margin-right: 0;
+    }
+}
+.cg-about-wrap {
+    display: flex;
+    justify-content: center;
+    .cg-about-img {
+        img {
+            max-width: 402px;
+            border: 3px solid #fff;
+            box-shadow: 0 20px 75px 0 rgba(0, 0, 0, 0.25);
+            @include respond(laptop) {
+                max-width: 350px;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                max-width: 300px;
+            }
+            @include respond(lg) {
+                max-width: 260px;
+            }
+            @include respond(md) {
+                max-width: 200px;
+            }
+            @include respond(xs) {
+                max-width: 105px;
+            }
+            @include respond(sm) {
+                max-width: 150px;
+            }
+        }
+        &:nth-child(1) {
+            margin-top: 90px;
+            transform: rotate(3deg);
+            @include respond(lg) {
+                margin-top: 70px;
+            }
+            @include respond(md) {
+                margin-top: 40px;
+            }
+            @include respond(xs) {
+                margin-top: -11px;
+            }
+        }
+        &:nth-child(2) {
+            margin-left: -15px;
+            transform: rotate(-15deg);
+            @include respond(lg) {
+                margin-left: -30px;
+            }
+            @include respond(md) {
+                margin-left: -8px;
+            }
+            @include respond(xs) {
+                margin-left: -15px;
+            }
+        }
+        &:nth-child(3) {
+            margin-top: 76px;
+            margin-left: -60px;
+            transform: rotate(14deg);
+            @include respond(lg) {
+                margin-left: -60px;
+            }
+            @include respond(md) {
+                margin-top: 60px;
+                margin-left: -50px;
+            }
+            @include respond(xs) {
+                margin-top: 15px;
+                margin-left: -40px;
+            }
+        }
+        &:nth-child(4) {
+            margin-top: 40px;
+            margin-left: -40px;
+            transform: rotate(-6deg);
+            @include respond(lg) {
+                margin-left: -30px;
+            }
+            @include respond(md) {
+                margin-left: -20px;
+            }
+            @include respond(xs) {
+                margin-top: 0;
+                margin-left: -20px;
+            }
+        }
+    }
+}
+.cg-about-shape {
+    position: absolute;
+    top: 243px;
+    right: 218px;
+    animation: spin 30s linear infinite;
+    @include respond(lg) {
+        right: 80px;
+    }
+    @include respond(md) {
+        top: 300px;
+        right: 100px;
+        max-width: 80px;
+    }
+    @include respond(xs) {
+        top: 295px;
+        right: 45px;
+        max-width: 44px;
+    }
+    @include respond(sm) {
+        top: 260px;
+        right: 90px;
+    }
+}
+.cg-about-top {
+    .sec-title--three {
+        margin-bottom: 110px;
+    }
+}
+.parallax-img {
+    width: 100%;
+    max-width: 100%;
+    height: 600px;
+    overflow: hidden;
+    @include respond(laptop) {
+        height: 400px;
+    }
+    @include respond(lg) {
+        height: 300px;
+    }
+    &--inner {
+        height: 100%;
+        img {
+            width: 100%;
+            object-fit: cover;
+            @include respond(laptop) {
+                height: 600px;
+            }
+            @include respond(lg) {
+                height: 500px;
+            }
+        }
+    }
+}

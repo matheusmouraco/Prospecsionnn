@@ -1,0 +1,192 @@
+.xb-pricing-item {
+    z-index: 1;
+    position: relative;
+    background: #f8f5ff;
+    border: 1px solid #d1d1d3;
+    @include transition(.3s);
+    .xb-item {
+        &--tag {
+            font-size: 20px;
+            font-weight: 500;
+            padding: 10px 24px;
+            display: inline-block;
+            background: #ff6b6b;
+            @include border-radius(5px);
+            transform: translateY(-24px);
+            color: var(--color-secondary);
+            font-family: var(--font-heading);
+            &.bg-frash {
+                background: #3cc;
+            }
+            &.bg-yellow {
+                background: #f1c40f;
+            }
+        }
+        &--title {
+            font-size: 24px;
+            margin: 10px 0 15px;
+        }
+        &--content {
+            max-width: 455px;
+            margin-bottom: 47px;
+        }
+        &--holder {
+            padding: 0 40px 50px;
+            @include respond(laptop) {
+                padding: 0 25px 50px;
+            }
+            @include respond(lg) {
+                padding: 0 25px 50px;
+            }
+        }
+        &--price {
+            font-size: 65px;
+            @include respond(md) {
+                font-size: 50px;
+            }
+            span {
+                font-size: 26px;
+                font-weight: 400;
+                color: var(--color-default);
+                font-family: var(--font-body);
+                display: inline-block;
+                @include respond(md) {
+                    font-size: 20px;
+                }
+            }
+            .xb-dollar {
+                transform: translateY(-25px);
+            }
+        }
+        &--btn {
+            a {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        &--list {
+            li {
+                gap: 15px;
+                display: flex;
+                align-items: center;
+                font-size: 20px;
+                font-weight: 500;
+                color: var(--color-secondary);
+                font-family: var(--font-heading);
+                @include respond(laptop) {
+                    gap: 10px;
+                    font-size: 16px;
+                }
+                @include respond(lg) {
+                    gap: 15px;
+                    font-size: 18px;
+                    align-items: start;
+                }
+                &:not(:last-child) {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        &--img {
+            position: absolute;
+            left: 0;
+            z-index: -1;
+            bottom: 10px;
+        }
+        &--btn {
+            @include respond(md) {
+                margin-top: 50px;
+            }
+        }
+        &--inner {
+            padding: 35px 40px 40px;
+            border-top: 1px solid #d1d1d3;
+            background: var(--color-white);
+            @include respond(laptop) {
+                padding: 35px 25px 40px;
+            }
+            @include respond(lg) {
+                padding: 35px 25px 40px;
+            }
+            .text {
+                font-size: 24px;
+                margin-bottom: 20px;
+                font-weight: 500;
+                display: block;
+                color: var(--color-secondary);
+                font-family: var(--font-heading);
+            }
+        }
+    }
+}
+.xb-pricing-top {
+    gap: 30px;
+}
+.xb-pricing-nav {
+    padding: 7px;
+    display: inline-flex;
+    background: #f8f5ff;
+    border: 1px solid #d1d1d3;
+    @include border-radius(50px);
+    position: relative;
+    z-index: 1;
+    &::after {
+        position: absolute;
+        content: "";
+        width: 52.3%;
+        height: 76%;
+        top: 7px;
+        left: 7px;
+        z-index: -1;
+        background: #fff;
+        border-radius: 100px;
+        border: 1px solid #d1d1d3;
+        transition: all 0.5s cubic-bezier(0.57, 0.086, 0, 0.99);
+        box-shadow: 0 6px 13px 0 rgba(167, 197, 203, 0.39);
+    }
+    &.is-active::after {
+        width: 44%;
+        left: 54%;
+    }
+    .nav-item {
+        .nav-link {
+            font-size: 16px;
+            font-weight: 500;
+            padding: 7px 28px;
+            text-transform: uppercase;
+            color: var(--color-heading);
+            @include border-radius(50px);
+            border: 1px solid transparent;
+            font-family: var(--font-heading);
+            span {
+                font-size: 12px;
+                font-weight: 500;
+                font-style: normal;
+                padding: 1px 7px;
+                line-height: 1.2;
+                margin-left: 5px;
+                background: #ff5050;
+                display: inline-block;
+                color: var(--color-white);
+                @include border-radius(29px);
+                transform: translateY(-1px);
+                font-family: var(--font-heading);
+            }
+            &.active {
+                background-color: transparent;
+            }
+        }
+    }
+}
+.hiring-process-title {
+    .sec-title {
+        @include respond(md) {
+            gap: 20px 80px;
+        }
+    }
+}
+.pricing-tab-content {
+    .tab-pane.active {
+        @include transition(.3s);
+    }
+}

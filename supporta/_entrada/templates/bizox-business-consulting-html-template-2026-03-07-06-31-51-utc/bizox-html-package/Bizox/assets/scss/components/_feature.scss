@@ -1,0 +1,218 @@
+.xb-feature-wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    @include respond(md) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @include respond(xs) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    @include respond(sm) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.xb-feature-item {
+    padding: 50px;
+    @include transition(.3s);
+    @include respond(laptop) {
+        padding: 50px 30px;
+    }
+    @include respond(lg) {
+        padding: 50px 30px;
+    }
+    @include respond(xs) {
+        padding: 50px 25px;
+    }
+    &:not(:last-child) {
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    &:nth-child(1),
+    &:nth-child(2) {
+        @include respond(lg) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+    &:nth-child(2) {
+        @include respond(xs) {
+            border-right: none;
+        }
+    }
+    &:hover {
+        background: rgba(38, 39, 48, 0.6);
+    }
+    .xb-item {
+        &--icon {
+            height: 100px;
+            width: 100px;
+            @include center;
+            @include border-radius(100px);
+            background: rgba(255, 255, 255, 0.07);
+            img {
+                height: 64px;
+                width: 64px;
+            }
+        }
+        &--title {
+            font-size: 24px;
+            margin: 55px 0 15px;
+            color: var(--color-white);
+        }
+        &--content {
+            max-width: 343px;
+            color: var(--color-white);
+        }
+    }
+}
+.xb-feature-shape {
+    position: absolute;
+    top: 93px;
+    right: -141px;
+    @include respond(md) {
+        top: 150px;
+        right: -120px;
+        max-width: 200px;
+    }
+    @include respond(xs) {
+        top: 285px;
+        right: -90px;
+        z-index: -1;
+        max-width: 140px;
+    }
+    @include respond(sm) {
+        top: 245px;
+    }
+}
+.xb-feature-top {
+    .sec-title .xb-holder {
+        max-width: 800px;
+        @include respond(lg) {
+            max-width: 600px;
+        }
+    }
+}
+.ab-feature-item {
+    overflow: hidden;
+    position: relative;
+    padding: 40px 30px;
+    background: #f8f5ff;
+    @include respond(lg) {
+        padding: 40px 25px;
+    }
+    @media only screen and (max-width: 1023px) {
+        padding: 40px 20px;
+    }
+    .xb-item {
+        &--title {
+            font-size: 34px;
+            margin: 35px 0 15px;
+            color: var(--color-heading);
+        }
+        &--list {
+            margin-top: 30px;
+            li {
+                gap: 10px;
+                display: flex;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--color-heading);
+                &:not(:last-child) {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        &--circle {
+            height: 276px;
+            width: 276px;
+            right: -118px;
+            bottom: -215px;
+            position: absolute;
+            display: inline-block;
+            border: 1px solid #d1d1d3;
+            @include border-radius(100%);
+            @include transition(.3s);
+            @include respond(lg) {
+                height: 200px;
+                width: 200px;
+                right: -125px;
+                bottom: -140px;
+            }
+            @include respond(md) {
+                right: -120px;
+                bottom: -100px;
+            }
+            &.circle-2 {
+                right: -208px;
+                bottom: -135px;
+                @include respond(lg) {
+                    right: -90px;
+                    bottom: -160px;
+                }
+                @include respond(md) {
+                    right: -85px;
+                    bottom: -130px;
+                }
+            }
+        }
+    }
+    &:hover {
+        .xb-item--circle {
+            border: 1px dashed var(--color-primary);
+            animation: spin 30s linear infinite;
+            &.circle-2 {
+                animation: spin2 30s linear infinite;
+            }
+        }
+    }
+}
+@keyframes spin2 {
+	0% {
+		transform:rotate(0deg);
+	}
+	100% {
+		transform:rotate(-360deg);
+	}
+}
+.cp-feature-item {
+    display: flex;
+    background: #f8f5ff;
+    padding: 28px 27px 35px 19px;
+    @include respond(lg) {
+        gap: 20px;
+        padding: 28px 26px 35px;
+        flex-direction: column;
+    }
+    @include respond(md) {
+        padding: 28px 60px 35px 20px;
+    }
+    @include respond(xs) {
+        padding: 28px 20px 35px;
+    }
+    .xb-item {
+        &--icon {
+            height: 50px;
+            width: 50px;
+            margin-right: 20px;
+            @include center;
+            display: inline-flex;
+            @include border-radius(100%);
+            background: var(--color-secondary);
+        }
+        &--holder {
+            padding-top: 10px;
+            width: calc(100% - 70px);
+            @include respond(lg) {
+                width: 100%;
+                padding-top: 0;
+            }
+        }
+        &--title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        &--content {
+            font-size: 18px;
+        }
+    }
+}
