@@ -1,0 +1,331 @@
+/*----------------------------------------*/
+/*  32. sidebar start
+/*----------------------------------------*/
+.offcanvas-sidebar.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    .sidebar-menu-close {
+        opacity: 1;
+        @include transform(translateY(0));
+    }
+}
+.sidebar-menu-close {
+    position: absolute;
+    top: 12px;
+    right: 77px;
+    z-index: 2;
+    text-align: center;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -ms-transition: .3s;
+    -o-transition: .3s;
+    opacity: 0;
+    height: 60px;
+    width: 60px;
+    @include  center;
+    background: transparent;
+    @include transform(translateX(60px));
+    @include respond(lg) {
+        right: 15px;
+        height: 50px;
+        width: 50px;
+    }
+    @include respond(xs) {
+      z-index: 1011;
+    }
+    .xb-close {
+        width: 40px;
+        height: 40px;
+        background: transparent;
+    }
+}
+.offcanvas-sidebar .xb-close::before,
+.offcanvas-sidebar .xb-close::after {
+    background-color: var(--color-white);
+}
+.offcanvas-sidebar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	max-width: 100%;
+  width: 100%;
+	height: 100vh;
+	z-index: 1020;
+	background: #0c1c24;
+  transition: .8s cubic-bezier(0.5, 0.5, 0, 1);
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+}
+.sidebar-title {
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 122%;
+    max-width: 600px;
+    letter-spacing: -0.03em;
+    color: var(--color-white);
+    @include respond(lg) {
+        font-size: 26px;
+    }
+}
+.sidebar-info-list {
+    li {
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0em;
+        color: var(--color-white);
+        @include respond(laptop) {
+            font-size: 22px;
+        }
+        @include respond(lg) {
+            font-size: 19px;
+        }
+        span {
+            font-size: 14px;
+            font-weight: 400;
+            color: #c2c0c0;
+            display: block;
+            text-transform: uppercase;
+        }
+        &:not(:last-child) {
+            margin-bottom: 25px;
+            @include respond(lg) {
+                margin-bottom: 15px;
+            }
+        }
+        &:first-child span {
+            margin-bottom: 55px;
+        }
+        a {
+            display: block;
+            color: currentColor;
+        }
+    }
+}
+.sidebar-newsletter {
+    margin: 40px 0 88px;
+    .title {
+        font-size: 14px;
+        font-weight: 400;
+        color: #c2c0c0;
+        margin-bottom: 12px;
+        display: inline-block;
+    }
+}
+.sidebar-newsletter-from {
+    overflow: hidden;
+    max-width: 409px;
+    border-radius: 5px;
+    position: relative;
+    input {
+        height: 60px;
+        font-size: 14px;
+        color: var(--color-black);
+        padding: 18px 65px 18px 18px;
+        background-color: var(--color-white);
+        &::placeholder {
+            color: #665F5F;
+        }
+    }
+    button {
+        top: 3px;
+        right: 3px;
+        width: 54px;
+        height: 54px;
+        @include center;
+        font-size: 20px;
+        position: absolute;
+        color: var(--color-white);
+        background: var(--color-primary);
+    }
+}
+.sidebar-architecture-video {
+    max-width: 409px;
+    overflow: hidden;
+    @include border-radius(10px);
+    @include respond(lg) {
+        max-width: 300px;
+    }
+}
+.sidebar-bg-shape {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    @media only screen and (max-width: 1600px) {
+        max-width: 702px;
+    }
+    @include respond(laptop) {
+        max-width: 606px;
+    }
+    @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+        max-width: 535px;
+    }
+    @include respond(lg) {
+      max-width: 462px;
+    }
+    @media only screen and (max-width: 1023px) {
+        max-width: 445px;
+    }
+    @include respond(md) {
+      max-width: 354px;
+    }
+}
+.sidebar-item-left {
+    margin-right: 30px;
+    @include respond(md) {
+      margin-right: 20px;
+    }
+    @include respond(xs) {
+      margin-right: 0;
+    }
+    .xb-header-menu {
+        width: 100%;
+        position: relative;
+        background: transparent;
+        transform: translateX(0%);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        @include respond(xs) {
+          height: 100%;
+          border-right: none;
+        }
+    }
+    .xb-header-menu-scroll {
+        padding: 85px 180px 80px 0;
+        @media only screen and (max-width: 1600px) {
+          padding: 85px 100px 80px 0;
+        }
+        @include respond(lg) {
+          padding: 85px 50px 80px 0;
+        }
+        @include respond(xs) {
+          padding: 85px 18px 80px 0;
+        }
+    }
+    .xb-menu-primary li {
+        a {
+            line-height: 1;
+            font-size: 100px;
+            font-weight: 400;
+            border-bottom: none;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
+            color: rgba(255, 255, 255, 0.2);
+            @include respond(laptop) {
+              font-size: 90px;
+            }
+            @include respond(lg) {
+              font-size: 72px;
+            }
+            @media only screen and (max-width: 1023px) {
+              font-size: 60px;
+            }
+            @include respond(md) {
+              font-size: 50px;
+            }
+            @include respond(xs) {
+              font-size: 45px;
+            }
+            &:hover {
+              color: #fff;
+            }
+        }
+        &.is-active {
+          a {
+            color: var(--color-white);
+            @include transition(.3s);
+          }
+          .xb-menu-toggle {
+            color: var(--color-white);
+          }
+        }
+        &.menu-item-has-children {
+            .sub-menu {
+                margin-top: 15px;
+                li {
+                    &:not(:last-child) {
+                        margin-bottom: 15px;
+                    }
+                    a {
+                        font-size: 65px;
+                        line-height: 1;
+                        text-transform: capitalize;
+                        @include respond(laptop) {
+                            font-size: 50px;
+                        }
+                        @media only screen and (max-width: 1300px) {
+                            font-size: 50px;
+                        }
+                        @include respond(xs) {
+                          font-size: 40px;
+                        }
+                    }
+                    .xb-menu-toggle {
+                      font-size: 30px;
+                      @include respond(lg) {
+                        top: 10px;
+                        font-size: 25px;
+                      }
+                    }
+                }
+            }
+        }
+    }
+    .xb-header-menu-scroll .xb-menu-primary > li {
+        &:not(:last-child) {
+            margin-bottom: 63px;
+            @include respond(lg) {
+                margin-bottom: 50px;
+            }
+            @include respond(xs) {
+                margin-bottom: 40px;
+            }
+        }
+    }
+    .xb-menu-toggle {
+        top: 30px;
+        right: 0;
+        width: auto;
+        height: auto;
+        font-size: 40px;
+        transform: rotate(0deg);
+        color: rgba(255, 255, 255, 0.2);
+        transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        @include respond(lg) {
+          top: 18px;
+          font-size: 30px;
+        }
+        @include respond(md) {
+          top: 8px;
+        }
+        &::before {
+            content: '\2b';
+        }
+        &.active {
+          transform: rotate(45deg);
+          &::before {
+            // content: "\f068";
+            content: '\2b';
+          }
+        }
+    }        
+}
+.offcanvas-sidebar::-webkit-scrollbar {
+    display: none;
+}
+.sidebar-item-right {
+    height: 100vh;
+    padding: 25px 0 90px 90px;
+    @media only screen and (max-width: 1300px) {
+        padding: 25px 0 90px 50px;
+    }
+    @include respond(lg) {
+        padding: 25px 0 90px 30px;
+    }
+    @include respond(xs) {
+        padding: 0px 0 90px 0;
+    }
+}
+.sidebar-container {
+    display: flex;
+    pointer-events: auto;
+}

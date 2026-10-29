@@ -1,0 +1,29 @@
+// variable
+:root {
+    --font-heading: "Oswald", sans-serif;
+    --font-body: "Plus Jakarta Sans", sans-serif;
+
+    --color-primary: #ff3d00;
+    --color-heading:  #1b1b22;
+
+    --color-default:  #615a5a; 
+    --color-border:  #DDDBDB; 
+    --color-dark: #181818;
+    --color-white: #fff;
+    --color-black: #000;
+    --color-body: #fff;
+
+    --easing: cubic-bezier(0.67, 0.04, 0.3, 0.91);
+}
+.architecture {
+    --font-heading: "topluxury";
+
+    --color-heading:  #0c1c24;
+    --color-default:  #4a4e51; 
+}
+.factory_construction {
+    --color-heading:  #183a4f;
+    --color-secondary:  #c7e8ff;
+
+    --color-default:  #183a4f; 
+}

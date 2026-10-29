@@ -1,0 +1,706 @@
+.xb-testimonial-review {
+    gap: 13px;
+    align-items: start;
+    .xb-review {
+        ul {
+            gap: 7px;
+              margin-bottom: 10px;
+            li i {
+                color: #fdbb19;
+            }
+        }
+        .text {
+            font-size: 15px;
+            font-weight: 700;
+        }
+    }
+    .xb-rating {
+        .text {
+            font-size: 15px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+    }
+}
+.xb-testimonial-item {
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    padding: 30px 30px 130px;
+    background-color: gray;
+    @include respond(xs) {
+        padding: 30px 30px 70px;
+    }
+    .xb-item {
+        &--inner {
+            padding: 25px 40px 20px;
+            background: var(--color-white);
+            @include respond(xs) {
+                padding: 25px 18px 20px;
+            }
+        }
+        &--content {
+            font-weight: 400;
+            font-size: 36px;
+            line-height: 1.4;
+            max-width: 655px;
+            @include respond(md) {
+                font-size: 34px;
+            }
+            @include respond(xs) {
+                font-size: 25px;
+            }
+            span {
+                color: var(--color-primary);
+            }
+        }
+        &--author {
+            margin: 46px 0 37px;
+        }
+        &--name {
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 3px;
+            letter-spacing: 0.01em;
+            text-transform: capitalize;
+        }
+        &--desig {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        &--bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            height: 100%;
+            width: 100%;
+            img {
+                height: 100%;
+            }
+        }
+        &--img {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            @include respond(lg) {
+                max-width: 500px;
+            }
+            @include respond(md) {
+                max-width: 390px;
+            }
+            @include respond(xs) {
+                max-width: 250px;
+            }
+        }
+    }
+}
+.xb-testimonial-slider {
+    margin-left: -670px;
+    margin-right: -670px;
+    @include respond(laptop) {
+        margin-left: -500px;
+        margin-right: -500px;
+    }
+    @include respond(lg) {
+        margin-left: -500px;
+        margin-right: -500px;
+    }
+    @include respond(xs) {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+.xb-testimonial-top {
+    gap: 30px;
+}
+.xb-quote-wrap {
+    padding: 249px 0 285px;
+    @include respond(laptop) {
+        padding: 165px 0 165px;
+    }
+    @media only screen and (max-width: 1300px) {
+        padding: 135px 0;
+    }
+    @include respond(lg) {
+        padding: 130px 0 125px;
+    }
+    .xb-item {
+        &--inner {
+            margin: 0 auto;
+            max-width: 1170px;
+            text-align: center;
+        }
+        &--content {
+            font-size: 60px;
+            line-height: 1.3;
+            text-align: center;
+            margin: 45px 0 26px;
+            letter-spacing: -0.04em;
+            text-transform: capitalize;
+            color: var(--color-white);
+            @include respond(md) {
+                font-size: 40px;
+            }
+            @include respond(xs) {
+                font-size: 32px;
+            }
+            @include respond(sm) {
+                font-size: 36px;
+            }
+        }
+        &--desig {
+            font-size: 26px;
+            margin-top: 23px;
+            letter-spacing: 0.01em;
+            text-transform: capitalize;
+            color: var(--color-white);
+            @include respond(md) {
+                font-size: 22px;
+            }
+            @include respond(xs) {
+                font-size: 20px;
+            }
+            @include respond(sm) {
+                font-size: 22px;
+            }
+        }
+        &--quote img {
+            @include respond(md) {
+                max-width: 60px;
+            }
+        }
+        &--img img {
+            @include respond(md) {
+                max-width: 130px;
+            }
+            @include respond(xs) {
+                max-width: 100px;
+            }
+        }
+    }   
+}
+.xb-quote-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    @include respond(lg) {
+        left: -24%;
+        top: 2%;
+        width: 140%;
+    }
+    @include respond(xs) {
+        display: none;
+    }
+}
+.quote-section {
+    @include respond(xs) {
+        background: var(--color-primary);
+    }
+}
+.ar-testimonial-content {
+    position: relative;
+    margin-right: -100px;
+    padding: 70px 90px 44px 80px;
+    @include border-radius(10px);
+    background: var(--color-primary);
+    @media only screen and (max-width: 1600px) {
+        margin-right: -60px;
+        padding: 70px 50px 44px;
+    }
+    @include respond(laptop) {
+        padding: 70px 55px 44px;
+    }
+    @include respond(lg) {
+        padding: 70px 30px 44px;
+    }
+    @include respond(md) {
+        margin-right: 0;
+    }
+    @include respond(xs) {
+        padding: 40px 20px;
+    }
+    .xb-item {
+        &--content {
+            opacity: 0;
+            font-size: 40px;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+            color: var(--color-white);
+            transform: translateY(40px);
+            @include transition(.6s);
+            transition-delay: .1s;
+            @include respond(lg) {
+                font-size: 32px;
+            }
+            @include respond(xs) {
+                font-size: 26px;
+            }
+        }
+        &--author {
+            gap: 20px;
+            margin-top: 200px;
+            padding-left: 361px;
+            @include respond(laptop) {
+                margin-top: 150px;
+                padding-left: 310px;
+            }
+            @include respond(lg) {
+                gap: 15px;
+                margin-top: 115px;
+                padding-left: 295px;
+            }
+            @include respond(xs) {
+                margin-top: 80px;
+                padding-left: 0;
+                margin-bottom: 100px;
+            }
+        }
+        &--quote {
+            position: absolute;
+            bottom: 46px;
+            right: 45px;
+            transform: rotateY(-180deg);
+            @include respond(lg) {
+                right: 30px;
+                max-width: 60px;
+            }
+            @include respond(xs) {
+                right: 20px;
+                bottom: 160px;
+                max-width: 45px;
+                
+            }
+        }
+        &--name {
+            opacity: 0;
+            font-size: 30px;
+            margin-bottom: 5px;
+            letter-spacing: 0.01em;
+            text-transform: capitalize;
+            color: var(--color-white);
+            transform: translateY(30px);
+            @include transition(.6s);
+            transition-delay: .2s;
+            @include respond(lg) {
+                margin-bottom: 0;
+                font-size: 24px;
+            }
+        }
+        &--desig {
+            opacity: 0;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.02em;
+            color: var(--color-white);
+            transform: translateY(30px);
+            @include transition(.6s);
+            transition-delay: .3s;
+        }
+    }
+}
+.ar-testimonial-img {
+    margin-left: 103px;
+    overflow: hidden;
+    @include border-radius(10px);
+    @media only screen and (max-width: 1600px) {
+        margin-left: 60px;
+        height: 100%;
+    }
+    @include respond(md) {
+        display: none;
+    }
+    img {
+        transform: scale(1.2);
+        @include transition(.6s);
+        @media only screen and (max-width: 1600px) {
+            height: 100%;
+        }
+    }
+}
+.ar-testimonial-shape {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    z-index: 1;
+    @media only screen and (max-width: 1600px) {
+        bottom: -7px;
+    }
+    @include respond(laptop) {
+        bottom: -16px;
+    }
+    @include respond(lg) {
+        bottom: -24px;
+    }
+    @include respond(xs) {
+        bottom: -31px;
+    }
+    svg {
+        @media only screen and (max-width: 1600px) {
+            max-width: 380px;
+        }
+        @include respond(laptop) {
+            max-width: 340px;
+        }
+        @include respond(lg) {
+            max-width: 300px;
+        }
+        @include respond(xs) {
+            max-width: 270px;
+        }
+    }
+}
+.ar-tes-slide-btn {
+    & > div {
+        left: 98px;
+        top: auto;
+        bottom: 56px;
+        height: 66px;
+        width: 74px;
+        @media only screen and (max-width: 1600px) {
+            bottom: 45px;
+        }
+        @include respond(laptop) {
+            left: 55px;
+            bottom: 35px;
+        }
+        @include respond(lg) {
+            left: 70px;
+            width: 52px;
+            bottom: 25px;
+        }
+        @include respond(xs) {
+            left: 65px;
+            width: 46px;
+            bottom: 16px;
+        }
+        &::after {
+            display: none;
+        }
+        img {
+            opacity: 0.5;
+            @include transition(.3s);
+        }
+        &:hover {
+            img {
+                opacity: 1;
+            }
+        }
+    }
+    .swiper-button-next {
+        left: 226px;
+        @include respond(laptop) {
+            left: 170px;
+        }
+        @include respond(lg) {
+            left: 170px;
+        }
+        @include respond(xs) {
+            left: 145px;
+        }
+    }
+}
+.ar-testimonial-item {
+    overflow: hidden;
+}
+.ar-testimonial-slider .swiper-slide-active {
+    .ar-testimonial-content {
+        .xb-item {
+            &--content,
+            &--name,
+            &--desig {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+    .ar-testimonial-img img {
+        transform: scale(1);
+    }
+}
+.ie-testimonial-wrapper {
+    overflow: clip;
+    z-index: 1;
+    margin-left: 110px;
+    margin-top: 25px;
+    position: relative;
+    margin-bottom: 150px;
+    padding-bottom: 180px;
+    background: black;
+    @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+        margin-left: 50px;
+    }
+    @include respond(lg) {
+        margin-left: 0;
+        padding-bottom: 120px;
+    }
+    @include respond(md) {
+        margin-top: 0;
+    }
+    @include respond(xs) {
+        padding-bottom: 0;
+    }
+    &::before, 
+    &::after {
+        position: absolute;
+        content: "";
+        left: 0;
+        z-index: -1;
+        bottom: 60px;
+        height: 100%;
+        width: 100%;
+        background: #1c1c1c;
+        @include respond(lg) {
+            bottom: 40px;
+        }
+        @include respond(xs) {
+            display: none;
+        }
+    }
+    &::after {
+        z-index: -1;
+        bottom: 120px;
+        background: #252525;
+        @include respond(lg) {
+            bottom: 80px;
+        }
+    }
+}
+.ie-testimonial-item {
+    position: sticky;
+    top: 50px;
+    background: #121212;
+    padding: 124px 70px 70px;
+    @media only screen and (max-width: 1600px) {
+        padding: 124px 50px 70px;
+    }
+    @include respond(laptop) {
+        padding: 124px 40px 70px;
+    }
+    @include respond(lg) {
+        padding: 124px 30px 70px;
+    }
+    @media only screen and (max-width: 1023px) {
+        padding: 124px 24px 70px;
+    }
+    @include respond(xs) {
+        padding: 100px 20px 70px;
+        position: relative;
+        top: 30px;
+    }
+    .xb-item {
+        &--inner {
+            width: 100%;
+            display: inline-flex;
+            align-items: start;
+            @include respond(xs) {
+                gap: 50px;
+                flex-wrap: wrap;
+                text-align: center;
+            }
+        }
+        &--content {
+            max-width: 451px;
+            font-weight: 400;
+            font-size: 36px;
+            line-height: 50px;
+            text-transform: uppercase;
+            color: var(--color-white);
+            transform: translateY(-12px);
+            font-family: var(--font-heading);
+            @media only screen and (max-width: 1600px) {
+                max-width: 580px;
+            }
+            @include respond(laptop) {
+                font-size: 30px;
+                line-height: 46px;
+            }
+            @media only screen and (max-width: 1300px) {
+                font-size: 28px;
+                line-height: 42px;
+            }
+            @include respond(lg) {
+                font-size: 24px;
+                line-height: 38px;
+            }
+            @include respond(md) {
+                font-size: 30px;
+                line-height: 45px;
+            }
+            @include respond(xs) {
+                font-size: 20px;
+                line-height: 30px;
+            }
+            @include respond(sm) {
+                font-size: 24px;
+                line-height: 36px;
+            }
+            span {
+                color: var(--color-primary);
+            }
+        }
+        &--holder {
+            margin-top: 25px;
+            @include respond(lg) {
+                margin-top: 25px;
+            }
+        }
+        &--name {
+            font-weight: 500;
+            font-size: 20px;
+            letter-spacing: 0.02em;
+            color: var(--color-white);
+            @include respond(lg) {
+                font-size: 18px;
+            }
+            @include respond(sm) {
+                font-size: 20px;
+            }
+        }
+        &--desig {
+            font-size: 16px;
+            letter-spacing: 0.01em;
+            color: var(--color-white);
+            @include respond(lg) {
+                line-height: 20px;
+                margin-top: 8px;
+                font-size: 14px;
+            }
+            @include respond(sm) {
+                font-size: 16px;
+            }
+        }
+        &--quote {
+            position: absolute;
+            top: 50px;
+            right: 70px;
+            @include respond(xs) {
+                top: 40px;
+                right: 20px;
+                max-width: 36px;
+            }
+        }
+        &--img {
+            min-height: 53px;
+            display: flex;
+            align-items: center;
+            @include respond(lg) {
+                margin-top: 40px;
+            }
+            img {
+                @include respond(xs) {
+                    margin: 0 auto;
+                    max-width: 140px;
+                }
+            }
+        }
+        &--left {
+            margin-right: 93px;
+            @media only screen and (max-width: 1600px) {
+                margin-right: 70px;
+            }
+            @include respond(laptop) {
+                margin-right: 60px;
+            }
+            @include respond(lg) {
+                margin-right: 30px;
+            }
+            @include respond(md) {
+                margin-right: 50px;
+            }
+            @include respond(xs) {
+                width: 100%;
+                margin-right: 0;
+                text-align: center;
+            }
+        }
+        &--avatar {
+            @include respond(xs) {
+                max-width: 150px;
+                margin: 0 auto;
+            }
+        }
+        &--number {
+            font-size: 18px;
+            font-weight: 500;
+            position: absolute;
+            left: 70px;
+            top: 60px;
+            color: var(--color-white);
+            @media only screen and (min-width: 1500px) and (max-width: 1600px) {
+                left: 50px;
+            }
+            @include respond(laptop) {
+                left: 40px;
+            }
+            @include respond(lg) {
+                left: 30px;
+            }
+        }
+    }
+    &:nth-child(2) {
+        background: #1c1c1c;
+    }
+    &:nth-child(3) {
+        background: #252525;
+    }
+    &:nth-child(4) {
+        background: #2e2e2e;
+    }
+}
+.ie-tes-img {
+    margin-top: 20px;
+    @include respond(lg) {
+        max-width: 385px;
+        margin-top: 100px;
+    }
+    @include respond(md) {
+        display: none;
+    }
+}
+.ie-testimonial-left {
+    position: sticky;
+    top: 50px;
+    @include respond(md) {
+        gap: 30px;
+        display: flex;
+        margin-bottom: 70px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .xb-btn {
+        position: absolute;
+        bottom: 19.5%;
+        left: 70px;
+        @include respond(lg) {
+            left: 30px;
+            bottom: 17.5%;
+        }
+        @include respond(md) {
+            left: 0;
+            bottom: 0;
+            position: relative;
+        }
+        a {
+            @include respond(md) {
+                background: var(--color-white);
+            }
+            .text {
+                @include respond(md) {
+                    color: var(--color-dark);
+                }
+            }
+            &:hover .text {
+                @include respond(md) {
+                    color: var(--color-white);
+                }
+            }
+        }
+    }
+}

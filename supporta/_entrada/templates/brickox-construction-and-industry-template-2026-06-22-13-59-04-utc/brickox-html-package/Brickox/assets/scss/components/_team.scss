@@ -1,0 +1,251 @@
+.xb-team-top {
+    position: relative;
+    @include respond(xs) {
+        height: 350px;
+    }
+    .img {
+        @include respond(xs) {
+            height: 100%;
+        }
+    }
+    .title {
+        font-size: 55px;
+        font-weight: 500;
+        position: absolute;
+        left: 60px;
+        bottom: 60px;
+        z-index: 2;
+        color: var(--color-white);
+        @include respond(md) {
+            left: 30px;
+            font-size: 40px;
+        }
+        @include respond(xs) {
+            left: 20px;
+            font-size: 32px;
+        }
+    }
+    &::before {
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 0;
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, #000 92.19%);
+    }
+}
+.xb-team-author_wrap {
+    background: #EEEFE6;
+}
+.xb-author-comment {
+    padding: 30px;
+    background: #1B1B22;
+    @include respond(xs) {
+        padding: 10px;
+    }
+    .content {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 34px;
+        padding: 82px 20px;
+        color: var(--color-white);
+        border: 1px solid #DDDBDB;
+        @include respond(laptop) {
+            padding: 82px 35px;
+        }
+        @include respond(lg) {
+            padding: 82px 30px;
+        }
+        @media only screen and (max-width: 1023px) {
+            padding: 82px 20px;
+        }
+        @include respond(md) {
+            padding: 50px 20px 82px;
+        }
+        @include respond(xs) {
+            padding: 40px 20px;
+        }
+    }
+}
+.xb-team-author {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 46px 10px 76px;
+    justify-content: space-between;
+    @include respond(laptop) {
+        gap: 120px;
+        padding: 10px 30px 10px 60px;
+    }
+    @include respond(lg) {
+        gap: 124px;
+        padding: 10px 15px 10px 40px;
+    }
+    @include respond(md) {
+        padding: 10px 30px;
+    }
+    @include respond(xs) {
+        gap: 20px;
+        padding: 30px;
+        justify-content: start;
+    }
+    .xb-item {
+        &--name {
+            font-size: 25px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        &--desig {
+            font-weight: 500;
+        }
+        &--quote {
+            @include respond(lg) {
+                max-width: 100px;
+            }
+            @include respond(xs) {
+                max-width: 55px;
+            }
+        }
+        &--avatar {
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            @include respond(laptop) {
+                left: 18%;
+            }
+            @include respond(lg) {
+                left: 8%;
+            }
+            @include respond(md) {
+                left: 26%;
+                max-width: 290px;
+            }
+            @include respond(xs) {
+                display: none;
+            }
+        }
+    }
+    &.author-two {
+        @include respond(lg) {
+            gap: 95px;
+        }
+        @include respond(xs) {
+            gap: 10px;
+        }
+        .xb-item--avatar {
+            left: 16%;
+            @media only screen and (max-width: 1600px) {
+                left: 14%;
+            }
+            @include respond(laptop) {
+                left: 14%;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                left: 7%;
+            }
+            @include respond(lg) {
+                left: 0;
+            }
+            @include respond(md) {
+                left: 24%;
+                max-width: 270px;
+            }
+        }
+    }
+}
+.xb-team-item {
+    background: #EEEFE6;
+    .xb-item {
+        &--name {
+            font-size: 25px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                font-size: 20px;
+            }
+        }
+        &--desig {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        &--holder {
+            padding: 18px;
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                flex-wrap: nowrap;
+            }
+            @media only screen and (max-width: 1023px) {
+                flex-wrap: nowrap;
+            }
+        }
+        &--link {
+            width: 62px;
+            height: 66px;
+            @include center;
+            font-size: 20px;
+            @include transition(.3s);
+            color: var(--color-heading);
+            background: var(--color-white);
+            svg path {
+                @include transition(.3s);
+            }
+        }
+        &--img {
+            overflow: hidden;
+            img {
+                @include transition(.5s);
+            }
+        }
+    }
+    &:hover {
+        .xb-item {
+            &--img img {
+                transform: scale(1.1) rotate(3deg);
+            }
+            &--link {
+                background: #1B1B22;
+                svg path {
+                    fill: var(--color-white);
+                }
+            }
+        }
+        .xb-team-social_media {
+            transform: scaleY(1);
+            li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}
+.xb-team-social_media {
+    gap: 30px;
+    padding: 20px 16px;
+    display: inline-flex;
+    flex-direction: column;
+    max-width: 66px;
+    background: var(--color-primary);
+    position: absolute;
+    bottom: 65px;
+    left: 0;
+    z-index: -1;
+    transform: scaleY(0);
+    @include transition(.5s);
+    transform-origin: bottom left;
+    li {
+        opacity: 0;
+        @include transition(.5s);
+        transform: translateY(20px);
+        &:nth-child(1) {
+            transition-delay: .3s;
+        }
+        &:nth-child(2) {
+            transition-delay: .2s;
+        }
+        &:nth-child(3) {
+            transition-delay: .1s;
+        }
+    }
+}

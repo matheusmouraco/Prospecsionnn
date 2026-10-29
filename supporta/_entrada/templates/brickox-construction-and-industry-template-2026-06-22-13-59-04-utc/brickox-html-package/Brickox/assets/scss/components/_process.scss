@@ -1,0 +1,235 @@
+.xb-process-item {
+    flex: 1;
+    z-index: 1;
+    overflow: hidden;
+    height: 672px;
+    position: relative;
+    display: inline-block;
+    padding: 37px 50px 50px;
+    transition: all 0.6s ease;
+    @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+        padding: 37px 30px 50px;
+    }
+    @include respond(lg) {
+        padding: 37px 30px 50px;
+    }
+    @include respond(md) {
+        height: 600px;
+    }
+    @include respond(xs) {
+        height: 480px;
+        flex: unset;
+        width: 100%;
+    }
+    @include respond(sm) {
+        height: 460px;
+    }
+    .xb-item {
+        &--title {
+            opacity: 0;
+            font-weight: 600;
+            font-size: 38px;
+            letter-spacing: -0.03em;
+            color: var(--color-white);
+            transform: translateY(40px);
+            transition: 0.4s cubic-bezier(0.5, 0.5, 0, 1);
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                font-size: 36px;
+            }
+            @include respond(lg) {
+                font-size: 36px;
+            }
+            @include respond(md) {
+                font-size: 30px;
+            }
+            @include respond(xs) {
+                opacity: 1;
+                font-size: 28px;
+                transform: translateY(0);
+            }
+        }
+        &--content {
+            opacity: 0;
+            max-width: 492px;
+            margin-top: 20px;
+            color: var(--color-white);
+            transform: translateY(40px);
+            transition: 0.4s cubic-bezier(0.5, 0.5, 0, 1);
+            @include respond(xs) {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            @include respond(sm) {
+                max-width: 400px;
+            }
+        }
+        &--number {
+            line-height: 1;
+            font-size: 125px;
+            color: var(--color-white);
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                font-size: 110px;
+            }
+            @include respond(lg) {
+                font-size: 75px;
+            }
+            @include respond(md) {
+                font-size: 60px;
+            }
+            @include respond(xs) {
+                opacity: 1;
+                font-size: 48px;
+                transform: translateY(0);
+            }
+            @include respond(sm) {
+                font-size: 60px;
+            }
+        }
+        &--inner {
+            width: 40rem;
+            margin-top: 228px;
+            @include transition(.3s);
+            @include respond(lg) {
+                width: 22rem;
+            }
+            @include respond(md) {
+                width: 17rem;
+                margin-top: 154px;
+            }
+            @include respond(xs) {
+                opacity: 1;
+                margin-top: 25px;
+                transform: translateY(0);
+            }
+            @include respond(sm) {
+                width: 26rem;
+                margin-top: 80px;
+            }
+        }
+        &--btn {
+            opacity: 0;
+            display: inline-block;
+            transform: translateY(40px);
+            transition: 0.4s cubic-bezier(0.5, 0.5, 0, 1);
+            @include respond(xs) {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            a {
+                .xb-icon {
+                    background: var(--color-white);
+                }
+                .xb-text {
+                    &::before {
+                        background: var(--color-white);
+                    }
+                }
+                &:hover {
+                    color: var(--color-white);
+                }
+            }
+        }
+    }
+    &.active {
+        flex: 3.7;
+        @include respond(xs) {
+            width: 100%;
+            flex: unset;
+        }
+        .xb-item {
+            &--title,
+            &--content,
+            &--btn {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            &--content {
+                transition-delay: .1s;
+            }
+            &--btn {
+                transition-delay: .2s;
+            }
+        }
+    }
+    &:nth-child(2) {
+        background: #EEEFE6;
+        color: var(--color-black);
+        .xb-item--number,
+        .xb-item--title,
+        .xb-item--content,
+        .xb-item--btn a,
+        .number {
+            color: var(--color-black);
+        }
+        .xb-item--btn a {
+            .xb-text {
+                &::before {
+                    background: var(--color-black);
+                }
+            }
+            .xb-icon {
+                background: var(--color-black);
+            }
+        }
+    }
+    &:nth-child(3) {
+        background: var(--color-primary);
+    }
+    &:nth-child(4) {
+        background: var(--color-black);
+    }
+}
+.xb-process-wrap {
+    display: flex;
+    @include respond(xs) {
+        display: block;
+    }
+}
+.fc-process-item {
+    gap: 130px;
+    display: flex;
+    min-height: 413px;
+    align-items: center;
+    padding: 75px;
+    position: sticky;
+    top: 100px;
+    @include respond(md) {
+        top: 0;
+        
+        gap: 70px;
+        padding: 20px;
+        position: relative;
+    }
+    @include respond(xs) {
+        gap: 40px;
+        flex-wrap: wrap;
+        padding: 50px 20px;
+    }
+    .xb-item {
+        &--number {
+            font-weight: 300;
+            font-size: 208px;
+            line-height: 0.8;
+            margin-top: -20px;
+            letter-spacing: -0.04em;
+            color: var(--color-white);
+            @include respond(md) {
+                font-size: 170px;
+            }
+            @include respond(xs) {
+                margin-top: 0;
+                font-size: 115px;
+            }
+        }
+        &--holder {
+            max-width: 800px;
+        }
+        &--title {
+            max-width: 615px;
+            margin-bottom: 15px;
+        }
+        &--content {
+            color: var(--color-heading);
+        }
+    }
+}

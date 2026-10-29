@@ -1,0 +1,33 @@
+.cta-section {
+    z-index: 1;
+    padding: 230px 0 215px;
+    @include respond(xs) {
+        padding: 120px 0;
+    }
+    &::before {
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 0;
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+        backdrop-filter: blur(4px);
+        background: rgba(24, 24, 24, 0.7);
+    }
+}
+.xb-cta-wrap {
+    .xb-img img {
+        @include respond(xs) {
+            max-width: 220px;
+        }
+    }
+    .sec-title {
+        .title {
+            @include respond(xs) {
+                font-size: 36px;
+                line-height: 1.2;
+            }
+        }
+    }
+}

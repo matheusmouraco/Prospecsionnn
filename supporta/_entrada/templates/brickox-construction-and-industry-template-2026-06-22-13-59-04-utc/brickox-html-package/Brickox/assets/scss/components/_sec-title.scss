@@ -1,0 +1,168 @@
+/*----------------------------------------*/
+/*  28. sec-title
+/*----------------------------------------*/
+.sec-title {
+    .title {
+        font-size: 125px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: var(--color-heading);
+        font-family: var(--font-heading);
+        @include respond(laptop) {
+            font-size: 95px;
+        }
+        @include respond(lg) {
+            font-size: 68px;
+        }
+        @include respond(md) {
+            font-size: 54px;
+        }
+        @include respond(xs) {
+            font-size: 38px;
+        }
+        @include respond(sm) {
+            font-size: 46px;
+        }
+    }
+    .sub-title {
+        font-size: 16px;
+        font-weight: 400;
+        padding-left: 20px;
+        position: relative;
+        display: inline-block;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--color-heading);
+        &::before,
+        &::after {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 50%;
+            height: 12px;
+            width: 12px;
+            @include border-radius(100px);
+            transform: translateY(-50%);
+            background: var(--color-primary);
+        }
+        &::after {
+            display: none;
+            left: auto;
+            right: -20px;
+        }
+    }
+    .xb-holder {
+        flex-grow: 1;
+        flex-basis: 0;
+        transform: translateY(-5px);
+        @include respond(md) {
+            flex-grow: unset;
+            flex-basis: unset;
+            transform: translateY(0);
+        }
+    }
+    &--page {
+        .title {
+            font-size: 80px;
+            line-height: 1.15;
+            @include respond(laptop) {
+                font-size: 64px;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                font-size: 58px;
+            }
+            @include respond(lg) {
+                font-size: 58px;
+            }
+            @include respond(md) {
+                font-size: 52px;
+            }
+            @include respond(xs) {
+                font-size: 38px;
+            }
+        }
+    }
+    &--four {
+        .title {
+            font-size: 164px;
+            letter-spacing: -0.04em;
+            @media only screen and (min-width: 1500px) and (max-width: 1600px) {
+                font-size: 148px;
+            }
+            @include respond(laptop) {
+                font-size: 130px;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                font-size: 110px;
+            }
+            @include respond(lg) {
+                font-size: 78px;
+            }
+            @include respond(md) {
+                font-size: 66px;
+            }
+            @include respond(xs) {
+                font-size: 46px;
+                line-height: 1.1;
+            }
+        }
+    }
+}
+.sec-title-two {
+    .sub-title {
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: var(--color-white);
+    }
+    .title {
+        font-weight: 400;
+        font-size: 120px;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        text-transform: capitalize;
+        color: var(--color-heading);
+        @include respond(lg) {
+            font-size: 110px;
+        }
+        @include respond(md) {
+            font-size: 90px;
+        }
+        @include respond(xs) {
+            font-size: 60px;
+        }
+    }
+}
+.sec-title-three {
+    .title {
+        font-size: 176px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        color: var(--color-dark);
+        @include respond(laptop) {
+            font-size: 148px;
+        }
+        @media only screen and (max-width: 1300px) {
+            font-size: 120px;
+        }
+        @include respond(lg) {
+            font-size: 90px;
+        }
+        @include respond(md) {
+            font-size: 68px;
+        }
+        @include respond(xs) {
+            font-size: 50px;
+        }
+        @include respond(sm) {
+            font-size: 60px;
+        }
+    }
+}

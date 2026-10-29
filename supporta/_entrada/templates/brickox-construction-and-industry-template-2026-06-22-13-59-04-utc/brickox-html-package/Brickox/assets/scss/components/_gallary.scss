@@ -1,0 +1,102 @@
+.xb-gallary-info {
+    @include respond(xs) {
+        margin-bottom: 45px;
+    }
+    h2 {
+        font-weight: 400;
+        font-size: 60px;
+        letter-spacing: -0.04em;
+        @include respond(xs) {
+            font-size: 32px;
+        }
+        @include respond(sm) {
+            font-size: 36px;
+        }
+    }
+}
+.xb-gallary-img {
+    padding: 3px;
+    overflow: hidden;
+    display: inline-flex;
+    background: var(--color-white);
+    @include border-radius(5px);
+    a {
+        display: block;
+        overflow: hidden;
+        position: relative;
+        @include border-radius(5px);
+        &::before {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            z-index: 1;
+            border-radius: inherit;
+            transform: scale(0.6);
+            border-radius: inherit;
+            transition: all .3s ease-out;
+            background: rgba(12, 28, 36, 0.5);
+        }
+        img {
+            object-fit: cover;
+            transform: scale(1);
+            overflow: hidden;
+            @include transition(.4s);
+            @include border-radius(5px);
+        }
+        &:hover {
+            &::before {
+                opacity: 1;
+                transform: scale(1);
+            }
+            img {
+                transform: scale(1.1);
+            }
+            .xb-social-icon {
+                opacity: 1;
+                transition-delay: .1s;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    }
+    .xb-social-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        opacity: 0;
+        width: 50px;
+        height: 50px;
+        z-index: 2;
+        @include center;
+        @include border-radius(100%);
+        transition: all .3s ease-out;
+        background: var(--color-primary);
+        transform: translate(-50%, -50%) scale(0.8);
+        @include respond(md) {
+            width: 40px;
+            height: 40px;
+        }
+        img {
+            @include respond(md) {
+                max-width: 20px;
+            }
+        }
+    }
+}
+.gallary-item-slide {
+    &:nth-child(odd) .xb-gallary-img {
+        transform: rotate(12deg);
+    }
+    &:nth-child(even) .xb-gallary-img {
+        transform: rotate(-12deg);
+    }
+}
+.gallary {
+    @include respond(xs) {
+        padding-bottom: 155px;
+        
+    }
+}
