@@ -39,8 +39,6 @@ export const vitrine: VitrineItem[] = [
   { slug: "eventos", name: "Eventos", category: "Comida e eventos" },
   { slug: "agencia-design", name: "Agência de design", category: "Agências e estúdios" },
   { slug: "agencia-ia", name: "Agência de IA", category: "Agências e estúdios" },
-  { slug: "agencia-portfolio", name: "Agência e portfólio", category: "Agências e estúdios" },
-  { slug: "estudio-criativo", name: "Agência criativa", category: "Agências e estúdios" },
   { slug: "agencia-criativa", name: "Estúdio criativo", category: "Agências e estúdios" },
   { slug: "marketing", name: "Marketing digital", category: "Agências e estúdios" },
   { slug: "estudio-design", name: "Estúdio de design", category: "Agências e estúdios" },
@@ -52,7 +50,6 @@ export const vitrine: VitrineItem[] = [
   { slug: "locadora", name: "Locadora de veículos", category: "Negócios e tecnologia" },
   { slug: "saas", name: "Software e SaaS", category: "Negócios e tecnologia" },
   { slug: "coworking", name: "Coworking", category: "Negócios e tecnologia" },
-  { slug: "comunidade", name: "Comunidade e associação", category: "Negócios e tecnologia" },
 ];
 
 export const vitrineUrl = (slug: string) => {
