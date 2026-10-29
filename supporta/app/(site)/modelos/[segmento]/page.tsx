@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { FinalCta } from "@/components/home/FinalCta";
 import { PlanCards } from "@/components/home/Plans";
 import { BrowserFrame, PhoneFrame } from "@/components/mockups/Frames";
-import { SiteMock } from "@/components/mockups/SiteMock";
+import { segmentModel, vitrineMobileThumb, vitrineThumb, vitrineUrl } from "@/lib/vitrine";
 import { Button } from "@/components/ui/Button";
 import { Faq } from "@/components/ui/Faq";
 import { JsonLd } from "@/components/ui/JsonLd";
@@ -49,8 +49,8 @@ export default async function SegmentPage({ params }: Props) {
           <Button href={`/assinar/start?modelo=${seg.slug}`} size="lg" variant="neon" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
             Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
           </Button>
-          <Button href={`/demo/${seg.slug}`} size="lg" variant="outline">
-            Ver demo navegável
+          <Button href={vitrineUrl(segmentModel[seg.slug])} size="lg" variant="outline" target="_blank" data-track="demo_open" data-track-origin={segmentModel[seg.slug]}>
+            Abrir o modelo
           </Button>
         </div>
       </PageHero>
@@ -58,11 +58,13 @@ export default async function SegmentPage({ params }: Props) {
       <section aria-label="Prévia do modelo" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
           <div className="relative pb-12 pr-[16%]">
-            <BrowserFrame url={`${seg.slug}.supporta.com.br`} scroll distance="58%">
-              <SiteMock mock={seg.mock} variant="desktop" />
+            <BrowserFrame url={`${seg.slug}.com.br`} ratio="880 / 605" className="shadow-[0_30px_60px_-24px_rgb(11_11_15/0.35)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={vitrineThumb(segmentModel[seg.slug])} alt={`Modelo de site para ${seg.tab.toLowerCase()} no computador`} width={880} height={605} decoding="async" className="h-full w-full object-cover object-top" />
             </BrowserFrame>
-            <PhoneFrame scroll distance="62%" delay="-4s" className="absolute bottom-0 right-0 w-[28%] max-w-[260px]">
-              <SiteMock mock={seg.mock} variant="mobile" />
+            <PhoneFrame className="absolute bottom-0 right-0 w-[28%] max-w-[260px] shadow-[0_30px_60px_-24px_rgb(11_11_15/0.5)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={vitrineMobileThumb(segmentModel[seg.slug])} alt={`Modelo de site para ${seg.tab.toLowerCase()} no celular`} width={360} height={760} decoding="async" className="h-full w-full object-cover object-top" />
             </PhoneFrame>
           </div>
         </div>

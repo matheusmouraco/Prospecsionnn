@@ -38,3 +38,25 @@ export const vitrine: VitrineItem[] = [
 export const vitrineUrl = (slug: string) => `/vitrine/${slug}/index.html`;
 export const vitrineThumb = (slug: string) => `/vitrine/${slug}.webp`;
 export const vitrineCategories = [...new Set(vitrine.map((v) => v.category))];
+
+/** Modelo da vitrine mostrado em cada página de segmento (lib/segments.ts). */
+export const segmentModel: Record<string, string> = {
+  arquitetura: "arquitetura",
+  restaurante: "restaurante",
+  odontologia: "terapia",
+  advocacia: "financas",
+  saude: "terapia",
+  servicos: "assistencia-tecnica",
+};
+
+export const vitrineMobileThumb = (slug: string) => `/vitrine/${slug}-mobile.webp`;
+
+/** Uma frase por categoria, para a vitrine por segmento da home. */
+export const categoryIntro: Record<string, string> = {
+  "Serviços profissionais": "Para contadores, consultores e escritórios: serviços explicados com clareza, preços à vista e um caminho direto para o contato.",
+  "Saúde e bem-estar": "Para clínicas, terapeutas, academias e veterinárias: acolhimento, especialidades e agendamento em poucos toques.",
+  "Casa e construção": "Para arquitetos, construtoras e assistências: obras em destaque, etapas do serviço e pedido de orçamento rápido.",
+  "Comida e eventos": "Para restaurantes, cervejarias, floriculturas e eventos: cardápio, horários, reservas e fotos que dão vontade.",
+  "Agências e estúdios": "Para agências, estúdios e portfólios: o trabalho em primeiro plano, com personalidade forte.",
+  "Negócios e tecnologia": "Para coworkings, comunidades, softwares e produtos: proposta clara, planos lado a lado e chamada para testar.",
+};

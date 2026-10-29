@@ -17,7 +17,6 @@ import { JsonLd } from "@/components/ui/JsonLd";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { homeFaq } from "@/lib/faqs";
 import { faqSchema, serviceSchema } from "@/lib/schema";
-import { segments } from "@/lib/segments";
 import { whatsappUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -45,7 +44,7 @@ export default function Home() {
           align="center"
         />
         <div className="mt-12">
-          <TemplatesTabs segments={segments} />
+          <TemplatesTabs />
         </div>
       </Section>
 
