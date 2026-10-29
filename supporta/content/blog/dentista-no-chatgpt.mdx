@@ -1,30 +1,77 @@
-O dentista aparece no ChatGPT quando existe na internet uma fonte clara sobre o consultório que a IA consegue ler: um site que diz em texto quais tratamentos você faz, em que cidade atende e como marcar consulta, com as mesmas informações do perfil no Google. Ninguém garante que a IA vai citar o seu nome, mas dá para ser a fonte mais fácil de usar.
+O dentista aparece no ChatGPT quando existe na internet uma fonte clara sobre o consultório que a IA consegue ler: um site que diz em texto quais tratamentos você faz, em que cidade e bairro atende e como marcar consulta, com as mesmas informações do perfil no Google. Ninguém garante que a IA vai citar o seu nome, mas dá para ser a fonte mais fácil e confiável de usar quando um paciente pergunta por um dentista na sua região.
+
+## Resumo rápido
+
+- O paciente pergunta para a IA como pergunta para um amigo: tratamento, cidade, bairro, horário e convênio na mesma frase.
+- A IA só indica quem ela entende. Um site com **uma página por tratamento**, endereço escrito e perguntas frequentes é muito mais fácil de citar.
+- **Dados estruturados**, robôs das IAs liberados e um arquivo `llms.txt` ajudam as máquinas a ler o consultório sem erro.
+- O CFO permite conteúdo informativo e proíbe prometer resultado. Esse tipo de texto honesto é justamente o que as IAs preferem.
+- Nome, endereço e telefone precisam ser iguais no site, no perfil do Google e nas redes.
 
 ## Que tipo de pergunta o paciente faz para a IA?
 
-O paciente pergunta do jeito que falaria com um amigo. Alguns exemplos reais desse tipo de busca:
+O paciente faz perguntas completas, do jeito que falaria com um amigo, e espera uma indicação pronta. Ele não digita mais só "dentista Curitiba". Ele descreve o que precisa e onde.
+
+Alguns exemplos ilustrativos desse tipo de busca:
 
 - "Qual dentista você indica para implante em Curitiba?"
 - "Tem clínica de ortodontia com aparelho invisível no Tatuapé?"
 - "Dentista que atende criança em Campinas no sábado?"
+- "Dentista que aceita convênio e atende à noite em Santo André?"
 
-Para responder, a IA procura páginas que falem exatamente disso. Se o seu site só tem uma foto bonita e a frase "sorrisos que transformam", ele não responde nenhuma dessas perguntas. Para entender esse processo em detalhe, leia [como a IA escolhe quem indicar](/blog/como-a-ia-escolhe-quem-indicar).
+Para responder, a IA procura páginas que falem exatamente disso. Se o seu site só tem uma foto bonita e a frase "sorrisos que transformam", ele não responde nenhuma dessas perguntas, e a IA vai buscar a resposta em outro lugar.
 
-## O que o site do consultório precisa ter?
+Repare que cada pergunta mistura três coisas: **o tratamento**, **o lugar** e **uma condição prática** (sábado, à noite, convênio, criança). Quanto mais dessas informações o seu site tiver escritas com clareza, mais perguntas ele consegue responder. Para entender esse processo em detalhe, leia [como a IA escolhe quem indicar](/blog/como-a-ia-escolhe-quem-indicar).
 
-O site precisa ter o básico escrito em texto, não só em imagem. Na prática:
+## O que o site do consultório precisa ter para aparecer na IA?
 
-- **Uma página para cada tratamento principal.** Implante, ortodontia, clareamento, odontopediatria. Cada página explica o que é, para quem serve e como funciona a primeira consulta.
-- **Cidade e bairro escritos.** "Consultório no Batel, em Curitiba" diz muito mais do que um mapa sozinho.
+O site precisa ter o básico escrito em texto, não só em imagem, e organizado de um jeito que responda as dúvidas do paciente. Um banner com o texto dentro da imagem é quase invisível para a IA.
+
+### Uma página para cada tratamento principal
+
+Implante, ortodontia, clareamento, odontopediatria. Cada página explica o que é, para quem serve e como funciona a primeira consulta. Exemplos de títulos de página que funcionam bem:
+
+- "Implante dentário em Curitiba: como funciona o tratamento"
+- "Aparelho invisível no Tatuapé: para quem é indicado"
+- "Dentista para crianças em Campinas: primeira consulta"
+
+### Informações práticas escritas
+
+- **Cidade e bairro.** "Consultório no Batel, em Curitiba" diz muito mais do que um mapa sozinho.
 - **Horários e convênios.** São dúvidas comuns, e a IA usa essas informações quando alguém pergunta "dentista que atende Amil aberto à noite".
 - **Quem atende.** Nome dos dentistas, número do CRO e especialidades registradas.
-- **Perguntas frequentes.** "Implante dói?", "Quanto tempo dura o tratamento com alinhador?". Respostas curtas, diretas e honestas.
+- **Como marcar.** Botão de WhatsApp visível, telefone em texto e endereço completo.
 
-### E os dados estruturados?
+### Perguntas frequentes
 
-Os dados estruturados (schema.org) são um código invisível para o paciente que diz às máquinas, com precisão, que aquele site é de um consultório odontológico, onde ele fica, quando abre e quais serviços oferece. O Google usa esses dados e as IAs que buscam na internet também conseguem lê-los. É um detalhe técnico que quase nenhum site de dentista tem.
+"Implante dói?", "Quanto tempo dura o tratamento com alinhador?", "Criança pode fazer clareamento?". Respostas curtas, diretas e honestas, que o paciente entende e a IA consegue repetir.
 
-## O que o CFO permite publicar?
+Veja um checklist simples para conferir o seu site hoje:
+
+| Item | Por que importa | Tem no seu site? |
+| --- | --- | --- |
+| Página por tratamento | Responde perguntas específicas como "implante em Curitiba" | Sim ou não |
+| Cidade e bairro em texto | A IA precisa saber onde você atende | Sim ou não |
+| Horários e convênios | Respondem filtros como "sábado" e "aceita convênio" | Sim ou não |
+| Nome e CRO dos dentistas | Mostram quem é o responsável e passam confiança | Sim ou não |
+| Perguntas frequentes | Viram respostas prontas para a IA citar | Sim ou não |
+| Botão de WhatsApp | Transforma a visita em consulta marcada | Sim ou não |
+| Rápido no celular | Site lento faz o paciente desistir antes de chamar | Sim ou não |
+
+## O que são dados estruturados e por que o dentista precisa deles?
+
+Os dados estruturados (o padrão chamado **schema.org**) são um código invisível para o paciente que diz às máquinas, com precisão, que aquele site é de um consultório odontológico, onde ele fica, quando abre e quais serviços oferece. É como entregar uma ficha preenchida em vez de deixar a máquina adivinhar.
+
+O Google usa esses dados, e as IAs que buscam na internet também conseguem lê-los. É um detalhe técnico que quase nenhum site de dentista tem.
+
+Junto com os dados estruturados, vale cuidar de mais duas coisas:
+
+- **Robôs das IAs liberados.** O arquivo `robots.txt` diz quais robôs podem ler o seu site. Muitos sites bloqueiam os robôs das IAs sem o dono saber.
+- **Um arquivo `llms.txt`.** É um resumo do consultório em texto simples, feito para as IAs lerem rápido: quem você é, o que faz, onde atende e como marcar.
+
+Se esses termos são novos para você, o [glossário](/glossario) explica cada um em poucas linhas, e a página sobre [GEO](/geo) mostra como tudo se encaixa.
+
+## O que o CFO permite publicar no site do dentista?
 
 O CFO permite conteúdo informativo e proíbe propaganda que prometa resultado. As regras de publicidade estão no Código de Ética Odontológica, e a **Resolução CFO 196/2019** trata da divulgação de imagens, como selfies e fotos de resultado de tratamento, com condições e autorização do paciente.
 
@@ -35,20 +82,52 @@ Para o site, isso significa:
 - informar nome, CRO e responsável técnico;
 - tratar imagens de pacientes só dentro das regras do conselho e com autorização por escrito.
 
+Veja a diferença na prática. Em vez de "Seu sorriso perfeito em poucas sessões", prefira algo como "O clareamento de consultório é feito em sessões com gel clareador e acompanhamento do dentista. O número de sessões depende de cada caso e é definido na avaliação."
+
 A boa notícia é que esse tipo de conteúdo, informativo e honesto, é justamente o que as IAs preferem citar. Em caso de dúvida sobre um texto ou uma foto, consulte o CRO do seu estado antes de publicar.
 
-## O Google Meu Negócio ajuda a aparecer na IA?
+## O perfil do Google ajuda o dentista a aparecer na IA?
 
-Ajuda, porque é uma das fontes que a IA consulta para negócios locais. Mantenha o perfil completo, com categoria correta, horários, fotos do consultório e link para o site. O mais importante é a consistência: nome, endereço e telefone iguais no perfil, no site e nas redes. Quando cada lugar mostra um telefone diferente, a máquina fica em dúvida.
+Ajuda, porque o perfil da empresa no Google (o antigo Google Meu Negócio) é uma das fontes que a IA consulta para negócios locais. Mantenha o perfil completo, com categoria correta, horários, fotos do consultório e link para o site.
+
+O mais importante é a **consistência**: nome, endereço e telefone iguais no perfil, no site e nas redes. Quando cada lugar mostra um telefone diferente, a máquina fica em dúvida sobre qual informação é a certa.
 
 Avaliações também contam. Peça aos pacientes satisfeitos que avaliem e responda todas com educação, sem expor dados de saúde de ninguém na resposta.
 
 ## O que não adianta fazer?
 
-Não adianta repetir "dentista em Curitiba" vinte vezes na página nem criar páginas vazias para cada bairro da cidade. Isso piora a qualidade do site. Também desconfie de quem promete colocar você "no topo do ChatGPT". Ninguém controla a resposta das IAs. O que dá para fazer é ter a melhor fonte possível e medir com frequência.
+Não adianta repetir "dentista em Curitiba" vinte vezes na página nem criar páginas vazias para cada bairro da cidade. Isso piora a qualidade do site e não convence nem o Google nem as IAs.
 
-A diferença entre aparecer no Google e aparecer na IA está explicada em [SEO, AEO e GEO: a diferença](/blog/seo-aeo-geo-diferenca).
+Texto copiado de outro consultório também não ajuda, e um site bonito que demora para abrir no celular perde o paciente antes do WhatsApp. Desconfie ainda de quem promete colocar você "no topo do ChatGPT": ninguém controla a resposta das IAs. O que dá para fazer é ter a melhor fonte possível e medir com frequência.
+
+A diferença entre aparecer no Google e aparecer na IA está explicada em [SEO, AEO e GEO: a diferença](/blog/seo-aeo-geo-diferenca). E se o seu consultório faz parte de uma clínica com outras especialidades, vale ler também [clínica de saúde nas IAs](/blog/clinica-de-saude-nas-ias).
+
+## Como a Supporta resolve isso para o consultório odontológico?
+
+A Supporta entrega o site do consultório pronto e mantém ele em dia, por uma assinatura mensal e sem custo de criação. Você não escreve nada: faz um briefing de cerca de 10 minutos e a Supporta escreve os textos, em tom informativo e pensando nas regras do CFO.
+
+O [modelo de site para dentista](/modelos/odontologia) já sai com páginas por tratamento, perguntas frequentes, botão de WhatsApp, mapa e dados estruturados de consultório odontológico. Os sites são feitos para tirar 90 ou mais no PageSpeed do Google no celular.
+
+| Plano | O que inclui |
+| --- | --- |
+| Start, R$89/mês | Site de uma página a partir do modelo, com a sua marca, domínio .com.br no 1º ano, hospedagem, SSL, manutenção, WhatsApp, Google Maps, GEO básico (dados estruturados, `llms.txt`, robôs liberados) e 1 ajuste por mês |
+| Pro, R$189/mês | Até 5 páginas personalizadas (uma por tratamento, por exemplo), blog com 2 artigos por mês feitos para aparecer nas IAs, perfil do Google otimizado, 3 ajustes por mês e relatório mensal de visitas |
+| Premium, R$389/mês | Site sob medida, GEO avançado com monitoramento mensal de citações no ChatGPT, Gemini e Perplexity, 4 artigos por mês, ajustes ilimitados em até 48h e suporte prioritário no WhatsApp |
+
+O contrato mínimo é de 12 meses, com 10% de desconto a partir do 13º mês. No pagamento anual, você paga 10 meses e leva 12. Compare tudo em [planos](/planos) ou veja [quanto custa um site](/quanto-custa-um-site) em outros formatos.
+
+A Supporta não promete que a IA vai citar o seu consultório nem uma posição no Google. O trabalho é deixar o seu site como a fonte mais clara sobre você e medir o resultado.
 
 ## Por onde começar?
 
-Comece pelo [diagnóstico grátis](/diagnostico): em menos de um minuto ele mostra se o seu site tem dados estruturados, se libera os robôs das IAs e como está a velocidade no celular. Depois veja o [modelo de site para dentista](/modelos/odontologia) da Supporta, que já sai com páginas por tratamento, perguntas frequentes e dados estruturados, a partir de R$89 por mês e sem custo de criação.
+Comece pelo [diagnóstico grátis](/diagnostico): em menos de um minuto ele mostra a nota do seu site no celular pelo Google, se ele tem dados estruturados e se libera os robôs das IAs.
+
+Depois, abra o [modelo de site para dentista](/modelos/odontologia) e veja como o seu consultório ficaria. Quando quiser comparar as opções, os [planos](/planos) mostram tudo lado a lado.
+
+export const faq = [
+  { q: "Quanto tempo leva para o consultório aparecer no ChatGPT?", a: "Não existe prazo garantido, porque ninguém controla a resposta das IAs. O que ajuda é ter o site claro, rápido e com robôs liberados, e medir com frequência." },
+  { q: "Preciso ter blog para o meu consultório aparecer nas IAs?", a: "Não é obrigatório, mas ajuda. Artigos que respondem dúvidas reais dos pacientes, como cuidados depois do implante, dão à IA mais conteúdo seu para citar." },
+  { q: "Posso colocar fotos de antes e depois no site?", a: "Só dentro das regras do CFO, que tratam da divulgação de imagens na Resolução CFO 196/2019, e com autorização por escrito do paciente. Na dúvida, consulte o CRO do seu estado." },
+  { q: "O Instagram do consultório não basta?", a: "O Instagram ajuda, mas a IA lê melhor um site com texto organizado, endereço, horários e dados estruturados. O ideal é ter os dois com as mesmas informações." },
+  { q: "Eu preciso escrever os textos do site?", a: "Na Supporta, não. Você faz um briefing de cerca de 10 minutos e a equipe escreve os textos em tom informativo, pensando nas regras do CFO." },
+]
