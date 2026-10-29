@@ -1,0 +1,55 @@
+/* --------------- blog style6 --------------- */
+.tc-blog-style6 {
+    position: relative;
+    background-color: #E9E8E0;
+    padding: 120px 0;
+
+    * {
+        border-color: #C6C4B7 !important;
+    }
+
+    .post-card {
+        position: relative;
+        .img {
+            display: block;
+            height: 270px;
+        }
+        .info {
+            padding-top: 40px;
+            .tags {
+                a {
+                    font-size: 12px;
+                    line-height: 18px;
+                    text-transform: uppercase;
+                    color: #000;
+                    position: relative;
+                    padding-inline-end: 35px;
+                    &::after {
+                        position: absolute;
+                        content: "";
+                        right: 15px;
+                        top: 6px;
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 50%;
+                        background-color: #000;
+                    }
+
+                    &:last-of-type {
+                        padding-inline-end: 0;
+                        &::after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-blog-style6 {
+        overflow: hidden;
+    }
+}

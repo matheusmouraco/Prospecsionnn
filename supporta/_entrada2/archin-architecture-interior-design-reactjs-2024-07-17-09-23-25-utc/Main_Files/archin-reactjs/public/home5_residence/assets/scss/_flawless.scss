@@ -1,0 +1,263 @@
+/* --------------- flawless style5 --------------- */
+.tc-flawless-style5 {
+    position: relative;
+    padding: 200px 0;
+
+    .flawless {
+
+        .flex-accordion {
+            width: 100%;
+            // max-width:1080px;
+            height: 650px;
+            overflow: hidden;
+            // margin:50px auto;
+
+
+            .acc-list {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                margin: 0;
+                padding: 0;
+
+                .acc-li {
+                    display: flex;
+                    flex-wrap: wrap;
+                    position: relative;
+                    height: 100%;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    transition: all .5s ease;
+                    filter: grayscale(1);
+                    &::after {
+                        position: absolute;
+                        content: "";
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-image: linear-gradient(to right, #000000a8, transparent);
+                        pointer-events: none;
+                    }
+
+                    .bg {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        // transform: scale(1.5);
+                        filter: brightness(0.4);
+                        transition: all .5s ease;
+                    }
+
+                    // div {
+                    .panel-inner {
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        overflow: hidden;
+                        display: inline-block;
+                        height: 100%;
+                        width: 100%;
+                        position: relative;
+                        z-index: 3;
+
+                        .acc-title {
+                            width: 110px;
+                            height: 100%;
+                            position: relative;
+                            // cursor: pointer;
+                            padding: 40px 15px;
+                            text-align: center;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+
+                            .numb {
+                                font-size: 72px;
+                                line-height: 1;
+                                font-family: 'Instrument Serif', serif;
+                            }
+
+                            .txt {
+                                font-size: 14px;
+                                line-height: 24px;
+                                letter-spacing: 0.02em;
+                                text-transform: uppercase;
+                                transform: rotate(-90deg) translateY(40px);
+                                transform-origin: left;
+                                text-align: start;
+                            }
+                        }
+
+                        .acc-body {
+                            position: absolute;
+                            top: 0;
+                            left: 110px;
+                            width: calc(100% - 110px);
+                            height: 100%;
+                            transform: scale(0.9);
+                            opacity: 0;
+                            visibility: hidden;
+                            transition: all 0.5s ease;
+                            .text-title {
+                                font-size: 36px;
+                                line-height: 36px;
+                                text-transform: uppercase;
+                                font-weight: 500;
+                                padding-top: 40px;
+                            }
+                            .float-arrow {
+                                width: 120px;
+                                height: 120px;
+                                border-radius: 50%;
+                                background-color: var(--color-brown1);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 50px;
+                                color: #000;
+                                position: absolute;
+                                left: calc(50% - 60px);
+                                top: calc(50% - 60px);
+                                &:hover {
+                                    background-color: #000;
+                                    color: var(--color-brown1);
+                                }
+                            }
+                        }
+
+                        //end title
+
+                    }
+                    //end div panel inner
+
+                    &.is-open {
+                        flex-grow: 1;
+                        transition: all .5s ease;
+                        filter: grayscale(0);
+
+                        .bg {
+                            filter: brightness(1);
+                            // transform: scale(1);
+                        }
+
+                        .panel-inner {
+                            .acc-title {
+                                cursor: inherit;
+                            }
+                            .acc-body {
+                                transform: scale(1);
+                                opacity: 1;
+                                visibility: visible;
+                            }
+                        }
+                    }
+                    //end open panel
+
+                    &:not(.is-open) {
+                        width: 100px;
+                        .acc-title {
+                            cursor: pointer;
+                        }
+                    }
+                    //end not open panel
+                }
+
+                // end li panel
+            }
+
+            //end ul panel list
+
+        }
+
+        //end accordion
+
+    }
+
+    .numbers {
+        margin-top: 150px;
+        .number-card {
+            margin-top: 50px;
+            display: flex;
+            align-items: center;
+            h2 {
+                font-size: 48px;
+                color: var(--color-brown1);
+                font-weight: 400;
+                margin-inline-end: 30px;
+                flex-shrink: 0;
+            }
+            p {
+                font-size: 14px;
+                text-transform: uppercase;
+                color: #999;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-flawless-style5 {
+        padding: 100px 0;
+        .flawless {
+            .flex-accordion {
+                height: inherit;
+                width: 100%;
+                .acc-list {
+                    flex-direction: column;
+                    .acc-li {
+                        width: 100%;
+                        height: 500px;
+                        &::after {
+                            background-image: linear-gradient(to bottom, #000000a8, transparent);
+                        }
+                        .panel-inner {
+                            .acc-title {
+                                width: 100%;
+                                height: 100px;
+                                flex-direction: row;
+                                padding: 0 30px;
+                                align-items: center;
+                                justify-content: space-between;
+                                .numb {
+                                    font-size: 50px;
+                                }
+                                .txt {
+                                    transform: rotate(0) translateY(0);
+                                    transform-origin: center;
+                                    text-align: end;
+                                }
+                            }
+                            .acc-body {
+                                top: 100px;
+                                left: 0;
+                                width: 100%;
+                                height: calc(100% - 100px);
+                                padding: 0 30px;
+                                .float-arrow {
+                                    width: 80px;
+                                    height: 80px;
+                                    font-size: 30px;
+                                    position: static;
+                                    margin-top: 50px;
+                                }
+                            }
+                        }
+                    }
+                    .acc-li:not(.is-open) {
+                        height: 100px;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .numbers {
+            margin-top: 50px;
+        }
+    }
+}

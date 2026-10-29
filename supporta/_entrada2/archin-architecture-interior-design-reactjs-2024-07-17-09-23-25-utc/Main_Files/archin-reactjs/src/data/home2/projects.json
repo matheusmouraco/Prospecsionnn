@@ -1,0 +1,26 @@
+[
+  {
+    "title": "ABERY Apartment Master Bedroom",
+    "sub1": "Interior Design",
+    "sub2": "Furniture",
+    "img": "/home2/assets/img/projects/proj1.jpg"
+  },
+  {
+    "title": "Neoclassical Sofa",
+    "sub1": "Furniture",
+    "sub2": "Furniture",
+    "img": "/home2/assets/img/projects/proj2.jpg"
+  },
+  {
+    "title": "Salone Skin & Spa",
+    "sub1": "Interior Design",
+    "sub2": "Furniture",
+    "img": "/home2/assets/img/projects/proj3.jpg"
+  },
+  {
+    "title": "Boston D53 Deluxe Apartment",
+    "sub1": "Furniture",
+    "sub2": "Interior Design",
+    "img": "/home2/assets/img/projects/proj4.jpg"
+  }
+]

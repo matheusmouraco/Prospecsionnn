@@ -1,0 +1,34 @@
+[
+  {
+    "img": "/home2/assets/img/blog/blog1.jpg",
+    "title": "Top 10 Inspiration Scadinavian Interior for Living Room",
+    "desc": "This area is short text of this post, it will take from the first line [...]",
+    "subTitle": "Inspiration",
+    "history": "Jul 20, 2024",
+    "delay": ".2s"
+  },
+  {
+    "img": "/home2/assets/img/blog/blog2.jpg",
+    "title": "Constrast Color in Interior Design",
+    "desc": "This area is short text of this post, it will take from the first line [...]",
+    "subTitle": "Inspiration",
+    "history": "Jul 15, 2024",
+    "delay": ".4s"
+  },
+  {
+    "img": "/home2/assets/img/blog/blog3.jpg",
+    "title": "Think to keep in mind when reading technical draws",
+    "desc": "This area is short text of this post, it will take from the first line [...]",
+    "subTitle": "Knowledge",
+    "history": "Jun 7, 2024",
+    "delay": ".6s"
+  },
+  {
+    "img": "/home2/assets/img/blog/blog4.jpg",
+    "title": "Bathroom Classic",
+    "desc": "This area is short text of this post, it will take from the first line [...]",
+    "subTitle": "Inspiration",
+    "history": "aug 26, 2024",
+    "delay": ".8s"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "apart1",
+    "room": "9.02",
+    "roomImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "distance": "52 M2",
+    "parts": ["Housing B", "Floor 9", "2 Rooms"],
+    "bsClass": "custom-tooltip",
+    "price": "$145,500",
+    "apartImg": "/home5_residence/assets/images/apartments/floor.svg",
+    "planImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "descriptions": [
+      "walmart mall",
+      "mestson lake",
+      "mahattan park",
+      "orlando museum of art"
+    ],
+    "dialImg": "/home5_residence/assets/images/apartments/dial.png",
+    "owner": "12 LEADING American BANKS",
+    "persent": "10,3 %"
+  },
+  {
+    "id": "apart2",
+    "room": "9.02",
+    "roomImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "distance": "52 M2",
+    "parts": ["Housing B", "Floor 9", "2 Rooms"],
+    "bsClass": "custom-tooltip",
+    "price": "$145,500",
+    "apartImg": "/home5_residence/assets/images/apartments/floor.svg",
+    "planImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "descriptions": [
+      "walmart mall",
+      "mestson lake",
+      "mahattan park",
+      "orlando museum of art"
+    ],
+    "dialImg": "/home5_residence/assets/images/apartments/dial.png",
+    "owner": "12 LEADING American BANKS",
+    "persent": "10,3 %"
+  },
+  {
+    "id": "apart3",
+    "room": "9.02",
+    "roomImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "distance": "52 M2",
+    "parts": ["Housing B", "Floor 9", "2 Rooms"],
+    "bsClass": "custom-tooltip",
+    "price": "$145,500",
+    "apartImg": "/home5_residence/assets/images/apartments/floor.svg",
+    "planImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "descriptions": [
+      "walmart mall",
+      "mestson lake",
+      "mahattan park",
+      "orlando museum of art"
+    ],
+    "dialImg": "/home5_residence/assets/images/apartments/dial.png",
+    "owner": "12 LEADING American BANKS",
+    "persent": "10,3 %"
+  },
+  {
+    "id": "apart4",
+    "room": "9.02",
+    "roomImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "distance": "52 M2",
+    "parts": ["Housing B", "Floor 9", "2 Rooms"],
+    "bsClass": "custom-tooltip",
+    "price": "$145,500",
+    "apartImg": "/home5_residence/assets/images/apartments/floor.svg",
+    "planImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "descriptions": [
+      "walmart mall",
+      "mestson lake",
+      "mahattan park",
+      "orlando museum of art"
+    ],
+    "dialImg": "/home5_residence/assets/images/apartments/dial.png",
+    "owner": "12 LEADING American BANKS",
+    "persent": "10,3 %"
+  },
+  {
+    "id": "apart5",
+    "room": "9.02",
+    "roomImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "distance": "52 M2",
+    "parts": ["Housing B", "Floor 9", "2 Rooms"],
+    "bsClass": "custom-tooltip",
+    "price": "$145,500",
+    "apartImg": "/home5_residence/assets/images/apartments/floor.svg",
+    "planImg": "/home5_residence/assets/images/apartments/Plan2.svg",
+    "descriptions": [
+      "walmart mall",
+      "mestson lake",
+      "mahattan park",
+      "orlando museum of art"
+    ],
+    "dialImg": "/home5_residence/assets/images/apartments/dial.png",
+    "owner": "12 LEADING American BANKS",
+    "persent": "10,3 %"
+  }
+]

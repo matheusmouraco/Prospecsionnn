@@ -1,0 +1,284 @@
+/* --------------- apartments style5 --------------- */
+.tc-apartments-style5 {
+    position: relative;
+    padding: 200px 0;
+    background-color: #1F2528;
+
+    .apartments-accordion {
+
+        .accordion-title {
+            border-bottom: 1px solid #373E43;
+            padding: 30px;
+
+            .title-txt {
+                font-size: 14px;
+                line-height: 24px;
+                text-transform: uppercase;
+                color: #899fae;
+            }
+
+        }
+
+        .accordion {
+
+            .accordion-item {
+                position: relative;
+                background-color: transparent;
+                border-radius: 0;
+                border: 0;
+                border-bottom: 1px solid #373E43;
+                &:last-of-type {
+                    border-bottom: 0;
+                }
+
+                .accordion-button {
+                    position: relative;
+                    display: block;
+                    background-color: transparent !important;
+                    color: #fff;
+                    padding: 30px;
+                    box-shadow: none;
+                    &::after {
+                        position: absolute;
+                        right: 30px;
+                        top: 40px;
+                        filter: invert(100%) sepia(57%) saturate(0%) hue-rotate(253deg) brightness(106%) contrast(106%);
+                    }
+
+
+                    .room-numb {
+                        font-size: 48px;
+                        line-height: 48px;
+                        text-transform: uppercase;
+                        color: var(--color-brown1);
+                        font-weight: 400;
+                    }
+
+                    .room-img {
+                        height: 95px;
+                    }
+
+                    ul {
+                        font-size: 14px;
+                        line-height: 24px;
+                        color: #899fae;
+                        text-transform: capitalize;
+                    }
+
+                    .feat-icons {
+                        a {
+                            width: 45px;
+                            height: 45px;
+                            line-height: 45px;
+                            text-align: center;
+                            border-radius: 50%;
+                            border: 1px solid #373e43;
+                            font-size: 13px;
+                            color: var(--color-brown1);
+                            margin-inline-end: 5px;
+                            &:hover {
+                                background-color: #373e43;
+                            }
+                        }
+                    }
+                    
+                }
+
+                .accordion-button:not(.collapsed){
+                    background-color: #373E43 !important;
+                    &::after {
+                        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+                        filter: invert(84%) sepia(22%) saturate(506%) hue-rotate(353deg) brightness(94%) contrast(91%);
+                    }
+                    .feat-icons {
+                        a {
+                            border-color: #616b73;
+                        }
+                    }
+                }
+
+                .accordion-body {
+                    padding: 0 30px;
+                    background-color: #373E43;
+                    .floor-img {
+                        padding-bottom: 60px;
+                    }
+
+                    .main-img {
+                        padding: 110px;
+                        // border-inline-end: 1px solid #616B73;
+                        position: relative;
+                        img {
+                            height: 300px;
+                            display: block;
+                            margin: auto;
+                        }
+                        .text-items {
+                            p {
+                                font-size: 12px;
+                                line-height: 36px;
+                                letter-spacing: 0.02em;
+                                text-transform: uppercase;
+                                color: #817768;
+                                position: absolute;
+                                &:nth-of-type(1){
+                                    top: 50px;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                }
+                                &:nth-of-type(2){
+                                    top: 50%;
+                                    right: 50px;
+                                    transform: translateY(-50%) rotate(-90deg);
+                                }
+                                &:nth-of-type(3){
+                                    bottom: 50px;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                }
+                                &:nth-of-type(4){
+                                    top: 50%;
+                                    left: 10px;
+                                    transform: translateY(-50%) rotate(-90deg);
+                                }
+                            }
+                        }
+                    }
+
+                    .dial-img {
+                        padding-bottom: 60px;
+                    }
+
+                    .info {
+                        height: 100%;
+                        border-inline-start: 1px solid #616B73;
+                        display: flex;
+                        flex-wrap: wrap;
+                        padding-bottom: 50px;
+                        align-content: space-between;
+
+                        p {
+                            font-size: 14px;
+                            line-height: 24px;
+                            text-transform: uppercase;
+                            color: #fff;
+                            margin-bottom: 40px;
+                        }
+                        small {
+                            font-size: 12px;
+                            line-height: 18px;
+                            text-transform: uppercase;
+                            color: #899fae;
+                        }
+                        h2 {
+                            font-size: 72px;
+                            line-height: 84px;
+                            color: var(--color-brown1);
+                            font-weight: 400;
+                        }
+
+                        .btns {
+                            display: flex;
+                            .pdf-btn {
+                                width: 50px;
+                                height: 50px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                text-align: center;
+                                border-radius: 50%;
+                                border: 1px solid var(--color-brown1);
+                                color: var(--color-brown1);
+                                margin-inline-end: 15px;
+                                flex-shrink: 0;
+                                &:hover {
+                                    background-color: var(--color-brown1);
+                                    color: #fff;
+                                }
+                                i {
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+
+        }
+
+    }
+
+}
+
+.custom-tooltip {
+    padding-top: 20px;
+    .tooltip-arrow{
+        top: 14px !important;
+        &::before {
+            border-bottom-color: #373E43;
+        }
+    }
+    .tooltip-inner {
+        background-color: #373E43;
+        border-radius: 0;
+        padding: 10px 15px;
+        font-size: 12px;
+        line-height: 18px;
+        text-transform: uppercase;
+    }
+}
+
+
+@media screen and (max-width: 991px) {
+    .tc-apartments-style5 {
+        padding: 100px 0;
+        .apartments-accordion {
+            .accordion {
+                .accordion-item {
+                    .accordion-button {
+                        .room-numb {
+                            margin-bottom: 30px;
+                        }
+                        .room-img {
+                            margin-bottom: 30px;
+                        }
+                        .room-info {
+                            margin-bottom: 30px;
+                        }
+                        .feat-icons {
+                            margin-bottom: 30px;
+                        }
+                    }
+                    .accordion-body {
+                        padding: 30px;
+                        .main-img {
+                            padding: 30px;
+                        }
+                        .info {
+                            border: 0;
+                            .btns {
+                                margin-top: 30px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .apartments-accordion .accordion .accordion-item .accordion-body .main-img .text-items p:nth-of-type(1) {
+            top: -20px;
+        }
+        .apartments-accordion .accordion .accordion-item .accordion-body .main-img .text-items p:nth-of-type(2) {
+            right: -40px;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+        .apartments-accordion .accordion .accordion-item .accordion-body .main-img .text-items p:nth-of-type(3) {
+            bottom: -20px;
+        }
+        .apartments-accordion .accordion .accordion-item .accordion-body .main-img .text-items p:nth-of-type(4) {
+            left: -70px;
+        }
+    }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "img": "/home_preview/assets/img/icons/1.png",
+    "title": "Bootstrap 5",
+    "delay": ".2s"
+  },
+  {
+    "img": "/home_preview/assets/img/icons/2.png",
+    "title": "Saas",
+    "delay": ".4s"
+  },
+  {
+    "img": "/home_preview/assets/img/icons/3.png",
+    "title": "Fontawesome 6 Pro",
+    "delay": ".4s"
+  },
+  {
+    "img": "/home_preview/assets/img/icons/6.png",
+    "title": "Google Fonts",
+    "delay": ".8s"
+  },
+  {
+    "img": "/home_preview/assets/img/icons/4.png",
+    "title": "Jquery Plugins",
+    "delay": ".8s"
+  },
+  {
+    "img": "/home_preview/assets/img/icons/5.png",
+    "title": "W3 Validation",
+    "delay": ".8s"
+  }
+]

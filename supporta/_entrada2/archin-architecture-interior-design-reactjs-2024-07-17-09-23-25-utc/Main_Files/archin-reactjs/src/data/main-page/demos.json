@@ -1,0 +1,56 @@
+[
+  {
+    "link": "/home1",
+    "img": "/home_preview/assets/img/demos/d1.jpg",
+    "title": "Architecture Studio",
+    "delay": ".2s"
+  },
+  {
+    "link": "/home2",
+    "img": "/home_preview/assets/img/demos/d2.jpg",
+    "title": "Interior Studio",
+    "delay": ".4s"
+  },
+  {
+    "link": "/home3_construction",
+    "img": "/home_preview/assets/img/demos/d3.jpg",
+    "title": "Construction Company",
+    "delay": ".6s"
+  },
+  {
+    "link": "/home4_personal_architect",
+    "img": "/home_preview/assets/img/demos/d4.jpg",
+    "title": "Personal Architect",
+    "delay": ".2s"
+  },
+  {
+    "link": "/home5_residence",
+    "img": "/home_preview/assets/img/demos/d5.jpg",
+    "title": "Residence",
+    "delay": ".4s"
+  },
+  {
+    "link": "/home6_furniture",
+    "img": "/home_preview/assets/img/demos/d6.jpg",
+    "title": "Furniture Online Store",
+    "delay": ".6s"
+  },
+  {
+    "link": "/home7_landscape",
+    "img": "/home_preview/assets/img/demos/d7.jpg",
+    "title": "Landscape Design Studio",
+    "delay": ".2s"
+  },
+  {
+    "link": "/home8_portfolio",
+    "img": "/home_preview/assets/img/demos/d8.jpg",
+    "title": "Creative Portfolio",
+    "delay": ".4s"
+  },
+  {
+    "link": "/home1-rtl",
+    "img": "/home_preview/assets/img/demos/d9.jpg",
+    "title": "RTL Demo",
+    "delay": ".4s"
+  }
+]

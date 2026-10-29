@@ -1,0 +1,100 @@
+/* --------------- testimonials style7 --------------- */
+.tc-testimonials-style7 {
+    position: relative;
+
+    .rotate-box {
+        position: relative;
+        width: 220px;
+        height: 220px;
+        display: block;
+        margin: 0 auto 60px;
+
+        .icon {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, - 50%);
+            height: 50px;
+        }
+
+        .rotate-text {
+            animation: rotateText 20s linear infinite;
+            font-weight: 300;
+            text-transform: uppercase;
+            position: absolute;
+            left: 0;
+            border-radius: 50%;
+        }
+
+        .rotate-circle svg {
+            width: 220px;
+            height: 220px;
+            fill: #000;
+            transform: scale(1);
+        }
+
+        @keyframes rotateText {
+            0% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    }
+
+    .test-content {
+        position: relative;
+        padding-bottom: 150px;
+        border-bottom: 1px solid #ccc;
+
+        .testi-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            top: 30%;
+            &::after {
+                font-size: 30px;
+                color: var(--color-green1);
+            }
+        }
+
+    }
+
+    .testi-card {
+        text-align: center;
+        h4 {
+            font-size: 60px;
+            line-height: 72px;
+            color: #000;
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-testimonials-style7 {
+        padding: 0 !important;
+        .testi-card h4 {
+            font-size: 25px;
+            line-height: 45px;
+        }
+        .test-content {
+            .swiper-button-next,
+            .swiper-button-prev {
+                top: auto;
+                bottom: 70px;
+            }
+            .swiper-button-next{
+                right: 35%;
+            }
+            .swiper-button-prev{
+                left: 35%;
+            }
+        }
+    }
+}

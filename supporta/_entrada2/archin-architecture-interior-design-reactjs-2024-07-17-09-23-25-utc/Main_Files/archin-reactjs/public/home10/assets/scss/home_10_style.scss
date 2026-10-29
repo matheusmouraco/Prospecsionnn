@@ -1,0 +1,126 @@
+/* ========= [ * page-home_1 ]  =========*/
+
+// side menu
+@import 'side_menu';
+
+// navbar
+@import 'navbar';
+
+// header
+@import 'header';
+
+// services
+@import 'services';
+
+// about
+@import 'about';
+
+// cases
+@import 'cases';
+
+// team
+@import 'team';
+
+// video
+@import 'video';
+
+// awards_clients
+@import 'awards_clients';
+
+// blog
+@import 'blog';
+
+// chat
+@import 'chat';
+
+// footer
+@import 'footer';
+
+
+// ------------ home style ------------
+.home-style10 {
+
+    .borderd {
+        border-color: #ccc !important;
+    }
+
+    .section-padding {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    .section-padding-x {
+        padding-right: 4vw;
+        padding-left: 4vw;
+    }
+
+    .section-head-style10 {
+        .sub-title {
+            font-size: 14px;
+            color: #333;
+            position: relative;
+            padding-inline-start: 60px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            &::before {
+                position: absolute;
+                content: "";
+                left: 0;
+                top: calc(50% - 4px);
+                width: 30px;
+                height: 8px;
+                background-color: #888;
+            }
+        }
+        h2 {
+            font-size: 55px;
+            letter-spacing: -1px;
+            font-weight: 500;
+            line-height: 1.1;
+        }
+    }
+    
+}
+
+@media screen and (max-width: 991px) {
+    .home-style10 {
+        br{
+            display: none;
+        }
+        .fsz-50 {
+            font-size: 30px !important;
+        }
+        .fsz-40 {
+            font-size: 25px !important;
+        }
+        .mb-90 {
+            margin-bottom: 40px !important;
+        }
+        .fsz-30 {
+            font-size: 18px !important;
+        }
+
+        .mb-50 {
+            margin-bottom: 30px !important;
+        }
+
+        .section-head-style10 {
+            .sub-title {
+                margin-bottom: 15px !important;
+            }
+            h2 {
+                font-size: 30px;
+            }
+        }
+
+        .mt-5 {
+            margin-top: 2rem!important;
+        }
+
+        .section-padding {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+    }
+}

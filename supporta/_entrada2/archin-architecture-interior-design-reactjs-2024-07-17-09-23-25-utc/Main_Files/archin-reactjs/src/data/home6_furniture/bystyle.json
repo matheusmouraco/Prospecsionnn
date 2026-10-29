@@ -1,0 +1,26 @@
+[
+  {
+    "img1": "/home6_furniture/assets/images/st_imgs/1.jpg",
+    "img2": "/home6_furniture/assets/images/products/prod4.png",
+    "desc": "Industrial style symbolizes strength, <br /> health but sophistication",
+    "title1": "industrial",
+    "title2": "Onyx Wooden Stool Bar",
+    "price": "$129.00"
+  },
+  {
+    "img1": "/home6_furniture/assets/images/st_imgs/st2.png",
+    "img2": "/home6_furniture/assets/images/products/prod5.png",
+    "desc": "The interior design of the metropolitan style <br /> is very classy and discreet",
+    "title1": "metropolitan",
+    "title2": "Wooden Glass Tea Table",
+    "price": "$269.00"
+  },
+  {
+    "img1": "/home6_furniture/assets/images/st_imgs/st3.png",
+    "img2": "/home6_furniture/assets/images/products/prod4.png",
+    "desc": "It's characterised by simplicity, clean lines, and <br /> a monochromatic palette with colour used as an accent.",
+    "title1": "minimalist",
+    "title2": "Sedge Latern Lamp",
+    "price": "$269.00"
+  }
+]

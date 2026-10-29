@@ -1,0 +1,106 @@
+/* --------------- featured style6 --------------- */
+.tc-featured-style6 {
+    position: relative;
+    padding: 120px 0;
+
+
+    .nav-pills {
+        width: max-content;
+        margin: 0 auto;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #F2F1EA;
+        padding: 0 15px;
+        .nav-link {
+            background-color: transparent;
+            color: #999;
+            padding: 15px;
+            font-weight: 500;
+            &.active {
+                color: #000;
+            }
+        }
+    }
+
+    .products-slider {
+        position: relative;
+        overflow: hidden;
+        padding-bottom: 80px;
+
+        .swiper-pagination {
+            .swiper-pagination-bullet {
+                width: 12px;
+                height: 12px;
+                border-radius: 0;
+                margin: 10px;
+                background-color: #A0B3BB;
+                &.swiper-pagination-bullet-active {
+                    background-color: var(--color-brown2);
+                    outline: 1px solid var(--color-brown2);
+                    outline-offset: 3px;
+                }
+            }
+        }
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            &::after {
+                font-size: 25px;
+                color: #000;
+            }
+        }
+
+        .product-card {
+            position: relative;
+            margin-top: 50px;
+            &:hover {
+                .img {
+                    .butn {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
+            }
+            .img {
+                position: relative;
+                height: 410px;
+                .butn {
+                    position: absolute;
+                    bottom: 10px;
+                    left: 10px;
+                    width: calc(100% - 20px);
+                    z-index: 10;
+                    text-align: center;
+                    transform: translateY(30px);
+                    opacity: 0;
+                    transition: all 0.3s ease;
+                }
+                .tags {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    a {
+                        font-size: 12px;
+                        text-transform: uppercase;
+                        color: #999;
+                        border: 1px solid #999;
+                        border-radius: 5px;
+                        padding: 5px 10px;
+                        margin-inline-end: 5px;
+                        &.sold {
+                            background-color: #000;
+                            border-color: #000;                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-featured-style6 {
+
+    }
+}

@@ -1,0 +1,29 @@
+/* --------------- categories style6 --------------- */
+.tc-categories-style6 {
+    position: relative;
+    padding: 120px 0;
+
+    .cat-card {
+        display: block;
+        position: relative;
+        text-align: center;
+        border: 1px solid transparent;
+        margin-top: 30px;
+        &:hover {
+            border-color: var(--color-brown2);
+            h6 {
+                color: var(--color-brown2);
+            }
+        }
+        .img {
+            height: 185px;
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-categories-style6 {
+
+    }
+}

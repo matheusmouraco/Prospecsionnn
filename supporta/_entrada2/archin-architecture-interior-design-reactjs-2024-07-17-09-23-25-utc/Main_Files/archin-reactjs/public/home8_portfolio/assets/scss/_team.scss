@@ -1,0 +1,131 @@
+/* --------------- team style8 --------------- */
+.tc-team-style8 {
+    position: relative;
+    background-color: #262929;
+    color: #fff;
+
+    .member-colmn {
+        margin: auto;
+    }
+    
+    .team-card {
+        position: relative;
+        margin-bottom: 20px;
+        display: block;
+        &:hover {
+            .img {
+                transform: scale(0.95);
+                img {
+                    transform: scale(1.2);
+                }
+                &::after {
+                    opacity: 0.7;
+                }
+            }
+            .title {
+                opacity: 1;
+                top: 50%;
+            }
+            .img {
+                transition: all 0.5s ease;
+                overflow: hidden;
+                img {
+                    transition: all 0.5s ease;
+                }
+            }
+        }
+        &.team-text {
+            &:hover {
+                .img {
+                }
+            }
+            .img {
+                border: 1px solid #ccc;
+                height: 158px;
+                height: 158px;
+                color: #fff;
+                &::after {
+                    display: none;
+                }
+            }
+            .title {
+                font-weight: 300;
+                color: #fff !important;
+                text-align: start;
+                opacity: 1;
+                display: flex;
+                justify-content: center;
+                font-size: 13px;
+                text-transform: capitalize;
+                .arrow {
+                    margin-top: 10px;
+                    display: block;
+                }
+            }
+        }
+
+        .img {
+            position: relative;
+            width: 100%;
+            // height: 13.5vw;
+            // width: 13.5vw;
+            border-radius: 50%;
+            overflow: hidden;
+            display: block;
+            margin: auto;
+            transition: all 0.3s ease;
+            &::after {
+                position: absolute;
+                content: "";
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #000;
+                opacity: 0;
+                z-index: 1;
+                transition: all 0.3s ease;
+            }
+        }
+
+        .title {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            color: #fff;
+            opacity: 0;
+            text-align: center;
+            width: 100%;
+            transition: all 0.3s ease;
+            line-height: 1.5;
+            text-transform: capitalize;
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-team-style8 {
+        .member-colmn {
+            display: flex;
+            justify-content: space-around;
+            .team-card {
+                width: 40vw;
+                height: 40vw;
+            }
+        }
+        .team-card.team-text {
+            .title {
+                padding: 30px;
+                text-align: center;
+            }
+        }
+        .butn {
+            display: block;
+            width: max-content;
+            margin: 30px auto;
+        }
+    }
+}

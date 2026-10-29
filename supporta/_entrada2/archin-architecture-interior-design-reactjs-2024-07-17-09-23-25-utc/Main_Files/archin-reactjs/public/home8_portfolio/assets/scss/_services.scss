@@ -1,0 +1,131 @@
+/* --------------- services style8 --------------- */
+.tc-services-style8 {
+    // position: relative;
+    background-color: #fff;
+
+    .service-card {
+        position: relative;
+        padding: 30px 40px;
+        background-color: #F1EEE9;
+        display: block;
+        &:hover {
+            .top-info {
+                .title {
+                    color: #000;
+                    text-decoration: underline;
+                }
+            }
+        }
+        .top-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .title {
+                font-size: 18px;
+                text-transform: uppercase;
+                color: #666;
+            }
+            .icon {
+                width: 60px;
+                height: 60px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background-color: #fff;
+                font-size: 18px;
+            }
+        }
+        .tags {
+            margin-top: 50px;
+            .tag {
+                font-size: 21px;
+                margin: 5px;
+                // letter-spacing: 1px;
+                font-weight: 400;
+                &:nth-of-type(1){
+                    padding: 10px 30px;
+                    border-radius: 30px;
+                    background-color: #000;
+                    color: #fff;
+                }
+                &:nth-of-type(2){
+                    padding: 10px 30px;
+                    border-radius: 30px;
+                    background-color: var(--color-orange1);
+                    color: #fff;
+                }
+                &:nth-of-type(3){
+                    padding: 10px 30px;
+                    border-radius: 30px;
+                    background-color: #000;
+                    color: #fff;
+                }
+                &:nth-of-type(4){
+                    padding: 10px 30px;
+                    border-radius: 30px;
+                    border: 1px solid #ccc;
+                    color: #000;
+                }
+            }
+        }
+        &.r-card {
+            .tags {
+                .tag {
+                    &:nth-of-type(1){
+                        padding: 10px 30px;
+                        border-radius: 30px;
+                        background-color: #000;
+                        color: #fff;
+                    }
+                    &:nth-of-type(2){
+                        padding: 10px 30px;
+                        border-radius: 30px;
+                        background-color: #000;
+                        color: #fff;
+                    }
+                    &:nth-of-type(3){
+                        padding: 10px 30px;
+                        border-radius: 30px;
+                        border: 1px solid #ccc;
+                        color: #000;
+                        background-color: transparent;
+                    }
+                    &:nth-of-type(4){
+                        padding: 0;
+                        border-radius: 0;
+                        border: 0;
+                        color: #000;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-services-style8 {
+        .service-card {
+            padding: 30px 15px;
+            .top-info {
+                .title {
+                    font-size: 16px;
+                    margin-inline-end: 50px;
+                }
+                .icon {
+                    width: 45px;
+                    height: 45px;
+                    font-size: 14px;
+                    flex-shrink: 0;
+                }
+            }
+            .tags {
+                .tag {
+                    font-size: 13px;
+                    padding: 5px 10px !important;
+                }
+            }
+        }
+    }
+}

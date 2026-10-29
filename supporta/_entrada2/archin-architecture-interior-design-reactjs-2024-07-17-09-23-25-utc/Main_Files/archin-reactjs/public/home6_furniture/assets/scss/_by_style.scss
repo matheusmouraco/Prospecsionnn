@@ -1,0 +1,150 @@
+/* --------------- by-style style6 --------------- */
+.tc-by-style-style6 {
+
+    .style-slider {
+        position: relative;
+        overflow: hidden;
+        .swiper-button-prev,
+        .swiper-button-next {
+            &::after {
+                color: #fff;
+                font-size: 30px;
+            }
+        }
+
+        .swiper-button-prev {
+            left: 2vw;
+        }
+
+        .swiper-button-next {
+            right: 2vw;
+        }
+
+    }
+
+    .slider-card {
+        position: relative;
+
+        .bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 120px 0 0;
+            color: #fff;
+
+            .info {
+                .tag-title {
+                    font-size: 72px;
+                    line-height: 80px;
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    margin-bottom: 250px;
+                }
+                .text {
+                    font-size: 14px;
+                    line-height: 24px;
+                    text-transform: uppercase;
+                }
+                .title {
+                    font-size: 150px;
+                    line-height: 100px;
+                    letter-spacing: -0.01em;
+                    text-transform: uppercase;
+                    margin-top: 130px;
+                    font-weight: 500;
+                }
+            }
+
+            .product-card {
+                position: relative;
+                background-color: #fff;
+                color: #000;
+                padding: 40px;
+                &:hover {
+                    .img {
+                        .butn {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                    }
+                }
+                .img {
+                    position: relative;
+                    height: 330px;
+                    .butn {
+                        position: absolute;
+                        bottom: 10px;
+                        left: 10px;
+                        width: calc(100% - 20px);
+                        z-index: 10;
+                        text-align: center;
+                        transform: translateY(30px);
+                        opacity: 0;
+                        transition: all 0.3s ease;
+                    }
+                    .tags {
+                        position: absolute;
+                        top: 10px;
+                        left: 10px;
+                        a {
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            color: #999;
+                            border: 1px solid #999;
+                            border-radius: 5px;
+                            padding: 5px 10px;
+                            margin-inline-end: 5px;
+                            &.sold {
+                                background-color: #000;
+                                border-color: #000;                            
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-by-style-style6 {
+        .slider-card {
+            .content {
+                padding: 80px 0;
+                .info {
+                    .tag-title {
+                        font-size: 50px;
+                        line-height: 60px;
+                        margin-bottom: 50px;
+                    }
+                    .title {
+                        font-size: 60px;
+                        line-height: 100px;
+                        margin-top: 60px;
+                    }
+                }
+                .product-card {
+                    margin-top: 30px;
+                    .img {
+                        height: 250px;
+                    }
+                }
+            }
+        }
+        .swiper-button-next,
+        .swiper-button-prev {
+            display: none;
+        }
+    }
+}

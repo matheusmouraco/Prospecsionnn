@@ -1,0 +1,50 @@
+[
+  {
+    "location": "2022 - portland, or",
+    "title": "Backyard with Pool",
+    "img": "/home7_landscape/assets/img/projects/1.jpg",
+    "tab": "tab-1"
+  },
+  {
+    "location": "2022 - Boston, MA",
+    "title": "Ecohaus Residence",
+    "img": "/home7_landscape/assets/img/projects/2.jpg",
+    "tab": "tab-2"
+  },
+  {
+    "location": "2023 - Boston, MA",
+    "title": "Aikira Ecological Area",
+    "img": "/home7_landscape/assets/img/projects/3.jpg",
+    "tab": "tab-3"
+  },
+  {
+    "location": "2023 - Seattle, WA",
+    "title": "Private Villa Backyard",
+    "img": "/home7_landscape/assets/img/projects/4.jpg",
+    "tab": "tab-4"
+  },
+  {
+    "location": "2022 - Boston, MA",
+    "title": "Rustic Backyard",
+    "img": "/home7_landscape/assets/img/projects/5.jpg",
+    "tab": "tab-5"
+  },
+  {
+    "location": "2021 - Boston, MA",
+    "title": "Frontyard Exterior",
+    "img": "/home7_landscape/assets/img/projects/6.jpg",
+    "tab": "tab-6"
+  },
+  {
+    "location": "2021 - San Francisco, CA",
+    "title": "Minimal Backyard",
+    "img": "/home7_landscape/assets/img/projects/7.jpg",
+    "tab": "tab-7"
+  },
+  {
+    "location": "2023 - Seattle, WA",
+    "title": "Japan Park",
+    "img": "/home7_landscape/assets/img/projects/8.jpg",
+    "tab": "tab-8"
+  }
+]

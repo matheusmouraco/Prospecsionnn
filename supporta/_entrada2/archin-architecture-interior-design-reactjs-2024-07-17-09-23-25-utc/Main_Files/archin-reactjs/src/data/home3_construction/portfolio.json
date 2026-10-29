@@ -1,0 +1,32 @@
+[
+  {
+    "title": "San jose bridge <br />",
+    "subTitle": "construct, rennovation",
+    "desc": "Short description for this project <br /> will place in here",
+    "img": "/home3_construction/assets/img/projects/proj1.jpg"
+  },
+  {
+    "title": "oregon <br /> residence",
+    "subTitle": "construct, rennovation",
+    "desc": "Short description for this project <br /> will place in here",
+    "img": "/home3_construction/assets/img/projects/proj2.jpg"
+  },
+  {
+    "title": " Dallas <br /> warehouse",
+    "subTitle": "construct",
+    "desc": "Short description for this project <br /> will place in here",
+    "img": "/home3_construction/assets/img/projects/proj3.jpg"
+  },
+  {
+    "title": "houston <br /> port",
+    "subTitle": "construct",
+    "desc": "Short description for this project <br /> will place in here",
+    "img": "/home3_construction/assets/img/projects/proj4.jpg"
+  },
+  {
+    "title": "mahattan <br /> building",
+    "subTitle": "construct, rennovation",
+    "desc": "Short description for this project <br /> will place in here",
+    "img": "/home3_construction/assets/img/projects/proj5.jpg"
+  }
+]

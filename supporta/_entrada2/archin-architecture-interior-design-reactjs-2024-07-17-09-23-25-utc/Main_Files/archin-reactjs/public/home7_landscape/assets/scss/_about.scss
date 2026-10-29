@@ -1,0 +1,72 @@
+/* --------------- about style7 --------------- */
+.tc-about-style7 {
+    position: relative;
+    padding: 160px 0;
+
+    .rotate-box {
+        position: relative;
+        width: 220px;
+        height: 220px;
+        display: block;
+        margin: 0 auto 30px;
+
+        .icon {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, - 50%);
+            height: 80px;
+        }
+
+        .rotate-text {
+            animation: rotateText 20s linear infinite;
+            font-weight: 300;
+            text-transform: uppercase;
+            position: absolute;
+            left: 0;
+            border-radius: 50%;
+        }
+
+        .rotate-circle svg {
+            width: 220px;
+            height: 220px;
+            fill: #000;
+            transform: scale(1);
+        }
+
+        @keyframes rotateText {
+            0% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    }
+
+    .numbers {
+        .number-card {
+            position: relative;
+            margin-bottom: 75px;
+            h2 {
+                font-size: 60px;
+                color: var(--color-green1);
+                font-weight: 400;
+                margin-bottom: 15px;
+            }
+            small {
+                font-size: 16px;
+                text-transform: uppercase;
+                color: #666;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-about-style7 {
+        overflow: hidden;
+    }
+}

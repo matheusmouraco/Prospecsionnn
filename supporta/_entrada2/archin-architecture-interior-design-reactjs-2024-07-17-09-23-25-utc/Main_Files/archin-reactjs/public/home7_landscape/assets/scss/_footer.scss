@@ -1,0 +1,77 @@
+/* --------------- footer style7 --------------- */
+.tc-footer-style7 {
+    position: relative;
+    padding: 150px 0;
+    background-color: var(--color-green1);
+    color: #fff;
+
+    .links {
+        a {
+            font-size: 14px;
+            margin: 8px 0;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .foot-subscribe {
+        .form-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #597E0A;
+            margin-bottom: 20px;
+            .icon {
+                flex-shrink: 0;
+                color: #fff;
+            }
+            .form-control {
+                border: 0;
+                background-color: transparent;
+                &::placeholder {
+                    color: #BBD683;
+                }
+            }
+            button {
+                border: 0;
+                background-color: transparent;
+                color: #fff;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    .social-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        .social-links {
+            margin-bottom: 30px;
+            a{
+                width: 45px;
+                height: 45px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                border: 1px solid #fff9;
+                margin-inline-end: 15px;
+                &:hover {
+                    background-color: #000;
+                    border-color: #000;
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-footer-style7 {
+        padding: 80px 0;
+        overflow: hidden;
+    }
+}

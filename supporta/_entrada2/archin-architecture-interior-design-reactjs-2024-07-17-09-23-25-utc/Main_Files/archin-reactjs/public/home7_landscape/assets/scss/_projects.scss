@@ -1,0 +1,89 @@
+/* --------------- projects style7 --------------- */
+.tc-projects-style7 {
+    position: relative;
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #fff;
+        &::after {
+            font-size: 16px;
+            color: #fff;
+        }
+        &:hover {
+            background-color: #fff;
+            &::after {
+                color: #000;
+            }
+        }
+    }
+
+    .swiper-button-next {
+        right: 4vw;
+    }
+
+    .swiper-button-prev {
+        left: 4vw;
+    }
+
+    .project-card {
+        display: block;
+        position: relative;
+        height: 600px;
+        display: flex;
+        align-items: flex-end;
+        border-inline-end: 1px solid #fff;
+        &:hover {
+            .info {
+                background-color: #fff;
+                color: #000;
+            }
+        }
+        .info {
+            padding: 40px;
+            width: 100%;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+    }
+
+    .projects-content {
+        position: relative;
+        overflow: hidden;
+
+        .glry-img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            .tab-img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transform: scale(1.1, 1.1);
+                opacity: 0;
+                transition: all .7s;
+                &.current {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+        }
+
+    }
+
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-projects-style7 {
+        .project-card {
+            height: 400px;
+        }
+    }
+}

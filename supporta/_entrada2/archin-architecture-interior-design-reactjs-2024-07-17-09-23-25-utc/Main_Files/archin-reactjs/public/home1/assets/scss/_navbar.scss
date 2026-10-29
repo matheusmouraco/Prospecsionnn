@@ -1,0 +1,59 @@
+/* --------------- footer style1 --------------- */
+.tc-navbar-style1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    background-color: transparent;
+    padding: 0;
+
+    .content {
+        padding: 20px 0;
+
+        .navbar-brand {
+            max-width: 115px;
+            margin-inline-end: 100px;
+        }
+
+        .navbar-nav {
+            .nav-link {
+                font-size: 14px;
+                color: #fff;
+                opacity: 1;
+                margin: 0 20px;
+                // font-weight: 500;
+                &:hover,
+                &.active {
+                    color: var(--color-orange1);
+                }
+            }
+        }
+
+        .nav-side {
+            .icon {
+                font-size: 14px;
+                color: #fff;
+            }
+        }
+
+    }
+
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-navbar-style1 {
+        position: relative;
+        background-color: #333;
+        .content {
+            border: 0;
+            .navbar-nav {
+                margin: 20px 0;
+                .nav-link {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}

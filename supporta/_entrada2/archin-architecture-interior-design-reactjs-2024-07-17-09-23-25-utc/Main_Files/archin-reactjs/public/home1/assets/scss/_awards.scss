@@ -1,0 +1,42 @@
+/* --------------- awards style1 --------------- */
+.tc-awards-style1 {
+    position: relative;
+    z-index: 10;
+    padding: 150px 0;
+    border-radius: 40px 40px 0 0;
+    margin-top: -40px;
+    background-color: #262929;
+    color: #fff;
+
+    .awards-content {
+
+        .awards-list {
+            .award-row{
+                padding: 30px;
+                text-transform: capitalize;
+                transition: all 0.3s ease;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+                &:hover {
+                    background-color: var(--color-orange1);
+                }
+            }
+        }
+
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-awards-style1 {
+        padding: 50px 0;
+        .awards-content {
+            .awards-list {
+                .award-row {
+                    background-color: #fff1;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }
+}

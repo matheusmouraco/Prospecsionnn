@@ -1,0 +1,52 @@
+[
+  {
+    "img": "fat fa-tty",
+    "title": "reception",
+    "subTitle": "Luxury reception area with service 24/7"
+  },
+  {
+    "img": "fat fa-video",
+    "title": "security",
+    "subTitle": "Security team with cameras system 24/7"
+  },
+  {
+    "img": "fat fa-square-parking",
+    "title": "parking",
+    "subTitle": "Free charge car park for resident with 5,000 slots"
+  },
+  {
+    "img": "fat fa-bell",
+    "title": "fire alarm",
+    "subTitle": "Automatic fire extinguishing system in each apartment"
+  },
+  {
+    "img": "fat fa-fan",
+    "title": "conditioning",
+    "subTitle": "Ensure ventilation & circulation in your home"
+  },
+  {
+    "img": "fat fa-person-swimming",
+    "title": "4 seasons pool",
+    "subTitle": "5-stars indoor 4-season wimming pool system"
+  },
+  {
+    "img": "fat fa-broom-wide",
+    "title": "cleaning",
+    "subTitle": "Cleaning service daily for all general spaces"
+  },
+  {
+    "img": "fat fa-microphone-stand",
+    "title": "conference room",
+    "subTitle": "2 Conference rooms"
+  },
+  {
+    "img": "fat fa-lock",
+    "title": "personal locker",
+    "subTitle": "200 Slots of Personal locker at Lobby"
+  },
+  {
+    "img": "fat fa-filter",
+    "title": "sky lounge",
+    "subTitle": "Relax on rooftop with sky lounge bar"
+  }
+]

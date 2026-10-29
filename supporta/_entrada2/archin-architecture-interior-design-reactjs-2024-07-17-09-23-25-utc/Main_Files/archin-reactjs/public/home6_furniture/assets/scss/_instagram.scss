@@ -1,0 +1,55 @@
+/* --------------- instagram style6 --------------- */
+.tc-instagram-style6 {
+
+    .insta-card {
+        position: relative;
+        display: block;
+        &::after {
+            position: absolute;
+            content: "";
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        &:hover {
+            &::after {
+                opacity: 0.4;
+            }
+            .icon {
+                opacity: 1;
+                transform: translate(-50% , -50%);
+            }
+        }
+
+
+        .img {
+            height: 300px;
+        }
+
+        .icon {
+            font-size: 40px;
+            color: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50% , 0%);
+            z-index: 2;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-instagram-style6 {
+        overflow: hidden;
+    }
+}

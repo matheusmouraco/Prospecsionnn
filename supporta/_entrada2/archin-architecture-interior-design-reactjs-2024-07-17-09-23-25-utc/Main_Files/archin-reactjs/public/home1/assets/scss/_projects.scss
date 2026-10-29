@@ -1,0 +1,159 @@
+/* --------------- projects style1 --------------- */
+.tc-projects-style1 {
+
+    .tabs-links {
+        .nav-pills {
+            .nav-link {
+                background-color: transparent;
+                padding: 0;
+                margin-inline-end: 40px;
+                font-size: 18px;
+                font-weight: 500;
+                border-radius: 0;
+                text-transform: capitalize;
+                color: #000;
+                &.active,
+                &:hover {
+                    color: var(--color-orange1);
+                }
+            }
+        }
+    }
+
+    .projects {
+        padding-bottom: 100px;
+        border-bottom: 1px solid #ccc;
+        
+        .projects-content {
+            position: relative;
+            * {
+                cursor: none;
+            }
+
+            .float-cursor {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50% , -50%) scale(0);
+                opacity: 0;
+                width: 160px;
+                height: 160px;
+                background-color: #fff;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                font-size: 16px;
+                z-index: 10;
+                transition: all 0.02 linear;
+                pointer-events: none;
+                box-shadow: 0 0 30px #0001;
+                &.show {
+                    opacity: 1;
+                    transform: translate(-50% , -50%) scale(1);
+                }
+            }
+
+            // .float_box_container {
+            //     position: absolute;
+            //     left: 0;
+            //     top: 0;
+            //     width: 100%;
+            //     height: 630px;
+            //     z-index: 10;
+            //     overflow: hidden;
+            //     pointer-events: none;
+            //     * {
+            //         cursor: none;
+            //         pointer-events: all;
+            //     }
+            //     .float-cursor {
+            //         position: absolute;
+            //         top: 50%;
+            //         left: 50%;
+            //         transform: translate(-50% , -50%) scale(0);
+            //         opacity: 0;
+            //         width: 160px;
+            //         height: 160px;
+            //         background-color: #fff;
+            //         border-radius: 50%;
+            //         display: flex;
+            //         align-items: center;
+            //         justify-content: center;
+            //         text-align: center;
+            //         letter-spacing: 0.05em;
+            //         text-transform: uppercase;
+            //         font-size: 16px;
+            //         z-index: 10;
+            //         transition: all 0.02 linear;
+            //         &.show {
+            //             opacity: 1;
+            //             transform: translate(-50% , -50%) scale(1);
+            //         }
+            //     }
+            // }
+            
+            
+
+        }
+
+
+        .project-card {
+            .img {
+                height: 630px;
+                border-radius: 20px;
+                overflow: hidden;
+                display: block;
+            }
+            .info {
+                padding-top: 40px;
+                .tags {
+                    margin-bottom: 30px;
+                    a {
+                        font-size: 12px;
+                        padding: 5px 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 50px;
+                        margin-inline-end: 5px;
+                    }
+                }
+                .title {
+                    font-size: 35px;
+                    margin-bottom: 15px;
+                    a {
+                        &:hover {
+                            color: var(--color-orange1);
+                        }
+                    }
+                }
+                .text {
+                    font-size: 14px;
+                    color: #666;
+                }
+            }
+        }
+
+    }
+    
+}
+
+@media screen and (max-width: 991px) {
+    .tc-projects-style1 {
+        .projects {
+            padding-bottom: 50px;
+            .project-card {
+                .img {
+                    height: 350px;
+                }
+                .info {
+                    .title {
+                        font-size: 25px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+/* --------------- about style5 --------------- */
+.tc-about-style5 {
+    position: relative;
+    z-index: 10;
+    &::after {
+        position: absolute;
+        content: "";
+        left: 3vw;
+        top: 0;
+        height: 100%;
+        width: calc(100% - 3vw);
+        background-color: #1F2528;
+    }
+
+    .content {
+        position: relative;
+        z-index: 10;
+        padding-top: 200px;
+        padding-bottom: 400px;
+        margin-top: -350px;
+
+        .about-title {
+            font-size: 75px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .main-content {
+            .text {
+                font-size: 14px;
+                line-height: 24px;
+                text-transform: uppercase;
+                color: #899fae;
+            }
+            .img {
+                height: 600px;
+            }
+        }
+
+    }
+
+    .lg-txt {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        line-height: 0.75;
+        padding-left: 100px;
+        font-size: calc(13vw + 30px);
+        text-transform: uppercase;
+        color: transparent;
+        -webkit-text-stroke: 1px #899fae;
+        width: 35%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        opacity: 0.5;
+        z-index: 1;
+    }
+
+    .float_img {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40%;
+        z-index: 1;
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+
+    .tc-about-style5 {
+        .content {
+            padding: 100px 20px;
+            .about-title {
+                font-size: 35px;
+            }
+            .main-content {
+                .img {
+                    height: 400px;
+                    margin-top: 50px;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+        .mb-150 {
+            margin-bottom: 40px !important;
+        }
+        .mt-100 {
+            margin-top: 40px !important;
+        }
+    }
+
+}

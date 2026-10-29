@@ -1,0 +1,100 @@
+/* ========= [ * page-home_6 ]  =========*/
+
+
+// navbar
+@import 'navbar';
+
+
+// side_menu
+@import 'side_menu';
+
+
+// header
+@import 'header';
+
+
+// about
+@import 'about';
+
+
+// featured
+@import 'featured';
+
+
+// by_style
+@import 'by_style';
+
+
+// categories
+@import 'categories';
+
+
+// banners
+@import 'banners';
+
+
+// trade
+@import 'trade';
+
+
+// blog
+@import 'blog';
+
+
+// subscribe
+@import 'subscribe';
+
+
+// instagram
+@import 'instagram';
+
+
+// footer
+@import 'footer';
+
+
+// ------------ home style ------------
+.home-style6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+
+    .section-title {
+        h2 {
+            font-size: 72px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+    }
+
+    h1,h2,h3,h4,.sub-font {
+        font-family: 'Instrument Serif', serif;
+    }
+
+    
+}
+
+@media screen and (max-width: 991px) {
+    .home-style6 {
+        br{
+            display: none;
+        }
+        .fsz-50 {
+            font-size: 30px !important;
+        }
+        .fsz-40 {
+            font-size: 25px !important;
+        }
+        .mb-90 {
+            margin-bottom: 40px !important;
+        }
+        .fsz-30 {
+            font-size: 18px !important;
+        }
+        .section-title h2 {
+            font-size: 50px;
+            line-height: 60px;
+        }
+        .butn {
+            padding: 12px 15px;
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+  "new": [
+    {
+      "offer": "15% off",
+      "title": "Wooden Jewelry Holder",
+      "oldPrice": "$129.00",
+      "price": "$159.00",
+      "img": "/home6_furniture/assets/images/products/prod1.png"
+    },
+    {
+      "offer": "new",
+      "title": "Bodeaux Fabric Airmchair",
+      "oldPrice": null,
+      "price": "From $79.00",
+      "img": "/home6_furniture/assets/images/products/prod2.png"
+    },
+    {
+      "offer": "15% off",
+      "title": "Denmark Tray Side Table",
+      "oldPrice": "$129.00",
+      "price": "$159.00",
+      "img": "/home6_furniture/assets/images/products/prod1.png"
+    }
+  ],
+  "best": [
+    {
+      "offer": "new",
+      "title": "Bodeaux Fabric Airmchair",
+      "oldPrice": null,
+      "price": "From $79.00",
+      "img": "/home6_furniture/assets/images/products/prod2.png"
+    },
+    {
+      "offer": "15% off",
+      "title": "Denmark Tray Side Table",
+      "oldPrice": "$129.00",
+      "price": "$159.00",
+      "img": "/home6_furniture/assets/images/products/prod1.png"
+    }
+  ]
+}

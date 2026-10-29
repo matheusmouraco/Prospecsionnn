@@ -1,0 +1,59 @@
+/* --------------- footer style10 --------------- */
+.tc-navbar-style10 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    background-color: transparent;
+    padding: 0;
+
+    .content {
+        padding: 20px 0;
+        border-bottom: 1px solid #fff5;
+
+        .navbar-brand {
+            max-width: 115px;
+            margin-inline-end: 100px;
+        }
+
+        .navbar-nav {
+            .nav-link {
+                font-size: 14px;
+                color: #fff;
+                opacity: 1;
+                margin: 0 20px;
+            }
+        }
+
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            border: 1px solid #fff;
+            color: #fff;
+            font-size: 16px;
+        }
+
+    }
+
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-navbar-style10 {
+        position: relative;
+        background-color: #333;
+        .content {
+            border: 0;
+            .navbar-nav {
+                margin: 20px 0;
+                .nav-link {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}

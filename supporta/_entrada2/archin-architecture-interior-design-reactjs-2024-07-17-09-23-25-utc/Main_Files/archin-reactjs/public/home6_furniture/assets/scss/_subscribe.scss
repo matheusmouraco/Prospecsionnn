@@ -1,0 +1,44 @@
+/* --------------- subscribe style6 --------------- */
+.tc-subscribe-style6 {
+    position: relative;
+    background-color: #E9E8E0;
+    
+    .content {
+        padding: 120px 0;
+        border-top: 1px solid #ccc;
+
+        .form {
+            text-align: center;
+            .form-group {
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #000;
+                margin-top: 80px;
+                .form-control {
+                    border: 0;
+                    background-color: transparent;
+                }
+                button {
+                    flex-shrink: 0;
+                    font-size: 18px;
+                    font-weight: bold;
+                    border: 0;
+                    background-color: transparent;
+                    text-transform: uppercase;
+                    transition: all 0.3s ease;
+                    &:hover {
+                        color: var(--color-brown2);
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-subscribe-style6 {
+
+    }
+}

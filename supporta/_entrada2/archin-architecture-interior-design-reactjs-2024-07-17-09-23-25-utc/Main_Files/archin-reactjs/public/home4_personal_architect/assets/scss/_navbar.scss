@@ -1,0 +1,28 @@
+/* --------------- navbar style4 --------------- */
+.tc-navbar-style4 {
+    position: relative;
+    padding: 60px 5vw 30px;
+
+    .logo-side {
+        display: flex;
+        justify-content: space-between;
+        .logo {
+            height: 50px;
+        }
+        .links {
+            a {
+                margin-bottom: 10px;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-navbar-style4 {
+        padding-top: 30px;
+    }
+}

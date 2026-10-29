@@ -1,0 +1,99 @@
+/* --------------- footer style5 --------------- */
+.tc-footer-style5 {
+    position: relative;
+    padding: 120px 0 200px;
+    background-color: var(--color-brown1);
+    color: #1f2528;
+    border-bottom: 15px solid #fff;
+
+    .title {
+        border-bottom: 1px solid #999;
+        padding: 20px 0;
+        h2 {
+            font-size: 300px;
+            font-weight: 400;
+            // color: #fff;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+    }
+
+    .info {
+        padding-top: 40px;
+        h4 {
+            font-size: 48px;
+            line-height: 48px;
+            text-transform: uppercase;
+        }
+        p {
+            font-size: 14px;
+            line-height: 24px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: #373e43;
+        }
+    }
+
+    .foot {
+        color: #373e43;
+        text-transform: uppercase;
+        .download-link {
+            display: flex;
+            align-items: center;
+            &:hover {
+                .icon {
+                    background-color: #373737;
+                    color: #fff;
+                }
+            }
+            .icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                border: 1px solid #373e43;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-inline-end: 20px;
+                flex-shrink: 0;
+                font-size: 18px;
+            }
+        }
+    }
+
+    .social-icons {
+        a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid #373737;
+            margin: 5px;
+            &:hover {
+                background-color: #373737;
+                color: #fff;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-footer-style5 {
+
+        .title {
+            h2 {
+                font-size: 20vw;
+            }
+        }
+
+        .info {
+            h4 {
+                font-size: 30px;
+            }
+        }
+
+    }
+
+}

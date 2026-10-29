@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Townhouse in San Joe",
+    "sub1": "Architecture",
+    "sub2": "Furniture",
+    "desc": "This area will is short description of project, you can select to show or hide it,  this a sample short paragraph for this.",
+    "img": "/home1/assets/img/projects/proj1.jpg"
+  },
+  {
+    "title": "Homestay Rennovation and Interior Design",
+    "sub1": "Furniture",
+    "sub2": "Furniture",
+    "desc": "This area will is short description of project, you can select to show or hide it,  this a sample short paragraph for this.",
+    "img": "/home1/assets/img/projects/proj2.jpg"
+  },
+  {
+    "title": "Homestay Rennovation and Interior Design",
+    "sub1": "Furniture",
+    "sub2": "Furniture",
+    "desc": "This area will is short description of project, you can select to show or hide it,  this a sample short paragraph for this.",
+    "img": "/home1/assets/img/projects/proj3.jpg"
+  },
+  {
+    "title": "Townhouse in San Joe",
+    "sub1": "Furniture",
+    "sub2": "Architecture",
+    "desc": "This area will is short description of project, you can select to show or hide it,  this a sample short paragraph for this.",
+    "img": "/home1/assets/img/projects/proj1.jpg"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "img": "/home10/assets/img/services/ser1.jpg",
+    "title": "Architectural Design and Building",
+    "desc": "Planning, 3D Visualization, CGI, Landscape Design, Structural Drawing, Construction Supervision"
+  },
+  {
+    "img": "/home10/assets/img/services/ser2.jpg",
+    "title": "Interior and Exterior Design",
+    "desc": "Interior Design, Exterior Design, CGI, Renovation, Sustainable Design"
+  },
+  {
+    "img": "/home10/assets/img/services/ser3.jpg",
+    "title": "Furniture Production and Selling",
+    "desc": "Bespoke Furnitures, Material Resource, Online Store, Distribute, 3d Modeling"
+  },
+  {
+    "img": "/home10/assets/img/services/ser4.jpg",
+    "title": "Consulting",
+    "desc": " Project Analysis, Architectural Consult Bids Documents"
+  }
+]

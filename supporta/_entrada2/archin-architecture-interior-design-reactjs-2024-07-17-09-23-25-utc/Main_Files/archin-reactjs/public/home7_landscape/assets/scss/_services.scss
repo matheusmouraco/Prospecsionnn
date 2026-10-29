@@ -1,0 +1,59 @@
+/* --------------- services style7 --------------- */
+.tc-services-style7 {
+    position: relative;
+
+    .content {
+        position: relative;
+        padding: 110px 0;
+        border-top: 1px solid #ccc;
+        
+        .service-card {
+            position: relative;
+            margin-top: 50px;
+            padding: 30px;
+            border: 1px solid #ccc;
+            display: block;
+
+            &:hover {
+                border-top: 5px solid var(--color-green1);
+            }
+            
+            .top-info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 60px;
+                .icon {
+                    width: 65px;
+                    height: 65px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    background-color: #F3F8E9;
+                    color: var(--color-green1);
+                    font-size: 18px;
+                }
+            }
+
+            .text {
+                min-height: 105px;
+                font-size: 19px;
+                display: flex;
+                align-items: end;
+            }
+
+        }
+
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-services-style7 {
+        padding: 0 !important;
+        .content {
+            padding: 80px 0;
+        }
+    }
+}

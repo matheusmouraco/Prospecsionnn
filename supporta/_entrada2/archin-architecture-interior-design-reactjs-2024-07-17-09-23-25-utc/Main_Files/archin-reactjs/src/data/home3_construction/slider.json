@@ -1,0 +1,23 @@
+[
+  {
+    "img": "/home3_construction/assets/img/header/slide_1.jpg",
+    "type": "builds",
+    "advantege": "philosophy",
+    "title": "timeless, <br /> sustainable & <br /> stable",
+    "desc": "We build spaces and objects with digital techniques, <br /> our mission is shape a better future"
+  },
+  {
+    "img": "/home3_construction/assets/img/header/slide_2.jpg",
+    "type": "project",
+    "advantege": "featured",
+    "title": "ohio <br /> finance office <br /> building",
+    "desc": "We build spaces and objects with digital techniques, <br /> our mission is shape a better future"
+  },
+  {
+    "img": "/home3_construction/assets/img/header/slide_3.jpg",
+    "type": "news",
+    "advantege": "featured",
+    "title": "amber project <br /> progress in <br /> 8/2023",
+    "desc": "We build spaces and objects with digital techniques, <br /> our mission is shape a better future"
+  }
+]

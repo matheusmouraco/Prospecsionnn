@@ -1,0 +1,215 @@
+/* ========= [ * page-home_1 ]  =========*/
+
+// side menu
+@import 'side_menu';
+
+// navbar
+@import 'navbar';
+
+// header
+@import 'header';
+
+// experience
+@import 'experience';
+
+// services
+@import 'services';
+
+// process
+@import 'process';
+
+// projects
+@import 'projects';
+
+// testimonials
+@import 'testimonials';
+
+// team
+@import 'team';
+
+// awards
+@import 'awards';
+
+// blog
+@import 'blog';
+
+// chat
+@import 'chat';
+
+// footer
+@import 'footer';
+
+
+// ------------ home style ------------
+.home-style1 {
+
+    .borderd {
+        border-color: #ccc !important;
+    }
+
+    .section-padding {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    .section-padding-x {
+        padding-right: 4vw;
+        padding-left: 4vw;
+    }
+
+    .section-head-style1 {
+        .sub-title {
+            font-size: 14px;
+            color: #333;
+            position: relative;
+            padding-inline-start: 60px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            &::before {
+                position: absolute;
+                content: "";
+                left: 0;
+                top: calc(50% - 4px);
+                width: 30px;
+                height: 8px;
+                background-color: #888;
+            }
+        }
+        h2 {
+            font-size: 55px;
+            letter-spacing: -1px;
+            font-weight: 500;
+            line-height: 1.1;
+        }
+    }
+    
+}
+
+@media screen and (max-width: 991px) {
+    .home-style1 {
+        br{
+            display: none;
+        }
+        .fsz-50 {
+            font-size: 30px !important;
+        }
+        .fsz-45 {
+            font-size: 25px !important;
+        }
+        
+        .fsz-40 {
+            font-size: 25px !important;
+        }
+        .mb-90 {
+            margin-bottom: 40px !important;
+        }
+        .fsz-30 {
+            font-size: 18px !important;
+        }
+
+        .mb-50 {
+            margin-bottom: 30px !important;
+        }
+
+        .section-head-style1 {
+            .sub-title {
+                margin-bottom: 15px !important;
+            }
+            h2 {
+                font-size: 30px;
+            }
+        }
+
+        .mt-5 {
+            margin-top: 2rem!important;
+        }
+
+        .section-padding {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+    }
+}
+
+html[lang="ar"]{
+
+    .home-style1 {
+        direction: rtl;
+        font-family: 'IBM Plex Sans Arabic', sans-serif;
+
+        .tc-header-style1 {
+            .header-slider {
+                .swiper-pagination {
+                    left: auto;
+                    right: 4vw;
+                }
+                .slider-controls {
+                    right: auto;
+                    left: 40px;
+                }
+                .slider-card {
+                    .info {
+                        h1 {
+                            font-size: calc(10vw + 10px);
+                        }
+                    }
+                }
+            }
+        }
+
+        .tc-experience-style1 {
+            .img.animated {
+                transform: rotate(15deg) scale(1);
+            }
+            .c-line {
+                left: auto;
+                right: 0;
+                transform: rotateY(180deg);
+            }
+        }
+
+        .tc-services-style1 {
+            .title {
+                p.animated {
+                    letter-spacing: normal;
+                    font-size: 30px;
+                }
+            }
+        }
+
+        .tc-process-style1 {
+            .img.animated {
+                transform: rotate(-15deg) scale(1);
+            }
+            .c-line {
+                right: auto;
+                left: 0;
+                transform: rotateX(180deg);
+            }
+        }
+
+        .tc-testimonials-style1 {
+            .tc-clients-style1 .slider-controls {
+                left: 0;
+                right: auto;
+            }
+            .c-line {
+                left: auto;
+                right: 0;
+                transform: rotateX(180deg);
+            }
+        }
+
+        .tc-chat-style1 .c-line {
+            right: auto;
+            left: 0;
+            transform: rotateX(180deg);
+        }
+        
+        .loader-wrap {
+            direction: ltr;
+        }
+
+    }
+}

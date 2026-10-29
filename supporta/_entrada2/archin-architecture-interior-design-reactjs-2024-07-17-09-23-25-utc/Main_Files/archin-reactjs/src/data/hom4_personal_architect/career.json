@@ -1,0 +1,57 @@
+[
+  {
+    "history": "2019 - Present",
+    "works": [
+      {
+        "p1": "Independent Architect",
+        "p2": "Jorger Clarkson Brand"
+      },
+      {
+        "p1": "Co-Founder / Art Director",
+        "p2": "Zumar Developemnt Group Co"
+      },
+      {
+        "p1": "Owner",
+        "p2": "Befurniture Interior Decor Online store"
+      }
+    ]
+  },
+  {
+    "history": "2011- 2019",
+    "works": [
+      {
+        "p1": "Lead of Architects",
+        "p2": "D+ Architecture Design Company, Boston"
+      },
+      {
+        "p1": "Architect / Project Management",
+        "p2": " Baroque Interior Design Studio, NY"
+      },
+      {
+        "p1": "3D Visuallization Architect",
+        "p2": "Ziyah Lemois Ark Studio, NY"
+      },
+      {
+        "p1": "Landscape Architect",
+        "p2": "Greenland Archtecture Design Co., LA"
+      }
+    ]
+  },
+  {
+    "history": "2006 - 2011",
+    "works": [
+      {
+        "p1": "Intership 3D Visuallization Architect",
+        "p2": "N2 Design Studio, La"
+      },
+      {
+        "p1": "Master of Architecture",
+        "p2": "Oklahoma State University, OK"
+      },
+      {
+        "p1": "Bachelor of Architecture",
+        "p2": "Harvard University, MA"
+      }
+    ]
+  }
+]

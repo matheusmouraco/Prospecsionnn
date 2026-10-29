@@ -1,0 +1,30 @@
+/* --------------- chat style10 --------------- */
+.tc-chat-style10 {
+    position: relative;
+
+    .xl-text {
+        font-size: calc(10vw + 20px);
+        font-weight: 500;
+        position: relative;
+        z-index: 10;
+        line-height: 1;
+    }
+
+    .pattern {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 35%;
+        height: 100%;
+        object-fit: contain;
+        object-position: bottom;
+        pointer-events: none;
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-chat-style10 {
+
+    }
+}

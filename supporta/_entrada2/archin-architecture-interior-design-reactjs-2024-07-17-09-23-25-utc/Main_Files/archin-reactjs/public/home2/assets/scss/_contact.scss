@@ -1,0 +1,104 @@
+/* --------------- contact style2 --------------- */
+.tc-contact-style2 {
+    background-color: #F1EEE9;
+
+    .contact-form {
+        padding: 110px 0;
+        border-top: 1px solid #ccc;
+
+        .form-group {
+            position: relative;
+            margin-top: 40px;
+            label {
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+            .form-control {
+                border: 0;
+                border-radius: 0;
+                border-bottom: 1px solid #ccc;
+                color: #000;
+                background-color: transparent;
+                padding: 15px 0;
+                &:focus {
+                    border-color: #000;
+                }
+            }
+        }
+
+        .upload_img_content{
+            // color: #fff;
+            margin-top: 50px;
+      
+            .file__input--file{
+                display: none;
+            }
+            
+            .file__input--label{
+               cursor: pointer;
+               text-transform: uppercase;
+               font-size: 14px;
+               font-weight: 200;
+               display: block;
+                margin: auto;
+                font-weight: 600;
+                width: max-content;
+               i{
+                  margin-inline-end: 10px;
+                //   font-size: 21px;
+               }
+            }
+      
+            .file__value_content{
+               display: flex;
+               flex-wrap: wrap;
+               justify-content: center;
+                .file__value{
+                  display: flex;
+                  padding: 15px;
+                  margin-top: 15px;
+                  background-color: #fff;
+                  width: 31%;
+                  margin-inline-end: 2%;
+                    .file__value--text{
+                     width: calc(100% - 30px);
+                     overflow: hidden;
+                    }
+                }
+            }
+      
+            .file__value--remove{
+               cursor: pointer;
+               margin-inline-start: 10px;
+            }
+        }
+
+        .terms-check {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            .form-check-input {
+                width: 20px;
+                height: 20px;
+                border-radius: 6px;
+                margin: 0 15px 0 0;
+                background-color: transparent;
+                border: 1px solid #ccc;
+                &:checked {
+                    background-color: var(--color-orange1);
+                    border-color: var(--color-orange1);
+                }
+            }
+        }
+
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .tc-contact-style2 {
+        .contact-form {
+            padding: 80px 0;
+        }
+    }
+}

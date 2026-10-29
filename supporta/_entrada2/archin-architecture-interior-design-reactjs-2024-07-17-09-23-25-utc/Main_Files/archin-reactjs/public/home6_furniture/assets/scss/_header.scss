@@ -1,0 +1,157 @@
+/* --------------- header style6 --------------- */
+.tc-header-style6 {
+    position: relative;
+    color: #fff;
+
+    .floating-contact {
+        position: absolute;
+        left: 80px;
+        bottom: 50px;
+        z-index: 30;
+    }
+
+    .arrows {
+        position: absolute;
+        right: 80px;
+        bottom: 50px;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        .swiper-button-prev,
+        .swiper-button-next {
+            position: static;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 1px solid #fff5;
+            margin-inline-start: 10px;
+            &::after {
+                font-size: 14px;
+                color: #fff;
+            }
+            &:hover {
+                background-color: #fff;
+                &::after {
+                    color: var(--color-brown2);
+                }
+            }
+        }
+    }
+
+    .header-slider {
+        position: relative;
+        overflow: hidden;
+
+        .swiper-slide-active {
+            .content {
+                .info {
+                    h2 {
+                        transform: translateX(0) !important;
+                    }
+                }
+            }
+        }
+
+        .slide-card {
+            min-height: 100vh;
+            height: 1000px;
+            &::after {
+                position: absolute;
+                content: "";
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #000;
+                opacity: 0.3;
+            }
+
+            .bg{
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .content {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                .info {
+                    h2 {
+                        font-size: 150px;
+                        line-height: 130px;
+                        letter-spacing: -0.01em;
+                        text-transform: uppercase;
+                        font-weight: 400;
+                        display: flex;
+                        align-items: flex-end;
+                        font-family: 'Instrument Serif', serif;
+                        transition: all 1s ease;
+                        &:nth-last-of-type(1){
+                            transform: translateX(50%);
+                        }
+                        &:nth-last-of-type(3){
+                            transform: translateX(-50%);
+                        }
+                    }
+                    .sm-txt {
+                        font-size: 14px;
+                        text-transform: uppercase;
+                        line-height: 24px;
+                        letter-spacing: 0.5px;
+                        margin-inline-start: -150px;
+                    }
+                    .float-arrow {
+                        width: 120px;
+                        height: 120px;
+                        border-radius: 50%;
+                        background-color: #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 50px;
+                        color: #000;
+                        margin: 100px auto 0;
+                        &:hover {
+                            background-color: var(--color-brown2);
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-header-style6 {
+        .header-slider {
+            .slide-card {
+                .content {
+                    .info {
+                        h2 {
+                            font-size: 70px;
+                            line-height: 80px;
+                        }
+                        .sm-txt {
+                            font-size: 15px;
+                            margin-inline-start: 0;
+                            margin-top: 30px;
+                        }
+                    }
+                }
+            }
+        }
+        .floating-contact {
+            left: 15px;
+        }
+        .arrows {
+            right: 15px;
+        }
+    }
+}

@@ -1,0 +1,91 @@
+/* ========= [ * page-home-5 ]  =========*/
+
+
+// side menu
+@import 'side_menu';
+
+
+// navbar
+@import 'navbar';
+
+
+// header
+@import 'header';
+
+
+// about
+@import 'about';
+
+
+// flawless
+@import 'flawless';
+
+
+// location
+@import 'location';
+
+
+// apartments
+@import 'apartments';
+
+
+// testimonial
+@import 'testimonial';
+
+
+// services
+@import 'services';
+
+
+// blog
+@import 'blog';
+
+
+// footer
+@import 'footer';
+
+
+// ------------ home style ------------
+.home-style5 {
+    // font-family: 'Plus Jakarta Sans', sans-serif;
+
+    background-color: #373E43;
+    color: #fff;
+
+    h1,h2,h3,.sub-font {
+        font-family: 'Instrument Serif', serif;
+    }
+    
+}
+
+@media screen and (max-width: 991px) {
+    .home-style5 {
+        br{
+            display: none;
+        }
+        .fsz-50 {
+            font-size: 30px !important;
+        }
+        .fsz-40 {
+            font-size: 25px !important;
+        }
+        .mb-90 {
+            margin-bottom: 40px !important;
+        }
+        .fsz-30 {
+            font-size: 18px !important;
+        }
+        .fsz-70 {
+            font-size: 35px !important;
+        }
+        .fsz-24 {
+            font-size: 17px !important;
+        }
+        .mt-150 {
+            margin-top: 80px !important;
+        }
+        .mb-120 {
+            margin-bottom: 80px !important;
+        }
+    }
+}

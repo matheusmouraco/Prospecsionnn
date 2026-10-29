@@ -1,0 +1,20 @@
+[
+  {
+    "img": "/home7_landscape/assets/img/services/ser1.png",
+    "icon": "fal fa-bezier-curve",
+    "title": "Consultation <br /> & design",
+    "desc": "Landscape Consultation, Landscape Design, Planning, Garden Design, Urban Design."
+  },
+  {
+    "img": "/home7_landscape/assets/img/services/ser2.png",
+    "icon": "fal fa-hammer",
+    "title": "installation <br />",
+    "desc": "Landscape Construction, Pool Design and Construction, Retaining Walls, Paver Patio."
+  },
+  {
+    "img": "/home7_landscape/assets/img/services/ser3.png",
+    "icon": "fal fa-leaf",
+    "title": "garden <br /> maintenance",
+    "desc": "Landscape Maintenance, Garden Maintenance, Plant Delivery."
+  }
+]

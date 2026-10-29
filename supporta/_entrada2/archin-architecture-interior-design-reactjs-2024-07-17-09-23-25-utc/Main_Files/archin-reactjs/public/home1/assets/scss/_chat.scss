@@ -1,0 +1,40 @@
+/* --------------- chat style1 --------------- */
+.tc-chat-style1 {
+    position: relative;
+    padding: 150px 0;
+    background-color: #F1EEE9;
+
+    .c-line {
+        position: absolute;
+        right: 0;
+        bottom: 70px;
+        width: 60%;
+        pointer-events: none;
+        height: 450px;
+        pointer-events: none;
+        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+        transition: all 2s linear;
+        &.animated {
+            clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
+        }
+    }
+
+    .xl-text {
+        font-size: 120px;
+        font-weight: 500;
+        position: relative;
+        z-index: 10;
+        line-height: 1;
+        color: var(--color-orange1);
+        margin-bottom: 20px;
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-chat-style1 {
+        .xl-text {
+            font-size: 50px;
+        }
+    }
+}

@@ -1,0 +1,98 @@
+/* --------------- header style4 --------------- */
+.tc-header-style4 {
+    position: relative;
+    padding-bottom: 200px;
+    &::after {
+        position: absolute;
+        content: "";
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        width: calc(((100vw - 1320px) / 2) + 1320px);
+        background-color: #b4b4b4;
+    }
+
+    .rotate-box {
+        position: relative;
+        width: 220px;
+        height: 220px;
+        display: block;
+        margin: 0 90px 0 auto;
+
+        .num {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, - 50%);
+            font-size: 70px;
+            font-family: "butler";
+        }
+
+        .rotate-text {
+            animation: rotateText 20s linear infinite;
+            font-weight: 400;
+            text-transform: uppercase;
+            position: absolute;
+            left: 0;
+            border-radius: 50%;
+        }
+
+        .rotate-circle svg {
+            width: 220px;
+            height: 220px;
+            fill: #000;
+            transform: scale(1);
+        }
+
+        @keyframes rotateText {
+            0% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    }
+
+    h1 {
+        font-size: calc(15vw);
+        text-transform: uppercase;
+        font-weight: 300;
+        line-height: 0.9;
+        margin-top: -100px;
+    }
+
+    .float_txt {
+        font-size: 130px;
+        color: var(--color-green1);
+        transform: rotate(-15deg);
+        transform-origin: left;
+        margin-inline-start: 50%;
+        margin-top: -50px;
+        font-family: 'Sacramento', cursive;
+    }
+
+    .info {
+        .img {
+            width: 220px;
+            height: 280px;
+        }
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .tc-header-style4 {
+        h1 {
+            margin-top: 50px;
+        }
+        .float_txt {
+            font-size: 50px;
+            color: var(--color-green1);
+            margin-inline-start: 30%;
+            margin-top: 10px;
+        }
+    }
+
+}

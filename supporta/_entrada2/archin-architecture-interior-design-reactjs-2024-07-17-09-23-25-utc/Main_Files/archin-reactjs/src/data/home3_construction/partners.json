@@ -1,0 +1,52 @@
+[
+  {
+    "img": "/home3_construction/assets/img/partners/lg1.svg",
+    "title": "Brand 1986",
+    "delay": ".2s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg2.svg",
+    "title": "hanley & nick",
+    "delay": ".4s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg3.svg",
+    "title": "colorfun",
+    "delay": ".6s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg4.svg",
+    "title": "arcnyc",
+    "delay": ".8s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg5.svg",
+    "title": "mathew coo.",
+    "delay": "1s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg6.svg",
+    "title": "zumar cons",
+    "delay": ".1s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg7.svg",
+    "title": "rogerark",
+    "delay": ".3s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg8.svg",
+    "title": "oDA Group",
+    "delay": ".5s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg9.svg",
+    "title": "Star Interior design",
+    "delay": ".7s"
+  },
+  {
+    "img": "/home3_construction/assets/img/partners/lg10.svg",
+    "title": "DD group",
+    "delay": ".9s"
+  }
+]

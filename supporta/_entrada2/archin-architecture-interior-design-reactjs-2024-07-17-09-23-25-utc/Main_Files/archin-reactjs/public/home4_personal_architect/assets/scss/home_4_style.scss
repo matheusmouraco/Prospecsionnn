@@ -1,0 +1,87 @@
+/* ========= [ * page-home_3 ]  =========*/
+
+@font-face {
+    font-family: "butler";
+    src:
+    local("../fonts/Butler_Stencil/Butler_Bold_Stencil.otf"),
+}
+
+@font-face {
+    font-family: "Butler_regular";
+    src:
+    local("../fonts/Butler_Stencil/Butler_Regular_Stencil.otf.otf"),
+}
+
+// side_menu
+@import 'side_menu';
+
+
+// navbar
+@import 'navbar';
+
+
+// header
+@import 'header';
+
+
+// portfolio
+@import 'portfolio';
+
+
+// clients
+@import 'clients';
+
+
+// career
+@import 'career';
+
+
+// instagram
+@import 'instagram';
+
+
+// footer
+@import 'footer';
+
+
+// ------------ home style ------------
+.home-style4 {
+    // font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #ECECEC;
+
+    h1, h2, h3, h4, .sub-font {
+        font-family: "butler";
+    }
+
+    .sec-title {
+        font-size: 72px;
+        line-height: 72px;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .home-style4 {
+        br{
+            display: none;
+        }
+        .fsz-50 {
+            font-size: 30px !important;
+        }
+        .fsz-40 {
+            font-size: 25px !important;
+        }
+        .mb-90 {
+            margin-bottom: 40px !important;
+        }
+        .fsz-30 {
+            font-size: 18px !important;
+        }
+
+        .sec-title {
+            font-size: 40px;
+        }
+    }
+}
