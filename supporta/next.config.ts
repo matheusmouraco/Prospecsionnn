@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
         { source: `/${app}`, headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
         { source: `/${app}/:path*`, headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
       ]),
+      // Modelos de demonstração: navegáveis, mas fora do Google (conteúdo de template).
+      { source: "/vitrine/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
     ];
   },
   async rewrites() {

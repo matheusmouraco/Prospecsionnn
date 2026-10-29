@@ -4,12 +4,12 @@ import { getSegment } from "@/lib/segments";
 import { templates, type TemplateShowcase } from "@/lib/templates";
 
 function Card({ t, eager }: { t: TemplateShowcase; eager?: boolean }) {
-  const mock = getSegment(t.segment)?.mock;
+  const mock = t.segment ? getSegment(t.segment)?.mock : undefined;
   return (
     <BrowserFrame url={t.domain} ratio="880 / 605" className="shadow-[0_30px_60px_-24px_rgb(11_11_15/0.35)]">
       {t.image ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={t.image} alt={`Modelo de site ${t.name}`} width={880} height={605} loading={eager ? "eager" : "lazy"} fetchPriority={eager ? "low" : undefined} decoding="async" className="h-full w-full object-cover object-top" />
+        <img src={t.image} alt={`Modelo de site: ${t.name}`} width={880} height={605} loading={eager ? "eager" : "lazy"} fetchPriority={eager ? "low" : undefined} decoding="async" className="h-full w-full object-cover object-top" />
       ) : mock ? (
         <SiteMock mock={mock} variant="desktop" />
       ) : null}
@@ -34,7 +34,7 @@ function Column({ items, reverse, duration, offset = "" }: { items: TemplateShow
 /** Parede de templates inclinada, passando em três colunas (desktop) ou em fila horizontal (celular). */
 export function TemplateMarquee() {
   // Cada coluna começa num modelo diferente para a parede não repetir lado a lado.
-  const rotated = [0, 2, 4].map((start) => [...templates.slice(start), ...templates.slice(0, start)].slice(0, 4));
+  const rotated = [0, 4, 8].map((start) => [...templates.slice(start), ...templates.slice(0, start)].slice(0, 4));
   return (
     <div aria-label="Modelos de site da Supporta" role="region" className="relative min-w-0">
       <div className="marquee-wall hidden h-[720px] lg:block">

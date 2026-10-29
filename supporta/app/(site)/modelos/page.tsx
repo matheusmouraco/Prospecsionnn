@@ -7,6 +7,7 @@ import { SiteMock } from "@/components/mockups/SiteMock";
 import { Faq } from "@/components/ui/Faq";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { PageHero } from "@/components/ui/PageHero";
+import { VitrineGallery } from "@/components/modelos/VitrineGallery";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import type { Faq as FaqItem } from "@/lib/faqs";
 import { faqSchema } from "@/lib/schema";
@@ -67,7 +68,19 @@ export default function ModelosPage() {
           ))}
         </ul>
       </section>
-      <Section tone="white" labelledBy="modelos-faq">
+      <Section id="vitrine" tone="white" labelledBy="vitrine-title">
+        <SectionHeading
+          id="vitrine-title"
+          label="Vitrine"
+          title="Veja os modelos funcionando"
+          lead="Abra qualquer modelo e navegue como se fosse o seu site. A gente aplica a sua marca, os seus textos e as suas fotos no estilo que você escolher."
+          align="center"
+        />
+        <div className="mt-12">
+          <VitrineGallery />
+        </div>
+      </Section>
+      <Section labelledBy="modelos-faq">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <SectionHeading id="modelos-faq" label="Dúvidas" title="Perguntas sobre os modelos" />
           <Faq items={faq} />

@@ -1,22 +1,18 @@
-import { segments } from "./segments";
+import { vitrine, vitrineThumb, vitrineUrl } from "./vitrine";
 
-// Templates que aparecem passando no hero e na vitrine de modelos.
-// Quando houver print real de um template, coloque o arquivo em public/templates/<slug>.webp e preencha `image`.
+// Modelos que passam na parede do hero: uma seleção variada da vitrine (lib/vitrine.ts), com o print de cada um.
 export type TemplateShowcase = {
   slug: string;
   name: string;
-  segment: string; // slug de lib/segments.ts
+  segment?: string; // slug de lib/segments.ts, para o mock de reserva quando não houver print
   domain: string;
   image?: string;
-  demo?: string; // caminho da prévia navegável, se existir
+  demo?: string; // caminho da prévia navegável
 };
 
-export const templates: TemplateShowcase[] = segments.map((s) => ({
-  slug: s.slug,
-  name: s.mock.business,
-  segment: s.slug,
-  domain: `${s.mock.business.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, "e").replace(/[^a-z0-9]/g, "")}.com.br`,
-  demo: `/demo/${s.slug}`,
-  // Prints das demos (gerados a partir de /demo). Trocar pelos prints dos templates definitivos quando chegarem.
-  image: `/templates/${s.slug}.webp`,
-}));
+const picks = ["restaurante", "arquitetura", "terapia", "consultoria", "veterinaria", "construtora", "academia", "financas", "floricultura", "agencia-digital", "contador", "saas"];
+
+export const templates: TemplateShowcase[] = picks
+  .map((slug) => vitrine.find((v) => v.slug === slug))
+  .filter((v): v is NonNullable<typeof v> => Boolean(v))
+  .map((v) => ({ slug: v.slug, name: v.name, domain: `${v.slug.replace(/-/g, "")}.com.br`, image: vitrineThumb(v.slug), demo: vitrineUrl(v.slug) }));
