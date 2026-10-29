@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Dentia -Dentist & Dental Clinic Nextjs Template Documentation</title>
+
+<link rel="stylesheet" href="css/bootstrap.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<section class="bg-color">
+        	<div class="row">
+            	<div class="col-md-3">
+            	  <h1 class="title">Dentia</h1>
+           	  </div>
+                <div class="col-md-7">
+                  Thank you for purchasing <strong>Dentia - Dentist & Dental Clinic Nextjs Template</strong>.
+                  This documentation will guide you through the installation, customization, and deployment process.
+                  If you have any questions beyond this help file, please feel free to ask via our support channels.
+                </div>
+                <div class="col-md-2 text-right"><a class="btn btn-primary mt15" href="#">View All Our Items</a></div>
+            </div>
+    </section>
+
+    <section>
+		<h2>Getting Started</h2>
+
+		<div class="expand">
+			<div class="title">Prerequisites & Installation</div>
+			<div class="content">
+			<ol class="alpha">
+            <li>
+              <strong>Node.js and NPM :</strong> You need Node.js installed on your machine. We recommend the latest LTS version. 
+              Download from <a href="https://nodejs.org" target="_blank">nodejs.org</a>.
+            </li>
+            <li>
+              <strong>Installation :</strong> Open your terminal in the project root directory (<code>dentia-next</code>) and run the following command to install dependencies:
+              <br>
+              <code>npm install</code>
+              <br>
+              or if you use Yarn:
+              <br>
+              <code>yarn install</code>
+            </li>
+            <li>
+              <strong>Development Server :</strong> Run the following command to start the local development server:
+              <br>
+              <code>npm run dev</code>
+              <br>
+              Navigate to <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> to view the app.
+            </li>
+            <li>
+              <strong>Production Build :</strong> This project is configured for static export (`output: 'export'`). To build for production:
+              <br>
+              <code>npm run build</code>
+              <br>
+              The static files will be generated in the <strong>out/</strong> directory, ready to be deployed to any static hosting service (Netlify, Vercel, GitHub Pages, etc.).
+            </li>
+          </ol>
+			</div>
+		</div>
+
+		<div class="expand">
+			<div class="title">Project Structure</div>
+
+			<div class="content">
+				<pre>
+        Dentia Next.js
+        │  
+        ├── public            # -- Static assets (images, fonts, scripts, css)
+        │   ├── css           # -- Global CSS files (bootstrap, plugins, style.css)
+        │   ├── fonts         # -- Font icons (ElegantIcons, etc.)
+        │   ├── images        # -- Image assets
+        │   ├── js            # -- JavaScript plugins (custom.js, plugins.js, etc.)
+        │   └── ...
+        │  
+        ├── app               # -- Next.js App Router Pages
+        │   ├── about         # -- About Page
+        │   ├── blog          # -- Blog Pages
+        │   ├── booking       # -- Booking Page
+        │   ├── contact       # -- Contact Page
+        │   ├── dentists      # -- Dentists Page
+        │   ├── faq           # -- FAQ Page
+        │   ├── gallery       # -- Gallery Page
+        │   ├── homepage-*    # -- Homepage Variations (1-7)
+        │   ├── services      # -- Services Pages
+        │   ├── testimonials  # -- Testimonials Page
+        │   ├── layout.tsx    # -- Root Layout (Global structure)
+        │   ├── globals.css   # -- Global Tailwind & CSS imports
+        │   └── page.tsx      # -- Main Entry Page
+        │  
+        ├── components        # -- React Components
+        │   ├── BookingForm.tsx   # -- Booking Form Logic
+        │   ├── ContactForm.tsx   # -- Contact Form Logic
+        │   ├── Header.tsx        # -- Header Component
+        │   ├── Footer.tsx        # -- Footer Component
+        │   ├── Preloader.tsx     # -- Website Preloader
+        │   ├── ScriptHandler.tsx # -- Client-side Script Manager
+        │   └── ...
+        │  
+        ├── next.config.ts    # -- Next.js Configuration
+        └── package.json      # -- Project Dependencies
+				</pre>
+			</div>
+
+		</div>
+
+		<div class="expand">
+			<div class="title">Customization Guide</div>
+			<div class="content">
+        
+        <h3>1. Navigation Menu</h3>
+        <p>The main menu is located in <strong>components/Header.tsx</strong>. To add or modify menu items:</p>
+        <ul>
+          <li>Open <code>components/Header.tsx</code></li>
+          <li>Locate the <code>&lt;ul id="mainmenu"&gt;</code> section.</li>
+          <li>You can add or edit <code>&lt;Link&gt;</code> components for internal navigation.</li>
+        </ul>
+
+        <h3 class="mt15">2. Preloader</h3>
+        <p>The preloader component is located at <strong>components/Preloader.tsx</strong>.</p>
+        <ul>
+          <li>Styles for the preloader can be found in <code>public/css/style.css</code>.</li>
+        </ul>
+
+        <h3 class="mt15">3. Changing Logo</h3>
+        <p>To change the logo, update the image paths in <strong>components/Header.tsx</strong> and <strong>components/Footer.tsx</strong>:</p>
+        <pre>
+&lt;img className="logo-main logo" src="/images/logo-white.webp" alt="" /&gt;
+        </pre>
+        <p>Place your new logo files in the <code>public/images/</code> directory.</p>
+
+        <h3 class="mt15">4. Styles</h3>
+        <p>Global styles are located in <code>public/css/style.css</code>. You can also use Tailwind utility classes directly in your components.</p>
+			</div>
+		</div>
+
+    <div class="expand">
+      <div class="title">Booking & Contact Forms</div>
+      <div class="content">
+        <p>The Booking and Contact forms are fully functional and powered by <strong>EmailJS</strong>. This allows you to receive emails directly without needing a backend server.</p>
+        
+        <h3>1. Setting up EmailJS</h3>
+        <ol>
+            <li>Go to <a href="https://www.emailjs.com/" target="_blank">https://www.emailjs.com/</a> and create a free account.</li>
+            <li><strong>Add New Service:</strong> In your EmailJS dashboard, add a new Email Service (e.g., Gmail). Note the <strong>Service ID</strong>.</li>
+            <li><strong>Create Email Template:</strong> Create a new email template. 
+                <ul>
+                    <li>For Booking Form, use variables like <code>{{name}}</code>, <code>{{email}}</code>, <code>{{phone}}</code>, <code>{{service}}</code>, <code>{{date}}</code>, <code>{{time}}</code>, <code>{{message}}</code>.</li>
+                    <li>For Contact Form, use variables like <code>{{name}}</code>, <code>{{email}}</code>, <code>{{phone}}</code>, <code>{{message}}</code>.</li>
+                    <li>Note the <strong>Template ID</strong> for each.</li>
+                </ul>
+            </li>
+            <li><strong>Get Public Key:</strong> Go to Account > API Keys and copy your <strong>Public Key</strong>.</li>
+        </ol>
+
+        <h3 class="mt15">2. Configuring Booking Form</h3>
+        <p>Open <code>components/BookingForm.tsx</code> and locate the configuration section at the top:</p>
+        <pre>
+const BOOKING_EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+const BOOKING_EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+const BOOKING_EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+        </pre>
+        <p>Replace the empty strings with your actual EmailJS credentials.</p>
+
+        <h3 class="mt15">3. Configuring Contact Form</h3>
+        <p>Open <code>components/ContactForm.tsx</code> and locate the `sendEmail` function:</p>
+        <pre>
+const SERVICE_ID = 'YOUR_SERVICE_ID';
+const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+        </pre>
+        <p>Replace these placeholder values with your actual EmailJS credentials.</p>
+
+        <h3 class="mt15">4. Fallback Mode</h3>
+        <p>If you do not configure EmailJS, the forms will automatically fall back to opening the user's default email client (mailto) with the form details pre-filled. This ensures the forms are usable even without setup.</p>
+      </div>
+    </div>
+
+	</section>
+    
+	<section>
+		<h2>Credits & Dependencies</h2>
+	
+		<div class="expand">
+        <div class="title">Libraries Used</div>
+        <div class="content">
+          <ul>
+            <li><strong>Next.js</strong> - React Framework</li>
+            <li><strong>React</strong> - UI Library</li>
+            <li><strong>Bootstrap</strong> - CSS Framework (Grid & Utilities)</li>
+            <li><strong>Tailwind CSS</strong> - Utility-first CSS framework</li>
+            <li><strong>Owl Carousel</strong> - Touch Slider (via jQuery)</li>
+            <li><strong>EmailJS</strong> - Email Service for Forms</li>
+            <li><strong>Magnific Popup</strong> - Lightbox Plugin</li>
+            <li><strong>FontAwesome & Elegant Icons</strong> - Icon Sets</li>
+          </ul>
+        </div>
+      </div>
+		
+	</section>
+
+</div>
+	
+</body>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/easing.js"></script>
+    <script src="js/custom.js"></script>
+
+</html>
