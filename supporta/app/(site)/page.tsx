@@ -11,12 +11,14 @@ import { Layers } from "@/components/home/Layers";
 import { PlanCards } from "@/components/home/Plans";
 import { ProofStrip } from "@/components/home/ProofStrip";
 import { TemplatesTabs } from "@/components/home/TemplatesTabs";
+import { Button } from "@/components/ui/Button";
 import { Faq } from "@/components/ui/Faq";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { homeFaq } from "@/lib/faqs";
 import { faqSchema, serviceSchema } from "@/lib/schema";
 import { segments } from "@/lib/segments";
+import { whatsappUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -40,6 +42,7 @@ export default function Home() {
           label="Modelos por segmento"
           title="Como fica o site da minha empresa?"
           lead="Escolha o segmento e veja o modelo no computador e no celular. A gente aplica a sua marca, os seus textos e as suas fotos."
+          align="center"
         />
         <div className="mt-12">
           <TemplatesTabs segments={segments} />
@@ -54,6 +57,7 @@ export default function Home() {
           label="Planos"
           title="Quanto custa o site por assinatura?"
           lead="De R$89 a R$389 por mês, sem custo de criação. É uma assinatura: o site fica no ar enquanto ela estiver ativa, com mínimo de 12 meses e, depois, mês a mês."
+          align="center"
         />
         <div className="mt-12 md:mt-16">
           <PlanCards />
@@ -67,7 +71,17 @@ export default function Home() {
 
       <Section id="duvidas" tone="white" labelledBy="duvidas-title">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
-          <SectionHeading id="duvidas-title" label="Dúvidas" title="Perguntas frequentes" lead="Não achou o que procurava? Chame no WhatsApp, a resposta vem de gente." />
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <SectionHeading id="duvidas-title" label="Dúvidas" title="Perguntas frequentes" lead="Não achou o que procurava? Chame no WhatsApp, a resposta vem de gente." />
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <Button href={whatsappUrl("Oi! Vim pelo site da Supporta e tenho uma dúvida.")} size="lg" variant="neon" data-track="whatsapp_click" data-track-origin="faq">
+                Chamar no WhatsApp
+              </Button>
+              <Button href="/perguntas-frequentes" size="lg" variant="outline">
+                Ver todas as dúvidas
+              </Button>
+            </div>
+          </div>
           <Faq items={homeFaq} />
         </div>
       </Section>

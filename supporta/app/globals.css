@@ -155,6 +155,12 @@
       linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
     background-size: auto, auto, 56px 56px, 56px 56px;
   }
+  /* Card preto brilhante com luz rosa vindo de cima, sem grade. */
+  .glow-card {
+    background:
+      radial-gradient(90% 55% at 50% 0%, rgb(var(--glow) / 0.28), transparent 70%),
+      linear-gradient(180deg, #17171e 0%, var(--ink) 60%);
+  }
   /* Piso espelhado: reflexo rosa embaixo de um objeto. */
   .neon-floor {
     background: radial-gradient(50% 100% at 50% 0%, rgb(var(--glow) / 0.35), transparent 75%);
@@ -206,6 +212,37 @@
 .marquee-frame {
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+/* Parede inclinada do hero: perspectiva + fade nas bordas. */
+.marquee-wall {
+  perspective: 1800px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-composite: intersect;
+}
+/* A parede vaza até a borda direita da tela. */
+@media (min-width: 1024px) {
+  .marquee-wall {
+    margin-right: min(-32px, calc((1240px - 100vw) / 2 - 32px));
+  }
+}
+.marquee-tilt {
+  width: 125%;
+  margin-left: -6%;
+  transform: rotateX(22deg) rotateY(-16deg) rotateZ(8deg) translateY(-6%);
+  transform-origin: 50% 30%;
+}
+.marquee-wall:hover .marquee-y {
+  animation-play-state: paused;
+}
+/* Grade clara que some nas bordas (heros brancos). */
+.grid-light {
+  background-image: linear-gradient(rgb(11 11 15 / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(11 11 15 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(70% 70% at 70% 30%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(70% 70% at 70% 30%, #000 20%, transparent 75%);
 }
 @media (max-width: 1023px) {
   .marquee-frame {
@@ -282,4 +319,9 @@
   .marquee-x {
     animation: none !important;
   }
+}
+
+/* Arte das camadas alinhada à margem direita do conteúdo. */
+.page-hero-art {
+  right: max(32px, calc((100vw - 1240px) / 2 + 32px));
 }

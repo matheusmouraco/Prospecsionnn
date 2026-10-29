@@ -29,6 +29,7 @@ export function CostComparison() {
         label="Faça a conta · 12 meses"
         title="Quanto custa um site em 12 meses?"
         lead={`Num site tradicional, cerca de ${formatBRL(traditionalTotal)} no primeiro ano. No Supporta Start, ${formatBRL(supportaTotal)}, com tudo incluso.`}
+        align="center"
       />
       <div className="mt-12 grid gap-4 lg:grid-cols-2">
         <div className="rounded-[2rem] border border-line bg-white p-7 md:p-8">

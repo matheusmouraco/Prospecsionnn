@@ -2,6 +2,20 @@ import type { ReactNode } from "react";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { SectionLabel } from "./SectionLabel";
 
+/** As três camadas da marca em vidro preto e neon, decorando o topo das páginas internas. */
+function LayersArt() {
+  return (
+    <div aria-hidden className="pointer-events-none page-hero-art absolute top-1/2 hidden w-[26%] max-w-[340px] -translate-y-1/2 xl:block">
+      <div className="space-y-3.5 [transform:perspective(1000px)_rotateY(-22deg)_rotateX(10deg)]">
+        <div className="gloss-bar ml-[18%] h-14 rounded-full" />
+        <div className="neon-bar neon-pulse ml-[6%] h-14 rounded-full" />
+        <div className="gloss-bar h-14 rounded-full" />
+      </div>
+      <div className="neon-floor mx-auto mt-6 h-16 w-3/4" />
+    </div>
+  );
+}
+
 export function PageHero({
   crumbs,
   label,
@@ -16,12 +30,14 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section aria-labelledby="page-title" className="relative overflow-hidden bg-white pb-14 pt-8 md:pb-20 md:pt-12">
-      <div aria-hidden className="pointer-events-none absolute -right-40 -top-40 h-[480px] w-[640px] rounded-full bg-[radial-gradient(closest-side,rgb(255_61_113/0.14),transparent)]" />
+    <section aria-labelledby="page-title" className="relative overflow-hidden border-b border-line bg-white pb-16 pt-8 md:pb-24 md:pt-12">
+      <div aria-hidden className="grid-light pointer-events-none absolute inset-0" />
+      <div aria-hidden className="pointer-events-none absolute -right-40 -top-32 h-[560px] w-[760px] rounded-full bg-[radial-gradient(closest-side,rgb(255_61_113/0.18),transparent)]" />
+      <LayersArt />
       <div className="container-site relative">
         <Breadcrumbs items={crumbs} />
         <SectionLabel className="mt-10">{label}</SectionLabel>
-        <h1 id="page-title" className="mt-4 max-w-4xl text-[clamp(2.5rem,7vw,5rem)] leading-[1] tracking-[-0.055em]">
+        <h1 id="page-title" className="mt-4 max-w-3xl text-[clamp(2.5rem,7vw,5.25rem)] leading-[0.98] tracking-[-0.06em]">
           {title}
         </h1>
         {lead ? <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphite md:text-xl">{lead}</p> : null}

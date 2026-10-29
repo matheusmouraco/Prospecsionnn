@@ -6,6 +6,8 @@ export type Plan = {
   price: number;
   pitch: string;
   features: string[];
+  /** Linha antes da lista, quando o plano soma ao anterior. */
+  includes?: string;
   highlight?: boolean;
 };
 
@@ -30,6 +32,7 @@ export const plans: Plan[] = [
     price: 189,
     pitch: "Para quem quer ser encontrado e escolhido todo mês.",
     highlight: true,
+    includes: "Tudo do Start, e mais:",
     features: [
       "Até 5 páginas com design personalizado a partir do modelo",
       "Blog com 2 artigos por mês feitos pra aparecer nas IAs",
@@ -43,6 +46,7 @@ export const plans: Plan[] = [
     name: "Premium",
     price: 389,
     pitch: "Para virar a referência do seu segmento nas IAs.",
+    includes: "Tudo do Pro, e mais:",
     features: [
       "Site sob medida",
       "GEO avançado e monitoramento mensal de citações no ChatGPT, Gemini e Perplexity",

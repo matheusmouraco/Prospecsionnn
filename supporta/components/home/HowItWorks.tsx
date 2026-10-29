@@ -11,7 +11,7 @@ const steps = [
 export function HowItWorks() {
   return (
     <Section id="como-funciona" tone="white" labelledBy="como-title">
-      <SectionHeading id="como-title" label="Como funciona" title="Como ter o site no ar?" lead="Em três passos, sem reunião longa e sem você precisar entender de tecnologia." />
+      <SectionHeading id="como-title" label="Como funciona" title="Como ter o site no ar?" lead="Em três passos, sem reunião longa e sem você precisar entender de tecnologia." align="center" />
       <ol className="mt-12 grid gap-4 md:mt-16 md:grid-cols-3">
         {steps.map((s) => (
           <li key={s.n} className="rounded-3xl border border-line bg-paper p-7">
@@ -21,7 +21,7 @@ export function HowItWorks() {
           </li>
         ))}
       </ol>
-      <div className="mt-10">
+      <div className="mt-10 flex justify-center">
         <Button href="/#planos" size="lg" data-track="plan_click" data-track-origin="como-funciona">
           Escolher meu plano <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
         </Button>

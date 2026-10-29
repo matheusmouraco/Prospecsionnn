@@ -30,7 +30,7 @@ export function TemplatesTabs({ segments }: { segments: Segment[] }) {
 
   return (
     <div>
-      <div role="tablist" aria-label="Segmentos" onKeyDown={onKey} className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 md:mx-0 md:flex-wrap md:px-0">
+      <div role="tablist" aria-label="Segmentos" onKeyDown={onKey} className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 md:mx-0 md:flex-wrap md:justify-center md:px-0">
         {segments.map((s, i) => (
           <button
             key={s.slug}

@@ -16,12 +16,14 @@ export function AiLogos({
   tone = "light",
   size = 22,
   names = true,
+  small = false,
   className = "",
 }: {
   only?: Id[];
   tone?: "light" | "dark";
   size?: number;
   names?: boolean;
+  small?: boolean;
   className?: string;
 }) {
   const list = only ? aiPlatforms.filter((p) => only.includes(p.id)) : aiPlatforms;
@@ -29,7 +31,7 @@ export function AiLogos({
   return (
     <ul className={`flex flex-wrap items-center gap-x-6 gap-y-3 ${className}`}>
       {list.map((p) => (
-        <li key={p.id} className={`flex items-center gap-2 text-[15px] font-medium tracking-[-0.01em] ${text}`}>
+        <li key={p.id} className={`flex items-center ${small ? "gap-1.5 text-sm" : "gap-2 text-[15px]"} font-medium tracking-[-0.01em] ${text}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/logos/ia/${tone === "dark" && "dark" in p ? p.dark : p.file}`}

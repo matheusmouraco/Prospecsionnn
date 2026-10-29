@@ -37,6 +37,7 @@ export function SectionHeading({
   lead,
   tone = "light",
   as: Tag = "h2",
+  align = "left",
   className = "",
 }: {
   id?: string;
@@ -45,11 +46,12 @@ export function SectionHeading({
   lead?: ReactNode;
   tone?: "light" | "dark" | "pink";
   as?: "h1" | "h2";
+  align?: "left" | "center";
   className?: string;
 }) {
   const leadColor = tone === "dark" ? "text-mist" : tone === "pink" ? "text-ink" : "text-graphite";
   return (
-    <div className={`max-w-3xl ${className}`}>
+    <div className={`max-w-3xl ${align === "center" ? "mx-auto text-center" : ""} ${className}`}>
       {label ? <SectionLabelInline tone={tone}>{label}</SectionLabelInline> : null}
       <Tag id={id} className="mt-4 text-[clamp(2rem,5.2vw,3.5rem)] tracking-[-0.05em]">
         {title}
