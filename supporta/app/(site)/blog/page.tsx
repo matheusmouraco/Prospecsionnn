@@ -7,6 +7,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { formatDate, posts } from "@/lib/blog";
 import { absoluteUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
+import { NeonArt } from "@/components/ui/NeonArt";
 
 export const metadata: Metadata = pageMetadata({
   title: "Blog: Google, IAs e sites para pequenas empresas | Supporta",
@@ -20,6 +21,7 @@ export default function BlogPage() {
       <PageHero
         crumbs={[{ name: "Blog", path: "/blog" }]}
         label="Blog"
+        art="bolha-chat"
         title="Como ser encontrado no Google e nas IAs"
         lead="Guias curtos, sem jargão, para quem tem uma empresa e quer ser achado pelos clientes."
       />
@@ -27,7 +29,9 @@ export default function BlogPage() {
         <ul className="container-site grid gap-4 md:grid-cols-3">
           {posts.map((post) => (
             <li key={post.slug}>
-              <article className="group relative flex h-full cursor-pointer flex-col rounded-[2rem] border border-line bg-white p-7 transition-[border-color,box-shadow] hover:border-pink hover:shadow-[0_0_0_1px_rgb(255_61_113/0.6),0_0_24px_rgb(255_61_113/0.25)] has-[:focus-visible]:border-pink">
+              <article className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[2rem] border border-line bg-white transition-[border-color,box-shadow] hover:border-pink hover:shadow-[0_0_0_1px_rgb(255_61_113/0.6),0_0_24px_rgb(255_61_113/0.25)] has-[:focus-visible]:border-pink">
+                <NeonArt name={post.cover} sizes="(min-width: 768px) 33vw, 100vw" className="aspect-[16/9] transition-transform duration-500 group-hover:scale-[1.03]" />
+                <div className="flex flex-1 flex-col p-7">
                 <p className="label-mono text-graphite">
                   <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.readingMinutes} min
                 </p>
@@ -40,6 +44,7 @@ export default function BlogPage() {
                 <span aria-hidden className="mt-6 inline-flex items-center gap-2 font-medium text-ink group-hover:text-pink">
                   Ler artigo <ArrowRight strokeWidth={1.75} className="h-4 w-4" />
                 </span>
+                </div>
               </article>
             </li>
           ))}

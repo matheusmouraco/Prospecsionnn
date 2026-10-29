@@ -8,7 +8,7 @@ const ownOg = [/^\/$/, /^\/planos$/, /^\/modelos(\/[^/]+)?$/, /^\/geo$/, /^\/dia
 
 function ogImageFor(path: string, title: string) {
   const own = ownOg.some((re) => re.test(path));
-  const url = own && path !== "/" ? `${path}/opengraph-image` : "/opengraph-image";
+  const url = own && path !== "/" ? `${path}/opengraph-image` : "/img/og-supporta.jpg";
   return { url, width: 1200, height: 630, alt: title };
 }
 

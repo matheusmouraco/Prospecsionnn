@@ -42,6 +42,7 @@ export default function DiagnosticoPage() {
       <PageHero
         crumbs={[{ name: "Diagnóstico", path: "/diagnostico" }]}
         label="Ferramenta grátis"
+        art="lupa-busca"
         title="Qual a nota do seu site no Google?"
         lead="Digite o endereço do site, sem cadastro. Em menos de um minuto você vê as 4 notas do PageSpeed no celular, se o site está pronto pras IAs e 3 recomendações práticas."
       />

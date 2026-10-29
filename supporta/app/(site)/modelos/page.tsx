@@ -41,6 +41,7 @@ export default function ModelosPage() {
       <PageHero
         crumbs={[{ name: "Modelos", path: "/modelos" }]}
         label="Modelos"
+        art="reguas"
         title="Qual modelo de site combina com o seu negócio?"
         lead="Cada modelo foi desenhado para o que o cliente daquele segmento procura primeiro. Escolha o seu e a gente aplica a sua marca."
       />

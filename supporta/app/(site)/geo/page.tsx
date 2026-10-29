@@ -92,6 +92,7 @@ export default function GeoPage() {
       <PageHero
         crumbs={[{ name: "GEO", path: "/geo" }]}
         label="Guia simples"
+        art="chat-ia"
         title="SEO, AEO e GEO: como ser encontrado no Google e nas IAs"
         lead="Seus clientes buscam no Google e perguntam para o ChatGPT. Este guia explica, sem jargão, o que faz um site aparecer nos dois lugares."
       >

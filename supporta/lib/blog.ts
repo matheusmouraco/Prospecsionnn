@@ -1,3 +1,5 @@
+import type { ArtName } from "@/components/ui/NeonArt";
+
 export type Post = {
   slug: string;
   title: string;
@@ -6,12 +8,15 @@ export type Post = {
   date: string;
   readingMinutes: number;
   segment?: string;
+  /** Arte neon de capa (public/img). */
+  cover: ArtName;
 };
 
 // O corpo de cada artigo fica em content/blog/<slug>.mdx.
 export const posts: Post[] = [
   {
     slug: "prestador-de-servico-nas-ias",
+    cover: "camadas",
     title: "Como o prestador de serviço local aparece nas IAs",
     metaTitle: "Prestador de serviço nas IAs: como ser indicado",
     description:
@@ -22,6 +27,7 @@ export const posts: Post[] = [
   },
   {
     slug: "arquiteto-no-google-e-nas-ias",
+    cover: "reguas",
     title: "Como o arquiteto aparece no Google e nas IAs",
     metaTitle: "Arquiteto no Google e nas IAs: portfólio que é achado",
     description:
@@ -32,6 +38,7 @@ export const posts: Post[] = [
   },
   {
     slug: "clinica-de-saude-nas-ias",
+    cover: "rede",
     title: "Como a clínica de saúde aparece nas IAs",
     metaTitle: "Clínica de saúde nas IAs: como aparecer no ChatGPT",
     description:
@@ -42,6 +49,7 @@ export const posts: Post[] = [
   },
   {
     slug: "restaurante-no-google-e-nas-ias",
+    cover: "ondas",
     title: "Como o restaurante aparece no Google e nas IAs",
     metaTitle: "Restaurante no Google e nas IAs: o que o site precisa",
     description:
@@ -52,6 +60,7 @@ export const posts: Post[] = [
   },
   {
     slug: "advogado-nas-ias",
+    cover: "lupa-busca",
     title: "Como o escritório de advocacia aparece nas IAs",
     metaTitle: "Advogado nas IAs: como o escritório aparece",
     description:
@@ -62,6 +71,7 @@ export const posts: Post[] = [
   },
   {
     slug: "dentista-no-chatgpt",
+    cover: "bolha-chat",
     title: "Como o dentista aparece no ChatGPT",
     metaTitle: "Dentista no ChatGPT: como aparecer nas IAs",
     description:
@@ -72,6 +82,7 @@ export const posts: Post[] = [
   },
   {
     slug: "seo-aeo-geo-diferenca",
+    cover: "rede",
     title: "SEO, AEO e GEO: a diferença",
     metaTitle: "SEO, AEO e GEO: qual a diferença e por onde começar",
     description:
@@ -81,6 +92,7 @@ export const posts: Post[] = [
   },
   {
     slug: "como-a-ia-escolhe-quem-indicar",
+    cover: "chat-ia",
     title: "Como a IA escolhe quem indicar",
     metaTitle: "Como o ChatGPT e outras IAs escolhem quem indicar",
     description:
@@ -90,6 +102,7 @@ export const posts: Post[] = [
   },
   {
     slug: "5-motivos-site-nao-aparece-no-google",
+    cover: "lupa",
     title: "5 motivos pro seu site não aparecer no Google",
     metaTitle: "5 motivos para seu site não aparecer no Google",
     description:

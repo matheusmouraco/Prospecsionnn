@@ -6,6 +6,7 @@ import { FinalCta } from "@/components/home/FinalCta";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { NeonArt } from "@/components/ui/NeonArt";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { formatDate, getPost, posts } from "@/lib/blog";
 import { articleSchema, faqSchema } from "@/lib/schema";
@@ -48,6 +49,9 @@ export default async function PostPage({ params }: Props) {
               <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.readingMinutes} min de leitura
             </SectionLabel>
             <h1 className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.02] tracking-[-0.055em]">{post.title}</h1>
+            <div className="neon-ring mt-8 overflow-hidden rounded-[2rem]">
+              <NeonArt name={post.cover} sizes="(min-width: 768px) 768px, 100vw" eager className="aspect-[16/9]" />
+            </div>
             <div className="mt-8 [&>p:first-child]:text-xl [&>p:first-child]:text-ink">
               <Content />
             </div>

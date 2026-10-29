@@ -24,6 +24,7 @@ export default function PlanosPage() {
       <PageHero
         crumbs={[{ name: "Planos", path: "/planos" }]}
         label="Planos"
+        art="camadas"
         title="Quanto custa ter um site profissional?"
         lead="De R$89 a R$389 por mês, ou no anual com 2 meses grátis, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e 10% de desconto a partir do 13º mês."
       />
