@@ -1,40 +1,121 @@
-Quando alguém pergunta ao ChatGPT "qual advogado trabalhista você indica em Curitiba?", a IA não sorteia nomes. Ela procura fontes, compara o que encontra e cita as empresas sobre as quais tem informação clara e confiável. Entender esse processo é o primeiro passo para a sua empresa ser uma delas.
+A IA escolhe quem indicar procurando fontes na internet, comparando o que encontra e citando as empresas sobre as quais tem informação clara, consistente e fácil de ler. Quando alguém pergunta ao ChatGPT "qual advogado trabalhista você indica em Curitiba?", ela não sorteia nomes: ela abre páginas, confere os dados e monta a resposta com o que confia. Para a sua empresa ser uma delas, o seu site precisa ser a fonte mais clara sobre o que você faz e onde atende.
 
-## A IA responde com base em fontes
+## Resumo rápido
 
-As IAs mais usadas hoje, como ChatGPT, Gemini e Perplexity, combinam o que aprenderam no treinamento com buscas na internet feitas na hora da pergunta. Em perguntas sobre empresas locais, a busca pesa muito: a IA abre páginas, lê o conteúdo e monta a resposta, muitas vezes mostrando os links que usou.
+- ChatGPT, Gemini e Perplexity combinam o que aprenderam no treinamento com **buscas feitas na hora da pergunta**.
+- A sua empresa só entra na resposta se existir uma **fonte que a IA consiga ler e em que confie**. O site é a única que você controla por completo.
+- Os sinais que mais ajudam são **clareza, respostas diretas, consistência, dados estruturados e acesso liberado** aos robôs das IAs.
+- Avaliações e menções em outros sites ajudam a confirmar que a empresa existe e é bem vista.
+- Ninguém controla a resposta das IAs. Desconfie de quem garante que você vai ser citado.
+
+## Como o ChatGPT encontra empresas para indicar?
+
+O ChatGPT encontra empresas fazendo uma busca na internet no momento da pergunta e lendo as páginas que aparecem. As IAs mais usadas hoje, como ChatGPT, Gemini e Perplexity, combinam o que aprenderam no treinamento com essas buscas feitas na hora.
+
+Em perguntas sobre empresas locais, a busca pesa muito. A IA abre páginas, lê o conteúdo e monta a resposta, muitas vezes mostrando os links que usou.
 
 Na prática, **a sua empresa só entra na resposta se existir uma fonte que a IA consiga ler e em que confie.** Essa fonte pode ser o seu site, o seu perfil no Google, uma reportagem ou uma lista de avaliações. O seu site é a única dessas fontes que você controla por completo.
 
-## O que faz a IA confiar numa fonte?
+### Que tipo de pergunta leva a uma indicação?
 
-Ninguém fora das empresas que criam as IAs sabe a fórmula exata, e ela muda com frequência. Mas os sinais que favorecem um site são bem conhecidos e coincidem com boas práticas de qualidade:
+As perguntas que levam a uma indicação costumam juntar serviço, lugar e algum detalhe. Exemplos ilustrativos:
+
+- "Qual advogado trabalhista você indica em Curitiba?"
+- "Arquiteto em Belo Horizonte que faz reforma de apartamento pequeno?"
+- "Restaurante japonês em Pinheiros aberto depois das 22h?"
+- "Eletricista em Porto Alegre que atende no fim de semana?"
+
+Cada detalhe da pergunta é um filtro. Se o seu site não diz que você atende no fim de semana, a IA não tem como saber, e indica quem diz.
+
+## O que faz a IA confiar num site?
+
+A IA confia num site que diz com clareza o que a empresa faz, responde perguntas reais e mostra a mesma informação que aparece em outras fontes. Ninguém fora das empresas que criam as IAs sabe a fórmula exata, e ela muda com frequência. Mas os sinais que favorecem um site são bem conhecidos e coincidem com boas práticas de qualidade.
 
 - **Clareza.** O site diz, em texto, o que a empresa faz, para quem e onde. Frases genéricas como "soluções completas" não ajudam.
 - **Respostas diretas.** Páginas que respondem perguntas reais logo na primeira frase são mais fáceis de citar.
 - **Consistência.** Nome, endereço e telefone iguais no site, no Google Meu Negócio e nas redes reforçam que a informação é verdadeira.
-- **Estrutura.** Dados estruturados (schema.org) dizem com precisão quem é a empresa, seus serviços, horários e perguntas frequentes.
+- **Estrutura.** Dados estruturados (schema.org) dizem com precisão quem é a empresa, os serviços, os horários e as perguntas frequentes.
 - **Acesso.** Os robôs das IAs, como GPTBot, OAI-SearchBot, ClaudeBot e PerplexityBot, precisam ter permissão para ler o site no `robots.txt`.
 
-## O papel do llms.txt
+A tabela abaixo mostra a diferença na prática:
 
-O `llms.txt` é um arquivo simples, colocado na raiz do site, que resume a empresa em linguagem clara e aponta as páginas mais importantes. É como entregar à IA um guia de leitura do seu site.
+| Sinal | Site comum | Site preparado para as IAs |
+| --- | --- | --- |
+| O que a empresa faz | "Soluções completas para você" | "Advocacia trabalhista para empregados em Curitiba" |
+| Perguntas dos clientes | Não aparecem | Seção de dúvidas com respostas curtas |
+| Dados de contato | Diferentes no site e no Google | Iguais em todos os lugares |
+| Informação técnica | Nenhuma | Dados estruturados e llms.txt |
+| Robôs das IAs | Bloqueados sem o dono saber | Liberados no robots.txt |
+| Celular | Lento | Rápido e fácil de ler |
+
+## O que são dados estruturados e robots.txt?
+
+**Dados estruturados** são um código no site, invisível para o visitante, que descreve a empresa num formato que as máquinas entendem. O padrão mais usado é o **schema.org**, uma espécie de vocabulário comum para dizer "isto é um restaurante", "este é o horário", "esta é a pergunta e esta é a resposta".
+
+O **robots.txt** é um arquivo simples que diz quais robôs podem ler o site. Muitos sites bloqueiam os robôs das IAs sem que o dono saiba, por causa de uma configuração antiga ou de um plugin. Se o robô não pode entrar, a IA não lê a sua página, por melhor que ela seja.
+
+As palavras técnicas deste artigo estão explicadas no [glossário](/glossario).
+
+## Para que serve o llms.txt?
+
+O `llms.txt` serve para resumir a empresa em linguagem clara e apontar as páginas mais importantes do site para as IAs. É um arquivo simples, colocado na raiz do site, que funciona como um guia de leitura entregue à IA.
 
 É um padrão recente e nem todas as IAs o usam da mesma forma, mas ele custa pouco, não atrapalha nada e organiza a informação que importa. Veja o [llms.txt da Supporta](/llms.txt) como exemplo.
 
-## Avaliações e menções também contam
+## Avaliações e menções em outros sites contam?
 
-A IA também lê o que os outros dizem sobre você. Avaliações no Google, menções em sites do seu setor e reportagens locais ajudam a confirmar que a empresa existe e é bem vista. Peça avaliações aos clientes satisfeitos e responda todas, inclusive as negativas, com educação.
+Contam, porque a IA também lê o que os outros dizem sobre você. Avaliações no Google, menções em sites do seu setor e reportagens locais ajudam a confirmar que a empresa existe e é bem vista.
 
-## O que não funciona
+Peça avaliações aos clientes satisfeitos e responda todas, inclusive as negativas, com educação.
 
-Desconfie de promessas de "garantir" que o ChatGPT vai citar a sua empresa. Ninguém controla a resposta das IAs. Também não adianta encher o site de palavras repetidas ou criar dezenas de páginas vazias: isso piora a qualidade e pode ter o efeito contrário.
+Esse trabalho de fora do site complementa o de dentro. A diferença entre os tipos de otimização está em [SEO, AEO e GEO: a diferença](/blog/seo-aeo-geo-diferenca): **SEO** é aparecer na busca do Google, **AEO** é dar respostas diretas a perguntas e **GEO** é ser uma fonte que as IAs leem e citam.
 
-## Como começar
+## O que não funciona para aparecer nas IAs?
+
+Não funciona tentar enganar a IA ou acreditar em garantias. Desconfie de promessas de "garantir" que o ChatGPT vai citar a sua empresa: ninguém controla a resposta das IAs.
+
+Também não adianta:
+
+- encher o site de palavras repetidas;
+- criar dezenas de páginas vazias, uma para cada bairro, com o mesmo texto;
+- copiar textos de concorrentes;
+- deixar informações desatualizadas, como um telefone que não atende mais.
+
+Isso piora a qualidade do site e pode ter o efeito contrário. Se o seu site já tem problemas para aparecer no Google, comece pelos [5 motivos para o site não aparecer no Google](/blog/5-motivos-site-nao-aparece-no-google).
+
+## Por onde começar a preparar o site?
+
+Comece medindo como o site está hoje e corrigindo o básico, que é o que mais faz diferença:
 
 1. Rode o [diagnóstico grátis](/diagnostico) para ver se o seu site tem dados estruturados, llms.txt e robôs liberados.
 2. Reescreva a página principal dizendo com clareza o que você faz e onde atende.
 3. Crie uma seção de perguntas frequentes com as dúvidas reais dos clientes.
 4. Mantenha o Google Meu Negócio completo e igual ao site.
 
-Todo site da Supporta já sai com essa base pronta. Nos planos Pro e Premium, a gente também escreve artigos mensais para responder as perguntas do seu público e, no Premium, monitora todo mês se a sua empresa aparece no ChatGPT, no Gemini e no Perplexity. [Conheça a página de GEO](/geo) ou [veja os planos](/planos).
+| O que conferir | Onde | Como saber se está certo |
+| --- | --- | --- |
+| Frase principal | Topo da página inicial | Diz serviço, público e cidade em uma frase |
+| Perguntas frequentes | Página de dúvidas ou fim das páginas | Respostas de 1 a 3 frases, diretas |
+| Nome, endereço e telefone | Site, Google, redes sociais | Iguais em todos |
+| Robôs das IAs | robots.txt | GPTBot, ClaudeBot e PerplexityBot liberados |
+| Velocidade no celular | Teste do Google | Nota alta e site abre rápido |
+
+## Como a Supporta ajuda a sua empresa a ser indicada?
+
+A Supporta entrega sites prontos para o Google e para as IAs, com a base técnica já configurada e os textos escritos pela equipe. Você faz um briefing de 10 minutos e não precisa escrever nada.
+
+Todo site da Supporta já sai com dados estruturados, llms.txt e robôs das IAs liberados, e é feito para passar de 90 no teste de velocidade do Google no celular. Há [modelos](/modelos) prontos para vários segmentos, como saúde, restaurante, advocacia e arquitetura.
+
+- **Start, R$89 por mês:** site de uma página com a sua marca, domínio .com.br no 1º ano, hospedagem, SSL, manutenção, botão de WhatsApp, Google Maps, GEO básico e 1 ajuste por mês.
+- **Pro, R$189 por mês:** até 5 páginas personalizadas, blog com 2 artigos por mês feitos para responder as perguntas do seu público, perfil no Google otimizado, 3 ajustes por mês e relatório mensal de visitas.
+- **Premium, R$389 por mês:** site sob medida, GEO avançado com monitoramento mensal de citações no ChatGPT, no Gemini e no Perplexity, 4 artigos por mês, ajustes ilimitados em até 48h e suporte prioritário no WhatsApp.
+
+Não há taxa de criação, e no plano anual você paga 10 meses e leva 12. O contrato mínimo é de 12 meses, com 10% de desconto a partir do 13º mês. A Supporta não promete que a IA vai citar a sua empresa: o trabalho é deixar o seu site como a fonte mais clara e medir o resultado. [Conheça a página de GEO](/geo) ou [veja os planos](/planos).
+
+export const faq = [
+  { q: "A IA indica empresas que pagam anúncio?", a: "As respostas das IAs se baseiam nas fontes que elas encontram e leem. Ter um site claro e bem estruturado é o que você pode fazer para ser uma dessas fontes." },
+  { q: "Uma empresa sem site pode ser indicada pela IA?", a: "Pode, se houver outras fontes sobre ela, como o perfil no Google ou avaliações. Mas sem site você depende só do que os outros publicam e não controla a informação." },
+  { q: "O ChatGPT e o Gemini indicam as mesmas empresas?", a: "Nem sempre. Cada IA usa fontes e métodos próprios, por isso o mesmo site pode aparecer numa e não na outra. Ter informação clara e consistente ajuda em todas." },
+  { q: "De quanto em quanto tempo preciso atualizar o site?", a: "Sempre que algo mudar, como horário, serviço ou telefone. Informação desatualizada faz as IAs desconfiarem da fonte." },
+  { q: "Como sei se o meu site bloqueia os robôs das IAs?", a: "O diagnóstico grátis da Supporta confere o robots.txt e mostra se robôs como GPTBot e ClaudeBot conseguem ler o seu site." },
+]
