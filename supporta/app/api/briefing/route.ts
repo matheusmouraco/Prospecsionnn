@@ -49,8 +49,10 @@ export async function POST(request: Request) {
     whatsapp: str(r.whatsapp, 40),
     instagram: str(r.instagram, 200),
     mapa: str(r.mapa, 400),
-    dominio: str(r.dominio, 120),
-    temDominio: str(r.temDominio, 10),
+    temDominio: r.temDominio === "sim" ? "sim" : r.temDominio === "nao" ? "nao" : "",
+    // Já registrado: o domínio do cliente. Sem domínio: até 3 opções para buscarmos no registro.br.
+    dominio: r.temDominio === "sim" ? str(r.dominio, 120) : "",
+    dominioOpcoes: r.temDominio === "nao" ? list(r.dominioOpcoes, 3, 120) : [],
     cores: str(r.cores, 200),
     referencias: str(r.referencias, 600),
     observacoes: str(r.observacoes, 2000),
@@ -78,6 +80,11 @@ export async function POST(request: Request) {
     await notifyTeam(`Briefing recebido: ${respostas.nomeFantasia}`, [
       `Assinatura ${ref} · plano ${assinatura.plano}`,
       `${respostas.servicos.length} serviços, ${arquivos.length} arquivos`,
+      respostas.temDominio === "sim"
+        ? `Domínio já registrado: ${respostas.dominio || "(não informado)"}. Combinar o apontamento no WhatsApp ${assinatura.whatsapp}.`
+        : respostas.temDominio === "nao"
+          ? `Sem domínio. Buscar no registro.br: ${respostas.dominioOpcoes.join(", ") || "(sem opções)"}. Confirmar no WhatsApp ${assinatura.whatsapp}.`
+          : "Domínio: não respondeu.",
       "Veja no painel: /admin",
     ]);
   }

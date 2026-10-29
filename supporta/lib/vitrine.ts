@@ -80,3 +80,28 @@ export const categoryIntro: Record<string, string> = {
   "Agências e estúdios": "Para agências, estúdios e portfólios: o trabalho em primeiro plano, com personalidade forte.",
   "Negócios e tecnologia": "Para empresas de TI, startups, indústrias, locadoras e softwares: proposta clara, planos lado a lado e chamada para testar.",
 };
+
+const MODEL_KEY = "supporta-modelo";
+
+/** Guarda o modelo escolhido na vitrine para o checkout (vale só nesta aba do navegador). */
+export function rememberModel(slug: string) {
+  try {
+    if (slug) sessionStorage.setItem(MODEL_KEY, slug);
+    else sessionStorage.removeItem(MODEL_KEY);
+  } catch {}
+}
+
+/** Modelo escolhido: o da URL (?tema=) tem prioridade sobre o que ficou guardado. */
+export function readChosenModel(fromUrl: string | null) {
+  const valid = (s: string | null) => (s && vitrine.some((v) => v.slug === s) ? s : "");
+  const url = valid(fromUrl);
+  if (url) {
+    rememberModel(url);
+    return url;
+  }
+  try {
+    return valid(sessionStorage.getItem(MODEL_KEY));
+  } catch {
+    return "";
+  }
+}

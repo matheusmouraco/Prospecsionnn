@@ -1,8 +1,9 @@
 "use client";
 
-import { Check, LoaderCircle, Plus, Trash2, Upload } from "lucide-react";
+import { Check, LoaderCircle, MessageCircle, Plus, Trash2, Upload } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { buttonClass } from "@/components/ui/Button";
+import { whatsappUrl } from "@/lib/site";
 
 type Arquivo = { path: string; nome: string; kind: "logo" | "foto" };
 type Servico = { nome: string; descricao: string };
@@ -25,8 +26,11 @@ const empty = {
   whatsapp: "",
   instagram: "",
   mapa: "",
-  temDominio: "nao",
+  temDominio: "",
   dominio: "",
+  dominio1: "",
+  dominio2: "",
+  dominio3: "",
   cores: "",
   referencias: "",
   observacoes: "",
@@ -52,6 +56,17 @@ function Field({ id, label, hint, wide, children }: { id: string; label: string;
       {hint ? <p className="mt-1.5 text-sm text-graphite">{hint}</p> : null}
     </div>
   );
+}
+
+const cleanDomain = (v: string) => v.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/.*$/, "");
+
+/** Mensagem do WhatsApp sobre o domínio: quem já tem combina o apontamento; quem não tem manda as opções para a busca no registro.br. */
+function domainMessage(r: typeof empty) {
+  if (r.temDominio === "sim") {
+    return `Oi! Acabei de preencher o briefing da Supporta (${r.nomeFantasia || "minha empresa"}). Já tenho o domínio registrado: ${cleanDomain(r.dominio) || "(vou informar)"}. Como fazemos para apontar para o site?`;
+  }
+  const opcoes = [r.dominio1, r.dominio2, r.dominio3].map(cleanDomain).filter(Boolean);
+  return `Oi! Acabei de preencher o briefing da Supporta (${r.nomeFantasia || "minha empresa"}). Ainda não tenho domínio. Minhas opções, em ordem de preferência: ${opcoes.length ? opcoes.join(", ") : "(vou pensar e mando)"}. Podem ver a disponibilidade no registro.br?`;
 }
 
 export function BriefingForm() {
@@ -138,6 +153,8 @@ export function BriefingForm() {
             ...r,
             diferenciais: r.diferenciais.split("\n").map((l) => l.trim()).filter(Boolean),
             perguntas: r.perguntas.split("\n").map((l) => l.trim()).filter(Boolean),
+            dominio: r.temDominio === "sim" ? cleanDomain(r.dominio) : "",
+            dominioOpcoes: r.temDominio === "nao" ? [r.dominio1, r.dominio2, r.dominio3].map(cleanDomain).filter(Boolean) : [],
             servicos: servicos.filter((s) => s.nome.trim()),
           },
           arquivos,
@@ -166,7 +183,14 @@ export function BriefingForm() {
         <Check aria-hidden strokeWidth={1.75} className="h-10 w-10 text-pink" />
         <h2 className="mt-4 text-3xl tracking-[-0.045em]">Briefing recebido.</h2>
         <p className="mt-3 max-w-xl text-mist">A gente começa agora. Você recebe a primeira versão do site para aprovar e acompanha tudo na área do cliente.</p>
-        <a href="/cliente" className={buttonClass("paper", "lg", "mt-6")}>Ir para a área do cliente</a>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <a href="/cliente" className={buttonClass("paper", "lg")}>Ir para a área do cliente</a>
+          {r.temDominio ? (
+            <a href={whatsappUrl(domainMessage(r))} target="_blank" rel="noopener" className={buttonClass("outline-dark", "lg")} data-track="whatsapp_click" data-track-origin="briefing-dominio">
+              <MessageCircle aria-hidden strokeWidth={1.75} className="h-4 w-4" /> Combinar o domínio no WhatsApp
+            </a>
+          ) : null}
+        </div>
       </div>
     );
   }
@@ -257,24 +281,50 @@ export function BriefingForm() {
         </Field>
       </Group>
 
-      <Group n="05" title="Domínio e visual">
+      <Group n="05" title="Domínio e visual" hint="O domínio é o endereço do site, como suaempresa.com.br. A gente cuida dele com você pelo WhatsApp.">
         <fieldset className="md:col-span-2">
-          <legend className="text-[15px] font-medium">Já tem domínio (endereço do site)?</legend>
+          <legend className="text-[15px] font-medium">Você já tem o domínio registrado?</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {[
-              ["sim", "Sim, já tenho"],
-              ["nao", "Não, quero um novo"],
+              ["sim", "Sim, já tenho o domínio registrado"],
+              ["nao", "Não tenho o domínio registrado"],
             ].map(([value, label]) => (
-              <label key={value} className={`inline-flex h-11 cursor-pointer items-center rounded-full border px-5 text-[15px] has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${r.temDominio === value ? "border-ink bg-ink text-paper" : "border-line bg-white"}`}>
+              <label key={value} className={`inline-flex min-h-11 cursor-pointer items-center rounded-full border px-5 py-2 text-[15px] has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${r.temDominio === value ? "border-ink bg-ink text-paper" : "border-line bg-white"}`}>
                 <input type="radio" name="temDominio" value={value} checked={r.temDominio === value} onChange={set("temDominio")} className="sr-only" />
                 {label}
               </label>
             ))}
           </div>
         </fieldset>
-        <Field id="b-dominio" label={r.temDominio === "sim" ? "Qual é o domínio?" : "Domínio que você gostaria"} hint="O .com.br do 1º ano está incluso e fica no seu CPF ou CNPJ.">
-          <input id="b-dominio" className={input} placeholder="suaempresa.com.br" value={r.dominio} onChange={set("dominio")} />
-        </Field>
+        {r.temDominio === "sim" ? (
+          <div className="space-y-3 md:col-span-2">
+            <Field id="b-dominio" label="Qual é o domínio?" hint="A gente te chama no WhatsApp para apontar o domínio para o site novo. Você não precisa mexer em nada sozinho.">
+              <input id="b-dominio" className={input} inputMode="url" placeholder="suaempresa.com.br" value={r.dominio} onChange={set("dominio")} />
+            </Field>
+          </div>
+        ) : null}
+        {r.temDominio === "nao" ? (
+          <div className="md:col-span-2">
+            <p className="text-[15px] font-medium">Até 3 opções de domínio, em ordem de preferência</p>
+            <p className="mt-1 text-sm text-graphite">A gente busca a disponibilidade no registro.br e confirma com você no WhatsApp antes de registrar. O .com.br do 1º ano está incluso e fica no seu CPF ou CNPJ.</p>
+            <div className="mt-3 grid gap-3 md:grid-cols-3">
+              {(["dominio1", "dominio2", "dominio3"] as const).map((k, i) => (
+                <div key={k}>
+                  <label htmlFor={`b-${k}`} className="text-sm text-graphite">Opção {i + 1}</label>
+                  <input id={`b-${k}`} className={input} inputMode="url" placeholder={i === 0 ? "suaempresa.com.br" : i === 1 ? "suaempresasp.com.br" : "suaempresa.com"} value={r[k]} onChange={set(k)} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+        {r.temDominio ? (
+          <div className="md:col-span-2">
+            <a href={whatsappUrl(domainMessage(r))} target="_blank" rel="noopener" className={buttonClass("outline", "md")} data-track="whatsapp_click" data-track-origin="briefing-dominio">
+              <MessageCircle aria-hidden strokeWidth={1.75} className="h-4 w-4" /> {r.temDominio === "sim" ? "Combinar o domínio no WhatsApp" : "Mandar as opções no WhatsApp"}
+            </a>
+            <p className="mt-2 text-sm text-graphite">Se preferir, é só enviar o briefing: a gente te chama.</p>
+          </div>
+        ) : null}
         <Field id="b-cores" label="Cores da marca (se tiver)">
           <input id="b-cores" className={input} placeholder="Azul marinho e dourado, ou #123456" value={r.cores} onChange={set("cores")} />
         </Field>

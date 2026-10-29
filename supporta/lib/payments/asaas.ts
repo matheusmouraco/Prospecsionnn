@@ -92,6 +92,28 @@ export const asaasProvider: PaymentProvider = {
     await asaas(`/subscriptions/${encodeURIComponent(subscriptionId)}`, { method: "POST", body: JSON.stringify({ value, updatePendingPayments: true }) });
   },
 
+  async changePlan({ subscriptionId, plan, cycle, value }) {
+    await asaas(`/subscriptions/${encodeURIComponent(subscriptionId)}`, {
+      method: "POST",
+      body: JSON.stringify({ value, description: `Supporta, plano ${plan.name} ${cycle} (prazo mínimo de 12 meses)`, updatePendingPayments: true }),
+    });
+  },
+
+  async cancelSubscription(subscriptionId: string) {
+    // O Asaas encerra na hora e apaga as cobranças pendentes; o site segue no ar até cancelar_em (cron diário).
+    await asaas(`/subscriptions/${encodeURIComponent(subscriptionId)}`, { method: "DELETE" });
+  },
+
+  async chargeOnce({ customerId, value, description, reference }) {
+    const due = new Date(Date.now() + 3 * 864e5).toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+    // UNDEFINED: o cliente escolhe Pix, boleto ou cartão na fatura. externalReference próprio para não contar como mensalidade.
+    const payment = await asaas<{ invoiceUrl: string | null; status: string }>("/payments", {
+      method: "POST",
+      body: JSON.stringify({ customer: customerId, billingType: "UNDEFINED", value, dueDate: due, description, externalReference: `multa_${reference}` }),
+    });
+    return { url: payment.invoiceUrl, paid: payment.status === "RECEIVED" || payment.status === "CONFIRMED" };
+  },
+
   async listInvoices(customerId: string): Promise<Invoice[]> {
     const data = await asaas<{ data: { id: string; dueDate: string; value: number; status: string; invoiceUrl: string | null }[] }>(
       `/payments?customer=${encodeURIComponent(customerId)}&limit=12`,

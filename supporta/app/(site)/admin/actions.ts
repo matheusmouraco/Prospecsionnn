@@ -3,9 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { assertAdmin, updateClientConfig } from "@/lib/admin";
 import { sendEmail } from "@/lib/email/send";
-import { adjustmentEmail } from "@/lib/email/templates";
+import { adjustmentEmail, stageEmail } from "@/lib/email/templates";
 import { runCitationsFor } from "@/lib/monitor/citations";
-import { getClient, setAdjustmentStatus, type Ajuste } from "@/lib/repo";
+import { finishRequest, getClient, setAdjustmentStatus, setStage, type Ajuste, type Etapa } from "@/lib/repo";
 
 export async function setAdjustment(formData: FormData) {
   await assertAdmin();
@@ -37,5 +37,31 @@ export async function runCitationsNow(formData: FormData) {
   await assertAdmin();
   const client = await getClient(String(formData.get("id")));
   if (client) await runCitationsFor(client);
+  revalidatePath("/admin");
+}
+
+const etapas: Etapa[] = ["briefing", "producao", "previa", "revisao", "aprovado", "publicado"];
+const url = (v: FormDataEntryValue | null) => {
+  const s = String(v ?? "").trim();
+  return s ? (/^https?:\/\//.test(s) ? s : `https://${s}`) : null;
+};
+
+/** Muda a etapa do site. Prévia e publicado avisam o cliente por e-mail. */
+export async function setStageAction(formData: FormData) {
+  await assertAdmin();
+  const etapa = String(formData.get("etapa")) as Etapa;
+  if (!etapas.includes(etapa)) return;
+  const before = await getClient(String(formData.get("id")));
+  if (!before) return;
+  const client = await setStage(before.id, etapa, { previaUrl: url(formData.get("previa")), siteUrl: url(formData.get("site")) });
+  if (client && (etapa === "previa" || etapa === "publicado") && before.etapa !== etapa) {
+    await sendEmail({ to: client.email, ...stageEmail(client.nome, etapa, client.site_url) });
+  }
+  revalidatePath("/admin");
+}
+
+export async function finishRequestAction(formData: FormData) {
+  await assertAdmin();
+  await finishRequest(String(formData.get("id")));
   revalidatePath("/admin");
 }

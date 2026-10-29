@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { tryDb } from "./db";
 import { isAdminAuthorization } from "./admin-auth";
-import type { Ajuste, Assinatura, Cliente } from "./repo";
+import type { Ajuste, Assinatura, Cliente, Solicitacao } from "./repo";
 
 /** Segunda checagem dentro das server actions (o proxy já barra quem não tem senha). */
 export async function assertAdmin() {
@@ -10,7 +10,7 @@ export async function assertAdmin() {
 
 export function adminOverview() {
   return tryDb("adminOverview", async (sql) => {
-    const [assinaturas, ajustes, clientes, leads] = await Promise.all([
+    const [assinaturas, ajustes, clientes, leads, pedidos] = await Promise.all([
       sql<(Assinatura & { tem_briefing: boolean; briefing_id: string | null })[]>`
         select a.*, (b.id is not null) as tem_briefing, b.id as briefing_id
         from assinaturas a left join lateral (select id from briefings where assinatura_id = a.id order by enviado_em desc limit 1) b on true
@@ -22,8 +22,11 @@ export function adminOverview() {
       sql<{ dia: Date; n: number }[]>`
         select date_trunc('day', criado_em) as dia, count(*)::int as n from leads
         where criado_em > now() - interval '14 days' group by 1 order by 1 desc`,
+      sql<(Solicitacao & { cliente_nome: string; plano: string; whatsapp: string | null })[]>`
+        select s.*, c.nome as cliente_nome, c.plano, c.whatsapp from solicitacoes s join clientes c on c.id = s.cliente_id
+        where s.status = 'aberto' order by s.criado_em`,
     ]);
-    return { assinaturas, ajustes, clientes, leads };
+    return { assinaturas, ajustes, clientes, leads, pedidos };
   });
 }
 

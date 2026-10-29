@@ -46,7 +46,7 @@ export default async function SegmentPage({ params }: Props) {
         lead={seg.intro}
       >
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href={`/assinar/start?modelo=${seg.slug}`} size="lg" variant="neon" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
+          <Button href={`/assinar/start?modelo=${seg.slug}&tema=${segmentModel[seg.slug] ?? ""}`} size="lg" variant="neon" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
             Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
           </Button>
           <Button href={vitrineUrl(segmentModel[seg.slug])} size="lg" variant="outline" target="_blank" data-track="demo_open" data-track-origin={segmentModel[seg.slug]}>

@@ -56,4 +56,10 @@ export interface PaymentProvider {
   applyLoyaltyDiscount(input: { subscriptionId: string; value: number; plan: Plan; cycle: Cycle }): Promise<void>;
   /** Página do provedor onde o cliente troca o cartão sozinho, quando o provedor oferece. */
   manageUrl?(customerId: string, returnUrl: string): Promise<string | null>;
+  /** Troca o plano da assinatura. O novo valor vale a partir da próxima cobrança, sem cobrança proporcional. */
+  changePlan(input: { subscriptionId: string; plan: Plan; cycle: Cycle; value: number; loyalty: boolean }): Promise<void>;
+  /** Para as próximas cobranças. O site fica no ar até o fim do período já pago (controlado por nós). */
+  cancelSubscription(subscriptionId: string): Promise<void>;
+  /** Cobrança avulsa (multa de cancelamento antecipado). Devolve o link da fatura e se já foi paga. */
+  chargeOnce(input: { customerId: string; value: number; description: string; reference: string }): Promise<{ url: string | null; paid: boolean }>;
 }

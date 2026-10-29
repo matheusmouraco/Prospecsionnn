@@ -2,11 +2,12 @@
 
 import { Check, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiLogos } from "@/components/ui/AiLogos";
 import { buttonClass } from "@/components/ui/Button";
 import { annualFreeMonths, billing, plans, priceFor, type Cycle } from "@/lib/plans";
 import { formatBRL, formatBRLCents } from "@/lib/site";
+import { readChosenModel, rememberModel, vitrine, vitrineUrl } from "@/lib/vitrine";
 
 /** Chave Mensal / Anual. Fica acima dos cards e muda preços e links de assinatura. */
 function CycleSwitch({ cycle, onChange }: { cycle: Cycle; onChange: (c: Cycle) => void }) {
@@ -36,9 +37,30 @@ function CycleSwitch({ cycle, onChange }: { cycle: Cycle; onChange: (c: Cycle) =
 export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" }) {
   const H = headingLevel;
   const [cycle, setCycle] = useState<Cycle>("mensal");
+  // Modelo escolhido na vitrine ("Quero um assim" abre /planos?tema=slug): segue até o checkout.
+  const [tema, setTema] = useState("");
+  useEffect(() => setTema(readChosenModel(new URLSearchParams(window.location.search).get("tema"))), []);
   const annual = cycle === "anual";
+  const model = vitrine.find((v) => v.slug === tema);
   return (
     <div>
+      {model ? (
+        <p className="mb-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-[15px]">
+          <span>
+            Modelo escolhido: <a href={vitrineUrl(model.slug)} target="_blank" rel="noopener" className="link font-medium">{model.name}</a>
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              rememberModel("");
+              setTema("");
+            }}
+            className="text-sm text-graphite underline underline-offset-4"
+          >
+            limpar escolha
+          </button>
+        </p>
+      ) : null}
       <CycleSwitch cycle={cycle} onChange={setCycle} />
       <p className="mt-3 text-center text-sm text-graphite">
         {annual
@@ -49,7 +71,8 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
         {plans.map((plan) => {
           const hot = plan.highlight;
           const charge = priceFor(plan, cycle);
-          const href = `/assinar/${plan.id}${annual ? "?ciclo=anual" : ""}`;
+          const query = new URLSearchParams({ ...(annual ? { ciclo: "anual" } : {}), ...(tema ? { tema } : {}) }).toString();
+          const href = `/assinar/${plan.id}${query ? `?${query}` : ""}`;
           return (
             <article
               key={plan.id}

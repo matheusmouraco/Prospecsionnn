@@ -21,7 +21,7 @@ export const site = {
   locale: "pt_BR",
   // Prazos de entrega em dias úteis, contados a partir do briefing completo. Confirmar antes de publicar.
   deliveryDays: { start: 7, pro: 15, premium: 30 } as Record<string, number>,
-  termsVersion: "2026-10-29b",
+  termsVersion: "2026-10-29c",
 };
 
 export const termsAcceptanceText = "Li e aceito os Termos da assinatura, incluindo o prazo mínimo de 12 meses e a multa por cancelamento antecipado";

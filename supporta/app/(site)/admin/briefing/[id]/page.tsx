@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: "Briefing | Supporta", robots: { inde
 const label: Record<string, string> = {
   nomeFantasia: "Nome", slogan: "Slogan", historia: "História", diferenciais: "Diferenciais", servicos: "Serviços", publico: "Público", tom: "Tom",
   perguntas: "Perguntas dos clientes", endereco: "Endereço", cidade: "Cidade", horario: "Horário", telefone: "Telefone", whatsapp: "WhatsApp",
-  instagram: "Instagram", mapa: "Google Maps", temDominio: "Já tem domínio", dominio: "Domínio", cores: "Cores", referencias: "Referências", observacoes: "Observações",
+  instagram: "Instagram", mapa: "Google Maps", temDominio: "Já tem domínio", dominio: "Domínio registrado", dominioOpcoes: "Opções para buscar no registro.br", cores: "Cores", referencias: "Referências", observacoes: "Observações",
 };
 
 function show(v: unknown): string {

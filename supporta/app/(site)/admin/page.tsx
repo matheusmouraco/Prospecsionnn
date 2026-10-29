@@ -3,7 +3,8 @@ import Link from "next/link";
 import { buttonClass } from "@/components/ui/Button";
 import { adminOverview } from "@/lib/admin";
 import { plans } from "@/lib/plans";
-import { runCitationsNow, saveClient, setAdjustment } from "./actions";
+import { vitrine } from "@/lib/vitrine";
+import { finishRequestAction, runCitationsNow, saveClient, setAdjustment, setStageAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -12,6 +13,8 @@ export const metadata: Metadata = { title: "Painel | Supporta", robots: { index:
 const date = (d: Date) => new Date(d).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short" });
 const statusColor: Record<string, string> = { ativa: "bg-ok text-white", teste: "bg-line", aguardando_pagamento: "bg-pink-light", pagamento_recusado: "bg-bad text-white", cancelada: "bg-ink text-paper" };
 const field = "mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm";
+const etapaLabel: Record<string, string> = { briefing: "Aguardando briefing", producao: "Em criação", previa: "Prévia com o cliente", revisao: "Revisão pedida", aprovado: "Aprovado, publicar", publicado: "No ar" };
+const pedidoLabel: Record<string, string> = { revisao_previa: "Revisão da prévia", mudar_plano: "Troca de plano", cancelar: "Cancelamento" };
 
 export default async function AdminPage() {
   const data = await adminOverview();
@@ -48,6 +51,29 @@ export default async function AdminPage() {
       </div>
 
       <div>
+        <h2 className="text-2xl tracking-[-0.04em]">Pedidos dos clientes</h2>
+        {data.pedidos.length ? (
+          <ul className="mt-4 divide-y divide-line rounded-2xl border border-line bg-white">
+            {data.pedidos.map((s) => (
+              <li key={s.id} className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p className="font-medium">{pedidoLabel[s.tipo]}: {s.cliente_nome} <span className="text-sm text-graphite">({s.plano}) · {date(s.criado_em)} · {s.whatsapp}</span></p>
+                  {s.descricao ? <p className="mt-1 whitespace-pre-line text-[15px]">{s.descricao}</p> : null}
+                  {Object.keys(s.dados).length ? <p className="mt-1 text-sm text-graphite">{Object.entries(s.dados).filter(([, v]) => v !== null && v !== "").map(([k, v]) => `${k}: ${v}`).join(" · ")}</p> : null}
+                </div>
+                <form action={finishRequestAction}>
+                  <input type="hidden" name="id" value={s.id} />
+                  <button className={buttonClass("primary", "md")}>Resolvido</button>
+                </form>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-3 text-graphite">Nenhum pedido aberto.</p>
+        )}
+      </div>
+
+      <div>
         <h2 className="text-2xl tracking-[-0.04em]">Ajustes na fila</h2>
         {data.ajustes.length ? (
           <ul className="mt-4 divide-y divide-line rounded-2xl border border-line bg-white">
@@ -75,7 +101,7 @@ export default async function AdminPage() {
         <div className="relative mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
           <table className="w-full min-w-[820px] text-left text-sm">
             <thead className="bg-paper text-graphite">
-              <tr>{["Data", "Empresa", "Contato", "Plano", "Status", "Briefing", "Origem"].map((h) => <th key={h} className="px-4 py-3 font-medium">{h}</th>)}</tr>
+              <tr>{["Data", "Empresa", "Contato", "Plano", "Modelo", "Status", "Briefing", "Origem"].map((h) => <th key={h} className="px-4 py-3 font-medium">{h}</th>)}</tr>
             </thead>
             <tbody className="divide-y divide-line">
               {data.assinaturas.map((a) => (
@@ -83,7 +109,8 @@ export default async function AdminPage() {
                   <td className="px-4 py-3">{date(a.criado_em)}</td>
                   <td className="px-4 py-3 font-medium">{a.empresa}</td>
                   <td className="px-4 py-3">{a.email}<br />{a.whatsapp}</td>
-                  <td className="px-4 py-3">{a.plano}</td>
+                  <td className="px-4 py-3">{a.plano}{a.cancelar_em ? <span className="block text-bad">cancela {new Date(a.cancelar_em).toLocaleDateString("pt-BR", { timeZone: "UTC" })}</span> : null}</td>
+                  <td className="px-4 py-3">{a.modelo ? <a href={`/vitrine/${a.modelo}/index.html`} target="_blank" rel="noopener" className="link">{vitrine.find((v) => v.slug === a.modelo)?.name ?? a.modelo}</a> : "sugerir"}</td>
                   <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 ${statusColor[a.status] ?? ""}`}>{a.status.replace(/_/g, " ")}</span></td>
                   <td className="px-4 py-3">{a.briefing_id ? <Link href={`/admin/briefing/${a.briefing_id}`} className="link">ver</Link> : "pendente"}</td>
                   <td className="px-4 py-3 text-graphite">{a.origem?.origem || "site"}</td>
@@ -101,9 +128,21 @@ export default async function AdminPage() {
           {data.clientes.map((c) => (
             <details key={c.id} className="rounded-2xl border border-line bg-white">
               <summary className="flex items-center justify-between px-4 py-3">
-                <span className="font-medium">{c.nome} <span className="text-sm text-graphite">· {c.plano}{c.ativo ? "" : " · inativo"}</span></span>
+                <span className="font-medium">{c.nome} <span className="text-sm text-graphite">· {c.plano} · {etapaLabel[c.etapa] ?? c.etapa}{c.ativo ? "" : " · inativo"}</span></span>
                 <span className="text-sm text-graphite">{c.email}</span>
               </summary>
+              <form action={setStageAction} className="grid gap-3 border-t border-line p-4 md:grid-cols-3">
+                <input type="hidden" name="id" value={c.id} />
+                <label className="text-sm">Etapa do site
+                  <select name="etapa" defaultValue={c.etapa} className={field}>
+                    {Object.entries(etapaLabel).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                  </select>
+                </label>
+                <label className="text-sm">Link da prévia<input name="previa" defaultValue={c.previa_url ?? ""} placeholder="https://..." className={field} /></label>
+                <label className="text-sm">Site publicado<input name="site" defaultValue={c.site_url ?? ""} placeholder="https://..." className={field} /></label>
+                <p className="text-sm text-graphite md:col-span-2">Prévia com o cliente e No ar mandam e-mail para o cliente. Na prévia, ele aprova ou pede revisão pela área do cliente.</p>
+                <div><button className={buttonClass("primary", "md")}>Salvar etapa</button></div>
+              </form>
               <form action={saveClient} className="grid gap-3 border-t border-line p-4 md:grid-cols-2">
                 <input type="hidden" name="id" value={c.id} />
                 <label className="text-sm">Site<input name="site" defaultValue={c.site_url ?? ""} className={field} /></label>

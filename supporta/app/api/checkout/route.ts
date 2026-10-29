@@ -8,6 +8,7 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { createSubscription, setProviderIds } from "@/lib/repo";
 import { briefingSignature } from "@/lib/tokens";
 import { absoluteUrl, site, termsAcceptanceText } from "@/lib/site";
+import { vitrine } from "@/lib/vitrine";
 
 export const runtime = "nodejs";
 
@@ -67,13 +68,17 @@ export async function POST(request: Request) {
     modelo: str(body?.origem?.modelo, 40),
   };
 
+  // Modelo da vitrine que o cliente escolheu (opcional).
+  const tema = str(body?.tema, 60);
+  const modelo = vitrine.some((v) => v.slug === tema) ? tema : null;
+
   const reference = `sup_${randomUUID()}`;
   const thanks = `/obrigado?plano=${plan.id}&ciclo=${cycle}&ref=${reference}&t=${briefingSignature(reference)}`;
   const successUrl = absoluteUrl(thanks);
   const cancelUrl = absoluteUrl(`/assinar/${plan.id}?cancelado=1${cycle === "anual" ? "&ciclo=anual" : ""}`);
 
   const provider = getPaymentProvider();
-  const record = { reference, plan: plan.id, cycle, price: amount, customer, briefing, acceptance, origem, provider: provider?.name ?? "teste" };
+  const record = { reference, plan: plan.id, cycle, price: amount, customer, briefing, modelo, acceptance, origem, provider: provider?.name ?? "teste" };
   const testMode = !provider && process.env.VERCEL_ENV !== "production";
   await createSubscription({
     referencia: reference,
@@ -85,6 +90,7 @@ export async function POST(request: Request) {
     customer,
     briefing,
     origem,
+    modelo,
     aceite: acceptance,
   });
 

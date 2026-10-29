@@ -84,3 +84,14 @@ A conexão da Vercel que eu uso não tem permissão para cadastrar variáveis ne
 - Asaas: nada a configurar; o anual usa `cycle: YEARLY` e o desconto troca o valor da assinatura sozinho depois da 12ª mensalidade (ou da 1ª anuidade).
 - Stripe: criar os Prices anuais (`STRIPE_PRICE_*_ANUAL`) e um cupom de 10% "forever" (`STRIPE_COUPON_FIDELIDADE`).
 - A multa de cancelamento antecipado não é cobrada automaticamente: ao receber um pedido de cancelamento antes de 12 meses, calcular pelo exemplo dos Termos e cobrar pelo provedor.
+
+## Autoatendimento do cliente (out/2026)
+
+- Banco: aplicar `supabase/migrations/0003_etapas_e_autoatendimento.sql` (`npm run db:migrate`). Cria as etapas do site, a prévia, o modelo escolhido, a tabela `solicitacoes` e o cancelamento agendado.
+- Fluxo: "Quero um assim" no modelo abre `/planos?tema=<modelo>` e o modelo segue até o checkout (o cliente também pode escolher lá). No painel (`/admin`), cada cliente tem **Etapa do site**: ao salvar "Prévia com o cliente" com o link, ele recebe e-mail e aprova ou pede mudanças na área do cliente; ao salvar "No ar" com o endereço, recebe o aviso de site publicado. Pedidos de revisão, troca de plano e cancelamento aparecem em **Pedidos dos clientes**.
+- Domínio: o briefing pergunta se já tem domínio registrado. Se tiver, pede o domínio; se não, até 3 opções para buscar no registro.br. Nos dois casos o cliente tem um botão para o WhatsApp com a mensagem pronta, e o aviso de briefing para a equipe traz as opções.
+- Troca de plano: subir vale na hora (novo valor na próxima cobrança, sem proporcional); descer só depois dos 12 meses. Com Stripe configurado, troca sozinha; sem provedor, vira pedido no painel.
+- Cancelamento: mostra a multa e até quando o site fica no ar antes de confirmar. Com Stripe, cobra a multa no cartão e cancela no fim do período pago; o cron diário `/api/cron/cancelamentos` (10h23 UTC) desliga o cliente depois dessa data e avisa a equipe para tirar o site do ar. Anual dentro dos 12 meses vira pedido (a devolução proporcional é calculada por você).
+- Stripe: ativar o **Customer Portal** (Settings > Billing > Customer portal) para o botão "Trocar cartão". Deixe desligadas no portal as opções de cancelar e trocar de plano, porque isso já é feito pela área do cliente com as regras do contrato.
+- Asaas (se usar): a multa vira uma fatura com link (Pix, boleto ou cartão), porque o Asaas não cobra o cartão salvo fora da assinatura.
+- Nota fiscal: manual por enquanto (decisão sua). As FAQs continuam dizendo que a nota é emitida a cada cobrança.

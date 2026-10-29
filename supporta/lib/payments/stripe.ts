@@ -24,6 +24,19 @@ function verifySignature(payload: string, header: string, secret: string) {
   return signatures.some((sig) => sig.length === expected.length && timingSafeEqual(Buffer.from(sig), Buffer.from(expected)));
 }
 
+/** Chamada REST à Stripe: sem corpo vira GET, com corpo vira POST form-encoded. */
+async function stripe<T = unknown>(path: string, body?: Record<string, string>): Promise<T> {
+  const res = await fetch(`https://api.stripe.com/v1${path}`, {
+    method: body ? "POST" : "GET",
+    headers: { authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`, ...(body ? { "content-type": "application/x-www-form-urlencoded" } : {}) },
+    body: body ? form(body) : undefined,
+    signal: AbortSignal.timeout(15_000),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(`Stripe: ${data?.error?.message ?? res.status}`);
+  return data as T;
+}
+
 export const stripeProvider: PaymentProvider = {
   name: "stripe",
 
@@ -112,6 +125,46 @@ export const stripeProvider: PaymentProvider = {
       status: i.status,
       url: i.hosted_invoice_url,
     }));
+  },
+
+  async changePlan({ subscriptionId, plan, cycle }) {
+    const price = priceIds[cycle][plan.id];
+    if (!price) throw new Error(`Stripe: preço do plano ${plan.id} ${cycle} não configurado.`);
+    const sub = await stripe<{ items: { data: { id: string }[] } }>(`/subscriptions/${encodeURIComponent(subscriptionId)}`);
+    const itemId = sub.items?.data?.[0]?.id;
+    if (!itemId) throw new Error("Stripe: assinatura sem item.");
+    // O cupom de fidelidade, se houver, continua valendo no preço novo.
+    await stripe(`/subscriptions/${encodeURIComponent(subscriptionId)}`, {
+      "items[0][id]": itemId,
+      "items[0][price]": price,
+      proration_behavior: "none",
+      "metadata[plan]": plan.id,
+    });
+  },
+
+  async cancelSubscription(subscriptionId: string) {
+    await stripe(`/subscriptions/${encodeURIComponent(subscriptionId)}`, { cancel_at_period_end: "true" });
+  },
+
+  async chargeOnce({ customerId, value, description, reference }) {
+    await stripe("/invoiceitems", { customer: customerId, amount: String(Math.round(value * 100)), currency: "brl", description });
+    const invoice = await stripe<{ id: string }>("/invoices", {
+      customer: customerId,
+      collection_method: "charge_automatically",
+      pending_invoice_items_behavior: "include",
+      auto_advance: "true",
+      description,
+      "metadata[tipo]": "multa",
+      "metadata[assinatura]": reference,
+    });
+    const finalized = await stripe<{ id: string; hosted_invoice_url: string | null }>(`/invoices/${invoice.id}/finalize`, {});
+    try {
+      const paid = await stripe<{ status: string; hosted_invoice_url: string | null }>(`/invoices/${invoice.id}/pay`, {});
+      return { url: paid.hosted_invoice_url ?? finalized.hosted_invoice_url, paid: paid.status === "paid" };
+    } catch {
+      // Cartão recusado: a fatura fica aberta e o cliente paga pelo link.
+      return { url: finalized.hosted_invoice_url, paid: false };
+    }
   },
 
   async manageUrl(customerId: string, returnUrl: string) {

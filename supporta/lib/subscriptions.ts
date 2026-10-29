@@ -59,6 +59,9 @@ export async function handlePaymentEvent(event: PaymentEvent) {
     await sendEmail({ to: assinatura.email, ...paymentRefusedEmail(assinatura.responsavel.split(" ")[0]) });
     await notifyTeam(`Cobrança recusada: ${assinatura.empresa}`, [`${assinatura.email} · ${assinatura.whatsapp}`]);
   } else if (event.type === "subscription_canceled") {
+    // Cancelado pela área do cliente: o site segue no ar até o fim do período pago (o cron diário desliga).
+    const today = new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+    if (assinatura.cancelar_em && new Date(assinatura.cancelar_em).toISOString().slice(0, 10) >= today) return;
     await setSubscriptionStatus(assinatura.id, "cancelada");
     await deactivateClient(assinatura.id);
     await notifyTeam(`Assinatura cancelada: ${assinatura.empresa}`, [`${assinatura.email} · ${assinatura.whatsapp}`]);

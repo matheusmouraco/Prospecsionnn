@@ -69,7 +69,7 @@ export default function TermosPage() {
       </p>
       <p>
         <strong>Depois de {billing.minMonths} meses.</strong> A assinatura segue por prazo indeterminado e pode ser cancelada a qualquer momento,{" "}
-        <strong>sem multa</strong>, com aviso pelo WhatsApp ou e-mail. A partir do 13º mês, o Cliente que continua tem{" "}
+        <strong>sem multa</strong>, pela área do cliente, pelo WhatsApp ou por e-mail. A partir do 13º mês, o Cliente que continua tem{" "}
         <strong>{billing.loyaltyDiscountPct}% de desconto</strong> sobre o valor do plano (por exemplo, o Start passa de R${plans[0].price} para{" "}
         {formatBRLCents(loyaltyPriceFor(plans[0], "mensal"))} por mês no mensal), salvo reajuste comunicado conforme o item 10. O cancelamento interrompe a próxima
         cobrança; o período já pago segue no ar até o fim.
@@ -121,7 +121,7 @@ export default function TermosPage() {
 
       <h2>10. Mudança de plano e reajuste</h2>
       <p>
-        O Cliente pode subir de plano a qualquer momento, com efeito na próxima cobrança. Descer de plano depende de acordo, respeitado o prazo mínimo. O valor
+        O Cliente pode subir de plano a qualquer momento pela área do cliente: os recursos do plano novo valem na hora e o novo valor entra na próxima cobrança, sem cobrança proporcional. Descer de plano fica liberado depois do prazo mínimo. O valor
         fica fixo durante os {billing.minMonths} meses iniciais; reajustes posteriores serão comunicados com pelo menos 30 dias de antecedência.
       </p>
 

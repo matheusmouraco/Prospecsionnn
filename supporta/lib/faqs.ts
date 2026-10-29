@@ -16,7 +16,7 @@ export const homeFaq: Faq[] = [
   },
   {
     q: "Como funciona o cancelamento?",
-    a: `Depois dos ${minMonths} meses, você cancela quando quiser, sem multa, com aviso pelo WhatsApp ou e-mail. Antes disso, a multa é de ${fee}% do valor das mensalidades que faltam para completar os ${minMonths} meses. Exemplo no Start: cancelando depois de 8 meses pagos, faltam 4 mensalidades de R$${plans[0].price}, e a multa fica em ${formatBRLCents(earlyCancelFee(plans[0], 8))}.`,
+    a: `Depois dos ${minMonths} meses, você cancela quando quiser, sem multa, direto na área do cliente. Antes disso, a multa é de ${fee}% do valor das mensalidades que faltam para completar os ${minMonths} meses. Exemplo no Start: cancelando depois de 8 meses pagos, faltam 4 mensalidades de R$${plans[0].price}, e a multa fica em ${formatBRLCents(earlyCancelFee(plans[0], 8))}.`,
   },
   {
     q: "O que acontece com o site e o domínio se eu cancelar?",
@@ -32,7 +32,7 @@ export const homeFaq: Faq[] = [
   },
   {
     q: "Posso mudar de plano depois?",
-    a: "Pode. Subir de plano vale a partir da próxima cobrança. Para descer de plano, fale com a gente pelo WhatsApp e ajustamos respeitando o contrato.",
+    a: "Pode, direto na área do cliente. Subir de plano vale na hora, com o novo valor a partir da próxima cobrança. Descer de plano fica liberado depois do prazo mínimo de 12 meses.",
   },
   {
     q: "O que é GEO?",

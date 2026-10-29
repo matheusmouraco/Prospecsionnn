@@ -192,3 +192,27 @@ ${button("Ver detalhes na área do cliente", absoluteUrl("/cliente"))}`;
     text: `${mesLabel(mes)}: citada em ${hits} de ${valid.length} respostas.\n${rows.map((r) => `${r.motor} | ${r.pergunta} | ${r.erro ? "não rodou" : r.citado ? "citou" : "não citou"}`).join("\n")}`,
   };
 }
+
+/** Aviso genérico para o cliente: título, parágrafos, um trecho citado opcional e um botão opcional (padrão: área do cliente). */
+export function noticeEmail(title: string, lines: string[], quote?: string, cta: { label: string; href: string } = { label: "Ver na área do cliente", href: absoluteUrl("/cliente") }) {
+  const quoted = quote ? `<blockquote style="margin:0 0 16px;padding:12px 16px;border-left:4px solid ${C.pink};${font}font-size:15px;color:${C.ink}">${esc(quote)}</blockquote>` : "";
+  return {
+    subject: title,
+    html: layout(title, `${lines.map(p).join("")}${quoted}${button(cta.label, cta.href)}`),
+    text: [...lines, quote ?? "", `${cta.label}: ${cta.href}`].filter(Boolean).join("\n\n"),
+  };
+}
+
+/** Aviso de etapa do site: prévia pronta para aprovar ou site no ar. */
+export function stageEmail(nome: string, etapa: "previa" | "publicado", url: string | null) {
+  if (etapa === "previa") {
+    return noticeEmail("Seu site está pronto para você ver", [
+      `Oi, ${nome}. A primeira versão do seu site está pronta.`,
+      "Abra a prévia, veja no computador e no celular e, na área do cliente, aprove ou diga o que quer mudar. Só publicamos depois da sua aprovação.",
+    ], undefined, { label: "Ver e aprovar a prévia", href: absoluteUrl("/cliente") });
+  }
+  return noticeEmail("Seu site está no ar", [
+    `Oi, ${nome}. Seu site está publicado${url ? `: ${url}` : ""}.`,
+    "Daqui pra frente, ajustes são pedidos pela área do cliente.",
+  ], undefined, url ? { label: "Abrir o site", href: url } : undefined);
+}

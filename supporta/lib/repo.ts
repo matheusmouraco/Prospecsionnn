@@ -23,8 +23,14 @@ export type Assinatura = {
   origem: Record<string, string>;
   boas_vindas_em: Date | null;
   briefing_enviado_em: Date | null;
+  modelo: string | null;
+  cancelamento_pedido_em: Date | null;
+  cancelar_em: Date | null;
   criado_em: Date;
 };
+
+/** Andamento do site: briefing, produção, prévia para aprovar, revisão pedida, aprovado e no ar. */
+export type Etapa = "briefing" | "producao" | "previa" | "revisao" | "aprovado" | "publicado";
 
 export type Cliente = {
   id: string;
@@ -40,7 +46,23 @@ export type Cliente = {
   perguntas_ia: string[];
   plausible_site_id: string | null;
   ativo: boolean;
+  etapa: Etapa;
+  previa_url: string | null;
+  previa_em: Date | null;
+  aprovado_em: Date | null;
+  publicado_em: Date | null;
   criado_em: Date;
+};
+
+export type Solicitacao = {
+  id: string;
+  cliente_id: string;
+  tipo: "revisao_previa" | "mudar_plano" | "cancelar";
+  descricao: string;
+  dados: Record<string, unknown>;
+  status: "aberto" | "feito";
+  criado_em: Date;
+  concluido_em: Date | null;
 };
 
 export type Ajuste = { id: string; cliente_id: string; descricao: string; status: "aberto" | "em_andamento" | "feito"; pedido_em: Date; concluido_em: Date | null };
@@ -65,14 +87,15 @@ export function createSubscription(input: {
   customer: { company: string; name: string; cpfCnpj: string; email: string; phone: string };
   briefing: Record<string, string>;
   origem: Record<string, string>;
+  modelo: string | null;
   aceite: { text: string; termsVersion: string; termsUrl: string; acceptedAt: string; ip: string; userAgent: string };
 }) {
   return tryDb("createSubscription", (sql) =>
     sql.begin(async (tx) => {
       const [row] = await tx`
-        insert into assinaturas (referencia, plano, ciclo, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem)
+        insert into assinaturas (referencia, plano, ciclo, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem, modelo)
         values (${input.referencia}, ${input.plano}, ${input.ciclo}, ${input.valor}, ${input.status}, ${input.provedor}, ${input.customer.company}, ${input.customer.name},
-                ${input.customer.cpfCnpj}, ${input.customer.email}, ${input.customer.phone}, ${tx.json(input.briefing)}, ${tx.json(input.origem)})
+                ${input.customer.cpfCnpj}, ${input.customer.email}, ${input.customer.phone}, ${tx.json(input.briefing)}, ${tx.json(input.origem)}, ${input.modelo})
         returning id`;
       await tx`
         insert into aceites (assinatura_id, texto, versao_termos, url_termos, aceito_em, ip, user_agent)
@@ -146,9 +169,9 @@ export function ensureClient(a: Assinatura) {
     const site = a.briefing_inicial.siteAtual ? a.briefing_inicial.siteAtual.replace(/^https?:\/\//, "").replace(/\/.*$/, "") : null;
     const nomes = [a.empresa, site].filter(Boolean) as string[];
     const [row] = await sql<Cliente[]>`
-      insert into clientes (assinatura_id, nome, email, whatsapp, plano, segmento, cidade, site_url, nomes_busca)
+      insert into clientes (assinatura_id, nome, email, whatsapp, plano, segmento, cidade, site_url, nomes_busca, etapa)
       values (${a.id}, ${a.empresa}, ${a.email}, ${a.whatsapp}, ${a.plano}, ${a.briefing_inicial.segmento ?? null}, ${a.briefing_inicial.cidade ?? null},
-              ${site ? `https://${site}` : null}, ${nomes})
+              ${site ? `https://${site}` : null}, ${nomes}, ${a.briefing_enviado_em ? "producao" : "briefing"})
       on conflict (assinatura_id) do update set ativo = true, plano = excluded.plano
       returning *`;
     return row;
@@ -164,6 +187,7 @@ export function saveBriefing(assinaturaId: string, respostas: unknown, arquivos:
     sql.begin(async (tx) => {
       await tx`insert into briefings (assinatura_id, respostas, arquivos) values (${assinaturaId}, ${tx.json(respostas as never)}, ${tx.json(arquivos as never)})`;
       await tx`update assinaturas set briefing_enviado_em = now(), atualizado_em = now() where id = ${assinaturaId}`;
+      await tx`update clientes set etapa = 'producao' where assinatura_id = ${assinaturaId} and etapa = 'briefing'`;
     }),
   );
 }
@@ -235,6 +259,67 @@ export function latestCitations(clienteId: string) {
     select mes, motor, pergunta, citado, trecho, erro from citacoes
     where cliente_id = ${clienteId} and mes = (select max(mes) from citacoes where cliente_id = ${clienteId})
     order by pergunta, motor`);
+}
+
+/** Data da última cobrança aprovada (base para saber até quando o período já está pago). */
+export function lastApprovedPaymentAt(assinaturaId: string) {
+  return tryDb("lastApprovedPaymentAt", async (sql) => {
+    const [row] = await sql`select max(recebido_em) as em from eventos_pagamento where assinatura_id = ${assinaturaId} and tipo = 'payment_approved'`;
+    return (row?.em as Date | null) ?? null;
+  });
+}
+
+export function setStage(clienteId: string, etapa: Etapa, extra: { previaUrl?: string | null; siteUrl?: string | null } = {}) {
+  return tryDb("setStage", async (sql) => {
+    const [row] = await sql<Cliente[]>`
+      update clientes set
+        etapa = ${etapa},
+        previa_url = coalesce(${extra.previaUrl ?? null}, previa_url),
+        previa_em = case when ${etapa} = 'previa' then now() else previa_em end,
+        aprovado_em = case when ${etapa} = 'aprovado' then now() else aprovado_em end,
+        publicado_em = case when ${etapa} = 'publicado' then coalesce(publicado_em, now()) else publicado_em end,
+        site_url = coalesce(${extra.siteUrl ?? null}, site_url)
+      where id = ${clienteId} returning *`;
+    return row ?? null;
+  });
+}
+
+export function createRequest(clienteId: string, tipo: Solicitacao["tipo"], descricao: string, dados: Record<string, unknown> = {}, status: Solicitacao["status"] = "aberto") {
+  return tryDb("createRequest", async (sql) => {
+    const [row] = await sql<Solicitacao[]>`
+      insert into solicitacoes (cliente_id, tipo, descricao, dados, status, concluido_em)
+      values (${clienteId}, ${tipo}, ${descricao}, ${sql.json(dados as never)}, ${status}, ${status === "feito" ? new Date() : null}) returning *`;
+    return row;
+  });
+}
+
+export function listRequests(clienteId: string, limit = 20) {
+  return tryDb("listRequests", (sql) => sql<Solicitacao[]>`select * from solicitacoes where cliente_id = ${clienteId} order by criado_em desc limit ${limit}`);
+}
+
+export function finishRequest(id: string) {
+  return tryDb("finishRequest", (sql) => sql`update solicitacoes set status = 'feito', concluido_em = now() where id = ${id}`);
+}
+
+/** Troca de plano: assinatura e cliente passam a valer o plano novo. */
+export function changeSubscriptionPlan(assinaturaId: string, plano: PlanId, valor: number) {
+  return tryDb("changeSubscriptionPlan", (sql) =>
+    sql.begin(async (tx) => {
+      await tx`update assinaturas set plano = ${plano}, valor = ${valor}, atualizado_em = now() where id = ${assinaturaId}`;
+      await tx`update clientes set plano = ${plano} where assinatura_id = ${assinaturaId}`;
+    }),
+  );
+}
+
+export function scheduleCancellation(assinaturaId: string, cancelarEm: string) {
+  return tryDb("scheduleCancellation", (sql) => sql`
+    update assinaturas set cancelamento_pedido_em = now(), cancelar_em = ${cancelarEm}, atualizado_em = now() where id = ${assinaturaId}`);
+}
+
+/** Cancelamentos cujo período pago já acabou: desliga o cliente e fecha a assinatura. */
+export function dueCancellations() {
+  return tryDb("dueCancellations", (sql) => sql<Assinatura[]>`
+    select * from assinaturas where cancelar_em is not null and cancelar_em < (now() at time zone 'America/Sao_Paulo')::date and status <> 'cancelada'`);
 }
 
 export { db };

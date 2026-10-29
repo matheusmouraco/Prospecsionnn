@@ -85,7 +85,7 @@ export function TemplatesTabs() {
             ))}
           </ul>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link href={`/assinar/start?modelo=${model.slug}`} className={buttonClass("primary", "lg")} data-track="plan_click" data-track-plan="start" data-track-origin={`modelo:${model.slug}`}>
+            <Link href={`/planos?tema=${model.slug}`} className={buttonClass("primary", "lg")} data-track="plan_click" data-track-origin={`modelo:${model.slug}`}>
               Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
             </Link>
             <a href={vitrineUrl(model.slug)} target="_blank" rel="noopener" className={buttonClass("outline", "lg")} data-track="demo_open" data-track-origin={model.slug}>

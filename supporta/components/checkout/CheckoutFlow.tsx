@@ -8,6 +8,7 @@ import { track } from "@/lib/analytics";
 import { isCpfOrCnpj, onlyDigits } from "@/lib/documents";
 import { annualFreeMonths, billing, parseCycle, priceFor, type Cycle, type Plan } from "@/lib/plans";
 import { formatBRL, formatBRLCents } from "@/lib/site";
+import { readChosenModel, rememberModel, vitrine, vitrineCategories, vitrineThumb, vitrineUrl } from "@/lib/vitrine";
 
 type Segment = { slug: string; tab: string };
 
@@ -53,6 +54,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
   const [serverError, setServerError] = useState("");
   const [canceled, setCanceled] = useState(false);
   const [origem, setOrigem] = useState({ origem: "", site: "", modelo: "" });
+  const [tema, setTema] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
   const started = useRef(false);
 
@@ -66,6 +68,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
     if (empresa) setCompany((c) => ({ ...c, empresa }));
     if (siteAtual) setBriefing((b) => ({ ...b, siteAtual }));
     setOrigem({ origem: params.get("origem")?.slice(0, 60) ?? "", site: siteAtual ?? "", modelo: modelo ?? "" });
+    setTema(readChosenModel(params.get("tema")));
     setCanceled(params.get("cancelado") === "1");
     setCycle(parseCycle(params.get("ciclo")));
     if (!started.current) {
@@ -126,7 +129,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ plan: plan.id, ciclo: cycle, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, aceite, origem }),
+        body: JSON.stringify({ plan: plan.id, ciclo: cycle, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, tema, aceite, origem }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Não foi possível continuar.");
@@ -196,6 +199,42 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
               <option value="outro">Outro</option>
             </select>
           </Field>
+          <div className="md:col-span-2">
+            <Field id="c-tema" label="Modelo de site que você gostou (opcional)" hint="Pode deixar em branco: a gente sugere o melhor modelo para o seu segmento.">
+              <select
+                id="c-tema"
+                className={input}
+                value={tema}
+                onChange={(e) => {
+                  setTema(e.target.value);
+                  rememberModel(e.target.value);
+                }}
+              >
+                <option value="">Ainda não escolhi, quero uma sugestão</option>
+                {vitrineCategories.map((cat) => (
+                  <optgroup key={cat} label={cat}>
+                    {vitrine.filter((v) => v.category === cat).map((v) => (
+                      <option key={v.slug} value={v.slug}>{v.name}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </Field>
+            {tema ? (
+              <a href={vitrineUrl(tema)} target="_blank" rel="noopener" className="mt-3 flex items-center gap-4 rounded-2xl border border-line bg-white p-3 hover:border-ink">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={vitrineThumb(tema)} alt="" width={120} height={82} className="h-[82px] w-[120px] shrink-0 rounded-xl border border-line object-cover object-top" />
+                <span className="text-[15px]">
+                  <span className="block font-medium">{vitrine.find((v) => v.slug === tema)?.name}</span>
+                  <span className="link text-graphite">Ver o modelo de novo</span>
+                </span>
+              </a>
+            ) : (
+              <p className="mt-2 text-sm text-graphite">
+                Quer ver antes? <Link href="/modelos" target="_blank" className="link text-ink">Abrir os modelos</Link>
+              </p>
+            )}
+          </div>
           <Field id="c-cidade" label="Cidade ou região que atende" error={errors.cidade}>
             <input id="c-cidade" className={input} autoComplete="address-level2" value={briefing.cidade} onChange={(e) => setBriefing({ ...briefing, cidade: e.target.value })} {...aria("cidade")} />
           </Field>
@@ -284,6 +323,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
                 <span className="text-base font-normal text-graphite">{cycle === "anual" ? "/ano" : "/mês"}</span>
               </p>
             </div>
+            {tema ? <p className="mt-2 text-[15px] text-graphite">Modelo escolhido: <span className="font-medium text-ink">{vitrine.find((v) => v.slug === tema)?.name}</span></p> : null}
             <ul className="mt-4 space-y-1.5 text-[15px] text-graphite">
               <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> {cycle === "anual" ? "Cobrança no cartão de crédito, uma vez por ano" : "Cobrança recorrente no cartão de crédito, todo mês"}</li>
               <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Sem custo de criação</li>
