@@ -1,41 +1,119 @@
-Se o seu site não aparece no Google, quase sempre o motivo está entre cinco problemas conhecidos. A boa notícia é que todos têm solução, e a maioria não exige refazer o site do zero.
+Se o seu site não aparece no Google, quase sempre o motivo está entre cinco problemas conhecidos: site lento no celular, páginas sem título e descrição, robôs bloqueados, pouco texto sobre o que você faz e falta de informação local. A boa notícia é que todos têm solução, e a maioria não exige refazer o site do zero.
 
-## 1. O site é lento no celular
+## Resumo rápido
 
-O Google avalia o site pela versão de celular. Se a página principal demora para mostrar o conteúdo, ela perde posição para concorrentes mais rápidos, e o visitante também desiste antes de ver o que você oferece.
+- O Google avalia o site pela **versão de celular**. Site lento perde posição.
+- **Título e descrição** de cada página são o que aparece no resultado antes do clique.
+- Um `robots.txt` mal configurado pode **bloquear o Google e as IAs** sem você saber.
+- O Google entende **texto**. Foto com frase de efeito não diz o que você faz nem onde.
+- Para buscas locais, **nome, endereço e telefone iguais** em todo lugar e dados estruturados fazem diferença.
+
+## Por que o meu site não aparece no Google?
+
+Porque, na maioria dos casos, o Google não consegue ler o site direito, não entende o que a empresa faz ou prefere um concorrente mais rápido e mais claro. Raramente é um único problema: costuma ser uma combinação dos cinco motivos abaixo.
+
+Antes de mudar qualquer coisa, vale medir. O [diagnóstico grátis](/diagnostico) da Supporta mostra a nota do seu site no celular pelo Google e se ele está preparado para as IAs. Com o resultado em mãos, fica fácil saber por onde começar.
+
+| Motivo | Sinal de alerta | Solução |
+| --- | --- | --- |
+| 1. Site lento no celular | Nota de desempenho abaixo de 50 | Imagens menores, menos plugins, hospedagem melhor |
+| 2. Sem título e descrição | Resultado do Google com texto aleatório | Título até 60 caracteres e descrição até 155 |
+| 3. Robôs bloqueados | Site não aparece nem buscando o nome | Conferir o robots.txt e as configurações |
+| 4. Pouco texto | Página com fotos e frases genéricas | Escrever serviços, cidade e perguntas frequentes |
+| 5. Google não sabe que é local | Não aparece em "perto de mim" | Dados iguais em todo lugar e dados estruturados |
+
+## O site lento no celular atrapalha o Google?
+
+Atrapalha, e muito. O Google avalia o site pela versão de celular. Se a página principal demora para mostrar o conteúdo, ela perde posição para concorrentes mais rápidos, e o visitante também desiste antes de ver o que você oferece.
 
 Os culpados mais comuns são imagens enormes, muitos plugins e hospedagem fraca. Para saber onde você está, rode o nosso [diagnóstico grátis](/diagnostico): ele mostra a nota de desempenho do PageSpeed, a ferramenta oficial do Google. **Acima de 90 é bom; abaixo de 50 é um problema sério.**
 
-## 2. As páginas não têm título nem descrição
+### Como deixar o site mais rápido?
+
+- **Reduza as imagens.** Uma foto tirada no celular pode pesar muito mais do que a página precisa. Converta para formatos modernos, como WebP.
+- **Tire o que não usa.** Cada plugin, chat ou efeito extra adiciona peso.
+- **Use uma hospedagem decente.** Hospedagem muito barata costuma ser lenta para responder.
+
+## O que são título e meta description, e por que fazem falta?
 
 O título (a tag `title`) e a meta description são o que aparece no resultado do Google antes do clique. Sem eles, o Google monta um resumo com pedaços aleatórios da página, e quase ninguém clica.
 
 Um bom título tem até 60 caracteres e diz o que você faz e onde: "Clínica de fisioterapia em Campinas | Nome da Clínica". A descrição, com até 155 caracteres, explica o benefício e convida para o próximo passo.
 
-## 3. O site bloqueia os robôs
+### Exemplos de títulos que funcionam
 
-Parece absurdo, mas acontece muito: o arquivo `robots.txt` ou uma configuração esquecida do sistema do site manda os robôs do Google não entrarem. Isso é comum em sites que foram publicados a partir de uma versão de testes.
+Os exemplos abaixo são ilustrativos, para mostrar o formato:
 
-Vale conferir também se os robôs das IAs, como GPTBot e ClaudeBot, estão liberados. Se eles não leem o seu site, as IAs não têm como indicar a sua empresa.
+- "Contabilidade para MEI em Goiânia | Nome do Escritório"
+- "Eletricista em Contagem e Betim | Nome da Empresa"
+- "Restaurante japonês no Centro de Florianópolis | Nome do Restaurante"
 
-## 4. Falta texto sobre o que você faz
+Cada página do site precisa de um título diferente. Se todas se chamam "Home" ou só levam o nome da empresa, o Google não sabe qual mostrar para cada busca.
 
-Muitos sites de pequenas empresas são bonitos, mas quase não têm texto. Uma foto com a frase "Qualidade e confiança" não diz ao Google que você é um escritório de contabilidade que atende MEI em Goiânia.
+## O meu site pode estar bloqueando o Google sem eu saber?
 
-O Google entende texto. Escreva, em linguagem simples:
+Pode. Parece absurdo, mas acontece muito: o arquivo `robots.txt` ou uma configuração esquecida do sistema do site manda os robôs do Google não entrarem. Isso é comum em sites que foram publicados a partir de uma versão de testes.
+
+O **robots.txt** é um arquivo pequeno, na raiz do site, que diz quais robôs podem ler as suas páginas. Uma linha errada ali pode tirar o site inteiro da busca.
+
+Vale conferir também se os robôs das IAs, como GPTBot e ClaudeBot, estão liberados. Se eles não leem o seu site, as IAs não têm como indicar a sua empresa. Outro arquivo que ajuda é o **llms.txt**, um resumo em texto simples do seu negócio feito para as IAs lerem rápido. O [glossário](/glossario) explica esses termos com calma.
+
+## Ter pouco texto no site faz diferença?
+
+Faz, porque o Google entende texto. Muitos sites de pequenas empresas são bonitos, mas quase não têm texto. Uma foto com a frase "Qualidade e confiança" não diz ao Google que você é um escritório de contabilidade que atende MEI em Goiânia.
+
+Escreva, em linguagem simples:
 
 - quais serviços você oferece, com uma seção ou página para cada um;
 - em que cidade e bairros você atende;
 - as perguntas que os clientes fazem antes de contratar, com as respostas.
 
-## 5. O Google não sabe que a sua empresa é local
+### Site comum ou site preparado para o Google e as IAs?
 
-Para buscas como "dentista perto de mim", o Google cruza o site com o perfil no Google Meu Negócio. Se o nome, o endereço e o telefone estão diferentes em cada lugar, ou se o site não tem esses dados, ele fica em dúvida e mostra outra empresa.
+| Site comum | Site preparado |
+| --- | --- |
+| "Qualidade e confiança" | "Contabilidade para MEI e pequenas empresas em Goiânia" |
+| Uma página só com fotos | Uma seção ou página por serviço |
+| Telefone dentro de uma imagem | Telefone em texto, igual ao do Google |
+| Sem perguntas frequentes | Respostas às dúvidas reais dos clientes |
+| Robôs nunca conferidos | Robôs do Google e das IAs liberados |
 
-A solução é manter as informações iguais em todo lugar e adicionar **dados estruturados** (schema.org) no site, que dizem ao Google com certeza quem você é, onde fica e quando abre.
+Esse mesmo texto serve para as IAs. Quando alguém pergunta ao ChatGPT ou ao Gemini por um serviço na sua cidade, elas procuram páginas que respondam com clareza. Veja como isso funciona em [como a IA escolhe quem indicar](/blog/como-a-ia-escolhe-quem-indicar).
 
-## Por onde começar?
+## Como fazer o Google entender que a minha empresa é local?
 
-Comece medindo. O [diagnóstico grátis da Supporta](/diagnostico) mostra em menos de um minuto a nota do seu site no celular e se ele tem título, descrição, dados estruturados, robots.txt e llms.txt.
+Para buscas como "dentista perto de mim", o Google cruza o site com o Perfil da Empresa no Google (o antigo Google Meu Negócio). Se o nome, o endereço e o telefone estão diferentes em cada lugar, ou se o site não tem esses dados, ele fica em dúvida e mostra outra empresa.
 
-Se preferir não se preocupar com nada disso, todo site da Supporta já sai rápido, com títulos, descrições, dados estruturados e robôs liberados. A partir de R$89 por mês, sem custo de criação. [Veja os planos](/planos).
+A solução é manter as informações iguais em todo lugar e adicionar **dados estruturados** (schema.org) no site, que dizem ao Google com certeza quem você é, onde fica e quando abre. Dados estruturados são um pequeno código escondido na página: o visitante não vê, mas o Google e as IAs leem.
+
+Para ver como isso se aplica a um negócio que atende na casa do cliente, leia [como o prestador de serviço aparece nas IAs](/blog/prestador-de-servico-nas-ias).
+
+## E aparecer nas IAs, é a mesma coisa que aparecer no Google?
+
+Não é a mesma coisa, mas as bases são parecidas. **SEO** é preparar o site para aparecer bem na busca do Google. **AEO** é preparar o conteúdo para ser a resposta direta de uma pergunta. **GEO** é preparar o site para ser lido e citado pelas IAs, como ChatGPT, Gemini e Perplexity.
+
+Os cinco motivos deste texto atrapalham as três coisas ao mesmo tempo. Resolver o básico já deixa o site mais claro para o Google e para as IAs. Para ir além, leia [SEO, AEO e GEO: a diferença](/blog/seo-aeo-geo-diferenca) e a nossa página sobre [GEO](/geo).
+
+## Como a Supporta resolve esses cinco problemas?
+
+A Supporta entrega o site pronto e já sem esses problemas, por uma assinatura mensal. Todo site sai rápido, feito para ter nota 90 ou mais no PageSpeed no celular, com títulos, descrições, dados estruturados, llms.txt e robôs liberados. Você não escreve nada: faz um briefing de 10 minutos e a Supporta escreve os textos.
+
+Há [modelos](/modelos) prontos para vários tipos de negócio, como prestadores de serviço, arquitetos, clínicas, restaurantes e escritórios. Os planos:
+
+| Plano | O que inclui |
+| --- | --- |
+| Start, R$89/mês | Site de uma página a partir de um modelo pronto com a sua marca, domínio .com.br no 1º ano, hospedagem, SSL e manutenção, WhatsApp e Google Maps, GEO básico, 1 ajuste por mês |
+| Pro, R$189/mês | Até 5 páginas personalizadas, blog com 2 artigos por mês feitos para aparecer nas IAs, Perfil da Empresa no Google otimizado, 3 ajustes por mês, relatório mensal de visitas |
+| Premium, R$389/mês | Site sob medida, GEO avançado com monitoramento mensal de citações no ChatGPT, Gemini e Perplexity, 4 artigos por mês, ajustes ilimitados em até 48h, suporte prioritário no WhatsApp |
+
+Não há taxa de criação. O contrato mínimo é de 12 meses, com 10% de desconto a partir do 13º mês, e no pagamento anual você paga 10 meses e leva 12. A Supporta não promete posição no Google nem citação nas IAs, mas deixa o seu site como a fonte mais clara sobre o seu negócio e mede o resultado.
+
+Comece pelo [diagnóstico grátis](/diagnostico) para ver onde o seu site está hoje, depois compare os [planos](/planos). Se quiser entender o investimento, veja também [quanto custa um site](/quanto-custa-um-site).
+
+export const faq = [
+  { q: "Quanto tempo o Google leva para mostrar meu site?", a: "Não existe prazo fixo. Depois que o site está liberado e com conteúdo claro, o Google precisa visitar e avaliar as páginas, o que pode levar de alguns dias a semanas." },
+  { q: "Meu site aparece quando busco o nome da empresa, mas não pelo serviço. Por quê?", a: "Geralmente falta texto sobre o serviço e a cidade, ou o título das páginas só traz o nome da empresa. O Google precisa ler o que você faz para mostrar o site nessas buscas." },
+  { q: "Preciso refazer o site do zero?", a: "Na maioria dos casos não. Títulos, descrições, robots.txt e textos podem ser corrigidos no site atual. Refazer compensa quando o site é muito lento ou difícil de editar." },
+  { q: "Anúncio no Google resolve o problema?", a: "O anúncio coloca você no topo enquanto paga, mas não corrige o site. Se a página for lenta ou confusa, o visitante que chega pelo anúncio também desiste." },
+  { q: "Como sei se os robôs das IAs conseguem ler meu site?", a: "Rode o diagnóstico grátis da Supporta. Ele mostra se o site tem robots.txt, llms.txt e dados estruturados, além da nota no celular." },
+]
