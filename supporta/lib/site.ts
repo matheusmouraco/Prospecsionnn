@@ -51,6 +51,7 @@ export const nav = [
   { href: "/modelos", label: "Modelos" },
   { href: "/#como-funciona", label: "Como funciona" },
   { href: "/geo", label: "GEO" },
+  { href: "/blog", label: "Blog" },
   { href: "/#duvidas", label: "Dúvidas" },
 ];
 

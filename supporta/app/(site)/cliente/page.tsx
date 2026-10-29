@@ -5,11 +5,11 @@ import { AdjustmentForm } from "@/components/cliente/AdjustmentForm";
 import { buttonClass } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { getPaymentProvider, type Invoice } from "@/lib/payments";
-import { adjustmentsPerMonth, getPlan } from "@/lib/plans";
-import { countAdjustmentsThisMonth, getSubscriptionById, latestCitations, latestVisitReports, listAdjustments } from "@/lib/repo";
+import { adjustmentsPerMonth, billing, earlyCancelFee, getPlan } from "@/lib/plans";
+import { countAdjustmentsThisMonth, countApprovedPayments, getSubscriptionById, latestCitations, latestVisitReports, listAdjustments } from "@/lib/repo";
 import { pageMetadata } from "@/lib/seo";
 import { currentClient } from "@/lib/session";
-import { absoluteUrl, formatBRL, whatsappUrl } from "@/lib/site";
+import { absoluteUrl, formatBRLCents, whatsappUrl } from "@/lib/site";
 import { briefingUrl } from "@/lib/subscriptions";
 
 export const dynamic = "force-dynamic";
@@ -53,6 +53,14 @@ export default async function ClientePage() {
   const limit = adjustmentsPerMonth[client.plano];
   const remaining = limit === null ? null : Math.max(0, limit - (used ?? 0));
 
+  // Situação do contrato: meses cobertos, multa se cancelar hoje e desconto de quem continua.
+  const paidCharges = assinatura ? ((await countApprovedPayments(assinatura.id)) ?? 0) : 0;
+  const cycle = assinatura?.ciclo ?? "mensal";
+  const monthsCovered = cycle === "anual" ? paidCharges * 12 : paidCharges;
+  const inMinimum = monthsCovered < billing.minMonths;
+  const feeToday = cycle === "mensal" && inMinimum ? earlyCancelFee(plan, monthsCovered) : 0;
+  const chargeValue = assinatura ? Number(assinatura.valor) : plan.price;
+
   const provider = getPaymentProvider();
   let invoices: Invoice[] = [];
   let manage: string | null = null;
@@ -69,7 +77,7 @@ export default async function ClientePage() {
             <SectionLabel>Área do cliente</SectionLabel>
             <h1 id="page-title" className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1] tracking-[-0.055em]">{client.nome}</h1>
             <p className="mt-3 text-graphite">
-              Plano {plan.name}, {formatBRL(plan.price)}/mês{client.site_url ? <> · <a href={client.site_url} className="link" target="_blank" rel="noopener">{client.site_url.replace(/^https?:\/\//, "")}</a></> : null}
+              Plano {plan.name} {cycle}, {formatBRLCents(chargeValue)}/{cycle === "anual" ? "ano" : "mês"}{client.site_url ? <> · <a href={client.site_url} className="link" target="_blank" rel="noopener">{client.site_url.replace(/^https?:\/\//, "")}</a></> : null}
             </p>
           </div>
           <form action="/api/cliente/sair" method="post">
@@ -116,7 +124,7 @@ export default async function ClientePage() {
                 <ul className="divide-y divide-line">
                   {invoices.map((i) => (
                     <li key={i.id} className="flex items-center justify-between gap-4 py-3 text-[15px]">
-                      <span>{date(`${i.dueDate}T12:00:00Z`)} · {formatBRL(i.value)}</span>
+                      <span>{date(`${i.dueDate}T12:00:00Z`)} · {formatBRLCents(i.value)}</span>
                       <span className="flex items-center gap-3">
                         <span className="text-graphite">{invoiceLabel[i.status] ?? i.status}</span>
                         {i.url ? <a href={i.url} target="_blank" rel="noopener" className="link inline-flex items-center gap-1">Abrir <ExternalLink aria-hidden strokeWidth={1.75} className="h-3.5 w-3.5" /></a> : null}
@@ -134,6 +142,52 @@ export default async function ClientePage() {
                   Trocar cartão pelo WhatsApp
                 </a>
               )}
+            </Panel>
+
+            <Panel title="Contrato">
+              <ul className="divide-y divide-line text-[15px]">
+                <li className="flex justify-between gap-4 py-3">
+                  <span className="text-graphite">Pagamento</span>
+                  <span>{cycle === "anual" ? "Anual, 1 vez por ano" : "Mensal, todo mês"}</span>
+                </li>
+                <li className="flex justify-between gap-4 py-3">
+                  <span className="text-graphite">Meses pagos</span>
+                  <span>{monthsCovered} {inMinimum ? `de ${billing.minMonths} do prazo mínimo` : "(prazo mínimo cumprido)"}</span>
+                </li>
+                <li className="flex justify-between gap-4 py-3">
+                  <span className="text-graphite">Desconto de {billing.loyaltyDiscountPct}%</span>
+                  <span>{assinatura?.desconto_fidelidade_em ? "Ativo" : "A partir do 13º mês"}</span>
+                </li>
+                <li className="flex justify-between gap-4 py-3">
+                  <span className="text-graphite">Se cancelar hoje</span>
+                  <span>{!inMinimum ? "Sem multa" : cycle === "mensal" ? `Multa de ${formatBRLCents(feeToday)}` : `Devolução proporcional, menos ${billing.earlyCancelFeePct}%`}</span>
+                </li>
+              </ul>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  href={whatsappUrl(`Oi! Sou cliente (${client.nome}), plano ${plan.name}, e quero mudar de plano.`)}
+                  target="_blank"
+                  rel="noopener"
+                  className={buttonClass("outline", "md")}
+                  data-track="whatsapp_click"
+                  data-track-origin="cliente-plano"
+                >
+                  Mudar de plano
+                </a>
+                <a
+                  href={whatsappUrl(`Oi! Sou cliente (${client.nome}), plano ${plan.name}, e quero cancelar a assinatura.`)}
+                  target="_blank"
+                  rel="noopener"
+                  className={buttonClass("ghost", "md")}
+                  data-track="whatsapp_click"
+                  data-track-origin="cliente-cancelar"
+                >
+                  Cancelar assinatura
+                </a>
+              </div>
+              <p className="mt-3 text-sm text-graphite">
+                Regras completas nos <a href="/termos" className="link">Termos</a>.
+              </p>
             </Panel>
 
             {client.plano !== "start" ? (

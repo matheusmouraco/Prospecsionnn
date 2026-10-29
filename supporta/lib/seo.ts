@@ -19,7 +19,7 @@ export function pageMetadata({ title, description, path, type = "website", noind
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, types: { "application/rss+xml": absoluteUrl("/blog/rss.xml") } },
     openGraph: { title, description, url, siteName: site.name, locale: site.locale, type, images: [image] },
     twitter: { card: "summary_large_image", title, description, images: [image.url] },
     robots: noindex ? { index: false, follow: true } : undefined,
