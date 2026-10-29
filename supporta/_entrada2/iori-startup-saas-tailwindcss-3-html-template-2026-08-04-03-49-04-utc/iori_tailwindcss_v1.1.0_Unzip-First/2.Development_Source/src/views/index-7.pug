@@ -1,0 +1,169 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 7 - IORI Marketplace Template';
+  - bodyClass = 'homepage-7-styles';
+
+block container
+  +MainContainer.homepage-7
+    .bg-gray-80.shadow-sm.wrapper-homepage
+      .flex.items-start.justify-between.wrapper-flex
+        .flex-info
+          .info-box
+            .subtitle.mb-4
+              span.line.bg-first-brand
+              span.text-first-brand.text-lg.text-gray-400 Think. Creative. Solve
+            h1.title.text-first-brand.mb-8 We take care of your business to grow
+            p.intro.text-base.mb-8.text-gray-500 Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.
+
+            .input-group.bg-white.relative
+              input.form-control.form-custom(placeholder='Enter you mail')
+              button.absolute.px-5.py-4.bg-first-brand.flex.items-center.justify-end.gap-x-2.ml-auto(
+                class='rounded-[50px]'
+              )
+                span.text-header-9.font-bold.text-second-brand Join now
+                +ArrowRightIcon.w-4.h-4.text-second-brand
+            .supporter
+              .view
+                img.max-w-full(src='assets/images/homepage/supporter.png', alt='Iori')
+              .info.text-gray-400.text-header-9 Join thousands of users in using the
+                span.text-first-brand iori platform!
+        .flex-image
+          .gallery-box(style='top: 0px')
+            .view
+              img.max-w-full(src='assets/images/homepage/img1.png', alt='Iori')
+            .view
+              img.max-w-full(src='assets/images/homepage/img2.png', alt='Iori')
+            .view
+              img.max-w-full(src='assets/images/homepage/img3.png', alt='Iori')
+          .gallery-box(style='top: -95px')
+            .view
+              img.max-w-full(src='assets/images/homepage/img4.png', alt='Iori')
+            .view
+              img.max-w-full(src='assets/images/homepage/img5.png', alt='Iori')
+            .view
+              img.max-w-full(src='assets/images/homepage/img6.png', alt='Iori')
+  +MainContainer
+    .grid.grid-cols-12.items-end(class='mb-[50px] mt-[40px] lg:mt-[80px] lg:mb-[100px]')
+      .col-span-12.mb-7(class='xl:col-span-4 xl:mb-0')
+        +FlexCol(class='max-w-[351px]')
+          +Heading4('Trusted by fast-moving brands & agencies worldwide').mb-6
+          +JustifyBetween.gap-5
+            +FlexCol.gap-y-1
+              +Heading2('756+')
+              p.text-header-7.font-medium.text-first-brand Project Done
+            +FlexCol.gap-y-1
+              +Heading2('100+')
+              p.text-header-7.font-medium.text-first-brand Global branch
+      .col-span-12(class='xl:col-span-8')
+        ul.text-left
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-placed-1.svg', alt='Iori')
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-cuebiq-1.svg', alt='Iori')
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-factual-1.svg', alt='Iori')
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-place-iq-1.svg', alt='Iori')
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-airmeet-1.svg', alt='Iori')
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-spendflo-1.svg', alt='Iori')
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-klippa-1.svg', alt='Iori')
+          li.inline-block.px-5(class='min-w-[100px] py-2.5')
+            img.inline-block.max-w-full(src='assets/images/icons/icon-matrixian-1.svg', alt='Iori')
+    .grid.grid-cols-1.mb-9(class='gap-[30px] xl:grid-cols-2')
+      .bg-second-bg.border.border-gray-80.pt-8.overflow-hidden(class='rounded-[32px]')
+        +Heading3('Financial Management').text-center.mb-5
+        +TextBase(`Track, manage, and control your expenses. The only financial management tool you’ll ever need.`).mx-auto.text-center.mb-5.px-4(
+          class='max-w-[494px]'
+        )
+        +JustifyCenter.gap-x-4.mb-8
+          img(src='assets/images/AppStore.svg', alt='AppStore')
+          img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+        .text-center.w-full
+          +ImageSrcSet('assets/images/homepage-7-img-financial.png 2x', 'Financial').inline-block
+      .bg-fourth-bg.border.border-gray-80.pt-8.overflow-hidden(class='rounded-[32px]')
+        +Heading3('Automated Platform').text-center.mb-5
+        +TextBase(`Synchronize and automate all your business in the cloud. Save time and effort, enjoy great vacations.`).mx-auto.text-center.mb-5.px-4(
+          class='max-w-[494px]'
+        )
+        button.px-5.py-4.bg-first-brand.flex.items-center.justify-center.gap-x-2.mx-auto.mb-8(
+          class='rounded-[50px]'
+        )
+          span.text-header-9.font-bold.text-second-brand Get Started Now
+          +ArrowRightIcon.w-4.h-4.text-second-brand
+        .text-center.w-full
+          +ImageSrcSet('assets/images/homepage-7-automated.png 2x', 'Automated').inline-block
+    .bg-gray-60.p-4(
+      class='rounded-[32px] sm:pr-[51px] sm:pt-[67px] sm:pb-[54px] sm:pl-[72px] mb-[70px] lg:mb-[141px]'
+    )
+      .grid.grid-cols-1.gap-20(class='xl:grid-cols-2')
+        .border-gray-0.overflow-hidden.relative.shadow-drop-shadown-2(class='border-[5px] rounded-[30px]')
+          +ImageCover('assets/images/page/homepage7/img.png', 'Iori')
+          span.font-bold.text-first-brand.absolute.bg-warning.p-4.rounded-3xl.shadow-drop-shadown-3.text-header-6(
+            class='md:px-[42px] sm:text-header-5 top-[26px] md:py-6 left-[29px]'
+          ) IORI Business Platform
+        +FlexCol(class='gap-y-[33px]')
+          +Heading2('How to grow your business fast')
+          +FlexCol.gap-y-8
+            +WayToGrowYourSocialMedia('1', 'Create an account', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+            +WayToGrowYourSocialMedia('2', 'Build your founding team', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+            +WayToGrowYourSocialMedia('3', 'Launch and Scale', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+    .grid.grid-cols-12 
+      .col-span-12.mb-6(class='xl:col-span-5 xl:mb-0')
+        +FlexCol(class='xl:max-w-[570px]')
+          +ItemsCenter.gap-x-3.mb-3
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Automatic Tools
+          +Heading2('Business can also be simple').mb-6(class='xl:max-w-[450px]')
+          +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.').mb-9
+          ul.grid.grid-cols-1.mb-11(class='gap-y-[18px] sm:grid-cols-2')
+            +FeatureManagementItem('Task tracking')
+            +FeatureManagementItem('Create task dependencies')
+            +FeatureManagementItem('Task visualization')
+            +FeatureManagementItem('hare files, discuss')
+            +FeatureManagementItem('Meet deadlines faster')
+            +FeatureManagementItem('Track time spent on each project')
+          +ItemsCenter.gap-6
+            +NormalButton('Download App')
+            +RightArrowButton('Learn More', '#')
+      .col-span-12.text-center.relative(class='xl:col-span-7')
+        +ImageSrcSet('assets/images/homepage-7-img2.png 2x', 'Human').inline-block
+        .p-4.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-1.absolute.left-0.hero-thumb-animation.bottom-12(
+          class='z-[3]'
+        )
+          +ItemsCenter.gap-x-3 
+            .w-14.h-14.overflow-hidden.rounded-full
+              +ImageCover('assets/images/homepage-11-avatar-1.png', 'Avatar')
+            +FlexCol 
+              +ItemsCenter.gap-x-5
+                span.text-header-8.font-bold.text-first-brand Bessie Cooper
+                +RatingStar
+              p.text-mini-desc.text-gray-500.font-medium.text-left(class='max-w-[216px]') Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa
+        .py-3.px-8.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-1.absolute.hero-thumb-sm-2-animation.bottom-60(
+          class='z-[3] right-[42px]'
+        )
+          +FlexCol.gap-y-1
+            +Heading2('25k+')
+            span.text-header-7.font-medium.text-first-brand Happy Clients
+    .grid.grid-cols-1(class='gap-[30px] xl:grid-cols-3 mb-[68px] lg:mb-[137px] mt-[71px] lg:mt-[142px]')
+      +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Secure payment', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Learn more', '#').bg-fourth-bg
+      +SalientFeature('assets/images/icons/icon-save-money.svg', 'Save money', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Learn more', '#').bg-fifth-bg
+      +SalientFeature('assets/images/icons/icon-quick-support.svg', 'Quick support', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Learn more', '#').bg-seventh-bg
+  .block.border-b.border-third-brand(class='pb-[71px] lg:pb-[142px] mb-[65px] lg:mb-[130px]')
+    +MainContainer
+      p.text-header-6.font-bold.text-first-brand.mb-5 Our leadership team
+      +Heading2('Meet the amazing team behind Iori').mb-10(class='lg:max-w-[557px] lg:mb-[52px]')
+      .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2 lg:grid-cols-4')
+        +AmazingTeamMember('assets/images/homepage-11-person-1.png', 'Devon Lane', 'CEO', 'Sharing content online allows you to craft an online persona that reflects your personal values and professional skills. Even if you only use social media occasionally', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-2.png', 'Jennie Tho', 'Finance Manager', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus.', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-3.png', 'Symon Lesin', 'Technology Manager', 'In a professional context it often happens that private or corporate clientsorder a publication to publish news. Excepteur sint occaecat cupidatat non proident.', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-4.png', 'Virginia Aguilar', 'Director of People', 'In a professional context it often happens that private or corporate clientsorder a publication to publish news. Excepteur sint occaecat cupidatat non proident.', '#', '#', '#')
+  +MainContainer 
+    +BestPlanSection(false)
+  +SayingAboutUsSection
+  +MainContainer 
+    +BlogSection(class='mb-[71px] lg:mb-[142px] mt-[59px] lg:mt-[118px]')
+    +NewsletterSection02

@@ -1,0 +1,138 @@
+extends layout/layout
+
+block vars
+  - title = 'Blog - IORI Marketplace Template';
+  - bodyClass = 'blog-listing-2-styles';
+  - var dotIcon = '/assets/images/page/blog/dot.svg';
+
+block container
+  +MainContainer
+    +TagButton('The Iori Blog').mb-4.block.mx-auto(class='mt-[102px]')
+    +Heading2('Insight and advice from our expert team').text-center.mx-auto.text-center(
+      class='mb-[51px] max-w-[600px]'
+    )
+    ul.inline-block.w-full.text-center.tabLastestArticles(class='mb-[68px]')
+      li.inline-block.mx-1.active.mb-8
+        a.border.border-gray-80.rounded-lg.bg-gray-0.py-3.font-medium.text-base.text-gray-500.transition-common(
+          href='#allArticles',
+          class='px-[22px] hover:bg-first-brand hover:border-first-brand hover:text-second-brand'
+        ) All articles
+      li.inline-block.mx-1.mb-8
+        a.border.border-gray-80.rounded-lg.bg-gray-0.py-3.font-medium.text-base.text-gray-500.transition-common(
+          href='#featured',
+          class='px-[22px] hover:bg-first-brand hover:border-first-brand hover:text-second-brand'
+        ) Featured
+      li.inline-block.mx-1.mb-8
+        a.border.border-gray-80.rounded-lg.bg-gray-0.py-3.font-medium.text-base.text-gray-500.transition-common(
+          href='#company',
+          class='px-[22px] hover:bg-first-brand hover:border-first-brand hover:text-second-brand'
+        ) Company
+      li.inline-block.mx-1.mb-8
+        a.border.border-gray-80.rounded-lg.bg-gray-0.py-3.font-medium.text-base.text-gray-500.transition-common(
+          href='#productNews',
+          class='px-[22px] hover:bg-first-brand hover:border-first-brand hover:text-second-brand'
+        ) Product News
+      li.inline-block.mx-1.mb-8
+        a.border.border-gray-80.rounded-lg.bg-gray-0.py-3.font-medium.text-base.text-gray-500.transition-common(
+          href='#customerStories',
+          class='px-[22px] hover:bg-first-brand hover:border-first-brand hover:text-second-brand'
+        ) Customer Stories
+      li.inline-block.mx-1.mb-8
+        a.border.border-gray-80.rounded-lg.bg-gray-0.py-3.font-medium.text-base.text-gray-500.transition-common(
+          href='#guides',
+          class='px-[22px] hover:bg-first-brand hover:border-first-brand hover:text-second-brand'
+        ) Guides
+      li.inline-block.mx-1.mb-8
+        a.border.border-gray-80.rounded-lg.bg-gray-0.py-3.font-medium.text-base.text-gray-500.transition-common(
+          href='#other',
+          class='px-[22px] hover:bg-first-brand hover:border-first-brand hover:text-second-brand'
+        ) Other
+    .tabContents.w-full.clear-both
+      #allArticles.tabBox
+        .grid.grid-cols-12(class='gap-x-[30px]')
+          .col-span-12(class='mb-[76px]')
+            .border.border-gray-80.rounded-lg.overflow-hidden
+              .grid.grid-cols-1.items-center(class='xl:grid-cols-2')
+                +ImageSrcSet('assets/images/homepage-12-person-5.png 2x', 'Person').block.w-full
+                +FlexCol.pl-5.mt-5.pr-5.pb-5(class='xl:pl-[73px] xl:pr-0 xl:pb-0 xl:mt-0')
+                  +TagButton('Featured').mb-3
+                  +Heading3('7 Things To Keep In Mind When Starting A Business').mb-5(
+                    class='xl:max-w-[555px]'
+                  )
+                  .font-medium.text-gray-500.text-mini-desc
+                    span November 17, 2022
+                    span.inline-block.ml-5.pl-5.bg-no-repeat(
+                      class="bg-[left_center] bg-[url('" + dotIcon + "')]"
+                    ) 2 min read
+                  +TextBase('Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.').mb-12.mt-6(
+                    class='xl:max-w-[585px]'
+                  )
+                  +RightArrowButton('Read more', '#')
+          .col-span-12 
+            +ItemsEnd.mb-8(class='gap-x-[11px]')
+              +Heading3('Promotions')
+              .bg-second-brand.h-1(class='w-[102px] mb-1.5')
+          .col-span-12(class='sm:col-span-6 lg:col-span-4 mb-[76px]')
+            +CardBlogGrid('assets/images/page/blog/img3.png', '10 Content Proofreading Tips to Catch More Avoidable Goofs', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Marketting')
+          .col-span-12(class='sm:col-span-6 lg:col-span-4 mb-[76px]')
+            +CardBlogGrid('assets/images/page/blog/img4.png', 'Everything a Beginner Blogger Needs to Know for 2023', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Tutorial')
+          .col-span-12(class='sm:col-span-6 lg:col-span-4 mb-[76px]')
+            +CardBlogGrid('assets/images/page/blog/img5.png', 'Bad Email Marketing and Nickelback Don’t Have Much in Common', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Team work')
+          .col-span-12 
+            +ItemsEnd.mb-8(class='gap-x-[11px]')
+              +Heading3('E-Commerce')
+              .bg-third-brand.h-1(class='w-[102px] mb-1.5')
+          .col-span-12.mb-8(class='sm:col-span-6')
+            +CardBlogGrid('assets/images/page/blog/img1.png', 'How to save money - 8 simple ways to start saving money every month', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Marketting')
+          .col-span-12.mb-8(class='sm:col-span-6')
+            +CardBlogGrid('assets/images/page/blog/img2.png', 'Essential Steps to Building And Refining an Effective UX Portfolio', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Technology')
+          .col-span-12 
+            button.text-first-brand.py-4.px-6.text-header-9.bg-gray-0.border.border-first-brand.font-bold.flex.items-center.justify-center.transition-common.mx-auto(
+              class='rounded-[60px] mb-[76px] hover:bg-first-brand hover:text-second-brand'
+            ) View more in this category
+          .col-span-12 
+            +ItemsEnd.mb-8(class='gap-x-[11px]')
+              +Heading3('Marketing Strategy')
+              .bg-fourth-brand.h-1(class='w-[102px] mb-1.5')
+          .col-span-12.mb-8(class='sm:col-span-6 lg:col-span-4')
+            +CardBlogGrid('assets/images/page/blog2/img2.png', '10 Content Proofreading Tips to Catch More Avoidable Goofs', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Marketting')
+          .col-span-12.mb-8(class='sm:col-span-6 lg:col-span-4')
+            +CardBlogGrid('assets/images/page/blog/img6.png', 'Everything a Beginner Blogger Needs to Know for 2023', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Tutorial')
+          .col-span-12.mb-8(class='sm:col-span-6 lg:col-span-4')
+            +CardBlogGrid('assets/images/page/blog/img9.png', 'Bad Email Marketing and Nickelback Don’t Have Much in Common', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Team work')
+          .col-span-12 
+            button.text-first-brand.py-4.px-6.text-header-9.bg-gray-0.border.border-first-brand.font-bold.flex.items-center.justify-center.transition-common.mx-auto(
+              class='rounded-[60px] mb-[76px] hover:bg-first-brand hover:text-second-brand'
+            ) View more in this category
+          .col-span-12 
+            +ItemsEnd.mb-8(class='gap-x-[11px]')
+              +Heading3('Industry Use Cases')
+              .h-1(class='w-[102px] mb-1.5 bg-[#28A7E6]')
+          .col-span-12.mb-8
+            .grid.grid-cols-1(class='gap-[30px] lg:grid-cols-2')
+              +CardBlogGrid('assets/images/page/blog/img10.png', '22 Strategies for Outdoor & Sporting Goods E-Commerce Retailers in 2022 + Industry Benchmarks', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Marketting')
+              +FlexCol 
+                .block.mb-8
+                  a(href='#')
+                    +Heading4('Understanding The Different Types of Automated Email Marketing Campaigns') 
+                  .font-medium.text-gray-500.text-mini-desc.mb-6(class='mt-[10px]')
+                    span November 17, 2022
+                    span.inline-block.ml-5.pl-5.bg-no-repeat(
+                      class="bg-[left_center] bg-[url('" + dotIcon + "')]"
+                    ) 2 min read
+                  +TextBase('If you are already on Shopify, you are probably familiar with the importance of crafting the perfect email newsletter. Even if a customer visits your site but doesn’t make a purchase, your newsletter can be the right motivation that will bring them back when a special promotion is on the line. Since the newsletter is an integral part of email marketing, let us walk you through the steps of creating a winning newsletter capable of turning subscribers into buyers.')
+                .w-full.bg-gray-80.mb-12(class='h-[1px]')
+                .block 
+                  a(href='#')
+                    +Heading4('How to save money - 8 simple ways to start saving money every month') 
+                  .font-medium.text-gray-500.text-mini-desc.mb-6(class='mt-[10px]')
+                    span November 17, 2022
+                    span.inline-block.ml-5.pl-5.bg-no-repeat(
+                      class="bg-[left_center] bg-[url('" + dotIcon + "')]"
+                    ) 2 min read
+                  +TextBase('Popups can also be employed to help eCommerce businesses build their newsletter email list organically. By using the right CTA in your email newsletter popup for Shopify-based eCommerce stores, you can change the pace of your email address accumulation process and help yourself reach a wider audience – all by using a simple incentive such as a special offer discount code on a specific item or a freebie in exchange for the client’s email address.')
+          .col-span-12 
+            button.text-first-brand.py-4.px-6.text-header-9.bg-gray-0.border.border-first-brand.font-bold.flex.items-center.justify-center.transition-common.mx-auto(
+              class='rounded-[60px] mb-[95px] hover:bg-first-brand hover:text-second-brand'
+            ) View more in this category
+    +NewsletterSection02

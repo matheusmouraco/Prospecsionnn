@@ -1,0 +1,111 @@
+extends layout/layout
+
+block vars
+  - title = 'Shop Grid - IORI Marketplace Template';
+  - bodyClass = 'shop-grid-styles';
+  - var bgBanner2 = '/assets/images/page/shop/bg-banner2.png';
+  - var shopGridIcon = '/assets/images/shop-grid-img2.svg';
+
+block container
+  section.relative.bg-no-repeat.bg-seventh-bg.bg-right-top.inline-block.w-full(
+    class="xl:bg-[url('" + bgBanner2 + "')] before:absolute before:left-0 before:bottom-0 before:w-[549px] before:h-[377px] before:bg-contain before:bg-no-repeat before:bg-left-top before:bg-[url('" + shopGridIcon + "')]"
+  )
+    +MainContainer 
+      .block.text-center(class='py-[60px] lg:py-[120px]')
+        span.text-xl.text-gray-300.uppercase.font-bold.mb-4.block(class='tracking-[0.15em]') camera collection
+        +Heading2('Ready to capture every wonderful moment').mx-auto.capitalize.relative(
+          class='max-w-[778px] mb-[62px]'
+        )
+        ul.relative
+          li.inline-block.px-1.mb-8
+            a.bg-gray-0.py-3.text-base.font-medium.text-gray-500.transition-common(
+              href='#',
+              class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+            ) Digital Cameras
+          li.inline-block.px-1.mb-8
+            a.bg-gray-0.py-3.text-base.font-medium.text-gray-500.transition-common(
+              href='#',
+              class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+            ) Mirrorless Camera
+          li.inline-block.px-1.mb-8
+            a.bg-gray-0.py-3.text-base.font-medium.text-gray-500.transition-common(
+              href='#',
+              class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+            ) Camera Flashes
+          li.inline-block.px-1.mb-8
+            a.bg-gray-0.py-3.text-base.font-medium.text-gray-500.transition-common(
+              href='#',
+              class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+            ) Travel Camera
+          li.inline-block.px-1.mb-8
+            a.bg-gray-0.py-3.text-base.font-medium.text-gray-500.transition-common(
+              href='#',
+              class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+            ) Instant Camera
+          li.inline-block.px-1.mb-8
+            a.bg-gray-0.py-3.text-base.font-medium.text-gray-500.transition-common(
+              href='#',
+              class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+            ) Accessories
+  +MainContainer 
+    .flex.flex-col.items-start.justify-between(class='mt-[75px] md:items-center md:flex-row')
+      +ItemsCenter.gap-x-3
+        a.w-6.h-6.overflow-hidden.shrink-0.filter-first-brand.shop-grid(href='#')
+          img.w-full.h-full.object-cover(src='assets/images/page/shop/grid.svg', alt='Grid') 
+        a.w-6.h-6.overflow-hidden.shrink-0.shop-list.transition-common(
+          href='#',
+          class='hover:filter-first-brand'
+        )
+          img.w-full.h-full.object-cover(src='assets/images/page/shop/list.svg', alt='List') 
+      .flex.flex-col.items-start(class='sm:flex-row sm:items-center')
+        span.text-base.font-medium.text-gray-500.my-3(class='sm:my-0') Showing 1–16 of 17 results
+        .flex.items-center.ml-0(class='sm:ml-10 md:ml-[82px]')
+          span.text-base.font-medium.text-gray-200(class='mr-[5px]') Sort by:
+          .text-base.font-medium.text-gray-500
+            .dropdown-product-select.border.border-gray-80.rounded.p-4.inline-block.cursor-pointer.flex.items-center(
+              class='gap-[10px]'
+            )
+              span.inline-block Latest products
+              img(src='assets/images/page/shop/arrow-down.svg', alt='arrow down icon')
+            .dropdown-product-list.rounded.border.border-gray-80.bg-gray-0.absolute
+              .dropdown-product-item.p-4.cursor-pointer(class='hover:bg-third-brand') Latest products
+              .dropdown-product-item.p-4.cursor-pointer(class='hover:bg-third-brand') Oldest products
+              .dropdown-product-item.p-4.cursor-pointer(class='hover:bg-third-brand') Comments products
+    .grid.grid-cols-1(class='gap-[30px] mt-[29px] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')
+      +ProductGridItem('#', 'assets/images/page/shop/sp1.png', 'Sony DSCH300/B Digital Camera (Black)', 4, '(84 rates)', '$253.0', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp2.png', 'Ricoh GR III Digital Compact Camera, 24mp', 4, '(84 rates)', '$12.53', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp3.png', 'Panasonic LUMIX FZ80 4K Digital Camera', 4, '(84 rates)', '$130.2', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp4.png', 'Canon EOS Rebel T7 DSLR Camera|2 Lens Kit', 4, '(84 rates)', '$69.56', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp4.png', 'Sony Alpha a7 IIK E-mount interchangeable lens', 4, '(84 rates)', '$35.62', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp4.png', 'Fujifilm X-T4 Mirrorless Camera Body - Black', 4, '(84 rates)', '$75.86', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp4.png', 'Canon EOS Rebel T7 DSLR 18-55mm Lens', 4, '(84 rates)', '$98.67', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp4.png', 'Ricoh GR III Digital Compact Camera, 24mp', 4, '(84 rates)', '$22.51', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+    +ShopBannerBox(class='my-[54px]')
+    .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')
+      +ProductGridItem('#', 'assets/images/page/shop/sp9.png', 'Fujifilm Instax Mini 8 Instant Film Camera', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp10.png', 'Minolta 20 Mega Pixels High Wi-Fi Digital', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp11.png', 'Ring Floodlight Cam Wired Plus with motion', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp12.png', 'KODAK PIXPRO Friendly Zoom FZ45-WH', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp13.png', 'Sony Alpha a7 IIK E-mount interchangeable lens', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp14.png', 'Canon EOS Rebel T7 DSLR Camera|2 Lens Kit', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp15.png', 'Nikon D800 36.3 MP CMOS FX-Format Digital SLR', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp16.png', 'Sony DSCH300/B Digital Camera (Black)', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp17.png', 'Nikon COOLPIX L840 Digital Camera with 38x Optical', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp18.png', 'Canon PowerShot ELPH 360 Digital Camera', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp19.png', 'Kodak M38 35mm Film Camera - Focus Free, Powerful', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp20.png', 'Canon PowerShot SX740 Digital Camera w/40x', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+    nav.inline-block(class='mt-[62px] mb-[79px]')
+      ul.flex.items-center.gap-1 
+        li
+          a.bg-gray-0.flex.items-center.justify-center(href='#', class='w-[42px] h-[42px]') 
+            img(src='assets/images/page/shop/prev.svg', alt='Prev Icon')
+        +PaginationItem('#', 1)
+        +PaginationItem('#', 2)
+        +PaginationItem('#', 3)
+        +PaginationItem('#', 4)
+        +PaginationItem('#', 5)
+        +PaginationItem('#', 6)
+        li
+          a.bg-gray-0.flex.items-center.justify-center(href='#', class='w-[42px] h-[42px]') 
+            img(src='assets/images/page/shop/next.svg', alt='Next Icon')
+    +NewsletterSection02

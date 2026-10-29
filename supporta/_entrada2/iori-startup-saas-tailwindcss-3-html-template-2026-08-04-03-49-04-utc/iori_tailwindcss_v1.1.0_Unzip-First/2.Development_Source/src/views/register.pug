@@ -1,0 +1,123 @@
+extends layout/layout
+
+block vars
+  - title = 'Register - IORI Marketplace Template';
+  - bodyClass = 'register-styles';
+  - var lineIcon = '/assets/images/page/register/line.png';
+
+block container
+  section.relative.inline-block.w-full.border-b.border-gray-80(
+    class='pb-[110px] mb-[60px] lg:mb-[120px] before:bg-gray-60 before:absolute before:top-0 before:left-0 before:h-full before:w-full lg:before:w-[41%] before:z-[1]'
+  )
+    +MainContainer.relative(class='z-[2]')
+      .grid.grid-cols-12(class='lg:gap-16')
+        .col-span-12(class='lg:col-span-5')
+          .block.pr-4.pt-20(class='lg:pt-[220px] xl:pr-[150px] xl:pl-[90px]')
+            +FlexCol.gap-y-8
+              +ItemsStart.gap-4.cursor-pointer.group
+                +JustifyCenter.w-12.h-12.rounded-full.bg-first-brand.shrink-0.transition-common(
+                  class='group-hover:bg-success'
+                )
+                  span.font-bold.text-second-brand.text-header-5(class='tracking-[-0.02em]') 1
+                +FlexCol.gap-2
+                  span.font-bold.text-first-brand.text-xl Register
+                  p.font-medium.text-header-9.text-gray-500 All you need is your name, email and a strong password, Or use your social media accounts.
+              +ItemsStart.gap-4.cursor-pointer.group
+                +JustifyCenter.w-12.h-12.rounded-full.bg-first-brand.shrink-0.transition-common(
+                  class='group-hover:bg-success'
+                )
+                  span.font-bold.text-second-brand.text-header-5(class='tracking-[-0.02em]') 2
+                +FlexCol.gap-2
+                  span.font-bold.text-first-brand.text-xl Activate
+                  p.font-medium.text-header-9.text-gray-500 Use the code sent to your email to activate your account.
+              +ItemsStart.gap-4.cursor-pointer.group
+                +JustifyCenter.w-12.h-12.rounded-full.bg-first-brand.shrink-0.transition-common(
+                  class='group-hover:bg-success'
+                )
+                  span.font-bold.text-second-brand.text-header-5(class='tracking-[-0.02em]') 3
+                +FlexCol.gap-2
+                  span.font-bold.text-first-brand.text-xl Open a trading account
+                  p.font-medium.text-header-9.text-gray-500 Create a real or demo trading account on our platform. No credit card required.
+              +ItemsStart.gap-4.cursor-pointer.group
+                +JustifyCenter.w-12.h-12.rounded-full.bg-first-brand.shrink-0.transition-common(
+                  class='group-hover:bg-success'
+                )
+                  span.font-bold.text-second-brand.text-header-5(class='tracking-[-0.02em]') 4
+                +FlexCol.gap-2
+                  span.font-bold.text-first-brand.text-xl Connect with investors
+                  p.font-medium.text-header-9.text-gray-500 With a real-time analysis system you will become a professional investor.
+              +ItemsStart.gap-4.cursor-pointer.group
+                +JustifyCenter.w-12.h-12.rounded-full.bg-first-brand.shrink-0.transition-common(
+                  class='group-hover:bg-success'
+                )
+                  span.font-bold.text-second-brand.text-header-5(class='tracking-[-0.02em]') 5
+                +FlexCol.gap-2
+                  span.font-bold.text-first-brand.text-xl Almost done
+                  p.font-medium.text-header-9.text-gray-500 Start your amazing journey on our platform.
+
+        .col-span-12(class='lg:col-span-7')
+          .block(class='pt-[100px] xl:pr-[130px]')
+            +Heading2('Create an account').mb-4
+            +TextBase('Create an account today and start using our platform')(class='mb-[26px]')
+            .w-full.h-2.inline-block.bg-contain.bg-no-repeat.bg-left-top.mb-14(
+              class="bg-[url('" + lineIcon + "')]"
+            )
+            .grid.grid-cols-1.gap-6(class='mb-[38px] sm:grid-cols-2')
+              +InputCommon('text', 'Your name', 'assets/images/page/register/name.svg')
+              +InputCommon('text', 'Phone', 'assets/images/page/contact/phone.svg')
+              +InputCommon('text', 'Email', 'assets/images/page/contact/email.svg')
+              +InputCommon('text', 'Username', 'assets/images/page/contact/user.svg')
+              +InputCommon('password', 'Password', 'assets/images/page/register/password.svg')
+              +InputCommon('password', 'Re-password', 'assets/images/page/register/password.svg')
+            span.font-bold.text-gray-500.text-header-9.text-center.block.mb-9 Or continue with
+            .grid.grid-cols-2.gap-6(class='mb-[38px] xl:grid-cols-4')
+              a.bg-gray-0.border.border-gray-80.rounded-lg.flex.items-center.gap-x-2.justify-center.transition-common(
+                href='#',
+                class='py-[14px] hover:bg-second-brand'
+              )
+                +ImageShrink('assets/images/page/register/google.svg', 'Google')
+                span.text-header-8.font-bold.text-gray-500 Google
+              a.bg-gray-0.border.border-gray-80.rounded-lg.flex.items-center.gap-x-2.justify-center.transition-common(
+                href='#',
+                class='py-[14px] hover:bg-second-brand'
+              )
+                +ImageShrink('assets/images/page/register/microsoft.svg', 'Microsoft')
+                span.text-header-8.font-bold.text-gray-500 Microsoft
+              a.bg-gray-0.border.border-gray-80.rounded-lg.flex.items-center.gap-x-2.justify-center.transition-common(
+                href='#',
+                class='py-[14px] hover:bg-second-brand'
+              )
+                +ImageShrink('assets/images/page/register/tw.svg', 'Twitter')
+                span.text-header-8.font-bold.text-gray-500 Twitter
+              a.bg-gray-0.border.border-gray-80.rounded-lg.flex.items-center.gap-x-2.justify-center.transition-common(
+                href='#',
+                class='py-[14px] hover:bg-second-brand'
+              )
+                +ImageShrink('assets/images/page/register/fb.svg', 'Facebook')
+                span.text-header-8.font-bold.text-gray-500 Facebook
+            .radioBtn.flex.items-center.gap-2.mb-4
+              input#terms(type='checkbox', name='terms')
+              label.text-mini-desc.font-medium.text-gray-500(for='terms')
+                | I have read and agree to the
+                |
+                a.text-success(href='#') Terms &amp; Conditions
+                |
+                | and the
+                |
+                a.text-success(href='#') Privacy Policy
+                |
+                | of this website.
+            .radioBtn.flex.items-center.gap-2(class='mb-[55px]')
+              input#inspiration(type='checkbox', name='inspiration')
+              label.text-mini-desc.font-medium.text-gray-500(for='inspiration') I want to receive design inspiration and product updates. (No spam. You can opt-out anytime.)
+            .grid.grid-cols-2.items-center(class='gap-[54px]')
+              button.bg-first-brand.py-5.font-bold.text-second-brand.text-header-8.rounded-lg.transition-common(
+                class='max-w-[331px] hover:bg-first-brand-hover'
+              ) Sign up now
+              p.text-header-9.font-medium.text-gray-500
+                | Already have an account?
+                |
+                a.text-success(href='login.html') Sign In
+  .border-b.border-gray-80(class='pb-[111px]')
+    +MainContainer
+      +BrandsTurnOnline

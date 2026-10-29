@@ -1,0 +1,23 @@
+.cbCustomCheckbox {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../../../assets/images/icons/icon-login-check.svg) no-repeat 0 0;
+  vertical-align: text-bottom;
+  flex-shrink: 0;
+}
+
+.cbCustomCheckbox.checked {
+  background-position: 0 -24px;
+  border: 2px solid #8ea4ac;
+  border-radius: 4px;
+}
+
+label {
+  cursor: pointer;
+}
+
+.dropdown-language-list,
+.dropdown-product-list {
+  display: none;
+}

@@ -1,0 +1,100 @@
+.tab .active a {
+  color: #024430;
+  background: #ffe7bb;
+}
+
+.tabMarketing .active {
+  background: #aee6b9;
+}
+
+.tabHeader .active a {
+  border-bottom-color: #06d6a0;
+  border-bottom-width: 2px;
+
+  span {
+    color: #06d6a0;
+  }
+
+  img {
+    filter: brightness(0) saturate(100%) invert(71%) sepia(13%) saturate(4973%) hue-rotate(113deg)
+      brightness(93%) contrast(95%);
+  }
+}
+
+.tabPlanTime .active {
+  background: #aee6b9;
+}
+
+.tabPlan01Time .active {
+  background: #aee6b9;
+}
+
+.tabAskedQuestions .active a {
+  background: #024430;
+
+  span,
+  svg {
+    color: #ffe7bb;
+  }
+}
+
+.tabLastestArticles .active a {
+  background: #024430;
+  color: #ffe7bb;
+}
+
+.tabBox {
+  display: none;
+}
+
+#tab01,
+#personalTab,
+#generalSupportQuestion,
+#planMonthly,
+#planMonthly01,
+#allArticles,
+#menuTab {
+  display: block;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  background: #fff;
+  z-index: 1001;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 1000;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.modalContent {
+  padding: 30px;
+}
+
+.videoBlock {
+  position: relative;
+  height: 0;
+  padding-bottom: 56.27%;
+}
+.videoBlock iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

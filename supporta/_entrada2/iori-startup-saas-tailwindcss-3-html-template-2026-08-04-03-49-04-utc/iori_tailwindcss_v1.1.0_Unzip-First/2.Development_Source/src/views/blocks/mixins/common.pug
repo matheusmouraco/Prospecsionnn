@@ -1,0 +1,34 @@
+mixin JustifyCenter
+  .flex.items-center.justify-center&attributes(attributes)
+    if block
+      block
+
+mixin JustifyBetween
+  .flex.items-center.justify-between&attributes(attributes)
+    if block
+      block
+
+mixin ItemsCenter
+  .flex.items-center&attributes(attributes)
+    if block
+      block
+
+mixin FlexCol
+  .flex.flex-col&attributes(attributes)
+    if block
+      block
+
+mixin ItemsStart
+  .flex.items-start&attributes(attributes)
+    if block
+      block
+
+mixin ItemsEnd
+  .flex.items-end&attributes(attributes)
+    if block
+      block
+
+mixin MainContainer
+  .mx-auto.px-3(class='min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px]')&attributes(attributes)
+    if block
+      block

@@ -1,0 +1,191 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 5 - IORI Marketplace Template';
+  - bodyClass = 'homepage-5-styles';
+
+block container
+  .relative.inline-block.w-full.mb-20(
+    class='before:w-full before:h-[42%] lg:before:h-[75%] before:absolute before:top-0 before:left-0 before:bg-first-brand before:z-[1]'
+  )
+    +MainContainer.relative(class='z-[2]')
+      .mt-16.mb-0(class='lg:mb-[100px]')
+        .grid.grid-cols-1.items-end.mb-16(class='xl:grid-cols-2')
+          +FlexCol.mb-6(class='xl:mb-0')
+            +ItemsCenter.gap-x-3.mb-5
+              span.bg-gray-200(class='h-[1px] w-[89px]')
+              span.font-medium.text-second-brand(class='text-[18px] leading-[18px]') Great sales platform
+            h1.text-second-brand.font-extrabold(
+              class='text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-[48px] lg:leading-[56px]'
+            ) #1 Intelligence Software to Accelerate Your SaaS Sales
+          p.text-header-7.text-gray-50.font-medium We're lively, not corporate. We have the energy and boldness of a startup and the expertise and pragmatism of a scale-up. All in one place.
+        .inline-block.w-full
+          .relative.overflow-hidden.rounded-2xl
+            img.w-full.block(src='assets/images/page/homepage5/banner.png', alt='Banner')
+            a.p-0.absolute.top-0.bottom-0.left-0.right-0.m-auto.bg-contain.bg-center.bg-no-repeat(
+              href='#',
+              class='w-[54px] h-[54px] sm:w-[94px] sm:h-[94px] bg-[url(\'/assets/images/icons/icon-yellow-play.svg\')]'
+            ) 
+        .inline-block.relative.w-full
+          .relative.top-auto.pt-5(class='lg:top-[-100px] lg:absolute lg:pt-[110px] pr-[15px]')
+            .grid.grid-cols-12.items-start
+              .col-span-12(class='lg:col-span-5')
+                +Heading6(`We're lively, not corporate. We have the energy and boldness of a startup and the expertise and pragmatism of a scale-up. All in one place.`)
+              .col-span-12(class='lg:col-span-7')
+                .grid.grid-cols-1.gap-y-4.gap-x-6(class='lg:grid-cols-2')
+                  .relative.border.bg-gray-0.p-5.border-gray-100.rounded-2xl.top-5(
+                    class='lg:top-[-115px] mb-[30px]'
+                  )
+                    +FlexCol.gap-y-2
+                      +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+                        .w-8.h-8.overflow-hidden
+                          +ImageCover('assets/images/icons/icon-man-personal.svg', 'Connected')
+                      span.text-header-6.font-bold.text-first-brand Connected
+                      p.text-mini-desc.font-medium.text-gray-500 We come together wherever we are – across time zones, regions, offices and screens. You will receive support from your teammates anytime and anywhere.
+                  .relative.border.bg-gray-0.p-5.border-gray-100.rounded-2xl.top-5(
+                    class='lg:top-[-115px] mb-[30px]'
+                  )
+                    +FlexCol.gap-y-2
+                      +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+                        .w-8.h-8.overflow-hidden
+                          +ImageCover('assets/images/icons/icon-flexible.svg', 'Flexible')
+                      span.text-header-6.font-bold.text-first-brand Flexible
+                      p.text-mini-desc.font-medium.text-gray-500 We come together wherever we are – across time zones, regions, offices and screens. You will receive support from your teammates anytime and anywhere.
+  +MainContainer
+    ul.text-center.mb-28
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-placed-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-cuebiq-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-factual-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-place-iq-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-airmeet-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-spendflo-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-klippa-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-reed-elsevier.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-vuori.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-versed.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-matrixian-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-klippa-1.svg', alt='Iori')
+      li.inline-block.px-5(class='min-w-[100px] py-2.5')
+        img.inline-block.max-w-full(src='assets/images/icons/icon-factual-1.svg', alt='Iori')
+    .block.pt-20.pb-16.bg-fifth-bg.rounded-2xl.px-5(
+      class='sm:px-12 lg:pl-[120px] lg:pr-[116px] mb-[71px] lg:mb-[142px]'
+    )
+      +Heading2('Take your social media marketing prowess to the next level').text-center.mx-auto(
+        class='max-w-[858px] mb-[84px]'
+      )
+      .grid.grid-cols-1(class='gap-x-[30px] xl:grid-cols-2 gap-y-[42px]')
+        +CardOfferItem('assets/images/icons/icon-cross-platform-1.svg', 'Cross-Platform', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+        +CardOfferItem('assets/images/icons/icon-social-media-1.svg', 'Social Media', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+        +CardOfferItem('assets/images/icons/icon-cross-platform.svg', 'Brand Identity', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+        +CardOfferItem('assets/images/icons/icon-brand-identity.svg', 'Customer Service', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+    .grid.grid-cols-1.items-center.gap-6(
+      class='xl:px-[120px] lg:grid-cols-2 xl:gap-0 mb-[71px] lg:mb-[142px]'
+    )
+      .relative.inline-block.w-full 
+        .inline-block.relative
+          img.max-w-full.border.rounded-2xl.border-gray-100(
+            srcset='assets/images/homepage-5-img-project.png 2x',
+            alt='Service'
+          )
+          .absolute.hero-thumb-sm-2-animation.right-0(
+            class='max-w-[300px] bottom-[-10px] sm:right-[-40px] xl:right-[-90px] z-[3]'
+          )
+            img(src='assets/images/page/homepage5/chart.png', alt='Chart')
+      +FlexCol(class='lg:max-w-[531px]')
+        +TagButton('Business').mb-2
+        +Heading3('Integrate with over 1,000 project management apps').mb-3
+        p.text-base.text-gray-400.font-medium.mb-5(class='lg:max-w-[529px]') Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.
+        ul.grid.grid-cols-1(class='gap-y-[18px] sm:grid-cols-2 mb-[68px]')
+          +FeatureManagementItem('Task tracking')
+          +FeatureManagementItem('Create task dependencies')
+          +FeatureManagementItem('Task visualization')
+          +FeatureManagementItem('hare files, discuss')
+          +FeatureManagementItem('Meet deadlines faster')
+          +FeatureManagementItem('Track time spent on each project')
+        .flex.items-start.justify-between.flex-1.gap-4.flex-wrap
+          +ParameterItem('25k+', 'Happy Clients').text-first-brand
+          +ParameterItem('756+', 'Project Done').text-first-brand
+          +ParameterItem('100+', 'Global branch').text-first-brand
+    .grid.grid-cols-1.items-center(class='xl:px-[120px] md:grid-cols-2 mb-[71px] lg:mb-[142px]')
+      +FlexCol.mb-6(class='md:mb-0')
+        +ItemsCenter.gap-x-3.mb-2
+          span.w-12.bg-first-brand(class='h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Join to our Platform
+        +Heading2('Grow your online business now').mb-6(class='md:max-w-[450px]')
+        +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.').mb-8(
+          class='md:mb-[62px] md:max-w-[448px]'
+        )
+        +ItemsCenter.gap-6
+          +NormalButton('Download App')
+          +RightArrowButton('Learn More', '#')
+      .relative.inline-block.w-full.text-right
+        .relative.inline-block 
+          img.max-w-full.border.rounded-2xl.border-gray-100(
+            srcset='assets/images/homepage-5-img-project2.png 2x',
+            alt='Service'
+          )
+          .absolute.hero-thumb-sm-2-animation(
+            class='max-w-[80px] top-[50px] left-[-46px] lg:left-[-60px] z-[3] lg:max-w-[113px]'
+          )
+            +ImageCover('assets/images/homepage-11-circle-1.svg', 'Circle')
+    .bg-seventh-bg.pt-12.rounded-2xl.overflow-hidden(class='lg:pt-24')
+      .grid.grid-cols-1.items-end.gap-6(class='px-[30px] lg:grid-cols-2 xl:px-[120px] mb-[75px]')
+        +FlexCol.gap-y-6
+          +Heading2('Business can also be simple')(class='lg:max-w-[450px]')
+          +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.')(
+            class='lg:max-w-[502px]'
+          )
+        .grid.grid-cols-1(class='sm:grid-cols-2') 
+          +FlexCol.gap-y-2.mb-5(class='sm:mb-0')
+            +JustifyCenter.bg-gray-0.rounded-md(class='w-[51px] h-[51px]')
+              .w-8.h-8.overflow-hidden 
+                +ImageCover('assets/images/icons/icon-man-personal.svg', 'Personal')
+            span.text-header-6.font-bold.text-first-brand Personal
+            p.font-medium.text-header-9.text-gray-500(class='sm:max-w-[260px]') Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque
+          +FlexCol.gap-y-2
+            +JustifyCenter.bg-gray-0.rounded-md(class='w-[51px] h-[51px]')
+              .w-8.h-8.overflow-hidden 
+                +ImageCover('assets/images/icons/icon-business.svg', 'Enterprise')
+            span.text-header-6.font-bold.text-first-brand Enterprise
+            p.font-medium.text-header-9.text-gray-500(class='sm:max-w-[260px]') Duis tincidunt dui a felis tincidunt, vehicula ornare diam auctor. Integer id libero id est efficitur mattis. Nunc suscipit consectetur diam a imperdiet. Suspendisse imperdiet
+      .grid.grid-cols-1.items-center.gap-y-10(class='gap-x-[84px] xl:grid-cols-2')
+        img.w-full.block(srcset='assets/images/homepage-5-img.png 2x', alt='Iori')
+        +FlexCol.px-5.pb-5(class='xl:max-w-[531px]')
+          +TagButton('Get in touch').mb-3
+          +Heading2('Want to talk to a marketing expert?').mb-4(class='xl:max-w-[555px]')
+          p.text-base.text-gray-500.font-medium.mb-5(class='xl:max-w-[529px]') Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.
+          ul.grid.grid-cols-1(class='gap-y-[18px] mb-[54px] sm:grid-cols-2')
+            +FeatureManagementItem('Task tracking')
+            +FeatureManagementItem('Create task dependencies')
+            +FeatureManagementItem('Task visualization')
+            +FeatureManagementItem('hare files, discuss')
+            +FeatureManagementItem('Meet deadlines faster')
+            +FeatureManagementItem('Track time spent on each project')
+          +ItemsCenter.gap-6
+            +NormalButton('Contact Us')
+            +RightArrowButton('Support Center', '#')
+  .border-b.border-third-brand(class='py-[71px] lg:py-[142px] mb-[65px] lg:mb-[130px]')
+    +MainContainer 
+      .flex.items-start.flex-col.gap-y-4(class='xl:gap-x-[132px] xl:flex-row xl:items-center')
+        +Heading3('See why we are trusted the world over')(class='xl:max-w-[347px]')
+        +JustifyBetween.flex-1.w-full.gap-4.flex-wrap(class='xl:w-fit')
+          +ParameterItem('469k', 'Social followers').text-first-brand
+          +ParameterItem('25k+', 'Happy Clients').text-first-brand
+          +ParameterItem('756+', 'Project Done').text-first-brand
+          +ParameterItem('100+', 'Global branch').text-first-brand
+  +MainContainer 
+    +BestPlanSection(class='mb-[68px]')
+    +Blog02Section.mb-14
+    +NewsletterSection02

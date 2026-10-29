@@ -1,0 +1,76 @@
+extends layout/layout
+
+block vars
+  - title = 'Services - IORI Marketplace Template';
+  - bodyClass = 'services-styles';
+  - var fingerIcon = '/assets/images/page/service/finger.png';
+
+block container
+  .w-screen.bg-gray-60.relative.h-max(class='mb-[71px] lg:mb-[142px]')
+    .w-full(class='xl:absolute xl:top-1/2 xl:-translate-y-1/2')
+      +MainContainer
+        .grid.grid-cols-12.items-center
+          .col-span-12.ml-0(class='xl:col-span-6 m-[30px]')
+            +Heading1('Advanced analytics to grow your business').mb-4(class='xl:max-w-[546px]')
+            +TextBase('Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.').mb-11(
+              class='xl:max-w-[601px]'
+            )
+            +Heading5('Available on')(class='mb-[22px]')
+            .flex.items-start.gap-x-9.flex-col.gap-y-4(class='sm:flex-row sm:items-center')
+              +ItemsCenter.gap-x-4
+                img(src='assets/images/AppStore.svg', alt='AppStore')
+                img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+              +RightArrowButton('Learn More', '#')
+    .grid.grid-cols-12.item-center 
+      .col-span-5
+      .col-span-7.pl-20
+        img.w-full.hidden(src='assets/images/page/service/banner.png', alt='Banner', class='xl:block')
+  +MainContainer 
+    +WhatWeOfferButtonSection
+    .border.border-gray-80.rounded-lg.p-5(
+      class='sm:pt-[71px] sm:pr-[71px] sm:pb-11 sm:pl-16 mt-[71px] mb-[65px] lg:mb-[130px]'
+    )
+      .grid.grid-cols-12.items-center
+        .col-span-12.mb-7(class='xl:col-span-5 xl:mb-0')
+          +FlexCol(class='xl:max-w-[531px]')
+            +TagButton('Business').mb-2
+            +Heading3('Integrate with over 1,000 project management apps').mb-3
+            p.text-base.text-gray-400.font-medium.mb-5(class='xl:max-w-[529px]') Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.
+            ul.grid.grid-cols-1(class='gap-y-[18px] md:grid-cols-2 mb-[68px]')
+              +FeatureManagementItem('Task tracking')
+              +FeatureManagementItem('Create task dependencies')
+              +FeatureManagementItem('Task visualization')
+              +FeatureManagementItem('hare files, discuss')
+              +FeatureManagementItem('Meet deadlines faster')
+              +FeatureManagementItem('Track time spent on each project')
+            +ItemsCenter.gap-6
+              +NormalButton('Download App')
+              +RightArrowButton('Learn More', '#')
+        .col-span-12(class='xl:col-span-7')
+          .relative.w-full.bg-no-repeat.bg-center(class="min-h-[654px] bg-[url('" + fingerIcon + "')]")
+            .absolute.hero-thumb-sm-animation(class='top-[20%] max-w-[125px] left-[35%] z-[12]')
+              .border.px-5.border-gray-80.bg-gray-0.shadow-drop-shadown-4.text-center(
+                class='py-[14px] rounded-[11px]'
+              )
+                h4.text-first-brand.font-extrabold(class='text-[32px] leading-[38px] mb-[2px]') 25k+
+                p.text-first-brand.font-medium(class='text-[12px] leading-[15px]') Happy Clients
+            .absolute.hero-thumb-sm-2-animation.left-0(
+              class='top-[420px] md:top-[280px] md:left-[86px] z-[3]'
+            )
+              img(src='assets/images/page/service/img1.png', alt='Iori', class='w-[120px]')
+            .absolute.hero-thumb-sm-animation(class='top-[420px] left-[206px] z-[2]')
+              img(src='assets/images/page/service/img2.png', alt='Iori', class='h-[140px] md:h-[240px]')
+            .absolute.top-0.right-0.hero-thumb-animation
+              img.h-auto(
+                src='assets/images/page/service/img4.png',
+                alt='Iori',
+                class='max-h-[350px] md:h-[400px]'
+              )
+              .absolute.bottom-5.border.border-gray-80.rounded-lg.shadow-drop-shadown-1.text-center.bg-gray-0(
+                class='left-[15px] right-[15px] py-[18px] px-[30px]'
+              ) 
+                +Heading2('469k').mb-1
+                p.text-header-7.text-first-brand.font-medium Social followers
+    +BestPlanSection(class='mb-[74px]')
+    +BlogSection(class='mb-[75px]')
+    +NewsletterSection02

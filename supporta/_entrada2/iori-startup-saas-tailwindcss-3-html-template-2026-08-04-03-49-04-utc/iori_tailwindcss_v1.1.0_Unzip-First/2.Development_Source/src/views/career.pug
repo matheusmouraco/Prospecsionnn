@@ -1,0 +1,95 @@
+extends layout/layout
+
+block vars
+  - title = 'Career - IORI Marketplace Template';
+  - bodyClass = 'career-styles';
+  - var yellowPlayIcon = '/assets/images/icons/icon-yellow-play.svg';
+
+block container
+  +MainContainer
+    p.font-bold.text-gray-500.text-header-6.text-center(class='mb-[15px] mt-[60px] lg:mt-[120px]') Take a look at our current openings
+    +Heading2(`We’re Always Searching For Amazing People to Join Our Team.`).mx-auto.text-center(
+      class='max-w-[855px] mb-[75px]'
+    )
+    .m-auto.relative(class='max-w-[84%]')
+      img.rounded-2xl(src='assets/images/page/career/img-video.png', alt='Banner')
+      .absolute.hero-thumb-animation(
+        class='top-[-20px] left-[-20px] md:top-[-10px] md:left-[-80px] max-w-[100px] md:max-w-full'
+      )
+        img(src='assets/images/page/career/certify.png', alt='Certify')
+      a.p-0.absolute.top-0.bottom-0.left-0.right-0.m-auto.bg-contain.bg-center.bg-no-repeat(
+        href='#',
+        class="w-[54px] h-[54px] md:w-[94px] md:h-[94px] bg-[url('" + yellowPlayIcon + "')]"
+      ) 
+    +Heading2('Why You Should Consider Installing').text-center.mb-4(class='mt-[62px] lg:mt-[123px]')
+    +Heading6(`We're lively, not corporate. We have the energy and boldness of a startup and the expertise and pragmatism of a scale-up. All in one place.`).mx-auto.text-center(
+      class='max-w-[647px] mb-[63px]'
+    )
+    .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2 lg:grid-cols-4')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-trial-plan.svg', 'Connected', 'We come together wherever we are – across time zones, regions, offices and screens. You will receive support from your teammates anytime and anywhere.')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-social-media-1.svg', 'Inclusive', 'Our teams reflect the rich diversity of our world, with equitable access to opportunity for everyone. No matter where you come from')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-flexible.svg', 'Flexible', 'We believe in your freedom to work when and how you work best, to help us all thrive. Only freedom and independent work can bring out the best in you.')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-track-your-spending.svg', 'Persuasion', 'Knowing that there is real value to be gained from helping people to simplify whatever it is that they do and bring.')
+    +Heading2('Career Opportunities').text-center.mb-6(class='mt-[69px] lg:mt-[138px]')
+    +Heading6('Explore our open roles for working totally remotely, from the office or somewhere in between.').mx-auto.text-center(
+      class='max-w-[550px] mb-[63px]'
+    )
+    .grid.grid-cols-1(class='gap-[30px] mb-[63px] xl:grid-cols-2')
+      +StrategyDesignItem('assets/images/page/homepage4/offer1.png', 'UI / UX Designer fulltime', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer2.png', 'Full Stack Engineer', 'What makes us different from others? We give holistic solutions with strategy, design & technology.', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer3.png', 'Java Software Engineer', 'No lag time, no lost effort when priorities change, no email black hole. As team collaboration improves', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer4.png', 'Frontend Developer', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer5.png', 'React Native Web Developer', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer6.png', 'Senior System Engineer', 'What makes us different from others? We give holistic solutions with strategy, design & technology.', '#')
+    +JustifyCenter.gap-6
+      +NormalButton('Contact Us')
+      +RightArrowButton('Learn More', '#')
+  .about-1.core-values-wrapper.relative.overflow-hidden.bg-gray-60(
+    class='mt-[67px] lg:mt-[135px] pt-[65px] lg:pt-[130px] mb-[71px] lg:mb-[142px]'
+  )
+    img.absolute.max-w-full.fingerprinted(src='assets/images/about-1/fingerprinted-2.svg', alt='')
+    +MainContainer.about-1(class='pb-[56px] lg:pb-[112px]')
+      .relative.core-values
+        .grid-wrapper
+          .grid-box
+            img.max-w-full.arrows_down(src='assets/images/about-1/down_arrow.svg', alt='')
+            .first-content
+              h2.title.font-bold.mb-4(class='text-[#024430] text-[25px] lg:text-[32px] leading-[44px]') Core values
+              p.text.text-base(class='text-[#4e6770] font-[500]') We break down barriers so teams can focus on what matters – working together to create products their customers love.
+          .grid-box
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Customers First
+                p.text.text-base(class='text-[#4e6770] font-[500]') Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Act With Integrity
+                p.text.text-base(class='text-[#4e6770] font-[500]') We’re honest, transparent and committed to doing what’s best for our customers and our company. We openly collaborate in pursuit of the truth. We have no tolerance for politics, hidden agendas or passive-aggressive behavior.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Make a Difference Every Day
+                p.text.text-base(class='text-[#4e6770] font-[500]') Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.
+          .grid-box
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Think Big
+                p.text.text-base(class='text-[#4e6770] font-[500]') Being the world's leading commerce platform requires unrivaled vision, innovation and execution. We never settle. We challenge our ideas of what’s possible in order to better meet the needs of our customers.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Do the right thing
+                p.text.text-base(class='text-[#4e6770] font-[500]') Integrity is the foundation for everything we do. We are admired and respected for our commitment to honesty, trust, and transparency.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Stronger united
+                p.text.text-base(class='text-[#4e6770] font-[500]') We’ve created a positive and inclusive culture that fosters open, honest, and meaningful relationships.
+  +MainContainer 
+    +BrandsTurnOnline(class='mb-[71px] lg:mb-[142px]')
+    +MarketingExpertSection(class='mb-[62px] lg:mb-[125px]')
+    +BlogSection.mb-11(class='lg:mb-[88px]')
+    +NewsletterSection02

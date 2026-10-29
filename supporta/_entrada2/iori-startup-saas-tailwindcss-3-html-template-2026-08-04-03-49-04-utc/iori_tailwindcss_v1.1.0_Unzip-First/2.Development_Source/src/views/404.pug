@@ -1,0 +1,28 @@
+extends layout/layout
+
+block vars
+  - title = '404 - IORI Marketplace Template';
+  - bodyClass = 'blog-details-styles';
+
+block container
+  section.block(class='pt-[84px] lg:pt-[170px]')
+    +MainContainer
+      .grid.grid-cols-12.border-b.border-third-brand(class='pb-[73px] lg:pb-[147px]')
+        .col-span-2
+        .col-span-12(class='lg:col-span-10')
+          .grid.grid-cols-12.items-center(class='md:gap-10')
+            .col-span-12.mb-8(class='md:col-span-5 md:mb-0')
+              img(src='assets/images/page/404/404.png', alt='404')
+            .col-span-12.text-center(class='md:col-span-7 md:text-start')
+              h1.text-first-brand.font-extrabold.mb-2(class='text-[84px] leading-[72px]') 404
+              +Heading3('Oops, nothing to see here').mb-6
+              +TextBase(`Unfortunately, we couldn't find what you were looking for or the page no longer exists.`)(
+                class='mb-[72px] md:max-w-[392px]'
+              )
+              a.flex.items-center.gap-x-3.justify-center(href='index.html', class='md:justify-start')
+                +ArrowRightIcon.w-5.h-5.text-gray-900.rotate-180
+                +TextSmBold('Back to Homepage').text-gray-900.transition-common(
+                  class='hover:text-success'
+                )
+      +ContactBlock.mb-10(class='mt-[50px] lg:mt-[101px] lg:mb-[76px]')
+  +BrandGreenBgSection

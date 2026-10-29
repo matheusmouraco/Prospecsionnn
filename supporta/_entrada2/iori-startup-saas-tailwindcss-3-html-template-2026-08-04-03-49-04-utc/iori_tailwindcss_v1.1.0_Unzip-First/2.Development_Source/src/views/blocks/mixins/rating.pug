@@ -1,0 +1,21 @@
+mixin RatingStar(rate=5)
+  case rate 
+    when 1
+      - var width = 'w-[20%]';
+    when 2
+      - var width = 'w-[40%]';
+    when 3
+      - var width = 'w-[60%]';
+    when 4
+      - var width = 'w-[80%]';
+    when 4.5
+      - var width = 'w-[91%]';
+    when 5
+      - var width = 'w-[100%]';
+
+  .flex.items-center.relative.z-10.overflow-hidden(class='gap-[3px] max-w-[72px]')
+    each val in Array(5)
+      img(src='assets/images/icons/icon-star.svg', alt='star icon')
+    .flex.items-center.absolute.overflow-hidden(class='gap-[3px]', class=width)
+      each val in Array(5)
+        img(src='assets/images/icons/icon-star-yellow.svg', alt='star icon')

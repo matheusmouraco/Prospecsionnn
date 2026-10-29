@@ -1,0 +1,122 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 10 - IORI Marketplace Template';
+  - bodyClass = 'homepage-10-styles';
+  - var gridIcon = '/assets/images/page/homepage10/grid.svg';
+
+block container
+  .block(class='pt-[70px] pb-[50px]')
+    +MainContainer 
+      .grid.grid-cols-1.items-center(class='xl:grid-cols-2')
+        +FlexCol 
+          +Heading1('We Are Leading Digital University')(class='xl:max-w-[474px] mb-[50px]')
+          +Heading6('Enable highly motivating non-cash micropayments and offer in-demand prepaid solutions – with a single connection.').mb-11(
+            class='xl:max-w-[510px]'
+          )
+          +ItemsCenter.gap-6(class='mb-[76px]')
+            +NormalButton('Download App')
+            +RightArrowButton('Learn More', '#')
+          .flex.justify-between.items-start.flex-col.gap-y-2(class='sm:flex-row sm:items-center')
+            +FlexCol.gap-y-1
+              span.text-header-3.font-bold 469k
+              span.font-medium.text-header-7 Social followers
+            +FlexCol.gap-y-1
+              span.text-header-3.font-bold 25k+
+              span.font-medium.text-header-7 Happy Clients
+            +FlexCol.gap-y-1
+              span.text-header-3.font-bold 756+
+              span.font-medium.text-header-7 Project Done
+            +FlexCol.gap-y-1
+              span.text-header-3.font-bold 100+
+              span.font-medium.text-header-7 Global branch
+        .text-center 
+          +ImageSrcSet('assets/images/homepage-10-banner1.png 2x', 'Hero')
+  .bg-first-brand(class='mb-[89px]')
+    .block.relative.before(
+      class="pt-[57px] lg:pt-[114px] pb-[92px] lg:pb-[184px] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[url('" + gridIcon + "')] before:opacity-10 before:bg-no-repeat before:bg-cover before:z-[1]"
+    )
+      +MainContainer.relative(class='z-[2]')
+        p.uppercase.text-xl.font-bold.text-gray-0.text-center.mb-4(class='tracking-[0.15em]') explore network
+        p.text-second-brand.font-extrabold.capitalize.mx-auto.text-center(
+          class='mb-[62px] max-w-[778px] text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2'
+        ) Ready to capture every wonderful moment
+        .tabArea
+          ul.tab.flex.items-center.justify-center.gap-4.flex-wrap(class='mb-[51px] lg:mb-[103px]')
+            li.active.inline
+              a.block.px-8.bg-gray-60.text-xl.font-bold.text-gray-500(
+                href='#tab01',
+                class='rounded-[50px] py-2.5 md:py-6'
+              ) Digital Cameras
+            li.inline
+              a.block.px-8.bg-gray-60.text-xl.font-bold.text-gray-500(
+                href='#tab02',
+                class='rounded-[50px] py-2.5 md:py-6'
+              ) Mirrorless Camera
+            li.inline
+              a.block.px-8.bg-gray-60.text-xl.font-bold.text-gray-500(
+                href='#tab03',
+                class='rounded-[50px] py-2.5 md:py-6'
+              ) Camera Flashes
+            li.inline
+              a.block.px-8.bg-gray-60.text-xl.font-bold.text-gray-500(
+                href='#tab04',
+                class='rounded-[50px] py-2.5 md:py-6'
+              ) Travel Camera
+            li.inline
+              a.block.px-8.bg-gray-60.text-xl.font-bold.text-gray-500(
+                href='#tab05',
+                class='rounded-[50px] py-2.5 md:py-6'
+              ) Instant Camera
+          .tabContents.w-full.clear-both
+            #tab01.tabBox
+              +ExploreTabItem('assets/images/homepage-10-person-1.png', 'Integrate with over 1,000 project management apps')
+            #tab02.tabBox
+              +ExploreTabItem('assets/images/homepage-10-person-2.png', 'Integrate with over 2,000 project management apps')
+            #tab03.tabBox 
+              +ExploreTabItem('assets/images/homepage-10-person-1.png', 'Integrate with over 1,000 project management apps')
+            #tab04.tabBox
+              +ExploreTabItem('assets/images/homepage-10-person-2.png', 'Integrate with over 2,000 project management apps')
+            #tab05.tabBox 
+              +ExploreTabItem('assets/images/homepage-10-person-1.png', 'Integrate with over 1,000 project management apps')
+  +MainContainer
+    +Brand2Rows
+    .grid.grid-cols-12.gap-7.items-center
+      .col-span-12(class='xl:col-span-5')
+        +FlexCol
+          +TagButton('Branding')
+          p.text-header-3.font-bold.text-first-brand.mt-2.mb-3 Build your brand and reach out to social followers
+          p.text-base.text-gray-400.font-medium.mb-7 Sharing content online allows you to craft an online persona that reflects your personal values and professional skills. Even if you only use social media occasionally, what you create, share or react to feeds into this public narrative. How you conduct yourself online is now just as important as your behavior offline especially when it comes to your digital marketing career.
+          ul.grid.grid-cols-1(class='gap-y-[18px] mb-[68px] sm:grid-cols-2')
+            +FeatureManagementItem('Task tracking')
+            +FeatureManagementItem('Create task dependencies')
+            +FeatureManagementItem('Task visualization')
+            +FeatureManagementItem('hare files, discuss')
+            +FeatureManagementItem('Meet deadlines faster')
+            +FeatureManagementItem('Track time spent on each project')
+          +ItemsCenter.gap-x-6 
+            button.py-4.px-6.bg-first-brand.text-second-brand.font-bold.text-header-9.rounded.transition-common(
+              class='hover:bg-first-brand-hover'
+            ) Download App
+            +RightArrowButton('Learn More', '#')
+      .col-span-12(class='xl:col-span-7')
+        .relative.text-right
+          img.inline-block.max-w-full(
+            src='assets/images/homepage-10-person-4.png',
+            alt='Person',
+            class='rounded-tl-[500px] rounded-tr-[500px]'
+          )
+          .absolute.left-0.text-right(class='bottom-[-50px] max-w-[50%]')
+            img.inline-block.max-w-full(
+              src='assets/images/homepage-10-person-5.png',
+              alt='Person',
+              class='rounded-tl-[363px] rounded-tr-[363px]'
+            )
+  +ChooseTheBestPlanSection('bg-seventh-bg', true)(
+    class='mb-[61px] lg:mb-[122px] mt-[95px] lg:mt-[190px]'
+  )
+  +MainContainer
+    +CustomersSayingSection(class='lg:mb-[140px] mb-[70px]')
+    +MarketingItemSection('assets/images/homepage-11-person-5.png', 'Business', 'Integrate with over 1,000 project management apps', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', '#')
+    +BlogSection(class='mb-[47px] lg:mb-[94px] mt-[62px] lg:mt-[124px]')
+    +NewsletterSection01

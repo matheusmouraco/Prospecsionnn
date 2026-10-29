@@ -1,0 +1,219 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 8 - IORI Marketplace Template';
+  - bodyClass = 'homepage-8-styles';
+
+block container
+  section.relative.inline-block.w-full
+    .absolute.bg-contain.bg-no-repeat.bg-center.hero-thumb-animation(
+      class='top-[90px] left-[100px] h-[97px] w-[86px] bg-[url(\'/assets/images/page/homepage8/asset1.png\')]'
+    )
+    .absolute.bg-contain.bg-no-repeat.bg-center.hero-thumb-sm-animation(
+      class='top-[300px] left-[100px] h-[75px] w-[75px] bg-[url(\'/assets/images/page/homepage8/asset2.png\')]'
+    )
+    .absolute.bg-contain.bg-no-repeat.bg-center.hero-thumb-sm-2-animation(
+      class='top-[90px] right-[350px] h-[66px] w-[66px] bg-[url(\'/assets/images/page/homepage8/asset3.png\')]'
+    )
+    .absolute.bg-contain.bg-no-repeat.bg-center.hero-thumb-animation(
+      class='top-[340px] right-[100px] h-[53px] w-[59px] bg-[url(\'/assets/images/page/homepage8/asset4.png\')]'
+    )
+    .absolute.bg-contain.bg-no-repeat.bg-center.hero-thumb-sm-animation(
+      class='top-[440px] left-[350px] h-[226px] w-[215px] bg-[url(\'/assets/images/page/homepage8/asset5.png\')]'
+    )
+    .block.bg-cover.bg-no-repeat.pb-5(
+      class='bg-[top_center] pt-[120px] bg-[url(\'/assets/images/page/homepage8/bg.jpg\')]'
+    )
+      +MainContainer.relative
+        p.text-gray-400.font-medium.mb-4.text-center(class='text-[18px] leading-[18px]') Think. Creative. Solve
+        +Heading1('Innovative Solution to Move Your Business Forward').text-center.mx-auto.mb-6(
+          class='max-w-[905px]'
+        )
+        +TextBase('Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.').text-center.mx-auto.mb-7(
+          class='max-w-[724px]'
+        )
+        +JustifyCenter.gap-x-4
+          img(src='assets/images/AppStore.svg', alt='AppStore')
+          img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+      .mt-20
+        .homepage-8-image-slider.swiper
+          .swiper-wrapper
+            .swiper-slide
+              +ThumbImageHomepage8('bg-gray-60', 'assets/images/page/homepage8/member.png', 'Steven Jobs', 'Graphic Designer', 'bg-first-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-second-bg', 'assets/images/page/homepage8/member1.png', 'Steven Jobs', 'Graphic Designer', 'bg-fourth-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-fifth-bg', 'assets/images/page/homepage8/member2.png', 'Steven Jobs', 'Graphic Designer', 'bg-third-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-first-bg', 'assets/images/page/homepage8/member3.png', 'Steven Jobs', 'Graphic Designer', 'bg-second-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-fourth-bg', 'assets/images/page/homepage8/member4.png', 'Steven Jobs', 'Graphic Designer', 'bg-fifth-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-seventh-bg', 'assets/images/page/homepage8/member5.png', 'Steven Jobs', 'Graphic Designer', 'bg-seventh-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-gray-60', 'assets/images/page/homepage8/member.png', 'Steven Jobs', 'Graphic Designer', 'bg-first-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-gray-60', 'assets/images/page/homepage8/member.png', 'Steven Jobs', 'Graphic Designer', 'bg-first-bg')
+            .swiper-slide
+              +ThumbImageHomepage8('bg-gray-60', 'assets/images/page/homepage8/member.png', 'Steven Jobs', 'Graphic Designer', 'bg-first-bg')
+          +JustifyCenter.gap-4(class='mt-[50px]')
+            button#prevButtonHomepage8.border-2.border-first-brand.bg-gray-0.rounded-full.flex.items-center.justify-center.group(
+              class='w-[42px] h-[42px] hover:bg-first-brand'
+            )
+              +PrevIcon.w-4.h-4.text-first-brand(class='group-hover:text-second-brand')
+            button#nextButtonHomepage8.border-2.border-first-brand.bg-gray-0.rounded-full.flex.items-center.justify-center.group(
+              class='w-[42px] h-[42px] hover:bg-first-brand'
+            )
+              +NextIcon.w-4.h-4.text-first-brand(class='group-hover:text-second-brand')
+
+  +MainContainer
+    .grid.grid-cols-1(class='mb-[63px] lg:mb-[125px] xl:grid-cols-2')
+      .block.text-center(class='xl:text-start')
+        +ImageSrcSet('assets/images/homepage-8-iphone-1.png 2x', 'Iphone')
+      +FlexCol.ml-auto(class='pt-[85px] xl:pt-[171px] pb-[42px] xl:max-w-[630px]')
+        +ItemsCenter.gap-x-3.mb-3
+          span.w-12.bg-first-brand(class='h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Why using our app
+        +Heading3('Our app is great for individuals, startups and enterprises. It have never been easier to manage your finances').mb-6
+        p.text-header-9.font-medium.text-gray-500.mb-8 Eos eveniet nesciunt et accusamus suscipit est magnam consequatur aut quisquam perferendis a reprehenderit quis aut voluptatem repellat est beatae reiciendis? Cum omnis corrupti cum incidunt veritatis vel libero provident aut reiciendis animi ut quod quaerat et velit animi et omnis illo. Sit quae harum eos incidunt sequi eum iste fugit ex omnis aliquam a explicabo quam.
+        .flex.relative
+          .block.overflow-hidden.rounded-2xl.shrink-0.mr-6(class='w-[130px] h-[130px]')
+            +ImageCover('assets/images/homepage-11-avatar-1.png', 'Avatar')
+          +FlexCol.mr-2(class='max-w-[335px]')
+            p.text-header-7.text-gray-500.font-bold(class='mb-[14px]') Et corporis quia est iusto delectus ea consequuntur sapiente in quia totam ut internos architecto. Eos deleniti dolore eos enim totam et eaque nisi.
+            span.font-bold.text-first-brand.text-header-8 Albert Flores
+            span.text-mini-desc.font-medium.text-gray-500 Bank of America
+          .w-10.h-7.overflow-hidden.rotateQuotesIcon.hidden(class='md:block')
+            +ImageCover('assets/images/icons/icon-quotes.svg', 'Quotes Icon')
+    +FlexCol.bg-gray-0.border.border-gray-80.rounded-3xl.shadow-drop-shadown-1(
+      class='pt-[53px] pb-[50px] px-[30px] mb-[66px] lg:mb-[133px]'
+    )
+      span.font-medium.text-first-brand.text-header-7.text-center(class='mb-[38px]') Loved By Developers, Trusted By Enterprises
+      ul.text-center
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-placed-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-cuebiq-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-factual-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-place-iq-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-airmeet-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-spendflo-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-klippa-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-reed-elsevier.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-vuori.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-versed.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-matrixian-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-klippa-1.svg', alt='')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline-block.max-w-full(src='assets/images/icons/icon-factual-1.svg', alt='')
+    .grid.grid-cols-1.items-center(class='mb-[74px] lg:mb-[149px] xl:grid-cols-2')
+      +FlexCol.text-left.mb-8(class='xl:mb-0')
+        +ItemsCenter.gap-x-3.mb-6
+          span.w-12.bg-first-brand(class='h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Why using our app
+        +Heading3('Our app is great for individuals, startups and enterprises. It have never been easier to manage your finances').mb-6(
+          class='xl:max-w-[630px]'
+        )
+        p.text-header-9.font-medium.text-gray-500(class='xl:max-w-[455px]') Eos eveniet nesciunt et accusamus suscipit est magnam consequatur aut quisquam perferendis a reprehenderit quis aut voluptatem repellat est beatae reiciendis? Cum omnis corrupti cum incidunt veritatis vel libero provident aut reiciendis animi ut quod quaerat et velit animi et omnis illo. Sit quae harum eos incidunt sequi eum iste fugit ex omnis aliquam a explicabo quam.
+        .flex.items-center.mt-10(class='gap-[70px] sm:gap-[150px]')
+          +ParameterItem('469k', 'Social followers').text-first-brand
+          +ParameterItem('25k+', 'Happy Clients').text-first-brand
+      .text-center 
+        .flex.items-end(class='mx-[-8px]')
+          .px-2.w-full.mb-4.text-right(class='max-w-[380px]')
+            .w-full.text-center.inline-block.border.border-gray-0.rounded-lg.shadow-drop-shadown-7.bg-second-brand(
+              class='max-w-[254px] py-[30px]'
+            )
+              +Heading2('756+')
+              p.text-first-brand.font-medium.text-header-7 Project Done
+          .px-2.w-full.mb-4(class='max-w-[325px]')
+            .border.border-gray-80.overflow-hidden.shadow-drop-shadown-7.rounded-lg
+              img(src='assets/images/page/homepage8/chart1.png', alt='Chart')
+        .flex.items-end(class='mx-[-8px]')
+          .px-2.w-full.mb-4(class='max-w-[380px]')
+            .border.border-gray-80.overflow-hidden.shadow-drop-shadown-7.rounded-lg
+              img(src='assets/images/page/homepage8/chart2.png', alt='Chart')
+          .px-2.w-full.mb-4(class='max-w-[325px]')
+            .border.border-gray-80.overflow-hidden.shadow-drop-shadown-7.rounded-lg
+              img(src='assets/images/page/homepage8/chart3.png', alt='Chart')
+        .flex.items-end(class='mx-[-8px]')
+          .px-2.w-full
+            .border.border-gray-80.overflow-hidden.shadow-drop-shadown-7.rounded-lg.p-4(class='sm:p-10')
+              .grid.grid-cols-1.gap-4(class='md:grid-cols-2')
+                .p-4.bg-gray-0.border.border-third-brand.rounded-lg
+                  +ItemsCenter.gap-x-3 
+                    .w-14.h-14.overflow-hidden.rounded-full
+                      +ImageCover('assets/images/homepage-11-avatar-1.png', 'Avatar')
+                    +FlexCol 
+                      +ItemsCenter.gap-x-5
+                        span.text-header-8.font-bold.text-first-brand Bessie Cooper
+                        +RatingStar
+                      p.text-mini-desc.text-gray-500.font-medium.text-left(class='max-w-[216px]') Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa
+                .p-4.bg-gray-0.border.border-third-brand.rounded-lg
+                  +ItemsCenter.gap-x-3 
+                    .w-14.h-14.overflow-hidden.rounded-full
+                      +ImageCover('assets/images/homepage-11-avatar-1.png', 'Avatar')
+                    +FlexCol 
+                      +ItemsCenter.gap-x-5
+                        span.text-header-8.font-bold.text-first-brand Bessie Cooper
+                        +RatingStar
+                      p.text-mini-desc.text-gray-500.font-medium.text-left(class='max-w-[216px]') Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa
+  .bg-third-brand.w-full(class='h-[1px] mb-[67px] lg:mb-[134px]') 
+  +MainContainer
+    +Heading2('Everything will become One').text-center.mb-5
+    p.text-header-7.font-bold.text-first-brand.mx-auto.text-center(class='max-w-[550px] mb-[75px]') Iori Platform
+      span.font-medium.text-gray-500.ml-1 lets you take control of your money, balance your income and expenses, and understand where your money goes.
+    .grid.grid-cols-1.items-center.gap-y-5(class='mb-[158px] xl:grid-cols-3')
+      +FlexCol.gap-y-14
+        +IoriPlatformBenefitItem('Total control', 'assets/images/icons/icon-social-media-1.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque')
+        +IoriPlatformBenefitItem('Rapid experimentation', 'assets/images/icons/icon-experimentation.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque')
+        +IoriPlatformBenefitItem('Secure transfer', 'assets/images/icons/icon-secure-transfer.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque')
+        +IoriPlatformBenefitItem('Activity statistics', 'assets/images/icons/icon-activity-statistics.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque')
+      .block.mx-auto 
+        +ImageSrcSet('assets/images/homepage-8-iphone-2.png 2x', 'Iphone')
+      +FlexCol.gap-y-14
+        +IoriPlatformBenefitReverseItem('Track your spending', 'assets/images/icons/icon-track-your-spending.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque')
+        +IoriPlatformBenefitReverseItem('Fast Response', 'assets/images/icons/icon-standard.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque')
+        +IoriPlatformBenefitReverseItem('AI automation', 'assets/images/icons/icon-AI-automation.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque')
+        +IoriPlatformBenefitReverseItem('Budget that works', 'assets/images/icons/icon-budget-that-works.svg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque') 
+  .w-full.bg-third-brand(class='h-[1px] mb-[130px]')
+  +MainContainer
+    +Heading2('Why You Should Consider Installing').text-center.mb-4
+    +Heading6(`We're lively, not corporate. We have the energy and boldness of a startup and the expertise and pragmatism of a scale-up. All in one place.`).mx-auto.text-center(
+      class='max-w-[647px] mb-[63px]'
+    )
+    .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2 lg:grid-cols-4 mb-[74px] lg:mb-[149px]')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-trial-plan.svg', 'Connected', 'We come together wherever we are – across time zones, regions, offices and screens. You will receive support from your teammates anytime and anywhere.')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-social-media-1.svg', 'Inclusive', 'Our teams reflect the rich diversity of our world, with equitable access to opportunity for everyone. No matter where you come from')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-flexible.svg', 'Flexible', 'We believe in your freedom to work when and how you work best, to help us all thrive. Only freedom and independent work can bring out the best in you.')
+      +ReasonToConsiderInstalling('assets/images/icons/icon-track-your-spending.svg', 'Persuasion', 'Knowing that there is real value to be gained from helping people to simplify whatever it is that they do and bring.')
+  .bg-gray-60(class='pt-[71px] lg:pt-[142px] pb-[71px] lg:pb-[142px]')
+    +MainContainer
+      .block 
+        +Heading2('What our custommers are saying').text-center.mb-5
+        +Heading6('Hear from our users who have saved thousands on their Startup and SaaS solution spend.').mx-auto.text-center(
+          class='max-w-[423px] mb-[77px]'
+        )
+        .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 lg:grid-cols-3')
+          +FlexCol(class='gap-[30px]')
+            +CustommerSayingItem('assets/images/homepage-11-avatar-1.png', 'Guy Hawkins', 'Bank of America', 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list. When team members can choose the work style that suits them best, productivity and engagement skyrocket. Maecenas lobortis risus.', '29 November 2022', 5)
+            +CustommerSayingItem('assets/images/homepage-11-avatar-2.png', 'Esther Howard', 'Bank of America', 'Vivamus hendrerit molestie mi, a volutpat ipsum volutpat sit amet. Aenean sed metus pulvinar, efficitur lectus sit amet, consectetur nisl. Vivamus hendrerit moles Maecenas lobortis risus Maecenas lobortis risus', '29 November 2022', 5)
+          +FlexCol(class='gap-[30px]')
+            +CustommerSayingItem('assets/images/homepage-11-avatar-1.png', 'Bessie Cooper', 'Bank of America', 'Et velit laborum cum temporibus similique qui nostrum odit hic Quis cupiditate et facilis sunt. Et dolorum nostrum qui culpa ullam ut consequatur voluptas eum modi nobis. Ut voluptatem voluptatum hic praesentium eveniet non quae laboriosam nam architecto consequatur aut obcaecati consequatur sit dolores labore ut officia velit. Eos officia consectetur sit labore voluptatem et quia recusandae', '29 November 2022', 5)
+            +CustommerSayingItem('assets/images/homepage-11-avatar-2.png', 'Albert Flores', 'Bank of America', 'Vivamus hendrerit molestie mi, a volutpat ipsum volutpat sit amet. Aenean sed metus pulvinar, efficitur lectus sit amet, consectetur nisl. Vivamus hendrerit moles Maecenas lobortis risus Maecenas lobortis risus', '29 November 2022', 5)
+          +FlexCol(class='gap-[30px]')
+            +CustommerSayingItem('assets/images/homepage-11-avatar-1.png', 'Bessie Cooper', 'Bank of America', 'Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis', '29 November 2022', 5)
+            +CustommerSayingItem('assets/images/homepage-11-avatar-2.png', 'Albert Flores', 'Bank of America', 'Vivamus hendrerit molestie mi, a volutpat ipsum volutpat sit amet. Aenean sed metus pulvinar, efficitur lectus sit amet, consectetur nisl. Vivamus hendrerit moles Maecenas lobortis risus Maecenas lobortis risus', '29 November 2022', 5)
+  +MainContainer 
+    +BlogSection(class='mb-[71px] lg:mb-[142px] mt-[55px] lg:mt-[110px]')
+    +NewsletterSection02

@@ -1,0 +1,14 @@
+mixin QuotesCarouselItem(star, desc, avatar, name, position)
+  .item.bg-gray-0.rounded-2xl.py-4.px-3(class='sm:py-12 sm:px-[53px]')
+    +ItemsStart.gap-x-6
+      .w-10.h-7.overflow-hidden.shrink-0
+        +ImageCover('assets/images/icons/icon-quotes.svg', 'Quotes Icon')
+      +FlexCol(class='gap-y-[10px]')
+        +RatingStar(star)
+        p.text-xl.text-gray-800.font-bold= desc
+        +ItemsCenter.gap-x-3(class='mt-[9px]') 
+          .w-14.h-14.overflow-hidden.rounded-full
+            +ImageCover(avatar, 'Avatar')
+          +FlexCol
+            p.text-header-8.font-bold.text-first-brand= name
+            p.text-mini-desc.font-medium.text-gray-500= position

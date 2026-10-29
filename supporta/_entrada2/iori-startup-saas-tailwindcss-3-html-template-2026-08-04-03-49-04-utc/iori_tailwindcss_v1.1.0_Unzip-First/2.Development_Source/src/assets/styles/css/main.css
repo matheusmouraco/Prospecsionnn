@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gray-0: #ffffff;
+    --gray-50: #ecf1f2;
+    --gray-60: #e0f1f4;
+    --gray-80: #cde2e7;
+    --gray-100: #b9cad0;
+    --gray-200: #8ea4ac;
+    --gray-300: #6a838c;
+    --gray-400: #4e6770;
+    --gray-500: #3d565f;
+    --gray-600: #1f3c45;
+    --gray-700: #0e2932;
+    --gray-800: #122830;
+    --gray-900: #071920;
+  }
+
+  /* html.dark {
+  } */
+
+  html {
+    /* Color system */
+    --success: #06d6a0;
+    --danger: #ef476f;
+    --warning: #ffd166;
+    --mutted: #cfdee3;
+
+    /* Color brand */
+    --first-brand: #024430;
+    --first-brand-hover: #066a4c;
+    --second-brand: #ffe7bb;
+    --third-brand: #afeae4;
+    --fourth-brand: #e8b0e8;
+
+    /* Color background */
+    --first-bg: #efe9ff;
+    --second-bg: #ffeade;
+    --third-bg: #fdffd4;
+    --fourth-bg: #d1ecf7;
+    --fifth-bg: #dff9f3;
+    --seventh-bg: #ffefd1;
+
+    /* Animation */
+    --animate-duration: 1s;
+    --animate-delay: 1s;
+    --animate-repeat: 1;
+  }
+
+  html {
+    font-family: 'Manrope', sans-serif;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+  }
+}
+
+@layer utilities {
+  .hover-up {
+    transition: transform ease 300ms;
+  }
+  .hover-up:hover {
+    transform: translateY(-2px);
+  }
+  .hover-up-all,
+  .transition-common {
+    transition: all ease 300ms;
+  }
+  .hover-up-all:hover {
+    transform: translateY(-2px);
+  }
+
+  .rotateQuotesIcon {
+    transform: rotateX(180deg) rotateY(0deg) rotateZ(180deg);
+  }
+}

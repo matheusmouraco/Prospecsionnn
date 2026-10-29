@@ -1,0 +1,174 @@
+extends layout/layout
+
+block vars
+  - title = 'About - IORI Marketplace Template';
+  - bodyClass = 'about-1-styles';
+  - var bgTestimonials = '/assets/images/page/homepage3/bg-testimonials.svg';
+
+block container
+  .bg-gray-0.overflow-hidden.relative
+    img.absolute.max-w-full(
+      src='assets/images/about-1/fingerprinted.svg',
+      class='w-[110px] h-[110px] top-[20px] right-[30px]',
+      alt=''
+    )
+    +MainContainer 
+      .section.about-1(class='pt-[120px] pb-[80px]')
+        .grid.grid-cols-1.items-center.text-center.banner
+          .wrapper-container.w-full.m-auto(class='max-w-[1190px]')
+            h6.subtitle.mb-3.font-bold(class='md:font-size-xl lg:font-size-2xl')
+              span Who we are
+            h1.heading-in-1.mb-5 We are a digital agency that tackles all your online challenges
+            span.text-muted.block.font-normal.text-center(
+              class='font-size-[18px] lh-[28px] md:p-[176px/2] lg:px-[176px]'
+            ) Social media networks are open to all. Social media is typically used for social interation and access to news and information, and decison making.
+
+  +MainContainer(class='pt-[42px] pb-[100px]')
+    +ItemsCenter.about-1.custom-box.m-auto(class='gap-[132px]')
+      +JustifyBetween.flex-1.list-group
+        .box-element
+          img.img-fluid.mx-auto.mb-2(src='assets/images/icons/socialFollowers.svg', alt='')
+          +ParameterItem('469k', 'Social followers').text-first-brand
+
+        .box-element
+          img.img-fluid.mx-auto.mb-2(src='assets/images/icons/happyClients.svg', alt='')
+          +ParameterItem('25k+', 'Happy Clients').text-first-brand
+
+        .box-element
+          img.img-fluid.mx-auto.mb-2(src='assets/images/icons/projectDone.svg', alt='')
+          +ParameterItem('756+', 'Project Done').text-first-brand
+
+        .box-element
+          img.img-fluid.mx-auto.mb-2(src='assets/images/icons/globalBranch.svg', alt='')
+          +ParameterItem('100+', 'Global branch').text-first-brand
+
+        .box-element
+          img.img-fluid.mx-auto.mb-2(src='assets/images/icons/conference.svg', alt='')
+          +ParameterItem('240+', 'Conference').text-first-brand
+
+  +MainContainer.about-1(class='pb-[112px]')
+    .flex-custom
+      .flex-box
+        .view 
+          img.max-w-full.mx-auto(src='assets/images/about-1/male.png', alt='')
+        .content
+          p.text “Whether you’re working from home, at the office or at the job site, we provide flexible tools so you can connect and collaborate on waterfall projects, agile projects and everything in between.”
+          .author 
+            .name Ralph Edwards
+            .board Chairman of the board
+      .flex-box
+        .view 
+          img.max-w-full.mx-auto(src='assets/images/about-1/female.png', alt='')
+        .content
+          p.text “We created a revolutionary online knowledge and competencies assessment solution. It empowers thousands of organizations worldwide to grow by allowing them to get a broader picture and draw better conclusions”
+          .author 
+            .name Ralph Edwards
+            .board Chairman of the board
+
+  .about-1.core-values-wrapper.relative.overflow-hidden
+    img.absolute.max-w-full.fingerprinted(src='assets/images/about-1/fingerprinted-2.svg', alt='')
+    +MainContainer.about-1(class='pb-[112px]')
+      .relative.core-values
+        .grid-wrapper
+          .grid-box
+            img.max-w-full.arrows_down(src='assets/images/about-1/down_arrow.svg', alt='')
+            .first-content
+              h2.title.font-bold.mb-4(class='text-[#024430] text-[25px] lg:text-[32px] leading-[44px]') Core values
+              p.text.text-base(class='text-[#4e6770] font-[500]') We break down barriers so teams can focus on what matters – working together to create products their customers love.
+          .grid-box
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Customers First
+                p.text.text-base(class='text-[#4e6770] font-[500]') Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Act With Integrity
+                p.text.text-base(class='text-[#4e6770] font-[500]') We’re honest, transparent and committed to doing what’s best for our customers and our company. We openly collaborate in pursuit of the truth. We have no tolerance for politics, hidden agendas or passive-aggressive behavior.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Make a Difference Every Day
+                p.text.text-base(class='text-[#4e6770] font-[500]') Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.
+          .grid-box
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Think Big
+                p.text.text-base(class='text-[#4e6770] font-[500]') Being the world's leading commerce platform requires unrivaled vision, innovation and execution. We never settle. We challenge our ideas of what’s possible in order to better meet the needs of our customers.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Do the right thing
+                p.text.text-base(class='text-[#4e6770] font-[500]') Integrity is the foundation for everything we do. We are admired and respected for our commitment to honesty, trust, and transparency.
+            .content
+              img.max-w-full.check-icon(src='assets/images/about-1/check.svg', alt='')
+              .box
+                h3.title.text-2xl.font-bold(class='text-[#024430] leading-[44px]') Stronger united
+                p.text.text-base(class='text-[#4e6770] font-[500]') We’ve created a positive and inclusive culture that fosters open, honest, and meaningful relationships.
+
+  div(class='bg-[#FFEADE] mb-[72px] lg:mb-[144px]')
+    +MainContainer.about-1
+      .our-story(class='p-[75px_0px] md:p-[132px_0px] min-[1300px]:p-[132px_160px]')
+        .flex.flex-row.flex-wrap.items-start(class='min-[1023px]:h-[550px] max-[1022.98px]:mb-5')
+          .flex-in-start.relative.w-full(class='lg:w-[50%]')
+            img.relative.top-0.left-0.max-w-full.h-auto.object-cover.rounded-sm(
+              src='assets/images/about-1/corporation.png',
+              class='min-[1023px]:absolute w-[857px]',
+              alt=''
+            )
+          .flex-in-end.flex.flex-col.justify-center.items-start.w-full.h-full(
+            class='lg:w-[50%] py-[10px] min-[1023px]:pl-[75px] max-[1022.98px]:mt-3'
+          )
+            small.subtitle(class='bg-[#AEE6B9] p-[5px_11px_8px_10px]')
+              span.uppercase.font-bold(class='text-[#024430] text-[12px] leading-[12px]') our story
+            h3.title.mt-2.font-bold(class='lg:text-[32px] text-[25px] leading-[44px] text-[#024430]') Behind every brand is an interesting story
+            p.text.mb-3.text-base(class='min-[1023px]:mt-[32px] text-[#4e6770] font-[500]') Ea nostrum temporibus ex nulla totam qui galisum quae a adipisci modi. In exercitationem culpa sed blanditiis corrupti sit doloremque maxime eos iusto molestiae ex laborum nulla in quas dignissimos 33 dolorum quis.
+            ul.list-group.list-none.list-custom
+              li.list-item Aut voluptate iste ex esse earum.
+              li.list-item Sed placeat nostrum eum voluptas tenetu
+              li.list-item Et reprehenderit fugit et unde voluptate
+
+        .flex.flex-row.flex-wrap.items-start(class='min-[1023px]:h-[550px] max-[1022.98px]:mb-3')
+          .flex-in-start.flex.order-2.justify-center.flex-col.items-start.w-full.h-full.pt-3(
+            class='min-[1023px]:order-1 lg:w-[55%] min-[1023px]:p-[5px_45px]'
+          )
+            small.subtitle(class='bg-[#AEE6B9] p-[5px_11px_8px_10px]')
+              span.uppercase.font-bold(class='text-[#024430] text-[12px] leading-[12px]') our story
+            h3.title.mt-2.font-bold(class='lg:text-[32px] md:text-[25px] leading-[44px] text-[#024430]') We have a mission to help businesses grow the best with existing conditions
+            p.text.mt-4.text-base(class='text-[#4e6770] font-[500]') Ea nostrum temporibus ex nulla totam qui galisum quae a adipisci modi. In exercitationem culpa sed blanditiis corrupti sit doloremque maxime eos iusto molestiae ex laborum nulla in quas dignissimos 33 dolorum quis. Est dolor autem et voluptate autem id enim optio vel incidunt alias.
+          .flex-in-end.flex.order-1.relative.w-full(class='min-[1023px]:order-2 lg:w-[45%]')
+            img.max-w-full.h-auto.object-cover.rounded-md(
+              src='assets/images/about-1/service.png',
+              class='w-[857px]',
+              alt=''
+            )
+  +MainContainer
+    p.text-header-6.font-bold.text-first-brand.mb-5 Our leadership team
+    +Heading2('Meet the amazing team behind Iori').mb-10(class='lg:max-w-[557px] lg:mb-[52px]')
+    .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2 lg:grid-cols-4')
+      +AmazingTeamMember('assets/images/homepage-11-person-1.png', 'Devon Lane', 'CEO', 'Sharing content online allows you to craft an online persona that reflects your personal values and professional skills. Even if you only use social media occasionally', '#', '#', '#')
+      +AmazingTeamMember('assets/images/homepage-11-person-2.png', 'Jennie Tho', 'Finance Manager', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus.', '#', '#', '#')
+      +AmazingTeamMember('assets/images/homepage-11-person-3.png', 'Symon Lesin', 'Technology Manager', 'In a professional context it often happens that private or corporate clientsorder a publication to publish news. Excepteur sint occaecat cupidatat non proident.', '#', '#', '#')
+    +MarketingExpertSection(class='mt-[71px] lg:mt-[142px] mb-[89px] lg:mb-[178px]')
+    .grid.grid-cols-12.items-center(class='mb-[71px] lg:mb-[142px]')
+      .col-span-12.mb-6(class='xl:col-span-5 xl:mb-0')
+        +FlexCol.text-left(class='xl:max-w-[450px]')
+          +ItemsCenter.gap-x-3.mb-2
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Testimonials
+          +Heading2('What our clients say about us').mb-6
+          +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.')
+
+      .col-span-12.relative(
+        class="xl:col-span-7 before:w-full before:h-full before:absolute before:bg-contain before:right-4 before:z-[1] before:bg-no-repeat before:bg-[right_bottom_80px] before:bg-[url('" + bgTestimonials + "')]"
+      )
+        +FlexCol.gap-y-7.relative(class='z-[3]')
+          .ml-0(class='sm:ml-5')
+            +CardTestimonial('assets/images/homepage-11-avatar-1.png', 'Ralph Edwards', 'Bank of America', 5, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list.')
+          .ml-0(class='sm:ml-24')
+            +CardTestimonial('assets/images/homepage-11-avatar-2.png', 'Dianne Russell', 'Bank of America', 4, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list.')
+          +CardTestimonial('assets/images/homepage-11-avatar-1.png', 'Ralph Edwards', 'Bank of America', 4, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list.')
+    +BlogSection(class='mb-[75px]')
+    +NewsletterSection02

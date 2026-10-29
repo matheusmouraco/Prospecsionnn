@@ -1,0 +1,143 @@
+extends layout/layout
+
+block vars
+  - title = 'Pricing - IORI Marketplace Template';
+  - bodyClass = 'pricing-styles';
+  - var bgPlan = '/assets/images/page/homepage1/bg-plan.png';
+
+block container
+  section.relative.inline-block.w-full(
+    class="pt-[65px] lg:pt-[130px] after:w-full after:h-[68%] after:bg-gray-80 after:absolute after:top-0 after:left-0 after:z-[1] before:bg-left-top before:h-[230px] before:w-[230px] before:bg-no-repeat before:bg-contain before:absolute before:top-0 before:left-0 before:z-[2] before:bg-[url('" + bgPlan + "')]"
+  )
+    +MainContainer.relative(class='z-[3]')
+      +Heading2('Choose The Best Plan').mb-5
+      .flex.flex-col.justify-between.items-start.gap-y-2(
+        class='md:mb-14 md:flex-row md:items-end mb-[45px]'
+      )
+        p.text-gray-500.font-medium.text-header-7 Pick your plan. Change whenever you want. <br> No switching fees between packages
+        +RightArrowButton('Compare plans', '#')
+      .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 xl:grid-cols-4')
+        +BestPlanItem('assets/images/icons/icon-trial-plan.svg', 'fourth', 'Trial Plan', 'Protect for testing', 'free', '- 30 days trial', 'No Credit card required', true, true, true, false, false, false, false, false, '#', 'Try for free')
+        +BestPlanItem('assets/images/icons/icon-standard.svg', 'first', 'Standard', 'Advanced project', '$29', '- user / month', 'Billed annually', true, true, true, true, true, false, false, false, '#', 'Get Started')
+        +BestPlanItem('assets/images/icons/icon-business.svg', 'second', 'Business', 'Protect for testing', '$99', '- user / month', 'Billed annually', true, true, true, true, true, true, false, false, '#', 'Get Started')
+        +BestPlanItem('assets/images/icons/icon-enterprise.svg', 'fifth', 'Enterprise', 'Protect for testing', '$299', '- user', 'One-time pay', true, true, true, true, true, true, true, true, '#', 'Get Started')
+  +MainContainer 
+    +Heading2('Compare Plans').text-center.mb-14(class='mt-[71px] lg:mt-[142px]')
+    .max-w-full.overflow-x-auto
+      table.w-full.border-0.border-collapse(class='min-w-[800px]')
+        thead.font-semibold.align-bottom
+          tr 
+            th.p-5.text-header-8.bg-gray-60.text-start.text-success(class='w-[28%]') Data
+            th.p-5.text-header-8.bg-gray-60.text-start.text-first-brand(class='w-[18%]') Free
+            th.p-5.text-header-8.bg-gray-60.text-start.text-first-brand(class='w-[18%]') Standard
+            th.p-5.text-header-8.bg-gray-60.text-start.text-first-brand(class='w-[18%]') Business
+            th.p-5.text-header-8.bg-gray-60.text-start.text-first-brand(class='w-[18%]') Enterprise
+        tbody
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Requests Quota
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 50k Requests/Day
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 100k Requests/Day
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 500k Requests/Day
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Unlimited
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Account Acess
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 35
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 85
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 120
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Unlimited
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Service Analystic
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Achive Nodes
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Enriched APIs
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Rosetta APIs
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Priority Support Response
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Dedicated Account Manager
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+          tr 
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 Custom SLAs
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +XCircleIcon.text-gray-100(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+            td.text-base.font-medium.text-gray-400.p-5.border-b.border-gray-80 
+              +VerifyIcon.text-success(class='w-[18px] h-[18px]')
+    .grid.grid-cols-1.gap-y-5(class='mt-[71px] lg:mt-[142px] mb-[57px] lg:mb-[114px] xl:grid-cols-3')
+      +MediaPlatformsInfoItem('assets/images/icons/icon-daily-updates.svg', 'Daily Updates Icon', 'Daily Updates', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+      +MediaPlatformsInfoItem('assets/images/icons/icon-247-support.svg', '24/7 Support Icon', '24/7 Support', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+      +MediaPlatformsInfoItem('assets/images/icons/icon-weekly-reports.svg', 'Weekly Reports Icon', 'Weekly Reports', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+    +FrequentlyQuestionsSection01
+  .bg-gray-0.border-t.border-third-brand.mt-12(
+    class='pt-[71px] lg:pt-[142px] lg:mt-24 mb-[71px] lg:mb-[142px]'
+  )
+    +MainContainer
+      .block 
+        +Heading2('What our custommers are saying').text-center.mb-5
+        +Heading6('Hear from our users who have saved thousands on their Startup and SaaS solution spend.').mx-auto.text-center(
+          class='max-w-[423px] mb-[77px]'
+        )
+        .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 lg:grid-cols-3')
+          +FlexCol(class='gap-[30px]')
+            +CustommerSayingItem('assets/images/homepage-11-avatar-1.png', 'Guy Hawkins', 'Bank of America', 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list. When team members can choose the work style that suits them best, productivity and engagement skyrocket. Maecenas lobortis risus.', '29 November 2022', 5)
+            +CustommerSayingItem('assets/images/homepage-11-avatar-2.png', 'Esther Howard', 'Bank of America', 'Vivamus hendrerit molestie mi, a volutpat ipsum volutpat sit amet. Aenean sed metus pulvinar, efficitur lectus sit amet, consectetur nisl. Vivamus hendrerit moles Maecenas lobortis risus Maecenas lobortis risus', '29 November 2022', 5)
+          +FlexCol(class='gap-[30px]')
+            +CustommerSayingItem('assets/images/homepage-11-avatar-1.png', 'Bessie Cooper', 'Bank of America', 'Et velit laborum cum temporibus similique qui nostrum odit hic Quis cupiditate et facilis sunt. Et dolorum nostrum qui culpa ullam ut consequatur voluptas eum modi nobis. Ut voluptatem voluptatum hic praesentium eveniet non quae laboriosam nam architecto consequatur aut obcaecati consequatur sit dolores labore ut officia velit. Eos officia consectetur sit labore voluptatem et quia recusandae', '29 November 2022', 5)
+            +CustommerSayingItem('assets/images/homepage-11-avatar-2.png', 'Albert Flores', 'Bank of America', 'Vivamus hendrerit molestie mi, a volutpat ipsum volutpat sit amet. Aenean sed metus pulvinar, efficitur lectus sit amet, consectetur nisl. Vivamus hendrerit moles Maecenas lobortis risus Maecenas lobortis risus', '29 November 2022', 5)
+          +FlexCol(class='gap-[30px]')
+            +CustommerSayingItem('assets/images/homepage-11-avatar-1.png', 'Bessie Cooper', 'Bank of America', 'Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis', '29 November 2022', 5)
+            +CustommerSayingItem('assets/images/homepage-11-avatar-2.png', 'Albert Flores', 'Bank of America', 'Vivamus hendrerit molestie mi, a volutpat ipsum volutpat sit amet. Aenean sed metus pulvinar, efficitur lectus sit amet, consectetur nisl. Vivamus hendrerit moles Maecenas lobortis risus Maecenas lobortis risus', '29 November 2022', 5)
+  +MainContainer
+    +NewsletterSection02

@@ -1,0 +1,121 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 6 - IORI Marketplace Template';
+  - bodyClass = 'homepage-6-styles';
+
+block container
+  .overflow-hidden.bg-gray-60.inline-block.w-full 
+    +MainContainer
+      .grid.grid-cols-1.items-end(class='xl:grid-cols-2')
+        .hidden(class='xl:block')
+          .relative.w-full.text-left(
+            class='before:w-[620px] before:h-[620px] before:absolute before:rounded-[50%] before:bottom-[-140px] before:left-[-15px] before:z-[1] before:bg-second-brand'
+          )
+            .p-4.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-1.absolute.hero-thumb-animation(
+              class='z-[2] bottom-[210px] left-[-120px]'
+            )
+              +ItemsCenter.gap-x-3 
+                .w-14.h-14.overflow-hidden.rounded-full
+                  +ImageCover('assets/images/homepage-11-avatar-1.png', 'Avatar')
+                +FlexCol 
+                  +ItemsCenter.gap-x-5
+                    span.text-header-8.font-bold.text-first-brand Bessie Cooper
+                    +RatingStar
+                  p.text-mini-desc.text-gray-500.font-medium(class='max-w-[216px]') Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa
+            .p-4.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-1.absolute.right-7.hero-thumb-sm-animation.bottom-5(
+              class='z-[4]'
+            )
+              +ItemsCenter.gap-x-3 
+                .w-14.h-14.overflow-hidden.rounded-full
+                  +ImageCover('assets/images/homepage-11-avatar-1.png', 'Avatar')
+                +FlexCol 
+                  +ItemsCenter.gap-x-5
+                    span.text-header-8.font-bold.text-first-brand Bessie Cooper
+                    +RatingStar
+                  p.text-mini-desc.text-gray-500.font-medium(class='max-w-[216px]') Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa
+            img.relative.block(
+              src='assets/images/page/homepage6/banner.png',
+              alt='Hero',
+              class='z-[3] max-w-[90%]'
+            )
+        +FlexCol.py-16 
+          +ItemsCenter.gap-x-3.mb-4
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Think. Creative. Solve
+          +Heading1('Innovative Solution to Move Your Business Forward').mb-6
+          +TextBase('Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.').mb-7(
+            class='xl:max-w-[601px]'
+          )
+          +Heading5('Available on')(class='mb-[22px]')
+          .flex.items-start.gap-x-9.flex-col.gap-y-4(class='sm:flex-row sm:items-center')
+            +ItemsCenter.gap-x-4
+              img(src='assets/images/AppStore.svg', alt='AppStore')
+              img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+            +RightArrowButton('Learn More', '#')
+  +MainContainer
+    .grid.grid-cols-3.items-center.gap-y-6(class='my-[60px] lg:my-[120px] lg:grid-cols-6')
+      img(src='assets/images/icons/icon-placed-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-cuebiq-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-factual-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-place-iq-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-airmeet-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-spendflo-1.svg', alt='Iori', class='max-h-[52px]')
+    .flex.items-start.justify-between.flex-col.gap-y-4(class='mb-[66px] xl:items-center xl:flex-row')
+      +Heading2('Crafting human connection through digital experience')(class='xl:max-w-[686px]')
+      +FlexCol.gap-y-6
+        +TextBase('Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.')(
+          class='xl:max-w-[570px]'
+        )
+        +RightArrowButton('Contact Us', '#')
+    .grid.grid-cols-1(class='gap-[30px] mb-[71px] sm:grid-cols-3 lg:mb-[142px]')
+      +FlexCol 
+        +ImageSrcSet('assets/images/homepage-6-human1.png 2x', 'Human').mb-8
+        +Heading4('Cross Platform').mb-2
+        +Text14Leading22('Discover powerful features to boost your productivit. You are always welcome to visit our little den.')
+      +FlexCol 
+        +Heading4('Business trategy').mb-2
+        +Text14Leading22('Discover powerful features to boost your productivit. You are always welcome to visit our little den.').mb-8
+        +ImageSrcSet('assets/images/homepage-6-human2.png 2x', 'Human')
+      +FlexCol 
+        +ImageSrcSet('assets/images/homepage-6-human3.png 2x', 'Human').mb-8
+        +Heading4('Social Media').mb-2
+        +Text14Leading22('Discover powerful features to boost your productivit. You are always welcome to visit our little den.')
+    +WhatWeOfferButtonSection(class='mb-[75px]')
+  +ChooseTheBestPlanSection('bg-gray-80', true).mb-16(class='lg:mb-32')
+  +MainContainer 
+    +MarketingExpertSection(class='mb-[50px] lg:mb-[98px]')
+    +Heading2('Frequently asked questions').text-center.mb-6
+    +Heading6('Feeling inquisitive? Have a read through some of our FAQs or contact our supporters for help').mx-auto.text-center(
+      class='max-w-[550px] mb-[73px]'
+    )
+    .grid.grid-cols-12.mb-12(class='lg:mb-24')
+      .col-span-2
+      .col-span-12.relative(class='lg:col-span-8')
+        .absolute.hidden(class='top-[-120px] left-[-190px] lg:block')
+          +ImageSrcSet('assets/images/homepage-6-author1.png 2x', 'Author')
+        .absolute.hidden(class='top-[10%] right-[-210px] lg:block')
+          +ImageSrcSet('assets/images/homepage-6-author3.png 2x', 'Author')
+        .absolute.hidden(class='top-[50%] left-[-260px] lg:block')
+          +ImageSrcSet('assets/images/homepage-6-author2.png 2x', 'Author')
+        dl.accordionQuestionsWrap.flex.flex-col.gap-y-2
+          +AccordionItem('Where is my order? Quisque molestie', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('How can I return an item purchased online?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('Can I cancel or change my order?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('I have promotional or discount code?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('What are the delivery types you use?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('How can I pay for my purchases?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('Can I cancel my order?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+  .bg-gray-60(class='mb-[60px] lg:mb-[121px]')
+    +MainContainer
+      .block(class='py-[46px] lg:py-[92px]')
+        .card-guide.owl-carousel.owl-theme
+          +SalientFeature('assets/images/page/help/icon1.svg', 'Knowledge Base', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon2.svg', 'Community Forums', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon3.svg', 'Documentation', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon2.svg', 'Knowledge Base', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon3.svg', 'Community Forums', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon1.svg', 'Documentation', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+  +MainContainer 
+    +BlogSection(class='mb-[71px] lg:mb-[142px]')
+    +NewsletterSection02

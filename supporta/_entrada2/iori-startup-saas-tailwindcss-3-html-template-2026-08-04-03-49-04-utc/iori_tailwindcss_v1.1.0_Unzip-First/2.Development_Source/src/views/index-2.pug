@@ -1,0 +1,125 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 2 - IORI Marketplace Template';
+  - bodyClass = 'homepage-2-styles';
+
+block container
+  .w-full.inline-block.pt-20(class='bg-[url(\'/assets/images/homepage-2-bg-banner.svg\')] pb-[70px]')
+    +MainContainer 
+      .grid.grid-cols-12.items-center
+        .col-span-12(class='xl:col-span-7')
+          +FlexCol
+            +Heading1('Iori dashboard will help your payments fast and secure')(
+              class='mb-[30px] xl:max-w-[748px]'
+            )
+            +TextBase('Social media networks are open to all. Social media is typically used for social interaction and access to news and information, and decision making.').mb-10(
+              class='xl:max-w-[601px]'
+            )
+            +Heading5('Available on')(class='mb-[22px]')
+            .flex.items-start.gap-x-9.flex-col.gap-y-4(class='sm:flex-row sm:items-center')
+              +ItemsCenter.gap-x-4
+                img(src='assets/images/AppStore.svg', alt='AppStore')
+                img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+              +RightArrowButton('Learn More', '#')
+        .hidden(class='xl:col-span-5 xl:block')
+          +ImageSrcSet('assets/images/homepage-2-macbook.png 2x', 'Macbook')
+  +MainContainer 
+    +BrandLogoSection(class='mb-[65px] lg:mb-[130px]')
+    +NextLevelMarketingSection(class='mb-[71px] lg:mb-[142px]')
+    .grid.grid-cols-1.mb-10(class='gap-[30px] xl:grid-cols-2')
+      +FlexCol.gap-y-3
+        +ItemsCenter.gap-x-3
+          .bg-first-brand(class='w-[89px] h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') What We Do, What You Get
+        +Heading2('We facilitate the creation of strategy and design')(class='max-w-[620px]')
+      +StrategyDesignItem('assets/images/page/homepage2/we-do3.png', 'Employee Assessments', 'What makes us different from others? We give holistic solutions with strategy, design & technology.', '#')
+      +StrategyDesignItem('assets/images/page/homepage2/we-do.png', 'Smart Installation Tools', 'No lag time, no lost effort when priorities change, no email black hole. As team collaboration improves', '#')
+      +StrategyDesignItem('assets/images/page/homepage2/we-do4.png', 'Collaborative to the core.', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+      +StrategyDesignItem('assets/images/page/homepage2/we-do2.png', 'Manage budgets and resources', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '#')
+      +StrategyDesignItem('assets/images/page/homepage2/we-do5.png', 'Unlimited ways to work', 'What makes us different from others? We give holistic solutions with strategy, design & technology.', '#')
+    +JustifyCenter.gap-x-6(class='mb-[68px] lg:mb-[136px]')
+      +NormalButton('Download App')
+      +RightArrowButton('Learn More', '#')
+    .grid.grid-cols-1.items-center.gap-12(class='xl:grid-cols-2')
+      .block
+        .relative(
+          class='before:absolute before:w-full before:h-full before:rounded-[900px] before:bg-third-brand before:bottom-[-9px] before:right-[-7px] before:z-[1]'
+        )
+          .absolute.hero-thumb-animation.right-4.w-20.h-20(class='z-[3] bottom-[-60px] sm:w-fit sm:h-fit')
+            +ImageCover('assets/images/homepage-2-certify-1.svg', 'Certify') 
+          .absolute.top-0.hero-thumb-sm-animation.left-0(class='z-[3]')
+            +ImageShrink('assets/images/homepage-2-fly.svg', 'Fly')
+          +ImageCover('assets/images/page/homepage2/img2.png', 'Iori').relative(
+            class='z-[2] rounded-[900px]'
+          )
+      +FlexCol 
+        +ItemsCenter.gap-x-3.mb-3
+          .bg-first-brand(class='w-[89px] h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') How to start ?
+        +Heading2('Bring your target users together on social media')(class='mb-[60px]')
+        ul.flex.flex-col.gap-y-8
+          +BringTargetStep('1', 'Create an account', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+          +BringTargetStep('2', 'Build your founding team', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+          +BringTargetStep('3', 'Launch and Scale', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+    .grid.grid-cols-1.items-center.gap-y-12(
+      class='gap-x-[108px] xl:grid-cols-2 mt-[67px] lg:mt-[135px] mb-[71px] lg:mb-[142px]'
+    )
+      +FlexCol 
+        +ItemsCenter.gap-x-3.mb-3
+          .bg-first-brand(class='w-[89px] h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Why choose us?
+        +Heading2('See why we are trusted the world over').mb-6(class='max-w-[620px]')
+        p.text-header-7.font-medium.text-gray-500.mb-16 Necessary to deliver white glove, fully managed campaigns that surpass industry benchmarks.Take your career to next level. Apply to our team and see what we can do together. You’re good enough. <br> <br> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.
+        +ItemsCenter.gap-6
+          +NormalButton('Download App')
+          +RightArrowButton('Learn More', '#')
+      .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2')
+        +FlexCol(class='gap-[30px] mt-[50px]')
+          .p-9.bg-fifth-bg.rounded-2xl.border-r-4.border-b-4.border-gray-300
+            +FlexCol.gap-y-1.items-center 
+              span.font-extrabold.text-first-brand(class='text-[64px] leading-[72px]') 469k
+              span.font-bold.text-first-brand.text-header-6 Social followers
+          .p-9.bg-second-bg.rounded-2xl
+            +FlexCol.gap-y-1.items-center 
+              span.font-extrabold.text-first-brand(class='text-[64px] leading-[72px]') 5000+
+              span.font-bold.text-first-brand.text-header-6 Happy Clients
+        +FlexCol(class='gap-[30px]')
+          .p-9.bg-second-brand.rounded-2xl
+            +FlexCol.gap-y-1.items-center 
+              span.font-extrabold.text-first-brand(class='text-[64px] leading-[72px]') 756+
+              span.font-bold.text-first-brand.text-header-6 Project Done
+          .p-9.bg-fourth-bg.rounded-2xl
+            +FlexCol.gap-y-1.items-center 
+              span.font-extrabold.text-first-brand(class='text-[64px] leading-[72px]') 100%
+              span.font-bold.text-first-brand.text-header-6 Client Satisfaction
+  .bg-gray-0.relative.border-t.border-b.border-third-brand(
+    class='pt-[65px] lg:pt-[130px] pb-[49px] lg:pb-[98px] mb-[71px] lg:mb-[142px] after:absolute after:bottom-0 after:right-0 after:w-[400px] after:h-[400px] before:absolute before:top-0 before:left-0 before:w-[400px] before:h-[400px] before:bg-contain before:bg-no-repeat after:bg-contain after:bg-no-repeat before:bg-[top_left] after:bg-[bottom_right] before:bg-[url(\'/assets/images/page/homepage2/bg-plan-2.png\')] after:bg-[url(\'/assets/images/page/homepage2/bg-plan-bottom.png\')]'
+  )
+    +Heading2('Choose The Best Plan').text-center.relative(class='z-[2]')
+    p.text-header-7.text-gray-500.font-medium.text-center.my-5.relative(class='z-[2]') Pick your plan. Change whenever you want. <br> No switching fees between packages
+    +MainContainer
+      ul.tabPlanTime.p-1.flex.items-center.justify-center.w-fit.mx-auto(class='mb-[63px]')
+        li.active.inline.text-first-brand.text-header-6.font-bold.px-6.rounded-md(class='py-[9px]')
+          a(href='#planMonthly') Monthly
+        li.inline.text-first-brand.text-header-6.font-bold.px-6.rounded-md(class='py-[9px]')
+          a(href='#planYearly') Yearly
+      .tabContents.w-full.clear-both.mb-12
+        #planMonthly.tabBox
+          .grid.grid-cols-1(class='gap-[30px] xl:grid-cols-3')
+            +BestPlanTimeItem('assets/images/icons/icon-trial-plan.svg', 'fourth', 'Trial Plan', 'Protect for testing', 'free', '- 30 days trial', 'No Credit card required', true, true, true, true, false, false, false, false, '#', 'Try for free', '#')
+            +BestPlanTimeItem('assets/images/icons/icon-standard.svg', 'first', 'Standard', 'Advanced project', '$99', '- user / month', 'Billed annually', true, true, true, true, true, true, false, false, '#', 'Get Started', '#', true)
+            +BestPlanTimeItem('assets/images/icons/icon-budget-that-works.svg', 'second', 'Enterprise', 'Protect for testing', '$299', '- user / month', 'Billed annually', true, true, true, true, true, true, true, true, '#', 'Get Started', '#')
+        #planYearly.tabBox
+          .grid.grid-cols-1(class='gap-[30px] xl:grid-cols-3')
+            +BestPlanTimeItem('assets/images/icons/icon-trial-plan.svg', 'fourth', 'Trial Plan', 'Protect for testing', 'free', '- 30 days trial', 'No Credit card required', true, true, true, true, false, false, false, false, '#', 'Try for free', '#')
+            +BestPlanTimeItem('assets/images/icons/icon-standard.svg', 'first', 'Standard', 'Advanced project', '$1,188', '- user / month', 'Billed annually', true, true, true, true, true, true, false, false, '#', 'Get Started', '#', true)
+            +BestPlanTimeItem('assets/images/icons/icon-budget-that-works.svg', 'second', 'Enterprise', 'Protect for testing', '$3,588', '- user / month', 'Billed annually', true, true, true, true, true, true, true, true, '#', 'Get Started', '#') 
+      +JustifyCenter.gap-6.relative(class='z-[2]')
+        +NormalButton('Contact Us')
+        +RightArrowButton('Compare Plans', '#')
+  +MainContainer 
+    +CustomersSayingSection(class='mb-[70px] lg:mb-[140px]')
+    +MarketingExpertSection(class='mb-[65px] lg:mb-[131px]')
+    +BlogSection(class='mb-[71px] lg:mb-[142px]')
+    +NewsletterSection01

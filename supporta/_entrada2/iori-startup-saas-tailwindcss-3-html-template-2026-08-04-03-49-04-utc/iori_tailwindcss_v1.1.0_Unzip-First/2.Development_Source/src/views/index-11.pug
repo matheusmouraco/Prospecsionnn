@@ -1,0 +1,169 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 11 - IORI Marketplace Template';
+  - bodyClass = 'homepage-11-styles';
+  - var hero1 = '/assets/images/page/homepage11/hero-1.png';
+  - var hero2 = '/assets/images/page/homepage11/hero-2.png';
+  - var hero3 = '/assets/images/page/homepage11/hero-3.png';
+  - var hero4 = '/assets/images/page/homepage11/hero-4.png';
+  - var hero5 = '/assets/images/page/homepage11/hero-5.png';
+
+block container
+  .owl-carousel.thumb-img-owl
+    .item
+      .relative
+        .bg-no-repeat.bg-cover(
+          class="min-h-[520px] sm:min-h-[780px] bg-[top_center] bg-[url('" + hero1 + "')]"
+        )
+          .absolute.left-0.w-full(class='top-[50%] translate-y-[-50%]')
+            +MainContainer
+              .grid.grid-cols-12
+                .col-span-12(class='sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-5')
+                  .bg-gray-0.py-3(class='sm:py-20 px-[7px] sm:px-[75px]')
+                    +Heading2('Bring your target users together on social media')(class='mb-[34px]')
+                    +TextBase('Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis')(
+                      class='mb-[34px]'
+                    )
+                    +ItemsCenter.gap-4
+                      img(src='assets/images/AppStore.svg', alt='AppStore')
+                      img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+    .item
+      .relative
+        .bg-no-repeat.bg-cover(
+          class="min-h-[520px] sm:min-h-[780px] bg-[top_center] bg-[url('" + hero2 + "')]"
+        )
+          .absolute.left-0.w-full(class='top-[50%] translate-y-[-50%]')
+            +MainContainer
+              .grid.grid-cols-12
+                .col-span-12(class='sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-5')
+                  .bg-gray-0.py-3(class='sm:py-20 px-[7px] sm:px-[75px]')
+                    +Heading2('Lets make something great together')(class='mb-[34px]')
+                    +TextBase('Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis')(
+                      class='mb-[34px]'
+                    )
+                    +ItemsCenter.gap-4
+                      img(src='assets/images/AppStore.svg', alt='AppStore')
+                      img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+    .item
+      .relative
+        .bg-no-repeat.bg-cover(
+          class="min-h-[520px] sm:min-h-[780px] bg-[top_center] bg-[url('" + hero3 + "')]"
+        )
+          .absolute.left-0.w-full(class='top-[50%] translate-y-[-50%]')
+            +MainContainer
+              .grid.grid-cols-12
+                .col-span-12(class='sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-5')
+                  .bg-gray-0.py-3(class='sm:py-20 px-[7px] sm:px-[75px]')
+                    +Heading2('Use flexible components to build an app quickly')(class='mb-[34px]')
+                    +TextBase('Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis')(
+                      class='mb-[34px]'
+                    )
+                    +ItemsCenter.gap-4
+                      img(src='assets/images/AppStore.svg', alt='AppStore')
+                      img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+    .item
+      .relative
+        .bg-no-repeat.bg-cover(
+          class="min-h-[520px] sm:min-h-[780px] bg-[top_center] bg-[url('" + hero4 + "')]"
+        )
+          .absolute.left-0.w-full(class='top-[50%] translate-y-[-50%]')
+            +MainContainer
+              .grid.grid-cols-12
+                .col-span-12(class='sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-5')
+                  .bg-gray-0.py-3(class='sm:py-20 px-[7px] sm:px-[75px]')
+                    +Heading2('Flex will remind you when to complete a task')(class='mb-[34px]')
+                    +TextBase('Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis')(
+                      class='mb-[34px]'
+                    )
+                    +ItemsCenter.gap-4
+                      img(src='assets/images/AppStore.svg', alt='AppStore')
+                      img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+    .item
+      .relative
+        .bg-no-repeat.bg-cover(
+          class="min-h-[520px] sm:min-h-[780px] bg-[top_center] bg-[url('" + hero5 + "')]"
+        )
+          .absolute.left-0.w-full(class='top-[50%] translate-y-[-50%]')
+            +MainContainer
+              .grid.grid-cols-12
+                .col-span-12(class='sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-5')
+                  .bg-gray-0.py-3(class='sm:py-20 px-[7px] sm:px-[75px]')
+                    +Heading2('Bring your target users together on social media')(class='mb-[34px]')
+                    +TextBase('Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis')(
+                      class='mb-[34px]'
+                    )
+                    +ItemsCenter.gap-4
+                      img(src='assets/images/AppStore.svg', alt='AppStore')
+                      img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+  .bg-first-brand(class='mb-[65px] lg:mb-[131px]')
+    +MainContainer
+      .grid.grid-cols-1.items-center(class='py-[90px] xl:grid-cols-2')
+        +FlexCol.gap-2.mb-3(class='xl:mb-0')
+          +RatingStar
+          p.text-gray-0.font-extrabold(
+            class='xl:max-w-[347px] text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2'
+          ) See why we are trusted the world over
+        +FlexCol.gap-5
+          p.text-header-9.text-gray-0.font-medium Et quaerat deserunt et numquam voluptatem et laborum consectetur non consequatur temporibus ea repellat nihil vel consectetur dolores et rerum voluptas. Nam voluptas reiciendis non laborum perspiciatis eum omnis cumque ab impedit earum ex quos porro sit dolorem cupiditate ut ducimus autem.
+          +JustifyBetween.flex-wrap.gap-y-4
+            +ParameterItem('469k', 'Social followers').text-gray-0
+            +ParameterItem('25k+', 'Happy Clients').text-gray-0
+            +ParameterItem('756+', 'Project Done').text-gray-0
+            +ParameterItem('100+', 'Global branch').text-gray-0
+  +MainContainer
+    .text-center(class='mb-[72px]')
+      +Heading2('What We Offer')(class='mb-[21px]')
+      p.text-header-7.text-gray-500.font-medium.mx-auto(class='max-w-[605px]') What makes us different from others? We give holistic solutions with strategy, design & technology.
+    .grid.grid-cols-1(class='gap-[30px] lg:grid-cols-3')
+      +OfferItem('assets/images/icons/icon-cross-platform.svg', 'Cross Platform', 'Est minima repellendus in dolor dolorum aut assumenda ullam et voluptates numquam qui aliquam perspiciatis ad neque ullam. Qui sequi porro in tempore nemo et itaque eligendi qui iusto saepe et suscipit sint et pariatur dolor.', 'assets/images/homepage-11-person-7.png')
+      .px-7.pb-7.pt-10.bg-second-brand.rounded-2xl.hover-up-all.border.border-second-brand(
+        class='hover:bg-gray-60 hover:border-gray-100'
+      )
+        .block.rounded-2xl.overflow-hidden(class='mb-[45px]')
+          +ImageCover('assets/images/homepage-11-finger.png', 'Business Trategy')
+        +FlexCol.gap-y-3.mb-6
+          +Heading4('Business trategy')
+          +Text14Leading22('Est minima repellendus in dolor dolorum aut assumenda ullam et voluptates numquam qui aliquam perspiciatis ad neque ullam.')
+        +RightArrowButton('Contact Us', '#')
+      +OfferItem('assets/images/icons/icon-social-media.svg', 'Social Media', 'Est minima repellendus in dolor dolorum aut assumenda ullam et voluptates numquam qui aliquam perspiciatis ad neque ullam. Qui sequi porro in tempore nemo et itaque eligendi qui iusto saepe et suscipit sint et pariatur dolor.', 'assets/images/homepage-11-person-8.png')
+    .grid.grid-cols-3.items-center.gap-y-6.mt-10(
+      class='lg:mt-[77px] mb-[69px] lg:mb-[138px] lg:grid-cols-6'
+    )
+      img(src='assets/images/icons/icon-placed-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-cuebiq-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-factual-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-place-iq-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-airmeet-1.svg', alt='Iori', class='max-h-[52px]')
+      img(src='assets/images/icons/icon-spendflo-1.svg', alt='Iori', class='max-h-[52px]')
+    +FlexCol(class='mb-[71px] lg:mb-[142px]')
+      +MarketingItemSection('assets/images/homepage-11-person-5.png', 'Business', 'Integrate with over 1,000 project management apps', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', '#', false, false)
+      +MarketingItemSection('assets/images/homepage-11-person-6.png', 'Business', 'Integrate with over 1,000 project management apps', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', '#', true, false)
+  .bg-gray-60(class='py-[71px] lg:py-[142px] mb-[65px] lg:mb-[130px]')
+    +MainContainer
+      p.text-first-brand.font-extrabold(
+        class='mb-[52px] text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2'
+      ) What our loving users are <br/> saying about us
+      .card-quotes.owl-carousel.owl-theme
+        +QuotesCarouselItem(5, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list. When team members can choose the work style that suits them best, productivity and engagement skyrocket. Maecenas lobortis risus.', 'assets/images/homepage-11-avatar-1.png', 'Guy Hawkins', 'Bank of America')
+        +QuotesCarouselItem(5, 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ac quam sem. Fusce convallis tortor non erat rutrum facilisis. Integer id sem et neque mattis fringilla. Sed ut suscipit justo, in lacinia leo. Suspendisse potenti. Morbi in ornare tellus.', 'assets/images/homepage-11-avatar-2.png', 'Guy Hawkins', 'Bank of America')
+        +QuotesCarouselItem(5, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list. When team members can choose the work style that suits them best, productivity and engagement skyrocket. Maecenas lobortis risus.', 'assets/images/homepage-11-avatar-1.png', 'Guy Hawkins', 'Bank of America')
+        +QuotesCarouselItem(5, 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ac quam sem. Fusce convallis tortor non erat rutrum facilisis. Integer id sem et neque mattis fringilla. Sed ut suscipit justo, in lacinia leo. Suspendisse potenti. Morbi in ornare tellus.', 'assets/images/homepage-11-avatar-2.png', 'Guy Hawkins', 'Bank of America')
+  +MainContainer
+    +FrequentlyQuestionsSection
+    .grid.grid-cols-1(class='gap-[30px] xl:grid-cols-3 mb-[68px] lg:mb-[137px] mt-[71px] lg:mt-[142px]')
+      +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Secure payment', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Learn more', '#').bg-fourth-bg
+      +SalientFeature('assets/images/icons/icon-save-money.svg', 'Save money', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Learn more', '#').bg-fifth-bg
+      +SalientFeature('assets/images/icons/icon-quick-support.svg', 'Quick support', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Learn more', '#').bg-seventh-bg
+  .block.border-b.border-third-brand(class='pb-[71px] lg:pb-[142px] mb-[65px] lg:mb-[130px]')
+    +MainContainer
+      p.text-header-6.font-bold.text-first-brand.mb-5 Our leadership team
+      +Heading2('Meet the amazing team behind Iori').mb-10(class='lg:max-w-[557px] lg:mb-[52px]')
+      .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2 lg:grid-cols-4')
+        +AmazingTeamMember('assets/images/homepage-11-person-1.png', 'Devon Lane', 'CEO', 'Sharing content online allows you to craft an online persona that reflects your personal values and professional skills. Even if you only use social media occasionally', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-2.png', 'Jennie Tho', 'Finance Manager', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus.', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-3.png', 'Symon Lesin', 'Technology Manager', 'In a professional context it often happens that private or corporate clientsorder a publication to publish news. Excepteur sint occaecat cupidatat non proident.', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-4.png', 'Virginia Aguilar', 'Director of People', 'In a professional context it often happens that private or corporate clientsorder a publication to publish news. Excepteur sint occaecat cupidatat non proident.', '#', '#', '#')
+  +MainContainer
+    +BlogSection(class='mb-[47px] lg:mb-[94px] mt-[62px] lg:mt-[124px]')
+    +NewsletterSection01

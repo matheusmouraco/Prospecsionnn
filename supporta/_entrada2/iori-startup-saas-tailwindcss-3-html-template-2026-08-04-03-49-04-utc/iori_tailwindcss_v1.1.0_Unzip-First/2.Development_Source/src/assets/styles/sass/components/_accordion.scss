@@ -1,0 +1,116 @@
+.accordionWrap dt {
+  display: block;
+  padding: 40px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: #024430;
+  background-color: #ffffff;
+  border: 1px solid #cde2e7;
+  box-shadow: 9px 11px 23px rgba(6, 61, 79, 0.12);
+  border-radius: 16px;
+
+  @media (min-width: 768px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+.accordionQuestionsWrap dt {
+  display: block;
+  padding: 25px 30px 20px 30px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: #024430;
+  background-color: #ffffff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+
+  @media (min-width: 768px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+.accordionWrap dt span {
+  display: block;
+  width: 100%;
+  background: url(../../../assets/images/icons/icon-plus.svg) no-repeat 99% 50% / 18px 25px;
+}
+
+.accordionQuestionsWrap dt span {
+  display: block;
+  width: 100%;
+  background: url(../../../assets/images/icons/icon-arrow-down-green.svg) no-repeat 99% 50% / 18px
+    25px;
+}
+
+.accordionHeaderWrap dt span {
+  display: block;
+  width: 100%;
+  background: url(../../../assets/images/icons/icon-arrow-down-green.svg) no-repeat 99% 50% / 14px
+    25px;
+}
+
+.accordionWrap .active {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom: 0px;
+}
+
+.accordionQuestionsWrap .active {
+  background-color: #ecf1f2;
+}
+
+.accordionWrap dt.active span {
+  background: url(../../../assets/images/icons/icon-minus.svg) no-repeat 99% 50% / 18px 25px;
+}
+
+.accordionQuestionsWrap dt.active span {
+  background: url(../../../assets/images/icons/icon-arrow-up-green.svg) no-repeat 99% 50% / 18px
+    25px;
+}
+
+.accordionHeaderWrap dt.active span {
+  background: url(../../../assets/images/icons/icon-arrow-up-green.svg) no-repeat 99% 50% / 14px
+    25px;
+  color: #06d6a0;
+}
+
+.accordionWrap .accordionBox {
+  display: none;
+  padding: 0 30px 30px 30px;
+  background-color: #ffffff;
+  border: 1px solid #cde2e7;
+  border-top: 0px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #212529;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  box-shadow: 9px 11px 23px rgba(6, 61, 79, 0.12);
+}
+
+.accordionQuestionsWrap .accordionBox {
+  display: none;
+  padding: 0 30px 30px 30px;
+  background-color: #ecf1f2;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #4e6770;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.accordionHeaderWrap .accordionBox {
+  display: none;
+}
+
+.accordionWrap,
+.accordionQuestionsWrap {
+  text-align: justify;
+}

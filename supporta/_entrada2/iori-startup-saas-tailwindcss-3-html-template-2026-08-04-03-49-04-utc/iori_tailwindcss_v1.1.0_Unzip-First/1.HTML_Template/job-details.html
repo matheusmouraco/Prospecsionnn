@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html class="scroll-smooth overflow-x-hidden" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Job Details - IORI Marketplace Template</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <link rel="icon" href="assets/images/icons/icon-favicon.svg" type="image/x-icon" sizes="16x16">
+    <link rel="stylesheet" href="assets/styles/tailwind.min.css?v=4.0">
+    <link rel="stylesheet" href="assets/styles/style.min.css?v=4.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+  </head>
+  <body class="w-screen relative overflow-x-hidden min-h-screen scrollbar-hide job-details-styles">
+    <div class="w-screen h-full bg-opacity-80 hidden video-iframe fixed bg-[#0b0b0b] z-[999999] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+      <div class="video grid relative w-full place-items-center m-auto h-full xl:w-[70%] max-w-[920px] px-[1.5rem]">
+        <div class="block w-full h-auto">
+          <div class="flex justify-end relative top-0 right-0 items-end mb-[1rem]">
+            <button class="text-white close-video text-[20px]" type="button" title="Close (Esc)">x</button>
+          </div>
+          <iframe class="aspect-video w-full" src="https://www.youtube.com/embed/oRI37cOPBQQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="overlay"></div>
+    <header class="border-b border-gray-100 fixed-header">
+      <div class="bg-first-brand relative green-bar">
+        <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px] text-center">
+          <div class="block py-[14px]">
+            <p class="text-second-brand font-medium text-[14px] leading-[14px]">Cyber Monday: Save big on the Creative Cloud All Apps plan for individuals through 2 Dec.</p>
+          </div>
+        </div>
+        <div class="absolute right-10 p-3 cursor-pointer top-[50%] translate-y-[-50%]">
+          <svg class="w-4 h-4 text-second-brand x-close-icon" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px] hidden xl:block">
+        <div class="flex items-center justify-between relative gap-[48px]">
+          <div class="block max-w-[150px]"><a href="index.html"><img src="assets/images/template/logo.svg" alt="Logo"></a></div>
+          <nav class="inline-block text-left w-[63%]">
+            <ul class="flex items-center gap-10">
+              <li class="relative group transition-common after:bg-transparent after:cursor-pointer after:z-[560] after:absolute after:w-full after:h-10 after:left-0 after:bottom-0"><a class="py-9 text-gray-900 font-medium text-header-7 flex items-center gap-1" href="#"><span class="transition-common group-hover:text-success">Home</span><img src="assets/images/template/icons/angle-down.svg" alt="Arrow Down"></a>
+                <div class="hidden absolute rounded-lg left-0 bg-gray-0 border border-gray-80 border-third-brand shadow-drop-shadown-5 transition-common min-w-[220px] w-[400px] px-[30px] group-hover:block pt-[25px] top-[100%] z-[999] pb-[10px] border-b-[8px]">
+                  <div class="flex flex-col">
+                    <div class="flex items-center mb-4 gap-[9px]">
+                      <div class="flex items-center justify-center rounded-full bg-third-brand shrink-0 w-[30px] h-[30px]">
+                        <svg class="w-4 h-4 text-first-brand" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                      </div><span class="font-bold text-first-brand text-header-9">Homepage</span>
+                    </div>
+                    <p class="text-mini-desc text-gray-300 font-medium mb-[26px]">Beautiful and Truly Unique Pre-Built Frontend Homepages Easily complete website for your business. New designs will be continuously added. Click to view the demo.</p>
+                    <ul class="grid grid-cols-2 gap-y-[11px] gap-x-[51px] mb-[30px]">
+                      <li><a class="flex items-center gap-1" href="index.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 01</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-2.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 02</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-3.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 03</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-4.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 04</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-5.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 05</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-6.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 06</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-7.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 07</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-8.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 08</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-9.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 09</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-10.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 10</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-11.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 11</span></a></li>
+                      <li><a class="flex items-center gap-1" href="index-12.html">
+                          <svg class="text-gray-200 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                          </svg><span class="text-base text-first-brand font-medium transition-common hover:text-success">Home page 12</span></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="relative group after:bg-transparent after:cursor-pointer after:z-[560] after:absolute after:w-full after:h-10 after:left-0 after:bottom-0"><a class="py-9 text-gray-900 font-medium text-header-7 flex items-center gap-1" href="#"><span class="transition-common group-hover:text-success">Company</span><img src="assets/images/template/icons/angle-down.svg" alt="Arrow Down"></a>
+                <ul class="hidden absolute left-0 py-2 bg-gray-0 border border-gray-80 rounded-lg shadow-drop-shadown-5 top-[100%] min-w-[220px] z-[999] group-hover:block">
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="about.html">About Us</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="services.html">Our Services</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="pricing.html">Pricing Plan</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="team.html">Meet Our Team</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="help-center.html">Help Center</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="term-conditions.html">Term and Conditions</a></li>
+                </ul>
+              </li>
+              <li class="relative group after:bg-transparent after:cursor-pointer after:z-[560] after:absolute after:w-full after:h-10 after:left-0 after:bottom-0"><a class="py-9 text-gray-900 font-medium text-header-7 flex items-center gap-1" href="#"><span class="transition-common group-hover:text-success">Career</span><img src="assets/images/template/icons/angle-down.svg" alt="Arrow Down"></a>
+                <ul class="hidden absolute left-0 py-2 bg-gray-0 border border-gray-80 rounded-lg shadow-drop-shadown-5 top-[100%] min-w-[220px] z-[999] group-hover:block">
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="career.html">Job Listing</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="job-details.html">Job Details</a></li>
+                </ul>
+              </li>
+              <li class="relative group after:bg-transparent after:cursor-pointer after:z-[560] after:absolute after:w-full after:h-10 after:left-0 after:bottom-0"><a class="py-9 text-gray-900 font-medium text-header-7 flex items-center gap-1" href="#"><span class="transition-common group-hover:text-success">Blog</span><img src="assets/images/template/icons/angle-down.svg" alt="Arrow Down"></a>
+                <ul class="hidden absolute left-0 py-2 bg-gray-0 border border-gray-80 rounded-lg shadow-drop-shadown-5 top-[100%] min-w-[220px] z-[999] group-hover:block">
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="blog-listing01.html">Blog Listing 1</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="blog-listing02.html">Blog Listing 2</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="blog-details.html">Blog Details</a></li>
+                </ul>
+              </li>
+              <li class="relative group after:bg-transparent after:cursor-pointer after:z-[560] after:absolute after:w-full after:h-10 after:left-0 after:bottom-0"><a class="py-9 text-gray-900 font-medium text-header-7 flex items-center gap-1" href="#"><span class="transition-common group-hover:text-success">Shop</span><img src="assets/images/template/icons/angle-down.svg" alt="Arrow Down"></a>
+                <ul class="hidden absolute left-0 py-2 bg-gray-0 border border-gray-80 rounded-lg shadow-drop-shadown-5 top-[100%] min-w-[220px] z-[999] group-hover:block">
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="shop-grid.html">Products Listing 1</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="shop-list.html">Products Listing 2</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="product-details.html">Product Details</a></li>
+                </ul>
+              </li>
+              <li class="relative group after:bg-transparent after:cursor-pointer after:z-[560] after:absolute after:w-full after:h-10 after:left-0 after:bottom-0"><a class="py-9 text-gray-900 font-medium text-header-7 flex items-center gap-1" href="#"><span class="transition-common group-hover:text-success">Pages</span><img src="assets/images/template/icons/angle-down.svg" alt="Arrow Down"></a>
+                <ul class="hidden absolute left-0 py-2 bg-gray-0 border border-gray-80 rounded-lg shadow-drop-shadown-5 top-[100%] min-w-[220px] z-[999] group-hover:block">
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="register.html">Register</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="login.html">Login</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="coming-soon.html">Coming soon</a></li>
+                  <li class="text-left pr-[15px]"><a class="text-gray-900 font-medium block transition-common text-[14px] leading-[23px] py-[6px] px-[22px] hover:text-success hover:pl-[25px]" href="404.html">Error 404</a></li>
+                </ul>
+              </li>
+              <li class="group"><a class="py-9 text-gray-900 font-medium text-header-7 flex items-center gap-1" href="contact.html"><span class="transition-common group-hover:text-success">Contact</span></a></li>
+            </ul>
+          </nav>
+          <div class="flex items-center gap-6">
+            <div class="relative"><span class="cursor-pointer search-icon01"><img src="assets/images/icons/icon-search-header.svg" alt="Search Icon"></span>
+              <div class="absolute search-form01 right-0 bg-gray-0 border border-gray-50 rounded-lg shadow-drop-shadown-7 rounded hidden top-[57px] w-[220px] z-[999] py-[10px] px-[15px]">
+                <form class="flex items-center gap-2" action="#">
+                  <input class="outline-none border-none text-sm w-[91%]" type="text" placeholder="Search..."><img class="cursor-pointer" src="assets/images/icons/icon-search-header.svg" alt="Search Icon">
+                </form>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="dropdown-language-select inline-block cursor-pointer flex items-center gap-1"><span class="inline-block text-gray-900 text-header-7 font-medium">EN</span><img src="assets/images/page/shop/arrow-down.svg" alt="arrow down icon"></div>
+              <div class="absolute right-0 bg-gray-0 border border-gray-80 rounded-lg dropdown-language-list shadow-drop-shadown-5 top-[60px] min-w-[134px] z-[999]">
+                <div class="dropdown-language-item p-4 cursor-pointer flex items-center gap-2 hover:bg-third-brand"><img src="assets/images/icons/icon-united-kingdom.svg" alt="Iori"><span class="text-base text-first-brand font-medium">English</span></div>
+                <div class="dropdown-language-item p-4 cursor-pointer flex items-center gap-2 hover:bg-third-brand"><img src="assets/images/icons/icon-france.svg" alt="Iori"><span class="text-base text-first-brand font-medium">French</span></div>
+                <div class="dropdown-language-item p-4 cursor-pointer flex items-center gap-2 hover:bg-third-brand"><img src="assets/images/icons/icon-china.svg" alt="Iori"><span class="text-base text-first-brand font-medium">Chiness</span></div>
+              </div>
+            </div>
+            <button class="py-4 px-6 bg-first-brand text-second-brand font-bold rounded hover-up-all text-[14px] leading-[18px] hover:bg-first-brand-hover">Get Started</button>
+          </div>
+        </div>
+      </div>
+      <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px] block xl:hidden">
+        <div class="flex items-center justify-between relative py-3 gap-[48px]">
+          <div class="block max-w-[150px]"><a href="index.html"><img src="assets/images/template/logo.svg" alt="Logo"></a></div>
+          <div class="flex items-center gap-6">
+            <div class="relative"><span class="cursor-pointer search-icon01"><img src="assets/images/icons/icon-search-header.svg" alt="Search Icon"></span>
+              <div class="absolute search-form01 right-0 bg-gray-0 border border-gray-50 rounded-lg shadow-drop-shadown-7 rounded hidden top-[47px] w-[220px] z-[999] py-[10px] px-[15px]">
+                <form class="flex items-center gap-2" action="#">
+                  <input class="outline-none border-none text-sm w-[91%]" type="text" placeholder="Search..."><img class="cursor-pointer" src="assets/images/icons/icon-search-header.svg" alt="Search Icon">
+                </form>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="dropdown-language-select inline-block cursor-pointer flex items-center gap-1"><span class="inline-block text-gray-900 text-header-7 font-medium">EN</span><img src="assets/images/page/shop/arrow-down.svg" alt="arrow down icon"></div>
+              <div class="absolute right-0 bg-gray-0 border border-gray-80 rounded-lg dropdown-language-list shadow-drop-shadown-5 top-[49px] min-w-[134px] z-[999]">
+                <div class="dropdown-language-item p-4 cursor-pointer flex items-center gap-2 hover:bg-third-brand"><img src="assets/images/icons/icon-united-kingdom.svg" alt="Iori"><span class="text-base text-first-brand font-medium">English</span></div>
+                <div class="dropdown-language-item p-4 cursor-pointer flex items-center gap-2 hover:bg-third-brand"><img src="assets/images/icons/icon-france.svg" alt="Iori"><span class="text-base text-first-brand font-medium">French</span></div>
+                <div class="dropdown-language-item p-4 cursor-pointer flex items-center gap-2 hover:bg-third-brand"><img src="assets/images/icons/icon-china.svg" alt="Iori"><span class="text-base text-first-brand font-medium">Chiness</span></div>
+              </div>
+            </div>
+            <button class="py-4 px-6 bg-first-brand text-second-brand font-bold rounded hidden text-[14px] leading-[18px] sm:block">Get Started</button>
+            <svg class="w-10 h-10 text-gray-900 hamburger-menu cursor-pointer" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M21,18H3c-0.6,0-1,0.4-1,1s0.4,1,1,1h18c0.6,0,1-0.4,1-1S21.6,18,21,18z M21,12H3c-0.6,0-1,0.4-1,1s0.4,1,1,1h18c0.6,0,1-0.4,1-1S21.6,12,21,12z M21,6H3C2.4,6,2,6.4,2,7s0.4,1,1,1h18c0.6,0,1-0.4,1-1S21.6,6,21,6z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="hidden fixed top-0 w-full bottom-0 right-0 bg-gray-0 h-screen shadow-drop-shadown-6 menu-mobile-iori max-w-[370px] z-[99999]">
+        <div class="h-full overflow-y-auto overflow-x-hidden">
+          <div class="relative py-4 border-b border-gray-80 mb-9 flex items-center justify-between px-[30px]"><a href="index.html"><img class="w-[60px]" src="assets/images/template/logo.svg" alt="Logo"></a>
+            <svg class="text-gray-200 w-5 h-5 close-menu-icon cursor-pointer" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </div>
+          <div class="block flex flex-wrap place-content-between px-[30px] h-[calc(100vh-55px)]">
+            <div class="block">
+              <ul class="tabHeader grid grid-cols-3">
+                <li class="active"><a class="flex items-center gap-2 cursor-pointer border-b border-gray-80 pb-[13px]" href="#menuTab"><img class="shrink-0" src="assets/images/icons/icon-hamburger.svg" alt="Hamburger"><span class="font-bold text-first-brand text-[14px] leading-[18px]">Menu</span></a></li>
+                <li><a class="flex items-center gap-2 cursor-pointer border-b border-gray-80 pb-[13px]" href="#accountTab"><img class="shrink-0" src="assets/images/icons/icon-account-user.svg" alt="Account"><span class="font-bold text-first-brand text-[14px] leading-[18px]">Account</span></a></li>
+                <li><a class="flex items-center gap-2 cursor-pointer border-b border-gray-80 pb-[13px]" href="#notificationTab"><img class="shrink-0" src="assets/images/icons/icon-notification.svg" alt="Notification"><span class="font-bold text-first-brand text-[14px] leading-[18px]">Notification</span></a></li>
+              </ul>
+              <div class="tabContents w-full clear-both mt-[30px]">
+                <div class="tabBox" id="menuTab">
+                  <dl class="accordionHeaderWrap">
+                    <div class="block mb-[23px]">
+                      <dt class="accordion"><span class="text-base text-first-brand font-medium">Home</span></dt>
+                      <dd class="accordionBox mt-3">
+                        <div class="flex flex-col"><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index.html">Home page 01</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-2.html">Home page 02</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-3.html">Home page 03</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-4.html">Home page 04</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-5.html">Home page 05</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-6.html">Home page 06</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-7.html">Home page 07</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-8.html">Home page 08</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-9.html">Home page 09</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-10.html">Home page 10</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-11.html">Home page 11</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="index-12.html">Home page 12</a></div>
+                      </dd>
+                    </div>
+                    <div class="block mb-[23px]">
+                      <dt class="accordion"><span class="text-base text-first-brand font-medium">Company</span></dt>
+                      <dd class="accordionBox mt-3">
+                        <div class="flex flex-col"><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="about.html">About Us</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="services.html">Our Services</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="pricing.html">Pricing Plan</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="team.html">Meet Our Team</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="help-center.html">Help Center</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="term-conditions.html">Term and Conditions</a></div>
+                      </dd>
+                    </div>
+                    <div class="block mb-[23px]">
+                      <dt class="accordion"><span class="text-base text-first-brand font-medium">Career</span></dt>
+                      <dd class="accordionBox mt-3">
+                        <div class="flex flex-col"><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="career.html">Jobs Listing</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="job-details.html">Job Details</a></div>
+                      </dd>
+                    </div>
+                    <div class="block mb-[23px]">
+                      <dt class="accordion"><span class="text-base text-first-brand font-medium">Blog</span></dt>
+                      <dd class="accordionBox mt-3">
+                        <div class="flex flex-col"><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="blog-listing01.html">Blog Listing 1</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="blog-listing02.html">Blog Listing 2</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="blog-details.html">Blog Details</a></div>
+                      </dd>
+                    </div>
+                    <div class="block mb-[23px]">
+                      <dt class="accordion"><span class="text-base text-first-brand font-medium">Shop</span></dt>
+                      <dd class="accordionBox mt-3">
+                        <div class="flex flex-col"><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="shop-grid.html">Products Listing 1</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="shop-list.html">Products Listing 2</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="product-details.html">Products Details</a></div>
+                      </dd>
+                    </div>
+                    <div class="block mb-[23px]">
+                      <dt class="accordion"><span class="text-base text-first-brand font-medium">Pages</span></dt>
+                      <dd class="accordionBox mt-3">
+                        <div class="flex flex-col"><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="register.html">Register</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="login.html">Login</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="coming-soon.html">Coming soon</a><a class="text-gray-900 py-3 pl-3 font-medium text-[14px] leading-[24px]" href="404.html">Error 404</a></div>
+                      </dd>
+                    </div><a class="text-base text-first-brand font-medium" href="contact.html">Contact</a>
+                  </dl>
+                </div>
+                <div class="tabBox" id="accountTab">
+                  <ul class="flex flex-col gap-y-6">
+                    <li><a class="text-base font-medium text-first-brand" href="#">My Profile</a></li>
+                    <li><a class="text-base font-medium text-first-brand" href="#">Work Preferences</a></li>
+                    <li><a class="text-base font-medium text-first-brand" href="#">My Boosted Shots</a></li>
+                    <li><a class="text-base font-medium text-first-brand" href="#">My Collections</a></li>
+                    <li><a class="text-base font-medium text-first-brand" href="#">Account Settings</a></li>
+                    <li><a class="text-base font-medium text-first-brand" href="#">Go Pro</a></li>
+                    <li><a class="text-base font-medium text-first-brand" href="#">Sign Out</a></li>
+                  </ul>
+                </div>
+                <div class="tabBox" id="notificationTab">
+                  <div class="flex flex-col gap-y-[26px]">
+                    <div class="flex flex-col"><span class="font-bold text-first-brand text-header-9 mb-4">Today</span>
+                      <div class="flex flex-col gap-y-7">
+                        <div class="flex justify-between"><img class="w-8 h-8 shrink-0" src="assets/images/template/user1.png" alt="User">
+                          <p class="text-mini-desc text-gray-500 font-medium mr-5 max-w-[190px]"><a class="font-bold text-first-brand" href="#">Steven Job</a>
+                            like started a poll in your post &ldquo;How to be a good trader in 2023&rdquo;
+                          </p><span class="text-mini-desc text-gray-300 font-medium">Just now</span>
+                        </div>
+                        <div class="flex justify-between"><img class="w-8 h-8 shrink-0" src="assets/images/template/user2.png" alt="User">
+                          <p class="text-mini-desc text-gray-500 font-medium mr-5 max-w-[190px]"><a class="font-bold text-first-brand" href="#">Steven Job</a>
+                            like started a poll in your post &ldquo;How to be a good trader in 2023&rdquo;
+                          </p><span class="text-mini-desc text-gray-300 font-medium">5 mins ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex flex-col"><span class="font-bold text-first-brand text-header-9 mb-4">Yesterday</span>
+                      <div class="flex flex-col gap-y-7">
+                        <div class="flex justify-between"><img class="w-8 h-8 shrink-0" src="assets/images/template/user3.png" alt="User">
+                          <p class="text-mini-desc text-gray-500 font-medium mr-5 max-w-[190px]"><a class="font-bold text-first-brand" href="#">Steven Job</a>
+                            like started a poll in your post &ldquo;How to be a good trader in 2023&rdquo;
+                          </p><span class="text-mini-desc text-gray-300 font-medium">5:32 PM</span>
+                        </div>
+                        <div class="flex justify-between"><img class="w-8 h-8 shrink-0" src="assets/images/template/user4.png" alt="User">
+                          <p class="text-mini-desc text-gray-500 font-medium mr-5 max-w-[190px]"><a class="font-bold text-first-brand" href="#">Steven Job</a>
+                            like started a poll in your post &ldquo;How to be a good trader in 2023&rdquo;
+                          </p><span class="text-mini-desc text-gray-300 font-medium">3:25 PM</span>
+                        </div>
+                        <div class="flex justify-between"><img class="w-8 h-8 shrink-0" src="assets/images/template/user5.png" alt="User">
+                          <p class="text-mini-desc text-gray-500 font-medium mr-5 max-w-[190px]"><a class="font-bold text-first-brand" href="#">Steven Job</a>
+                            like started a poll in your post &ldquo;How to be a good trader in 2023&rdquo;
+                          </p><span class="text-mini-desc text-gray-300 font-medium">1:23 AM</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="block pb-8 mt-6">
+              <div class="pt-9 border-t border-gray-80 border-b pb-[54px]">
+                <div class="flex flex-col">
+                  <p class="text-mini-desc font-medium text-gray-500 mb-6">Download our Apps and get <br> extra 15% Discount on your first Order…!</p>
+                  <div class="flex items-center gap-x-4 mb-9"><img src="assets/images/AppStore.svg" alt="AppStore"><img src="assets/images/AppGooglePlay.svg" alt="AppGooglePlay">
+                  </div>
+                  <p class="text-mini-desc font-medium text-gray-400 mb-2.5">Secured Payment Gateways</p><img src="assets/images/template/payment-method.png" alt="Payment">
+                </div>
+              </div>
+              <p class="text-mini-desc font-medium text-gray-500 mt-[35px]">Copyright 2023 © iori - Creative Agency Template.</p><span class="text-mini-desc font-medium text-gray-500">
+                Designed by
+                <a class="text-first-brand underline" href="#">AliThemes</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div>
+        <section class="inline-block w-full pt-12">
+          <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px]">
+            <div class="relative"><img class="max-w-full rounded-2xl block" srcset="assets/images/job-details-thumb.png 2x" alt="Banner"></div>
+            <div class="relative mt-[-90px] z-[2]">
+              <div class="grid grid-cols-12">
+                <div class="col-span-1"></div>
+                <div class="col-span-10 m-auto w-full">
+                  <div class="bg-gray-0 bg-gray-0 border border-gray-80 rounded-2xl pb-5 px-5 pt-5 md:pb-11 md:px-[60px] md:pt-[60px]">
+                    <div class="flex items-start justify-between border-b border-gray-80 mb-10 flex-col gap-y-6 pb-[34px] xl:flex-row xl:items-center">
+                      <div class="flex flex-col"> 
+                        <p class="text-first-brand font-bold text-[22px] leading-[28px] lg:text-header-3 mb-[10px] xl:max-w-[579px]">Business Development Manager and Financial Services</p>
+                        <div class="flex items-center gap-5">
+                          <div class="flex items-center gap-2"> <img class="shrink-0" src="assets/images/icons/icon-job.svg" alt="Job Icon"><span class="text-mini-desc text-gray-500 font-medium">Full time</span>
+                          </div>
+                          <div class="flex items-center gap-2"> <img class="shrink-0" src="assets/images/icons/icon-time.svg" alt="Date Icon"><span class="text-mini-desc text-gray-500 font-medium">3 mins ago</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="bg-first-brand text-gray-0 px-7 py-4 flex items-center rounded group transition-common gap-[10px] hover:bg-first-brand-hover hover:text-second-brand">
+                        <svg class="w-5 h-5 text-gray-0 transition-common group-hover:text-second-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg><span class="font-bold text-header-9">Apply Now</span>
+                      </button>
+                    </div>
+                    <p class="font-bold text-first-brand text-header-5 tracking-[-0.02em] mb-7">Job summary</p>
+                    <div class="grid grid-cols-1 mb-10 gap-y-6 xl:grid-cols-2">
+                      <div class="flex flex-col gap-6"> 
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/building.svg')]">Industry</span></div><span class="text-gray-900 text-base font-medium">Business, Financial</span>
+                        </div>
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/salary.svg')]">Salary</span></div><span class="text-gray-900 text-base font-medium">$800 - $1000</span>
+                        </div>
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/job-type.svg')]">Job type</span></div><span class="text-gray-900 text-base font-medium">Permanent</span>
+                        </div>
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/update.svg')]">Updated</span></div><span class="text-gray-900 text-base font-medium">10/07/2022</span>
+                        </div>
+                      </div>
+                      <div class="flex flex-col gap-6"> 
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/job-level.svg')]">Job level</span></div><span class="text-gray-900 text-base font-medium">Experienced (Non - Manager)</span>
+                        </div>
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/experience.svg')]">Experience</span></div><span class="text-gray-900 text-base font-medium">1 - 2 Years</span>
+                        </div>
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/deadline.svg')]">Deadline</span></div><span class="text-gray-900 text-base font-medium">08/08/2022</span>
+                        </div>
+                        <div class="flex items-center"> 
+                          <div class="w-full min-w-[117px] max-w-[117px]"><span class="inline-block bg-no-repeat text-base font-medium text-gray-500 bg-[left_center] pl-[25px] bg-[url('/assets/images/page/job-detail/location.svg')]">Location</span></div><span class="text-gray-900 text-base font-medium">Dallas, Texas. Remote Friendly.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="font-bold text-first-brand text-header-5 tracking-[-0.02em] mb-7">Responsibilities</p>
+                    <div class="block mb-10">
+                      <p class="text-base font-medium text-gray-500 mb-[11px]">Product knowledge: Deeply understand the technology and features of the product area to which you are assigned.</p>
+                      <p class="text-base font-medium text-gray-500 mb-[11px]">Research: Provide human and business impact and insights for products.</p>
+                      <p class="text-base font-medium text-gray-500 mb-[11px]">Deliverables: Create deliverables for your product area (for example competitive analyses, user flows, low fidelity wireframes, high fidelity mockups, prototypes, etc.) that solve real user problems through the user experience.</p>
+                      <p class="text-base font-medium text-gray-500">Communication: Communicate the results of UX activities within your product area to the design team department, cross-functional partners within your product area, and other interested Superformula team members using clear language that simplifies complexity.</p>
+                    </div>
+                    <p class="font-bold text-first-brand text-header-5 tracking-[-0.02em] mb-7">Requirements</p>
+                    <ul class="list-disc pl-5 mb-10">
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">A portfolio demonstrating well thought through and polished end to end customer journeys</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">5+ years of industry experience in interactive design and / or visual design</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">Excellent interpersonal skills</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">Aware of trends in mobile, communications, and collaboration</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">Ability to create highly polished design prototypes, mockups, and other communication artifacts</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">The ability to scope and estimate efforts accurately and prioritize tasks and goals independently</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">History of impacting shipping products with your work</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">A Bachelor’s Degree in Design (or related field) or equivalent professional experience</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">Proficiency in a variety of design tools such as Figma, Photoshop, Illustrator, and Sketch</li>
+                    </ul>
+                    <p class="font-bold text-first-brand text-header-5 tracking-[-0.02em] mb-7">What's on Offer</p>
+                    <ul class="list-disc pl-5 border-b border-gray-80 mb-10 pb-[62px]">
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">Annual bonus and holidays, social welfare, and health checks.</li>
+                      <li class="font-medium text-gray-500 text-[16px] leading-[32px]">Training and attachment in Taiwan and other Greater China branches.</li>
+                    </ul>
+                    <div class="flex flex-col items-start gap-y-4 md:items-center md:justify-between md:flex-row">
+                      <button class="bg-first-brand text-gray-0 px-7 py-4 flex items-center rounded group transition-common gap-[10px] hover:bg-first-brand-hover hover:text-second-brand">
+                        <svg class="w-5 h-5 text-gray-0 transition-common group-hover:text-second-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg><span class="font-bold text-header-9">Apply Now</span>
+                      </button>
+                      <div class="flex items-center gap-[10px]"><a class="text-mini-desc font-medium text-gray-500 bg-gray-60 rounded py-[6px] px-[18px]" href="#">App</a><a class="text-mini-desc font-medium text-gray-500 bg-gray-60 rounded py-[6px] px-[18px]" href="#">Digital</a><a class="text-mini-desc font-medium text-gray-500 bg-gray-60 rounded py-[6px] px-[18px]" href="#">Marketing</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-1"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px]"> 
+          <p class="text-first-brand font-extrabold text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2 mt-[65px] lg:mt-[131px]">More Job Openings</p>
+          <div class="flex flex-col justify-between items-start mt-2 gap-y-2 mb-8 md:mb-14 md:flex-row md:items-end">
+            <p class="text-gray-500 font-medium text-[18px] leading-[23px] max-w-[550px]">We regularly recruit at many positions. <br> See related jobs here</p><a class="flex items-center gap-x-3 group" href="#"><span class="font-bold text-header-9 text-gray-900 transition-common group-hover:text-success">Contact Us</span>
+              <svg class="w-5 h-5 text-gray-900 transition-common group-hover:rotate-[-45deg]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg></a>
+          </div>
+          <div class="grid grid-cols-1 gap-[30px] mb-[75px] lg:mb-[150px] lg:grid-cols-3">
+            <div class="border border-gray-80 rounded-lg bg-gray-0 pt-8 pb-7 px-8 hover-up-all hover:shadow-drop-shadown-1">
+              <div class="flex flex-col"> 
+                <div class="mb-6 h-[118px] ml-[-22px]"><img class="max-h-[118px]" src="assets/images/page/job-detail/ui.png" alt="Iori"></div>
+                <p class="font-bold text-first-brand text-header-5 tracking-[-0.02em] mb-4">UI / UX Designer fulltime</p>
+                <p class="text-base font-medium text-gray-500 mb-8">Seamless importing and round-tripping of Microsoft Project plans, Excel files &amp; CSV files.</p><a class="flex items-center gap-x-3 group" href="#"><span class="font-bold text-header-9 text-gray-900 transition-common group-hover:text-success">Read More</span>
+                  <svg class="w-5 h-5 text-gray-900 transition-common group-hover:rotate-[-45deg]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg></a>
+              </div>
+            </div>
+            <div class="border border-gray-80 rounded-lg bg-gray-0 pt-8 pb-7 px-8 hover-up-all hover:shadow-drop-shadown-1">
+              <div class="flex flex-col"> 
+                <div class="mb-6 h-[118px] ml-[-22px]"><img class="max-h-[118px]" src="assets/images/page/job-detail/java.png" alt="Iori"></div>
+                <p class="font-bold text-first-brand text-header-5 tracking-[-0.02em] mb-4">Java Software Engineer</p>
+                <p class="text-base font-medium text-gray-500 mb-8">Seamless importing and round-tripping of Microsoft Project plans, Excel files &amp; CSV files.</p><a class="flex items-center gap-x-3 group" href="#"><span class="font-bold text-header-9 text-gray-900 transition-common group-hover:text-success">Read More</span>
+                  <svg class="w-5 h-5 text-gray-900 transition-common group-hover:rotate-[-45deg]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg></a>
+              </div>
+            </div>
+            <div class="border border-gray-80 rounded-lg bg-gray-0 pt-8 pb-7 px-8 hover-up-all hover:shadow-drop-shadown-1">
+              <div class="flex flex-col"> 
+                <div class="mb-6 h-[118px] ml-[-22px]"><img class="max-h-[118px]" src="assets/images/page/job-detail/senior.png" alt="Iori"></div>
+                <p class="font-bold text-first-brand text-header-5 tracking-[-0.02em] mb-4">Senior System Engineer</p>
+                <p class="text-base font-medium text-gray-500 mb-8">Seamless importing and round-tripping of Microsoft Project plans, Excel files &amp; CSV files.</p><a class="flex items-center gap-x-3 group" href="#"><span class="font-bold text-header-9 text-gray-900 transition-common group-hover:text-success">Read More</span>
+                  <svg class="w-5 h-5 text-gray-900 transition-common group-hover:rotate-[-45deg]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg></a>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 items-center gap-y-12 gap-x-[108px] xl:grid-cols-2 mb-[68px] lg:mb-[136px]"> 
+            <div class="flex flex-col"> 
+              <div class="flex items-center gap-x-3 mb-3">
+                <div class="bg-first-brand w-[89px] h-[1px]"></div><span class="font-medium text-gray-400 text-[18px] leading-[18px]">Why choose us?</span>
+              </div>
+              <p class="text-first-brand font-extrabold text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2 mb-6 max-w-[620px]">See why we are trusted the world over</p>
+              <p class="text-header-7 font-medium text-gray-500 mb-16">Necessary to deliver white glove, fully managed campaigns that surpass industry benchmarks.Take your career to next level. Apply to our team and see what we can do together. You’re good enough. <br> <br> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.</p>
+              <div class="flex items-center gap-6">
+                <button class="bg-first-brand rounded py-4 px-6 font-bold text-second-brand text-header-9 hover-up-all hover:bg-first-brand-hover">Download App</button><a class="flex items-center gap-x-3 group" href="#"><span class="font-bold text-header-9 text-gray-900 transition-common group-hover:text-success">Learn More</span>
+                  <svg class="w-5 h-5 text-gray-900 transition-common group-hover:rotate-[-45deg]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg></a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-[30px] sm:grid-cols-2">
+              <div class="flex flex-col gap-[30px] mt-[50px]">
+                <div class="p-9 bg-fifth-bg rounded-2xl border-r-4 border-b-4 border-gray-300">
+                  <div class="flex flex-col gap-y-1 items-center"> <span class="font-extrabold text-first-brand text-[64px] leading-[72px]">469k</span><span class="font-bold text-first-brand text-header-6">Social followers</span>
+                  </div>
+                </div>
+                <div class="p-9 bg-second-bg rounded-2xl">
+                  <div class="flex flex-col gap-y-1 items-center"> <span class="font-extrabold text-first-brand text-[64px] leading-[72px]">5000+</span><span class="font-bold text-first-brand text-header-6">Happy Clients</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col gap-[30px]">
+                <div class="p-9 bg-second-brand rounded-2xl">
+                  <div class="flex flex-col gap-y-1 items-center"> <span class="font-extrabold text-first-brand text-[64px] leading-[72px]">756+</span><span class="font-bold text-first-brand text-header-6">Project Done</span>
+                  </div>
+                </div>
+                <div class="p-9 bg-fourth-bg rounded-2xl">
+                  <div class="flex flex-col gap-y-1 items-center"> <span class="font-extrabold text-first-brand text-[64px] leading-[72px]">100%</span><span class="font-bold text-first-brand text-header-6">Client Satisfaction</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="block mb-11 lg:mb-[88px]">
+            <p class="text-first-brand font-extrabold text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2">From our blog</p>
+            <div class="flex flex-col justify-between items-start mt-2 gap-y-2 mb-8 md:mb-14 md:flex-row md:items-end">
+              <p class="text-gray-500 font-medium text-[18px] leading-[23px] max-w-[550px]">Aenean velit nisl, aliquam eget diam eu, rhoncus tristique dolor. Aenean vulputate sodales urna ut vestibulum</p><a class="flex items-center gap-x-3 group" href="#"><span class="font-bold text-header-9 text-gray-900 transition-common group-hover:text-success">View All</span>
+                <svg class="w-5 h-5 text-gray-900 transition-common group-hover:rotate-[-45deg]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg></a>
+            </div>
+            <div class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-4">
+              <div class="px-5 overflow-hidden bg-gray-0 rounded border border-gray-80 pt-5 pb-4 hover-up">
+                <div class="block"> <img class="w-full h-auto rounded" src="assets/images/homepage-12-blog-1.png" alt="Easy Ways to Make Money While You Sleep"></div>
+                <div class="mt-3"><a href="#"> 
+                    <p class="font-bold text-first-brand mb-3 transition-common text-[18px] leading-[24px] hover:text-success">Easy Ways to Make Money While You Sleep</p></a>
+                  <p class="font-medium text-gray-500 border-b border-gray-50 text-[12px] leading-[18px] mb-[18px] pb-[27px]">Fusce dictum ullamcorper dui, id dignissim arcu volutpat vitae. Aenean mattis vestibulum odio eu facilisis. Aenean quam arcu, blandit at aliquet sit amet, convallis nec risus.</p>
+                  <div class="flex items-center gap-[22px]"><a class="text-first-brand font-bold py-2 border rounded border-first-brand transition-common text-[12px] leading-[12px] px-[10px] hover:text-success" href="#">Technology</a>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-date.svg" alt="Date Icon">
+                      <time class="text-gray-300 font-medium text-[10px] leading-[12px]">29 May 2022</time>
+                    </div>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-time.svg" alt="Time Icon"><span class="text-gray-300 font-medium text-[10px] leading-[12px]">3 mins read</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-5 overflow-hidden bg-gray-0 rounded border border-gray-80 pt-5 pb-4 hover-up">
+                <div class="block"> <img class="w-full h-auto rounded" src="assets/images/homepage-12-blog-2.png" alt="Tiktok video size guide: Everything you need to know"></div>
+                <div class="mt-3"><a href="#"> 
+                    <p class="font-bold text-first-brand mb-3 transition-common text-[18px] leading-[24px] hover:text-success">Tiktok video size guide: Everything you need to know</p></a>
+                  <p class="font-medium text-gray-500 border-b border-gray-50 text-[12px] leading-[18px] mb-[18px] pb-[27px]">Fusce dictum ullamcorper dui, id dignissim arcu volutpat vitae. Aenean mattis vestibulum odio eu facilisis. Aenean quam arcu, blandit at aliquet sit amet, convallis nec risus.</p>
+                  <div class="flex items-center gap-[22px]"><a class="text-first-brand font-bold py-2 border rounded border-first-brand transition-common text-[12px] leading-[12px] px-[10px] hover:text-success" href="#">Technology</a>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-date.svg" alt="Date Icon">
+                      <time class="text-gray-300 font-medium text-[10px] leading-[12px]">29 May 2022</time>
+                    </div>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-time.svg" alt="Time Icon"><span class="text-gray-300 font-medium text-[10px] leading-[12px]">3 mins read</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-5 overflow-hidden bg-gray-0 rounded border border-gray-80 pt-5 pb-4 hover-up">
+                <div class="block"> <img class="w-full h-auto rounded" src="assets/images/homepage-12-blog-3.png" alt="How to convert video to MP4 for free online"></div>
+                <div class="mt-3"><a href="#"> 
+                    <p class="font-bold text-first-brand mb-3 transition-common text-[18px] leading-[24px] hover:text-success">How to convert video to MP4 for free online</p></a>
+                  <p class="font-medium text-gray-500 border-b border-gray-50 text-[12px] leading-[18px] mb-[18px] pb-[27px]">Fusce dictum ullamcorper dui, id dignissim arcu volutpat vitae. Aenean mattis vestibulum odio eu facilisis. Aenean quam arcu, blandit at aliquet sit amet, convallis nec risus.</p>
+                  <div class="flex items-center gap-[22px]"><a class="text-first-brand font-bold py-2 border rounded border-first-brand transition-common text-[12px] leading-[12px] px-[10px] hover:text-success" href="#">Technology</a>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-date.svg" alt="Date Icon">
+                      <time class="text-gray-300 font-medium text-[10px] leading-[12px]">29 May 2022</time>
+                    </div>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-time.svg" alt="Time Icon"><span class="text-gray-300 font-medium text-[10px] leading-[12px]">3 mins read</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-5 overflow-hidden bg-gray-0 rounded border border-gray-80 pt-5 pb-4 hover-up">
+                <div class="block"> <img class="w-full h-auto rounded" src="assets/images/homepage-12-blog-4.png" alt="5 fastest ways to increase search engine rankings"></div>
+                <div class="mt-3"><a href="#"> 
+                    <p class="font-bold text-first-brand mb-3 transition-common text-[18px] leading-[24px] hover:text-success">5 fastest ways to increase search engine rankings</p></a>
+                  <p class="font-medium text-gray-500 border-b border-gray-50 text-[12px] leading-[18px] mb-[18px] pb-[27px]">Fusce dictum ullamcorper dui, id dignissim arcu volutpat vitae. Aenean mattis vestibulum odio eu facilisis. Aenean quam arcu, blandit at aliquet sit amet, convallis nec risus.</p>
+                  <div class="flex items-center gap-[22px]"><a class="text-first-brand font-bold py-2 border rounded border-first-brand transition-common text-[12px] leading-[12px] px-[10px] hover:text-success" href="#">Technology</a>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-date.svg" alt="Date Icon">
+                      <time class="text-gray-300 font-medium text-[10px] leading-[12px]">29 May 2022</time>
+                    </div>
+                    <div class="flex items-center gap-x-1"><img class="shrink-0" src="assets/images/icons/icon-time.svg" alt="Time Icon"><span class="text-gray-300 font-medium text-[10px] leading-[12px]">3 mins read</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-0 border border-third-brand rounded-lg relative py-8 md:pb-[70px] md:pt-[67px]">
+            <form class="mx-auto text-center relative max-w-[632px] z-[3]" action="#">
+              <p class="text-header-7 font-bold text-first-brand mb-1">Newsletter</p>
+              <p class="text-first-brand font-extrabold text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2 mb-[18px]">Subcribe our newsletter</p>
+              <p class="text-base font-medium text-gray-500 mb-[33px]">Do not miss the latest information from us about the trending in the market. By clicking the button, you are agreeing with our Term &amp; Conditions</p>
+              <div class="px-8">
+                <div class="border rounded-lg boder-gray-80 flex items-center py-3 pl-4 pr-3 justify-between bg-gray-0 sm:pl-9">
+                  <input class="border-none outline-none text-base text-gray-200 font-medium flex-1" type="email" placeholder="Enter you mail..." name="email">
+                  <button class="bg-first-brand rounded-lg w-14 h-14 flex items-center justify-center">
+                    <svg class="text-second-brand w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="absolute bottom-0 right-0 hidden lg:block"><img class="w-full h-full object-cover" src="assets/images/homepage-12-tree.png" alt="Tree">
+            </div>
+            <div class="absolute bottom-0 left-0"> <img class="w-full h-full object-cover" src="assets/images/homepage-12-ellipse-1.svg" alt="Ellipse">
+            </div>
+            <div class="absolute top-0 right-[10%]"><img class="w-full h-full object-cover" src="assets/images/homepage-12-ellipse-2.svg" alt="Ellipse">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="h-14 w-14 flex items-center justify-center bg-first-brand rounded-lg hover-up-all hover:bg-first-brand-hover z-[9999999]" id="go-top-btn"><img class="mx-auto" src="assets/images/icons/icon-arrow-top-yellow.svg" alt="Arrow Up Icon"></button>
+      <footer class="block global-footer">
+        <div class="bg-gray-0 pt-[98px] pb-[64px]">
+          <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px]">
+            <div class="grid grid-cols-1 gap-y-7 gap-x-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+              <div class="flex flex-col">
+                <div class="mb-4"><img src="assets/images/template/logo.svg" alt="Logo"></div>
+                <p class="text-base font-medium text-gray-400 mb-5">4517 Washington Ave. <br> Manchester, Kentucky 39495</p>
+                <p class="text-base font-medium text-gray-400 mb-5"><span class="font-bold leading-[28px]">Hours:</span>
+                  8:00 - 17:00, Mon - Sat
+                </p>
+                <p class="font-bold text-first-brand text-header-6 mb-3">Follow Us</p>
+                <div class="flex items-center gap-2"><img class="shrink-0" src="assets/images/template/icons/fb.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/inst.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/tw.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/in.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/youtube.svg" alt="Iori">
+                </div>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[14px]">About Us</span>
+                <div class="flex flex-col gap-y-3"><a class="text-base font-medium text-gray-400" href="about.html">Mission & Vision</a><a class="text-base font-medium text-gray-400" href="team.html">Our Team</a><a class="text-base font-medium text-gray-400" href="career.html">Careers</a><a class="text-base font-medium text-gray-400" href="about.html">Press & Media</a><a class="text-base font-medium text-gray-400" href="about.html">Advertising</a><a class="text-base font-medium text-gray-400" href="about.html">Testimonials</a>
+                </div>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[14px]">Ressources</span>
+                <div class="flex flex-col gap-y-3"><a class="text-base font-medium text-gray-400" href="#">Project management</a><a class="text-base font-medium text-gray-400" href="#">Solutions</a><a class="text-base font-medium text-gray-400" href="#">Customers</a><a class="text-base font-medium text-gray-400" href="blog-listing01.html">News & Events</a><a class="text-base font-medium text-gray-400" href="career.html">Careers</a><a class="text-base font-medium text-gray-400" href="help-center.html">Support</a>
+                </div>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[14px]">We offer</span>
+                <div class="flex flex-col gap-y-3"><a class="text-base font-medium text-gray-400" href="#">Project software</a><a class="text-base font-medium text-gray-400" href="#">Resource software</a><a class="text-base font-medium text-gray-400" href="#">Workflow automation</a><a class="text-base font-medium text-gray-400" href="#">Gantt chart makers</a><a class="text-base font-medium text-gray-400" href="#">Project dashboards</a><a class="text-base font-medium text-gray-400" href="#">Task software</a>
+                </div>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[22px]">App & Payment</span>
+                <div class="flex flex-col">
+                  <p class="text-header-9 font-medium text-gray-400 mb-4">Download our Apps and get <br> extra 15% Discount on your first Order…!</p>
+                  <div class="flex items-center gap-x-3 mb-9 w-[42%]"><img src="assets/images/AppStore.svg" alt="AppStore"><img src="assets/images/AppGooglePlay.svg" alt="AppGooglePlay">
+                  </div>
+                  <p class="text-header-9 font-medium text-gray-400 mb-2.5">Secured Payment Gateways</p><img src="assets/images/template/payment-method.png" alt="Payment">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px]">
+          <div class="block border-t border-gray-80 py-[30px]">
+            <div class="flex items-center justify-between text-gray-300 font-medium text-xs flex-wrap gap-y-1 md:text-base">
+              <div class="flex items-center gap-4 md:gap-[50px]"><a href="term-conditions.html">Privacy policy</a><a href="term-conditions.html">Cookies</a><a href="term-conditions.html">Terms of service</a>
+              </div>
+              <p>©Iori Official 2023. All right reversed.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <footer class="block homepage3-footer hidden bg-gray-60 mt-[76px]">
+        <div class="bg-gray-60 pt-[98px] pb-[64px]">
+          <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px]">
+            <div class="grid grid-cols-1 gap-y-7 gap-x-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+              <div class="flex flex-col">
+                <div class="mb-4"><img src="assets/images/template/logo.svg" alt="Logo"></div>
+                <p class="text-base font-medium text-gray-400 mb-3">4517 Washington Ave. <br> Manchester, Kentucky 39495</p>
+                <p class="text-base font-medium text-gray-400 mb-3"><span class="font-bold leading-[28px]">Phone:</span>
+                  (+01) 234 567 89
+                </p>
+                <p class="text-base font-medium text-gray-400 mb-3"><span class="font-bold leading-[28px]">Email:</span>
+                  contact@iori.com
+                </p>
+                <p class="text-base font-medium text-gray-400"><span class="font-bold leading-[28px]">Hours:</span>
+                  8:00 - 17:00, Mon - Sat
+                </p>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[14px]">About Us</span>
+                <div class="flex flex-col gap-y-3"><a class="text-base font-medium text-gray-400" href="about.html">Mission & Vision</a><a class="text-base font-medium text-gray-400" href="team.html">Our Team</a><a class="text-base font-medium text-gray-400" href="career.html">Careers</a><a class="text-base font-medium text-gray-400" href="about.html">Press & Media</a><a class="text-base font-medium text-gray-400" href="about.html">Advertising</a><a class="text-base font-medium text-gray-400" href="about.html">Testimonials</a>
+                </div>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[14px]">Ressources</span>
+                <div class="flex flex-col gap-y-3"><a class="text-base font-medium text-gray-400" href="#">Project management</a><a class="text-base font-medium text-gray-400" href="#">Solutions</a><a class="text-base font-medium text-gray-400" href="#">Customers</a><a class="text-base font-medium text-gray-400" href="blog-listing01.html">News & Events</a><a class="text-base font-medium text-gray-400" href="career.html">Careers</a><a class="text-base font-medium text-gray-400" href="help-center.html">Support</a>
+                </div>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[14px]">We offer</span>
+                <div class="flex flex-col gap-y-3"><a class="text-base font-medium text-gray-400" href="#">Project software</a><a class="text-base font-medium text-gray-400" href="#">Resource software</a><a class="text-base font-medium text-gray-400" href="#">Workflow automation</a><a class="text-base font-medium text-gray-400" href="#">Gantt chart makers</a><a class="text-base font-medium text-gray-400" href="#">Project dashboards</a><a class="text-base font-medium text-gray-400" href="#">Task software</a>
+                </div>
+              </div>
+              <div class="flex flex-col"><span class="text-xl font-bold text-first-brand mb-[22px]">App & Payment</span>
+                <div class="flex flex-col">
+                  <p class="text-header-9 font-medium text-gray-400 mb-4">Download our Apps and get <br> extra 15% Discount on your first Order…!</p>
+                  <div class="flex items-center gap-x-3 mb-9 w-[42%]"><img src="assets/images/AppStore.svg" alt="AppStore"><img src="assets/images/AppGooglePlay.svg" alt="AppGooglePlay">
+                  </div>
+                  <p class="text-header-9 font-medium text-gray-400 mb-2.5">Secured Payment Gateways</p><img src="assets/images/template/payment-method.png" alt="Payment">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mx-auto px-3 min-[576px]:max-w-[540px] md:max-w-[720px] lg:max-w-[930px] xl:max-w-[1434px]">
+          <div class="block border-t border-b border-gray-300 py-[30px]">
+            <div class="flex items-center justify-between text-first-brand font-medium text-xs flex-wrap gap-y-1 md:text-header-9">
+              <div class="flex items-center gap-2"><img class="shrink-0" src="assets/images/template/icons/fb.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/inst.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/tw.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/in.svg" alt="Iori"><img class="shrink-0" src="assets/images/template/icons/youtube.svg" alt="Iori">
+              </div>
+              <p>©Iori Official 2023. All right reversed.</p>
+              <div class="flex items-center gap-6"><a href="term-conditions.html">Privacy policy</a><a href="term-conditions.html">Cookies</a><a href="term-conditions.html">Terms of service</a>
+              </div>
+            </div>
+          </div>
+          <div class="pt-8 pb-9 text-center">
+            <p class="text-first-brand font-medium text-header-9"><img class="inline mr-2.5" src="assets/images/icons/icon-footer-note.svg" alt="Note Icon">Our website uses cookies to improve your experience.
+              <a class="underline font-bold ml-2" href="term-conditions.html">Learn more</a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script type="text/javascript" src="assets/scripts/vendors/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="assets/scripts/plugins/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="assets/scripts/plugins/modal.js"></script>
+    <script src="assets/scripts/app.js?v=4.0"></script>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+extends layout/layout
+
+block vars
+  - title = 'Job Details - IORI Marketplace Template';
+  - bodyClass = 'job-details-styles';
+  - var buildingIcon = '/assets/images/page/job-detail/building.svg';
+  - var salaryIcon = '/assets/images/page/job-detail/salary.svg';
+  - var jobTypeIcon = '/assets/images/page/job-detail/job-type.svg';
+  - var updateIcon = '/assets/images/page/job-detail/update.svg';
+  - var jobLevelIcon = '/assets/images/page/job-detail/job-level.svg';
+  - var experienceIcon = '/assets/images/page/job-detail/experience.svg';
+  - var deadlineIcon = '/assets/images/page/job-detail/deadline.svg';
+  - var locationIcon = '/assets/images/page/job-detail/location.svg';
+
+block container
+  section.inline-block.w-full.pt-12
+    +MainContainer
+      .relative
+        img.max-w-full.rounded-2xl.block(
+          srcset='assets/images/job-details-thumb.png 2x',
+          alt='Banner'
+        )
+      .relative(class='mt-[-90px] z-[2]')
+        .grid.grid-cols-12
+          .col-span-1
+          .col-span-10.m-auto.w-full
+            .bg-gray-0.bg-gray-0.border.border-gray-80.rounded-2xl.pb-5.px-5.pt-5(
+              class='md:pb-11 md:px-[60px] md:pt-[60px]'
+            )
+              .flex.items-start.justify-between.border-b.border-gray-80.mb-10.flex-col.gap-y-6(
+                class='pb-[34px] xl:flex-row xl:items-center'
+              )
+                +FlexCol 
+                  +Heading3('Business Development Manager and Financial Services')(
+                    class='mb-[10px] xl:max-w-[579px]'
+                  )
+                  +ItemsCenter.gap-5
+                    +ItemsCenter.gap-2 
+                      +ImageShrink('assets/images/icons/icon-job.svg', 'Job Icon')
+                      span.text-mini-desc.text-gray-500.font-medium Full time
+                    +ItemsCenter.gap-2 
+                      +ImageShrink('assets/images/icons/icon-time.svg', 'Date Icon')
+                      span.text-mini-desc.text-gray-500.font-medium 3 mins ago
+                button.bg-first-brand.text-gray-0.px-7.py-4.flex.items-center.rounded.group.transition-common(
+                  class='gap-[10px] hover:bg-first-brand-hover hover:text-second-brand'
+                )
+                  +VerifyIcon.w-5.h-5.text-gray-0.transition-common(class='group-hover:text-second-brand')
+                  span.font-bold.text-header-9 Apply Now
+              +Heading4('Job summary').mb-7
+              .grid.grid-cols-1.mb-10.gap-y-6(class='xl:grid-cols-2')
+                +FlexCol.gap-6 
+                  +JobSummaryItem("bg-[url('" + buildingIcon + "')]", 'Industry', 'Business, Financial')
+                  +JobSummaryItem("bg-[url('" + salaryIcon + "')]", 'Salary', '$800 - $1000')
+                  +JobSummaryItem("bg-[url('" + jobTypeIcon + "')]", 'Job type', 'Permanent')
+                  +JobSummaryItem("bg-[url('" + updateIcon + "')]", 'Updated', '10/07/2022')
+                +FlexCol.gap-6 
+                  +JobSummaryItem("bg-[url('" + jobLevelIcon + "')]", 'Job level', 'Experienced (Non - Manager)')
+                  +JobSummaryItem("bg-[url('" + experienceIcon + "')]", 'Experience', '1 - 2 Years')
+                  +JobSummaryItem("bg-[url('" + deadlineIcon + "')]", 'Deadline', '08/08/2022')
+                  +JobSummaryItem("bg-[url('" + locationIcon + "')]", 'Location', 'Dallas, Texas. Remote Friendly.')
+              +Heading4('Responsibilities').mb-7
+              .block.mb-10
+                +TextBase('Product knowledge: Deeply understand the technology and features of the product area to which you are assigned.')(
+                  class='mb-[11px]'
+                )
+                +TextBase('Research: Provide human and business impact and insights for products.')(
+                  class='mb-[11px]'
+                )
+                +TextBase('Deliverables: Create deliverables for your product area (for example competitive analyses, user flows, low fidelity wireframes, high fidelity mockups, prototypes, etc.) that solve real user problems through the user experience.')(
+                  class='mb-[11px]'
+                )
+                +TextBase('Communication: Communicate the results of UX activities within your product area to the design team department, cross-functional partners within your product area, and other interested Superformula team members using clear language that simplifies complexity.')
+              +Heading4('Requirements').mb-7
+              ul.list-disc.pl-5.mb-10
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') A portfolio demonstrating well thought through and polished end to end customer journeys
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') 5+ years of industry experience in interactive design and / or visual design
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') Excellent interpersonal skills
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') Aware of trends in mobile, communications, and collaboration
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') Ability to create highly polished design prototypes, mockups, and other communication artifacts
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') The ability to scope and estimate efforts accurately and prioritize tasks and goals independently
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') History of impacting shipping products with your work
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') A Bachelor’s Degree in Design (or related field) or equivalent professional experience
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') Proficiency in a variety of design tools such as Figma, Photoshop, Illustrator, and Sketch
+              +Heading4(`What's on Offer`).mb-7
+              ul.list-disc.pl-5.border-b.border-gray-80.mb-10(class='pb-[62px]')
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') Annual bonus and holidays, social welfare, and health checks.
+                li.font-medium.text-gray-500(class='text-[16px] leading-[32px]') Training and attachment in Taiwan and other Greater China branches.
+              .flex.flex-col.items-start.gap-y-4(class='md:items-center md:justify-between md:flex-row')
+                button.bg-first-brand.text-gray-0.px-7.py-4.flex.items-center.rounded.group.transition-common(
+                  class='gap-[10px] hover:bg-first-brand-hover hover:text-second-brand'
+                )
+                  +VerifyIcon.w-5.h-5.text-gray-0.transition-common(class='group-hover:text-second-brand')
+                  span.font-bold.text-header-9 Apply Now
+                +ItemsCenter(class='gap-[10px]')
+                  a.text-mini-desc.font-medium.text-gray-500.bg-gray-60.rounded(
+                    href='#',
+                    class='py-[6px] px-[18px]'
+                  ) App
+                  a.text-mini-desc.font-medium.text-gray-500.bg-gray-60.rounded(
+                    href='#',
+                    class='py-[6px] px-[18px]'
+                  ) Digital
+                  a.text-mini-desc.font-medium.text-gray-500.bg-gray-60.rounded(
+                    href='#',
+                    class='py-[6px] px-[18px]'
+                  ) Marketing
+          .col-span-1
+  +MainContainer 
+    +Heading2('More Job Openings')(class='mt-[65px] lg:mt-[131px]')
+    .flex.flex-col.justify-between.items-start.mt-2.gap-y-2.mb-8(class='md:mb-14 md:flex-row md:items-end')
+      p.text-gray-500.font-medium(class='text-[18px] leading-[23px] max-w-[550px]') We regularly recruit at many positions. <br> See related jobs here
+      +RightArrowButton('Contact Us', '#')
+    .grid.grid-cols-1(class='gap-[30px] mb-[75px] lg:mb-[150px] lg:grid-cols-3')
+      .border.border-gray-80.rounded-lg.bg-gray-0.pt-8.pb-7.px-8.hover-up-all(
+        class='hover:shadow-drop-shadown-1'
+      )
+        +FlexCol 
+          .mb-6(class='h-[118px] ml-[-22px]')
+            img(src='assets/images/page/job-detail/ui.png', alt='Iori', class='max-h-[118px]')
+          +Heading4('UI / UX Designer fulltime').mb-4
+          +TextBase('Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.').mb-8
+          +RightArrowButton('Read More', '#')
+      .border.border-gray-80.rounded-lg.bg-gray-0.pt-8.pb-7.px-8.hover-up-all(
+        class='hover:shadow-drop-shadown-1'
+      )
+        +FlexCol 
+          .mb-6(class='h-[118px] ml-[-22px]')
+            img(src='assets/images/page/job-detail/java.png', alt='Iori', class='max-h-[118px]')
+          +Heading4('Java Software Engineer').mb-4
+          +TextBase('Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.').mb-8
+          +RightArrowButton('Read More', '#')
+      .border.border-gray-80.rounded-lg.bg-gray-0.pt-8.pb-7.px-8.hover-up-all(
+        class='hover:shadow-drop-shadown-1'
+      )
+        +FlexCol 
+          .mb-6(class='h-[118px] ml-[-22px]')
+            img(src='assets/images/page/job-detail/senior.png', alt='Iori', class='max-h-[118px]')
+          +Heading4('Senior System Engineer').mb-4
+          +TextBase('Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.').mb-8
+          +RightArrowButton('Read More', '#')
+    +WhyChooseUsSection(class='mb-[68px] lg:mb-[136px]')
+    +BlogSection.mb-11(class='lg:mb-[88px]')
+    +NewsletterSection02

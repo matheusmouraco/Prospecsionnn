@@ -1,0 +1,156 @@
+extends layout/layout
+
+block vars
+  - title = 'Term & Conditions - IORI Marketplace Template';
+  - bodyClass = 'term-conditions-styles';
+  - var bgRight = '/assets/images/page/term/bg-right.png';
+  - var bgLeft = '/assets/images/page/term/bg-left.png';
+
+block container
+  section.relative.w-full.inline-block(class='pt-[42px] mb-[63px] lg:mb-[127px]')
+    .absolute.top-0.left-0.w-full.bg-second-brand.bg-no-repeat.bg-right-top.overflow-hidden(
+      class="h-[290px] md:h-[450px] bg-[length:140px] md:bg-auto z-[1] bg-[url('" + bgRight + "')] before:bg-[url('" + bgLeft + "')] before:bg-no-repeat before:bg-left-top before:bg-contain before:left-0 before:bottom-[-80px] before:absolute before:h-[200px] before:w-[146px] md:before:h-[250px] md:before:w-[176px]"
+    )
+    +MainContainer.relative(class='z-[2]')
+      .flex.my-0.gap-y-2.items-center(class='md:my-9')
+        .flex.items-center
+          .w-5.h-5.overflow-hidden(class='mr-[3px]')
+            +HomeIcon.w-full.h-full.object-cover.text-gray-200
+          a.text-gray-500.font-medium.text-header-9(href='#', class='mr-2.5') Home
+          img(src='assets/images/page/blog-detail/arrow.svg', alt='Arrow Icon', class='mr-2.5')
+        a.text-gray-500.font-medium.text-header-9(href='#') Terms and condition
+      .block.mt-12(class='md:mt-[68px]')
+        +Heading2('Terms and Condition').text-center.mb-2
+        +Heading6('Amet nulla facilisi morbi tempus iaculis urna').text-center
+        .block.mt-8(class='md:mt-[60px] mb-[62px]')
+          img.rounded-lg(src='assets/images/page/term/img.png', alt='Banner')
+      .grid.grid-cols-12
+        .col-span-1
+        .col-span-12.mb-7(class='lg:col-span-2 lg:mb-0')
+          h4.text-header-6.font-bold.text-first-brand.mb-3 Table of contents
+          ul.pl-5.list-decimal
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#limitation',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Limitation of Liability
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#licensing',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Licensing Policy
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#product',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Product Compatibility
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#delivery',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Delivery
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#ownership',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Ownership
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#browser',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Browser Compatibility
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#updates',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Updates
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#support',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Theme Support
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#price',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Price Changes
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#refund',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Refund Policy
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#email',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Email &amp; Newsletter
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#agreement',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) License Agreement
+            li
+              a.font-medium.text-gray-500.transition-common(
+                href='#severability',
+                class='text-[14px] leading-[32px] hover:text-success'
+              ) Severability
+          .flex.items-center.gap-6(class='mt-[72px]')
+            span.text-mini-desc.font-bold.text-first-brand Share
+            +ItemsCenter.gap-x-2
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-facebook.svg', alt='Facebook')
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-twitter.svg', alt='Twitter')
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-instagram.svg', alt='Instagram')
+        .col-span-12(class='lg:col-span-8')
+          +Heading4('Limitation of Liability')#limitation.mb-5
+          +TextBase('Under no circumstances shall AliThemes be liable for any direct, indirect, special, incidental or consequential damages, including, but not limited to, loss of data or profit, arising out of the use, or the inability to use, the materials on this site, even if AliThemes or an authorized representative has been advised of the possibility of such damages. If your use of materials from this site results in the need for servicing, repair or correction of equipment or data, you assume any costs thereof.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Licensing Policy')#licensing.mb-5
+          +TextBase('AliThemes WordPress plugins and themes are released under the GNU General Public License v2 or later. Please refer to licensing policy page for licensing details.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Product Compatibility')#product.mb-5
+          +TextBase('The products are developed to be compatible with the latest version of WordPress because we always strive to stay up-to-date with the latest version of WordPress. You might experience certain performance or functionality glitches with the products if you use any version prior to that.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Delivery')#delivery.mb-5
+          +TextBase('Your purchased product(s) information will be emailed to the email address (that you will provide) once we receive your payment. Even though this usually takes a few minutes, it may also take up to 24 hours. You can contact us through our contact page if you do not receive your email after waiting for this time period. You will also have access to your purchased products from your account in AliThemes after logging in.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Ownership')#ownership.mb-5
+          +TextBase('All the products are the property of AliThemes. So you may not claim ownership (intellectual or exclusive) over any of our products, modified or unmodified. Our products come ‘as is’, without any kind of warranty, either expressed or implied. Under no circumstances can our juridical person be accountable for any damages including, but not limited to, direct, indirect, special, incidental or consequential damages or other losses originating from the employment of or incapacity to use our products.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Browser Compatibility')#browser.mb-5
+          +TextBase('We consider it our duty to offer a great experience across most major browsers, which is why our products support the latest modern web browsers including (but not limited to) Firefox, Safari, Chrome & Internet Explorer 9+. However, the performance may vary between different browsers, versions, and operating systems.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Updates')#updates.mb-5
+          +TextBase('Our themes are constantly updated to be compatible with the latest stable version of WordPress. Please ensure that you always use the most current version of our themes.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Theme Support')#support.mb-5
+          +TextBase('Please refer to Help and Support Policy page for details.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Price Changes')#price.mb-5
+          +TextBase('AliThemes reserves the right to modify or suspend (temporarily or permanently) a subscription at any point of time and from time to time with or without any notice.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Refund Policy')#refund.mb-5
+          +TextBase('Please refer to Refund Policy page for details.')(class='mb-[30px]')
+          +Heading4('Email & Newsletter')#email.mb-5
+          +TextBase('AliThemes may occasionally send you emails related to the purchase of product(s) from our company. We may also send you occasional email newsletters relating to AliThemes updates and promotions. We will never sell or release your email to any third party vendors. You may opt out of these emails at any time without penalty.')(
+            class='mb-[30px]'
+          )
+          +Heading4('License Agreement')#agreement.mb-5
+          +TextBase('By purchasing our product(s), you indicate and consent that you have read and agree to the Terms & Conditions listed and detailed on this page. We reserve the right to change or modify the current Terms and Conditions without prior notice or consent.')(
+            class='mb-[30px]'
+          )
+          +Heading4('Severability')#severability.mb-5
+          +TextBase('If any part of this agreement is declared unenforceable or invalid, all remaining clauses in this agreement shall remain binding on the customer.')
+  +MainContainer 
+    +NewsletterSection02

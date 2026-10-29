@@ -1,0 +1,210 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 3 - IORI Marketplace Template';
+  - bodyClass = 'homepage-3-styles';
+
+block container
+  .block(class='bg-[#EBF5F8]')
+    +MainContainer 
+      .grid.grid-cols-1.items-end(class='lg:grid-cols-2')
+        +FlexCol.pt-20.pb-10
+          +ItemsCenter.gap-x-3.mb-2
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Get Started
+          +Heading1('Grow your online business now').mb-7(class='lg:max-w-[546px]')
+          a.flex.items-center.hover-up.cursor-pointer.mb-12.play-video(href='#', class='gap-x-[11px]')
+            +ImageShrink('assets/images/icons/icon-btn-play.svg', 'Play Icon')
+            span.font-bold.text-first-brand(class='text-[14px] leading-[18px]') Play Video
+          .flex 
+            img.mr-4(src='assets/images/page/homepage3/chart1.png', alt='Chart', class='w-[53%]')
+            img(src='assets/images/page/homepage3/chart2.png', alt='Chart', class='w-[47%]')
+        .relative.hidden(class='lg:block')
+          .relative.w-full.h-full(
+            class='before:w-full before:h-full before:top-0 before:left-0 before:absolute before:z-[1] before:bg-contain before:bg-center before:bg-no-repeat before:bg-[url(\'/assets/images/page/homepage3/bg-banner.png\')]'
+          )
+            +ImageSrcSet('assets/images/homepage-3-banner-human.png 2x', 'Human').relative.block(
+              class='z-[2] left-[-70px]'
+            )
+          .block.absolute.right-0.hero-thumb-animation.bottom-8(class='z-[3]')
+            img(src='assets/images/page/homepage3/chart.png', alt='Chart') 
+  .bg-gray-80(class='py-[72px]')
+    +MainContainer
+      ul.text-center
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-placed-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-cuebiq-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-factual-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-place-iq-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-airmeet-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-spendflo-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-klippa-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5 mb-[5.5px]') 
+          +ImageCover('assets/images/icons/icon-matrixian-1.svg', 'Iori')
+  .border-b.border-third-brand(class='py-[71px] lg:py-[142px]')
+    +MainContainer 
+      .flex.items-start.flex-col.gap-y-4(class='xl:gap-x-[132px] xl:flex-row xl:items-center')
+        +Heading3('See why we are trusted the world over')(class='xl:max-w-[347px]')
+        +JustifyBetween.flex-1.w-full.gap-4.flex-wrap(class='xl:w-fit')
+          +ParameterItem('469k', 'Social followers').text-first-brand
+          +ParameterItem('25k+', 'Happy Clients').text-first-brand
+          +ParameterItem('756+', 'Project Done').text-first-brand
+          +ParameterItem('100+', 'Global branch').text-first-brand
+  +MainContainer 
+    +FacilitateCreationSection(false).mb-24(class='mt-[58px] lg:mt-[117px]')
+  .bg-third-brand.w-full(class='h-[1px] mb-[142px]')
+  +MainContainer 
+    .grid.grid-cols-1.items-center(class='gap-[30px] xl:grid-cols-3')
+      +FlexCol 
+        +ItemsCenter.gap-x-3.mb-2
+          span.w-12.bg-first-brand(class='h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') How it work
+        +Heading2('Grow your online business now').mb-6
+        +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.')(
+          class='mb-[62px]'
+        )
+        +ItemsCenter.gap-6
+          +NormalButton('Download App')
+          +RightArrowButton('Learn More', '#')
+      .block.px-11.pt-14.bg-gray-0.border.border-gray-100.rounded-2xl.hover-up-all(
+        class='pb-[68px] hover:bg-gray-60 hover:border-gray-60'
+      )
+        +FlexCol 
+          +JustifyCenter.border.border-gray-60.rounded-2xl.shadow-drop-shadown-3.mb-8(
+            class='w-[104px] h-[115px]'
+          )
+            .block.w-14.h-14.overflow-hidden
+              +ImageCover('assets/images/icons/icon-cross-platform-1.svg', 'Cross-Platform')
+          +Heading4('Cross-Platform', false).mb-4
+          +TextBase('Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.').mb-8
+          +RightArrowButton('Learn More', '#')
+      .block.px-11.pt-14.bg-gray-0.border.border-gray-100.rounded-2xl.hover-up-all(
+        class='pb-[68px] hover:bg-gray-60 hover:border-gray-60'
+      )
+        +FlexCol 
+          +JustifyCenter.border.border-gray-60.rounded-2xl.shadow-drop-shadown-3.mb-8(
+            class='w-[104px] h-[115px]'
+          )
+            .block.w-14.h-14.overflow-hidden
+              +ImageCover('assets/images/icons/icon-social-media-1.svg', 'Social Media')
+          +Heading4('Social Media', false).mb-4
+          +TextBase('Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.').mb-8
+          +RightArrowButton('Learn More', '#')
+    .grid.grid-cols-2.mt-7(class='gap-[30px] mb-[71px] sm:grid-cols-3 lg:mb-[142px] xl:grid-cols-6')
+      +CardSmall('assets/images/icons/icon-budget-that-works.svg', 'Certification')
+      +CardSmall('assets/images/icons/icon-budget-that-works.svg', 'Conference')
+      +CardSmall('assets/images/icons/icon-budget-that-works.svg', 'Research')
+      +CardSmall('assets/images/icons/icon-cross-platform.svg', 'Dispersal')
+      +CardSmall('assets/images/icons/icon-enterprise.svg', 'Enterprise')
+      +CardSmall('assets/images/icons/icon-budget-that-works.svg', 'Team building')
+    .grid.grid-cols-12.items-center(class='gap-[30px]')
+      .col-span-12(class='xl:col-span-5') 
+        +FlexCol
+          +Heading2('Business can also be simple').mb-6
+          +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.').mb-9
+          ul.grid.grid-cols-1.mb-11(class='gap-y-[18px] sm:grid-cols-2')
+            +FeatureManagementItem('Task tracking')
+            +FeatureManagementItem('Create task dependencies')
+            +FeatureManagementItem('Task visualization')
+            +FeatureManagementItem('hare files, discuss')
+            +FeatureManagementItem('Meet deadlines faster')
+            +FeatureManagementItem('Track time spent on each project')
+          +ItemsCenter.gap-6
+            +NormalButton('Download App')
+            +RightArrowButton('Learn More', '#')
+      .col-span-12(class='xl:col-span-7') 
+        .grid.grid-cols-12(class='gap-[17px]')
+          .col-span-12.relative(class='sm:col-span-7')
+            +ImageCover('assets/images/page/homepage3/img1.png', 'Iori')
+            .absolute.overflow-hidden.cursor-pointer.play-video(
+              class='w-[94px] h-[94px] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'
+            )
+              +ImageCover('assets/images/icons/icon-yellow-play.svg', 'Play Icon')
+          .col-span-12.h-full(class='sm:col-span-5')
+            +FlexCol.h-full(class='gap-[17px]')
+              +ImageCover('assets/images/page/homepage3/img2.png', 'Iori')
+              +ImageCover('assets/images/page/homepage3/img3.png', 'Iori')
+    .grid.grid-cols-1.bg-seventh-bg.border.border-gray-60.rounded-2xl.items-center.bg-right-top.bg-no-repeat.p-4(
+      class='mt-[71px] lg:grid-cols-2 lg:mt-[142px] sm:p-10 md:p-16 mb-[65px] lg:mb-[130px] gap-[60px] bg-[url(\'/assets/images/page/homepage3/finger.png\')]'
+    )
+      .relative
+        .relative(
+          class='max-w-[80%] before:absolute before:top-2 before:left-2 before:z-[1] before:rounded-lg before:w-full before:h-full before:bg-gray-0'
+        )
+          img.block.relative.rounded-lg(
+            src='assets/images/page/homepage3/img4.png',
+            alt='Iori',
+            class='z-[2]'
+          )
+        .absolute.bottom-5.py-10.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-1(
+          class='px-[50px] right-2.5 z-[3]'
+        )
+          +FlexCol.gap-y-1
+            +Heading1('469k')
+            span.text-header-6.font-bold.text-first-brand Social followers
+      +FlexCol 
+        +ItemsCenter.gap-x-3.mb-2
+          span.w-12.bg-first-brand(class='h-[1px]')
+          span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Take the control
+        +Heading2('Create a free account today.').mb-6(class='max-w-[450px]')
+        +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.')(
+          class='mb-[42px]'
+        )
+        .grid.grid-cols-1(class='gap-x-[66px] gap-y-[33px] sm:grid-cols-2')
+          +FlexCol.gap-y-2
+            +JustifyCenter.overflow-hidden.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+              .w-8.h-8.overflow-hidden 
+                +ImageCover('assets/images/icons/icon-man-personal.svg', 'Personal')
+            span.text-header-6.text-first-brand.font-bold Personal
+            p.text-mini-desc.font-medium.text-gray-500 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque. Praesent vulputate justo dictum nisl faucibus, eu feugiat ex pretium. Duis sed mauris at nisi egestas suscipit eget eu enim.
+          +FlexCol.gap-y-2
+            +JustifyCenter.overflow-hidden.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+              .w-8.h-8.overflow-hidden 
+                +ImageCover('assets/images/icons/icon-business.svg', 'Enterprise')
+            span.text-header-6.text-first-brand.font-bold Enterprise
+            p.text-mini-desc.font-medium.text-gray-500 Duis tincidunt dui a felis tincidunt, vehicula ornare diam auctor. Integer id libero id est efficitur mattis. Nunc suscipit consectetur diam a imperdiet. Suspendisse imperdiet lectus lectus, ac scelerisque turpis accumsan sit amet. Proin lacinia odio leo,
+    +Heading2('Choose The Best Plan').text-center
+    p.text-header-7.text-gray-500.font-medium.text-center.my-5 Pick your plan. Change whenever you want. <br> No switching fees between packages
+    ul.tabPlan01Time.p-1.flex.items-center.justify-center.w-fit.mx-auto(class='mb-[63px]')
+      li.active.inline.text-first-brand.text-header-6.font-bold.px-6.rounded-md(class='py-[9px]')
+        a(href='#planMonthly01') Monthly
+      li.inline.text-first-brand.text-header-6.font-bold.px-6.rounded-md(class='py-[9px]')
+        a(href='#planYearly01') Yearly
+    .tabContents.w-full.clear-both.pb-20.border-b.border-third-brand(class='mb-[67px] lg:mb-[134px]')
+      #planMonthly01.tabBox
+        .grid.grid-cols-1(class='gap-[30px] lg:grid-cols-2 xl:grid-cols-4')
+          +CardPlan('assets/images/icons/icon-trial-plan.svg', 'Trial Plan', 'FREE', 'Protect for testing', '- 30 days trial', 'No Credit card required', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts'])
+          +CardPlan('assets/images/icons/icon-standard.svg', 'Standard', '$29', 'Advanced project', '- user / month', 'Billed annually', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts', 'Global Certificates', 'Customization & API Integration'])
+          +CardPlan('assets/images/icons/icon-business.svg', 'Business', '$99', 'Protect for testing', '- user / month', 'Billed annually', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts', 'Global Certificates', 'Customization & API Integration', 'Project dashboard, Gantt chart'])
+          +CardPlan('assets/images/icons/icon-enterprise.svg', 'Enterprise', '$299', 'Protect for testing', '- user', 'One-time pay', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts', 'Global Certificates', 'Customization & API Integration', 'Project dashboard, Gantt chart', 'Dedicated account manager'])
+      #planYearly01.tabBox
+        .grid.grid-cols-1(class='gap-[30px] lg:grid-cols-2 xl:grid-cols-4')
+          +CardPlan('assets/images/icons/icon-trial-plan.svg', 'Trial Plan', 'FREE', 'Protect for testing', '- 30 days trial', 'No Credit card required', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts'])
+          +CardPlan('assets/images/icons/icon-standard.svg', 'Standard', '$348', 'Advanced project', '- user / month', 'Billed annually', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts', 'Global Certificates', 'Customization & API Integration'])
+          +CardPlan('assets/images/icons/icon-business.svg', 'Business', '$1188', 'Protect for testing', '- user / month', 'Billed annually', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts', 'Global Certificates', 'Customization & API Integration', 'Project dashboard, Gantt chart'])
+          +CardPlan('assets/images/icons/icon-enterprise.svg', 'Enterprise', '$3588', 'Protect for testing', '- user', 'One-time pay', 'Try for free', '#', ['Max number of results per month', 'Various innovative test', 'Insightful analytics', 'Additional user accounts', 'Global Certificates', 'Customization & API Integration', 'Project dashboard, Gantt chart', 'Dedicated account manager'])
+    .grid.grid-cols-12.items-center(class='mb-[65px] lg:mb-[131px]')
+      .col-span-12.mb-6(class='xl:col-span-5 xl:mb-0')
+        +FlexCol.text-left(class='xl:max-w-[450px]')
+          +ItemsCenter.gap-x-3.mb-2
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Testimonials
+          +Heading2('What our clients say about us').mb-6
+          +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.')
+      .col-span-12.relative(
+        class='xl:col-span-7 before:w-full before:h-full before:absolute before:bg-contain before:right-4 before:z-[1] before:bg-no-repeat before:bg-[right_bottom_80px] before:bg-[url(\'/assets/images/page/homepage3/bg-testimonials.svg\')]'
+      )
+        +FlexCol.gap-y-7.relative(class='z-[3]')
+          .ml-0(class='sm:ml-5')
+            +CardTestimonial('assets/images/homepage-11-avatar-1.png', 'Ralph Edwards', 'Bank of America', 5, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list.')
+          .ml-0(class='sm:ml-24')
+            +CardTestimonial('assets/images/homepage-11-avatar-2.png', 'Dianne Russell', 'Bank of America', 4, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list.')
+          +CardTestimonial('assets/images/homepage-11-avatar-1.png', 'Ralph Edwards', 'Bank of America', 4, 'Access the same project through five different dynamic views: a kanban board, Gantt chart, spreadsheet, calendar or simple task list.')
+    +BlogSection(class='lg:mb-[90px] mb-[60px]')
+    +NewsletterSection02

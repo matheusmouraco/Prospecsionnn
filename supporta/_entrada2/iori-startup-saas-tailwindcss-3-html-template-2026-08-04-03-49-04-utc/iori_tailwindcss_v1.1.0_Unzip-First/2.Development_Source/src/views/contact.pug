@@ -1,0 +1,152 @@
+extends layout/layout
+
+block vars
+  - title = 'Contact - IORI Marketplace Template';
+  - bodyClass = 'contact-styles';
+  - var bgBanner = '/assets/images/page/contact/bg-banner.png';
+
+block container
+  section.bg-radical-blue.w-full.relative.inline-block(
+    class='pt-[55px] lg:pt-[110px] pb-[75px] lg:pb-[150px]'
+  )
+    +MainContainer 
+      .grid.grid-cols-12.items-center
+        .col-span-12(class='lg:col-span-7')
+          +FlexCol 
+            +ItemsCenter.gap-x-3.mb-4
+              span.w-12.bg-first-brand(class='h-[1px]')
+              span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Get in Touch
+            +Heading1('We’d love to hear from you.').mb-5(class='lg:max-w-[546px]')
+            +TextBase('Request a demo, ask a question, or get in touch here. If you’re interested in working at Iori Coporation, check out our careers page.').mb-7(
+              class='xl:max-w-[601px]'
+            )
+            +Heading5('Install App')(class='mb-[22px]')
+            .flex.items-start.gap-x-9.flex-col.gap-y-4(class='sm:flex-row sm:items-center')
+              +ItemsCenter.gap-x-4
+                img(src='assets/images/AppStore.svg', alt='AppStore')
+                img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+              +RightArrowButton('Learn More', '#')
+        .col-span-12.hidden(class='lg:col-span-5 lg:block')
+          .absolute.bottom-0.right-0.overflow-hidden.text-right.bg-no-repeat.bg-contain(
+            class="w-[50%] pt-[30px] bg-[top_center] bg-[url('" + bgBanner + "')]"
+          )
+            img.max-w-full.block(srcset='assets/images/contact-banner.png 2x', alt='Banner')
+  +MainContainer 
+    .grid.grid-cols-1.mt-16(class='gap-[30px] lg:mt-[129px] md:grid-cols-2 xl:grid-cols-4')
+      +FlexCol(class='gap-y-[14px]')
+        +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+          .overflow-hidden(class='w-[42px] h-[42px]')
+            +ImageCover('assets/images/icons/icon-headphone.svg', 'Help & support')
+        span.text-header-6.font-bold.text-first-brand Help & support
+        p.text-base.font-medium.text-gray-500
+          | Email
+          |
+          a.text-success(href='#') support@alithemes.com
+          <br>
+          | For help with a current product or service or refer to FAQs and developer tools
+      +FlexCol(class='gap-y-[14px]')
+        +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+          .overflow-hidden(class='w-[42px] h-[42px]')
+            +ImageCover('assets/images/icons/icon-phone1.svg', 'Call Us')
+        span.text-header-6.font-bold.text-first-brand Call Us
+        p.text-base.font-medium.text-gray-500
+          | Call us to speak to a member of our team.
+          <br>
+          | (+01) 234 567 89
+          | (+01) 456 789 21
+      +FlexCol(class='gap-y-[14px]')
+        +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+          .overflow-hidden(class='w-[42px] h-[42px]')
+            +ImageCover('assets/images/icons/icon-chart.svg', 'Bussiness Department')
+        span.text-header-6.font-bold.text-first-brand Bussiness Department
+        p.text-base.font-medium.text-gray-500
+          | Contact the sales department about cooperation projects
+          <br>
+          | (+01) 789 456 23
+      +FlexCol(class='gap-y-[14px]')
+        +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+          .overflow-hidden(class='w-[42px] h-[42px]')
+            +ImageCover('assets/images/icons/icon-earth.svg', 'Global branch')
+        span.text-header-6.font-bold.text-first-brand Global branch
+        p.text-base.font-medium.text-gray-500
+          | Contact us to open our branches globally.
+          <br>
+          | (+01) 234 567 89
+          <br>
+          | (+01) 789 456 23
+    .grid.grid-cols-12(class='mt-[84px] lg:mt-[171px] mb-[65px] lg:mb-[131px]')
+      .col-span-12(class='xl:col-span-5 mb-[42px] xl:mb-0')
+        +FlexCol 
+          +Heading2('Get in touch').mb-4
+          p.text-header-9.font-medium.text-gray-500.mb-16 Do you want to know more or contact our sales department?
+          +FlexCol(class='gap-[42px]')
+            .flex 
+              .text-left.w-full.h-auto(class='max-w-[69px] mr-[15px]') 
+                img.max-w-full.inline-block(
+                  src='assets/images/page/contact/img1.png',
+                  alt='Iori',
+                  class='max-h-[75px]'
+                )
+              .block
+                span.font-bold.text-first-brand.text-header-6.block(class='mb-[10px]') Visit the Knowledge Base
+                +TextBase('Browse customer support articles and step-by-step instructions for specific features.').mb-2(
+                  class='xl:max-w-[360px]'
+                )
+            .flex 
+              .text-left.w-full.h-auto(class='max-w-[69px] mr-[15px]') 
+                img.max-w-full.inline-block(
+                  src='assets/images/page/contact/img2.png',
+                  alt='Iori',
+                  class='max-h-[75px]'
+                )
+              .block
+                span.font-bold.text-first-brand.text-header-6.block(class='mb-[10px]') Watch Product Videos
+                +TextBase('Watch our video tutorials for visual walkthroughs on how to use our features.').mb-2(
+                  class='xl:max-w-[360px]'
+                )
+            .flex 
+              .text-left.w-full.h-auto(class='max-w-[69px] mr-[15px]') 
+                img.max-w-full.inline-block(
+                  src='assets/images/page/contact/img3.png',
+                  alt='Iori',
+                  class='max-h-[75px]'
+                )
+              .block
+                span.font-bold.text-first-brand.text-header-6.block(class='mb-[10px]') Get in touch with Sales
+                +TextBase('Let us talk about how we can help your enterprise.').mb-2(
+                  class='xl:max-w-[360px]'
+                )
+      .col-span-12(class='xl:col-span-7')
+        .border.pt-11.pb-8.border-gray-80.rounded-lg(class='px-[50px]')
+          .grid.grid-cols-12.gap-6
+            .col-span-12(class='md:col-span-6')
+              +InputCommon('text', 'Your name', 'assets/images/page/contact/user.svg')
+            .col-span-12(class='md:col-span-6')
+              +InputCommon('text', 'Email', 'assets/images/page/contact/email.svg')
+            .col-span-12(class='md:col-span-6')
+              +InputCommon('text', 'Phone', 'assets/images/page/contact/phone.svg')
+            .col-span-12(class='md:col-span-6')
+              +InputCommon('text', 'Company', 'assets/images/page/contact/company.svg')
+            .col-span-12 
+              input.bg-gray-0.rounded-lg.border.border-gray-80.w-full.rounded-lg.pr-6.text-base.font-medium.text-gray-200.outline-none(
+                type='text',
+                placeholder='Subject',
+                class='py-[22px] pl-[26px]'
+              )
+            .col-span-12 
+              textarea.bg-gray-0.rounded-lg.border.border-gray-80.w-full.rounded-lg.pr-6.text-base.font-medium.text-gray-200.outline-none.resize-none(
+                name='Note',
+                placeholder='Write something',
+                class='py-[22px] pl-[26px] min-h-[180px]'
+              ) 
+            .col-span-12 
+              button.bg-first-brand.text-second-brand.flex.items-center.justify-center.py-4.w-full.rounded.cursor-pointer(
+                class='gap-x-[10px] max-w-[264px]'
+              )
+                span.font-bold.text-header-9 Send message
+                +ArrowRightIcon.text-second-brand.w-4.h-4
+  .border-b.border-third-brand(class='pb-[49px] lg:pb-[98px] mb-[51px] lg:mb-[102px]')
+    +MainContainer
+      +FrequentlyQuestionsSection01
+  +MainContainer 
+    +NewsletterSection02

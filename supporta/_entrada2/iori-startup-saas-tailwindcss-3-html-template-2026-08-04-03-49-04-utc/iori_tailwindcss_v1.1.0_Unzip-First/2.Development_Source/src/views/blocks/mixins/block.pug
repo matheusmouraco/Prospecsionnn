@@ -1,0 +1,725 @@
+mixin WayToGrowYourSocialMedia(number, title, desc)
+  +ItemsStart(class='gap-x-[19px]')
+    +JustifyCenter.rounded-full.bg-first-brand.shrink-0(class='w-[60px] h-[60px]')
+      span.text-second-brand.text-3xl= number
+    +FlexCol.gap-y-4
+      +Heading4(title)
+      +TextBase(desc)
+
+mixin CoreValueItem(title, desc, border='border-b')
+  +ItemsStart.gap-x-4
+    +ImageShrink('assets/images/icons/icon-check.svg', 'Check Icon')
+    +FlexCol.pb-6.border-dashed.border-gray-300(class='gap-y-[5px]', class=border)
+      +Heading5(title)
+      +TextBase(desc) 
+
+mixin MediaPlatformsInfoItem(icon, alt, title, desc, link)
+  +ItemsStart(class='gap-x-[17px]')
+    +ImageShrink(icon, alt)
+    +FlexCol.gap-y-4
+      +Heading4(title, 'tracking-normal')
+      +TextBase(desc)
+      .py-4
+        +RightArrowButton('Learn More', link)
+
+mixin BlogItem(image, title, desc, tag, date, time, link)
+  .px-5.overflow-hidden.bg-gray-0.rounded.border.border-gray-80.pt-5.pb-4.hover-up
+    .block 
+      img.w-full.h-auto.rounded(src=image, alt=title)
+    .mt-3
+      a(href='#') 
+        p.font-bold.text-first-brand.mb-3.transition-common(
+          class='text-[18px] leading-[24px] hover:text-success'
+        )= title
+      p.font-medium.text-gray-500.border-b.border-gray-50(
+        class='text-[12px] leading-[18px] mb-[18px] pb-[27px]'
+      )= desc
+      +ItemsCenter(class='gap-[22px]')
+        a.text-first-brand.font-bold.py-2.border.rounded.border-first-brand.transition-common(
+          href=link,
+          class='text-[12px] leading-[12px] px-[10px] hover:text-success'
+        )= tag
+        +ItemsCenter.gap-x-1
+          +ImageShrink('assets/images/icons/icon-date.svg', 'Date Icon')
+          time.text-gray-300.font-medium(class='text-[10px] leading-[12px]')= date
+        +ItemsCenter.gap-x-1
+          +ImageShrink('assets/images/icons/icon-time.svg', 'Time Icon')
+          span.text-gray-300.font-medium(class='text-[10px] leading-[12px]')= time
+
+mixin Blog02Item(image, title, date, time, desc, avatar, name, position, link)
+  .block
+    .block 
+      img.w-full.h-auto.rounded(src=image, alt=title)
+    .block(class='mt-[18px]')
+      a(href='#') 
+        +Heading4(title).transition-common(class='mb-[18px] hover:text-success')
+      +ItemsCenter.gap-x-8(class='mb-[18px]') 
+        +ItemsCenter.gap-x-1 
+          .block.w-5.h-5.overflow-hidden
+            +ImageCover('assets/images/icons/icon-date.svg', 'Date Icon')
+          time.text-mini-desc.font-medium.text-gray-300= date
+        +ItemsCenter.gap-x-1 
+          .block.w-5.h-5.overflow-hidden
+            +ImageCover('assets/images/icons/icon-time.svg', 'Time Icon')
+          span.text-mini-desc.font-medium.text-gray-300= time
+      p.text-header-9.font-medium.text-gray-500.mb-7= desc
+      +JustifyBetween
+        +PersonInfo(avatar, name, position)
+        +RightArrowButton('Read More', link)
+
+mixin BlogLiItem(title, date, time, image, borderBottom=true)
+  li 
+    a.flex.items-start.justify-between.group(
+      href='#',
+      class=borderBottom ? 'pb-7 border-b border-gray-50' : null
+    )
+      +FlexCol 
+        span.text-xl.font-bold.text-first-brand.mb-3.transition-common(class='group-hover:text-success')= title
+        +ItemsCenter.gap-x-8
+          +ItemsCenter.gap-x-1 
+            .block.w-5.h-5.overflow-hidden
+              +ImageCover('assets/images/icons/icon-date.svg', 'Date Icon')
+            time.text-mini-desc.font-medium.text-gray-300= date
+          +ItemsCenter.gap-x-1 
+            .block.w-5.h-5.overflow-hidden
+              +ImageCover('assets/images/icons/icon-time.svg', 'Time Icon')
+            span.text-mini-desc.font-medium.text-gray-300= time
+      .block(class='max-w-[120px] ml-[15px]')
+        +ImageCover(image, title).rounded-lg
+
+mixin AmazingTeamMember(image, name, position, desc, facebook, twitter, instagram)
+  +FlexCol
+    .overflow-hidden.rounded-lg(class='w-[210px] h-[210px]') 
+      +ImageCover(image, name) 
+    +FlexCol.flex-1(class='mt-[18px]')
+      .block(class='mb-[11px]')
+        p.text-header-7.font-bold.text-first-brand= name
+        p.text-mini-desc.font-bold.text-gray-200= position
+      +FlexCol.gap-y-7.flex-1
+        p.text-mini-desc.text-gray-400.font-medium.line-clamp-3= desc
+        +ItemsCenter.gap-x-2.mt-auto.shrink-0
+          a.hover-up(href=facebook) 
+            +ImageShrink('assets/images/icons/icon-facebook.svg', 'Facebook Icon')
+          a.hover-up(href=twitter) 
+            +ImageShrink('assets/images/icons/icon-twitter.svg', 'Twitter Icon')
+          a.hover-up(href=instagram) 
+            +ImageShrink('assets/images/icons/icon-instagram.svg', 'Instagram Icon')
+
+mixin SalientFeature(icon, title, desc, textLink, link)
+  +ItemsStart.p-7.gap-x-6.border.border-gray-80.rounded-2xl&attributes(attributes)
+    .w-full.relative(class='max-w-[64px] min-w-[64px]')
+      +ImageCover(icon, title)
+    +FlexCol.gap-y-4
+      p.text-xl.text-first-brand.font-bold= title
+      +TextBase(desc)
+      +RightArrowButton(textLink, link)
+
+mixin OfferItem(icon, title, desc, image)
+  .px-7.pb-7.pt-10.bg-second-brand.rounded-2xl.hover-up-all.border.border-second-brand(
+    class='hover:bg-gray-60 hover:border-gray-100'
+  )
+    +FlexCol.gap-y-3
+      .w-14.h-14.overflow-hidden
+        +ImageCover(icon, title)
+      +Heading4(title)
+      +Text14Leading22(desc)
+    .block.mt-14.rounded-2xl.overflow-hidden
+      +ImageCover(image, title)
+
+mixin ParameterItem(title, desc)
+  +FlexCol.gap-y-1&attributes(attributes)
+    span.text-header-2.font-extrabold= title
+    span.font-medium.text-header-7= desc
+
+mixin FeatureManagementItem(text)
+  li 
+    .flex.items-center.gap-x-3
+      +CheckIcon.w-5.h-5(class='text-[#06D6A0]')
+      span.text-header-9.text-gray-500.font-medium= text
+
+mixin ExploreTabItem(image, title)
+  .bg-gray-0.py-6.px-8(class='md:py-[85px] md:px-[95px] rounded-[32px]')
+    .grid.grid-cols-1.items-start(class='xl:grid-cols-2 xl:items-center')
+      .block.rounded-2xl.overflow-hidden.mb-8(class='xl:mb-0')
+        +ImageCover(image, 'Person')
+      +FlexCol(class='xl:pl-[100px]') 
+        +TagButton('Business').mb-2
+        +Heading3(title).mb-3
+        p.text-base.text-gray-400.font-medium.mb-3 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.
+        ul.grid.grid-cols-1(class='gap-y-[18px] sm:grid-cols-2')
+          +FeatureManagementItem('Task tracking')
+          +FeatureManagementItem('Create task dependencies')
+          +FeatureManagementItem('Task visualization')
+          +FeatureManagementItem('hare files, discuss')
+          +FeatureManagementItem('Meet deadlines faster')
+          +FeatureManagementItem('Track time spent on each project')
+
+mixin BestPlanLiItem(success=true, text)
+  li
+    +ItemsCenter.gap-x-3
+      if success
+        +CheckIcon.text-success.w-5.h-5
+      else
+        +MuttedIcon.w-5.h-5.text-mutted
+      span.text-header-9.text-gray-500.font-medium= text
+
+mixin BestPlanItem(icon, iconBg, title, desc01, price, time, desc02, state01, state02, state03, state04, state05, state06, state07, state08, link, textLink)
+  .bg-gray-0.border.border-gray-80.rounded-lg.hover-up.p-5(class='lg:p-8')
+    +FlexCol 
+      +ItemsCenter.mb-5(class='gap-x-[15px]')
+        +JustifyCenter.rounded-lg.flex-1(class='h-[82px] max-w-[82px]', class=`bg-${iconBg}-bg`)
+          +ImageShrink(icon, title)
+        +FlexCol.flex-1 
+          +Heading4(title)
+          +TextBase(desc01)
+      +FlexCol.pb-9.border-b.border-gray-80.mb-8
+        +ItemsCenter.mb-1(class='gap-x-[3px]')
+          span.text-header-7.font-bold.text-first-brand.uppercase= price
+          +TextBase(time)
+        span.text-mini-desc.text-gray-500.font-medium= desc02
+      ul.flex.flex-col.mb-8(class='gap-y-[18px]')
+        +BestPlanLiItem(state01, 'Brand Awareness Ads')
+        +BestPlanLiItem(state02, 'Retargeting Ads')
+        +BestPlanLiItem(state03, 'Contextual, Demographic')
+        +BestPlanLiItem(state04, 'Facebook Advertising')
+        +BestPlanLiItem(state05, 'Global Certificates')
+        +BestPlanLiItem(state06, 'Snapchat Advertising')
+        +BestPlanLiItem(state07, 'TikTok Advertising')
+        +BestPlanLiItem(state08, 'Advanced List Building')
+      a.w-full.bg-first-brand.py-4.flex.items-center.gap-x-3.rounded.justify-center.group.transition-common(
+        href=link,
+        class='hover:bg-first-brand-hover'
+      )
+        span.text-header-9.font-bold.text-second-brand= textLink
+        +ArrowRightIcon.text-second-brand.w-5.h-5.transition-common(
+          class='group-hover:rotate-[-45deg]'
+        )
+
+mixin BestPlanTimeItem(icon, iconBg, title, desc01, price, time, desc02, state01, state02, state03, state04, state05, state06, state07, state08, link01, textLink, link02, tag=false)
+  .p-8.bg-gray-0.border.border-gray-80.rounded-lg.hover-up.relative.overflow-hidden.z-10
+    if tag
+      span.absolute.px-5.text-center.uppercase.bg-second-brand.font-bold.text-first-brand(
+        class='bottom-[15px] right-[-85px] py-2.5 w-[250px] text-[14px] leading-[28px] rotate-[-45deg]'
+      ) Popular
+    else
+      span
+    +FlexCol 
+      +ItemsCenter.mb-5(class='gap-x-[15px]')
+        +JustifyCenter.rounded-lg.flex-1(class='h-[82px] max-w-[82px]', class=`bg-${iconBg}-bg`)
+          +ImageShrink(icon, title)
+        +FlexCol.flex-1 
+          +Heading4(title)
+          +TextBase(desc01)
+      .flex.items-start.justify-between.mb-8.pb-9.border-b.border-gray-80.flex-col.gap-y-3(
+        class='sm:flex-row sm:items-center'
+      )
+        +FlexCol
+          +ItemsCenter.mb-1(class='gap-x-[3px]')
+            span.text-header-7.font-bold.text-first-brand.uppercase= price
+            +TextBase(time)
+          span.text-mini-desc.text-gray-500.font-medium= desc02
+        a.w-full.bg-first-brand.py-4.px-6.flex.items-center.gap-x-3.rounded.group.justify-center.transition-common(
+          href=link01,
+          class='sm:w-fit hover:bg-first-brand-hover'
+        )
+          span.text-header-9.font-bold.text-second-brand= textLink
+          +ArrowRightIcon.text-second-brand.w-5.h-5.transition-common(
+            class='group-hover:rotate-[-45deg]'
+          )
+      ul.flex.flex-col.mb-10(class='gap-y-[18px]')
+        +BestPlanLiItem(state01, 'Max number of results per month')
+        +BestPlanLiItem(state02, 'Various innovative test configuration options')
+        +BestPlanLiItem(state03, 'Insightful analytics and reporting of results')
+        +BestPlanLiItem(state04, 'Additional user accounts and collaboration')
+        +BestPlanLiItem(state05, 'Global Certificates')
+        +BestPlanLiItem(state06, 'Customization & API Integration')
+        +BestPlanLiItem(state07, 'Project dashboard, Gantt chart')
+        +BestPlanLiItem(state08, 'Dedicated account manager')
+      +RightArrowButton('Learn More', link02)
+
+mixin PersonInfo(avatar, name, position)
+  +ItemsCenter.gap-x-3
+    .w-14.h-14.overflow-hidden.rounded-full
+      +ImageCover(avatar, 'Avatar')
+    +FlexCol
+      p.text-header-8.font-bold.text-first-brand= name
+      p.text-mini-desc.font-medium.text-gray-500= position
+
+mixin CustommerSayingItem(avatar, name, position, desc, time, rating=5)
+  .pt-8.px-8.pb-6.bg-gray-0.border.rounded-lg.border-gray-80.transition-common(
+    class='hover:shadow-drop-shadown-1 hover:bg-second-brand'
+  )
+    +FlexCol.gap-y-4.relative
+      +PersonInfo(avatar, name, position)
+      +TextBase(desc).pb-5.border-b.border-gray-50
+      +JustifyBetween
+        span.text-mini-desc.text-gray-500.font-medium= time
+        +RatingStar(rating)
+      .absolute.top-0.right-0.overflow-hidden.rotateQuotesIcon.w-7(class='xl:w-10')
+        +ImageCover('assets/images/icons/icon-quotes.svg', 'Quotes Icon')
+
+mixin MediaMarketingInfoItem(bgColor, icon, title, desc, link)
+  +FlexCol.rounded-2xl.px-11(class='pt-[57px] pb-[52px]', class=bgColor)
+    .bg-gray-0.shadow-drop-shadown-3.rounded-2xl.flex.items-center.justify-center.mx-auto(
+      class='w-[104px] h-[115px] mb-[31px]'
+    )
+      +ImageShrink(icon, title)
+    .text-center
+      span.text-header-5.font-bold.text-first-brand.mb-4.block= title
+      +TextBase(desc).mb-4
+      .py-4.flex.justify-center
+        +RightArrowButton('Learn More', link)
+
+mixin IoriPlatformBenefitItem(title, icon, desc)
+  +FlexCol.text-right.gap-4
+    +ItemsEnd.gap-x-4.ml-auto
+      span.text-header-6.font-bold.text-first-brand= title
+      .block.w-12.h-12.overflow-hidden
+        +ImageCover(icon, title) 
+    +TextSmMedium(desc).text-gray-500
+
+mixin IoriPlatformBenefitReverseItem(title, icon, desc)
+  +FlexCol.text-left.gap-4
+    +ItemsEnd.gap-x-4.mr-auto
+      .block.w-12.h-12.overflow-hidden
+        +ImageCover(icon, title) 
+      span.text-header-6.font-bold.text-first-brand= title
+    +TextSmMedium(desc).text-gray-500
+
+mixin ReasonToConsiderInstalling(icon, title, desc)
+  +FlexCol.gap-y-2
+    +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+      .w-8.h-8.overflow-hidden
+        +ImageCover(icon, title)
+    span.text-header-6.font-bold.text-first-brand= title
+    p.text-mini-desc.text-gray-500.font-medium= desc
+
+mixin OfferMiniItem(icon, title, desc, link)
+  .border.border-gray-80.rounded-lg.hover-up-all.p-5(
+    class='hover:border-third-brand hover:shadow-drop-shadown-1 lg:p-10'
+  )
+    +FlexCol
+      .overflow-hidden(class='w-[75px] h-[75px] mb-[26px]')
+        +ImageCover(icon, title)
+      +Heading4(title)(class='mb-[10px]')
+      +TextBase(desc).mb-9(class='max-w-[362px]')
+      +RightArrowButton('Learn More', link)
+
+mixin StrategyDesignItem(icon, title, desc, link, border=true)
+  +ItemsStart.pb-4.pt-6.bg-gray-0.rounded-lg.hover-up-all.gap-4.px-5(
+    class='xl:px-[30px] xl:pt-8 hover:shadow-drop-shadown-1',
+    class=border ? 'border border-gray-80' : null
+  )
+    .w-full.h-auto.text-center(class='max-w-[105px]')
+      img.inline-block(src=icon, alt=title, class='max-h-[75px]')
+    +FlexCol 
+      +Heading4(title, '').mb-4
+      +TextBase(desc).mb-8
+      +RightArrowButton('Read More', link)
+
+mixin BringTargetStep(number, title, desc)
+  li 
+    +ItemsStart.gap-5
+      +JustifyCenter.rounded-full.bg-first-brand.shrink-0(class='w-[83px] h-[83px]')
+        span.font-bold.text-second-brand.text-header-2= number
+      +FlexCol.gap-y-4
+        span.text-header-5.font-bold.text-first-brand= title
+        +TextBase(desc)
+
+mixin CardSmall(icon, title)
+  .bg-gray-0.border.border-gray-100.rounded-2xl.pl-4.pb-3.transition-common.pr-3(
+    class='pt-[18px] hover:shadow-drop-shadown-1 hover:border-third-brand'
+  )
+    +FlexCol.gap-y-2
+      +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+        .w-8.h-8.overflow-hidden 
+          +ImageCover(icon, title)
+      +JustifyBetween
+        span.text-header-6.font-bold.text-first-brand= title
+        .w-3.h-3.overflow-hidden.shrink-0
+          +ImageCover('assets/images/page/homepage3/up.svg', 'Arrow Up')
+
+mixin CardPlan(icon, title, price, desc01, desc02, desc03, textLink, link, itemsArray=["Item 1", "Item 2", "Item 3"])
+  +FlexCol.gap-y-6
+    .bg-gray-0.border.border-gray-80.rounded-lg.p-8
+      +FlexCol
+        +ItemsCenter.gap-4.mb-5
+          +JustifyCenter.bg-fourth-bg.rounded-lg.overflow-hidden(class='w-[82px] h-[82px]')
+            .overflow-hidden(class='w-[42px] h-[42px]')
+              +ImageCover(icon, title)
+          +FlexCol 
+            span.text-header-5.text-first-brand.font-bold= title
+            +TextBase(desc01)
+        +ItemsCenter.mb-1(class='gap-x-[3px]')
+          span.text-header-7.font-bold.text-first-brand.uppercase= price
+          +TextBase(desc02)
+        span.text-mini-desc.text-gray-500.font-medium.mb-7= desc03
+        a.w-full.bg-gray-0.group.py-4.flex.items-center.gap-x-3.rounded.justify-center.border.border-first-brand.transition-common(
+          href=link,
+          class='hover:bg-first-brand'
+        )
+          span.text-header-9.font-bold.text-first-brand.transition-common(
+            class='group-hover:text-second-brand'
+          )= textLink
+          +ArrowRightIcon.text-first-brand.w-5.h-5.transition-common(
+            class='group-hover:text-second-brand group-hover:rotate-[-45deg]'
+          )
+    ul.flex.flex-col.pl-6(class='gap-y-[18px]')
+      each item in itemsArray
+        li
+          +ItemsCenter.gap-x-3
+            +CheckIcon.text-success.w-5.h-5
+            span.text-header-9.text-gray-500.font-medium= item
+
+mixin CardTestimonial(avatar, name, position, star, desc)
+  .py-5.pl-5.pr-10.bg-gray-0.border.border-gray-80.shadow-drop-shadown-2.rounded-lg(
+    class='z-[2] max-w-[572px]'
+  )
+    +ItemsEnd.mb-3.justify-between 
+      +PersonInfo(avatar, name, position)
+      .mb-2
+        +RatingStar(star)
+    +TextBase(desc)
+
+mixin TrustedWorldSection
+  .flex.items-start.flex-col.gap-y-4(class='xl:gap-x-[132px] xl:flex-row xl:items-center')
+    +Heading3('See why we are trusted the world over')(class='xl:max-w-[347px]')
+    +JustifyBetween.flex-1.w-full.gap-4.flex-wrap(class='xl:w-fit')
+      +ParameterItem('469k', 'Social followers').text-first-brand
+      +ParameterItem('25k+', 'Happy Clients').text-first-brand
+      +ParameterItem('756+', 'Project Done').text-first-brand
+      +ParameterItem('100+', 'Global branch').text-first-brand
+
+mixin CardOfferItem(icon, title, desc, link)
+  +ItemsStart(class='gap-[31px]')
+    +JustifyCenter.overflow-hidden.bg-gray-0.rounded-2xl.shrink-0(
+      class='w-[76px] h-[76px] sm:w-[104px] sm:h-[104px]'
+    )
+      .w-14.h-14.overflow-hidden
+        +ImageCover(icon, title)
+    +FlexCol 
+      +Heading4(title, false).mb-4
+      +TextBase(desc).mb-8
+      +RightArrowButton('Learn More', link)
+
+mixin OfferBtnItem(bgColor, icon, title, desc, link)
+  .border.border-gray-80.rounded-lg&attributes(attributes)
+    +ItemsEnd.p-7(class=bgColor, class='gap-[22px]')
+      +JustifyCenter.bg-gray-0.rounded-lg.shrink-0(class='w-[104px] h-[115px]')
+        .overflow-hidden.w-14.h-14
+          +ImageCover(icon, title)
+      +Heading4(title)
+    .px-7.pt-7.pb-4
+      +Text14Leading22(desc).mb-7
+      +RightArrowButton('Learn More', link)
+
+mixin BrandOwl(color=false)
+  .flex.flex-col&attributes(attributes)
+    h2.text-first-brand.font-extrabold.text-center.mb-4(class='text-[22px] leading-[28px] lg:text-header-3') Loved By Developers, Trusted By Enterprises
+    p.font-medium.text-header-7.text-gray-500.mx-auto.text-center.mb-8(class='max-w-[605px] lg:mb-16') We helped these brands turn online assessments into success stories. Join them. Elevate your testing.
+    .owl-carousel.owl-theme.brand-owl(class=color ? 'color' : null)
+      +ImageCover('assets/images/icons/icon-placed-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-cuebiq-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-factual-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-place-iq-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-airmeet-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-spendflo-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-klippa-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-matrixian-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-placed-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-matrixian-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-factual-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-spendflo-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-klippa-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-place-iq-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-airmeet-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-placed-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-cuebiq-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-factual-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-place-iq-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-airmeet-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-spendflo-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-klippa-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-matrixian-1.svg', 'Iori')
+      +ImageCover('assets/images/icons/icon-placed-1.svg', 'Iori')
+
+mixin Brand2Rows
+  ul.text-center.mb-28
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-placed-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-cuebiq-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-factual-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-place-iq-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-airmeet-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-spendflo-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-klippa-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-reed-elsevier.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-vuori.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-versed.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-matrixian-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-klippa-1.svg', alt='Iori')
+    li.inline-block.px-5(class='min-w-[100px] py-2.5')
+      img.inline-block.max-w-full(src='assets/images/icons/icon-factual-1.svg', alt='Iori')
+
+mixin ThumbnailImgOwl
+  .relative
+    .bg-no-repeat.bg-cover(
+      class='min-h-[520px] sm:min-h-[780px] bg-[top_center] bg-[url(\'/assets/images/homepage-11-hero1.png\')]'
+    )
+      .absolute.left-0.w-full(class='top-[50%] translate-y-[-50%]')
+        +MainContainer
+          .grid.grid-cols-12 
+            .col-span-12(class='sm:col-span-10 md:col-span-8 lg:col-span-6 xl:col-span-5')
+              .bg-gray-0.py-3(class='sm:py-20 px-[7px] sm:px-[75px]')
+                +Heading2('Bring your target users together on social media')(class='mb-[34px]')
+                +TextBase('Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa. Praesent quam diam, faucibus tristique enim in, rhoncus aliquam lorem. Vestibulum vestibulum pellentesque nunc sit amet ullamcorper. Praesent ligula felis')(
+                  class='mb-[34px]'
+                )
+                +ItemsCenter.gap-4
+                  img(src='assets/images/AppStore.svg', alt='AppStore')
+                  img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+
+mixin CardBlogGrid(image, title, desc, date, time, label)
+  .block 
+    .relative(class='mb-[18px]')
+      a(href='#')
+        img.rounded-lg.w-full.max-w-full(src=image, alt=title) 
+      span.absolute.bg-gray-0.rounded.border.border-first-brand.py-3.px-4.font-bold(
+        class='top-[17px] right-[18px] text-[12px] leading-[12px]'
+      )= label
+    .block 
+      a(href='#')
+        +Heading4(title).transition-common(class='hover:text-success')
+      .font-medium.text-gray-500.text-mini-desc.mb-6(class='mt-[10px]')
+        span= date
+        span.inline-block.ml-5.pl-5.bg-no-repeat(
+          class='bg-[left_center] bg-[url(\'/assets/images/page/blog/dot.svg\')]'
+        )= time
+      +TextBase(desc)
+
+mixin InputCommon(type='text', placeholder, icon)
+  .relative
+    input.bg-gray-0.rounded-lg.border.border-gray-80.w-full.rounded-lg.pr-6.text-base.font-medium.text-gray-200.outline-none(
+      type=type,
+      placeholder=placeholder,
+      class='py-[22px] pl-[26px]'
+    )
+    .absolute.right-0.mr-6(class='top-[50%] translate-y-[-50%]')
+      img(src=icon, alt=placeholder)
+
+mixin BrandsTurnOnline
+  .block&attributes(attributes)
+    +Heading3('Loved By Developers Trusted By Enterprises').mb-5(class='max-w-[350px]')
+    p.text-gray-500.font-medium.text-header-7(class='mb-[53px]') We helped these brands turn online assessments into success stories.
+    ul.flex.flex-wrap.text-left.items-center.gap-y-6(class='gap-x-[60px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-placed-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-cuebiq-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-factual-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-place-iq-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-airmeet-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-spendflo-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-klippa-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-matrixian-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-reed-elsevier.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-vuori.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-versed.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-matrixian-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-klippa-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-factual-1.svg', alt='Iori', class='max-h-[40px]')
+
+mixin ProductGridItem(link, productImage, title, star, rates, price, desc)
+  .inline-block.border.border-gray-80.bg-gray-0.p-5
+    .inline-block.w-full.mb-4.text-center
+      a(href=link) 
+        img(src=productImage, alt=title, class='max-h-[220px]')
+    .block 
+      a.group(href=link) 
+        span.text-gray-900.text-header-6.font-bold.mb-2.inline-block.transition-common(
+          class='group-hover:text-success'
+        )= title
+      .flex.items-center(class='mb-[22px]')
+        .w-full.flex
+          +RatingStar(star)
+          span.text-gray-200.text-mini-desc.font-medium(class='ml-2.5')= rates
+        .w-full.text-right(class='min-w-[95px] max-w-[95px]')
+          span.font-normal(class='text-[#006D77] text-[22px] leading-[24px]')= price
+      p.text-mini-desc.text-gray-300.font-medium= desc
+
+mixin PaginationItem(link, number)
+  li.group.shrink-0
+    a.text-base.font-bold.text-first-brand.bg-gray-0.border.border-gray-80.rounded.transition-common.flex.items-center.justify-center(
+      href=link,
+      class='w-[42px] h-[42px] group-hover:bg-first-brand group-hover:text-gray-80'
+    )= number
+
+mixin ShopBannerBox
+  .grid.grid-cols-1(class='gap-[30px] lg:grid-cols-2 xl:grid-cols-3')&attributes(attributes)
+    .pl-11.relative.bg-gray-60(class='pt-[51px] pb-[58px]')
+      +FlexCol 
+        span.uppercase.font-bold.mb-1(class='text-[12px] leading-[12px] tracking-[0.1em] text-[#EF476F]') Sale off 50%
+        span.text-xl.font-bold.text-first-brand.mb-2 Best Offer This Year
+        p.text-mini-desc.font-medium.text-gray-500.mb-6 Use discount code in checkout page.
+        a.flex.items-center(href='#', class='gap-[10px]')
+          span.text-mini-desc.font-bold.text-first-brand Shop Now
+          img.shrink-0(src='assets/images/page/shop/arrow.svg', alt='Arrow')
+        .absolute.bottom-0.right-0.hidden(class='sm:block')
+          img(src='assets/images/page/shop/sale1.png', alt='Iori')
+    .relative.bg-fifth-bg.pl-11(class='pt-[51px] sm:pl-[45%] sm:pr-[21px] pb-[58px]')
+      +FlexCol 
+        span.uppercase.font-bold.mb-1.uppercase.text-success(
+          class='text-[12px] leading-[12px] tracking-[0.1em]'
+        ) Tripod Colection
+        span.text-xl.font-bold.text-first-brand.mb-2 For Professional
+        p.text-mini-desc.font-medium.text-gray-500.mb-6 Use discount code in checkout page.
+        a.flex.items-center(href='#', class='gap-[10px]')
+          span.text-mini-desc.font-bold.text-first-brand Shop Now
+          img.shrink-0(src='assets/images/page/shop/arrow.svg', alt='Arrow')
+        .absolute.bottom-0.left-0.hidden(class='sm:block') 
+          img(src='assets/images/page/shop/sale2.png', alt='Iori')
+    .pl-11.relative.bg-second-bg(class='pt-[51px] pb-[58px]')
+      +FlexCol 
+        span.uppercase.font-bold.mb-1.uppercase(
+          class='text-[12px] leading-[12px] tracking-[0.1em] text-[#28A7E6]'
+        ) Hot deal
+        span.text-xl.font-bold.text-first-brand.mb-2 Sale Off Digital Camera
+        p.text-mini-desc.font-medium.text-gray-500.mb-6 Use discount code in checkout page.
+        a.flex.items-center(href='#', class='gap-[10px]')
+          span.text-mini-desc.font-bold.text-first-brand Shop Now
+          img.shrink-0(src='assets/images/page/shop/arrow.svg', alt='Arrow')
+        .absolute.bottom-0.right-0.hidden(class='sm:block') 
+          img(src='assets/images/page/shop/sale3.png', alt='Iori')
+
+mixin ContactBlock
+  .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 xl:grid-cols-4')&attributes(attributes)
+    +FlexCol(class='gap-y-[14px]')
+      +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+        .overflow-hidden(class='w-[42px] h-[42px]')
+          +ImageCover('assets/images/icons/icon-headphone.svg', 'Help & support')
+      span.text-header-6.font-bold.text-first-brand Help & support
+      p.text-base.font-medium.text-gray-500
+        | Email
+        |
+        a.text-success(href='#') support@alithemes.com
+        <br>
+        | For help with a current product or service or refer to FAQs and developer tools
+    +FlexCol(class='gap-y-[14px]')
+      +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+        .overflow-hidden(class='w-[42px] h-[42px]')
+          +ImageCover('assets/images/icons/icon-phone1.svg', 'Call Us')
+      span.text-header-6.font-bold.text-first-brand Call Us
+      p.text-base.font-medium.text-gray-500
+        | Call us to speak to a member of our team.
+        <br>
+        | (+01) 234 567 89
+        | (+01) 456 789 21
+    +FlexCol(class='gap-y-[14px]')
+      +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+        .overflow-hidden(class='w-[42px] h-[42px]')
+          +ImageCover('assets/images/icons/icon-chart.svg', 'Bussiness Department')
+      span.text-header-6.font-bold.text-first-brand Bussiness Department
+      p.text-base.font-medium.text-gray-500
+        | Contact the sales department about cooperation projects
+        <br>
+        | (+01) 789 456 23
+    +FlexCol(class='gap-y-[14px]')
+      +JustifyCenter.bg-gray-60.rounded-lg(class='w-[82px] h-[82px]')
+        .overflow-hidden(class='w-[42px] h-[42px]')
+          +ImageCover('assets/images/icons/icon-earth.svg', 'Global branch')
+      span.text-header-6.font-bold.text-first-brand Global branch
+      p.text-base.font-medium.text-gray-500
+        | Contact us to open our branches globally.
+        <br>
+        | (+01) 234 567 89
+        <br>
+        | (+01) 789 456 23
+
+mixin JobSummaryItem(icon, title01, title02)
+  +ItemsCenter 
+    .w-full(class='min-w-[117px] max-w-[117px]')
+      span.inline-block.bg-no-repeat.text-base.font-medium.text-gray-500(
+        class='bg-[left_center] pl-[25px]',
+        class=icon
+      )= title01
+    span.text-gray-900.text-base.font-medium= title02
+
+mixin TrCommunityForumsTable(icon, title, desc, topics, comments, authorImage, name, mins)
+  tr 
+    td.text-left.border-b.border-gray-80(class='p-[30px]')
+      .flex.gap-10
+        +JustifyCenter.bg-gray-80.border.border-gray-80.rounded-lg.shadow-drop-shadown-1.shrink-0(
+          class='w-[84px] h-[84px]'
+        )
+          .block.overflow-hidden(class='w-[52px] h-[52px]')
+            +ImageCover(icon, title)
+        .block 
+          +Heading4(title).mb-4
+          +TextBase(desc)
+    td.text-center.border-b.border-gray-80.text-header-7.font-medium.text-gray-500(class='p-[30px]')= topics
+    td.text-center.border-b.border-gray-80.text-header-7.font-medium.text-gray-500(class='p-[30px]')= comments
+    td.text-left.border-b.border-gray-80(class='p-[30px]')
+      +ItemsCenter
+        span.shrink-0
+          img(src=authorImage, alt='Author', class='w-[42px], h-[42px] rounded-[50%] mr-2.5')
+        +FlexCol 
+          span.text-header-7.font-medium.text-first-brand= name
+          span.text-header-9.text-gray-300.font-medium= mins
+
+mixin OfferBtnUlItem(bgColor, icon, title, link, itemsArray=["Welcome to our platform", "Writing posts with CMS", "Publishing options", "Managing admin settings", "Create your content"])
+  .border.border-gray-80.rounded-lg&attributes(attributes)
+    +ItemsEnd.p-7(class=bgColor, class='gap-[22px]')
+      +JustifyCenter.bg-gray-0.rounded-lg.shrink-0(class='w-[104px] h-[115px]')
+        .overflow-hidden.w-14.h-14
+          +ImageCover(icon, title)
+      +Heading4(title)
+    .px-7.pt-7.pb-4
+      ul.pl-6.list-disc(class='mb-[13px]')
+        each item in itemsArray
+          li.font-medium.text-gray-500(class='text-[14px] leading-[28px]')= item
+      +RightArrowButton('Learn More', link) 
+
+mixin ThumbImageHomepage8(bgColor01, image, name, position, bgColor02)
+  .border-gray-0.flex.items-end.w-full.rounded-2xl.overflow-hidden.relative.shadow-drop-shadown-8(
+    class='border-[3px] h-[358px]',
+    class=bgColor01
+  )
+    .relative
+      img.block(src=image, alt='Iori')
+    .absolute.border.border-gray-0(
+      class='bottom-[15px] left-[15px] right-[15px] p-[15px] rounded-[12px]',
+      class=bgColor02
+    )
+      a.font-bold.text-header-7.text-first-brand.block(href='#', class='mb-[1px]')= name
+      .flex.items-center.justify-between
+        .text-mini-desc.text-gray-500.font-medium(class='w-[50%]')= position
+        +ItemsCenter.gap-x-2
+          a.hover-up(href='#')
+            img(src='assets/images/icons/icon-facebook.svg', alt='Facebook')
+          a.hover-up(href='#')
+            img(src='assets/images/icons/icon-twitter.svg', alt='Twitter')
+          a.hover-up(href='#')
+            img(src='assets/images/icons/icon-instagram.svg', alt='Instagram')

@@ -1,0 +1,14 @@
+.w-screen.h-full.bg-opacity-80.hidden.video-iframe.fixed(
+  class='bg-[#0b0b0b] z-[999999] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'
+)
+  .video.grid.relative.w-full.place-items-center.m-auto.h-full(class='xl:w-[70%] max-w-[920px] px-[1.5rem]')
+    .block.w-full.h-auto
+      .flex.justify-end.relative.top-0.right-0.items-end(class='mb-[1rem]')
+        button.text-white.close-video(type='button', title='Close (Esc)', class='text-[20px]') x
+      iframe.aspect-video.w-full(
+        src='https://www.youtube.com/embed/oRI37cOPBQQ',
+        title='YouTube video player',
+        frameborder='0',
+        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+        allowfullscreen
+      )

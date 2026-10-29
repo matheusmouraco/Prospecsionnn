@@ -1,0 +1,8 @@
+mixin ImageShrink(src, alt)
+  img.shrink-0(src=src, alt=alt)&attributes(attributes)
+
+mixin ImageCover(src, alt)
+  img.w-full.h-full.object-cover(src=src, alt=alt)&attributes(attributes)
+
+mixin ImageSrcSet(src, alt)
+  img.max-w-full(srcset=src, alt=alt)&attributes(attributes)

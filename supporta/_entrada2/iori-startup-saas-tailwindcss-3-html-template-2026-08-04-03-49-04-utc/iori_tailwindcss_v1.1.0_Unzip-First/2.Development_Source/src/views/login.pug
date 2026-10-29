@@ -1,0 +1,72 @@
+extends layout/layout
+
+block vars
+  - title = 'Login - IORI Marketplace Template';
+  - bodyClass = 'login-styles';
+  - var loginLineIcon = '/assets/images/login-line.svg';
+
+block container
+  section.relative.inline-block.w-full.float-left
+    .w-full.relative(class='xl:top-[40%] xl:absolute py-[60px] xl:py-0 xl:left-0 xl:translate-y-[-40%]')
+      +MainContainer
+        .grid.grid-cols-12.items-center
+          .col-span-12(class='xl:col-span-5')
+            .m-auto(class='max-w-[450px]')
+              +Heading2('Welcome back').mb-4
+              +TextBase('Fill your email address and password to sign in.')(class='mb-[26px]')
+              .w-full.h-2.inline-block.bg-contain.bg-no-repeat.bg-left-top.mb-14(
+                class="bg-[url('" + loginLineIcon + "')]"
+              )
+              .relative.mb-6
+                input.bg-gray-0.rounded-lg.border.border-gray-80.w-full.rounded-lg.pr-6.text-base.font-medium.text-gray-200.outline-none(
+                  type='text',
+                  placeholder='Username',
+                  class='py-[22px] pl-[26px]'
+                )
+                .absolute.right-0.mr-6(class='top-[50%] translate-y-[-50%]')
+                  img(src='assets/images/page/contact/user.svg', alt='User')
+              .relative.mb-6
+                input.bg-gray-0.rounded-lg.border.border-gray-80.w-full.rounded-lg.pr-6.text-base.font-medium.text-gray-200.outline-none(
+                  type='password',
+                  placeholder='Password',
+                  class='py-[22px] pl-[26px]'
+                )
+                .absolute.right-0.mr-6(class='top-[50%] translate-y-[-50%]')
+                  img(src='assets/images/page/register/password.svg', alt='Password')
+              +JustifyBetween.mb-6
+                .radioBtn.flex.items-center.gap-2
+                  input#remember-me(type='checkbox', name='remember-me')
+                  label.text-mini-desc.font-medium.text-gray-500(for='remember-me') Remember me
+                a.text-mini-desc.font-medium.text-gray-500.transition-common(
+                  href='#',
+                  class='hover:text-success'
+                ) Forgot password?
+              button.bg-first-brand.text-second-brand.w-full.py-5.text-header-8.rounded-lg.mb-6.font-bold.transition-common(
+                class='hover:bg-first-brand-hover'
+              ) Sign in
+              p.text-header-9.font-medium.text-gray-500 Don’t have an account?
+                a.text-success.pl-1(href='register.html') Sign up now
+    .grid.grid-cols-12
+      .col-span-5
+      .col-span-7
+        .hidden(class='xl:block pl-[70px]')
+          img.max-w-full.w-full.block(srcset='assets/images/login-banner.png 2x', alt='Banner')
+  .bg-gray-80.inline-block.w-full(class='py-[72px]')
+    +MainContainer
+      ul.text-center
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-placed-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-cuebiq-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-factual-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-place-iq-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-airmeet-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-spendflo-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-klippa-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5 mb-[5.5px]')
+          +ImageCover('assets/images/icons/icon-matrixian-1.svg', 'Iori')

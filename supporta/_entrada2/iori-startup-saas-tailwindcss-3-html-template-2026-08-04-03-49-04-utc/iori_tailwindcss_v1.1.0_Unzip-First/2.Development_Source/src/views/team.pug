@@ -1,0 +1,408 @@
+extends layout/layout
+
+block vars
+  - title = 'Team - IORI Marketplace Template';
+  - bodyClass = 'team-styles';
+
+block container
+  section.team.relative
+    img.absolute.top-0.left-0.max-w-full(src='assets/images/team/fingerprinted-1.svg', alt='')
+    +MainContainer.team-banner
+      .grid-wrapper.flex.flex-row.items-center.justify-between
+        .grid-info
+          h1.title.mb-4.text-first-brand Customers Love Our Creative Team, and So Will You
+          .flex.flex-row.flex-nowrap.button-wrapper.gap-6
+            +NormalButton('Contact Us')
+            +RightArrowButton('Support Center', '#')
+          .customer-said.mt-20
+            p.text-base “Highly recommend Iori Agency! They guide us on marketing initiatives and develop great strategies to increase our return on investment. The agency is excellent at being cooperative and responding quickly.”
+          .customer-rate.flex.flex-row.justify-start.items-center.gap-3.py-8
+            img.image-rate-circle(src='assets/images/team/circleImage.png', alt='')
+            .info
+              h3.text-base.font-bold(class='text[#024430]') Bessie Cooper
+              .rate-box.flex.flex-row.items-center.justify-start.gap-1
+                svg(
+                  width='12',
+                  height='12',
+                  viewbox='0 0 12 12',
+                  fill='none',
+                  xmlns='http://www.w3.org/2000/svg'
+                )
+                  path(
+                    d='M11.4485 4.58592C11.3733 4.3535 11.1672 4.18842 10.9233 4.16644L7.6103 3.86561L6.30026 0.799335C6.20367 0.574616 5.98368 0.429153 5.73925 0.429153C5.49483 0.429153 5.27484 0.574616 5.17825 0.79986L3.86821 3.86561L0.554701 4.16644C0.311242 4.18894 0.105615 4.3535 0.0300369 4.58592C-0.0455407 4.81835 0.0242569 5.07328 0.208428 5.23398L2.71265 7.4302L1.97421 10.683C1.92018 10.9222 2.01301 11.1694 2.21145 11.3129C2.31812 11.3899 2.44292 11.4292 2.56876 11.4292C2.67727 11.4292 2.7849 11.3999 2.88149 11.3421L5.73925 9.63412L8.59597 11.3421C8.80501 11.4679 9.06852 11.4564 9.26653 11.3129C9.46506 11.169 9.55781 10.9217 9.50377 10.683L8.76534 7.4302L11.2696 5.23442C11.4537 5.07328 11.524 4.81878 11.4485 4.58592V4.58592Z',
+                    fill='#FFD166'
+                  )
+                svg(
+                  width='12',
+                  height='12',
+                  viewbox='0 0 12 12',
+                  fill='none',
+                  xmlns='http://www.w3.org/2000/svg'
+                )
+                  path(
+                    d='M11.4485 4.58592C11.3733 4.3535 11.1672 4.18842 10.9233 4.16644L7.6103 3.86561L6.30026 0.799335C6.20367 0.574616 5.98368 0.429153 5.73925 0.429153C5.49483 0.429153 5.27484 0.574616 5.17825 0.79986L3.86821 3.86561L0.554701 4.16644C0.311242 4.18894 0.105615 4.3535 0.0300369 4.58592C-0.0455407 4.81835 0.0242569 5.07328 0.208428 5.23398L2.71265 7.4302L1.97421 10.683C1.92018 10.9222 2.01301 11.1694 2.21145 11.3129C2.31812 11.3899 2.44292 11.4292 2.56876 11.4292C2.67727 11.4292 2.7849 11.3999 2.88149 11.3421L5.73925 9.63412L8.59597 11.3421C8.80501 11.4679 9.06852 11.4564 9.26653 11.3129C9.46506 11.169 9.55781 10.9217 9.50377 10.683L8.76534 7.4302L11.2696 5.23442C11.4537 5.07328 11.524 4.81878 11.4485 4.58592V4.58592Z',
+                    fill='#FFD166'
+                  )
+                svg(
+                  width='12',
+                  height='12',
+                  viewbox='0 0 12 12',
+                  fill='none',
+                  xmlns='http://www.w3.org/2000/svg'
+                )
+                  path(
+                    d='M11.4485 4.58592C11.3733 4.3535 11.1672 4.18842 10.9233 4.16644L7.6103 3.86561L6.30026 0.799335C6.20367 0.574616 5.98368 0.429153 5.73925 0.429153C5.49483 0.429153 5.27484 0.574616 5.17825 0.79986L3.86821 3.86561L0.554701 4.16644C0.311242 4.18894 0.105615 4.3535 0.0300369 4.58592C-0.0455407 4.81835 0.0242569 5.07328 0.208428 5.23398L2.71265 7.4302L1.97421 10.683C1.92018 10.9222 2.01301 11.1694 2.21145 11.3129C2.31812 11.3899 2.44292 11.4292 2.56876 11.4292C2.67727 11.4292 2.7849 11.3999 2.88149 11.3421L5.73925 9.63412L8.59597 11.3421C8.80501 11.4679 9.06852 11.4564 9.26653 11.3129C9.46506 11.169 9.55781 10.9217 9.50377 10.683L8.76534 7.4302L11.2696 5.23442C11.4537 5.07328 11.524 4.81878 11.4485 4.58592V4.58592Z',
+                    fill='#FFD166'
+                  )
+                svg(
+                  width='12',
+                  height='12',
+                  viewbox='0 0 12 12',
+                  fill='none',
+                  xmlns='http://www.w3.org/2000/svg'
+                )
+                  path(
+                    d='M11.4485 4.58592C11.3733 4.3535 11.1672 4.18842 10.9233 4.16644L7.6103 3.86561L6.30026 0.799335C6.20367 0.574616 5.98368 0.429153 5.73925 0.429153C5.49483 0.429153 5.27484 0.574616 5.17825 0.79986L3.86821 3.86561L0.554701 4.16644C0.311242 4.18894 0.105615 4.3535 0.0300369 4.58592C-0.0455407 4.81835 0.0242569 5.07328 0.208428 5.23398L2.71265 7.4302L1.97421 10.683C1.92018 10.9222 2.01301 11.1694 2.21145 11.3129C2.31812 11.3899 2.44292 11.4292 2.56876 11.4292C2.67727 11.4292 2.7849 11.3999 2.88149 11.3421L5.73925 9.63412L8.59597 11.3421C8.80501 11.4679 9.06852 11.4564 9.26653 11.3129C9.46506 11.169 9.55781 10.9217 9.50377 10.683L8.76534 7.4302L11.2696 5.23442C11.4537 5.07328 11.524 4.81878 11.4485 4.58592V4.58592Z',
+                    fill='#FFD166'
+                  )
+                svg(
+                  width='12',
+                  height='12',
+                  viewbox='0 0 12 12',
+                  fill='none',
+                  xmlns='http://www.w3.org/2000/svg'
+                )
+                  path(
+                    d='M11.4485 4.58592C11.3733 4.3535 11.1672 4.18842 10.9233 4.16644L7.6103 3.86561L6.30026 0.799335C6.20367 0.574616 5.98368 0.429153 5.73925 0.429153C5.49483 0.429153 5.27484 0.574616 5.17825 0.79986L3.86821 3.86561L0.554701 4.16644C0.311242 4.18894 0.105615 4.3535 0.0300369 4.58592C-0.0455407 4.81835 0.0242569 5.07328 0.208428 5.23398L2.71265 7.4302L1.97421 10.683C1.92018 10.9222 2.01301 11.1694 2.21145 11.3129C2.31812 11.3899 2.44292 11.4292 2.56876 11.4292C2.67727 11.4292 2.7849 11.3999 2.88149 11.3421L5.73925 9.63412L8.59597 11.3421C8.80501 11.4679 9.06852 11.4564 9.26653 11.3129C9.46506 11.169 9.55781 10.9217 9.50377 10.683L8.76534 7.4302L11.2696 5.23442C11.4537 5.07328 11.524 4.81878 11.4485 4.58592V4.58592Z',
+                    fill='#FFD166'
+                  )
+        .grid-gallery
+          .grid-gallery-wrapper.relative.grid.grid-cols-3.gap-5
+            .grid-box.relative.flex.flex-col.gap-5
+              .view
+                img.max-w-full.grid-image(src='assets/images/team/womanWithPhone.png', alt='')
+              img.max-w-full.arrows_down.absolute(src='assets/images/team/arrows_down.png', alt='')
+            .grid-box.relative.flex.flex-col.gap-5
+              .view
+                img.max-w-full.grid-image(src='assets/images/team/womanSmile.png', alt='')
+              .view.layout-border.first
+                img.max-w-full.grid-image(
+                  src='assets/images/team/theManWithConfidentFace.png',
+                  alt=''
+                )
+              img.max-w-full.absolute.arrows_right(
+                src='assets/images/team/arrows_right.png',
+                alt=''
+              )
+            .grid-box.relative.flex.flex-col.gap-5
+              .view.layout-border.second
+                img.max-w-full.grid-image(
+                  src='assets/images/team/theWomanLookLikeManage.png',
+                  alt=''
+                )
+              .view
+                img.max-w-full.grid-image(src='assets/images/team/womanGoodJob.png', alt='')
+              .view
+                img.max-w-full.grid-image(src='assets/images/team/Ganbate.png', alt='')
+  .bg-gray-80.inline-block.w-full(class='py-[72px] mb-[71px] lg:mb-[142px]')
+    +MainContainer
+      ul.text-center
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-placed-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-cuebiq-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-factual-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-place-iq-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-airmeet-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-spendflo-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          +ImageCover('assets/images/icons/icon-klippa-1.svg', 'Iori')
+        li.inline-block.px-5(class='min-w-[100px] py-2.5 mb-[5.5px]') 
+          +ImageCover('assets/images/icons/icon-matrixian-1.svg', 'Iori')
+  .block.border-b.border-third-brand(class='pb-[71px] lg:pb-[142px] mb-[71px] lg:mb-[142px]')
+    +MainContainer
+      p.text-header-6.font-bold.text-first-brand.mb-5 Our leadership team
+      +Heading2('Meet the amazing team behind Iori').mb-10(class='lg:max-w-[557px] lg:mb-[52px]')
+      .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2 lg:grid-cols-4')
+        +AmazingTeamMember('assets/images/homepage-11-person-1.png', 'Devon Lane', 'CEO', 'Sharing content online allows you to craft an online persona that reflects your personal values and professional skills. Even if you only use social media occasionally', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-2.png', 'Jennie Tho', 'Finance Manager', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus.', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-3.png', 'Symon Lesin', 'Technology Manager', 'In a professional context it often happens that private or corporate clientsorder a publication to publish news. Excepteur sint occaecat cupidatat non proident.', '#', '#', '#')
+        +AmazingTeamMember('assets/images/homepage-11-person-4.png', 'Virginia Aguilar', 'Director of People', 'In a professional context it often happens that private or corporate clientsorder a publication to publish news. Excepteur sint occaecat cupidatat non proident.', '#', '#', '#')
+  section.team.relative
+    +MainContainer.team-board-member
+      h6.text-header-6.text-first-brand.font-bold Board members
+      h2.title.text-first-brand.text-header-3.font-extrabold(class='min-[1280px]:text-header-2') Together we are strong
+      .grid-wrapper
+        .box-element 
+          .flex-in-row
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img1.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Darrell Steward
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img2.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Guy Hawkins
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img3.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Darlene Robertson
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img4.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Ronald Richards
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img5.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Kathryn Murphy
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img6.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Cameron Williamson
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img7.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Floyd Miles
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img8.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Devon Lane
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img9.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Albert Flores
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img10.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Jenny Wilson
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img11.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') Arlene McCoy
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+        .box-element 
+          .flex-in-row 
+            .view
+              img.max-w-full.img-gallery(src='assets/images/team/board/img12.png', alt='')
+            .information 
+              h3.title(class='text-[#024430]') DTheresa Webb
+              h6.department.font-medium.font-mini-desc.text-gray-300 Product Designer
+              ul.flex.flex-row.items-center.justify-start.list-none
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/facebook.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/twitter.svg', alt='') 
+                li.list-item
+                  a.item-link(href='#facebook')
+                    img(src='assets/images/team/board/ins.svg', alt='') 
+          .info-cont.mt-3
+            p.text-gray-500 Joined since 2012, when we were just established. He is a great companion.
+
+  section.team.relative
+    +MainContainer.team-have-question
+      .grid.grid-cols-12.items-center(class='gap-[30px]')
+        .col-span-full(class='min-[1024px]:col-span-5') 
+          +FlexCol
+            +Heading2('Have a question? Our team is happy to help you').mb-6.title
+            +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.').mb-9
+            +ItemsCenter.gap-6
+              +NormalButton('Contact Us')
+              +RightArrowButton('Help Center', '#')
+        .col-span-full.col-span-7(class='min-[1024px]:col-span-7')
+          .grid.grid-cols-12(class='gap-[17px]')
+            .col-span-7.relative
+              +ImageCover('assets/images/team/question/img1.png', 'Iori')
+            .col-span-5.h-full
+              +FlexCol.h-full(class='gap-[17px]')
+                +ImageCover('assets/images/team/question/img2.png', 'Iori')
+                +ImageCover('assets/images/team/question/img3.png', 'Iori')
+  .bg-seventh-bg.relative(class='mb-[71px] lg:mb-[143px]')
+    +MainContainer
+      .grid.grid-cols-1.gap-8.pt-14.pb-9(class='lg:pb-[71px] lg:pt-28 lg:grid-cols-3')
+        +FlexCol.gap-y-8
+          +Heading1("Core values")
+          p.text-base.font-medium.text-gray-400.mb-3(class='lg:max-w-[333px]') We break down barriers so teams can focus on what matters – working together to create products their customers love.
+          button.py-4.px-6.bg-gray-0.border.border-first-brand.font-bold.uppercase.tracking-widest.w-fit.transition-common(
+            class='rounded-[60px] text-[14px] leading-[18px] hover:bg-first-brand hover:text-second-brand'
+          ) Join our team today
+        +FlexCol.gap-y-6
+          +CoreValueItem('Customers First', 'Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.')
+          +CoreValueItem('Act With Integrity', 'We’re honest, transparent and committed to doing what’s best for our customers and our company. We openly collaborate in pursuit of the truth. We have no tolerance for politics, hidden agendas or passive-aggressive behavior.')
+          +CoreValueItem('Make a Difference Every Day', 'Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.', 'border-b-0')
+        +FlexCol.gap-y-6
+          +CoreValueItem('Think Big', `Being the world's leading commerce platform requires unrivaled vision, innovation and execution. We never settle. We challenge our ideas of what’s possible in order to better meet the needs of our customers.`)
+          +CoreValueItem('Do the right thing', 'Integrity is the foundation for everything we do. We are admired and respected for our commitment to honesty, trust, and transparency.')
+          +CoreValueItem('Stronger united', 'We’ve created a positive and inclusive culture that fosters open, honest, and meaningful relationships.', 'border-b-0')
+    .absolute.bottom-0.left-0.opacity-20
+      +ImageCover('assets/images/homepage-12-circle-vector.svg', 'Circle')
+  +MainContainer 
+    +BlogSection(class='mb-[75px]')
+    +NewsletterSection02

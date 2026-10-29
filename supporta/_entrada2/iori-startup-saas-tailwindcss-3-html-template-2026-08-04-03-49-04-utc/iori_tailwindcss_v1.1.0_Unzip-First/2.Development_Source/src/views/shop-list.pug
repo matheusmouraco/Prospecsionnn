@@ -1,0 +1,195 @@
+extends layout/layout
+
+block vars
+  - title = 'Shop List - IORI Marketplace Template';
+  - bodyClass = 'shop-list-styles';
+  - var upIcon = '/assets/images/page/shop-list/up.svg';
+  - var downIcon = '/assets/images/page/shop-list/down.svg';
+
+block container
+  +MainContainer
+    .bg-fourth-bg(class='my-[30px]')
+      .grid.grid-cols-1.items-center.gap-5(class='lg:grid-cols-2')
+        .text-center.flex.items-center.h-full
+          .inline-block.w-full.p-8(class='bg-[#B7DDEC]')
+            img(src='assets/images/page/shop-list/banner.png', alt='Banner', class='max-w-[90%]')
+        +FlexCol.ml-5.mr-3.py-3.mb-2(class='lg:max-w-[621px] lg:ml-auto lg:mb-0 xl:py-0')
+          span.font-bold.text-header-6.text-danger.mb-2 HOT DEAL
+          h1.text-gray-800.font-bold.mb-4(class='text-[22px] leading-[28px] lg:text-header-3') Leather Canvas Bag Vintage for Digital Camera and lens
+          +ItemsCenter.gap-5(class='sm:gap-[31px] mb-[33px]')
+            span.text-success.font-bold(class='text-[22px] leading-[28px] lg:text-header-3') $318.00
+            span.text-gray-200.font-bold.line-through(class='text-[26px] leading-[34px] tracking-[-0.02em]') $420.00
+            span.text-base.font-medium.text-gray-200 (In stock)
+          +TextBase(`We're lively, not corporate. We have the energy and boldness of a startup and the expertise and pragmatism of a scale-up. All in one place.`)(
+            class='mb-[33px]'
+          )
+          +ItemsCenter.gap-2
+            .bg-gray-0.rounded.relative.overflow-hidden.border.border-gray-80(
+              class='max-w-[95px] h-[50px] w-[95px]'
+            )
+              input.font-bold.w-full.pr-5.outline-none.product-input01(
+                type='text',
+                value='1',
+                class='h-[50px] text-[26px] leading-[34px] pt-[7px] pb-[10px] pl-[25px]'
+              )
+              span.increment-button01.absolute.h-5.w-10.bg-no-repeat.bg-center.cursor-pointer(
+                class="top-[3px] right-[5px] bg-[url('" + upIcon + "')]"
+              )
+              span.decrement-button01.absolute.h-5.w-10.bg-no-repeat.bg-center.cursor-pointer(
+                class="bottom-[3px] right-[5px] bg-[url('" + downIcon + "')]"
+              )
+            button.bg-first-brand.text-second-brand.text-header-6.font-bold.py-3.px-4.rounded.border.border-first-brand.transition-common(
+              class='h-[50px] sm:px-9 hover:bg-first-brand-hover'
+            ) Add To Cart
+            +JustifyCenter.bg-first-brand.rounded.transition-common.cursor-pointer(
+              class='w-[50px] h-[50px] hover:bg-first-brand-hover'
+            )
+              +HeartIcon.w-4.h-4.text-second-brand
+          .flex.items-center.gap-6.mt-16
+            span.text-mini-desc.font-bold.text-first-brand Share
+            +ItemsCenter.gap-x-2
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-facebook.svg', alt='Facebook')
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-twitter.svg', alt='Twitter')
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-instagram.svg', alt='Instagram')
+    +ShopBannerBox(class='mb-[87px]')
+    +Heading2('Latest Products').text-center.mb-11
+    .text-center(class='mb-[73px]')
+      ul.relative
+        li.inline-block.px-1.mb-8
+          a.bg-gray-60.py-3.text-base.font-medium.text-gray-500.transition-common(
+            href='#',
+            class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+          ) Digital Cameras
+        li.inline-block.px-1.mb-8
+          a.bg-gray-60.py-3.text-base.font-medium.text-gray-500.transition-common(
+            href='#',
+            class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+          ) Mirrorless Camera
+        li.inline-block.px-1.mb-8
+          a.bg-gray-60.py-3.text-base.font-medium.text-gray-500.transition-common(
+            href='#',
+            class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+          ) Camera Flashes
+        li.inline-block.px-1.mb-8
+          a.bg-gray-60.py-3.text-base.font-medium.text-gray-500.transition-common(
+            href='#',
+            class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+          ) Travel Camera
+        li.inline-block.px-1.mb-8
+          a.bg-gray-60.py-3.text-base.font-medium.text-gray-500.transition-common(
+            href='#',
+            class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+          ) Instant Camera
+        li.inline-block.px-1.mb-8
+          a.bg-gray-60.py-3.text-base.font-medium.text-gray-500.transition-common(
+            href='#',
+            class='rounded-[50px] px-[22px] hover:bg-first-brand hover:text-second-brand'
+          ) Accessories
+    .grid.grid-cols-1(class='gap-[30px] mt-[29px] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')
+      +ProductGridItem('#', 'assets/images/page/shop/sp1.png', 'Sony DSCH300/B Digital Camera (Black)', 4, '(84 rates)', '$253.0', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp2.png', 'Ricoh GR III Digital Compact Camera, 24mp', 4, '(84 rates)', '$12.53', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp3.png', 'Panasonic LUMIX FZ80 4K Digital Camera', 4, '(84 rates)', '$130.2', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp4.png', 'Canon EOS Rebel T7 DSLR Camera|2 Lens Kit', 4, '(84 rates)', '$69.56', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+    .grid-cols-1.grid(class='gap-[30px] my-[30px] xl:grid-cols-2')
+      .border.border-gray-80.bg-gray-0.flex.p-5.flex-col(
+        class='sm:flex-row sm:pl-0 sm:pt-[55px] sm:pb-[54px] sm:pr-[31px]'
+      )
+        .w-full.inline-block.mb-3(class='sm:min-w-[213px] sm:mb-0 sm:mr-4 sm:max-w-[213px]')
+          a(href='#') 
+            img(
+              src='assets/images/page/shop/sp6.png',
+              alt='Ricoh GR III Digital Compact Camera, 24mp',
+              class='max-h-[220px]'
+            )
+        .w-full 
+          a.text-gray-900.font-bold.text-xl.mb-2.inline-block(href='#') Ricoh GR III Digital Compact Camera, 24mp
+          .flex.items-center(class='mb-[22px]')
+            .w-full.flex
+              +RatingStar(4)
+              span.text-gray-200.text-mini-desc.font-medium(class='ml-2.5') (84 rates)
+            .w-full.text-right(class='min-w-[95px] max-w-[95px]')
+              span.font-normal(class='text-[#006D77] text-[22px] leading-[24px]') $125.0
+          p.text-gray-500.font-medium.text-header-9.mb-4 Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit
+          ul.pl-6.list-disc
+            li.text-mini-desc.font-medium.text-gray-300 Fe 28-70Mm F/3.5-5.6 Oss Lens
+            li.text-mini-desc.font-medium.text-gray-300 Np-Fw50 Lithium-Ion Rechargeable Battery
+            li.text-mini-desc.font-medium.text-gray-300 Multi-Interface Shoe Cover
+      .border.border-gray-80.bg-gray-0.flex.p-5.flex-col(
+        class='sm:flex-row sm:pl-0 sm:pt-[55px] sm:pb-[54px] sm:pr-[31px]'
+      )
+        .w-full.inline-block.mb-3(class='sm:min-w-[213px] sm:mb-0 sm:mr-4 sm:max-w-[213px]')
+          a(href='#') 
+            img(
+              src='assets/images/page/shop/sp19.png',
+              alt='Nikon COOLPIX L840 Digital Camera with 38x Optical',
+              class='max-h-[220px]'
+            )
+        .w-full 
+          a.text-gray-900.font-bold.text-xl.mb-2.inline-block(href='#') Nikon COOLPIX L840 Digital Camera with 38x Optical
+          .flex.items-center(class='mb-[22px]')
+            .w-full.flex
+              +RatingStar(4)
+              span.text-gray-200.text-mini-desc.font-medium(class='ml-2.5') (84 rates)
+            .w-full.text-right(class='min-w-[95px] max-w-[95px]')
+              span.font-normal(class='text-[#006D77] text-[22px] leading-[24px]') $75.86
+          p.text-gray-500.font-medium.text-header-9.mb-4 Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit
+          ul.pl-6.list-disc
+            li.text-mini-desc.font-medium.text-gray-300 Auto, Auto/Red-Eye Reduction
+            li.text-mini-desc.font-medium.text-gray-300 Rechargeable Lithium-Ion, 7.2 VDC, 1200 mAh
+            li.text-mini-desc.font-medium.text-gray-300 BuiltIn; 802.11b/g/n + Bluetooth
+    .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')
+      +ProductGridItem('#', 'assets/images/page/shop/sp9.png', 'Fujifilm Instax Mini 8 Instant Film Camera', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp10.png', 'Minolta 20 Mega Pixels High Wi-Fi Digital', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp11.png', 'Ring Floodlight Cam Wired Plus with motion', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp12.png', 'KODAK PIXPRO Friendly Zoom FZ45-WH', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp13.png', 'Sony Alpha a7 IIK E-mount interchangeable lens', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp14.png', 'Canon EOS Rebel T7 DSLR Camera|2 Lens Kit', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp15.png', 'Nikon D800 36.3 MP CMOS FX-Format Digital SLR', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+      +ProductGridItem('#', 'assets/images/page/shop/sp16.png', 'Sony DSCH300/B Digital Camera (Black)', 4, '(84 rates)', '$150.6', 'Full-frame Mirrorless Interchangeable Lens Camera with 28-70mm Zoom Lens Kit')
+    .text-center(class='mb-[48px] lg:mb-[96px] mt-[31px] lg:mt-[62px]')
+      nav.inline-block(class='mt-[62px] mb-[79px]')
+        ul.flex.items-center.gap-1 
+          li
+            a.bg-gray-0.flex.items-center.justify-center(href='#', class='w-[42px] h-[42px]') 
+              img(src='assets/images/page/shop/prev.svg', alt='Prev Icon')
+          +PaginationItem('#', 1)
+          +PaginationItem('#', 2)
+          +PaginationItem('#', 3)
+          +PaginationItem('#', 4)
+          +PaginationItem('#', 5)
+          +PaginationItem('#', 6)
+          li
+            a.bg-gray-0.flex.items-center.justify-center(href='#', class='w-[42px] h-[42px]') 
+              img(src='assets/images/page/shop/next.svg', alt='Next Icon')
+  .bg-gray-80(class='mb-[111px] py-[57px]')
+    +MainContainer 
+      .grid.grid-cols-1(class='gap-[30px] sm:grid-cols-2 lg:grid-cols-4')
+        +FlexCol.gap-y-2
+          +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+            .w-8.h-8.overflow-hidden 
+              +ImageCover('assets/images/page/product/delivery.svg', 'Delivery')
+          span.text-header-6.font-bold.text-first-brand Fast Delivery
+          p.text-mini-desc.font-medium.text-gray-500 We come together wherever we are – across time zones, regions, offices and screens. You will receive support from your teammates anytime and anywhere.
+        +FlexCol.gap-y-2
+          +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+            .w-8.h-8.overflow-hidden 
+              +ImageCover('assets/images/page/product/secure.svg', 'Secure')
+          span.text-header-6.font-bold.text-first-brand Secure payment
+          p.text-mini-desc.font-medium.text-gray-500 Our teams reflect the rich diversity of our world, with equitable access to opportunity for everyone. No matter where you come from
+        +FlexCol.gap-y-2
+          +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+            .w-8.h-8.overflow-hidden 
+              +ImageCover('assets/images/page/product/support.svg', 'Support')
+          span.text-header-6.font-bold.text-first-brand Support 24/7
+          p.text-mini-desc.font-medium.text-gray-500 We believe in your freedom to work when and how you work best, to help us all thrive. Only freedom and independent work can bring out the best in you.
+        +FlexCol.gap-y-2
+          +JustifyCenter.bg-gray-60.rounded-md(class='w-[51px] h-[51px]')
+            .w-8.h-8.overflow-hidden 
+              +ImageCover('assets/images/page/product/return.svg', 'Return')
+          span.text-header-6.font-bold.text-first-brand Return & Refund
+          p.text-mini-desc.font-medium.text-gray-500 Knowing that there is real value to be gained from helping people to simplify whatever it is that they do and bring.
+  +MainContainer 
+    +NewsletterSection02

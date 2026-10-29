@@ -1,0 +1,63 @@
+extends layout/layout
+
+block vars
+  - title = 'Coming soon - IORI Marketplace Template';
+  - bodyClass = 'coming-soon-styles';
+
+block container
+  +MainContainer 
+    .grid.grid-cols-12.items-center.border-b.border-third-brand(
+      class='mt-[50px] lg:mt-[100px] pb-[70px] lg:pb-[140px] mb-[81px]'
+    )
+      .col-span-12(class='xl:col-span-7')
+        +FlexCol.mb-6(class='xl:mb-0')
+          +TagButton('Under Construction').mb-4
+          +Heading1('We are coming soon')(class='mb-[34px]')
+          .flex.items-center.gap-4(class='mb-[71px]')
+            +FlexCol.gap-y-1.items-center
+              +JustifyCenter.h-20.bg-gray-60.border.border-gray-80.rounded.shrink-0(class='w-[78px]')
+                span.font-bold.text-first-brand.days-element(class='text-[32px] leading-[32px]')
+              span.font-bold.text-gray-500.uppercase(class='text-[12px] leading-[24px]') days
+            +FlexCol.gap-y-1.items-center
+              +JustifyCenter.h-20.bg-gray-60.border.border-gray-80.rounded.shrink-0(class='w-[78px]')
+                span.font-bold.text-first-brand.hours-element(class='text-[32px] leading-[32px]')
+              span.font-bold.text-gray-500.uppercase(class='text-[12px] leading-[24px]') hours
+            +FlexCol.gap-y-1.items-center
+              +JustifyCenter.h-20.bg-gray-60.border.border-gray-80.rounded.shrink-0(class='w-[78px]')
+                span.font-bold.text-first-brand.mins-element(class='text-[32px] leading-[32px]')
+              span.font-bold.text-gray-500.uppercase(class='text-[12px] leading-[24px]') mins
+            +FlexCol.gap-y-1.items-center
+              +JustifyCenter.h-20.bg-gray-60.border.border-gray-80.rounded.shrink-0(class='w-[78px]')
+                span.font-bold.text-first-brand.secs-element(class='text-[32px] leading-[32px]')
+              span.font-bold.text-gray-500.uppercase(class='text-[12px] leading-[24px]') secs
+          +TextBase('Our design projects are fresh and simple and will benefit your business greatly. Learn more about our work!').mb-4(
+            class='max-w-[508px]'
+          )
+          .block.mb-11(class='max-w-[570px]')
+            .border.rounded-lg.boder-gray-80.flex.items-center.py-3.pl-4.pr-3.justify-between.bg-gray-0(
+              class='sm:pl-9'
+            )
+              input.border-none.outline-none.text-base.text-gray-200.font-medium.flex-1(
+                type='email',
+                placeholder='Enter you mail...',
+                name='email'
+              )
+              button.bg-first-brand.rounded-lg.flex.items-center.justify-center.px-5.gap-4.transition-common(
+                class='py-[11px] hover:bg-first-brand-hover'
+              )
+                span.text-base.text-second-brand.font-medium Notify Me
+                +ArrowRightIcon.text-second-brand.w-4.h-4
+          +ItemsCenter.gap-4
+            a.hover-up.shrink-0(href='#')
+              img(src='assets/images/template/icons/fb.svg', alt='Iori') 
+            a.hover-up.shrink-0(href='#')
+              img(src='assets/images/template/icons/inst.svg', alt='Iori') 
+            a.hover-up.shrink-0(href='#')
+              img(src='assets/images/template/icons/tw.svg', alt='Iori') 
+            a.hover-up.shrink-0(href='#')
+              img(src='assets/images/template/icons/in.svg', alt='Iori') 
+            a.hover-up.shrink-0(href='#')
+              img(src='assets/images/template/icons/youtube.svg', alt='Iori') 
+      .col-span-12(class='xl:col-span-5')
+        img(src='assets/images/page/coming/coming_soon.svg', alt='Iori')
+    +ContactBlock

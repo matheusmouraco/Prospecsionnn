@@ -1,0 +1,134 @@
+extends layout/layout
+
+block vars
+  - title = 'Help Center - IORI Marketplace Template';
+  - bodyClass = 'help-center-styles';
+
+block container
+  +MainContainer
+    .grid.grid-cols-12.mt-11.items-center(class='lg:mt-[87px] mb-[50px] lg:mb-[100px]')
+      .col-span-12.mb-6(class='lg:col-span-5 lg:mb-0')
+        +FlexCol 
+          +ItemsCenter.gap-x-3.mb-2
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Support Center
+          +Heading2('How can we help you?').mb-9
+          p.text-header-7.text-gray-500.font-medium.mb-4 Search here to get answers to your questions
+          .border.border-gray-80.rounded-lg.bg-gray-0.pl-5.flex.items-center(
+            class='py-2.5 pr-2.5 mb-[55px]'
+          )
+            input.text-base.text-gray-200.font-medium.outline-none.flex-1(
+              type='text',
+              placeholder='Search the doc'
+            )
+            button.bg-first-brand.pl-6.rounded-lg.flex.items-center.gap-4.w-fit.transition-common(
+              class='py-[11px] pr-[18px] hover:bg-first-brand-hover'
+            )
+              span.text-base.font-medium.text-second-brand Search
+              +ArrowRightIcon.text-second-brand.w-4.h-4
+          +TextSmBold('Suggested Search:').text-first-brand.mb-3
+          .flex.flex-col.gap-2(class='sm:items-center sm:flex-row')
+            a.text-mini-desc.px-3.font-medium.text-gray-500.bg-gray-80.w-fit(
+              href='#',
+              class='py-1.5 rounded-[50px]'
+            ) guest users
+            a.text-mini-desc.px-3.font-medium.text-gray-500.bg-gray-80.w-fit(
+              href='#',
+              class='py-1.5 rounded-[50px]'
+            ) create account
+            a.text-mini-desc.px-3.font-medium.text-gray-500.bg-gray-80.w-fit(
+              href='#',
+              class='py-1.5 rounded-[50px]'
+            ) invoice
+            a.text-mini-desc.px-3.font-medium.text-gray-500.bg-gray-80.w-fit(
+              href='#',
+              class='py-1.5 rounded-[50px]'
+            ) security
+      .col-span-12(class='lg:col-span-7')
+        .flex.items-end.relative.pl-3(class='lg:pl-[70px] mx-[-10px]')
+          .block(class='px-[10px]')
+            img(src='assets/images/page/help/banner1.png', alt='Iori')
+          .block(class='px-[10px]')
+            img(src='assets/images/page/help/banner2.png', alt='Iori')
+          .absolute.hero-thumb-animation(class='top-[-30px] right-[-40px] z-[2]')
+            img(src='assets/images/page/help/cruelty.png', alt='Cruelty')
+  .bg-gray-60(class='mb-[71px] lg:mb-[142px]')
+    +MainContainer
+      .block(class='py-[46px] lg:py-[92px]')
+        .card-guide.owl-carousel.owl-theme
+          +SalientFeature('assets/images/page/help/icon1.svg', 'Knowledge Base', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon2.svg', 'Community Forums', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon3.svg', 'Documentation', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon2.svg', 'Knowledge Base', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon3.svg', 'Community Forums', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/page/help/icon1.svg', 'Documentation', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+  +MainContainer 
+    .block(class='mb-[71px] lg:mb-[142px]')
+      +Heading2('Explore Topics').text-center.mb-5
+      +Heading6('Easily create Documentation, Knowledge-base, FAQ, Forum and more').mx-auto.text-center(
+        class='mb-[86px]'
+      )
+      .owl-carousel.owl-theme.offer-btn-carousel
+        .item
+          +OfferBtnUlItem('bg-gray-60', 'assets/images/icons/icon-social-media-1.svg', 'Getting Started', '#')
+        .item
+          +OfferBtnUlItem('bg-second-brand', 'assets/images/icons/icon-cross-platform-1.svg', 'Strategic Consulting', '#')
+        .item
+          +OfferBtnUlItem('bg-second-bg', 'assets/images/page/homepage1/business.svg', 'Local Marketing', '#')
+        .item
+          +OfferBtnUlItem('bg-fifth-bg', 'assets/images/icons/icon-cross-platform.svg', 'Cognitive Solution', '#')
+        .item
+          +OfferBtnUlItem('bg-second-brand', 'assets/images/icons/icon-cross-platform-1.svg', 'Strategic Consulting', '#')
+        .item
+          +OfferBtnUlItem('bg-second-bg', 'assets/images/page/homepage1/business.svg', 'Local Marketing', '#')
+        .item
+          +OfferBtnUlItem('bg-gray-60', 'assets/images/icons/icon-social-media-1.svg', 'Getting Started', '#')
+      button.owl-prev.custom-prev.border-2.border-first-brand.bg-gray-0.rounded-full.flex.items-center.justify-center.group(
+        class='w-[42px] h-[42px] hover:bg-first-brand'
+      )
+        +PrevIcon.w-4.h-4.text-first-brand(class='group-hover:text-second-brand')
+      button.owl-next.custom-next.border-2.border-first-brand.bg-gray-0.rounded-full.flex.items-center.justify-center.group(
+        class='w-[42px] h-[42px] hover:bg-first-brand'
+      )
+        +NextIcon.w-4.h-4.text-first-brand(class='group-hover:text-second-brand')
+    +Heading2('From Community Forums').mb-5.text-center
+    +Heading6('Updated on September 24, 2023').text-center(class='mb-[63px]')
+    .border.overflow-hidden.rounded-lg.border-gray-80.mb-11(class='lg:mb-[88px]')
+      .max-w-full.overflow-x-auto
+        table.border-collapse.border-spacing-0.w-full(class='min-w-[900px]')
+          thead 
+            tr 
+              th.text-left.bg-fourth-bg.pt-6.border-b.border-gray-80.font-bold.text-first-brand(
+                class='w-[40%] md:w-[50%] pb-[14px] px-[30px] text-[16px] leading-[28px]'
+              ) Forum
+              th.text-center.bg-fourth-bg.pt-6.border-b.border-gray-80.font-bold.text-first-brand(
+                class='w-[16%] pb-[14px] px-[30px] text-[16px] leading-[28px]'
+              ) Topics
+              th.text-center.bg-fourth-bg.pt-6.border-b.border-gray-80.font-bold.text-first-brand(
+                class='w-[16%] pb-[14px] px-[30px] text-[16px] leading-[28px]'
+              ) Comments
+              th.text-left.bg-fourth-bg.pt-6.border-b.border-gray-80.font-bold.text-first-brand(
+                class='w-[24%] md:w-[18%] pb-[14px] px-[30px] text-[16px] leading-[28px]'
+              ) Latest Post
+          tbody 
+            +TrCommunityForumsTable('assets/images/icons/icon-brand-identity.svg', 'Announcements', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '3', '16', 'assets/images/page/help/author.png', 'Steven Job', '16 mins ago')
+            +TrCommunityForumsTable('assets/images/icons/icon-budget-that-works.svg', 'User Feedback', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '3', '16', 'assets/images/page/help/author2.png', 'Steven Job', '16 mins ago')
+            +TrCommunityForumsTable('assets/images/icons/icon-cross-platform.svg', 'Technology support center', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '3', '16', 'assets/images/page/help/author3.png', 'Steven Job', '16 mins ago')
+            +TrCommunityForumsTable('assets/images/icons/icon-cross-platform-1.svg', 'Product Support', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '3', '16', 'assets/images/page/help/author4.png', 'Steven Job', '16 mins ago')
+            +TrCommunityForumsTable('assets/images/icons/icon-market-research.svg', 'Market research', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '3', '16', 'assets/images/page/help/author5.png', 'Steven Job', '16 mins ago')
+            +TrCommunityForumsTable('assets/images/icons/icon-flexible.svg', 'Strategic Consulting', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '3', '16', 'assets/images/page/help/author6.png', 'Steven Job', '16 mins ago')
+            +TrCommunityForumsTable('assets/images/icons/icon-enterprise.svg', 'Cognitive Solution', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '3', '16', 'assets/images/page/help/author7.png', 'Steven Job', '16 mins ago')
+    .grid.grid-cols-1.overflow-hidden.rounded-lg.border.border-gray-80.items-center.gap-x-20.gap-y-7(
+      class='mb-[61px] lg:mb-[123px] xl:grid-cols-2'
+    )
+      img(src='assets/images/page/help/answer.png', alt='Answer')
+      .block.pb-7.pl-7.pr-7(class='xl:pb-0 xl:pl-0 xl:pr-0')
+        +FlexCol 
+          +TagButton('More help').mb-3
+          +Heading2('Can’t find an answer?').mb-4
+          +TextBase('Make use of a qualified tutor to get the answer').mb-8
+          +ItemsCenter.gap-6
+            +NormalButton('Ask a Question')
+            +RightArrowButton('Contact Us', '#')
+    +BlogSection(class='mb-[56px] lg:mb-[112px]')
+    +NewsletterSection02

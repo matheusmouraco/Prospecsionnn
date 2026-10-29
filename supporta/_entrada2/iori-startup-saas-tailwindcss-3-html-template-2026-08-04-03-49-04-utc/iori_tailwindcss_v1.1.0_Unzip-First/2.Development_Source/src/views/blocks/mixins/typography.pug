@@ -1,0 +1,33 @@
+mixin TextBase(text)
+  p.text-base.font-medium.text-gray-500&attributes(attributes)= text
+
+mixin TextSmBold(text)
+  span.font-bold.text-header-9&attributes(attributes)= text
+
+mixin TextSmMedium(text)
+  span.font-medium.text-header-9&attributes(attributes)= text
+
+mixin Heading1(text)
+  p.text-first-brand.font-extrabold(
+    class='text-[34px] leading-[40px] sm:text-[50px] sm:leading-[60px] lg:text-[64px] lg:leading-[72px]'
+  )&attributes(attributes)= text
+
+mixin Heading2(text)
+  p.text-first-brand.font-extrabold(
+    class='text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2'
+  )&attributes(attributes)= text
+
+mixin Heading3(text)
+  p.text-first-brand.font-bold(class='text-[22px] leading-[28px] lg:text-header-3')&attributes(attributes)= text
+
+mixin Heading4(text, tracking='tracking-[-0.02em]')
+  p.font-bold.text-first-brand.text-header-5(class=tracking)&attributes(attributes)= text
+
+mixin Heading5(text)
+  p.font-bold.text-first-brand(class='text-[18px] leading-[24px] sm:text-xl')&attributes(attributes)= text
+
+mixin Heading6(text)
+  p.text-header-7.text-gray-500.font-medium&attributes(attributes)= text
+
+mixin Text14Leading22(text)
+  p.text-gray-500.font-medium(class='text-[14px] leading-[22px]')&attributes(attributes)= text

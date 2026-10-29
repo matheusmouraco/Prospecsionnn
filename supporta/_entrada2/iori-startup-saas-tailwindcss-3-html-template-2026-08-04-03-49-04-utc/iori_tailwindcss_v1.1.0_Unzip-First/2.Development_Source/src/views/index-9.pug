@@ -1,0 +1,237 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 9 - IORI Marketplace Template';
+  - bodyClass = 'homepage-9-styles';
+
+block container
+  .inline-block.w-full(class='mb-[100px]')
+    .block.bg-cover.bg-no-repeat(
+      class='pt-[120px] bg-[top_center] bg-[url(\'/assets/images/page/homepage9/bg-banner.png\')]'
+    )
+      +MainContainer.relative
+        .grid.grid-cols-12.items-center
+          .col-span-12.mb-7(class='lg:col-span-7 lg:mb-0')
+            +FlexCol 
+              +ItemsCenter.gap-x-3.mb-2
+                span.w-12.bg-first-brand(class='h-[1px]')
+                span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Get Started
+              +Heading2('Promotes your business no matter what you do').mb-4(
+                class='lg:max-w-[569px]'
+              )
+              +TextBase('Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.').mb-6(
+                class='lg:max-w-[601px]'
+              )
+              a.flex.items-center.gap-x-3.play-video(href='#')
+                .w-11.h-11.overflow-hidden.rounded-full
+                  +ImageCover('assets/images/icons/icon-play-white.svg', 'Play Icon')
+                span.font-bold.text-first-brand.text-header-9 Play Video
+          .col-span-12(class='lg:col-span-5')
+            .flex.items-center
+              +ItemsCenter(class='w-[90%] max-w-[170px]')
+                .inline-block.overflow-hidden.rounded-full.border-gray-0(
+                  class='w-[47px] h-[47px] mr-[-18px] border-[1.5px]'
+                )
+                  +ImageCover('assets/images/page/homepage7/author1.png', 'Author')
+                .inline-block.overflow-hidden.rounded-full.border-gray-0(
+                  class='w-[47px] h-[47px] mr-[-18px] border-[1.5px]'
+                )
+                  +ImageCover('assets/images/page/homepage7/author2.png', 'Author')
+                .inline-block.overflow-hidden.rounded-full.border-gray-0(
+                  class='w-[47px] h-[47px] mr-[-18px] border-[1.5px]'
+                )
+                  +ImageCover('assets/images/page/homepage7/author3.png', 'Author')
+                +JustifyCenter.overflow-hidden.rounded-full.border-gray-0.bg-gray-60(
+                  class='w-[47px] h-[47px] mr-[-18px] border-[1.5px]'
+                )
+                  span.font-bold.text-first-brand.text-header-8 +2k
+              span.font-medium.text-gray-400.text-header-9(class='max-w-[189px]')
+                | Join thousands of users in using the
+                |
+                a.font-bold.text-first-brand(href='#', class='text-[16px] leading-[16px]') iori platform
+                | !
+        .text-center
+          +ImageSrcSet('assets/images/homepage-9-banner1.png 2x', 'Banner').block.m-auto
+        .w-full.absolute.bg-gray-0.rounded-2xl.left-0.border-third-brand.px-6.py-6.bottom-auto(
+          class='top-[93%] md:top-auto md:bottom-[-70px] border-[5px] lg:px-20 lg:py-11'
+        )
+          .grid.grid-cols-1.items-center.gap-x-5.gap-y-2(class='lg:grid-cols-3')
+            span.font-bold.text-first-brand.text-header-9.inline-block.bg-no-repeat(
+              class='bg-[left_center] sm:text-xl pl-[38px] py-[5px] bg-[url(\'/assets/images/icons/icon-check-bold.svg\')]'
+            ) Unlimited design & dev requests
+            span.font-bold.text-first-brand.text-header-9.inline-block.bg-no-repeat(
+              class='bg-[left_center] sm:text-xl pl-[38px] py-[5px] bg-[url(\'/assets/images/icons/icon-check-bold.svg\')]'
+            ) No Card. No Contract. Cancel anytime
+            span.font-bold.text-first-brand.text-header-9.inline-block.bg-no-repeat(
+              class='bg-[left_center] sm:text-xl pl-[38px] py-[5px] bg-[url(\'/assets/images/icons/icon-check-bold.svg\')]'
+            ) Monthly flat-rate. Support 24/7
+  +MainContainer
+    +Heading2('Crafting human connection through digital experience').text-center.mb-8.mx-auto(
+      class='max-w-[896px] mt-[70px]'
+    )
+    +TextBase('Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.').mx-auto.text-center(
+      class='max-w-[884px] mb-[50px]'
+    )
+    .grid.grid-cols-1.mb-8(class='gap-[30px] lg:grid-cols-2')
+      .bg-second-bg.border.border-gray-80.p-4(class='rounded-[32px] sm:p-[50px]')
+        .block(class='max-w-[494px] mb-[68px]')
+          p.text-header-3.font-bold.text-first-brand.mb-4 Social Media Platform
+          +TextBase('Manage your media channels professionally and efficiently. Real-time and automatic reporting system.').mb-6
+          +ItemsCenter.gap-4
+            img(src='assets/images/AppStore.svg', alt='AppStore')
+            img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+        .block.border-gray-0.rounded-2xl.shadow-drop-shadown-2.overflow-hidden(class='border-[5px]')
+          img(srcset='assets/images/homepage-9-social-1.png 2x', alt='Social')
+      .border.border-gray-80.overflow-hidden(class='rounded-[32px] bg-[#E0F0FC]')
+        .block.pb-0.p-4(class='max-w-[494px] sm:p-[50px]')
+          p.text-header-3.font-bold.text-first-brand.mb-4 Automated Platform
+          +TextBase('Synchronize and automate all your business in the cloud. Save time and effort, enjoy great vacations.').mb-6
+          button.bg-first-brand.flex.items-center.justify-center.py-4.px-5.gap-x-2(class='rounded-[50px]')
+            span.text-second-brand.text-header-9.font-bold Get Started Now
+            +ArrowRightIcon.text-second-brand.w-4.h-4
+        .block.overflow-hidden
+          img(srcset='assets/images/homepage-9-social-2.png 2x', alt='Social')
+    .bg-first-bg.border.border-gray-80(class='rounded-[32px] mb-[68px] lg:mb-[137px]')
+      .grid.grid-cols-1(class='xl:grid-cols-2')
+        +FlexCol.pb-12.pr-7.pl-7(
+          class='xl:max-w-[570px] pt-[54px] xl:pt-[108px] xl:pb-[96px] xl:pr-0 xl:pl-[60px]'
+        )
+          +ItemsCenter.gap-x-3.mb-3
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Automatic Tools
+          +Heading2('Business can also be simple').mb-6(class='xl:max-w-[450px]')
+          +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.').mb-9
+          ul.grid.grid-cols-1.mb-11(class='gap-y-[18px] sm:grid-cols-2')
+            +FeatureManagementItem('Task tracking')
+            +FeatureManagementItem('Create task dependencies')
+            +FeatureManagementItem('Task visualization')
+            +FeatureManagementItem('hare files, discuss')
+            +FeatureManagementItem('Meet deadlines faster')
+            +FeatureManagementItem('Track time spent on each project')
+          +ItemsCenter.gap-x-6 
+            button.py-4.px-6.bg-first-brand.text-second-brand.font-bold.text-header-9.rounded.transition-common(
+              class='hover:bg-first-brand-hover'
+            ) Help Center
+            +RightArrowButton('Learn More', '#')
+        .relative.hidden(
+          class='before:absolute xl:block before:bottom-0 before:bg-right-bottom before:bg-no-repeat before:bg-[url(\'/assets/images/homepage-9-ellipse-1.png\')] before:right-0 before:bg-contain before:h-[87%] before:w-[87%] before:z-[1]'
+        )
+          img.max-w-full.absolute.bottom-0(
+            srcset='assets/images/homepage-9-person-1.png 2x',
+            alt='Person',
+            class='z-[2] left-[90px]'
+          )
+          .p-4.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-1.absolute.left-0.hero-thumb-animation.bottom-12(
+            class='z-[3]'
+          )
+            +ItemsCenter.gap-x-3 
+              .w-14.h-14.overflow-hidden.rounded-full
+                +ImageCover('assets/images/homepage-11-avatar-1.png', 'Avatar')
+              +FlexCol 
+                +ItemsCenter.gap-x-5
+                  span.text-header-8.font-bold.text-first-brand Bessie Cooper
+                  +RatingStar
+                p.text-mini-desc.text-gray-500.font-medium(class='max-w-[216px]') Duis justo nulla, pulvinar at dolor dapibus, finibus cursus massa
+          .py-3.px-8.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-1.absolute.hero-thumb-sm-2-animation.bottom-60(
+            class='z-[3] right-[42px]'
+          )
+            +FlexCol.gap-y-1
+              +Heading2('25k+')
+              span.text-header-7.font-medium.text-first-brand Happy Clients
+    +Heading2('Take your social media marketing prowess to the next level').mx-auto.text-center(
+      class='max-w-[858px] mb-[46px]'
+    )
+    ul.tabMarketing.bg-gray-50.rounded-lg.p-1.flex.items-center.justify-center.w-fit.mx-auto(
+      class='mb-[62px]'
+    )
+      li.active.inline.text-first-brand.text-header-6.font-bold.px-6.rounded-md(class='py-[9px]')
+        a(href='#personalTab') Personal
+      li.inline.text-first-brand.text-header-6.font-bold.px-6.rounded-md(class='py-[9px]')
+        a(href='#enterpriseTab') Enterprise
+    .tabContents.w-full.clear-both
+      #personalTab.tabBox
+        .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 xl:grid-cols-3')
+          +MediaMarketingInfoItem('bg-gray-60', 'assets/images/icons/icon-cross-platform-1.svg', 'Cross-Platform', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-fifth-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Social Media', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-second-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Brand Identity', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-first-bg', 'assets/images/icons/icon-cross-platform.svg', 'Customer Service', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-seventh-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Social advertising', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-fourth-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Content creation', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+      #enterpriseTab.tabBox
+        .grid.grid-cols-1(class='gap-[30px] md:grid-cols-2 xl:grid-cols-3')
+          +MediaMarketingInfoItem('bg-fifth-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Social Media', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-gray-60', 'assets/images/icons/icon-cross-platform-1.svg', 'Cross-Platform', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-first-bg', 'assets/images/icons/icon-cross-platform.svg', 'Customer Service', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-second-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Brand Identity', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-fourth-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Content creation', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+          +MediaMarketingInfoItem('bg-seventh-bg', 'assets/images/icons/icon-cross-platform-1.svg', 'Social advertising', 'Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.', '#')
+    +BrandOwl(true)(class='mt-[66px] lg:mt-[132px]')
+    .block.bg-fifth-bg.mt-2(class='rounded-[32px] lg:mt-[82px] mb-[52px] lg:mb-[103px]')
+      .grid.grid-cols-12.items-center.px-4(class='py-[35px] sm:px-6 md:py-[70px] md:px-[90px]')
+        .col-span-12.mb-12(class='xl:col-span-7 xl:mb-0')
+          +FlexCol(class='xl:max-w-[601px]') 
+            +ItemsCenter.gap-x-3(class='mb-[7px]')
+              span.w-12.bg-first-brand(class='h-[1px]')
+              span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Get Started
+            p.font-extrabold.text-first-brand(
+              class='text-[34px] leading-[40px] sm:text-[50px] sm:leading-[60px] lg:text-[64px] lg:leading-[72px] xl:max-w-[546px] mb-[7px]'
+            ) Start for free <br> Pay as you Grow
+            +TextBase('Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.').mb-9
+            span.text-xl.text-first-brand.font-bold(class='mb-[22px]') Available on
+            .flex.items-start.gap-x-9.flex-col.gap-y-4(class='md:flex-row md:items-center')
+              +ItemsCenter.gap-x-4
+                img(src='assets/images/AppStore.svg', alt='AppStore')
+                img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+              +RightArrowButton('Learn More', '#')
+        .col-span-12.relative(class='xl:col-span-5') 
+          .absolute.opacity-50.hero-thumb-animation(class='top-[40%] left-[-20px]')
+            img(src='assets/images/homepage-9-arrow-down.svg', alt='Arrow Down')
+          .absolute.bottom-0.opacity-50.hero-thumb-sm-animation(class='left-[-100px]')
+            img(src='assets/images/homepage-9-arrow-right.svg', alt='Arrow Right')
+          form(action='#') 
+            +FlexCol.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-3.px-11.ml-auto(
+              class='pt-[46px] pb-[49px] xl:max-w-[449px]'
+            )
+              +Heading4('Sign up for free').mb-9
+              p.flex.flex-col.gap-y-3.mb-6
+                label(for='email') Your email *
+                input#email.bg-gray-0.border.border-gray-80.rounded-lg.pl-6(
+                  type='email',
+                  name='email',
+                  placeholder='stevenjob@gmail.com',
+                  class='py-[18px]'
+                )
+              p.flex.flex-col.gap-y-3.mb-6 
+                label(for='password') Your password
+                input#password.bg-gray-0.border.border-gray-80.rounded-lg.pl-6(
+                  type='password',
+                  name='password',
+                  placeholder='************',
+                  class='py-[18px]'
+                )
+              p.flex.items-center.mb-6(class='gap-x-[10px]')
+                input#rememberMe(type='checkbox', value='lsRememberMe')
+                label.font-medium.text-gray-900.text-header-9(for='rememberMe') Remember me
+              button.w-full.bg-first-brand.text-gray-0.font-bold.text-header-6.rounded-lg.py-4.mb-4 Sign In
+              button.flex.items-center.justify-center.border.border-gray-80.bg-gray-0.rounded-lg(
+                class='gap-x-[10px] py-[18px] mb-[22px]'
+              )
+                +ImageShrink('assets/images/icons/icon-google.svg', 'Google Icon')
+                span.text-header-9.font-bold(class='text-[#414357]') Sign in with Google
+              p.text-mini-desc.font-medium.text-gray-400.text-center Already have an account?
+                a.text-first-brand.ml-1(href='#') Sign in.
+  +MainContainer 
+    +FrequentlyQuestionsSection(class='mb-[77px] lg:mb-[155px]')
+  .bg-gray-60
+    +MainContainer
+      .block(class='py-[46px] lg:py-[92px]')
+        .card-guide.owl-carousel.owl-theme
+          +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Knowledge Base', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Community Forums', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Documentation', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Knowledge Base', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Community Forums', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+          +SalientFeature('assets/images/icons/icon-secure-payment.svg', 'Documentation', 'Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis a libero tempus', 'Get Started', '#').bg-gray-0
+  +MainContainer 
+    +BlogSection(class='mb-[47px] lg:mb-[94px] mt-[58px] lg:mt-[116px]')
+    +NewsletterSection01

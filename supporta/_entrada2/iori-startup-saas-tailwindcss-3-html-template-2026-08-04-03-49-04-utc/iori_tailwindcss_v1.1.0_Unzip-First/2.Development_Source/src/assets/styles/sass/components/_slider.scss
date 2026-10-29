@@ -1,0 +1,26 @@
+.swiper-button-prev-products.swiper-button-prev,
+.swiper-button-next-products.swiper-button-next {
+  &::after {
+    content: none !important;
+  }
+}
+
+.swiper-button-prev-products.swiper-button-prev {
+  left: 0 !important;
+}
+.swiper-button-next-products.swiper-button-next {
+  right: 0 !important;
+}
+
+#go-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  border: none;
+  cursor: pointer;
+}
+
+#go-top-btn:hover {
+  pointer-events: auto;
+}

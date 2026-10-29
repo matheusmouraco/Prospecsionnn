@@ -1,0 +1,383 @@
+extends layout/layout
+
+block vars
+  - title = 'Product Details - IORI Marketplace Template';
+  - bodyClass = 'product-details-styles';
+  - var upIcon = '/assets/images/page/shop-list/up.svg';
+  - var downIcon = '/assets/images/page/shop-list/down.svg';
+
+block container
+  +MainContainer 
+    .flex.flex-col.items-start.gap-y-2(class='md:flex-row md:items-center my-[30px]')
+      .flex.items-center
+        .w-5.h-5.overflow-hidden(class='mr-[3px]')
+          +HomeIcon.w-full.h-full.object-cover.text-gray-200
+        a.text-gray-500.font-medium.text-header-9(href='#', class='mr-2.5') Home
+        img(src='assets/images/page/blog-detail/arrow.svg', alt='Arrow', class='mr-2.5')
+        a.text-gray-500.font-medium.text-header-9(href='#', class='mr-2.5') Products
+        img(src='assets/images/page/blog-detail/arrow.svg', alt='Arrow', class='mr-2.5')
+        a.text-gray-500.font-medium.text-header-9(href='#', class='mr-2.5') Products
+        img(src='assets/images/page/blog-detail/arrow.svg', alt='Arrow', class='mr-2.5')
+      a.text-gray-500.font-medium.text-header-9(href='#') Nikon D3500 DX-Format DSLR Two Lens Kit with AF-P DX
+    .grid.grid-cols-12(class='mb-[56px] lg:mb-[111px]')
+      .col-span-12.mb-5(class='xl:col-span-5 xl:mb-0')
+        +FlexCol.mt-14
+          h1.text-gray-800.font-bold.mb-4(class='text-[22px] leading-[28px] lg:text-header-3') Nikon D3500 DX-Format DSLR Two Lens Kit with AF-P DX
+          +ItemsCenter.gap-5.mb-9(class='sm:gap-[31px]')
+            span.text-success.font-bold(class='text-[22px] leading-[28px] lg:text-header-3') $318.00
+            span.text-gray-200.font-bold.line-through(class='text-[26px] leading-[34px] tracking-[-0.02em]') $420.00
+            span.text-base.font-medium.text-gray-200 (In stock)
+          ul.pl-6.list-disc.mb-14(class='xl:max-w-[520px]')
+            li.text-mini-desc.font-medium.text-gray-300 Class leading image quality, ISO range, image processing and metering equivalent to the award winning D500
+            li.text-mini-desc.font-medium.text-gray-300 Large 3.2” 922k dot, tilting Lcd screen with touch functionality. Temperature: 0 °c to 40 °c (32 °f to 104 °f) humidity: 85 percentage or less (no condensation)
+            li.text-mini-desc.font-medium.text-gray-300 51 point AF system with 15 cross type sensors and group area AF paired with up to 8 fps continuous shooting capability
+            li.text-mini-desc.font-medium.text-gray-300 Built in Wi-Fi and Bluetooth for easy connectivity through the Nikon snap bridge app
+          +ItemsCenter.gap-2
+            .bg-gray-0.rounded.relative.overflow-hidden.border.border-gray-80(
+              class='max-w-[95px] h-[50px] w-[95px]'
+            )
+              input.font-bold.w-full.pr-5.outline-none.product-input02(
+                type='text',
+                value='1',
+                class='h-[50px] text-[26px] leading-[34px] pt-[7px] pb-[10px] pl-[25px]'
+              )
+              span.increment-button02.absolute.h-5.w-10.bg-no-repeat.bg-center.cursor-pointer(
+                class="top-[3px] right-[5px] bg-[url('" + upIcon + "')]"
+              )
+              span.decrement-button02.absolute.h-5.w-10.bg-no-repeat.bg-center.cursor-pointer(
+                class="bottom-[3px] right-[5px] bg-[url('" + downIcon + "')]"
+              )
+            button.bg-first-brand.text-second-brand.text-header-6.font-bold.py-3.px-4.rounded.border.border-first-brand.transition-common(
+              class='h-[50px] sm:px-9 hover:bg-first-brand-hover'
+            ) Add To Cart
+            +JustifyCenter.bg-first-brand.rounded.transition-common.cursor-pointer(
+              class='w-[50px] h-[50px] hover:bg-first-brand-hover'
+            )
+              +HeartIcon.w-4.h-4.text-second-brand
+      .col-span-12(class='xl:col-span-7')
+        .swiper.product-slider
+          .swiper-wrapper
+            .swiper-slide
+              img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              img(src='assets/images/page/product/sp1.png', alt='Product')
+        .swiper.product-thumbs(
+          class='!px-[58px] before:z-50 after:z-50 before:absolute after:absolute before:bg-white after:bg-white before:w-[58px] after:w-[58px] before:left-0 after:right-0 before:top-0 after:top-0 before:h-full after:h-full'
+        )
+          .swiper-wrapper.p-0
+            .swiper-slide
+              .border.pt-7.px-2.pb-8.border-gray-80(class='h-[141px]')
+                img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              .border.pt-7.px-2.pb-8.border-gray-80(class='h-[141px]')
+                img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              .border.pt-7.px-2.pb-8.border-gray-80(class='h-[141px]')
+                img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              .border.pt-7.px-2.pb-8.border-gray-80(class='h-[141px]')
+                img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              .border.pt-7.px-2.pb-8.border-gray-80(class='h-[141px]')
+                img(src='assets/images/page/product/sp1.png', alt='Product')
+            .swiper-slide
+              .border.pt-7.px-2.pb-8.border-gray-80(class='h-[141px]')
+                img(src='assets/images/page/product/sp1.png', alt='Product')
+          .swiper-button-prev.swiper-button-prev-products.border-2.border-first-brand.bg-gray-0.rounded-full.flex.items-center.justify-center.group(
+            class='!z-[60] !w-[42px] !h-[42px] hover:bg-first-brand'
+          )
+            +PrevIcon.w-4.h-4.text-first-brand(class='group-hover:text-second-brand')
+          .swiper-button-next.swiper-button-next-products.border-2.border-first-brand.bg-gray-0.rounded-full.flex.items-center.justify-center.group(
+            class='!z-[60] !w-[42px] !h-[42px] hover:bg-first-brand'
+          )
+            +NextIcon.w-4.h-4.text-first-brand(class='group-hover:text-second-brand')
+  .w-full.bg-third-brand(class='h-[1px] mb-[71px] lg:mb-[142px]') 
+  +MainContainer
+    .grid.grid-cols-12.items-center(class='xl:gap-[62px] mb-[76px]')
+      .col-span-1 
+      .col-span-12.mb-5(class='xl:col-span-5 xl:mb-0')
+        img(src='assets/images/page/product/collection1.png', alt='Collection')
+      .col-span-12(class='xl:col-span-5')
+        +FlexCol 
+          +Heading3('Beautiful Pictures For All').mb-6
+          +TextBase(`You don't need to be a photographer to know a great photo when you see one. And you don't need to be a photographer to take a great photo—you just need the D3500. It's as easy to use as a point-and-shoot, but it takes beautiful DSLR photos and videos that get noticed. It feels outstanding in your hands, sturdy and balanced with controls where you want them`)(
+            class='mb-[58px] xl:max-w-[535px]'
+          )
+          +ItemsCenter.gap-6
+            +NormalButton('View Collections')
+            +RightArrowButton('Learn More', '#')
+      .col-span-1
+    .grid.grid-cols-12.items-center(class='xl:gap-[62px] mb-[71px] lg:mb-[142px]')
+      .col-span-1 
+      .col-span-12.mb-5(class='xl:col-span-5 xl:mb-0')
+        +FlexCol
+          +Heading3('Easy. Portable. Amazing').mb-6
+          +TextBase('Take more memorable images. The photos you take with the D3500 capture more than the moment—they capture the feeling of the moment, a feeling that can be shared immediately with your friends and family and then relived for a lifetime.').mb-6(
+            class='max-w-[535px]'
+          )
+          ul.grid.grid-cols-1(class='gap-y-[18px] sm:grid-cols-2')
+            +FeatureManagementItem('Less thinking. More shooting')
+            +FeatureManagementItem('Picture after amazing picture')
+            +FeatureManagementItem('The day tripper')
+            +FeatureManagementItem('Colors that pop in any light')
+            +FeatureManagementItem('Newbies welcome')
+            +FeatureManagementItem('Fast, accurate focusing')
+      .col-span-12(class='xl:col-span-5')
+        img(src='assets/images/page/product/collection2.png', alt='Collection')
+      .col-span-1
+    +MarketingItemSection('assets/images/page/product/img-video.png', 'Twice the fun', "Your camera's bridge to your world", 'The D3500 Two Lens Kit includes two matched lenses to help you cover all the angles. The AF-P DX NIKKOR 18-55mm f/3.5-5.6G VR lens is great for portraits, landscapes, videos and other wide perspective shots. The AF-P DX NIKKOR 70-300mm f/4.5-6.3G ED is a versatile telephoto zoom lens that\'s great for sports, concerts, nature and more.', '#')
+  .border-b.border-third-brand(class='py-[71px] lg:py-[142px] mb-[125px]')
+    +MainContainer
+      +TrustedWorldSection
+  +MainContainer 
+    +Heading2('Product information')(class='mb-[63px]')
+    span.block.font-bold.text-first-brand(class='text-[24px] leading-[32px] mb-[18px]') Item details
+    .grid.grid-cols-1(class='gap-[30px] xl:grid-cols-2 mb-[68px]')
+      .max-w-full.overflow-x-auto
+        table.border.border-gray-80.border-collapse.border-spacing-0.w-full
+          tbody 
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Model Name
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Z fc DX-format Mirrorless
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Brand
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Nikon
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Model Number
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) 1675
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Color
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Silver / Black / Gold
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Included Components
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Camera Body & Lens
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Age Range (Description)
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Adult
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Processor Description
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Nikon Expeed 6
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Operating Humidity
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Less than 85%
+      .px-10.border.border-gray-80(class='py-[33px]')
+        ul.pl-6.list-disc
+          li.text-base.font-medium.text-gray-500 Superb image quality: 20.9 MP DX CMOS sensor paired with EXPEED 6 processing engine
+          li.text-base.font-medium.text-gray-500 Vlogger Ready: 4K UHD, Flip out Vari-angle LCD, full time AF with eye detection, built-in stereo microphone, external microphone jack, live stream and web conference compatible
+          li.text-base.font-medium.text-gray-500 Heritage Design: Classic tactile design with analog controls for shutter speed, ISO and exposure compensation
+          li.text-base.font-medium.text-gray-500 Send images to your phone: Always connected using the free Nikon SnapBridge app and a compatible smart device. Intuitive: Easy access to Auto Mode, quick settings and the Menu help guide.
+          li.text-base.font-medium.text-gray-500 Lens Compatibility: Compatible with NIKKOR Z lenses as well as F Mount NIKKOR lenses using FTZ Mount Adapter (sold separately).
+    .grid.grid-cols-1(class='gap-[30px] xl:grid-cols-2')
+      .block 
+        span.block.font-bold.text-first-brand(class='text-[24px] leading-[32px] mb-[18px]') Imaging
+        .max-w-full.overflow-x-auto
+        table.border.border-gray-80.border-collapse.border-spacing-0.w-full
+          tbody 
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Auto Focus Technology
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Phase Detection
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Product information
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) 1.50:1, 16:9
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Display Resolution Maximum
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Approx. 1040 k-dot
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Photo Sensor Size
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) APS-C
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Photo Sensor Technology
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) CMOS
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Effective Still Resolution
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) 20.9 MP
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Maximum Webcam Image Resolution
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) 16 MP
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Frame Rate
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Up to 120 fps
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) White balance settings
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Auto
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Self Timer Duration
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) 20 seconds
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) JPEG quality level
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Basic, Fine, Normal
+            tr
+              th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                class='py-[10px] px-[30px] w-[45%]'
+              ) Camera Flash
+              td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                class='py-[10px] px-[30px] w-[55%]'
+              ) Hotshoe
+      .block 
+        .block(class='mb-[38px]')
+          span.block.font-bold.text-first-brand(class='text-[24px] leading-[32px] mb-[18px]') Exposure
+          .max-w-full.overflow-x-auto
+            table.border.border-gray-80.border-collapse.border-spacing-0.w-full
+              tbody 
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Expanded ISO Max / Min
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) 204800 /100
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Shooting Modes
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) 1/4000 seconds
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Max Shutter Speed
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) 900 seconds
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Min Shutter Speed
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) Manual, Automatic
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Exposure Control Type
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) Evaluative
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Metering Description
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) Automatic
+        .block
+          span.block.font-bold.text-first-brand(class='text-[24px] leading-[32px] mb-[18px]') Lens
+          .max-w-full.overflow-x-auto
+            table.border.border-gray-80.border-collapse.border-spacing-0.w-full
+              tbody 
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Lens Type, Aperture Modes
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) Wide Angle / F3.5-F6.3
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Optical Zoom
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) 3 x
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Focus Type
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) Auto Focus, Manual Focus
+                tr
+                  th.bg-gray-50.text-base.text-gray-900.border.border-gray-80.font-medium.text-start.text-start(
+                    class='py-[10px] px-[30px] w-[45%]'
+                  ) Photo Filter Thread Size
+                  td.bg-gray-0.text-base.text-gray-300.border.border-gray-80.font-medium(
+                    class='py-[10px] px-[30px] w-[55%]'
+                  ) 46 Millimeters
+  +DeliveryPolicySection(class='mb-[96px] mt-[71px] lg:mt-[142px]')
+  +MainContainer 
+    +NewsletterSection02

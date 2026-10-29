@@ -1,0 +1,93 @@
+.wrapper-container {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+
+.wrapper-container .slide-big-guys {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #161616;
+  margin-bottom: 0.5rem;
+}
+
+.slide-big-guys {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-big-guys,
+.slide-small-guys {
+  position: relative;
+}
+
+.slide-big-guys .owl-carousel,
+.slide-small-guys .owl-carousel {
+  position: relative;
+}
+
+.slide-big-guys .owl-dots {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.slide-big-guys .btn-prev,
+.slide-big-guys .btn-next,
+.slide-small-guys .btn-prev,
+.slide-small-guys .btn-next {
+  display: block;
+
+  width: 50px;
+  height: 50px;
+  background: #161616;
+  color: #fff;
+  border: 0;
+  border-radius: 50%;
+  outline: none;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.slide-big-guys .btn-prev[disabled='disabled'],
+.slide-big-guys .btn-next[disabled='disabled'],
+.slide-small-guys .btn-prev[disabled='disabled'],
+.slide-small-guys .btn-next[disabled='disabled'] {
+  opacity: 0.25;
+}
+
+.slide-big-guys .btn-prev,
+.slide-small-guys .btn-prev {
+  left: -60px;
+}
+.slide-big-guys .btn-next,
+.slide-small-guys .btn-next {
+  right: -60px;
+}
+
+.slide-small-guys .owl-item {
+  width: 100%;
+  height: auto;
+  opacity: 0.5;
+  transition: opacity 550ms ease;
+}
+
+.slide-small-guys .owl-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide-small-guys .slide-show {
+  opacity: 1;
+  transition: opacity 550ms ease;
+}

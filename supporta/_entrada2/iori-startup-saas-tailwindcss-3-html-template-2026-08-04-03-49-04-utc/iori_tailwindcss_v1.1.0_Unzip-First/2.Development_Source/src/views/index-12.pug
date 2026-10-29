@@ -1,0 +1,182 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 12 - IORI Marketplace Template';
+  - bodyClass = 'homepage-12-styles';
+
+block container
+  .relative.bg-cover.flex.w-full.bg-gray-60.items-center.justify-center(
+    class='min-h-[700px] bg-[url(\'/assets/images/homepage-12-pattern1.png\')]'
+  )
+    .flex.flex-col.items-center.justify-center
+      p.text-gray-400.font-medium.py-2.text-center(class='text-[18px] leading-[18px] mb-[7px]') Think. Creative. Solve
+      h1.text-first-brand.font-extrabold.text-center.mx-auto(
+        class='text-[34px] leading-[40px] sm:text-[50px] sm:leading-[60px] lg:text-[64px] lg:leading-[72px] max-w-[1015px] mb-[25px]'
+      ) Drive your revenue from social media platforms automatically
+      +TextBase('Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.').text-center.mx-auto.mb-4(
+        class='max-w-[724px]'
+      )
+      +ItemsCenter.gap-x-4
+        img(src='assets/images/AppStore.svg', alt='AppStore')
+        img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+  .owl-carousel.image-auto-play 
+    .imageItem
+      img(src='assets/images/homepage-12-person-6.png', alt='Person')
+    .imageItem
+      img(src='assets/images/homepage-12-person-7.png', alt='Person')
+    .imageItem
+      img(src='assets/images/homepage-12-person-8.png', alt='Person')
+    .imageItem
+      img(src='assets/images/homepage-12-person-9.png', alt='Person')
+    .imageItem
+      img(src='assets/images/homepage-12-person-13.png', alt='Person')
+    .imageItem
+      img(src='assets/images/homepage-12-person-10.png', alt='Person')
+    .imageItem
+      img(src='assets/images/homepage-12-person-11.png', alt='Person')
+    .imageItem
+      img(src='assets/images/homepage-12-person-12.png', alt='Person')
+  .bg-first-brand(class='py-[74px] mb-[141px]')
+    +MainContainer
+      ul.text-center
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-placed.svg',
+            alt='Placed Icon'
+          )
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-cuebiq.svg',
+            alt='Cuebiq Icon'
+          )
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-factual.svg',
+            alt='Factual Icon'
+          )
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-place-iq.svg',
+            alt='PlaceIQ Icon'
+          )
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-airmeet.svg',
+            alt='Airmeet Icon'
+          )
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-spendflo.svg',
+            alt='Spendflo Icon'
+          )
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-Klippa.svg',
+            alt='Klippa Icon'
+          )
+        li.inline-block.px-5(class='min-w-[100px] py-2.5')
+          img.inline.w-full.h-full.object-cover(
+            src='assets/images/icons/icon-matrixian.svg',
+            alt='Matrixian Icon'
+          )
+  +MainContainer
+    .flex.items-start.justify-between.flex-col.gap-y-4(class='mb-[66px] xl:items-center xl:flex-row')
+      +Heading2('Crafting human connection through digital experience')(class='xl:max-w-[686px]')
+      +FlexCol.gap-y-6
+        +TextBase('Discover powerful features to boost your productivit. You are always welcome to visit our little den. Professional in teir craft! All products were super amazing with strong attension to details, comps and overall vibe.')(
+          class='xl:max-w-[570px]'
+        )
+        +RightArrowButton('Contact Us', '#')
+    .grid.grid-cols-1(class='gap-[30px] mb-[71px] sm:grid-cols-3 lg:mb-[142px]')
+      +FlexCol.gap-y-8
+        +ImageShrink('assets/images/homepage-12-person-1.png', 'Person')
+        +FlexCol(class='gap-y-[9px]')
+          +Heading4("Cross Platform")
+          +Text14Leading22("Discover powerful features to boost your productivit. You are always welcome to visit our little den.")
+      +FlexCol.gap-y-8
+        +FlexCol(class='gap-y-[9px]')
+          +Heading4("Business trategy")
+          +Text14Leading22("Discover powerful features to boost your productivit. You are always welcome to visit our little den.")
+        +ImageShrink('assets/images/homepage-12-person-2.png', 'Person')
+      +FlexCol.gap-y-8
+        +ImageShrink('assets/images/homepage-12-person-3.png', 'Person')
+        +FlexCol(class='gap-y-[9px]')
+          +Heading4("Social Media")
+          +Text14Leading22("Discover powerful features to boost your productivit. You are always welcome to visit our little den.")
+    .bg-gray-60.p-4(class='rounded-[32px] sm:pr-[51px] sm:pt-[67px] sm:pb-[54px] sm:pl-[72px] mb-[49px]')
+      .grid.grid-cols-1.gap-20(class='xl:grid-cols-2')
+        .border-gray-0.overflow-hidden.relative.shadow-drop-shadown-2(class='border-[5px] rounded-[30px]')
+          +ImageCover('assets/images/homepage-12-person-4.png', 'Person')
+          span.font-bold.text-first-brand.absolute.bg-warning.p-4.rounded-3xl.shadow-drop-shadown-3.text-header-6(
+            class='md:px-[42px] sm:text-header-5 top-[26px] md:py-6 left-[29px]'
+          ) IORI Business Platform
+        +FlexCol(class='gap-y-[33px]')
+          +Heading2('How to grow your Social media chanel fast')
+          +FlexCol.gap-y-8
+            +WayToGrowYourSocialMedia('1', 'Create an account', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+            +WayToGrowYourSocialMedia('2', 'Build your founding team', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+            +WayToGrowYourSocialMedia('3', 'Launch and Scale', 'What makes us different from others? We give holistic solutions with strategy, design & technology.')
+    .bg-fourth-bg(class='rounded-[32px]')
+      .grid.grid-cols-1.items-center(class='lg:grid-cols-2')
+        +FlexCol.pr-8(class='max-w-[570px] pt-[60px] lg:pt-[108px] pb-[96px] pl-[60px] lg:pr-0')
+          +ItemsCenter.gap-x-3.mb-3
+            span.w-12.bg-first-brand(class='h-[1px]')
+            span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Take the control
+          +Heading2('Create a free account today.').mb-6(class='max-w-[450px]')
+          +TextBase('Access advanced order types including limit, market, stop limit and dollar cost averaging. Track your total asset holdings, values and equity over time. Monitor markets, manage your portfolio, and trade crypto on the go.')(
+            class='mb-[42px]'
+          )
+          .grid.grid-cols-1.gap-5(class='md:grid-cols-2')
+            +FlexCol 
+              +JustifyCenter.overflow-hidden.rounded-md.bg-gray-60.mb-2(class='w-[51px] h-[51px]')
+                .w-8.h-8.overflow-hidden 
+                  +ImageCover('assets/images/icons/icon-man-personal.svg', 'Personal')
+              span.text-header-6.text-first-brand.font-bold.mb-2 Personal
+              p.text-mini-desc.text-gray-500.font-medium Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada felis eget finibus placerat. Aliquam sit amet vestibulum felis, sit amet porta neque. Praesent vulputate justo dictum nisl faucibus, eu feugiat ex pretium. Duis sed mauris at nisi egestas suscipit eget eu enim.
+            +FlexCol 
+              +JustifyCenter.overflow-hidden.rounded-md.bg-gray-60.mb-2(class='w-[51px] h-[51px]')
+                .w-8.h-8.overflow-hidden 
+                  +ImageCover('assets/images/icons/icon-business.svg', 'Enterprise')
+              span.text-header-6.text-first-brand.font-bold.mb-2 Enterprise
+              p.text-mini-desc.text-gray-500.font-medium Duis tincidunt dui a felis tincidunt, vehicula ornare diam auctor. Integer id libero id est efficitur mattis. Nunc suscipit consectetur diam a imperdiet. Suspendisse imperdiet lectus lectus, ac scelerisque turpis accumsan sit amet. Proin lacinia odio leo
+        .relative.pr-11(class='pb-[60px] lg:pb-0')
+          .float-right.relative(
+            class='max-w-[80%] before:top-[7px] before:left-[7px] before:absolute before:rounded-lg before:w-full before:h-full before:bg-gray-0 before:z-[1]'
+          )
+            img.block.relative.rounded-lg(
+              src='assets/images/homepage-12-account.png',
+              alt='Iori',
+              class='z-[2]'
+            )
+          .absolute.bottom-5.py-10.bg-gray-0.border.border-third-brand.rounded-2xl.left-14(
+            class='px-[50px] z-[3]'
+          )
+            +Heading1('469k').mb-1
+            p.text-header-6.font-bold.text-first-brand Social followers
+  .bg-seventh-bg.relative(class='my-[71px] lg:my-[142px]')
+    +MainContainer
+      .grid.grid-cols-1.gap-8.pt-14.pb-9(class='lg:pb-[71px] lg:pt-28 lg:grid-cols-3')
+        +FlexCol.gap-y-8
+          +Heading1("Core values")
+          p.text-base.font-medium.text-gray-400.mb-3(class='lg:max-w-[333px]') We break down barriers so teams can focus on what matters – working together to create products their customers love.
+          button.py-4.px-6.bg-gray-0.border.border-first-brand.font-bold.uppercase.tracking-widest.w-fit(
+            class='rounded-[60px] text-[14px] leading-[18px]'
+          ) Join our team today
+        +FlexCol.gap-y-6
+          +CoreValueItem('Customers First', 'Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.')
+          +CoreValueItem('Act With Integrity', 'We’re honest, transparent and committed to doing what’s best for our customers and our company. We openly collaborate in pursuit of the truth. We have no tolerance for politics, hidden agendas or passive-aggressive behavior.')
+          +CoreValueItem('Make a Difference Every Day', 'Our company exists to help merchants sell more. We make every decision and measure every outcome based on how well it serves our customers.', 'border-b-0')
+        +FlexCol.gap-y-6
+          +CoreValueItem('Think Big', `Being the world's leading commerce platform requires unrivaled vision, innovation and execution. We never settle. We challenge our ideas of what’s possible in order to better meet the needs of our customers.`)
+          +CoreValueItem('Do the right thing', 'Integrity is the foundation for everything we do. We are admired and respected for our commitment to honesty, trust, and transparency.')
+          +CoreValueItem('Stronger united', 'We’ve created a positive and inclusive culture that fosters open, honest, and meaningful relationships.', 'border-b-0')
+    .absolute.bottom-0.left-0.opacity-20
+      +ImageCover('assets/images/homepage-12-circle-vector.svg', 'Circle')
+  +MainContainer
+    +MarketingExpertSection(class='mb-[51px] lg:mb-[103px]')
+    .grid.grid-cols-1.gap-y-5(class='mb-[38px] lg:mb-[62px] xl:grid-cols-3')
+      +MediaPlatformsInfoItem('assets/images/icons/icon-daily-updates.svg', 'Daily Updates Icon', 'Daily Updates', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+      +MediaPlatformsInfoItem('assets/images/icons/icon-247-support.svg', '24/7 Support Icon', '24/7 Support', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+      +MediaPlatformsInfoItem('assets/images/icons/icon-weekly-reports.svg', 'Weekly Reports Icon', 'Weekly Reports', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+    +BlogSection.mb-10(class='lg:mb-[81px]')
+    +NewsletterSection02

@@ -1,0 +1,28 @@
+mixin RightArrowButton(title, href)
+  a.flex.items-center.gap-x-3.group(href=href)
+    +TextSmBold(title).text-gray-900.transition-common(class='group-hover:text-success')
+    +ArrowRightIcon.w-5.h-5.text-gray-900.transition-common(class='group-hover:rotate-[-45deg]')
+
+mixin TagButton(name)
+  button.bg-third-brand.rounded.text-first-brand.font-bold.w-fit.pb-2(
+    class='text-[12px] leading-[12px] pl-[11px] pr-[10px] pt-[5px]'
+  )&attributes(attributes)= name
+
+mixin CHPlay
+  button.flex.items-center.gap-x-2.bg-first-brand.rounded-lg.px-3(class='py-[10px]')
+    img.shrink-0(src='assets/images/icons/icon-ch-play.svg', alt='CH Play Icon')
+    p.flex.flex-col.items-start.text-gray-0
+      span.text-xs.uppercase(class='mb-[-4px]') Get it on
+      span.text-2xl.capitalize.font-bold Google play
+
+mixin AppStore
+  button.flex.items-center.gap-x-2.bg-first-brand.rounded-lg.px-3(class='py-[10px]')
+    img.shrink-0(src='assets/images/icons/icon-apple.svg', alt='Apple Icon')
+    p.flex.flex-col.items-start.text-gray-0
+      span.text-xs(class='mb-[-4px]') Download on the
+      span.text-2xl.capitalize.font-bold App store
+
+mixin NormalButton(text)
+  button.bg-first-brand.rounded.py-4.px-6.font-bold.text-second-brand.text-header-9.hover-up-all(
+    class='hover:bg-first-brand-hover'
+  )= text

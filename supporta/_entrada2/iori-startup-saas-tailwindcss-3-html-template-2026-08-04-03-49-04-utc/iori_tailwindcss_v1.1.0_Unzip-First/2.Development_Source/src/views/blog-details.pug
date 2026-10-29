@@ -1,0 +1,133 @@
+extends layout/layout
+
+block vars
+  - title = 'Blog Details - IORI Marketplace Template';
+  - bodyClass = 'blog-details-styles';
+  - var dotIcon = '/assets/images/page/blog/dot.svg';
+
+block container
+  +MainContainer
+    .flex.flex-col.items-start.my-9.gap-y-2(class='md:flex-row md:items-center')
+      .flex.items-center
+        .w-5.h-5.overflow-hidden(class='mr-[3px]')
+          +HomeIcon.w-full.h-full.object-cover.text-gray-200
+        a.text-gray-500.font-medium.text-header-9(href='#', class='mr-2.5') Home
+        img(src='assets/images/page/blog-detail/arrow.svg', alt='Arrow', class='mr-2.5')
+        a.text-gray-500.font-medium.text-header-9(href='#', class='mr-2.5') Blog
+        img(src='assets/images/page/blog-detail/arrow.svg', alt='Arrow', class='mr-2.5')
+      a.text-gray-500.font-medium.text-header-9(href='#') The Betty Crocker Secret to an Email Marketing Strategy People Enjoy
+    .grid.grid-cols-12(class='xl:gap-20')
+      .col-span-12(class='xl:col-span-9')
+        h1.text-first-brand.font-extrabold(
+          class='text-[25px] leading-[35px] sm:text-[30px] sm:leading-[40px] md:text-[36px] md:leading-[46px] lg:text-header-2 mb-[53px]'
+        ) The Betty Crocker Secret to an Email Marketing Strategy People Enjoy
+        .block(class='mb-[62px]') 
+          +ImageSrcSet('assets/images/blog-detail-img.png 2x', 'Banner').rounded-lg
+        p.text-gray-900.font-bold.text-header-7.mb-6 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ornare pellentesque sollicitudin. Suspendisse potenti. Fusce ex risus, iaculis sit amet sapien nec, finibus malesuada mi. Proin at turpis eget sapien pulvinar luctus. Vestibulum bibendum pharetra lorem eu aliquam. In feugiat placerat risus, sed rutrum neque mattis sit amet. Nullam vestibulum ante ac quam tempor, id venenatis velit eleifend. Duis id iaculis risus, quis ullamcorper augue. Nunc tristique venenatis ipsum at euismod. Pellentesque id arcu est.
+        +TextBase('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ornare pellentesque sollicitudin. Suspendisse potenti. Fusce ex risus, iaculis sit amet sapien nec, finibus malesuada mi. Proin at turpis eget sapien pulvinar luctus. Vestibulum bibendum pharetra lorem eu aliquam. In feugiat placerat risus, sed rutrum neque mattis sit amet. Nullam vestibulum ante ac quam tempor, id venenatis velit eleifend. Duis id iaculis risus, quis ullamcorper augue. Nunc tristique venenatis ipsum at euismod. Pellentesque id arcu est.').mb-6
+        +Heading4('Freelance invoices: your legal requirements').mb-6
+        ul.list-disc.pl-5.mb-6
+          li.text-base.font-medium.text-gray-500 A portfolio demonstrating well thought through and polished end to end customer journeys
+          li.text-base.font-medium.text-gray-500 5+ years of industry experience in interactive design and / or visual design
+          li.text-base.font-medium.text-gray-500 Excellent interpersonal skills
+          li.text-base.font-medium.text-gray-500 Aware of trends in mobile, communications, and collaboration
+          li.text-base.font-medium.text-gray-500 Ability to create highly polished design prototypes, mockups, and other communication artifacts
+          li.text-base.font-medium.text-gray-500 The ability to scope and estimate efforts accurately and prioritize tasks and goals independently
+          li.text-base.font-medium.text-gray-500 History of impacting shipping products with your work
+          li.text-base.font-medium.text-gray-500 A Bachelor’s Degree in Design (or related field) or equivalent professional experience
+          li.text-base.font-medium.text-gray-500 Proficiency in a variety of design tools such as Figma, Photoshop, Illustrator, and Sketch
+        +TextBase('Phasellus enim magna, varius et commodo ut, ultricies vitae velit. Ut nulla tellus, eleifend euismod pellentesque vel, sagittis vel justo. In libero urna, venenatis sit amet ornare non, suscipit nec risus. Sed consequat justo non mauris pretium at tempor justo sodales. Quisque tincidunt laoreet malesuada. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer vitae ante enim. Fusce sed elit est. Suspendisse sit amet mauris in quam pretium faucibus et aliquam odio.').mb-6
+        +Heading4('Different ways to issue your invoices as a freelancer').mb-6
+        .grid.grid-cols-12.mb-11(class='lg:gap-6')
+          .col-span-12(class='lg:col-span-4')
+            p 
+              img(src='assets/images/page/blog-detail/img2.png', alt='Iori')
+          .col-span-12.mt-6(class='lg:col-span-8 lg:mt-0')
+            +TextBase('Qui laboriosam ipsa non similique omnis id officia assumenda. Aut perspiciatis accusamus et dolores exercitationem ut ipsam velit. Ut nihil dolorem eos nemo temporibus ut sunt aspernatur! Est voluptatem officiis id harum facere aut minus mollitia in commodi sint sed placeat quia cum ipsum quis. Et quia reiciendis in ducimus fugit qui dolores aspernatur aut quis error et aspernatur pariatur? Ut dolor quas cum beatae explicabo ex velit voluptatum ut temporibus illum. Vel voluptate galisum qui cupiditate nobis a perferendis sunt ut deserunt omnis eum dolor aperiam? Et voluptatem velit et voluptatem cumque vel voluptatem nemo ex ipsum voluptatem non distinctio rerum ut neque ipsum non aspernatur corporis. Et perspiciatis laboriosam a sint iste et quis minus aut aspernatur voluptatibus aut velit omnis aut excepturi sunt ut sapiente optio! Non nihil facilis ut molestiae rerum aut aliquam aperiam et atque Quis qui delectus illum cum atque officiis 33 cumque error. Ut vero provident eum minus pariatur ab consequuntur galisum rem internos ipsum. Qui labore libero qui vero ipsum ut voluptas consequatur in nihil similique aut exercitationem adipisci sed totam quia. Est cumque galisum ut nihil eveniet et consequatur quae qui enim earum ad voluptatem modi in explicabo recusandae. Et autem sint est placeat veritatis et animi facilis est beatae assumenda non recusandae fugiat.')
+        +Heading4('Invoicing as a freelancer').mb-6
+        p.columns-1.gap-10.text-base.font-medium.text-gray-500.mb-6(class='md:columns-2')
+          | Lorem ipsum dolor sit amet. Sit veniam dolorum est minus nisi et adipisci sequi. Non velit quia non nisi esse non rerum voluptate. Et doloribus atque qui corporis aliquam et quia harum. Sit voluptas illo quo tenetur dolore ut ipsum eaque et autem tenetur sit debitis nisi et quae dolorem et quos vero?
+          br
+          br
+          | Et dolorem aliquid non rerum culpa sit quia pariatur quo unde ratione vel quia ipsa et corrupti rerum. Et optio officia aut explicabo odio ea ratione voluptatem eos aliquam tempora qui impedit ipsam. Sit officia eius ut quas adipisci aut laudantium quia.
+          br
+          br
+          | Et temporibus fuga aut perferendis assumenda ex odit vero ad rerum numquam. Qui dolorum delectus aut maiores molestiae aut odio ratione ut itaque illum et Quis facilis aut galisum tenetur est rerum recusandae. Eum sint illum eum cupiditate repellat ea culpa quaerat aut asperiores facere!
+          br
+          | Qui laboriosam ipsa non similique omnis id officia assumenda. Aut perspiciatis accusamus et dolores exercitationem ut ipsam velit. Ut nihil dolorem eos nemo temporibus ut sunt aspernatur! Est voluptatem officiis id harum facere aut minus mollitia in commodi sint sed placeat quia cum ipsum quis. Et quia reiciendis in ducimus fugit qui dolores aspernatur aut quis error et aspernatur pariatur? Ut dolor quas cum beatae explicabo ex velit voluptatum ut temporibus illum. Vel voluptate galisum qui cupiditate nobis a perferendis sunt ut deserunt omnis eum dolor aperiam? Et voluptatem velit et voluptatem cumque vel voluptatem nemo ex ipsum voluptatem non distinctio rerum ut neque ipsum non aspernatur corporis. Et perspiciatis laboriosam a sint iste et quis minus aut aspernatur voluptatibus aut velit omnis aut excepturi sunt ut sapiente optio! Non nihil facilis ut molestiae rerum aut aliquam aperiam et atque Quis qui delectus illum cum
+        p.mb-6
+          +ImageSrcSet('assets/images/blog-detail-img2.png 2x', 'Banner')
+        +Heading4('Different ways').mb-6
+        +TextBase('Est amet nostrum non harum sunt eum quos dolorem aut esse odio. Aut similique sint est nihil quod aut provident laborum aut placeat voluptates ea omnis omnis et iure voluptas qui molestiae adipisci. Et quia mollitia vel optio eaque sit impedit facere et libero sapiente.Et neque dicta ea dignissimos voluptatem id fugit laboriosam sed inventore explicabo et voluptatibus assumenda ut accusantium nulla in dolorem magni. Et ratione dolores et adipisci similique sed culpa similique. Et iste corrupti id commodi omnis aut dolor voluptas et laboriosam aspernatur vel odit officia. Est distinctio eaque rem nihil voluptatem est aspernatur rerum aut quisquam obcaecati est voluptas deserunt qui voluptatem facilis.').mb-6
+        +TextBase('At quisquam dolorem et nobis culpa ut laudantium quae id velit inventore! Eos omnis temporibus cum exercitationem iusto eos quia quod! Hic inventore voluptas hic asperiores facere cum necessitatibus aliquam qui omnis officia. Eos voluptatibus iste eum iusto nobis sit aspernatur iusto ab atque animi ut voluptas dolorem.')
+      .col-span-12(class='xl:col-span-3')
+        .block.mt-8(class='xl:mt-[160px]')
+          .flex.items-center.mb-7
+            a(href='#')
+              img.w-14.h-14.rounded-full.border-third-brand(
+                src='assets/images/homepage-11-avatar-1.png',
+                alt='User',
+                class='mr-2.5 border-[3px]'
+              ) 
+            .block 
+              a(href='#') 
+                span.text-header-8.font-bold.text-first-brand Bessie Cooper
+              .font-medium.text-gray-500.text-mini-desc
+                span November 17, 2022
+                span.inline-block.ml-5.pl-5.bg-no-repeat(
+                  class="bg-[left_center] bg-[url('" + dotIcon + "')]"
+                ) 2 min read
+          .block(class='mb-[72px]')
+            a.py-3.px-4.bg-gray-0.rounded.border.border-first-brand.font-bold.text-first-brand.mr-2(
+              href='#',
+              class='text-[12px] leading-[12px]'
+            ) Marketing
+            a.py-3.px-4.bg-gray-0.rounded.border.border-first-brand.font-bold.text-first-brand(
+              href='#',
+              class='text-[12px] leading-[12px]'
+            ) Business
+          span.text-header-6.font-bold.text-first-brand.mb-3 Table of contents
+          ul.list-decimal.pl-4(class='mb-[72px]')
+            li.mb-1
+              a.font-medium.text-gray-500.transition-common(
+                href='#',
+                class='text-[14px] leading-[32px] hover:text-[#06D6A0]'
+              ) Is making test questions difficult?
+            li.mb-1
+              a.font-medium.text-gray-500.transition-common(
+                href='#',
+                class='text-[14px] leading-[32px] hover:text-[#06D6A0]'
+              ) How to write good test questions?
+            li.mb-1
+              a.font-medium.text-gray-500.transition-common(
+                href='#',
+                class='text-[14px] leading-[32px] hover:text-[#06D6A0]'
+              ) Start preparing even before you write
+            li.mb-1
+              a.font-medium.text-gray-500.transition-common(
+                href='#',
+                class='text-[14px] leading-[32px] hover:text-[#06D6A0]'
+              ) Creating effective open-ended
+            li.mb-1
+              a.font-medium.text-gray-500.transition-common(
+                href='#',
+                class='text-[14px] leading-[32px] hover:text-[#06D6A0]'
+              ) Making good descriptive
+          .flex.items-center.gap-6
+            span.text-mini-desc.font-bold.text-first-brand Share
+            +ItemsCenter.gap-x-2
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-facebook.svg', alt='Facebook')
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-twitter.svg', alt='Twitter')
+              a.hover-up(href='#')
+                img(src='assets/images/icons/icon-instagram.svg', alt='Instagram')
+  .border-t.border-gray-80(class='pt-[84px] mt-[49px] lg:mt-[97px] mb-[58px] lg:mb-[117px]')
+    +MainContainer 
+      +Heading3('Recommended articles')(class='mb-[46px]')
+      .grid.grid-cols-1(class='gap-[30px] lg:grid-cols-3')
+        +CardBlogGrid('assets/images/page/blog/img6.png', '7 Copywriting Strategies the Great Copywriters Wish You Knew', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Writing')
+        +CardBlogGrid('assets/images/page/blog/img7.png', 'What Is the Main Action a Writer Takes When Proofreading?', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Blogging')
+        +CardBlogGrid('assets/images/page/blog/img8.png', 'The Betty Crocker Secret to an Email Marketing Strategy People Enjoy', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', 'November 17, 2022', '2 min read', 'Marketting')
+  +MainContainer 
+    +NewsletterSection02

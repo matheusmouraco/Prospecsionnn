@@ -1,0 +1,47 @@
+block mixins
+  include ../blocks/mixins
+
+block vars
+  - title = 'Site';
+  - bodyClass = '';
+
+doctype html
+html.scroll-smooth.overflow-x-hidden(lang='en')
+  head
+    meta(charset='utf-8')
+    title= title
+    meta(name='description', content='')
+    meta(name='keywords', content='')
+    meta(name='robots', content='index, follow')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0')
+    link(
+      rel='icon',
+      href='assets/images/icons/icon-favicon.svg',
+      type='image/x-icon',
+      sizes='16x16'
+    )
+    link(rel='stylesheet', href='assets/styles/tailwind.min.css?v=4.0')
+    link(rel='stylesheet', href='assets/styles/style.min.css?v=4.0')
+    link(rel='preconnect', href='https://fonts.googleapis.com')
+    link(rel='preconnect', href='https://fonts.gstatic.com', crossorigin='')
+    link(
+      href='https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap',
+      rel='stylesheet'
+    )
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css')
+  body.w-screen.relative.overflow-x-hidden.min-h-screen.scrollbar-hide(class=bodyClass)
+    block sidebar
+      include ../blocks/sidebar
+    block iframe
+      include ../blocks/iframe
+    block header
+      include ../blocks/header
+    main
+      div
+        block container
+      block go-to-top
+        include ../blocks/go-to-top
+      block footer
+        include ../blocks/footer
+    block layer
+      include ../blocks/scripts

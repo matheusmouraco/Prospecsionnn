@@ -1,0 +1,174 @@
+extends layout/layout
+
+block vars
+  - title = 'Homepage 4 - IORI Marketplace Template';
+  - bodyClass = 'homepage-4-styles';
+
+block container
+  .bg-second-brand.relative.bg-no-repeat.bg-right-top(
+    class='bg-[url(\'/assets/images/page/homepage4/finger.png\')] before:bottom-0 before:left-0 before:absolute before:w-[133px] before:h-[150px] before:z-[1] before:bg-[url(\'/assets/images/page/homepage4/finger-2.png\')] before:bg-no-repeat before:bg-contain before:bg-left-bottom'
+  )
+    +MainContainer
+      a.absolute.left-0.right-0.m-auto.bottom-5.h-14.w-14.bg-contain.bg-no-repeat.bg-center.hero-thumb-animation(
+        href='#',
+        class='bg-[url(\'/assets/images/icons/icon-scroll-bar1.svg\')]'
+      )
+      .grid.grid-cols-12.items-center.pb-16(class='pt-[72px]')
+        .col-span-12.mb-11(class='lg:col-span-7 lg:mb-0')
+          +FlexCol
+            +ItemsCenter.gap-x-3.mb-2
+              span.w-12.bg-first-brand(class='h-[1px]')
+              span.font-medium.text-gray-400(class='text-[18px] leading-[18px]') Get Started
+            p.text-first-brand.font-extrabold(
+              class='text-[34px] leading-[40px] mb-[30px] sm:text-[50px] sm:leading-[60px] lg:text-[64px] lg:leading-[72px]'
+            ) Start for free <br> Pay as you Grow
+            +TextBase('Collaborate, plan projects and manage resources with powerful features that your whole team can use. The latest news, tips and advice to help you run your business with less fuss.').mb-10(
+              class='xl:max-w-[601px]'
+            )
+            +Heading5('Available on')(class='mb-[22px]')
+            .flex.items-start.gap-x-9.flex-col.gap-y-4(class='sm:flex-row sm:items-center')
+              +ItemsCenter.gap-x-4
+                img(src='assets/images/AppStore.svg', alt='AppStore')
+                img(src='assets/images/AppGooglePlay.svg', alt='AppGooglePlay')
+              +RightArrowButton('Learn More', '#')
+        .col-span-12.relative(class='lg:col-span-5')
+          .absolute.hero-thumb-animation.opacity-50(class='top-[40%] left-[-70px] z-[1]')
+            img(src='assets/images/homepage-9-arrow-down.svg', alt='Arrow Down')
+          .absolute.bottom-0.hero-thumb-sm-animation.opacity-50(class='z-[1] left-[calc(100%-95px)]')
+            img(src='assets/images/homepage-9-arrow-right.svg', alt='Arrow Right')
+          form.relative(action='#', class='z-[2]')
+            +FlexCol.bg-gray-0.border.border-third-brand.rounded-lg.shadow-drop-shadown-2.px-11.ml-auto(
+              class='pt-[46px] pb-[49px] lg:max-w-[449px]'
+            )
+              +Heading4('Sign up for free').mb-9
+              p.flex.flex-col.gap-y-3.mb-6
+                label(for='email') Your email *
+                input#email.bg-gray-0.border.border-gray-80.rounded-lg.pl-6(
+                  type='email',
+                  name='email',
+                  placeholder='stevenjob@gmail.com',
+                  class='py-[18px]'
+                )
+              p.flex.flex-col.gap-y-3.mb-6 
+                label(for='password') Your password
+                input#password.bg-gray-0.border.border-gray-80.rounded-lg.pl-6(
+                  type='password',
+                  name='password',
+                  placeholder='************',
+                  class='py-[18px]'
+                )
+              p.flex.items-center.mb-6(class='gap-x-[10px]')
+                input#rememberMe(type='checkbox', value='lsRememberMe')
+                label.font-medium.text-gray-900.text-header-9(for='rememberMe') Remember me
+              button.w-full.bg-first-brand.text-gray-0.font-bold.text-header-6.rounded-lg.py-4.mb-4 Sign In
+              button.flex.items-center.justify-center.border.border-gray-80.bg-gray-0.rounded-lg(
+                class='gap-x-[10px] py-[18px] mb-[22px]'
+              )
+                +ImageShrink('assets/images/icons/icon-google.svg', 'Google Icon')
+                span.text-header-9.font-bold(class='text-[#414357]') Sign in with Google
+              p.text-mini-desc.font-medium.text-gray-400.text-center Already have an account?
+                a.text-first-brand.ml-1(href='#') Sign in.
+  +MainContainer
+    +Heading3('Loved By Developers Trusted By Enterprises').mb-5(
+      class='max-w-[350px] mt-[71px] lg:mt-[143px]'
+    )
+    p.text-gray-500.font-medium.text-header-7(class='mb-[53px]') We helped these brands turn online assessments into success stories.
+    ul.flex.flex-wrap.text-left.items-center.gap-y-6(class='gap-x-[60px] mb-[77px] lg:mb-[154px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-placed-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-cuebiq-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-factual-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-place-iq-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-airmeet-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-spendflo-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-klippa-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-matrixian-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-reed-elsevier.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-vuori.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-versed.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-matrixian-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-klippa-1.svg', alt='Iori', class='max-h-[40px]')
+      li.inline-block(class='min-w-[100px]')
+        img.inline-block(src='assets/images/icons/icon-factual-1.svg', alt='Iori', class='max-h-[40px]')
+    .grid.grid-cols-12.items-center
+      .col-span-12.mb-7(class='xl:col-span-7 xl:mb-0')
+        .relative(class='max-w-[570px]')
+          img.block(
+            srcset='assets/images/homepage-4-follower.png 2x',
+            alt='Follower',
+            class='rounded-t-[500px]'
+          )
+          .absolute.bottom-10.hero-thumb-animation.w-20.h-20(
+            class='z-[3] sm:w-fit sm:h-fit right-[-10px] sm:right-[-80px]'
+          )
+            img(src='assets/images/homepage-2-certify-1.svg', alt='Certify')
+      .col-span-12(class='xl:col-span-5')
+        +FlexCol(class='xl:max-w-[570px]')
+          +TagButton('Branding').mb-2
+          +Heading3('Build your brand and reach out to social followers').mb-3
+          p.text-base.text-gray-400.font-medium.mb-5 Sharing content online allows you to craft an online persona that reflects your personal values and professional skills. Even if you only use social media occasionally, what you create, share or react to feeds into this public narrative. How you conduct yourself online is now just as important as your behavior offline especially when it comes to your digital marketing career.
+          ul.grid.grid-cols-1(class='gap-y-[18px] sm:grid-cols-2 mb-[68px]')
+            +FeatureManagementItem('Send & Schedule Posts')
+            +FeatureManagementItem('Live Chat Request')
+            +FeatureManagementItem('Push Notification')
+            +FeatureManagementItem('Create fully integrated campaigns')
+            +FeatureManagementItem('Online Visitors')
+            +FeatureManagementItem('Directly send or schedule posts')
+          +ItemsCenter.gap-6
+            +NormalButton('Download App')
+            +RightArrowButton('Learn More', '#')
+    .border-b.border-third-brand(class='py-[71px] lg:py-[142px]')
+      +TrustedWorldSection
+    +Heading2('What We Offer').text-center.mb-6(class='mt-[69px] lg:mt-[138px]')
+    +Heading6('What makes us different from others? We give holistic solutions with strategy, design & technology.').mx-auto.text-center(
+      class='max-w-[550px] mb-[63px]'
+    )
+    .grid.grid-cols-1(class='gap-[30px] mb-[63px] xl:grid-cols-2')
+      +StrategyDesignItem('assets/images/page/homepage4/offer1.png', 'Manage budgets and resources', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer2.png', 'Employee Assessments', 'What makes us different from others? We give holistic solutions with strategy, design & technology.', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer3.png', 'Smart Installation Tools', 'No lag time, no lost effort when priorities change, no email black hole. As team collaboration improves', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer4.png', 'Collaborative to the core.', 'Share updates instantly within our project management software, and get the entire team collaborating', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer5.png', 'Manage budgets and resources', 'Seamless importing and round-tripping of Microsoft Project plans, Excel files & CSV files.', '#')
+      +StrategyDesignItem('assets/images/page/homepage4/offer6.png', 'Unlimited ways to work', 'What makes us different from others? We give holistic solutions with strategy, design & technology.', '#')
+    +JustifyCenter.gap-6
+      +NormalButton('Download App')
+      +RightArrowButton('Learn More', '#')
+  +ChooseTheBestPlanSection('bg-gray-80', true)(class='mt-[67px] lg:mt-[135px] mb-[71px] lg:mb-[142px]')
+  +MainContainer 
+    .grid.grid-cols-12.mb-16(class='lg:mb-32')
+      .col-span-12.mb-7(class='lg:col-span-5 lg:mb-0')
+        +FlexCol(class='lg:max-w-[570px]')
+          +Heading2('FAQs').mb-6
+          +Heading6('Feeling inquisitive? Have a read through some of our FAQs or contact our supporters for help')(
+            class='mb-[75px]'
+          )
+          span.text-header-6.font-bold.text-first-brand.mb-2 Still no luck? We can help!
+          +Heading6('Contact us and we’ll get back to you as soon as possible.').mb-10
+          +ItemsCenter.gap-6
+            +NormalButton('Contact Us')
+            +RightArrowButton('Support Center', '#')
+      .col-span-12(class='lg:col-span-7')
+        dl.accordionQuestionsWrap.flex.flex-col.gap-y-2
+          +AccordionItem('Where is my order? Quisque molestie', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('How can I return an item purchased online?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('Can I cancel or change my order?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('I have promotional or discount code?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('What are the delivery types you use?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('How can I pay for my purchases?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+          +AccordionItem('Can I cancel my order?', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature Id pro doctus mediocrem erroribus, diam nostro sed cu. Ea pri graeco tritani partiendo. Omittantur No tale choro fastidii his, pri cu epicuri perpetua. Enim dictas omittantur et duo, vocent lucilius quaestio mea ex. Ex illum officiis id.')
+    +MarketingItemSection('assets/images/homepage-11-person-6.png', 'Business', 'Integrate with over 1,000 project management apps', 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit laborum — semper quis lectus nulla. Interactively transform magnetic growth strategies whereas prospective "outside the box" thinking.', '#', true)
+    +CustomersSayingSection(class='lg:mb-[140px] mb-[70px] mt-[76px] lg:mt-[152px]')
+    +BlogSection(class='mb-[75px]')
+    +NewsletterSection02

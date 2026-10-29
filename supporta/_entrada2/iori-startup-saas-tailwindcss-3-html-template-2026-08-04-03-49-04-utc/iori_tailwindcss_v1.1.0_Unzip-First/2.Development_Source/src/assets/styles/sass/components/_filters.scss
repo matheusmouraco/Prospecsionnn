@@ -1,0 +1,12 @@
+.filter-first-brand {
+  filter: brightness(0) saturate(100%) invert(19%) sepia(11%) saturate(4378%) hue-rotate(120deg)
+    brightness(99%) contrast(102%);
+}
+
+.shop-grid,
+.shop-list {
+  &:hover {
+    filter: brightness(0) saturate(100%) invert(19%) sepia(11%) saturate(4378%) hue-rotate(120deg)
+      brightness(99%) contrast(102%);
+  }
+}
