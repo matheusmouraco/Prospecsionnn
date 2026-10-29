@@ -1,0 +1,147 @@
+import Link from "next/link";
+
+const BlogFive = () => {
+    return (
+        <section className="blog-area-4 space" id="blog-sec">
+            <div className="container">
+                <div className="row justify-content-lg-between justify-content-center align-items-center">
+                    <div className="col-lg-6">
+                        <div className="title-area text-lg-start text-center">
+                            <span className="sub-title text-theme">Daily Update <i className="ri-arrow-right-down-line"></i></span>
+                            <h2 className="sec-title">Our latest news and blog</h2>
+                        </div>
+                    </div>
+                    <div className="col-md-auto">
+                        <div className="sec-btn">
+                            <Link href="/pages/innerpage/blog" className="btn">View all post <i className="ri-arrow-right-up-line"></i></Link>
+                        </div>
+                    </div>
+                </div>
+                <div className="row global-carousel blog-slider5 slider-shadow" data-slide-show="3" data-lg-slide-show="3" data-md-slide-show="2" data-sm-slide-show="1" data-xs-slide-show="1" data-dots="false">
+                    <div className="col-md-6 col-lg-4">
+                        <div className="blog-card style5">
+                            <div className="blog-img">
+                                <img src="/main-assets/img/blog/blog_5_1.png" alt="blog image" />
+                                <div className="blog-date">
+                                    <Link href="/pages/innerpage/blog"><span>22</span>JUN</Link>
+                                    <div className="year">2024</div>
+                                </div>
+                            </div>
+                            <div className="blog-content">
+                                <div className="blog-meta">
+                                    <Link href="/pages/innerpage/blog">By Jr. Saller</Link>
+                                    <Link href="/pages/innerpage/blog">News in 2024</Link>
+                                </div>
+                                <h3 className="blog-title"><Link href="/pages/innerpage/blog-details">Protecting your roof from storm damage</Link></h3>
+                                <Link href="/pages/innerpage/blog-details" className="btn style-border4" tabIndex="0">Read More <i className="ri-arrow-right-up-line"></i></Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6 col-lg-4">
+                        <div className="blog-card style5">
+                            <div className="blog-img">
+                                <img src="/main-assets/img/blog/blog_5_2.png" alt="blog image" />
+                                <div className="blog-date">
+                                    <Link href="/pages/innerpage/blog"><span>14</span>FEB</Link>
+                                    <div className="year">2024</div>
+                                </div>
+                            </div>
+                            <div className="blog-content">
+                                <div className="blog-meta">
+                                    <Link href="/pages/innerpage/blog">By Ashik</Link>
+                                    <Link href="/pages/innerpage/blog">News in 2024</Link>
+                                </div>
+                                <h3 className="blog-title"><Link href="/pages/innerpage/blog-details">Roofing are fact makes easier 10 reason</Link></h3>
+                                <Link href="/pages/innerpage/blog-details" className="btn style-border4" tabIndex="0">Read More <i className="ri-arrow-right-up-line"></i></Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6 col-lg-4">
+                        <div className="blog-card style5">
+                            <div className="blog-img">
+                                <img src="/main-assets/img/blog/blog_5_3.png" alt="blog image" />
+                                <div className="blog-date">
+                                    <Link href="/pages/innerpage/blog"><span>09</span>JUN</Link>
+                                    <div className="year">2024</div>
+                                </div>
+                            </div>
+                            <div className="blog-content">
+                                <div className="blog-meta">
+                                    <Link href="/pages/innerpage/blog">By Jekson</Link>
+                                    <Link href="/pages/innerpage/blog">News in 2024</Link>
+                                </div>
+                                <h3 className="blog-title"><Link href="/pages/innerpage/blog-details">Why roofing material warranties important?</Link></h3>
+                                <Link href="/pages/innerpage/blog-details" className="btn style-border4" tabIndex="0">Read More <i className="ri-arrow-right-up-line"></i></Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6 col-lg-4">
+                        <div className="blog-card style5">
+                            <div className="blog-img">
+                                <img src="/main-assets/img/blog/blog_5_1.png" alt="blog image" />
+                                <div className="blog-date">
+                                    <Link href="/pages/innerpage/blog"><span>22</span>JUN</Link>
+                                    <div className="year">2024</div>
+                                </div>
+                            </div>
+                            <div className="blog-content">
+                                <div className="blog-meta">
+                                    <Link href="/pages/innerpage/blog">By Jr. Saller</Link>
+                                    <Link href="/pages/innerpage/blog">News in 2024</Link>
+                                </div>
+                                <h3 className="blog-title"><Link href="/pages/innerpage/blog-details">Protecting your roof from storm damage</Link></h3>
+                                <Link href="/pages/innerpage/blog-details" className="btn style-border4" tabIndex="0">Read More <i className="ri-arrow-right-up-line"></i></Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6 col-lg-4">
+                        <div className="blog-card style5">
+                            <div className="blog-img">
+                                <img src="/main-assets/img/blog/blog_5_2.png" alt="blog image" />
+                                <div className="blog-date">
+                                    <Link href="/pages/innerpage/blog"><span>14</span>FEB</Link>
+                                    <div className="year">2024</div>
+                                </div>
+                            </div>
+                            <div className="blog-content">
+                                <div className="blog-meta">
+                                    <Link href="/pages/innerpage/blog">By Ashik</Link>
+                                    <Link href="/pages/innerpage/blog">News in 2024</Link>
+                                </div>
+                                <h3 className="blog-title"><Link href="/pages/innerpage/blog-details">Roofing are fact makes easier 10 reason</Link></h3>
+                                <Link href="/pages/innerpage/blog-details" className="btn style-border4" tabIndex="0">Read More <i className="ri-arrow-right-up-line"></i></Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6 col-lg-4">
+                        <div className="blog-card style5">
+                            <div className="blog-img">
+                                <img src="/main-assets/img/blog/blog_5_3.png" alt="blog image" />
+                                <div className="blog-date">
+                                    <Link href="/pages/innerpage/blog"><span>09</span>JUN</Link>
+                                    <div className="year">2024</div>
+                                </div>
+                            </div>
+                            <div className="blog-content">
+                                <div className="blog-meta">
+                                    <Link href="/pages/innerpage/blog">By Jekson</Link>
+                                    <Link href="/pages/innerpage/blog">News in 2024</Link>
+                                </div>
+                                <h3 className="blog-title"><Link href="/pages/innerpage/blog-details">Why roofing material warranties important?</Link></h3>
+                                <Link href="/pages/innerpage/blog-details" className="btn style-border4" tabIndex="0">Read More <i className="ri-arrow-right-up-line"></i></Link>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default BlogFive;

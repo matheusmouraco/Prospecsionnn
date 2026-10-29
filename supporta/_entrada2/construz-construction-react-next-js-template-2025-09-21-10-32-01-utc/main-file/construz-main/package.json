@@ -1,0 +1,35 @@
+{
+  "name": "server-version",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@sekmet/react-magnific-popup": "^1.0.2",
+    "bootstrap": "^5.3.3",
+    "imagesloaded": "^5.0.0",
+    "isotope-layout": "^3.0.6",
+    "magnific-popup": "^1.2.0",
+    "next": "^14.2.5",
+    "rc-slider": "^10.6.2",
+    "react": "^18",
+    "react-bootstrap": "^2.10.3",
+    "react-countup": "^6.5.3",
+    "react-dom": "^18",
+    "react-image-lightbox": "^5.1.4",
+    "react-intersection-observer": "^9.10.3",
+    "react-magnific-popup": "^1.0.1",
+    "react-nice-select": "^1.0.6",
+    "react-responsive-modal": "^6.4.2",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4"
+  }
+}
