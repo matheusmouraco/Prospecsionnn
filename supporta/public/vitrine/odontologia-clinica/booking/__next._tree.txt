@@ -1,0 +1,8 @@
+:HL["/vitrine/odontologia-clinica/_next/static/chunks/da3ceaba6be06c0d.css","style"]
+:HL["/vitrine/odontologia-clinica/css/bootstrap.min.css","style",{"type":"text/css"}]
+:HL["/vitrine/odontologia-clinica/css/plugins.css","style",{"type":"text/css"}]
+:HL["/vitrine/odontologia-clinica/css/swiper.css","style",{"type":"text/css"}]
+:HL["/vitrine/odontologia-clinica/css/style.css","style",{"type":"text/css"}]
+:HL["/vitrine/odontologia-clinica/css/colors/scheme-01.css","style",{"type":"text/css"}]
+:HL["/vitrine/odontologia-clinica/images/logo-white.webp","image"]
+0:{"buildId":"ZYbSEoBjBCABMAJiKOud0","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"booking","paramType":null,"paramKey":"booking","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

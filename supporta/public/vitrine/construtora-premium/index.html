@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supporta Construtora | Construção e reformas com prazo no contrato em São Paulo</title>
+<meta name="description" content="Construção de casas, reforma de apartamentos e obras comerciais em São Paulo com orçamento por etapa, cronograma assinado, engenheiro responsável e garantia. Visita técnica sem custo.">
+<link rel="icon" href="/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HomeAndConstructionBusiness",
+      "name": "Supporta",
+      "description": "Construtora de obras residenciais e comerciais e reformas em São Paulo, com orçamento por etapa, cronograma em contrato e engenheiro responsável.",
+      "telephone": "+55 11 99264-4010",
+      "email": "contato@supporta.com.br",
+      "url": "https://supporta.com.br",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Alameda Vicente Pinzon, 173",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "addressCountry": "BR"
+      },
+      "areaServed": "São Paulo e Grande São Paulo",
+      "openingHoursSpecification": [
+        {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "18:00"},
+        {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "12:00"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "Quanto custa o metro quadrado de uma reforma?", "acceptedAnswer": {"@type": "Answer", "text": "Depende do que entra na obra: trocar piso e pintar custa muito menos do que refazer elétrica, hidráulica e marcenaria. Por isso o preço sai depois da visita técnica, num orçamento separado por etapa, com material e mão de obra discriminados. Você sabe quanto custa cada parte antes de assinar."}},
+        {"@type": "Question", "name": "Preciso ter um projeto de arquiteto antes de chamar vocês?", "acceptedAnswer": {"@type": "Answer", "text": "Não. Se você já tem projeto, executamos exatamente o que está desenhado. Se não tem, nossa equipe faz o projeto executivo e o 3D dos ambientes antes da obra começar, e o orçamento já sai com base nele."}},
+        {"@type": "Question", "name": "Como funciona a aprovação da reforma no condomínio?", "acceptedAnswer": {"@type": "Answer", "text": "A norma ABNT NBR 16280 exige um plano de reforma assinado por um responsável técnico. Nós preparamos o plano, emitimos a ART do engenheiro e entregamos tudo ao síndico. A obra só começa com a liberação em mãos."}},
+        {"@type": "Question", "name": "Preciso sair de casa durante a reforma?", "acceptedAnswer": {"@type": "Answer", "text": "Em reformas de cozinha ou banheiro, normalmente não. Em reformas completas, com demolição e troca de instalações, recomendamos sair nas semanas mais pesadas. O cronograma mostra exatamente quais são, para você se planejar com antecedência."}},
+        {"@type": "Question", "name": "Qual é a garantia da obra?", "acceptedAnswer": {"@type": "Answer", "text": "Estrutura e solidez têm garantia de 5 anos, como determina o Código Civil. Instalações e acabamentos têm garantia escrita no contrato, com prazo para cada item. Depois da entrega, fazemos uma vistoria de acompanhamento e qualquer ajuste é resolvido pela mesma equipe."}}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --ink:#16181b;
+  --ink-2:#4a4f57;
+  --line:#e3e5e8;
+  --paper:#ffffff;
+  --concrete:#f3f4f5;
+  --orange:#c2410c;
+  --orange-d:#9a3412;
+  --signal:#f5b700;
+  --dark:#141619;
+  --r:6px;
+  --wrap:1320px;
+  --pad:clamp(20px,4vw,48px);
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --sans:"Archivo",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:var(--sans);font-stretch:100%;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--ink-2)}
+.eyebrow::before{content:"";width:10px;height:10px;background:var(--orange);flex:none}
+.eyebrow b{font-weight:500;color:var(--orange)}
+h1,h2,h3{font-weight:700;letter-spacing:-.02em;line-height:.98}
+h2{font-size:clamp(38px,5.6vw,84px);font-stretch:78%}
+h2 em,h1 em{font-style:normal;color:var(--orange)}
+.lead{font-size:clamp(17px,1.35vw,20px);color:var(--ink-2);max-width:52ch}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:54px;padding:0 26px;border-radius:var(--r);font-weight:600;font-size:16px;transition:background .25s,color .25s,border-color .25s,transform .25s}
+.btn svg{width:18px;height:18px;transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{background:var(--orange-d)}
+.btn-ghost{border:1px solid var(--ink);color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:#fff}
+
+/* header */
+.hdr{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(255,255,255,.96);border-bottom:1px solid transparent;transition:border-color .3s}
+.hdr.scrolled{border-color:var(--line)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;height:76px}
+.nav{display:flex;align-items:center;gap:34px}
+.nav a{font-size:15px;font-weight:500;position:relative}
+.nav a:not(.btn)::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:100%;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav a:not(.btn):hover::after{transform:scaleX(1)}
+.nav .btn{min-height:44px;padding:0 20px;font-size:15px}
+.burger{display:none;width:48px;height:48px;border:1px solid var(--line);border-radius:var(--r);background:#fff;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;right:13px;height:2px;background:var(--ink);transition:transform .3s,opacity .3s}
+.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:23px}.burger span:nth-child(3){top:29px}
+.menu-open .burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-open .burger span:nth-child(2){opacity:0}
+.menu-open .burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* hero */
+.hero{padding-top:132px}
+.ruler{height:14px;margin-bottom:34px;background:
+  repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 100%) 0 100%/80px 14px no-repeat repeat-x,
+  repeating-linear-gradient(90deg,#b9bdc3 0 1px,transparent 1px 100%) 0 100%/16px 7px repeat-x;
+  border-bottom:1px solid var(--ink)}
+.hero-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end}
+.hero-h{grid-column:1/10}
+.hero h1{font-size:clamp(52px,8.6vw,138px);font-stretch:72%;line-height:.9;letter-spacing:-.025em;margin-top:22px}
+.hero-side{grid-column:10/13;padding-bottom:12px}
+.hero-side p{color:var(--ink-2);margin-bottom:26px;font-size:17px}
+.hero-side .btn{width:100%;justify-content:space-between}
+.hero-side .btn+.btn{margin-top:10px}
+.hero-media{position:relative;margin-top:56px;height:min(62vw,640px);overflow:hidden}
+.hero-media img{position:absolute;inset:-12% 0 0 0;width:100%;height:124%;object-fit:cover;object-position:center 55%}
+.hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,14,0) 45%,rgba(10,12,14,.62) 100%)}
+.spec{position:absolute;z-index:2;left:var(--pad);bottom:28px;right:var(--pad);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;color:#fff}
+.spec dl{display:flex;gap:36px}
+.spec dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.82}
+.spec dd{font-size:22px;font-weight:600;font-stretch:85%}
+.spec .tag{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:#fff;color:var(--ink);padding:9px 14px;border-radius:var(--r)}
+
+/* marquee */
+.marquee{border-bottom:1px solid var(--line);overflow:hidden;padding:26px 0;white-space:nowrap}
+.marquee-track{display:inline-flex;animation:mq 38s linear infinite}
+.marquee span{font-size:clamp(30px,4vw,56px);font-weight:700;font-stretch:72%;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:36px;padding-right:36px}
+.marquee span i{width:14px;height:14px;background:var(--orange);display:inline-block}
+.marquee span.o{color:transparent;-webkit-text-stroke:1.2px var(--ink)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* sections */
+section{position:relative}
+.sec{padding:clamp(88px,11vw,160px) 0}
+.sec-head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-bottom:clamp(48px,6vw,88px);align-items:end}
+.sec-head .eyebrow{grid-column:1/13;margin-bottom:6px}
+.sec-head h2{grid-column:1/8}
+.sec-head .lead{grid-column:8/13}
+.num{font-family:var(--mono);font-size:12.5px;color:var(--orange);letter-spacing:.06em}
+
+/* services */
+.svc{border-top:1px solid var(--ink)}
+.svc-row{display:grid;grid-template-columns:80px 1.15fr 1.3fr 170px;gap:24px;padding:34px 0;border-bottom:1px solid var(--line);align-items:start;position:relative;cursor:default}
+.svc-row h3{font-size:clamp(28px,2.8vw,42px);font-stretch:80%;transition:color .3s,transform .4s}
+.svc-row p{color:var(--ink-2);font-size:16px}
+.svc-row .t{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);text-align:right;padding-top:8px}
+.svc-row .t b{display:block;color:var(--ink);font-weight:500;font-size:14px;margin-top:4px}
+.svc-row:hover h3{color:var(--orange);transform:translateX(8px)}
+.svc-row .num{padding-top:10px}
+.svc-preview{position:fixed;left:0;top:0;width:300px;height:220px;pointer-events:none;z-index:40;border-radius:var(--r);overflow:hidden;opacity:0}
+.svc-preview img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .3s}
+.svc-preview img.on{opacity:1}
+
+/* before / after */
+.ba-sec{background:var(--concrete)}
+.ba-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
+.ba-copy{grid-column:1/5}
+.ba-copy h2{font-size:clamp(36px,4.4vw,64px);margin:18px 0 22px}
+.ba-copy ul{list-style:none;margin-top:30px;border-top:1px solid #d5d8dc}
+.ba-copy li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #d5d8dc;font-size:15.5px}
+.ba-copy li span:first-child{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);padding-top:3px}
+.ba{grid-column:5/13;position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;--pos:50%;user-select:none;touch-action:pan-y;cursor:ew-resize}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .after{clip-path:inset(0 0 0 var(--pos))}
+.ba .handle{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;background:#fff;transform:translateX(-1px)}
+.ba .knob{position:absolute;top:50%;left:50%;width:56px;height:56px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);display:grid;place-items:center;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.ba .knob svg{width:26px;height:26px}
+.ba:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
+.ba .lbl{position:absolute;top:18px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:rgba(20,22,25,.82);color:#fff;padding:7px 12px;border-radius:4px}
+.ba .lbl.l{left:18px}.ba .lbl.r{right:18px;background:var(--orange)}
+
+/* works */
+.works{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(18px,2.4vw,32px);row-gap:clamp(48px,6vw,90px)}
+.work .ph{overflow:hidden;border-radius:var(--r);position:relative}
+.work .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.work:hover .ph img{transform:scale(1.04)}
+.work .cap{display:flex;justify-content:space-between;gap:16px;margin-top:18px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px}
+.work h3{font-size:clamp(22px,2vw,28px);font-stretch:85%;letter-spacing:-.01em}
+.work .meta{display:flex;gap:18px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.work .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-top:10px}
+.w1{grid-column:1/8}.w1 .ph{aspect-ratio:5/4}
+.w2{grid-column:8/13;margin-top:140px}.w2 .ph{aspect-ratio:4/5}
+.w3{grid-column:1/5}.w3 .ph{aspect-ratio:3/4}
+.w4{grid-column:5/9;margin-top:110px}.w4 .ph{aspect-ratio:1/1}
+.w5{grid-column:9/13;margin-top:-60px}.w5 .ph{aspect-ratio:3/4}
+.works-cta{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:80px;padding-top:30px;border-top:1px solid var(--ink)}
+.works-cta p{font-size:clamp(20px,2vw,28px);font-weight:600;font-stretch:85%;max-width:30ch;line-height:1.2}
+
+/* process */
+.proc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.proc-left{grid-column:1/6}
+.proc-left h2{font-size:clamp(36px,4.6vw,68px);margin:18px 0 24px}
+.steps{list-style:none;margin-top:44px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:22px 0;border-top:1px solid var(--line)}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps h3{font-size:22px;font-stretch:88%;letter-spacing:-.01em;margin-bottom:6px;line-height:1.15}
+.steps p{font-size:15.5px;color:var(--ink-2)}
+.gantt-wrap{grid-column:7/13;align-self:start;position:sticky;top:110px}
+.gantt{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:#fff}
+.gantt-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:22px}
+.gantt-top strong{font-size:20px;font-stretch:88%}
+.gantt-weeks{display:grid;grid-template-columns:repeat(12,1fr);font-family:var(--mono);font-size:10.5px;color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:6px}
+.gantt-weeks span{text-align:center}
+.g-row{padding:9px 0;border-bottom:1px dashed var(--line);position:relative;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/12 - 1px),#f1f2f4 calc(100%/12 - 1px) calc(100%/12))}
+.g-row:last-child{border-bottom:0}
+.g-row small{display:block;font-size:13.5px;font-weight:500;margin-bottom:6px}
+.g-bar{display:grid;grid-template-columns:repeat(12,1fr);height:12px}
+.g-bar i{display:block;border-radius:3px;background:var(--ink);transform-origin:left center}
+.g-bar i.hot{background:var(--orange)}
+.gantt-foot{display:flex;gap:22px;margin-top:20px;font-size:13px;color:var(--ink-2);flex-wrap:wrap}
+.gantt-foot span{display:inline-flex;align-items:center;gap:8px}
+.gantt-foot span::before{content:"";width:18px;height:8px;border-radius:2px;background:var(--ink)}
+.gantt-foot span.hot::before{background:var(--orange)}
+
+/* dark contract */
+.contract{background:var(--dark);color:#fff;padding:clamp(80px,9vw,128px) 0}
+.contract .eyebrow{color:#aab0b8}
+.contract h2{font-size:clamp(36px,4.8vw,72px);max-width:16ch;margin:18px 0 0}
+.contract-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:64px}
+.contract-top>div:first-child{grid-column:1/8}
+.counters{grid-column:8/13;display:flex;gap:44px;justify-content:flex-end}
+.counter b{display:block;font-size:clamp(54px,6vw,92px);font-stretch:72%;line-height:1;color:var(--signal);letter-spacing:-.02em}
+.counter>span{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#c4c9cf}
+.clauses{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #33373d}
+.clause{padding:30px 28px 6px 0;border-right:1px solid #33373d;margin-right:28px}
+.clause:last-child{border-right:0;margin-right:0}
+.clause .num{color:var(--signal)}
+.clause h3{font-size:24px;font-stretch:85%;margin:14px 0 10px;line-height:1.1;letter-spacing:-.01em}
+.clause p{font-size:15px;color:#c4c9cf}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
+.about-ph{grid-column:1/6;position:relative}
+.about-ph .ph{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r)}
+.about-ph .ph img{width:100%;height:100%;object-fit:cover}
+.about-ph .stamp{position:absolute;right:-28px;bottom:40px;background:var(--orange);color:#fff;padding:20px 22px;border-radius:var(--r);max-width:220px}
+.about-ph .stamp b{display:block;font-size:34px;font-stretch:75%;line-height:1}
+.about-ph .stamp span{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase}
+.about-copy{grid-column:7/13}
+.about-copy h2{font-size:clamp(36px,4.4vw,64px);margin:18px 0 26px}
+.about-copy p+p{margin-top:16px}
+.about-copy p{color:var(--ink-2)}
+.team{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink)}
+.team div{padding:18px 0;border-bottom:1px solid var(--line)}
+.team div:nth-child(odd){padding-right:20px}
+.team strong{display:block;font-size:18px;font-stretch:90%}
+.team span{font-size:14px;color:var(--ink-2)}
+
+/* testimonials */
+.testi{background:var(--concrete)}
+.testi-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.q-big{grid-column:1/8;padding-right:40px}
+.q-big blockquote{font-size:clamp(28px,3.1vw,46px);font-weight:600;font-stretch:82%;line-height:1.12;letter-spacing:-.015em}
+.q-big blockquote::before{content:"\201C";display:block;color:var(--orange);font-size:96px;line-height:.6;margin-bottom:16px;font-stretch:100%}
+.who{display:flex;align-items:center;gap:14px;margin-top:30px}
+.who strong{display:block;font-size:16px}
+.who span{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.q-side{grid-column:8/13;display:flex;flex-direction:column;gap:20px}
+.q-card{background:#fff;border-radius:var(--r);padding:30px;border:1px solid var(--line)}
+.q-card p{font-size:16.5px;line-height:1.55}
+.q-card .who{margin-top:20px}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.faq-left{grid-column:1/5}
+.faq-left h2{font-size:clamp(36px,4.4vw,64px);margin:18px 0 22px}
+.faq-list{grid-column:6/13;border-top:1px solid var(--ink)}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:26px 0;font-size:clamp(19px,1.6vw,23px);font-weight:600;font-stretch:90%;letter-spacing:-.01em;line-height:1.25}
+summary::-webkit-details-marker{display:none}
+summary .pm{flex:none;width:34px;height:34px;border:1px solid var(--line);border-radius:50%;position:relative;transition:background .3s,border-color .3s}
+summary .pm::before,summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;background:var(--ink);transform:translate(-50%,-50%);transition:transform .3s}
+summary .pm::after{transform:translate(-50%,-50%) rotate(90deg)}
+details[open] summary .pm{background:var(--orange);border-color:var(--orange)}
+details[open] summary .pm::before,details[open] summary .pm::after{background:#fff}
+details[open] summary .pm::after{transform:translate(-50%,-50%) rotate(0)}
+summary:hover{color:var(--orange)}
+details p{padding:0 60px 28px 0;color:var(--ink-2);max-width:68ch}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:stretch}
+.contact-copy{grid-column:1/6;display:flex;flex-direction:column}
+.contact-copy h2{font-size:clamp(40px,5.4vw,82px);margin:18px 0 24px}
+.contact-copy .btn{align-self:flex-start;margin-top:30px}
+.info{margin-top:auto;padding-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:26px 24px}
+.info small{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.info a,.info p{font-size:16.5px;font-weight:500}
+.info a:hover{color:var(--orange)}
+.map{grid-column:7/13;border-radius:var(--r);overflow:hidden;min-height:480px;background:var(--concrete);border:1px solid var(--line)}
+.map iframe{width:100%;height:100%;min-height:480px;border:0;display:block;filter:grayscale(1) contrast(1.05)}
+
+/* footer */
+.ftr{border-top:1px solid var(--ink);padding:56px 0 34px}
+.ftr-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-bottom:60px}
+.ftr-brand{grid-column:1/5}
+.ftr-brand p{margin-top:18px;color:var(--ink-2);font-size:15px;max-width:34ch}
+.ftr-col{grid-column:span 2}
+.ftr-col:first-of-type{grid-column:7/9}
+.ftr-col small{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px}
+.ftr-col a,.ftr-col span{display:block;font-size:15px;margin-bottom:8px}
+.ftr-col a:hover{color:var(--orange)}
+.ftr-bot{display:flex;justify-content:space-between;gap:20px;font-size:13px;color:var(--ink-2);padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap}
+.ftr-big{font-size:clamp(64px,15vw,240px);font-weight:800;font-stretch:65%;letter-spacing:-.03em;line-height:.95;padding-bottom:.06em;color:var(--concrete);margin-bottom:28px;user-select:none;white-space:nowrap;overflow:hidden}
+
+/* whatsapp float */
+.wa{position:fixed;right:22px;bottom:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:#1faa59;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.22);transition:transform .3s}
+.wa:hover{transform:scale(1.07)}
+.wa svg{width:30px;height:30px;fill:#fff}
+
+/* split words */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.wi{display:inline-block;will-change:transform}
+.js [data-split]{visibility:hidden}
+
+/* responsive */
+@media (max-width:1080px){
+  .svc-preview{display:none}
+  .svc-row{grid-template-columns:60px 1fr 1fr}
+  .svc-row .t{grid-column:2/4;text-align:left;padding-top:0}
+  .svc-row .t b{display:inline;margin-left:8px}
+  .clauses{grid-template-columns:1fr 1fr}
+  .clause:nth-child(2){border-right:0;margin-right:0}
+  .clause{padding-bottom:28px}
+  .clause:nth-child(n+3){border-top:1px solid #33373d}
+}
+@media (max-width:900px){
+  body{font-size:16px}
+  .nav{position:fixed;inset:76px 0 0 0;background:#fff;flex-direction:column;align-items:stretch;gap:0;padding:20px var(--pad) 40px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .3s,transform .3s,visibility .3s;overflow-y:auto}
+  .menu-open .nav{opacity:1;visibility:visible;transform:none}
+  .nav a:not(.btn){font-size:30px;font-weight:700;font-stretch:78%;padding:16px 0;border-bottom:1px solid var(--line)}
+  .nav a:not(.btn)::after{display:none}
+  .nav .btn{margin-top:28px;min-height:56px;justify-content:center;font-size:17px}
+  .burger{display:block}
+  .hero{padding-top:104px}
+  .hero-grid,.sec-head,.ba-grid,.proc-grid,.contract-top,.about-grid,.testi-grid,.faq-grid,.contact-grid,.ftr-top{grid-template-columns:1fr;gap:20px}
+  .hero-h,.hero-side,.sec-head h2,.sec-head .lead,.sec-head .eyebrow,.ba-copy,.ba,.proc-left,.gantt-wrap,.contract-top>div:first-child,.counters,.about-ph,.about-copy,.q-big,.q-side,.faq-left,.faq-list,.contact-copy,.map,.ftr-brand,.ftr-col,.ftr-col:first-of-type{grid-column:1/-1}
+  .hero h1{font-size:clamp(46px,13.4vw,92px);margin-top:16px}
+  .hero-side{padding-bottom:0}
+  .hero-media{height:118vw;max-height:560px;margin-top:36px}
+  .spec{flex-direction:column;align-items:flex-start;bottom:20px}
+  .spec dl{gap:22px}
+  .spec dd{font-size:18px}
+  .ba{aspect-ratio:4/5;margin-top:16px}
+  .works{grid-template-columns:1fr;row-gap:44px}
+  .w1,.w2,.w3,.w4,.w5{grid-column:1/-1;margin-top:0}
+  .w2 .ph,.w3 .ph,.w5 .ph{aspect-ratio:4/5}
+  .work .cap{flex-direction:column;gap:6px}
+  .works-cta{flex-direction:column;align-items:flex-start}
+  .gantt-wrap{position:static;margin-top:20px}
+  .gantt{padding:20px 16px}
+  .counters{justify-content:flex-start;gap:32px;margin-top:16px}
+  .clauses{grid-template-columns:1fr}
+  .clause,.clause:nth-child(2){border-right:0;margin-right:0;border-top:1px solid #33373d;padding:24px 0}
+  .about-ph .stamp{right:14px;bottom:14px}
+  .q-big{padding-right:0;margin-bottom:12px}
+  details p{padding-right:0}
+  .map,.map iframe{min-height:340px}
+  .info{grid-template-columns:1fr;gap:20px;padding-top:36px}
+  .ftr-big{font-size:21vw}
+}
+@media (max-width:560px){
+  .svc-row{grid-template-columns:1fr;gap:10px;padding:26px 0}
+  .svc-row .t{grid-column:1}
+  .svc-row .num{padding-top:0}
+  .hero-side .btn{min-height:56px}
+  .marquee{padding:18px 0}
+  .gantt-weeks{font-size:9px}
+  .contact-copy .btn{align-self:stretch;justify-content:space-between}
+}
+@media (prefers-reduced-motion:reduce){
+  .marquee-track{animation:none}
+  *{transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr" id="top">
+  <div class="wrap hdr-in">
+    <a href="#top" aria-label="Supporta, voltar ao início">
+      <svg viewBox="0 0 196 48" height="34" style="height:34px;width:auto;display:block" role="img" aria-label="Supporta"><rect x="16" y="8" width="26" height="8" rx="4" fill="#16181b"/><rect x="9" y="20" width="30" height="8" rx="4" fill="#c2410c"/><rect x="6" y="32" width="26" height="8" rx="4" fill="#16181b"/><text x="50" y="34" font-family="inherit" font-size="27" font-weight="600" letter-spacing="-1.2" fill="#16181b">supporta</text></svg>
+    </a>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <a href="#servicos">Serviços</a>
+      <a href="#obras">Obras entregues</a>
+      <a href="#processo">Como trabalhamos</a>
+      <a href="#perguntas">Dúvidas</a>
+      <a class="btn btn-primary" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Pedir orçamento</a>
+    </nav>
+    <button class="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="ruler" aria-hidden="true"></div>
+    <div class="hero-grid">
+      <div class="hero-h">
+        <p class="eyebrow mono">Construção e reformas <b>São Paulo</b></p>
+        <h1 data-split>Obra com prazo assinado e <em>preço fechado.</em></h1>
+      </div>
+      <div class="hero-side">
+        <p>Construímos casas, reformamos apartamentos e entregamos lojas e escritórios prontos para abrir. Um engenheiro responde pela sua obra da visita técnica até a entrega das chaves.</p>
+        <a class="btn btn-primary" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Agendar visita técnica <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-ghost" href="#obras">Ver obras entregues <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-media">
+    <img data-hero src="https://images.unsplash.com/photo-1666585607888-3f6fe0b323d8?auto=format&fit=crop&w=1920&q=70" alt="Sala integrada com janelas do piso ao teto em casa construída pela Supporta" fetchpriority="high">
+    <div class="spec">
+      <dl>
+        <div><dt>Obra</dt><dd>Casa Alto de Pinheiros</dd></div>
+        <div><dt>Área</dt><dd>280 m²</dd></div>
+        <div><dt>Prazo</dt><dd>11 meses</dd></div>
+      </dl>
+      <span class="tag">Entregue no prazo</span>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Construção de casas <i></i></span><span class="o">Reforma de apartamento <i></i></span><span>Lojas e escritórios <i></i></span><span class="o">Cozinhas e banheiros <i></i></span><span>Retrofit de fachada <i></i></span><span class="o">Plano de reforma e ART <i></i></span>
+    <span>Construção de casas <i></i></span><span class="o">Reforma de apartamento <i></i></span><span>Lojas e escritórios <i></i></span><span class="o">Cozinhas e banheiros <i></i></span><span>Retrofit de fachada <i></i></span><span class="o">Plano de reforma e ART <i></i></span>
+  </div>
+</div>
+
+<section class="sec" id="servicos">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow mono"><b>01</b> O que construímos</p>
+      <h2 data-split>Do terreno vazio ao <em>último rodapé.</em></h2>
+      <p class="lead" data-up>Cada tipo de obra tem um ritmo próprio. Por isso o prazo que aparece aqui é o que costumamos cumprir, e o seu sai certinho no cronograma depois da visita.</p>
+    </div>
+    <div class="svc">
+      <div class="svc-row" data-img="0" data-up>
+        <span class="num">01</span>
+        <h3>Construção residencial</h3>
+        <p>Casas e sobrados do zero: fundação, estrutura, instalações e acabamento. Cuidamos também do alvará, do habite-se e da ligação de água e luz.</p>
+        <span class="t">Prazo típico <b>8 a 14 meses</b></span>
+      </div>
+      <div class="svc-row" data-img="1" data-up>
+        <span class="num">02</span>
+        <h3>Reforma de apartamento</h3>
+        <p>Troca de piso, elétrica e hidráulica, gesso, marcenaria e pintura, com plano de reforma aprovado no condomínio antes da primeira marreta.</p>
+        <span class="t">Prazo típico <b>8 a 16 semanas</b></span>
+      </div>
+      <div class="svc-row" data-img="2" data-up>
+        <span class="num">03</span>
+        <h3>Lojas, clínicas e escritórios</h3>
+        <p>Obra comercial com hora marcada para terminar: trabalhamos à noite e no fim de semana quando o ponto precisa abrir numa data certa.</p>
+        <span class="t">Prazo típico <b>4 a 10 semanas</b></span>
+      </div>
+      <div class="svc-row" data-img="3" data-up>
+        <span class="num">04</span>
+        <h3>Cozinhas e banheiros</h3>
+        <p>Impermeabilização refeita do jeito certo, pontos novos de água e gás, porcelanato e marcenaria sob medida. O ambiente que mais dá dor de cabeça, resolvido de uma vez.</p>
+        <span class="t">Prazo típico <b>3 a 6 semanas</b></span>
+      </div>
+      <div class="svc-row" data-img="4" data-up>
+        <span class="num">05</span>
+        <h3>Retrofit e fachadas</h3>
+        <p>Recuperação de fachada, troca de revestimento e modernização de áreas comuns para condomínios e prédios comerciais, com a operação funcionando.</p>
+        <span class="t">Prazo típico <b>3 a 8 meses</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="svc-preview" aria-hidden="true">
+    <img alt="" src="https://images.unsplash.com/photo-1750360563453-1c02464f2e97?auto=format&fit=crop&w=600&q=70" loading="lazy">
+    <img alt="" src="https://images.unsplash.com/photo-1630699375895-fe5996d163ee?auto=format&fit=crop&w=600&q=70" loading="lazy">
+    <img alt="" src="https://images.unsplash.com/photo-1665507299406-5a29d0e7d1df?auto=format&fit=crop&w=600&q=70" loading="lazy">
+    <img alt="" src="https://images.unsplash.com/photo-1638541363822-6f4c189b5cf7?auto=format&fit=crop&w=600&q=70" loading="lazy">
+    <img alt="" src="https://images.unsplash.com/photo-1582586587646-b55bb2058ea4?auto=format&fit=crop&w=600&q=70" loading="lazy">
+  </div>
+</section>
+
+<section class="sec ba-sec" aria-labelledby="ba-title">
+  <div class="wrap ba-grid">
+    <div class="ba-copy">
+      <p class="eyebrow mono"><b>02</b> Antes e depois</p>
+      <h2 id="ba-title" data-split>Apartamento de 92 m² em <em>Perdizes.</em></h2>
+      <p class="lead" data-up>Paredes abertas, instalações trocadas do quadro de luz ao último registro e um piso só para a área social inteira. Arraste a linha para comparar.</p>
+      <ul data-up>
+        <li><span>Escopo</span><span>Reforma completa</span></li>
+        <li><span>Prazo contratado</span><span>14 semanas</span></li>
+        <li><span>Prazo cumprido</span><span>13 semanas</span></li>
+        <li><span>Aditivos de valor</span><span>Nenhum</span></li>
+      </ul>
+    </div>
+    <div class="ba" tabindex="0" role="slider" aria-label="Comparar antes e depois da reforma" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <img src="https://images.unsplash.com/photo-1656733911001-16912b79d2bf?auto=format&fit=crop&w=1400&q=70" alt="Apartamento antes da reforma, com paredes descascadas e instalações expostas" loading="lazy">
+      <img class="after" src="https://images.unsplash.com/photo-1630699375895-fe5996d163ee?auto=format&fit=crop&w=1400&q=70" alt="O mesmo apartamento depois da reforma, sala ampla e clara com piso novo" loading="lazy">
+      <span class="lbl l">Antes</span><span class="lbl r">Depois</span>
+      <div class="handle"><span class="knob"><svg viewBox="0 0 24 24" fill="none" stroke="#16181b" stroke-width="2"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="obras">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow mono"><b>03</b> Obras entregues</p>
+      <h2 data-split>Portfólio que você pode <em>visitar.</em></h2>
+      <p class="lead" data-up>Com autorização dos proprietários, levamos você para conhecer uma obra parecida com a sua. Ver o acabamento de perto convence mais do que qualquer foto.</p>
+    </div>
+    <div class="works">
+      <article class="work w1">
+        <div class="ph" data-mask><img src="https://images.unsplash.com/photo-1774199496664-a9690967be5a?auto=format&fit=crop&w=1200&q=70" alt="Living com lareira e caixilhos de madeira em casa nova" loading="lazy"></div>
+        <p class="k">Construção residencial</p>
+        <div class="cap"><h3>Casa Alto de Pinheiros</h3><div class="meta"><span>280 m²</span><span>11 meses</span></div></div>
+      </article>
+      <article class="work w2">
+        <div class="ph" data-mask><img src="https://images.unsplash.com/photo-1726000164777-1e9b9a523f79?auto=format&fit=crop&w=900&q=70" alt="Fachada de sobrado moderno com varandas de vidro" loading="lazy"></div>
+        <p class="k">Construção residencial</p>
+        <div class="cap"><h3>Sobrado Vila Madalena</h3><div class="meta"><span>190 m²</span><span>9 meses</span></div></div>
+      </article>
+      <article class="work w3">
+        <div class="ph" data-mask><img src="https://images.unsplash.com/photo-1643034738686-d69e7bc047e1?auto=format&fit=crop&w=800&q=70" alt="Cozinha branca reformada com bancada contínua" loading="lazy"></div>
+        <p class="k">Reforma</p>
+        <div class="cap"><h3>Cozinha Moema</h3><div class="meta"><span>18 m²</span><span>6 semanas</span></div></div>
+      </article>
+      <article class="work w4">
+        <div class="ph" data-mask><img src="https://images.unsplash.com/photo-1756079664354-34944e001f6d?auto=format&fit=crop&w=800&q=70" alt="Banheiro com bancada de mármore, cubas de cobre e iluminação embutida" loading="lazy"></div>
+        <p class="k">Reforma</p>
+        <div class="cap"><h3>Dois banheiros, Pompeia</h3><div class="meta"><span>11 m²</span><span>5 semanas</span></div></div>
+      </article>
+      <article class="work w5">
+        <div class="ph" data-mask><img src="https://images.unsplash.com/photo-1582586587646-b55bb2058ea4?auto=format&fit=crop&w=800&q=70" alt="Fachada de prédio residencial com revestimento de madeira" loading="lazy"></div>
+        <p class="k">Retrofit</p>
+        <div class="cap"><h3>Fachada Itaim Bibi</h3><div class="meta"><span>8 andares</span><span>7 meses</span></div></div>
+      </article>
+    </div>
+    <div class="works-cta" data-up>
+      <p>Quer ver uma obra parecida com a que você está planejando?</p>
+      <a class="btn btn-primary" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Combinar uma visita <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="processo" style="padding-top:0">
+  <div class="wrap proc-grid">
+    <div class="proc-left">
+      <p class="eyebrow mono"><b>04</b> Como trabalhamos</p>
+      <h2 data-split>Você sabe o que acontece em <em>cada semana.</em></h2>
+      <p class="lead" data-up>Obra atrasa quando ninguém planeja a ordem das coisas. Aqui o cronograma é feito antes, assinado junto com o contrato e atualizado toda sexta no seu WhatsApp.</p>
+      <ol class="steps">
+        <li data-up><span class="num">01</span><div><h3>Visita técnica sem custo</h3><p>Um engenheiro vai até o imóvel, mede, testa as instalações e entende o que você quer.</p></div></li>
+        <li data-up><span class="num">02</span><div><h3>Projeto e orçamento por etapa</h3><p>Material e mão de obra separados, etapa por etapa. Nada de valor único sem explicação.</p></div></li>
+        <li data-up><span class="num">03</span><div><h3>Contrato com cronograma</h3><p>Datas de início e fim de cada fase, com multa prevista se o atraso for nosso.</p></div></li>
+        <li data-up><span class="num">04</span><div><h3>Diário de obra toda semana</h3><p>Fotos, o que foi feito, o que vem a seguir e o que precisa da sua decisão.</p></div></li>
+        <li data-up><span class="num">05</span><div><h3>Vistoria e entrega</h3><p>Percorremos a obra juntos com uma lista de checagem. Só entregamos a chave com tudo assinado.</p></div></li>
+      </ol>
+    </div>
+    <div class="gantt-wrap">
+      <div class="gantt" data-up>
+        <div class="gantt-top"><strong>Cronograma de exemplo</strong><span class="mono" style="color:var(--ink-2)">Apto 90 m²</span></div>
+        <div class="gantt-weeks" aria-hidden="true"><span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span><span>S9</span><span>S10</span><span>S11</span><span>S12</span></div>
+        <div class="g-row"><small>Demolição e retirada de entulho</small><div class="g-bar"><i style="grid-column:1/3"></i></div></div>
+        <div class="g-row"><small>Elétrica e hidráulica novas</small><div class="g-bar"><i class="hot" style="grid-column:2/6"></i></div></div>
+        <div class="g-row"><small>Contrapiso e alvenaria</small><div class="g-bar"><i style="grid-column:4/7"></i></div></div>
+        <div class="g-row"><small>Gesso, forro e iluminação</small><div class="g-bar"><i style="grid-column:6/9"></i></div></div>
+        <div class="g-row"><small>Revestimentos e marcenaria</small><div class="g-bar"><i class="hot" style="grid-column:7/11"></i></div></div>
+        <div class="g-row"><small>Pintura</small><div class="g-bar"><i style="grid-column:9/12"></i></div></div>
+        <div class="g-row"><small>Limpeza fina e vistoria</small><div class="g-bar"><i style="grid-column:12/13"></i></div></div>
+        <div class="gantt-foot"><span>Etapa da obra</span><span class="hot">Fase que exige sua escolha</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contract" aria-labelledby="contract-title">
+  <div class="wrap">
+    <div class="contract-top">
+      <div>
+        <p class="eyebrow mono">Está no contrato</p>
+        <h2 id="contract-title" data-split>Promessa de obra só vale se estiver escrita.</h2>
+      </div>
+      <div class="counters">
+        <div class="counter"><b data-count="15">15</b><span>anos de obra</span></div>
+        <div class="counter"><b><span data-count="300">300</span>+</b><span>obras entregues</span></div>
+      </div>
+    </div>
+    <div class="clauses">
+      <div class="clause" data-up><span class="num">Cláusula 1</span><h3>Preço fechado por etapa</h3><p>O valor de cada fase é definido antes. Mudança só acontece se você pedir, com orçamento à parte.</p></div>
+      <div class="clause" data-up><span class="num">Cláusula 2</span><h3>Multa se o atraso for nosso</h3><p>O cronograma tem datas e a multa está prevista. Isso muda a forma como a equipe trabalha.</p></div>
+      <div class="clause" data-up><span class="num">Cláusula 3</span><h3>Engenheiro e ART</h3><p>Responsável técnico registrado no CREA, com anotação emitida para a sua obra.</p></div>
+      <div class="clause" data-up><span class="num">Cláusula 4</span><h3>Garantia de 5 anos</h3><p>Para estrutura e solidez, como manda a lei, e prazo escrito para cada instalação e acabamento.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="sobre">
+  <div class="wrap about-grid">
+    <div class="about-ph">
+      <div class="ph" data-mask><img src="https://images.unsplash.com/photo-1679679811837-c28b2586f533?auto=format&fit=crop&w=1000&q=70" alt="Mestre de obras da equipe própria no canteiro" loading="lazy"></div>
+      <div class="stamp"><b>Equipe própria</b><span>sem empreiteiro terceirizado</span></div>
+    </div>
+    <div class="about-copy">
+      <p class="eyebrow mono"><b>05</b> Quem faz a sua obra</p>
+      <h2 data-split>A mesma equipe do <em>orçamento à entrega.</em></h2>
+      <p data-up>A Supporta nasceu de uma frustração comum: a construtora que fecha o contrato não é a que aparece na obra. Aqui o engenheiro que fez a visita acompanha tudo, e quem levanta parede, instala e acaba é equipe nossa, treinada no nosso padrão.</p>
+      <p data-up>Isso deixa a obra mais previsível e a conversa mais simples. Quando você tem uma dúvida, sabe exatamente para quem perguntar.</p>
+      <div class="team" data-up>
+        <div><strong>Ricardo M.</strong><span>Engenheiro civil, responsável técnico</span></div>
+        <div><strong>Fernanda A.</strong><span>Arquiteta, projeto e compatibilização</span></div>
+        <div><strong>Josué P.</strong><span>Mestre de obras, 20 anos de canteiro</span></div>
+        <div><strong>Carla T.</strong><span>Compras e cronograma</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec testi" aria-labelledby="testi-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow mono"><b>06</b> Quem já recebeu a chave</p>
+      <h2 id="testi-title" data-split>O elogio que mais ouvimos é <em>sobre o prazo.</em></h2>
+    </div>
+    <div class="testi-grid">
+      <figure class="q-big" data-up>
+        <blockquote>Já tinha feito duas reformas com dor de cabeça. Desta vez recebi o diário toda sexta, sabia o que ia acontecer na semana seguinte e a obra terminou uma semana antes do combinado.</blockquote>
+        <figcaption class="who"><div><strong>Patrícia L.</strong><span>Reforma completa, Perdizes</span></div></figcaption>
+      </figure>
+      <div class="q-side">
+        <figure class="q-card" data-up>
+          <p>Precisávamos abrir a clínica numa data fechada com o convênio. Eles viraram três fins de semana para cumprir e entregaram com a vigilância sanitária aprovada.</p>
+          <figcaption class="who"><div><strong>Dr. André S.</strong><span>Obra comercial, Moema</span></div></figcaption>
+        </figure>
+        <figure class="q-card" data-up>
+          <p>O orçamento separado por etapa me ajudou a decidir onde investir mais. Não teve nenhuma cobrança extra que eu não tivesse pedido.</p>
+          <figcaption class="who"><div><strong>Marcos e Júlia R.</strong><span>Construção, Vila Madalena</span></div></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="perguntas">
+  <div class="wrap faq-grid">
+    <div class="faq-left">
+      <p class="eyebrow mono"><b>07</b> Perguntas frequentes</p>
+      <h2 data-split>Antes de começar a <em>quebrar parede.</em></h2>
+      <p class="lead" data-up>As dúvidas que aparecem em quase toda primeira conversa. Se a sua não está aqui, mande no WhatsApp.</p>
+    </div>
+    <div class="faq-list" data-up>
+      <details open><summary>Quanto custa o metro quadrado de uma reforma?<span class="pm" aria-hidden="true"></span></summary><p>Depende do que entra na obra: trocar piso e pintar custa muito menos do que refazer elétrica, hidráulica e marcenaria. Por isso o preço sai depois da visita técnica, num orçamento separado por etapa, com material e mão de obra discriminados. Você sabe quanto custa cada parte antes de assinar.</p></details>
+      <details><summary>Preciso ter um projeto de arquiteto antes de chamar vocês?<span class="pm" aria-hidden="true"></span></summary><p>Não. Se você já tem projeto, executamos exatamente o que está desenhado. Se não tem, nossa equipe faz o projeto executivo e o 3D dos ambientes antes da obra começar, e o orçamento já sai com base nele.</p></details>
+      <details><summary>Como funciona a aprovação da reforma no condomínio?<span class="pm" aria-hidden="true"></span></summary><p>A norma ABNT NBR 16280 exige um plano de reforma assinado por um responsável técnico. Nós preparamos o plano, emitimos a ART do engenheiro e entregamos tudo ao síndico. A obra só começa com a liberação em mãos.</p></details>
+      <details><summary>Preciso sair de casa durante a reforma?<span class="pm" aria-hidden="true"></span></summary><p>Em reformas de cozinha ou banheiro, normalmente não. Em reformas completas, com demolição e troca de instalações, recomendamos sair nas semanas mais pesadas. O cronograma mostra exatamente quais são, para você se planejar com antecedência.</p></details>
+      <details><summary>Qual é a garantia da obra?<span class="pm" aria-hidden="true"></span></summary><p>Estrutura e solidez têm garantia de 5 anos, como determina o Código Civil. Instalações e acabamentos têm garantia escrita no contrato, com prazo para cada item. Depois da entrega, fazemos uma vistoria de acompanhamento e qualquer ajuste é resolvido pela mesma equipe.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contato" style="padding-top:0">
+  <div class="wrap contact-grid">
+    <div class="contact-copy">
+      <p class="eyebrow mono"><b>08</b> Contato</p>
+      <h2 data-split>Conte o que você quer <em>construir.</em></h2>
+      <p class="lead" data-up>Mande fotos do imóvel ou da planta pelo WhatsApp. Em até um dia útil a gente responde com a data da visita técnica.</p>
+      <a class="btn btn-primary" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Chamar no WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="info">
+        <div><small>Telefone e WhatsApp</small><a href="https://wa.me/5511992644010" target="_blank" rel="noopener">(11) 99264-4010</a></div>
+        <div><small>E-mail</small><a href="mailto:contato@supporta.com.br">contato@supporta.com.br</a></div>
+        <div><small>Escritório</small><p>Alameda Vicente Pinzon, 173<br>São Paulo/SP</p></div>
+        <div><small>Atendimento</small><p>Seg a sex, 8h às 18h<br>Sábado, 8h às 12h</p></div>
+      </div>
+    </div>
+    <div class="map" data-up>
+      <iframe src="https://www.google.com/maps?q=Alameda+Vicente+Pinzon+173+Sao+Paulo&output=embed" loading="lazy" title="Mapa do escritório da Supporta na Alameda Vicente Pinzon, 173" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-big" aria-hidden="true">prazo assinado</div>
+    <div class="ftr-top">
+      <div class="ftr-brand">
+        <svg viewBox="0 0 196 48" height="34" style="height:34px;width:auto;display:block" role="img" aria-label="Supporta"><rect x="16" y="8" width="26" height="8" rx="4" fill="#16181b"/><rect x="9" y="20" width="30" height="8" rx="4" fill="#c2410c"/><rect x="6" y="32" width="26" height="8" rx="4" fill="#16181b"/><text x="50" y="34" font-family="inherit" font-size="27" font-weight="600" letter-spacing="-1.2" fill="#16181b">supporta</text></svg>
+        <p>Construção residencial, reformas e obras comerciais em São Paulo, com engenheiro responsável e equipe própria.</p>
+      </div>
+      <div class="ftr-col"><small>Navegação</small><a href="#servicos">Serviços</a><a href="#obras">Obras entregues</a><a href="#processo">Como trabalhamos</a><a href="#perguntas">Dúvidas</a></div>
+      <div class="ftr-col"><small>Contato</small><a href="https://wa.me/5511992644010" target="_blank" rel="noopener">(11) 99264-4010</a><a href="mailto:contato@supporta.com.br">contato@supporta.com.br</a><span>Alameda Vicente Pinzon, 173</span></div>
+      <div class="ftr-col"><small>Horário</small><span>Seg a sex, 8h às 18h</span><span>Sábado, 8h às 12h</span></div>
+    </div>
+    <div class="ftr-bot"><span>© 2026 Supporta. Todos os direitos reservados.</span><a href="#top">Voltar ao topo</a></div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/5511992644010" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  var root=document.documentElement, body=document.body;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* header + menu */
+  var hdr=document.querySelector('.hdr'), burger=document.querySelector('.burger');
+  function onScroll(){hdr.classList.toggle('scrolled',window.scrollY>10)}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  function setMenu(open){body.classList.toggle('menu-open',open);burger.setAttribute('aria-expanded',open?'true':'false');burger.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');if(window.__lenis){open?window.__lenis.stop():window.__lenis.start()}}
+  burger.addEventListener('click',function(){setMenu(!body.classList.contains('menu-open'))});
+  document.querySelectorAll('#menu a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
+
+  /* before / after */
+  var ba=document.querySelector('.ba');
+  if(ba){
+    var dragging=false;
+    function setPos(p){p=Math.max(2,Math.min(98,p));ba.style.setProperty('--pos',p+'%');ba.setAttribute('aria-valuenow',Math.round(p))}
+    function fromEvent(e){var r=ba.getBoundingClientRect();setPos((e.clientX-r.left)/r.width*100)}
+    ba.addEventListener('pointerdown',function(e){dragging=true;ba.setPointerCapture(e.pointerId);fromEvent(e)});
+    ba.addEventListener('pointermove',function(e){if(dragging)fromEvent(e)});
+    ba.addEventListener('pointerup',function(){dragging=false});
+    ba.addEventListener('pointercancel',function(){dragging=false});
+    ba.addEventListener('keydown',function(e){var v=parseFloat(ba.getAttribute('aria-valuenow'));if(e.key==='ArrowLeft'){setPos(v-5);e.preventDefault()}if(e.key==='ArrowRight'){setPos(v+5);e.preventDefault()}});
+  }
+
+  if(reduce||!window.gsap||!window.ScrollTrigger){root.classList.remove('js');return;}
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* smooth scroll */
+  if(window.Lenis){
+    var lenis=new Lenis({lerp:.11});window.__lenis=lenis;
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(function(t){lenis.raf(t*1000)});gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');var t=id.length>1?document.querySelector(id):null;if(id==='#top'){e.preventDefault();lenis.scrollTo(0)}else if(t){e.preventDefault();lenis.scrollTo(t,{offset:-80})}})});
+  }
+
+  /* split words */
+  function wrap(node){var o=document.createElement('span');o.className='w';var i=document.createElement('span');i.className='wi';i.appendChild(node);o.appendChild(i);return o}
+  document.querySelectorAll('[data-split]').forEach(function(el){
+    var nodes=Array.prototype.slice.call(el.childNodes);el.innerHTML='';
+    nodes.forEach(function(n){
+      if(n.nodeType===3){n.textContent.split(/(\s+)/).forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){el.appendChild(document.createTextNode(' '));return}el.appendChild(wrap(document.createTextNode(p)))})}
+      else{var ws=n.textContent.split(/\s+/).filter(Boolean);ws.forEach(function(w,i){var c=n.cloneNode(false);c.textContent=w;el.appendChild(wrap(c));if(i<ws.length-1)el.appendChild(document.createTextNode(' '))})}
+    });
+    var parts=el.querySelectorAll('.wi');
+    gsap.set(parts,{yPercent:115});el.style.visibility='visible';
+    gsap.to(parts,{yPercent:0,duration:1.05,ease:'power4.out',stagger:.06,scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  /* fade up */
+  gsap.utils.toArray('[data-up]').forEach(function(el){
+    gsap.from(el,{y:36,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%'}});
+  });
+
+  /* image masks */
+  gsap.utils.toArray('[data-mask]').forEach(function(el){
+    var img=el.querySelector('img');
+    var tl=gsap.timeline({scrollTrigger:{trigger:el,start:'top 85%'}});
+    tl.fromTo(el,{clipPath:'inset(100% 0% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:1.3,ease:'expo.out'})
+      .fromTo(img,{scale:1.28},{scale:1,duration:1.6,ease:'expo.out'},0);
+  });
+
+  /* hero */
+  var heroImg=document.querySelector('[data-hero]');
+  gsap.fromTo('.hero-media',{clipPath:'inset(18% 6% 0% 6%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:1.5,ease:'expo.out',delay:.15});
+  gsap.to(heroImg,{yPercent:12,ease:'none',scrollTrigger:{trigger:'.hero-media',start:'top top',end:'bottom top',scrub:true}});
+  gsap.from('.hero-side>*',{y:24,opacity:0,duration:.9,stagger:.1,ease:'power3.out',delay:.45});
+  gsap.from('.spec',{y:20,opacity:0,duration:.9,ease:'power3.out',delay:.9});
+
+  /* gantt bars */
+  gsap.from('.g-bar i',{scaleX:0,duration:.9,ease:'power3.out',stagger:.12,scrollTrigger:{trigger:'.gantt',start:'top 75%'}});
+
+  /* counters */
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var end=parseInt(el.getAttribute('data-count'),10),o={v:0};
+    gsap.to(o,{v:end,duration:1.8,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%'},onUpdate:function(){el.textContent=Math.round(o.v)}});
+  });
+
+  /* service image preview */
+  var prev=document.querySelector('.svc-preview');
+  if(prev&&window.matchMedia('(hover:hover) and (min-width:1081px)').matches){
+    var imgs=prev.querySelectorAll('img');gsap.set(prev,{yPercent:-50,scale:.85});
+    var qx=gsap.quickTo(prev,'x',{duration:.5,ease:'power3'}),qy=gsap.quickTo(prev,'y',{duration:.5,ease:'power3'});
+    document.querySelectorAll('.svc-row').forEach(function(row){
+      row.addEventListener('mouseenter',function(){var i=+row.getAttribute('data-img');imgs.forEach(function(im,k){im.classList.toggle('on',k===i)});gsap.to(prev,{opacity:1,scale:1,duration:.35})});
+      row.addEventListener('mouseleave',function(){gsap.to(prev,{opacity:0,scale:.85,duration:.3})});
+      row.addEventListener('mousemove',function(e){qx(e.clientX+36);qy(e.clientY)});
+    });
+  }
+
+  window.addEventListener('load',function(){ScrollTrigger.refresh()});
+})();
+</script>
+
+<div id="supporta-demo-bar" style="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483647;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:8px 8px 8px 16px;border-radius:999px;background:#0B0B0F;color:#F5F5F2;font:500 14px/1.2 Inter,'Helvetica Neue',Arial,sans-serif;box-shadow:0 0 0 1px rgba(255,61,113,.6),0 0 24px rgba(255,61,113,.35)">
+  <span style="white-space:nowrap">Modelo de site da <strong>Supporta</strong></span>
+  <a href="/planos" style="white-space:nowrap;padding:9px 16px;border-radius:999px;background:#FF3D71;color:#0B0B0F;text-decoration:none;font-weight:600">Quero um assim</a>
+  <a href="/modelos" aria-label="Voltar para os modelos" style="color:#A6A6B0;text-decoration:none;padding:0 6px">✕</a>
+</div>
+</body>
+</html>

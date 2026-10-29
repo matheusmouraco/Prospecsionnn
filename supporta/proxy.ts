@@ -11,6 +11,8 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(`${pathname}/${search}`, request.url), 308);
   }
   if (LEGACY.some((p) => pathname.startsWith(`${p}/`))) return NextResponse.next();
+  // Modelos da vitrine feitos em Next/React exportam pastas com barra no fim (/vitrine/x/pagina/).
+  if (pathname.startsWith("/vitrine/")) return NextResponse.next();
 
   // Resto do site: sem barra no fim (substitui o redirecionamento padrão do Next, desligado no next.config).
   if (pathname.length > 1 && pathname.endsWith("/")) {

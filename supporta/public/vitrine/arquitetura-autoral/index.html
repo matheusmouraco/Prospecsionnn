@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supporta Arquitetura e Interiores | Projetos residenciais em São Paulo</title>
+<meta name="description" content="Escritório de arquitetura e interiores em São Paulo. Projeto residencial, reforma de apartamentos, marcenaria e acompanhamento de obra com um mesmo time do primeiro traço à entrega das chaves.">
+<link rel="icon" href="/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "#empresa",
+      "name": "Supporta",
+      "description": "Escritório de arquitetura e interiores em São Paulo: projeto residencial, reforma, marcenaria e acompanhamento de obra.",
+      "telephone": "+55 11 99264-4010",
+      "email": "contato@supporta.com.br",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Alameda Vicente Pinzon, 173",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "addressCountry": "BR"
+      },
+      "areaServed": "São Paulo",
+      "openingHours": "Mo-Fr 09:00-18:00",
+      "knowsAbout": ["Arquitetura residencial", "Design de interiores", "Reforma de apartamentos", "Marcenaria sob medida", "Acompanhamento de obra"]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "Como é calculado o valor do projeto?", "acceptedAnswer": {"@type": "Answer", "text": "O valor depende da metragem e do escopo (só interiores, reforma completa ou casa do zero). Depois da primeira visita enviamos uma proposta fechada, com etapas, entregas e prazos. O preço combinado não muda no meio do caminho."}},
+        {"@type": "Question", "name": "Quanto tempo leva um projeto de reforma de apartamento?", "acceptedAnswer": {"@type": "Answer", "text": "Um apartamento de 100 a 150 m² costuma levar de 8 a 12 semanas de projeto, do estudo preliminar ao executivo. A obra vem depois e varia conforme o tamanho da intervenção; o cronograma completo fica pronto antes de quebrar a primeira parede."}},
+        {"@type": "Question", "name": "Vocês acompanham a obra ou só entregam o projeto?", "acceptedAnswer": {"@type": "Answer", "text": "Acompanhamos. Fazemos visitas semanais, conferimos medidas de marcenaria e acabamentos e mantemos um diário de obra com fotos que você acessa quando quiser. Também indicamos empreiteiros e fornecedores com quem já trabalhamos."}},
+        {"@type": "Question", "name": "Preciso já ter comprado o imóvel para começar?", "acceptedAnswer": {"@type": "Answer", "text": "Não. Muita gente nos chama antes de fechar negócio para avaliar se a planta comporta o que a família precisa e quanto custaria adaptar. Essa visita técnica evita comprar um imóvel que não dá para transformar."}},
+        {"@type": "Question", "name": "Atendem fora de São Paulo?", "acceptedAnswer": {"@type": "Answer", "text": "Sim. Atendemos a capital, a Grande São Paulo e o litoral norte com visitas presenciais. Para outras cidades fazemos o projeto completo com reuniões online e visitas programadas nas etapas mais importantes da obra."}}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --ink:#1c1a18; --ink-2:#4a4642; --muted:#6b6660; --line:#e6e3de; --bg:#fff; --soft:#f4f3f1;
+  --clay:#9b4a2c; --clay-soft:#f6ede8; --dark:#1f1c1a;
+  --serif:"Instrument Serif", Georgia, serif; --sans:"Inter Tight", system-ui, sans-serif;
+  --pad:clamp(20px,4.4vw,64px); --max:1440px; --r:4px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.label{font:500 11px/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+.label .n{color:var(--clay)}
+.label::before{content:"";width:28px;height:1px;background:currentColor;opacity:.5}
+.serif{font-family:var(--serif);font-weight:400}
+h1,h2,h3{font-weight:400;font-family:var(--serif);letter-spacing:-.02em;line-height:.98}
+h2{font-size:clamp(40px,6.2vw,92px)}
+h2 em,h1 em{font-style:italic;color:var(--clay)}
+p.lead{font-size:clamp(17px,1.35vw,20px);line-height:1.55;color:var(--ink-2);max-width:34em}
+.btn{display:inline-flex;align-items:center;gap:12px;height:52px;padding:0 26px;border-radius:999px;font:500 15px/1 var(--sans);transition:background .3s,color .3s,border-color .3s}
+.btn svg{width:16px;height:16px;transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--clay)}
+.btn-line{border:1px solid var(--ink);color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:#fff}
+.link{display:inline-flex;gap:10px;align-items:center;font-weight:500;border-bottom:1px solid currentColor;padding-bottom:4px}
+
+/* header */
+.hd{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
+.hd.scrolled{background:rgba(255,255,255,.94);backdrop-filter:saturate(1.2) blur(6px);border-color:var(--line)}
+.hd .wrap{display:flex;align-items:center;justify-content:space-between;height:78px}
+.nav{display:flex;gap:34px;font-size:14px}
+.nav a{position:relative;padding:6px 0}
+.nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform .4s}
+.nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.hd .cta{height:44px;padding:0 20px;font-size:14px}
+.menu-btn{display:none;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:#fff;align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer}
+.menu-btn span{width:18px;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s}
+body.menu-open .menu-btn span:nth-child(1){transform:translateY(3.25px) rotate(45deg)}
+body.menu-open .menu-btn span:nth-child(2){transform:translateY(-3.25px) rotate(-45deg)}
+.mnav{position:fixed;inset:0;z-index:45;background:#fff;padding:110px var(--pad) 40px;display:flex;flex-direction:column;justify-content:space-between;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+body.menu-open .mnav{opacity:1;visibility:visible}
+.mnav nav a{display:flex;justify-content:space-between;align-items:baseline;font:400 44px/1.15 var(--serif);border-bottom:1px solid var(--line);padding:10px 0}
+.mnav nav a small{font:500 12px var(--sans);color:var(--clay)}
+.mnav .btn{width:100%;justify-content:center}
+
+/* hero */
+.hero{padding:150px 0 0}
+.hero-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end}
+.hero h1{grid-column:1/10;font-size:clamp(58px,10.4vw,168px);line-height:.9;letter-spacing:-.035em}
+.hero-side{grid-column:10/13;padding-bottom:12px}
+.hero-side p{font-size:16px;color:var(--ink-2);margin-bottom:26px}
+.hero-meta{display:flex;justify-content:space-between;margin:48px 0 18px;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-top:1px solid var(--line);padding-top:16px}
+.hero-media{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.hm-a{grid-column:1/9;aspect-ratio:16/11;overflow:hidden;border-radius:var(--r)}
+.hm-b{grid-column:9/13;margin-top:140px}
+.hm-b .ph{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r)}
+.hm-b figcaption,.cap{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:12px}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph img[data-speed]{height:114%;position:relative;top:-7%}
+
+/* marquee */
+.marq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:110px;overflow:hidden;white-space:nowrap;padding:26px 0}
+.marq-track{display:inline-flex;animation:marq 38s linear infinite}
+.marq span{font:italic 400 clamp(34px,4.4vw,64px)/1 var(--serif);padding-right:42px;display:inline-flex;align-items:center;gap:42px}
+.marq span::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--clay)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* intro / numbers */
+.sec{padding:clamp(90px,11vw,170px) 0}
+.intro{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.intro .label{grid-column:1/4}
+.intro-txt{grid-column:4/12}
+.intro-txt p{font:400 clamp(28px,3.3vw,50px)/1.14 var(--serif);letter-spacing:-.01em}
+.intro-txt p em{color:var(--clay)}
+.nums{grid-column:4/13;display:grid;grid-template-columns:repeat(3,1fr);margin-top:80px;border-top:1px solid var(--line)}
+.nums div{padding:26px 24px 0 0}
+.nums b{display:block;font:400 clamp(54px,6vw,88px)/1 var(--serif);letter-spacing:-.03em}
+.nums span{font-size:14px;color:var(--muted)}
+
+/* portfolio */
+.pf{background:var(--soft)}
+.sec-head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:clamp(50px,6vw,90px)}
+.sec-head .label{grid-column:1/-1;margin-bottom:26px}
+.sec-head h2{grid-column:1/9}
+.sec-head .side{grid-column:9/13;color:var(--ink-2)}
+.grid-pf{display:grid;grid-template-columns:repeat(12,1fr);gap:56px 24px}
+.pj{display:block}
+.pj .ph{overflow:hidden;border-radius:var(--r);position:relative}
+.pj .ph img{transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.pj:hover .ph img{transform:scale(1.04)}
+.pj-meta{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:baseline;margin-top:16px;padding-top:14px;border-top:1px solid #d9d5cf}
+.pj-meta .i{font-size:12px;color:var(--clay);font-weight:600}
+.pj-meta h3{font-size:clamp(26px,2.4vw,36px);line-height:1.05}
+.pj-meta .t{font-size:13px;color:var(--muted);text-align:right}
+.pj-1{grid-column:1/8}.pj-1 .ph{aspect-ratio:4/4.6}
+.pj-2{grid-column:9/13;margin-top:180px}.pj-2 .ph{aspect-ratio:3/4}
+.pj-3{grid-column:1/13}.pj-3 .ph{aspect-ratio:21/9}
+.pj-4{grid-column:1/6}.pj-4 .ph{aspect-ratio:4/5}
+.pj-5{grid-column:7/13;margin-top:120px}.pj-5 .ph{aspect-ratio:5/4}
+
+/* services */
+.sv{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.sv-l{grid-column:1/5}
+.sv-l .stick{position:sticky;top:120px}
+.sv-l h2{margin:26px 0 28px}
+.sv-l .ph{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r);margin-top:40px;max-width:360px}
+.sv-r{grid-column:6/13}
+.row{display:grid;grid-template-columns:70px 1fr;gap:10px 24px;padding:34px 0;border-top:1px solid var(--line);position:relative}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:100%;background:var(--clay);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.row:hover::before{transform:scaleX(1)}
+.row .n{font-size:13px;color:var(--clay);font-weight:600;padding-top:10px}
+.row h3{font-size:clamp(30px,3vw,44px);line-height:1.05;transition:transform .5s}
+.row:hover h3{transform:translateX(8px)}
+.row p{grid-column:2;color:var(--ink-2);max-width:36em}
+.row ul{grid-column:2;list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.row li{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink-2)}
+
+/* manifesto dark */
+.dark{background:var(--dark);color:#f2efea;position:relative;overflow:hidden}
+.dark .wrap{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center;padding-top:clamp(90px,10vw,150px);padding-bottom:clamp(90px,10vw,150px)}
+.dark .label{color:#a8a19a}
+.dark .label .n{color:#e09a7b}
+.dark blockquote{grid-column:1/9;font:400 clamp(40px,5.4vw,84px)/1.02 var(--serif);letter-spacing:-.02em;margin-top:28px}
+.dark blockquote em{color:#e09a7b}
+.dark .who{grid-column:1/9;margin-top:36px;font-size:14px;color:#bdb6ae}
+.dark .ph{grid-column:10/13;aspect-ratio:3/4;overflow:hidden;border-radius:var(--r)}
+
+/* process */
+.proc{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--ink)}
+.st{padding:28px 24px 0 0;position:relative}
+.st + .st{padding-left:24px;border-left:1px solid var(--line)}
+.st .n{font:italic 400 56px/1 var(--serif);color:var(--clay)}
+.st h3{font:500 19px/1.25 var(--sans);letter-spacing:-.01em;margin:26px 0 10px}
+.st p{font-size:15px;color:var(--ink-2)}
+.st .d{display:inline-block;margin-top:18px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* about */
+.ab{background:var(--clay-soft)}
+.ab-g{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.ab-ph1{grid-column:1/6;grid-row:1/3;aspect-ratio:4/5.4;overflow:hidden;border-radius:var(--r)}
+.ab-txt{grid-column:7/13;padding-top:40px}
+.ab-txt h2{font-size:clamp(40px,5vw,76px);margin:26px 0 30px}
+.ab-txt p{color:var(--ink-2);margin-bottom:18px;max-width:34em}
+.ab-ph2{grid-column:9/13;aspect-ratio:16/11;overflow:hidden;border-radius:var(--r);margin-top:30px}
+.sig{display:flex;gap:40px;margin-top:34px;padding-top:24px;border-top:1px solid #e5d6cd}
+.sig b{display:block;font:400 26px/1.1 var(--serif)}
+.sig span{font-size:13px;color:var(--muted)}
+
+/* testimonials */
+.tst{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.tst .sec-head{grid-column:1/-1}
+.tq{grid-column:span 4;padding:34px 0 0;border-top:1px solid var(--ink);display:flex;flex-direction:column;gap:28px}
+.tq:nth-child(3){margin-top:70px}
+.tq:nth-child(4){margin-top:140px}
+.tq p{font:400 clamp(22px,1.9vw,28px)/1.25 var(--serif)}
+.tq footer{font-size:14px}
+.tq footer b{display:block;font-weight:600}
+.tq footer span{color:var(--muted)}
+
+/* faq */
+.fq{background:var(--soft)}
+.fq-g{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.fq-l{grid-column:1/5}
+.fq-l h2{margin:26px 0 24px;font-size:clamp(40px,5vw,72px)}
+.fq-l p{color:var(--ink-2);margin-bottom:28px}
+.fq-r{grid-column:6/13}
+details{border-top:1px solid #d9d5cf}
+details:last-child{border-bottom:1px solid #d9d5cf}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;align-items:center;padding:26px 0;font:400 clamp(22px,2vw,28px)/1.2 var(--serif)}
+summary::-webkit-details-marker{display:none}
+summary i{flex:0 0 36px;height:36px;border:1px solid #cfcac3;border-radius:50%;position:relative;transition:background .3s,transform .4s}
+summary i::before,summary i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;background:var(--ink);transform:translate(-50%,-50%)}
+summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s}
+details[open] summary i{background:var(--ink)}
+details[open] summary i::before,details[open] summary i::after{background:#fff}
+details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
+details p{padding:0 60px 28px 0;color:var(--ink-2);max-width:40em}
+
+/* contact */
+.ct-big{font:400 clamp(56px,10vw,160px)/.9 var(--serif);letter-spacing:-.035em;margin:30px 0 60px}
+.ct-big a{color:var(--clay);font-style:italic;border-bottom:2px solid currentColor;transition:color .3s}
+.ct-big a:hover{color:var(--ink)}
+.ct-g{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:stretch}
+.ct-info{grid-column:1/5;display:grid;gap:28px;align-content:start}
+.ct-info div{border-top:1px solid var(--line);padding-top:16px}
+.ct-info small{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ct-info a:hover{color:var(--clay)}
+.map{grid-column:6/13;min-height:420px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.map iframe{width:100%;height:100%;border:0;filter:grayscale(1) contrast(1.05)}
+
+/* footer */
+.ft{border-top:1px solid var(--line);padding:60px 0 34px}
+.ft-g{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.ft-g .b{grid-column:1/5}
+.ft-g .b p{color:var(--muted);font-size:14px;margin-top:18px;max-width:22em}
+.ft-g .c{grid-column:span 2;font-size:14px;display:grid;gap:8px;align-content:start}
+.ft-g .c small{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ft-g .c a:hover{color:var(--clay)}
+.ft-b{display:flex;justify-content:space-between;padding-right:80px;margin-top:60px;font-size:13px;color:var(--muted)}
+
+.wa{position:fixed;right:22px;bottom:22px;z-index:60;width:58px;height:58px;border-radius:50%;background:#1f9d55;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.16);transition:transform .3s}
+.wa:hover{transform:scale(1.07)}
+body.menu-open .wa{opacity:0;pointer-events:none}
+.wa svg{width:28px;height:28px}
+
+/* motion states (only with js) */
+.js [data-split]{visibility:hidden}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.wi{display:inline-block}
+.js .rv{clip-path:inset(0 0 100% 0)}
+.js .fu{opacity:0;transform:translateY(28px)}
+
+@media (max-width:1000px){
+  .nav,.hd .cta{display:none}
+  .menu-btn{display:flex}
+  .hero h1{grid-column:1/-1}
+  .hero-side{grid-column:1/-1;max-width:460px}
+  .hm-a{grid-column:1/-1}
+  .hm-b{grid-column:5/13;margin-top:-80px;position:relative}
+  .intro .label,.intro-txt,.nums{grid-column:1/-1}
+  .sec-head h2,.sec-head .side{grid-column:1/-1}
+  .sv-l,.sv-r{grid-column:1/-1}
+  .sv-l .stick{position:static}
+  .sv-l .ph{display:none}
+  .dark blockquote,.dark .who{grid-column:1/-1}
+  .dark .ph{grid-column:1/8}
+  .proc{grid-template-columns:1fr 1fr}
+  .st,.st + .st{padding:28px 18px 34px 0;border-left:0;border-bottom:1px solid var(--line)}
+  .ab-ph1{grid-column:1/-1;grid-row:auto;aspect-ratio:4/3}
+  .ab-txt{grid-column:1/-1;padding-top:10px}
+  .ab-ph2{display:none}
+  .tq{grid-column:1/-1}
+  .tq:nth-child(3),.tq:nth-child(4){margin-top:0}
+  .fq-l,.fq-r{grid-column:1/-1}
+  .ct-info,.map{grid-column:1/-1}
+  .ft-g .b{grid-column:1/-1}
+  .ft-g .c{grid-column:span 4}
+}
+@media (max-width:640px){
+  body{font-size:15.5px}
+  .hd .wrap{height:68px}
+  .hero{padding-top:112px}
+  .hero h1{font-size:clamp(50px,15.2vw,72px)}
+  .hero-meta{margin-top:34px;font-size:11px}
+  .hero-meta span:nth-child(2){display:none}
+  .hm-a{aspect-ratio:4/5}
+  .hm-b{grid-column:4/13;margin-top:-60px}
+  .marq{margin-top:70px;padding:18px 0}
+  .nums{grid-template-columns:1fr;margin-top:50px}
+  .nums div{display:flex;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .nums b{font-size:52px;min-width:120px}
+  .grid-pf{gap:44px 16px}
+  .pj-1,.pj-2,.pj-3,.pj-4,.pj-5{grid-column:1/-1;margin-top:0}
+  .pj-2{grid-column:3/13}
+  .pj-3 .ph{aspect-ratio:4/3}
+  .pj-5{grid-column:1/11}
+  .pj-meta{grid-template-columns:auto 1fr}
+  .pj-meta .t{grid-column:2;text-align:left;margin-top:-10px}
+  .row{grid-template-columns:44px 1fr;padding:26px 0}
+  .proc{grid-template-columns:1fr}
+  .st .n{font-size:44px}
+  .st h3{margin-top:14px}
+  .dark .ph{grid-column:1/-1;aspect-ratio:4/3}
+  details p{padding-right:0}
+  summary{padding:22px 0}
+  .btn{height:54px}
+  .hero-side .btn{width:100%;justify-content:center}
+  .map{min-height:320px}
+  .ft-g .c{grid-column:1/-1}
+  .ft-b{flex-direction:column;gap:8px;margin-top:40px}
+  .wa{width:54px;height:54px;right:16px;bottom:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<header class="hd" id="top">
+  <div class="wrap">
+    <a href="#top" aria-label="Supporta, início">
+      <svg viewBox="0 0 196 48" height="34" style="height:34px;width:auto;display:block" role="img" aria-label="Supporta"><rect x="16" y="8" width="26" height="8" rx="4" fill="#1c1a18"/><rect x="9" y="20" width="30" height="8" rx="4" fill="#9b4a2c"/><rect x="6" y="32" width="26" height="8" rx="4" fill="#1c1a18"/><text x="50" y="34" font-family="inherit" font-size="27" font-weight="600" letter-spacing="-1.2" fill="#1c1a18">supporta</text></svg>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#projetos">Projetos</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#processo">Processo</a>
+      <a href="#escritorio">Escritório</a>
+      <a href="#perguntas">Perguntas</a>
+    </nav>
+    <a class="btn btn-dark cta" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Marcar uma conversa</a>
+    <button class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mnav" id="mnav">
+  <nav aria-label="Menu do celular">
+    <a href="#projetos">Projetos <small>01</small></a>
+    <a href="#servicos">Serviços <small>02</small></a>
+    <a href="#processo">Processo <small>03</small></a>
+    <a href="#escritorio">Escritório <small>04</small></a>
+    <a href="#perguntas">Perguntas <small>05</small></a>
+    <a href="#contato">Contato <small>06</small></a>
+  </nav>
+  <a class="btn btn-dark" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Marcar uma conversa no WhatsApp</a>
+</div>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <h1 data-split data-now>Casas que <em>envelhecem</em> bem.</h1>
+      <div class="hero-side fu" data-now>
+        <p>Arquitetura residencial e interiores em São Paulo. Do levantamento da planta ao último puxador, o mesmo time desenha o projeto e acompanha a obra.</p>
+        <a class="btn btn-dark" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Contar sobre o meu imóvel <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+      </div>
+    </div>
+    <div class="hero-meta"><span>Arquitetura e interiores</span><span>Residencial, reforma e marcenaria</span><span>São Paulo, SP</span></div>
+    <div class="hero-media">
+      <div class="hm-a ph rv" data-now><img src="https://images.unsplash.com/photo-1774199496664-a9690967be5a?auto=format&fit=crop&w=1800&q=72" alt="Sala de estar clara com lareira, piso de madeira e janelas altas em casa projetada" data-speed="-6"></div>
+      <figure class="hm-b">
+        <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1726000164777-1e9b9a523f79?auto=format&fit=crop&w=800&q=70" alt="Fachada de casa estreita com volumes de madeira e varanda em balanço"></div>
+        <figcaption><span>Casa Alto de Pinheiros</span><span>2025</span></figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="marq" aria-hidden="true">
+    <div class="marq-track">
+      <span>Projeto residencial</span><span>Interiores</span><span>Reforma de apartamentos</span><span>Marcenaria sob medida</span><span>Luz natural</span><span>Acompanhamento de obra</span>
+      <span>Projeto residencial</span><span>Interiores</span><span>Reforma de apartamentos</span><span>Marcenaria sob medida</span><span>Luz natural</span><span>Acompanhamento de obra</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap intro">
+    <div class="label"><span class="n">00</span> O escritório</div>
+    <div class="intro-txt">
+      <p class="fu">Desenhamos casas e apartamentos a partir de como a família vive: onde bate o sol da manhã, quem cozinha, onde ficam os livros. <em>Um bom projeto parece óbvio depois de pronto,</em> e dá trabalho para chegar lá.</p>
+    </div>
+    <div class="nums">
+      <div class="fu"><b data-count="12">12</b><span>anos de escritório</span></div>
+      <div class="fu"><b data-count="180">180</b><span>projetos entregues</span></div>
+      <div class="fu"><b data-count="9" data-suffix=" mil">9 mil</b><span>m² reformados por ano</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec pf" id="projetos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label"><span class="n">01</span> Projetos selecionados</div>
+      <h2 data-split>Cada planta pede <em>uma resposta</em> diferente.</h2>
+      <p class="side fu">Casas do zero, apartamentos de 60 a 400 m² e reformas que mantêm o que o imóvel tem de melhor. Uma amostra do que saiu da prancheta nos últimos anos.</p>
+    </div>
+    <div class="grid-pf">
+      <a class="pj pj-1" href="https://wa.me/5511992644010" target="_blank" rel="noopener">
+        <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1666585607888-3f6fe0b323d8?auto=format&fit=crop&w=1200&q=70" alt="Sala integrada com sofá, mesa de jantar e vista panorâmica por janelas de piso a teto" data-speed="-4"></div>
+        <div class="pj-meta"><span class="i">01</span><h3>Apartamento Higienópolis</h3><span class="t">Interiores · 210 m²</span></div>
+      </a>
+      <a class="pj pj-2" href="https://wa.me/5511992644010" target="_blank" rel="noopener">
+        <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1556971014-c739dd2a762f?auto=format&fit=crop&w=800&q=70" alt="Escada curva com corrimão de madeira escura e parede verde-oliva"></div>
+        <div class="pj-meta"><span class="i">02</span><h3>Sobrado Vila Madalena</h3><span class="t">Reforma · 160 m²</span></div>
+      </a>
+      <a class="pj pj-3" href="https://wa.me/5511992644010" target="_blank" rel="noopener">
+        <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1630699375895-fe5996d163ee?auto=format&fit=crop&w=1920&q=70" alt="Planta livre clara depois da reforma, com piso de madeira e portas para o quintal" data-speed="-5"></div>
+        <div class="pj-meta"><span class="i">03</span><h3>Casa Granja Viana</h3><span class="t">Residencial · 340 m²</span></div>
+      </a>
+      <a class="pj pj-4" href="https://wa.me/5511992644010" target="_blank" rel="noopener">
+        <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1758448018619-4cbe2250b9ad?auto=format&fit=crop&w=800&q=70" alt="Banheiro com mármore claro, bancada suspensa e luz natural"></div>
+        <div class="pj-meta"><span class="i">04</span><h3>Banho Jardins</h3><span class="t">Interiores · 14 m²</span></div>
+      </a>
+      <a class="pj pj-5" href="https://wa.me/5511992644010" target="_blank" rel="noopener">
+        <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1758565810995-bee5d73315f0?auto=format&fit=crop&w=1200&q=70" alt="Cozinha com bancada de madeira, armários brancos e janela para o verde"></div>
+        <div class="pj-meta"><span class="i">05</span><h3>Cozinha Perdizes</h3><span class="t">Reforma · 32 m²</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="servicos">
+  <div class="wrap sv">
+    <div class="sv-l">
+      <div class="stick">
+        <div class="label"><span class="n">02</span> O que fazemos</div>
+        <h2 data-split>Do traço <em>à chave</em> na mão.</h2>
+        <p class="lead fu">Você pode contratar uma etapa ou o caminho inteiro. Em todos os casos, o desenho sai daqui e quem visita a obra conhece cada detalhe dele.</p>
+        <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1722942116037-97e84b56c990?auto=format&fit=crop&w=700&q=70" alt="Detalhe de piso de carvalho em espinha encontrando parede branca"></div>
+      </div>
+    </div>
+    <div class="sv-r">
+      <div class="row fu"><span class="n">01</span><h3>Projeto residencial</h3><p>Casas novas e ampliações, do estudo de implantação no terreno ao projeto legal e executivo, com aprovação na prefeitura.</p><ul><li>Estudo de massa</li><li>Projeto legal</li><li>Executivo</li></ul></div>
+      <div class="row fu"><span class="n">02</span><h3>Interiores</h3><p>Layout, revestimentos, iluminação e mobiliário pensados juntos, para o apartamento parecer da família e não de catálogo.</p><ul><li>Layout</li><li>Luminotécnica</li><li>Curadoria de móveis</li></ul></div>
+      <div class="row fu"><span class="n">03</span><h3>Reforma de apartamentos</h3><p>Derrubar parede, integrar cozinha, refazer elétrica e hidráulica. Conferimos a estrutura com o condomínio antes de qualquer quebra.</p><ul><li>Laudo e ART</li><li>Aprovação no condomínio</li><li>Cronograma</li></ul></div>
+      <div class="row fu"><span class="n">04</span><h3>Marcenaria sob medida</h3><p>Armários, painéis e estantes detalhados peça a peça, com cotas de obra conferidas por nós antes de ir para a fábrica.</p><ul><li>Detalhamento</li><li>Cotação com marceneiros</li><li>Conferência de entrega</li></ul></div>
+      <div class="row fu"><span class="n">05</span><h3>Acompanhamento de obra</h3><p>Visitas semanais, diário com fotos e uma pessoa do escritório respondendo ao empreiteiro, para você não virar gerente de obra.</p><ul><li>Visitas semanais</li><li>Diário de obra</li><li>Vistoria final</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <div style="grid-column:1/9">
+      <div class="label"><span class="n">03</span> Como pensamos</div>
+      <blockquote data-split>A gente desenha <em>a luz</em> antes de desenhar a parede.</blockquote>
+      <p class="who fu">Antes do primeiro traço, passamos uma manhã e um fim de tarde no imóvel. É assim que decidimos onde fica a mesa, a cama e a janela que não pode faltar.</p>
+    </div>
+    <div class="ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1781545343044-c2e3ee33c365?auto=format&fit=crop&w=800&q=70" alt="Luz do sol desenhando sombras de janela em parede clara" data-speed="-6"></div>
+  </div>
+</section>
+
+<section class="sec" id="processo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label"><span class="n">04</span> Processo</div>
+      <h2 data-split>Cinco etapas, <em>nenhuma surpresa</em> no orçamento.</h2>
+      <p class="side fu">Cada etapa termina com uma entrega que você aprova. Só seguimos para a próxima quando a anterior está fechada.</p>
+    </div>
+    <div class="proc">
+      <div class="st fu"><span class="n">i.</span><h3>Conversa e visita</h3><p>Ouvimos a rotina da casa, medimos tudo e fotografamos o imóvel em horários diferentes.</p><span class="d">1 semana</span></div>
+      <div class="st fu"><span class="n">ii.</span><h3>Estudo preliminar</h3><p>Duas ou três opções de layout, com imagens 3D e uma estimativa de custo de obra.</p><span class="d">2 a 3 semanas</span></div>
+      <div class="st fu"><span class="n">iii.</span><h3>Projeto executivo</h3><p>Plantas de obra, elétrica, hidráulica, forro, marcenaria e paginação de piso, tudo compatibilizado.</p><span class="d">4 a 6 semanas</span></div>
+      <div class="st fu"><span class="n">iv.</span><h3>Obra acompanhada</h3><p>Indicamos equipe, revisamos orçamentos e visitamos a obra toda semana com o diário em dia.</p><span class="d">Conforme a obra</span></div>
+      <div class="st fu"><span class="n">v.</span><h3>Entrega e produção</h3><p>Vistoria final, ajustes e a casa arrumada com objetos, tapetes e plantas no lugar.</p><span class="d">1 semana</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec ab" id="escritorio">
+  <div class="wrap ab-g">
+    <div class="ab-ph1 ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1649219025875-382701c15558?auto=format&fit=crop&w=1000&q=70" alt="Retrato em preto e branco da arquiteta sócia do escritório" data-speed="-4"></div>
+    <div class="ab-txt">
+      <div class="label"><span class="n">05</span> Quem desenha</div>
+      <h2 data-split>Um escritório <em>pequeno</em> de propósito.</h2>
+      <p class="fu">Somos oito pessoas entre arquitetas, designers de interiores e uma coordenadora de obras. Pegamos poucos projetos por vez para que a sócia responsável esteja em todas as reuniões, do estudo à vistoria final.</p>
+      <p class="fu">Trabalhamos com a mesma rede de marceneiros, serralheiros e empreiteiros há anos. Isso encurta prazo e evita a obra parada esperando peça.</p>
+      <div class="sig fu"><div><b>Helena Duarte</b><span>Arquiteta, sócia fundadora</span></div><div><b>Desde 2014</b><span>Estúdio na Vila Olímpia</span></div></div>
+    </div>
+    <div class="ab-ph2 ph rv"><img loading="lazy" src="https://images.unsplash.com/photo-1772442198907-765685249ea4?auto=format&fit=crop&w=1000&q=70" alt="Arquiteto trabalhando em maquete física no estúdio"></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap tst">
+    <div class="sec-head">
+      <div class="label"><span class="n">06</span> Quem já mora</div>
+      <h2 data-split>O que dizem <em>depois da mudança.</em></h2>
+    </div>
+    <blockquote class="tq fu"><p>“Moramos no apartamento durante a reforma da cozinha e eles organizaram a obra por cômodos. Ninguém aqui passou um dia sem banho ou sem fogão.”</p><footer><b>Mariana C.</b><span>Apartamento em Perdizes</span></footer></blockquote>
+    <blockquote class="tq fu"><p>“O orçamento da obra ficou dentro do que foi estimado no estudo preliminar. Para quem já reformou antes, isso parece mentira.”</p><footer><b>Ricardo T.</b><span>Sobrado na Vila Madalena</span></footer></blockquote>
+    <blockquote class="tq fu"><p>“A Helena perguntou onde a gente toma café de manhã. A casa inteira foi desenhada a partir daquela resposta.”</p><footer><b>Lúcia e André M.</b><span>Casa na Granja Viana</span></footer></blockquote>
+  </div>
+</section>
+
+<section class="sec fq" id="perguntas">
+  <div class="wrap fq-g">
+    <div class="fq-l">
+      <div class="label"><span class="n">07</span> Perguntas frequentes</div>
+      <h2 data-split>Antes de <em>começar.</em></h2>
+      <p class="fu">As dúvidas que mais ouvimos na primeira conversa. Se a sua não estiver aqui, mande pelo WhatsApp.</p>
+      <a class="link" href="https://wa.me/5511992644010" target="_blank" rel="noopener">Perguntar no WhatsApp <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+    </div>
+    <div class="fq-r">
+      <details><summary>Como é calculado o valor do projeto?<i></i></summary><p>O valor depende da metragem e do escopo (só interiores, reforma completa ou casa do zero). Depois da primeira visita enviamos uma proposta fechada, com etapas, entregas e prazos. O preço combinado não muda no meio do caminho.</p></details>
+      <details><summary>Quanto tempo leva um projeto de reforma de apartamento?<i></i></summary><p>Um apartamento de 100 a 150 m² costuma levar de 8 a 12 semanas de projeto, do estudo preliminar ao executivo. A obra vem depois e varia conforme o tamanho da intervenção; o cronograma completo fica pronto antes de quebrar a primeira parede.</p></details>
+      <details><summary>Vocês acompanham a obra ou só entregam o projeto?<i></i></summary><p>Acompanhamos. Fazemos visitas semanais, conferimos medidas de marcenaria e acabamentos e mantemos um diário de obra com fotos que você acessa quando quiser. Também indicamos empreiteiros e fornecedores com quem já trabalhamos.</p></details>
+      <details><summary>Preciso já ter comprado o imóvel para começar?<i></i></summary><p>Não. Muita gente nos chama antes de fechar negócio para avaliar se a planta comporta o que a família precisa e quanto custaria adaptar. Essa visita técnica evita comprar um imóvel que não dá para transformar.</p></details>
+      <details><summary>Atendem fora de São Paulo?<i></i></summary><p>Sim. Atendemos a capital, a Grande São Paulo e o litoral norte com visitas presenciais. Para outras cidades fazemos o projeto completo com reuniões online e visitas programadas nas etapas mais importantes da obra.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contato">
+  <div class="wrap">
+    <div class="label"><span class="n">08</span> Contato</div>
+    <p class="ct-big" data-split>Tem uma planta na mão? <a href="https://wa.me/5511992644010" target="_blank" rel="noopener">Manda pra gente.</a></p>
+    <div class="ct-g">
+      <div class="ct-info">
+        <div class="fu"><small>WhatsApp e telefone</small><a href="https://wa.me/5511992644010" target="_blank" rel="noopener">(11) 99264-4010</a></div>
+        <div class="fu"><small>E-mail</small><a href="mailto:contato@supporta.com.br">contato@supporta.com.br</a></div>
+        <div class="fu"><small>Estúdio</small>Alameda Vicente Pinzon, 173<br>Vila Olímpia, São Paulo/SP</div>
+        <div class="fu"><small>Atendimento</small>Segunda a sexta, das 9h às 18h, com hora marcada</div>
+      </div>
+      <div class="map rv"><iframe title="Mapa do estúdio na Alameda Vicente Pinzon, 173, São Paulo" src="https://www.google.com/maps?q=Alameda+Vicente+Pinzon+173+Sao+Paulo&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-g">
+      <div class="b">
+        <svg viewBox="0 0 196 48" height="34" style="height:34px;width:auto;display:block" role="img" aria-label="Supporta"><rect x="16" y="8" width="26" height="8" rx="4" fill="#1c1a18"/><rect x="9" y="20" width="30" height="8" rx="4" fill="#9b4a2c"/><rect x="6" y="32" width="26" height="8" rx="4" fill="#1c1a18"/><text x="50" y="34" font-family="inherit" font-size="27" font-weight="600" letter-spacing="-1.2" fill="#1c1a18">supporta</text></svg>
+        <p>Arquitetura residencial, interiores e acompanhamento de obra em São Paulo.</p>
+      </div>
+      <div class="c"><small>Navegue</small><a href="#projetos">Projetos</a><a href="#servicos">Serviços</a><a href="#processo">Processo</a><a href="#escritorio">Escritório</a></div>
+      <div class="c"><small>Contato</small><a href="https://wa.me/5511992644010" target="_blank" rel="noopener">(11) 99264-4010</a><a href="mailto:contato@supporta.com.br">contato@supporta.com.br</a></div>
+      <div class="c"><small>Endereço</small><span>Alameda Vicente Pinzon, 173<br>São Paulo/SP</span></div>
+    </div>
+    <div class="ft-b"><span>© 2026 Supporta Arquitetura e Interiores</span><a href="#top">Voltar ao topo</a></div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/5511992644010" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  var root=document.documentElement;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hd=document.querySelector('.hd');
+  function onScroll(){hd.classList.toggle('scrolled',window.scrollY>20)}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btn=document.querySelector('.menu-btn');
+  function closeMenu(){document.body.classList.remove('menu-open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Abrir menu')}
+  btn.addEventListener('click',function(){var o=document.body.classList.toggle('menu-open');btn.setAttribute('aria-expanded',String(o));btn.setAttribute('aria-label',o?'Fechar menu':'Abrir menu')});
+  document.querySelectorAll('#mnav a').forEach(function(a){a.addEventListener('click',closeMenu)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu()});
+
+  if(reduce||!window.gsap||!window.ScrollTrigger){root.classList.remove('js');return}
+  gsap.registerPlugin(ScrollTrigger);
+
+  if(window.Lenis){
+    var lenis=new Lenis({lerp:.09});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(function(t){lenis.raf(t*1000)});
+    gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');var t=id.length>1&&document.querySelector(id);if(t){e.preventDefault();lenis.scrollTo(t,{offset:-70})}else if(id==='#top'){e.preventDefault();lenis.scrollTo(0)}})});
+  }
+
+  function split(el){
+    Array.prototype.slice.call(el.childNodes).forEach(function(n){
+      if(n.nodeType===3){
+        var f=document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(function(p){
+          if(!p)return;
+          if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(' '));return}
+          var w=document.createElement('span');w.className='w';
+          var i=document.createElement('span');i.className='wi';i.textContent=p;
+          w.appendChild(i);f.appendChild(w);
+        });
+        n.parentNode.replaceChild(f,n);
+      }else if(n.nodeType===1&&n.tagName!=='BR'&&n.tagName!=='A'){split(n)}
+    });
+  }
+  document.querySelectorAll('[data-split]').forEach(function(el){
+    split(el);
+    var parts=el.querySelectorAll('.wi, a');
+    gsap.set(el,{visibility:'visible'});
+    var cfg={yPercent:110,opacity:0,duration:1.1,ease:'power4.out',stagger:.06};
+    if(el.hasAttribute('data-now')){cfg.delay=.15}else{cfg.scrollTrigger={trigger:el,start:'top 86%'}}
+    gsap.from(parts,cfg);
+  });
+  document.querySelectorAll('.rv').forEach(function(el){
+    var now=el.hasAttribute('data-now');
+    var tl=gsap.timeline(now?{delay:.35}:{scrollTrigger:{trigger:el,start:'top 88%'}});
+    tl.to(el,{clipPath:'inset(0 0 0% 0)',duration:1.4,ease:'expo.inOut'});
+    var img=el.querySelector('img');
+    if(img)tl.from(img,{scale:1.18,duration:1.8,ease:'expo.out'},0);
+  });
+  gsap.utils.toArray('.fu').forEach(function(el){
+    gsap.to(el,{opacity:1,y:0,duration:1,ease:'power3.out',delay:el.hasAttribute('data-now')?.6:0,scrollTrigger:el.hasAttribute('data-now')?null:{trigger:el,start:'top 90%'}});
+  });
+  document.querySelectorAll('[data-speed]').forEach(function(img){
+    var s=parseFloat(img.getAttribute('data-speed'));
+    gsap.fromTo(img,{yPercent:-s},{yPercent:s,ease:'none',scrollTrigger:{trigger:img.parentNode,start:'top bottom',end:'bottom top',scrub:true}});
+  });
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var end=+el.getAttribute('data-count'),suf=el.getAttribute('data-suffix')||'',o={v:0};
+    gsap.to(o,{v:end,duration:1.8,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%'},onUpdate:function(){el.textContent=Math.round(o.v)+suf}});
+  });
+  window.addEventListener('load',function(){ScrollTrigger.refresh()});
+})();
+</script>
+
+<div id="supporta-demo-bar" style="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483647;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:8px 8px 8px 16px;border-radius:999px;background:#0B0B0F;color:#F5F5F2;font:500 14px/1.2 Inter,'Helvetica Neue',Arial,sans-serif;box-shadow:0 0 0 1px rgba(255,61,113,.6),0 0 24px rgba(255,61,113,.35)">
+  <span style="white-space:nowrap">Modelo de site da <strong>Supporta</strong></span>
+  <a href="/planos" style="white-space:nowrap;padding:9px 16px;border-radius:999px;background:#FF3D71;color:#0B0B0F;text-decoration:none;font-weight:600">Quero um assim</a>
+  <a href="/modelos" aria-label="Voltar para os modelos" style="color:#A6A6B0;text-decoration:none;padding:0 6px">✕</a>
+</div>
+</body>
+</html>

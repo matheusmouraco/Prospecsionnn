@@ -10,7 +10,7 @@ export type TemplateShowcase = {
   demo?: string; // caminho da prévia navegável
 };
 
-const picks = ["restaurante", "arquitetura", "terapia", "consultoria", "veterinaria", "construtora", "academia", "financas", "floricultura", "marketing", "contador", "saas"];
+const picks = ["odontologia-clinica", "arquitetura-estudio", "construtora-obras", "cafeteria", "agencia-design", "clinica-medica", "tecnologia", "imobiliaria", "restaurante", "academia-fitness", "energia-solar", "consultoria"];
 
 export const templates: TemplateShowcase[] = picks
   .map((slug) => vitrine.find((v) => v.slug === slug))

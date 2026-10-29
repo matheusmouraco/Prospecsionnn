@@ -31,7 +31,15 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return { beforeFiles: legacyApps.map((app) => ({ source: `/${app}/`, destination: `/${app}/index.html` })), afterFiles: [], fallback: [] };
+    return {
+      beforeFiles: [
+        ...legacyApps.map((app) => ({ source: `/${app}/`, destination: `/${app}/index.html` })),
+        // Páginas internas dos modelos exportados (pasta/index.html).
+        { source: "/vitrine/:path+/", destination: "/vitrine/:path+/index.html" },
+      ],
+      afterFiles: [],
+      fallback: [{ source: "/vitrine/:path+", destination: "/vitrine/:path+/index.html" }],
+    };
   },
 };
 
