@@ -74,6 +74,24 @@ async function resolveAccess(browser: Browser, domain: string): Promise<{ acesso
   }
 }
 
+// Some sites keep a web font request hanging forever and Playwright waits for fonts before every
+// screenshot (tommasi.com.br, 29/10/2026). On that timeout, block font downloads, reload and try again:
+// the print loses the custom font but the analysis goes on.
+async function semFontes(page: Page, url: string): Promise<void> {
+  await page.route('**/*', (r) => (r.request().resourceType() === 'font' ? r.abort() : r.continue()));
+  await open(page, url);
+}
+
+async function screenshot(page: Page, url: string, opts: Parameters<Page['screenshot']>[0]): Promise<void> {
+  try {
+    await page.screenshot({ ...opts, timeout: 20_000 });
+  } catch (err) {
+    if (!(err instanceof Error) || err.name !== 'TimeoutError') throw err;
+    await semFontes(page, url);
+    await page.screenshot({ ...opts, timeout: 30_000 });
+  }
+}
+
 async function shoot(
   browser: Browser,
   url: string,
@@ -89,12 +107,12 @@ async function shoot(
     const facts = (await page.evaluate(EXTRACT_SCRIPT)) as DomFacts;
     const dobra = join(dir, `${prefix}-dobra.png`);
     const inteira = join(dir, `${prefix}-inteira.png`);
-    await page.screenshot({ path: dobra });
+    await screenshot(page, url, { path: dobra });
     const height = Math.min(facts.altura_pagina, MAX_FULL_HEIGHT);
     const width = options.viewport?.width ?? 1440;
-    await page.screenshot({ path: inteira, fullPage: true, clip: { x: 0, y: 0, width, height } });
+    await screenshot(page, url, { path: inteira, fullPage: true, clip: { x: 0, y: 0, width, height } });
     const resumo = join(dir, `${prefix}-resumo.png`);
-    await page.screenshot({ path: resumo, fullPage: true, clip: { x: 0, y: 0, width, height: Math.min(height, RESUMO_HEIGHT) } });
+    await screenshot(page, url, { path: resumo, fullPage: true, clip: { x: 0, y: 0, width, height: Math.min(height, RESUMO_HEIGHT) } });
     return { facts, dobra, inteira, resumo };
   } finally {
     await context.close();
