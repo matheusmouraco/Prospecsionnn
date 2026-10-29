@@ -1,0 +1,162 @@
+// Step area start here ***
+.steps-section {
+	.outer-box {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		@include media-breakpoint-down(lg){
+			gap: 30px;
+			flex-wrap: wrap;
+		}
+	}
+	&.style-two{
+		position: relative;
+		z-index: 9;
+		overflow: hidden;
+		margin: 0px 30px;
+		padding-top: 380px;
+		padding-bottom: 70px;
+		border-radius: 30px;
+		@include media-breakpoint-down(xl){
+			margin: 0px 15px;
+		}
+		.outer-box{
+			@include media-breakpoint-down(xl){
+				gap: 80px;
+			}
+			@include media-breakpoint-down(sm){
+				gap: 30px;
+				justify-content: center;
+			}			
+		}
+		.video-bg {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			z-index: -3;
+		}
+		&::before{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			content: '';
+			z-index: -2;
+			background: linear-gradient(179.28deg, rgba(20, 68, 67, 0) 0.5%, #144443 99.22%);
+		}
+		.shape-bg{
+			position: absolute;
+			top: -111px;
+			right: -87px;
+			z-index: -1;
+		}
+		.steps-block{
+			.line{
+				right: -115%;
+				@include media-breakpoint-down(xxl){
+					display: none;
+				}
+			}
+		}
+	}
+}
+
+.steps-block {
+	.icon {
+		width: 180px;
+		height: 180px;
+		line-height: 180px;
+		border-radius: 50%;
+		text-align: center;
+		margin: 0 auto;
+		background-color: var(--theme-color1);
+		position: relative;
+		z-index: 1;
+		transition: all 500ms ease;
+		svg,
+		i {
+			transition: all 900ms ease;
+			path {
+				transition: all 500ms ease;
+			}
+		}
+		.number {
+			width: 70px;
+			height: 70px;
+			line-height: 70px;
+			text-align: center;
+			border-radius: 50%;
+			color: var(--text-color1);
+			background-color: var(--theme-color-white);
+			position: absolute;
+			bottom: 10px;
+			right: -30px;
+			font-size: 22px;
+			font-weight: 700;
+			font-family: var(--title-font);
+			color: var(--theme-color2);
+			box-shadow: 5px 5px 12px 0px #0000000d;
+		}
+	}
+	.title {
+		margin-top: 30px;
+		margin-bottom: 15px;
+	}
+	.text {
+		font-size: 14.77px;
+		line-height: 26.59px;
+		margin: 0;
+	}
+	max-width: 310px;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	@include media-breakpoint-down(lg) {
+		max-width: 45%;
+	}
+	@include media-breakpoint-down(md) {
+		max-width: 100%;
+	}
+	.line {
+		position: absolute;
+		right: -65%;
+		top: 75px;
+		z-index: -1;
+		@include media-breakpoint-down(xxxl) {
+			right: -40%;
+		}
+		@include media-breakpoint-down(lg) {
+			&.item-middle {
+				display: none;
+			}
+		}
+		@include media-breakpoint-down(md) {
+			display: none;
+		}
+	}
+	&.active {
+		.icon {
+			background-color: var(--theme-color2);
+		}
+	}
+	&:hover {
+		.icon {
+			background-color: var(--theme-color2);
+			svg {
+				transform: rotateY(360deg);
+				path {
+					fill: var(--theme-color-white);
+				}
+			}
+			.number {
+				animation: bounceIn 1s forwards;
+			}
+		}
+	}
+}
+// Step area end here ***

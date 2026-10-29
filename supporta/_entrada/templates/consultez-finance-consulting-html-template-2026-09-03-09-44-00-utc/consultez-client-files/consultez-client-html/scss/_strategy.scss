@@ -1,0 +1,220 @@
+// Strategy area start here ***
+.strategy-section {
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+	background-color: var(--theme-color-gray);
+	&.style-two{
+		.image-column {
+			.inner-column {
+				max-width: 877px;
+				@include media-breakpoint-down(xl){
+					max-width: 100%;
+					margin-bottom: 40px;
+				}
+				.image{
+					overflow: visible;
+					@include media-breakpoint-down(xl){
+						overflow: hidden;
+					}
+				}
+			}
+		}
+		.content-column {
+			.inner-column{
+				padding: 80px 0;
+				@include media-breakpoint-down(xl){
+					padding: 50px 15px;
+				}
+			}
+		}
+		background-color: var(--theme-color7);
+		.row{			
+			align-items: center;
+			--bs-gutter-y: 0;
+			*{
+				margin-top: 0;
+			}
+		}
+		.accordion-area{
+			margin-bottom: 0;
+			.accordion{
+				border-radius: 7px;
+				overflow: hidden;
+				--bs-accordion-bg: transparent;
+				.accordion-item{
+					border-radius: 7px;
+					overflow: hidden;
+				}
+				.accordion-button{
+					color: var(--theme-color-black);
+					background: var(--theme-color-light);
+					&.collapsed {
+						color: var(--theme-color-light);
+						background-color: transparent;
+						&::before{
+							color: var(--theme-color-light);
+						}
+					}
+				}
+				.show{
+					.accordion-body{
+						background-color: var(--theme-color-light);
+						.text{
+							color: var(--theme-color-black);							
+						}						
+					}
+				}
+				.accordion-body{					
+					.text{
+						color: var(--theme-color-light);
+					}
+				}
+			}
+		}
+	}
+
+	.sec-shape {
+		position: absolute;
+		bottom: 0;
+		right: -290px;
+		z-index: -1;
+	}
+
+	.image-column {
+		.inner-column {
+			max-width: 869px;
+			.image {
+				position: relative;
+				z-index: 1;
+				overflow: hidden;
+				img {
+					width: 100%;
+				}
+				.info {
+					position: absolute;
+					bottom: 60px;
+					right: 60px;
+				}
+			}
+			@include media-breakpoint-down(xl) {
+				max-width: 100%;
+			}
+		}
+	}
+
+	.content-column {
+		.inner-column {
+			max-width: 620px;
+			@include media-breakpoint-down(xl) {
+				padding: 0px 12px;
+				padding-bottom: 30px;
+				max-width: 100%;
+			}
+			.accordion-area {
+				@include media-breakpoint-down(xxxl) {
+					padding-bottom: 60px;
+				}
+				@include media-breakpoint-down(md) {
+					padding-bottom: 0;
+				}
+			}
+		}
+	}
+}
+// Strategy area start here ***
+
+// Strategy two area start here ***
+.strategy-section-two {
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+
+	@include media-breakpoint-down(md) {
+		padding-bottom: 60px;
+	}
+
+	.content-column {
+		.inner-column {
+			max-width: 564px;
+			@include media-breakpoint-down(xl) {
+				max-width: 100%;
+			}
+			.sec-title {
+				max-width: 500px;
+				@include media-breakpoint-down(xl) {
+					max-width: 100%;
+				}
+				.text {
+					font-size: 16px;
+					line-height: 29px;
+					padding-left: 12px;
+					border-left: 2px solid var(--theme-color1);
+				}
+			}
+			.image {
+				img {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.image-column {
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 100%;
+		.inner-column {
+			height: 100%;
+			.image {
+				height: 100%;
+				overflow: hidden;
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+		}
+		@include media-breakpoint-down(xl) {
+			position: unset;
+		}
+	}
+}
+
+.strategy-block-two {
+	position: absolute;
+	bottom: 60px;
+	left: 60px;
+	width: 100%;
+	max-width: 610px;
+	.item {
+		background-color: var(--theme-color1);
+		padding: 40px 30px;
+		border-radius: 10px;
+		.title {
+			color: #0e2d3a;
+			margin-bottom: 15px;
+		}
+		.text {
+			color: #0e2d3a;
+			margin-bottom: 0;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 29px;
+		}
+		&.light {
+			background-color: var(--theme-color2);
+			.title,
+			.text {
+				color: var(--theme-color-white);
+			}
+		}
+	}
+	@include media-breakpoint-down(md) {
+		position: unset;
+		margin-top: 24px;
+	}
+}
+// Strategy two area end here ***
