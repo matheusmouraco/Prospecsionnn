@@ -1,0 +1,1182 @@
+/*--------------------------------------------------------------
+////////////////////////////////
+# Main Header All Responsice Css
+////////////////////////////////
+--------------------------------------------------------------*/
+
+@media only screen and (min-width: 1200px) and (max-width: 1730px) {
+    .logo-box-two {
+        width: 320px;
+    }
+
+    .main-header-two__inner {
+        padding-right: 60px;
+    }
+
+    .main-header-two__outer {
+        padding-left: 320px;
+    }
+
+    .main-header-two__bottom-right .contact-box {
+        display: none;
+    }
+
+    .main-header__language-switcher {
+        margin-right: 0px;
+        padding-right: 0px;
+        margin-right: 2px;
+    }
+
+    .sticky-menu .main-header-two__outer {
+        padding-left: 420px;
+    }
+
+    .logo-box-three {
+        left: 0px;
+        width: 240px;
+    }
+
+    .main-header-three__inner {
+        padding-left: 275px;
+    }
+    .hero-sec2:before {
+        top: -35%;
+        left: -25%;
+    }
+
+    .testimonial-slider2 .owl-nav .owl-prev {
+        left: -30px;
+    }
+    .testimonial-slider2 .owl-nav .owl-next {
+        right: -30px;
+    }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1300px) {
+    .footer-sec .footer-widget.services-links {
+        width: 110%;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .menu-area .navbar-wrap {
+        display: none !important;
+    }
+
+    .menu-area .mobile-nav-toggler {
+        display: flex;
+    }
+
+    .menu-nav__right {
+        margin-left: 50px;
+    }
+
+    .main-header-one__inner {
+        display: none;
+    }
+
+    .logo-box-one {
+        width: 200px;
+        height: 90px;
+    }
+
+    .main-header-two__inner {
+        padding-right: 0px;
+    }
+
+    .main-header-two__top {
+        display: none;
+    }
+
+    .main-header-two__bottom-right {
+        display: none;
+    }
+
+    .main-header-two__outer {
+        padding-right: 15px;
+    }
+
+    .logo-box-two {
+        height: 90px;
+    }
+
+    .logo-box-two:before {
+        border-bottom: 90px solid var(--thm-primary);
+    }
+
+    .main-header-three__top {
+        display: none;
+    }
+
+    .main-header-three__bottom-right {
+        display: none;
+    }
+
+    .main-header-three__inner {
+        padding-left: 0px;
+    }
+
+    .logo-box-three {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        width: 250px;
+        height: 120px;
+    }
+
+    .main-header-three .menu-area__inner {
+        padding-right: 15px;
+    }
+
+    .main-header-three {
+        position: relative;
+    }
+
+    .main-slider-three .image-layer {
+        top: 0px;
+    }
+    /*===About CSS=====*/
+    .about-sec .about-images {
+        margin-right: 50px;
+    }
+    .sec-list-item-style2 li {
+        margin-bottom: 22px;
+        width: inherit;
+        margin-right: 6px;
+    }
+    .about-sec3 .about-images .year-of-experience {
+        top: 55%;
+        right: -8%;
+    }
+    /*===Choose CSS=====*/
+    .choose-item-wrapper {
+        display: flex;
+        margin-top: 60px;
+    }
+    .choose-sec .sec-img {
+        margin: 0 0 0 60px;
+    }
+    .choose-sec .choose-item {
+        margin-bottom: 0;
+        margin-right: 5px;
+    }
+    .choose-sec .choose-item:last-child {
+        margin-right: 0;
+    }
+    .choose-sec .choose-sec-element {
+        padding: 60px;
+    }
+    .choose-sec .choose-sec-element .form-app-area {
+        margin-left: 80px;
+        padding: 50px 50px;
+    }
+
+    /*===Faqs Section CSS=====*/
+    .faq-sec2 .form-app-area {
+        padding: 50px 60px;
+        margin-left: 50px;
+    }
+
+    /*===Blog CSS=====*/
+    .single-blog-right-style .single-blog .blog-img .blog-date {
+        position: inherit;
+    }
+    .single-blog-right-style .single-blog .blog-img .blog-date {
+        padding: 4px 8px;
+    }
+    /*===Footer CSS=====*/
+    .footer-widget.pages-links {
+        margin-left: 0;
+    }
+    .footer-sec2 .footer-infos ul.footer-menu li {
+        margin-right: 40px;
+    }
+    /*===Project Details CSS=====*/
+    .project-details-wrapper .project-qinfo {
+        padding: 45px 50px;
+    }
+    /*===Contact CSS=====*/
+    .contact-sec .contact-info-wrapper.form {
+        margin-right: 50px;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .menu-area .navbar-wrap {
+        display: none !important;
+    }
+
+    .menu-area .mobile-nav-toggler {
+        display: flex;
+    }
+
+    .menu-nav__right {
+        margin-left: 50px;
+    }
+
+    .main-header-one__inner {
+        display: none;
+    }
+
+    .logo-box-one {
+        width: 200px;
+        height: 90px;
+    }
+
+    .main-header-two__inner {
+        padding-right: 0px;
+    }
+
+    .main-header-two__top {
+        display: none;
+    }
+
+    .main-header-two__bottom-right {
+        display: none;
+    }
+
+    .main-header-two__outer {
+        padding-right: 15px;
+    }
+
+    .logo-box-two {
+        height: 90px;
+    }
+
+    .logo-box-two:before {
+        border-bottom: 90px solid var(--thm-primary);
+    }
+
+    .main-header-three__top {
+        display: none;
+    }
+
+    .main-header-three__bottom-right {
+        display: none;
+    }
+
+    .main-header-three__inner {
+        padding-left: 0px;
+    }
+
+    .logo-box-three {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        width: 250px;
+        height: 120px;
+    }
+
+    .main-header-three .menu-area__inner {
+        padding-right: 15px;
+    }
+
+    .main-header-three {
+        position: relative;
+    }
+
+    .main-slider-three .image-layer {
+        top: 0px;
+    }
+
+    /*===About CSS=====*/
+    .about-sec .about-images .about-si-two {
+        margin-top: -280px;
+    }
+}
+
+@media (max-width: 767px) {
+    .menu-area .navbar-wrap {
+        display: none !important;
+    }
+
+    .menu-area .mobile-nav-toggler {
+        display: flex;
+    }
+
+    .menu-nav__right {
+        display: none;
+    }
+
+    .main-header-one__inner {
+        display: none;
+    }
+
+    .logo-box-one {
+        width: 200px;
+        height: 90px;
+    }
+
+    .main-header-two__inner {
+        padding-right: 0px;
+    }
+
+    .main-header-two__top {
+        display: none;
+    }
+
+    .main-header-two__bottom-right {
+        display: none;
+    }
+
+    .main-header-two__outer {
+        padding-right: 15px;
+        padding-left: 305px;
+    }
+
+    .logo-box-two {
+        height: 90px;
+    }
+
+    .logo-box-two:before {
+        border-bottom: 90px solid var(--thm-primary);
+        border-right: 45px solid transparent;
+    }
+
+    .logo-box-two {
+        width: 270px;
+    }
+
+    .main-header-three__top {
+        display: none;
+    }
+
+    .main-header-three__bottom-right {
+        display: none;
+    }
+
+    .main-header-three__inner {
+        padding-left: 0px;
+    }
+
+    .logo-box-three {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        width: 250px;
+        height: 120px;
+    }
+
+    .main-header-three .menu-area__inner {
+        padding-right: 15px;
+    }
+
+    .main-header-three {
+        position: relative;
+    }
+
+    .main-slider-three .image-layer {
+        top: 0px;
+    }
+}
+
+@media (max-width: 1199px) {
+    #sticky-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        background: #1f212d;
+    }
+    .main-header-two #sticky-header {
+        background: var(--thm-green);
+    }
+    .sticky-menu {
+        background: var(--thm-green);
+    }
+
+    .menu-area__inner {
+        position: relative;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/*--------------------------------------------------------------
+///////////////////////////
+# Common Responsice Css
+///////////////////////////
+--------------------------------------------------------------*/
+@media (max-width: 991px) {
+    /* Comon Css */
+    .sec-ptb {
+        padding: 100px 0;
+    }
+    .sec-pt {
+        padding-top: 100px;
+    }
+    .sec-pb {
+        padding-bottom: 100px;
+    }
+    .sec-title {
+        font-size: 48px;
+        line-height: 56px;
+    }
+    .sec-sub-title {
+        padding-bottom: 10px;
+    }
+    .tab-col-gap {
+        margin-top: 50px;
+    }
+    .sptb-76 {
+        padding-bottom: 76px;
+    }
+    .mb-60 {
+        margin-bottom: 40px;
+    }
+    .pb-214 {
+        padding-bottom: 184px;
+    }
+}
+@media (max-width: 767px) {
+    /* Comon Css */
+    .thm-btn {
+        padding: 12px 30px;
+    }
+    .sec-ptb {
+        padding: 80px 0;
+    }
+    .sec-pt {
+        padding-top: 80px;
+    }
+    .sec-pb {
+        padding-bottom: 80px;
+    }
+    .sptb-76 {
+        padding-bottom: 56px;
+    }
+    .sec-sub-title {
+        padding-bottom: 6px;
+    }
+    .sec-title {
+        font-size: 36px;
+        line-height: 48px;
+    }
+    .pb-214 {
+        padding-bottom: 164px;
+    }
+}
+/*--------------------------------------------------------------
+///////////////////////////
+#All Responsice Css
+///////////////////////////
+--------------------------------------------------------------*/
+
+@media (max-width: 991px) {
+    /************* Slider Responsive CSS *************/
+    .swiper {
+        height: 80vh;
+    }
+
+    .slider-content-wrapper {
+        background: rgba(12, 12, 11, 0.7);
+    }
+    .slider-heading {
+        font-size: 84px;
+        line-height: 1.3;
+    }
+    .swiper .swiper-wrapper .swiper-button-prev,
+    .swiper .swiper-wrapper .swiper-button-next {
+        display: none;
+    }
+    .swiper-pagination {
+        display: none;
+    }
+    .hero-area2 .hero-content .sec-content h3.sec-title {
+        font-size: 80px;
+        line-height: 1.1;
+    }
+    .hero-area2 .hero-image-area {
+        display: none !important;
+    }
+
+    .hero-area .hero-content {
+        height: 80vh;
+    }
+    .hero-area .hero-content .sec-content {
+        padding-top: 0;
+    }
+    .hero-area .hero-content .sec-content a.thm-btn {
+        padding: 12px 30px;
+    }
+
+    /*===About CSS=====*/
+    .about-sec .about-images {
+        margin-right: 0;
+    }
+    .about-sec3 .about-images .year-of-experience {
+        top: inherit;
+        right: 60px;
+        bottom: 0;
+    }
+    /*===Service CSS=====*/
+    .service-sec2 .sec-content .sec-img {
+        margin-left: 0;
+        margin-top: 36px;
+    }
+    /* services-details-page */
+    .service-details-wrapper {
+        margin-left: 0;
+    }
+    /*===Choose CSS=====*/
+    .choose-sec .sec-img {
+        margin: 50px 0;
+    }
+    .choose-sec .choose-sec-element {
+        flex-direction: column;
+    }
+    .choose-sec .choose-sec-element .sec-content {
+        width: 100% !important;
+    }
+    .choose-sec .choose-sec-element .form-app-area {
+        width: 100% !important;
+        margin-left: 0;
+    }
+    .choose-sec .choose-item {
+        margin-bottom: 40px;
+    }
+    /*===Video CSS=====*/
+    .video-sec svg#play {
+        width: 135px;
+    }
+    .video-sec .sec-overlay {
+        padding: 140px 0 420px;
+    }
+    .video-sec2 .sec-content {
+        margin-right: 0;
+        padding: 0 12px;
+    }
+    .video-sec2 .video-btn-area-overlay {
+        padding: 130px 0;
+    }
+    /*===Project CSS=====*/
+    .single-project .project-info h4 {
+        font-size: 24px;
+        line-height: 34px;
+    }
+    /* project-details-page */
+    .project-details-wrapper .project-qinfo {
+        flex-wrap: wrap;
+        padding: 50px 60px 10px;
+    }
+    .project-details-wrapper .project-qinfo .project-single-qinfo {
+        flex: 1 50%;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .project-details-wrapper .project-qinfo .project-single-qinfo::after {
+        left: 0;
+    }
+    .project-details-wrapper .project-qinfo .project-single-qinfo:nth-child(odd)::after {
+        display: none;
+    }
+    /*===Team CSS=====*/
+    .team-sec {
+        padding-bottom: 76px;
+    }
+    .team-sec .single-team {
+        margin-bottom: 24px;
+    }
+    /*===Team Details CSS=====*/
+    .team-details-sec .member-fbio-img {
+        margin-right: 0;
+    }
+    .team-details-sec .member-skill {
+        margin-right: 0;
+    }
+    .team-details-sec .member-skill,
+    .team-details-sec .member-expertise {
+        padding-top: 50px;
+    }
+    /*===Pricing CSS=====*/
+    .pricing-sec .single-pricing-plan {
+        margin-bottom: 24px;
+    }
+    /*===Testimonial CSS=====*/
+    .testimonial-slider .owl-nav {
+        display: none;
+    }
+    .testimonial-slider2 .owl-nav .owl-prev,
+    .testimonial-slider2 .owl-nav .owl-next {
+        display: none;
+    }
+    .testimonial-slider2 .owl-dots {
+        display: flex !important;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .testimonial-slider2 .owl-dots .owl-dot {
+        height: 14px;
+        width: 14px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        margin-right: 12px;
+    }
+    .testimonial-slider2 .owl-dots .owl-dot.active {
+        background-color: var(--thm-orange);
+        border: 1px solid var(--thm-orange);
+    }
+    /*===FAQS CSS=====*/
+    .faq-sec #accordion {
+        margin-left: 0;
+    }
+    .faq-sec2 .form-app-area {
+        margin-left: 0;
+    }
+    .faq-sec2 .form-app-area .form-title {
+        text-align: center;
+    }
+    /*===Company Qinfo CSS=====*/
+    .company-qinfo-sec2 .container {
+        margin-top: 0;
+    }
+    /*===Blog CSS=====*/
+    .blog-sec .single-blog-right-style {
+        margin-left: 0;
+    }
+    .blog-sec2 .single-blog .blog-img img {
+        width: 100%;
+    }
+    .blog-sec2 .single-blog .blog-info {
+        padding: 42px 42px;
+    }
+    .blog-page-sec .blog-item-wrapper {
+        margin-right: 0;
+    }
+    .sidebar .sidebar-item {
+        margin-bottom: 40px;
+    }
+    .blog-comments {
+        margin-top: 40px;
+    }
+    .blog-contact-form {
+        margin-top: 40px;
+    }
+    /*===Newsletter CSS=====*/
+    .newslatter-style2 {
+        margin-bottom: -146px;
+    }
+    .newslatter-style2 h3.newslatter-text {
+        font-size: 48px;
+        line-height: 56px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .newslatter-style2 .quote-button {
+        text-align: center;
+    }
+    .newslatter-style2 .quote-button a {
+        float: inherit;
+    }
+    .solaka-newslatter form.sn-form {
+        justify-content: center;
+    }
+    /*===Footer CSS=====*/
+    .footer-sec .section-overlay {
+        padding: 246px 0 50px;
+    }
+    .footer-widget.pages-links {
+        margin-left: 0;
+    }
+    .footer-widget h4.footer-widget-title {
+        padding-left: 12px;
+    }
+    .footer-widget::before {
+        left: 0;
+    }
+    .footer-widget-logo::after,
+    h4.footer-widget-title::after {
+        left: -30px;
+    }
+    /*===Breadcumb CSS=====*/
+    #site-breadcumb .site-breadcumb-wrapper {
+        padding: 200px 0 100px;
+    }
+    .breadcumb-content h1.breadcumb-title {
+        font-size: 52px;
+        line-height: 62px;
+    }
+    /*===Error CSS=====*/
+    .error-sec .error-wrapper img {
+        width: 70%;
+    }
+    /*===Contact CSS=====*/
+    .contact-sec .contact-info-wrapper.form {
+        margin-right: 0;
+    }
+}
+@media (max-width: 767px) {
+    /************* Slider Responsive CSS *************/
+    .slider-heading {
+        margin-top: 60px;
+        font-size: 52px;
+        line-height: 1.3;
+    }
+    .hero-area2 .hero-content .sec-content h3.sec-title {
+        margin-top: 60px;
+        font-size: 52px;
+        line-height: 1.3;
+    }
+
+    .swiper .swiper-wrapper .swiper-button-prev,
+    .swiper .swiper-wrapper .swiper-button-next {
+        display: none;
+    }
+    /*===About CSS=====*/
+    .about-sec .about-images .about-si-one {
+        margin-right: 94px;
+    }
+    .about-sec .about-images .about-si-two {
+        width: 44%;
+        margin-top: -250px;
+    }
+    .sec-content .sec-list-item {
+        margin-top: 28px;
+        margin-bottom: 22px;
+    }
+    .sec-list-item-style2 li {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    .about-sec3 .about-images .year-of-experience {
+        width: 150px;
+        padding: 28px 18px;
+        animation-name: inherit;
+        transform: inherit;
+        right: 20px;
+        bottom: 20px;
+    }
+    .about-sec3 .about-images .year-of-experience h2 {
+        font-size: 2.75rem;
+        margin-bottom: 0 !important;
+    }
+    /*===Brand CSS=====*/
+    .brand-sec-overlay {
+        padding: 54px 18px;
+    }
+    /*===Service CSS=====*/
+    .service-slider .owl-nav {
+        top: 12px;
+        right: 12px;
+    }
+    .service-slider .owl-nav .owl-prev,
+    .service-slider .owl-nav .owl-next {
+        height: 42px;
+        width: 42px;
+    }
+    .service-slider .owl-nav .owl-prev {
+        background: var(--thm-black);
+        color: var(--thm-white);
+    }
+    .service-slider .owl-nav .owl-prev i,
+    .service-slider .owl-nav .owl-next i {
+        font-size: 22px;
+    }
+    /* service details page */
+    .service-details-content .info-part h4 {
+        font-size: 24px;
+        line-height: 34px;
+    }
+    /*===Video CSS=====*/
+    .video-sec .sec-overlay {
+        padding: 100px 0 380px;
+    }
+    .video-sec svg#play {
+        width: 120px;
+    }
+    .video-sec2 .video-btn-area-overlay {
+        padding: 100px 0;
+    }
+    .video-btn {
+        position: relative;
+        height: 80px;
+        width: 80px;
+        font-size: 20px;
+    }
+
+    /*===Choose CSS=====*/
+    .choose-sec .choose-item {
+        margin-bottom: 30px;
+    }
+    .choose-sec .choose-sec-element {
+        padding: 36px;
+    }
+
+    .choose-sec .choose-sec-element .form-app-area h4.form-title {
+        font-size: 24px;
+        line-height: 34px;
+    }
+    form.solaka-cform .contact-field input,
+    form.solaka-cform .contact-field textarea {
+        padding: 9px 20px;
+    }
+    /*===Faqs CSS=====*/
+    .faq-sec2 .form-app-area {
+        padding: 46px 64px;
+    }
+    /*===Project CSS=====*/
+    .project-sec .single-project {
+        margin-bottom: 24px !important;
+    }
+    .project-slider .single-project {
+        margin-bottom: 0;
+    }
+    /* project-details-page */
+    .project-details-wrapper .project-qinfo {
+        margin: 40px 0 50px;
+    }
+
+    /*===Team CSS=====*/
+    /*===Team Details CSS=====*/
+    .team-details-sec .member-skill,
+    .team-details-sec .member-expertise {
+        padding-top: 40px;
+    }
+    /*===Pricing CSS=====*/
+    .pricing-sec .single-pricing-plan {
+        text-align: center;
+        padding: 40px 40px;
+    }
+    .single-pricing-plan .pricing-content .pricing-price h2.price {
+        font-size: 2.75rem;
+    }
+    .single-pricing-plan .pricing-content .pricing-price h2.price span {
+        font-size: 20px;
+    }
+
+    /*===Testimonial CSS=====*/
+    .testimonial-slider .owl-dots {
+        margin-top: 34px;
+    }
+    .testimonial-slider .owl-dots .owl-dot {
+        height: 12px;
+        width: 12px;
+    }
+    .testimonial-slider2 .single-testimonial {
+        padding: 0 10px;
+    }
+    .testimonial-slider2 .single-testimonial i {
+        font-size: 70px;
+    }
+    .testimonial-slider2 .single-testimonial p.feedback {
+        font-size: 24px;
+        line-height: 38px;
+        padding: 0 0 30px;
+    }
+    .testimonial-slider2 .single-testimonial .feedback-item-autor .feedback-item-info h4.autor-name {
+        font-size: 24px;
+        line-height: 34px;
+    }
+    .testimonial-slider2 .single-testimonial .feedback-item-autor .feedback-item-thumb {
+        height: 70px;
+        width: 70px;
+    }
+    .testimonial-slider2 .single-testimonial .feedback-item-autor .feedback-item-info .autor-title {
+        margin-bottom: 16px;
+    }
+    .testimonial-slider2 .owl-dots .owl-dot {
+        height: 12px;
+        width: 12px;
+    }
+    /*===FAQS CSS=====*/
+    .faq-sec #accordion {
+        padding: 16px 26px 26px;
+    }
+    .accordion-container .accordion-title {
+        font-size: 22px;
+    }
+    .accordion-container .accordion-title::before,
+    .accordion-container .accordion-title::after {
+        right: 0;
+    }
+    /*===Company Qinfo CSS=====*/
+    .company-qinfo-sec .sec-overlay {
+        padding-bottom: 50px;
+    }
+    .company-qinfo-sec .single-qinfo {
+        margin-bottom: 30px;
+    }
+    .company-qinfo-sec .single-qinfo h2 {
+        font-size: 2.75rem;
+    }
+    .company-qinfo-sec2 .single-qinfo {
+        margin-bottom: 0;
+    }
+    /*===Blog CSS=====*/
+    .single-blog-left-style .blog-info {
+        padding: 26px 22px;
+        width: 100%;
+    }
+    .single-blog .blog-info .blog-title {
+        font-size: 24px;
+        line-height: 34px;
+    }
+    .single-blog-right-style li.right-blog-item {
+        display: block !important;
+    }
+    .single-blog-right-style li.right-blog-item .blog-img img {
+        display: none;
+    }
+    .single-blog-right-style li.right-blog-item .blog-img .blog-date {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .single-blog-right-style li.right-blog-item .blog-info .meta-info {
+        margin-top: 12px;
+    }
+    .blog-item-details .blog-body blockquote {
+        padding: 40px 30px;
+    }
+    .sidebar .sidebar-item {
+        margin-bottom: 30px;
+    }
+    .blog-tags-share {
+        display: block;
+    }
+    .blog-tags-share .blog-tags:first-of-type {
+        margin-bottom: 20px;
+    }
+    .comment-item .children {
+        margin-top: 40px;
+    }
+    /*===Newsletter CSS=====*/
+    .footer-sec .section-overlay {
+        padding: 228px 0 30px;
+    }
+    .newslatter-style2 {
+        padding: 36px 40px;
+        margin-bottom: -150px;
+    }
+    .newslatter-style2 h3.newslatter-text {
+        font-size: 36px;
+        line-height: 48px;
+    }
+    .newslatter-style2 .quote-button a {
+        padding: 16px 30px;
+    }
+    .solaka-newslatter form.sn-form input {
+        padding: 13px 16px;
+    }
+    .solaka-newslatter form.sn-form button {
+        padding: 16px 26px;
+    }
+    /*===Footer CSS=====*/
+
+    .footer-copyright-text {
+        text-align: center;
+    }
+    .footer-short-link {
+        justify-content: center;
+        margin-top: 6px;
+    }
+    .footer-sec2 .footer-infos ul.footer-menu {
+        margin-bottom: 40px;
+        display: block;
+    }
+    .footer-sec2 .footer-infos ul.footer-menu li {
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
+    .footer-sec2 .footer-infos ul.footer-menu li:last-child {
+        margin-bottom: 0px;
+    }
+
+    .footer-sec2 .footer-infos ul.footer-contact li {
+        width: 100%;
+        float: inherit;
+        margin-bottom: 22px;
+    }
+    .footer-sec2 .footer-infos ul.footer-contact li:last-child {
+        margin-bottom: 0px;
+    }
+    .footer-copyright2 .footer-social-icon {
+        justify-content: center;
+        margin-top: 6px;
+    }
+    /*===Breadcumb CSS=====*/
+    #site-breadcumb .site-breadcumb-wrapper {
+        padding: 180px 0 80px;
+    }
+    .breadcumb-content h1.breadcumb-title {
+        font-size: 42px;
+        line-height: 52px;
+    }
+    /*===Contact CSS=====*/
+    .contact-sec .contact-info-wrapper.form .sec-title {
+        font-size: 28px;
+        line-height: 38px;
+    }
+    .contact-map-sec iframe {
+        height: 500px;
+    }
+}
+
+@media (max-width: 576px) {
+    /************* Slider Responsive CSS *************/
+
+    .swiper .slider-btn-area a:first-child {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    .swiper2 .slider-btn-area a:first-child {
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    /*===About CSS=====*/
+    .about-sec .about-images .about-si-two {
+        margin-top: -116px;
+    }
+
+    /*===Choose CSS=====*/
+    .choose-sec .choose-sec-element .form-app-area {
+        padding: 40px 36px;
+    }
+    .solaka-cform button.thm-btn {
+        padding: 12px 22px;
+    }
+    .ab-progress .progress-indicator {
+        margin: 2px 0;
+    }
+    /*===Project CSS=====*/
+    .single-project .project-info {
+        bottom: 20px;
+        left: 30px;
+    }
+    .single-project .project-info h4 {
+        font-size: 21px;
+    }
+    /* project-details-page */
+    .project-details-wrapper .project-qinfo {
+        padding: 50px 60px 20px;
+    }
+    .project-details-wrapper .project-qinfo .project-single-qinfo {
+        flex: 1 100%;
+        margin-bottom: 30px;
+    }
+    .project-details-wrapper .project-qinfo .project-single-qinfo::after {
+        display: none;
+    }
+    /*===Faqs CSS=====*/
+    .faq-sec2 .form-app-area {
+        padding: 40px 46px;
+    }
+    /*===Newslatter CSS=====*/
+    .newslatter-style2 h3.newslatter-text {
+        font-size: 32px;
+        line-height: 46px;
+    }
+    .newslatter-style2 .quote-button a {
+        padding: 12px 26px;
+    }
+    /*===Blog CSS=====*/
+    .blog-sec2 .sec-title {
+        margin-bottom: 16px;
+    }
+    .blog-sec2 .single-blog {
+        display: block !important;
+    }
+    .blog-sec2 .single-blog .blog-img {
+        width: 100%;
+        height: 350px;
+    }
+    .blog-sec2 .single-blog .blog-img img {
+        height: auto !important;
+    }
+
+    .blog-sec2 .single-blog .blog-info {
+        width: 100%;
+        padding: 24px;
+    }
+    .blog-item .content-box {
+        margin: 10px 12px 30px;
+    }
+    .comment-item .children {
+        margin-left: 40px;
+    }
+    .sidebar-item .blog-item .content-box {
+        margin: 0 0 0 20px;
+    }
+    /*===Breadcumb CSS=====*/
+    .breadcumb-content h1.breadcumb-title {
+        font-size: 42px;
+        line-height: 52px;
+    }
+
+    .breadcumb-content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .breadcumb-content ul.page-navigator {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+    /*===Contact CSS=====*/
+    .contact-sec .contact-info-wrapper.form {
+        padding: 40px;
+    }
+    .contact-sec .solaka-cform button.thm-btn {
+        padding: 10px 22px;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+    .contact-map-sec iframe {
+        height: 400px;
+    }
+}
+
+@media (max-width: 390px) {
+    .thm-btn {
+        padding: 10px 24px;
+    }
+    .sec-sub-title {
+        padding-bottom: 4px;
+        font-size: 16px;
+    }
+    .sec-title {
+        font-size: 32px;
+        line-height: 44px;
+    }
+
+    .slider-heading {
+        margin-top: 70px;
+        font-size: 42px;
+    }
+    .hero-area2 .hero-content .sec-content h3.sec-title {
+        margin-top: 70px;
+        font-size: 42px;
+        line-height: 1.2;
+    }
+    .single-pricing-plan .pricing-content .pricing-btn a {
+        padding: 10px 34px;
+    }
+    .single-service-style {
+        padding: 24px 26px 26px;
+    }
+    .choose-sec .choose-sec-element {
+        padding: 24px;
+    }
+    /*===Choose CSS=====*/
+    .choose-sec .choose-sec-element .form-app-area {
+        padding: 40px 26px;
+    }
+    .newslatter-style2 {
+        padding: 36px 38px;
+    }
+    .newslatter-style2 h3.newslatter-text {
+        font-size: 30px;
+        line-height: 42px;
+    }
+    .footer-widget h4.footer-widget-title {
+        font-size: 28px;
+        line-height: 40px;
+    }
+    /*===Contact CSS=====*/
+    .contact-sec .contact-info-wrapper.form {
+        padding: 36px;
+    }
+    .contact-map-sec iframe {
+        height: 300px;
+    }
+}

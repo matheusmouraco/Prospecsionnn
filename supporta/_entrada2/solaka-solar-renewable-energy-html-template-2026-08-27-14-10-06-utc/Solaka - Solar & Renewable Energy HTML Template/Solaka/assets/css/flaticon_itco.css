@@ -1,0 +1,161 @@
+@font-face {
+    font-family: 'flaticon_mycollection';
+    src: url('../fonts/flaticon_mycollection.woff2?8cf044635413e1e2b8c784576f1ea20a') format('woff2'), url('../fonts/flaticon_mycollection.woff?8cf044635413e1e2b8c784576f1ea20a') format('woff'),
+        url('../fonts/flaticon_mycollection.eot?8cf044635413e1e2b8c784576f1ea20a#iefix') format('embedded-opentype'),
+        url('../fonts/flaticon_mycollection.ttf?8cf044635413e1e2b8c784576f1ea20a') format('truetype'),
+        url('../fonts/flaticon_mycollection.svg?8cf044635413e1e2b8c784576f1ea20a#flaticon_mycollection') format('svg');
+}
+
+i[class^='flaticon-']:before,
+i[class*=' flaticon-']:before {
+    font-family: flaticon_mycollection !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.flaticon-straight-quotes:before {
+    content: '\f101';
+}
+.flaticon-facebook-app-symbol:before {
+    content: '\f102';
+}
+.flaticon-phone-call:before {
+    content: '\f103';
+}
+.flaticon-search:before {
+    content: '\f104';
+}
+.flaticon-telephone:before {
+    content: '\f105';
+}
+.flaticon-facebook:before {
+    content: '\f106';
+}
+.flaticon-linkedin:before {
+    content: '\f107';
+}
+.flaticon-call:before {
+    content: '\f108';
+}
+.flaticon-location:before {
+    content: '\f109';
+}
+.flaticon-email:before {
+    content: '\f10a';
+}
+.flaticon-left-arrow:before {
+    content: '\f10b';
+}
+.flaticon-right-arrow:before {
+    content: '\f10c';
+}
+.flaticon-play:before {
+    content: '\f10d';
+}
+.flaticon-instagram:before {
+    content: '\f10e';
+}
+.flaticon-user:before {
+    content: '\f10f';
+}
+.flaticon-placeholder:before {
+    content: '\f110';
+}
+.flaticon-calendar:before {
+    content: '\f111';
+}
+.flaticon-charging:before {
+    content: '\f112';
+}
+.flaticon-solar-panel:before {
+    content: '\f113';
+}
+.flaticon-hand:before {
+    content: '\f114';
+}
+.flaticon-instagram-1:before {
+    content: '\f115';
+}
+.flaticon-location-1:before {
+    content: '\f116';
+}
+.flaticon-management:before {
+    content: '\f117';
+}
+.flaticon-comment:before {
+    content: '\f118';
+}
+.flaticon-check:before {
+    content: '\f119';
+}
+.flaticon-medal:before {
+    content: '\f11a';
+}
+.flaticon-green-energy:before {
+    content: '\f11b';
+}
+.flaticon-customer-service:before {
+    content: '\f11c';
+}
+.flaticon-down:before {
+    content: '\f11d';
+}
+.flaticon-right:before {
+    content: '\f11e';
+}
+.flaticon-send:before {
+    content: '\f11f';
+}
+.flaticon-chat-bubble:before {
+    content: '\f120';
+}
+.flaticon-next:before {
+    content: '\f121';
+}
+.flaticon-linkedin-1:before {
+    content: '\f122';
+}
+.flaticon-right-arrow-1:before {
+    content: '\f123';
+}
+.flaticon-arrowhead-up:before {
+    content: '\f124';
+}
+.flaticon-up-right-arrow:before {
+    content: '\f125';
+}
+.flaticon-easy-installation:before {
+    content: '\f126';
+}
+.flaticon-solar-panel-1:before {
+    content: '\f127';
+}
+.flaticon-twitter:before {
+    content: '\f128';
+}
+.flaticon-quote:before {
+    content: '\f129';
+}
+.flaticon-turbine:before {
+    content: '\f12a';
+}
+.flaticon-quote-1:before {
+    content: '\f12b';
+}
+.flaticon-up-right-arrow-1:before {
+    content: '\f12c';
+}
+.flaticon-save-the-world:before {
+    content: '\f12d';
+}
+.flaticon-left-arrow-1:before {
+    content: '\f12e';
+}
+.flaticon-completed-task:before {
+    content: '\f12f';
+}
