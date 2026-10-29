@@ -1,0 +1,34 @@
+/* Themes Config */
+@theme {
+
+    --font-body: "Google Sans Flex", sans-serif;
+    --font-heading: "Stack Sans Headline", sans-serif;
+
+    --color-primary:#0022ff;
+    --color-primary-1:#ff4c00;
+    --color-primary-2:#12a70a;
+    --color-primary-3:#0022ff;
+    --color-primary-4:#ff00a1;
+    --color-primary-5:#0059ff;
+    --color-primary-6:#9000ff;
+    --color-primary-7:#ff0000;
+    --color-primary-8:#0283a7;
+
+    --color-secondary-1: #acffc5;
+    --color-secondary-2: #f3fe97;
+
+    --color-body-bg: #f7f7f7;
+    --color-body-color: var(--color-default-600);
+
+    --color-default-50: var(--color-zinc-50);
+    --color-default-100: var(--color-zinc-100);
+    --color-default-200: var(--color-zinc-200);
+    --color-default-300: var(--color-zinc-300);
+    --color-default-400: var(--color-zinc-400);
+    --color-default-500: var(--color-zinc-500);
+    --color-default-600: var(--color-zinc-600);
+    --color-default-700: var(--color-zinc-700);
+    --color-default-800: var(--color-zinc-800);
+    --color-default-900: var(--color-zinc-900);
+    --color-default-950: var(--color-zinc-950);
+}

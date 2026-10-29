@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> title-meta title="Faqs" }}
+
+    {{> head-css}}
+</head>
+
+<body class="bg-body-bg">
+
+    {{> navbar }}
+
+    <section class="lg:pt-50 md:pt-42 pt-34 md:pb-25">
+        <div class="container">
+            <div class="md:mb-25 mb-12 text-center space-y-3.5">
+                <h3 class="lg:text-[68px] md:text-5xl text-3xl font-medium">Frequently Asked Questions</h3>
+            </div>
+
+            <div class="hs-accordion-group lg:w-3xl mx-auto space-y-2.5">
+                <!-- Accordion Item 1 (Open by default) -->
+                <div class="hs-accordion active bg-white border border-zinc-100 rounded-2xl shadow-sm hs-accordion-active:shadow-md transition-all duration-300" id="hs-heading-one">
+                    <button class="hs-accordion-toggle hs-accordion-active:text-default-950 inline-flex items-center justify-between w-full lg:p-5 p-3.5 text-start font-bold text-default-900 transition hover:text-zinc-500" aria-controls="hs-collapse-one">
+                        <h3 class="text-base md:text-xl font-medium">
+                            Is Habitline free to use?
+                        </h3>
+                        <div class="hs-accordion-active:rotate-45 relative md:size-8.5 size-6.5 bg-default-200 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0">
+                            <i class="iconify lucide--plus md:size-5 size-3 text-default-800"></i>
+                        </div>
+                    </button>
+                    <div id="hs-collapse-one" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-heading-one">
+                        <div class="lg:px-5 lg:pb-5 px-3.5 pb-3.5 text-zinc-500 lg:text-lg text-base md:leading-relaxed leading-normal">
+                            Yes, Habitline offers a free plan with essential features so you can start building habits without any cost.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 2 -->
+                <div class="hs-accordion bg-white border border-zinc-100 rounded-2xl shadow-sm hs-accordion-active:shadow-md transition-all duration-300" id="hs-heading-two">
+                    <button class="hs-accordion-toggle hs-accordion-active:text-default-950 inline-flex items-center justify-between w-full lg:p-5 p-3.5 text-start font-bold text-default-900 transition hover:text-zinc-500" aria-controls="hs-collapse-two">
+                        <h3 class="text-base md:text-xl font-medium">
+                            Can I create routines for different times of day?
+                        </h3>
+                        <div class="hs-accordion-active:rotate-45 relative md:size-8.5 size-6.5 bg-default-200 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0">
+                            <i class="iconify lucide--plus md:size-5 size-3 text-default-800"></i>
+                        </div>
+                    </button>
+                    <div id="hs-collapse-two" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-heading-two">
+                        <div class="lg:px-5 lg:pb-5 px-3.5 pb-3.5 text-zinc-500 lg:text-lg text-base md:leading-relaxed leading-normal">
+                            Yes, you can organize habits into morning, afternoon, and evening routines for better daily structure.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 3 -->
+                <div class="hs-accordion bg-white border border-zinc-100 rounded-2xl shadow-sm hs-accordion-active:shadow-md transition-all duration-300" id="hs-heading-three">
+                    <button class="hs-accordion-toggle hs-accordion-active:text-default-950 inline-flex items-center justify-between w-full lg:p-5 p-3.5 text-start font-bold text-default-900 transition hover:text-zinc-500" aria-controls="hs-collapse-three">
+                        <h3 class="text-base md:text-xl font-medium">
+                            How does yearly billing work?
+                        </h3>
+                        <div class="hs-accordion-active:rotate-45 relative md:size-8.5 size-6.5 bg-default-200 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0">
+                            <i class="iconify lucide--plus md:size-5 size-3 text-default-800"></i>
+                        </div>
+                    </button>
+                    <div id="hs-collapse-three" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-heading-three">
+                        <div class="lg:px-5 lg:pb-5 px-3.5 pb-3.5 text-zinc-500 lg:text-lg text-base md:leading-relaxed leading-normal">
+                            Yearly billing offers the same features as monthly plans at a discounted price, helping you save more over time.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 4 -->
+                <div class="hs-accordion bg-white border border-zinc-100 rounded-2xl shadow-sm hs-accordion-active:shadow-md transition-all duration-300" id="hs-heading-four">
+                    <button class="hs-accordion-toggle hs-accordion-active:text-default-950 inline-flex items-center justify-between w-full lg:p-5 p-3.5 text-start font-bold text-default-900 transition hover:text-zinc-500" aria-controls="hs-collapse-four">
+                        <h3 class="text-base md:text-xl font-medium">
+                            Is my payment information secure?
+                        </h3>
+                        <div class="hs-accordion-active:rotate-45 relative md:size-8.5 size-6.5 bg-default-200 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0">
+                            <i class="iconify lucide--plus md:size-5 size-3 text-default-800"></i>
+                        </div>
+                    </button>
+                    <div id="hs-collapse-four" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-heading-four">
+                        <div class="lg:px-5 lg:pb-5 px-3.5 pb-3.5 text-zinc-500 lg:text-lg text-base md:leading-relaxed leading-normal">
+                            Absolutely. All payments are processed through secure, encrypted payment gateways.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 5 -->
+                <div class="hs-accordion bg-white border border-zinc-100 rounded-2xl shadow-sm hs-accordion-active:shadow-md transition-all duration-300" id="hs-heading-five">
+                    <button class="hs-accordion-toggle hs-accordion-active:text-default-950 inline-flex items-center justify-between w-full lg:p-5 p-3.5 text-start font-bold text-default-900 transition hover:text-zinc-500" aria-controls="hs-collapse-five">
+                        <h3 class="text-base md:text-xl font-medium">
+                            Is Habitline free to use?
+                        </h3>
+                        <div class="hs-accordion-active:rotate-45 relative md:size-8.5 size-6.5 bg-default-200 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0">
+                            <i class="iconify lucide--plus md:size-5 size-3 text-default-800"></i>
+                        </div>
+                    </button>
+                    <div id="hs-collapse-five" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-heading-five">
+                        <div class="lg:px-5 lg:pb-5 px-3.5 pb-3.5 text-zinc-500 lg:text-lg text-base md:leading-relaxed leading-normal">
+                            Habitline is free to use with essential features available at no cost. You can track habits, create routines.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hs-accordion bg-white border border-zinc-100 rounded-2xl shadow-sm hs-accordion-active:shadow-md transition-all duration-300" id="hs-heading-six">
+                    <button class="hs-accordion-toggle hs-accordion-active:text-default-950 inline-flex items-center justify-between w-full lg:p-5 p-3.5 text-start font-bold text-default-900 transition hover:text-zinc-500" aria-controls="hs-collapse-six">
+                        <h3 class="text-base md:text-xl font-medium">
+                            Are there analytics or progress insights
+                        </h3>
+                        <div class="hs-accordion-active:rotate-45 relative md:size-8.5 size-6.5 bg-default-200 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0">
+                            <i class="iconify lucide--plus md:size-5 size-3 text-default-800"></i>
+                        </div>
+                    </button>
+                    <div id="hs-collapse-six" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-heading-six">
+                        <div class="lg:px-5 lg:pb-5 px-3.5 pb-3.5 text-zinc-500 lg:text-lg text-base md:leading-relaxed leading-normal">
+                            Yes, Habitline provides clear insights to help you understand patterns and improve consistency.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hs-accordion bg-white border border-zinc-100 rounded-2xl shadow-sm hs-accordion-active:shadow-md transition-all duration-300" id="hs-heading-seven">
+                    <button class="hs-accordion-toggle hs-accordion-active:text-default-950 inline-flex items-center justify-between w-full lg:p-5 p-3.5 text-start font-bold text-default-900 transition hover:text-zinc-500" aria-controls="hs-collapse-seven">
+                        <h3 class="text-base md:text-xl font-medium">
+                            Do you offer customer support?
+                        </h3>
+                        <div class="hs-accordion-active:rotate-45 relative md:size-8.5 size-6.5 bg-default-200 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0">
+                            <i class="iconify lucide--plus md:size-5 size-3 text-default-800"></i>
+                        </div>
+                    </button>
+                    <div id="hs-collapse-seven" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-heading-seven">
+                        <div class="lg:px-5 lg:pb-5 px-3.5 pb-3.5 text-zinc-500 lg:text-lg text-base md:leading-relaxed leading-normal">
+                            Yes, support is available, with priority assistance for Pro and Premium users.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{> footer }}
+
+    <!-- Swiper JS -->
+    <script src="assets/js/components/swiper.js" type="module"></script>
+
+</body>
+
+</html>

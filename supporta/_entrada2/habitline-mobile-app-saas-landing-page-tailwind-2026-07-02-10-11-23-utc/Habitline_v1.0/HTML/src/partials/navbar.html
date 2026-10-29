@@ -1,0 +1,156 @@
+<!-- Navbar -->
+<header>
+    <div class="nav-sticky navbar fixed inset-x-0 top-0 z-120 w-full">
+        <div class="container lg:py-7.5 md:py-5 py-3.5">
+            <div class="flex items-center lg:justify-center justify-between w-full lg:bg-transparent bg-white md:rounded-2xl rounded-lg ">
+                <div class="lg:p-4 md:py-4 py-1.5 px-3 bg-white min-w-[175px] flex rounded-[20px] lg:shadow-lg">
+                    <a href="index.html">
+                        <img src="/images/logo.svg" alt="" class="md:h-8 h-7.5">
+                    </a>
+                </div>
+
+                <div class="w-full h-2.5 transition-all duration-500 ease-in-out in-[.nav-sticky-on]:w-2.5 lg:flex hidden"></div>
+
+                <div class="flex items-center justify-between">
+                    <div class="p-1.5 bg-white rounded-[20px] whitespace-nowrap lg:shadow-lg lg:block hidden">
+                        <ul id="navbar" class="flex items-center">
+                            <li>
+                                <a href="#features" class="flex items-center justify-center text-sm font-medium hover:bg-default-200 hover:text-default-800 rounded-2xl transition-all py-4 px-7">Features</a>
+                            </li>
+                            <li>
+                                <a href="#usecase" class="flex items-center justify-center text-sm font-medium hover:bg-default-200 hover:text-default-800 rounded-2xl transition-all py-4 px-7">Usecase</a>
+                            </li>
+                            <li>
+                                <a href="#metrics" class="flex items-center justify-center text-sm font-medium hover:bg-default-200 hover:text-default-800 rounded-2xl transition-all py-4 px-7">Metrics</a>
+                            </li>
+                            <li>
+                                <a href="#smart-assist" class="flex items-center justify-center text-sm font-medium hover:bg-default-200 hover:text-default-800 rounded-2xl transition-all py-4 px-7">Smart Assist</a>
+                            </li>
+
+                            <!-- Dropdown -->
+                            <li class="hs-dropdown [--trigger:hover] relative inline-flex">
+                                <button id="hs-dropdown-hover-event" type="button" class="hs-dropdown-toggle flex items-center gap-1 justify-center text-sm hover:bg-default-200 hover:text-default-800 rounded-2xl transition-all py-4 px-7 focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none " aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                                    Pages
+                                    <i class="iconify lucide--chevron-down size-4"></i>
+                                </button>
+
+                                <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-44 bg-white rounded-xl mt-2 after:h-4 after:absolute after:-bottom-4 after:inset-s-0 after:w-full before:h-4 before:absolute before:-top-4 before:inset-s-0 before:w-full" role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-hover-event">
+                                    <div class="p-2.5 space-y-0.5">
+                                        <a href="index.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            Home
+                                        </a>
+                                        <a href="about.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            About
+                                        </a>
+                                        <a href="pricing.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            Pricing
+                                        </a>
+                                        <a href="contact.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            Contact
+                                        </a>
+                                        <a href="waitlist.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            Waitlist
+                                        </a>
+                                        <a href="download.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            Download
+                                        </a>
+                                        <a href="faqs.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            FAQs
+                                        </a>
+                                        <a href="privacy-policy.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-sm text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                                            Privacy Policy
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="w-full h-2.5 transition-all duration-500 ease-in-out in-[.nav-sticky-on]:w-2.5 lg:flex hidden"></div>
+
+                <div class="flex items-center gap-1.25 p-1.5 bg-white rounded-[20px] shadow-lg lg:shadow-lg">
+                    <a href="https://www.apple.com/in/app-store/" target="_blank" aria-label="App Store" class="relative flex md:h-12.5 md:w-12.5 size-8.75 items-center justify-center overflow-hidden md:rounded-2xl rounded-lg bg-default-200 transition-all duration-300 group">
+                        <div class="relative flex items-center justify-center overflow-hidden">
+                            <!-- Default Icon -->
+                            <img src="/images/icons/app-store.svg" alt="Icon" class="md:size-6 size-4.5 transition-transform duration-300 group-hover:-translate-y-6">
+
+                            <!-- Hover Icon -->
+                            <img src="/images/icons/app-store.svg" alt="Icon" class="absolute md:size-6 size-4.5 translate-y-6 transition-transform duration-300 group-hover:translate-y-0">
+                        </div>
+                    </a>
+
+                    <a href="https://play.google.com/store/games?device=windows" target="_blank" aria-label="App Store" class="relative flex md:h-12.5 md:w-12.5 size-8.75 items-center justify-center overflow-hidden md:rounded-2xl rounded-lg bg-default-200 transition-all duration-300 group">
+                        <div class="relative flex items-center justify-center overflow-hidden">
+                            <!-- Default Icon -->
+                            <img src="/images/icons/play-store.svg" alt="Icon" class="md:size-6 size-4.5 transition-transform duration-300 group-hover:-translate-y-6">
+
+                            <!-- Hover Icon -->
+                            <img src="/images/icons/play-store.svg" alt="Icon" class="absolute md:size-6 size-4.5 translate-y-6 transition-transform duration-300 group-hover:translate-y-0">
+                        </div>
+                    </a>
+
+                    <div class="flex items-center lg:hidden">
+                        <button type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobile-menu" data-hs-overlay="#mobile-menu" class="flex md:h-12.5 md:w-12.5 size-8.75 items-center justify-center overflow-hidden md:rounded-2xl rounded-lg bg-default-200 transition-all duration-300">
+                            <i class="iconify tabler--align-right size-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hs-overlay hs-overlay-open:trandefault-y-0 md:hs-overlay-open:top-24 hs-overlay-open:top-18 hs-overlay-open:opacity-100 [--body-scroll:true] opacity-0 fixed inset-x-0 top-0 z-110 h-50 md:mx-5 mx-4 rounded-lg -trandefault-y-full transform overflow-hidden bg-white shadow-xl transition-all duration-300 hidden" role="dialog" tabindex="-1" aria-labelledby="mobile-menu-label">
+        <div class="flex max-h-50 flex-col overflow-y-auto p-3">
+            <a href="index.html" class="group flex items-center p-1.5 text-base font-medium text-default-600 transition-all hover:text-primary">
+                Features
+            </a>
+
+            <a href="about.html" class="group flex items-center p-1.5 text-base font-medium text-default-600 transition-all hover:text-primary">
+                Usecase
+            </a>
+
+            <a href="services.html" class="group flex items-center p-1.5 text-base font-medium text-default-600 transition-all hover:text-primary">
+                Metrics
+            </a>
+
+            <a href="contact.html" class="group flex items-center p-1.5 text-base font-medium text-default-600 transition-all hover:text-primary">
+                Features
+            </a>
+
+            <div class="hs-accordion">
+                <button type="button" class="hs-accordion-toggle group flex items-center p-1.5 text-base font-medium text-default-600 transition-all hover:text-primary" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                    Pages
+                    <i class="iconify tabler--chevron-down ms-4"></i>
+                </button>
+
+                <div class="hs-accordion-content hidden w-full overflow-hidden ps-5 pb-4 transition-[height]">
+                    <a href="index.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        Home
+                    </a>
+                    <a href="about.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        About
+                    </a>
+                    <a href="pricing.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        Pricing
+                    </a>
+                    <a href="contact.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        Contact
+                    </a>
+                    <a href="waitlist.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        Waitlist
+                    </a>
+                    <a href="download.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        Download
+                    </a>
+                    <a href="faqs.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        FAQs
+                    </a>
+                    <a href="privacy-policy.html" class="flex items-center gap-x-3.5 py-1.5 px-2.5 rounded-lg text-base text-default-600 hover:text-default-800 hover:bg-default-200 focus:outline-hidden">
+                        Privacy Policy
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

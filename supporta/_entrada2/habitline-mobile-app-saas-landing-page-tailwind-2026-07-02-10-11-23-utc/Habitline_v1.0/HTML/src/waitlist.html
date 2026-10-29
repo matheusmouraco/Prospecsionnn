@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> title-meta title="contact" }}
+
+    {{> head-css}}
+</head>
+
+<body class="bg-body-bg">
+
+    {{> navbar }}
+
+    <!-- Pricing Section -->
+    <section class="lg:pt-50 md:pt-40 pt-32 md:pb-16 pb-6">
+        <div class="container">
+            <!-- Title Section -->
+            <div class="text-center md:w-2xl mx-auto">
+
+                <h1 class="mb-2.5 lg:text-[90px] md:text-5xl text-4xl font-medium tracking-tight text-default-900">
+                    Join the Habitline waitlist
+                </h1>
+
+                <p class="md:text-xl text-base md:mb-7.5 mb-5 mx-auto">We’re getting ready to launch a cleaner, calmer habit app built around real life.</p>
+            </div>
+
+            <div class="mx-auto lg:w-lg md:w-2xl">
+                <form class="flex flex-col lg:items-center items-start justify-center md:gap-4 gap-2.5 md:flex-row">
+                    <input type="email" placeholder="Enter your email" required class="rounded-full border border-default-200 bg-default-200 px-5 py-3 text-default-900 placeholder:text-default-400 focus:outline-none text-base md:w-lg! w-full transition-all">
+                    <div class="mx-auto">
+                        <button type="submit" class="w-auto text-center whitespace-nowrap rounded-full bg-default-900 px-8 py-3.5 font-medium text-white transition-all hover:scale-95">
+                            Join the waitlist
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    {{> footer }}
+
+    <!-- Swiper JS -->
+    <script src="assets/js/components/swiper.js" type="module"></script>
+
+</body>
+
+</html>

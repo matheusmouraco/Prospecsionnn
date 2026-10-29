@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> title-meta title="Download" }}
+
+    {{> head-css}}
+</head>
+
+<body class="bg-body-bg">
+
+    {{> navbar }}
+
+    <!-- Download Section -->
+    <section class="relative overflow-hidden pt-32 lg:pt-38 md:pb-14">
+        <!-- Decorative Background Clouds -->
+        <div class="pointer-events-none absolute inset-0 z-0">
+            <img src="/images/workspace/decoration.webp" class="absolute top-25 bottom-20 inset-s-0 w-1/2 blur-sm" alt="">
+            <img src="/images/locations/cloud-02.webp" class="absolute bottom-0 inset-e-0 w-1/3 h-74" alt="">
+            <img src="/images/locations/cloud-05.webp" class="absolute top-10 inset-e-10 w-1/4" alt="">
+        </div>
+
+        <div class="container relative z-10 mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+
+                <!-- Left Content -->
+                <div class="max-w-2xl">
+                    <h1 class="lg:text-[68px] md:text-5xl text-3xl font-medium tracking-tight text-default-900 mb-5">
+                        Start building better habits today
+                    </h1>
+                    <p class="md:text-xl text-base leading-tight text-default-600 md:mb-7.5 mb-5">
+                        Download Habitline to build routines that adjust to your day. Track habits get smart suggestions that help you stay consistent without pressure.
+                    </p>
+
+                    <!-- Stats Section -->
+                    <div class="flex lg:gap-20 gap-7.5 md:mb-7.5 mb-5">
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <h2 class="lg:text-4xl md:text-3xl text-2xl font-medium text-default-900">32</h2>
+                                <span class="lg:text-4xl md:text-3xl text-2xl font-medium text-default-900">+</span>
+                            </div>
+                            <p class="mt-2 text-lg font-medium text-default-600">Countries using Habitline</p>
+                        </div>
+                        <div>
+                            <h2 class="lg:text-4xl md:text-3xl text-2xl font-medium text-default-900">46</h2>
+                            <p class="mt-2 text-lg font-medium text-default-600">Sessions completed per user</p>
+                        </div>
+                    </div>
+
+                    <!-- App Store Buttons -->
+                    <div class="flex flex-wrap gap-3.5">
+                        <a href="#" target="_blank" class="transition-transform hover:scale-95">
+                            <img src="/images/icons/app-storebox.svg" alt="App Store" class="h-12.5 w-auto">
+                        </a>
+                        <a href="#" target="_blank" class="transition-transform hover:scale-95">
+                            <img src="/images/icons/google-playbox.svg" alt="Google Play" class="h-12.5 w-auto">
+                        </a>
+                    </div>
+
+                    <!-- QR Code Card -->
+                    <div class="lg:mt-20 md:mt-10 mt-6.5 inline-flex items-center gap-5 rounded-2xl bg-white p-2 shadow-2xl">
+                        <div class="shrink-0 rounded-2xl bg-default-200 p-4">
+                            <img src="/images/icons/icon-39.svg" alt="QR Code" class="size-25">
+                        </div>
+                        <div class="relative">
+                            <!-- Decorative Red Arrow -->
+                            <img src="/images/icons/icon-66.svg" class="absolute top-2 left-0 size-15 rotate-[-10deg]" alt="">
+                            <h3 class="text-2xl font-medium leading-tight text-default-900 mt-15">
+                                Scan here <br> to download
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content (Phone Mockup) -->
+                <div class="relative flex justify-center">
+
+                    <img src="/images/workspace/phone-image.png" alt="App Dashboard" class="w-full h-175 max-w-87.5 transition-transform duration-500">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {{> footer }}
+
+</body>
+
+</html>
