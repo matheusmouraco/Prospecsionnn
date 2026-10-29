@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/ui/LegalPage";
-import { plans } from "@/lib/plans";
+import { annualFreeMonths, billing, earlyCancelFee, loyaltyPriceFor, plans, priceFor } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { formatBRLCents, site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Termos de Uso e da Assinatura | Supporta",
-  description: "Termos da assinatura Supporta: planos, cobrança recorrente no cartão, fidelidade de 12 meses, cancelamento, domínio, ajustes e prazos.",
+  description: "Termos da assinatura Supporta: planos, cobrança mensal ou anual no cartão, prazo mínimo de 12 meses, multa, desconto, cancelamento, domínio, ajustes e prazos.",
   path: "/termos",
 });
 
@@ -21,36 +21,57 @@ export default function TermosPage() {
 
       <h2>1. O serviço</h2>
       <p>
-        A Supporta cria, publica, hospeda e mantém o site do Cliente mediante assinatura mensal, conforme o plano escolhido. Os planos e seus itens são os
+        A Supporta cria, publica, hospeda e mantém o site do Cliente mediante assinatura, com cobrança mensal ou anual, conforme o plano e o ciclo escolhidos. Os planos e seus itens são os
         publicados na página <Link href="/planos" className="link text-ink">Planos</Link> no momento da contratação:
       </p>
       <ul>
         {plans.map((p) => (
           <li key={p.id}>
-            <strong>{p.name} (R${p.price}/mês):</strong> {p.features.join("; ")}.
+            <strong>
+              {p.name} (R${p.price}/mês no mensal ou {formatBRLCents(priceFor(p, "anual"))}/ano no anual):
+            </strong> {p.features.join("; ")}.
           </li>
         ))}
       </ul>
 
       <h2>2. Pagamento</h2>
       <p>
-        A assinatura é cobrada de forma recorrente e mensal no cartão de crédito informado pelo Cliente, por meio de parceiro de pagamento
-        ([NOME_DO_PROVEDOR_DE_PAGAMENTO]). A primeira cobrança ocorre na contratação e as seguintes na mesma data dos meses subsequentes. Não há custo de criação.
+        A assinatura é cobrada no cartão de crédito informado pelo Cliente, por meio de parceiro de pagamento ([NOME_DO_PROVEDOR_DE_PAGAMENTO]), em um dos dois
+        ciclos escolhidos na contratação:
       </p>
+      <ul>
+        <li>
+          <strong>Mensal:</strong> uma cobrança por mês no valor do plano. A primeira ocorre na contratação e as seguintes na mesma data dos meses subsequentes.
+        </li>
+        <li>
+          <strong>Anual:</strong> uma cobrança por ano equivalente a {billing.annualMonthsCharged} mensalidades, cobrindo 12 meses de assinatura ({annualFreeMonths}{" "}
+          meses sem custo). A primeira ocorre na contratação e as seguintes a cada 12 meses.
+        </li>
+      </ul>
+      <p>Não há custo de criação em nenhum dos ciclos. O Cliente pode trocar de ciclo na renovação, com aviso pelo WhatsApp ou e-mail.</p>
       <p>
         Em caso de recusa do cartão, a Supporta avisará o Cliente e fará novas tentativas. Persistindo a falta de pagamento por mais de [PRAZO_INADIMPLENCIA] dias,
         o site poderá ser suspenso até a regularização.
       </p>
 
-      <h2>3. Fidelidade de 12 meses</h2>
+      <h2>3. Prazo mínimo de {billing.minMonths} meses, multa e desconto</h2>
       <p>
         A contratação é uma <strong>assinatura</strong>, e não a compra de um site: o site fica publicado e mantido enquanto a assinatura estiver ativa. A
-        assinatura tem prazo mínimo de 12 (doze) meses contados da primeira cobrança. <strong>É o que permite não cobrar a criação do site.</strong>
+        assinatura tem prazo mínimo de {billing.minMonths} (doze) meses contados da primeira cobrança. <strong>É o que permite não cobrar a criação do site.</strong>
       </p>
       <p>
-        Em caso de cancelamento pelo Cliente antes do fim dos 12 meses, será devida [REGRA_DE_CANCELAMENTO_ANTECIPADO, por exemplo: multa de X% sobre as
-        mensalidades restantes], conforme revisão jurídica. Após os 12 meses, a assinatura segue por prazo indeterminado, com cobrança mensal no mesmo valor
-        (salvo reajuste comunicado conforme o item 10), e pode ser cancelada a qualquer momento, sem multa, com aviso pelo WhatsApp ou e-mail.
+        <strong>Cancelamento antes de {billing.minMonths} meses.</strong> Fora do prazo de arrependimento do item 4, o cancelamento pelo Cliente antes do fim do prazo
+        mínimo gera multa de <strong>{billing.earlyCancelFeePct}% sobre o valor das mensalidades que faltam</strong> para completar os {billing.minMonths} meses.
+        No ciclo mensal, a multa é cobrada uma única vez, no cartão cadastrado. Exemplo: no Start, cancelando após 8 mensalidades pagas, faltam 4 mensalidades de R$
+        {plans[0].price}, e a multa é de {formatBRLCents(earlyCancelFee(plans[0], 8))}. No ciclo anual, o Cliente recebe de volta o valor proporcional aos meses não
+        usados, descontada a multa de {billing.earlyCancelFeePct}% sobre esse valor.
+      </p>
+      <p>
+        <strong>Depois de {billing.minMonths} meses.</strong> A assinatura segue por prazo indeterminado e pode ser cancelada a qualquer momento,{" "}
+        <strong>sem multa</strong>, com aviso pelo WhatsApp ou e-mail. A partir do 13º mês, o Cliente que continua tem{" "}
+        <strong>{billing.loyaltyDiscountPct}% de desconto</strong> sobre o valor do plano (por exemplo, o Start passa de R${plans[0].price} para{" "}
+        {formatBRLCents(loyaltyPriceFor(plans[0], "mensal"))} por mês no mensal), salvo reajuste comunicado conforme o item 10. O cancelamento interrompe a próxima
+        cobrança; o período já pago segue no ar até o fim.
       </p>
       <p>O aceite destes Termos é registrado com data, hora, IP e versão do documento no momento da contratação.</p>
 
@@ -98,8 +119,8 @@ export default function TermosPage() {
 
       <h2>10. Mudança de plano e reajuste</h2>
       <p>
-        O Cliente pode subir de plano a qualquer momento, com efeito na próxima cobrança. Descer de plano depende de acordo, respeitado o prazo de fidelidade. O valor
-        fica fixo durante os 12 meses iniciais; reajustes posteriores serão comunicados com pelo menos 30 dias de antecedência.
+        O Cliente pode subir de plano a qualquer momento, com efeito na próxima cobrança. Descer de plano depende de acordo, respeitado o prazo mínimo. O valor
+        fica fixo durante os {billing.minMonths} meses iniciais; reajustes posteriores serão comunicados com pelo menos 30 dias de antecedência.
       </p>
 
       <h2>11. Dados pessoais</h2>

@@ -1,5 +1,5 @@
 import type { Faq } from "./faqs";
-import { plans } from "./plans";
+import { billing, plans, priceFor } from "./plans";
 import { absoluteUrl, site } from "./site";
 
 const orgId = `${site.url}/#organization`;
@@ -67,7 +67,25 @@ export function serviceSchema() {
         referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
       },
       eligibleDuration: { "@type": "QuantitativeValue", value: 12, unitCode: "MON" },
-    })),
+    })).concat(
+      plans.map((plan) => ({
+        "@type": "Offer",
+        name: `Plano ${plan.name} anual`,
+        description: `${plan.features.join("; ")}. Pagamento anual: ${billing.annualMonthsCharged} mensalidades por 12 meses.`,
+        url: absoluteUrl(`/assinar/${plan.id}?ciclo=anual`),
+        price: priceFor(plan, "anual").toFixed(2),
+        priceCurrency: "BRL",
+        availability: "https://schema.org/InStock",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: priceFor(plan, "anual").toFixed(2),
+          priceCurrency: "BRL",
+          unitCode: "ANN",
+          referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "ANN" },
+        },
+        eligibleDuration: { "@type": "QuantitativeValue", value: 12, unitCode: "MON" },
+      })),
+    ),
   };
 }
 

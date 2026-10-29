@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
-import { getPlan } from "@/lib/plans";
+import { getPlan, parseCycle, priceFor } from "@/lib/plans";
+import { formatBRL } from "@/lib/site";
 
 /** Dispara o evento de conclusão uma vez e mostra o plano assinado. */
 export function CheckoutComplete() {
@@ -18,7 +19,9 @@ export function CheckoutComplete() {
     const params = new URLSearchParams(window.location.search);
     const plan = getPlan(params.get("plano") ?? "");
     setTest(params.get("teste") === "1");
-    if (plan) setLabel(`Plano ${plan.name}, R$${plan.price}/mês.`);
+    const cycle = parseCycle(params.get("ciclo"));
+    const value = plan ? priceFor(plan, cycle) : 0;
+    if (plan) setLabel(cycle === "anual" ? `Plano ${plan.name} anual, ${formatBRL(value)}/ano.` : `Plano ${plan.name}, R$${plan.price}/mês.`);
     const ref = params.get("ref") ?? "";
     const t = params.get("t") ?? "";
     if (/^sup_[0-9a-f-]{36}$/.test(ref) && t) setBriefing(`/briefing?ref=${ref}&t=${encodeURIComponent(t)}`);
@@ -29,7 +32,7 @@ export function CheckoutComplete() {
         if (ref && sessionStorage.getItem(key)) return;
         sessionStorage.setItem(key, "1");
       } catch {}
-      track("checkout_complete", { plan: plan.id, value: plan.price, currency: "BRL", transaction_id: ref });
+      track("checkout_complete", { plan: plan.id, cycle, value, currency: "BRL", transaction_id: ref });
     }
   }, []);
 

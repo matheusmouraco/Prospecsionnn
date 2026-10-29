@@ -16,10 +16,10 @@ export const site = {
   locale: "pt_BR",
   // Prazos de entrega em dias úteis, contados a partir do briefing completo. Confirmar antes de publicar.
   deliveryDays: { start: 7, pro: 15, premium: 30 } as Record<string, number>,
-  termsVersion: "2026-10",
+  termsVersion: "2026-10-29",
 };
 
-export const termsAcceptanceText = "Li e aceito os Termos da assinatura, incluindo o prazo mínimo de 12 meses";
+export const termsAcceptanceText = "Li e aceito os Termos da assinatura, incluindo o prazo mínimo de 12 meses e a multa por cancelamento antecipado";
 
 /** Número só com dígitos, pronto para o wa.me. Vazio enquanto for placeholder. */
 export function whatsappDigits() {
@@ -56,6 +56,11 @@ export const nav = [
 
 export function absoluteUrl(path = "/") {
   return `${site.url}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+/** Valor com centavos, para multas, descontos e anuidades. */
+export function formatBRLCents(value: number) {
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
 export function formatBRL(value: number) {

@@ -3,14 +3,17 @@ import { join } from "node:path";
 import { posts } from "./blog";
 import { glossary } from "./glossary";
 import { billingFaq, geoFaq, homeFaq, type Faq } from "./faqs";
-import { plans } from "./plans";
+import { annualFreeMonths, billing, earlyCancelFee, plans, priceFor } from "./plans";
 import { segments } from "./segments";
-import { absoluteUrl, site } from "./site";
+import { absoluteUrl, formatBRLCents, site } from "./site";
+
+const billingMd = () =>
+  `Pagamento no cartão de crédito, mensal ou anual (no anual o cliente paga ${billing.annualMonthsCharged} mensalidades e leva 12, ou seja, ${annualFreeMonths} meses grátis). Prazo mínimo de ${billing.minMonths} meses, que é o que permite não cobrar a criação do site. Cancelamento antes de ${billing.minMonths} meses: multa de ${billing.earlyCancelFeePct}% sobre as mensalidades que faltam (exemplo: Start com 8 meses pagos, multa de ${formatBRLCents(earlyCancelFee(plans[0], 8))}). A partir do 13º mês: ${billing.loyaltyDiscountPct}% de desconto na mensalidade e cancelamento quando quiser, sem multa.`;
 
 const faqMd = (items: Faq[]) => items.map((f) => `### ${f.q}\n\n${f.a}`).join("\n\n");
 
 const plansMd = () =>
-  plans.map((p) => `### Plano ${p.name}: R$${p.price}/mês\n\n${p.pitch}\n\n${p.features.map((f) => `- ${f}`).join("\n")}`).join("\n\n");
+  plans.map((p) => `### Plano ${p.name}: R$${p.price}/mês ou R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano\n\n${p.pitch}\n\n${p.features.map((f) => `- ${f}`).join("\n")}`).join("\n\n");
 
 /** /llms.txt: resumo curto da empresa, planos e páginas principais. */
 export function llmsTxt() {
@@ -19,12 +22,12 @@ export function llmsTxt() {
 > ${site.name} vende sites profissionais por assinatura mensal para pequenas e médias empresas do Brasil. ${site.description} ${site.signature}
 
 Público: dentistas, clínicas, advogados, arquitetos, restaurantes, prestadores de serviço e comércio local.
-Modelo: assinatura do site, não venda de site. O site fica no ar enquanto a assinatura estiver ativa. Pagamento recorrente no cartão de crédito, prazo mínimo de 12 meses (é o que permite não cobrar a criação do site), sem custo de criação; a partir do 13º mês segue mês a mês e pode ser cancelada quando o cliente quiser.
+Modelo: assinatura do site, não venda de site. O site fica no ar enquanto a assinatura estiver ativa. Sem custo de criação. ${billingMd()}
 Contato: WhatsApp ${site.whatsapp}, e-mail ${site.email}.
 
 ## Planos
 
-${plans.map((p) => `- Plano ${p.name}, R$${p.price}/mês: ${p.features.join("; ")}.`).join("\n")}
+${plans.map((p) => `- Plano ${p.name}, R$${p.price}/mês ou R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano: ${p.features.join("; ")}.`).join("\n")}
 
 ## Páginas principais
 
@@ -83,7 +86,7 @@ ${faqMd(homeFaq)}
 
 URL: ${absoluteUrl("/planos")}
 
-Assinatura do site: fica no ar enquanto a assinatura estiver ativa. Pagamento recorrente no cartão de crédito, mínimo de 12 meses (é o que permite não cobrar a criação do site) e, depois, mês a mês com cancelamento quando quiser.
+Assinatura do site: fica no ar enquanto a assinatura estiver ativa. ${billingMd()}
 
 ${plansMd()}
 

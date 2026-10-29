@@ -51,7 +51,7 @@ export default function SobrePage() {
             </li>
           ))}
         </ol>
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-10 flex flex-wrap gap-3">
           <Button href="/planos" size="lg" data-track="plan_click" data-track-origin="sobre">Ver planos <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" /></Button>
           <Button href="/contato" size="lg" variant="outline">Falar com a gente</Button>
         </div>

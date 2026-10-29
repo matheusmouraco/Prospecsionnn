@@ -14,7 +14,7 @@ export default function NotFound() {
         <p className="label-mono mt-8 text-graphite">Erro 404</p>
         <h1 className="mt-4 text-[clamp(2.5rem,7vw,5rem)] leading-[1] tracking-[-0.055em]">Essa página não existe.</h1>
         <p className="mt-5 max-w-xl text-lg text-graphite">Talvez o link tenha mudado. Comece pela página inicial ou veja os planos.</p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-8 flex flex-wrap gap-3">
           <Button href="/" size="lg">Ir para o início</Button>
           <Button href="/planos" variant="outline" size="lg">Ver planos</Button>
         </div>

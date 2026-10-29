@@ -1,4 +1,9 @@
+import { annualFreeMonths, billing, earlyCancelFee, plans } from "./plans";
+import { formatBRLCents } from "./site";
+
 export type Faq = { q: string; a: string };
+
+const { minMonths, earlyCancelFeePct: fee, loyaltyDiscountPct: loyalty } = billing;
 
 export const homeFaq: Faq[] = [
   {
@@ -7,11 +12,11 @@ export const homeFaq: Faq[] = [
   },
   {
     q: "E depois dos 12 meses?",
-    a: "A assinatura continua mês a mês, no mesmo valor, e o site segue no ar. A partir do 13º mês você pode cancelar quando quiser, sem multa.",
+    a: `O site segue no ar e você ganha ${loyalty}% de desconto na mensalidade a partir do 13º mês, como agradecimento por continuar. Daí em diante dá para cancelar quando quiser, sem multa.`,
   },
   {
     q: "Como funciona o cancelamento?",
-    a: "Depois dos 12 meses, você cancela quando quiser, sem multa, com aviso pelo WhatsApp ou e-mail. Antes disso, vale a regra de cancelamento antecipado descrita nos Termos de Uso, que você lê antes de assinar.",
+    a: `Depois dos ${minMonths} meses, você cancela quando quiser, sem multa, com aviso pelo WhatsApp ou e-mail. Antes disso, a multa é de ${fee}% do valor das mensalidades que faltam para completar os ${minMonths} meses. Exemplo no Start: cancelando depois de 8 meses pagos, faltam 4 mensalidades de R$${plans[0].price}, e a multa fica em ${formatBRLCents(earlyCancelFee(plans[0], 8))}.`,
   },
   {
     q: "O que acontece com o site e o domínio se eu cancelar?",
@@ -50,7 +55,7 @@ export const homeFaq: Faq[] = [
 export const billingFaq: Faq[] = [
   {
     q: "Como é feita a cobrança?",
-    a: "Todo mês no cartão de crédito, de forma recorrente. A primeira cobrança acontece na assinatura e as próximas no mesmo dia dos meses seguintes.",
+    a: `No cartão de crédito, do jeito que você preferir: mensal, com uma cobrança por mês, ou anual, com uma cobrança por ano em que você paga ${billing.annualMonthsCharged} mensalidades e leva 12 (${annualFreeMonths} meses grátis).`,
   },
   {
     q: "Tem custo de criação ou taxa de setup?",
@@ -58,11 +63,11 @@ export const billingFaq: Faq[] = [
   },
   {
     q: "Por que tem fidelidade de 12 meses?",
-    a: "É o que permite não cobrar a criação do site. Depois dos 12 meses, a assinatura segue mês a mês e pode ser cancelada quando você quiser.",
+    a: `É o que permite não cobrar a criação do site. Depois dos ${minMonths} meses, a assinatura continua com ${loyalty}% de desconto e pode ser cancelada quando você quiser, sem multa.`,
   },
   {
     q: "O valor da mensalidade muda?",
-    a: "O valor fica fixo durante os 12 meses de fidelidade. Depois disso, um eventual reajuste é avisado com pelo menos 30 dias de antecedência.",
+    a: `O valor fica fixo durante os ${minMonths} meses do contrato. A partir do 13º mês ele cai ${loyalty}%. Um eventual reajuste depois disso é avisado com pelo menos 30 dias de antecedência.`,
   },
   {
     q: "Posso pagar no boleto ou Pix?",
@@ -74,7 +79,15 @@ export const billingFaq: Faq[] = [
   },
   {
     q: "Recebo nota fiscal?",
-    a: "Sim. A nota fiscal é emitida todo mês no CPF ou CNPJ informado na assinatura.",
+    a: "Sim. A nota fiscal é emitida a cada cobrança no CPF ou CNPJ informado na assinatura.",
+  },
+  {
+    q: "Vale mais a pena o mensal ou o anual?",
+    a: `No anual você economiza ${annualFreeMonths} mensalidades por ano, mas paga tudo de uma vez. No mensal o valor é dividido mês a mês. Os dois têm os mesmos itens, o mesmo prazo mínimo de ${minMonths} meses e o mesmo desconto de ${loyalty}% a partir do 13º mês.`,
+  },
+  {
+    q: "E se eu cancelar o anual antes de 12 meses?",
+    a: `Você recebe de volta o valor proporcional aos meses que não usou, descontada a multa de ${fee}% sobre esse valor. Nos primeiros 7 dias, vale o direito de arrependimento com devolução integral.`,
   },
 ];
 

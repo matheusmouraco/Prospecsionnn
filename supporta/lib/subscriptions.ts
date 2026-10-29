@@ -1,13 +1,16 @@
 import { notifyTeam, sendEmail } from "./email/send";
 import { paymentRefusedEmail, welcomeEmail } from "./email/templates";
 import { sendToWebhook } from "./leads";
-import type { PaymentEvent } from "./payments";
-import { getPlan } from "./plans";
+import { getPaymentProvider, type PaymentEvent } from "./payments";
+import { billing, getPlan, loyaltyPriceFor, type Plan } from "./plans";
+import type { Assinatura } from "./repo";
 import {
+  countApprovedPayments,
   deactivateClient,
   ensureClient,
   findSubscription,
   logPaymentEvent,
+  markLoyaltyDiscount,
   markWelcomeSent,
   setProviderIds,
   setSubscriptionStatus,
@@ -46,10 +49,11 @@ export async function handlePaymentEvent(event: PaymentEvent) {
       await sendEmail({ to: assinatura.email, ...mail });
       await notifyTeam(`Nova assinatura: ${assinatura.empresa} (${plan?.name})`, [
         `${assinatura.responsavel} · ${assinatura.email} · ${assinatura.whatsapp}`,
-        `Plano ${plan?.name}, R$${plan?.price}/mês`,
+        `Plano ${plan?.name} ${assinatura.ciclo}, R$${assinatura.valor} por cobrança`,
         `Origem: ${JSON.stringify(assinatura.origem)}`,
       ]);
     }
+    if (plan) await maybeApplyLoyaltyDiscount(assinatura, plan);
   } else if (event.type === "payment_refused") {
     await setSubscriptionStatus(assinatura.id, "pagamento_recusado");
     await sendEmail({ to: assinatura.email, ...paymentRefusedEmail(assinatura.responsavel.split(" ")[0]) });
@@ -58,5 +62,28 @@ export async function handlePaymentEvent(event: PaymentEvent) {
     await setSubscriptionStatus(assinatura.id, "cancelada");
     await deactivateClient(assinatura.id);
     await notifyTeam(`Assinatura cancelada: ${assinatura.empresa}`, [`${assinatura.email} · ${assinatura.whatsapp}`]);
+  }
+}
+
+/**
+ * Desconto de quem continua: a partir do 13º mês a cobrança cai billing.loyaltyDiscountPct.
+ * No mensal, aplica depois da 12ª mensalidade paga; no anual, depois da 1ª anuidade (a próxima já é a do 13º mês).
+ */
+async function maybeApplyLoyaltyDiscount(assinatura: Assinatura, plan: Plan) {
+  if (assinatura.desconto_fidelidade_em || !assinatura.provedor_assinatura_id) return;
+  const paid = await countApprovedPayments(assinatura.id);
+  const threshold = assinatura.ciclo === "anual" ? 1 : billing.minMonths;
+  if (paid === null || paid < threshold) return;
+  const provider = getPaymentProvider();
+  if (!provider || provider.name !== assinatura.provedor) return;
+  const value = loyaltyPriceFor(plan, assinatura.ciclo);
+  try {
+    await provider.applyLoyaltyDiscount({ subscriptionId: assinatura.provedor_assinatura_id, value, plan, cycle: assinatura.ciclo });
+    if (await markLoyaltyDiscount(assinatura.id, value)) {
+      await notifyTeam(`Desconto de fidelidade aplicado: ${assinatura.empresa}`, [`Plano ${plan.name} ${assinatura.ciclo}, próximas cobranças de R$${value}`]);
+    }
+  } catch (err) {
+    console.error("[fidelidade]", (err as Error).message);
+    await notifyTeam(`Falha ao aplicar desconto de fidelidade: ${assinatura.empresa}`, [(err as Error).message, "Aplicar manualmente no painel do provedor."]);
   }
 }

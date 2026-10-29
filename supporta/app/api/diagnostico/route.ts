@@ -24,9 +24,11 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => null);
   const url = normalizeUrl(String(body?.url ?? ""));
-  const email = body?.email;
+  // E-mail é opcional: sem ele o relatório só aparece na tela.
+  const rawEmail = typeof body?.email === "string" ? body.email.trim() : "";
+  const email = rawEmail || null;
   if (!url) return NextResponse.json({ error: "Digite um endereço de site válido, como seusite.com.br." }, { status: 400 });
-  if (!isEmail(email)) return NextResponse.json({ error: "Digite um e-mail válido para receber o relatório." }, { status: 400 });
+  if (email && !isEmail(email)) return NextResponse.json({ error: "Esse e-mail parece incompleto. Corrija ou deixe em branco." }, { status: 400 });
   if (body?.website) return NextResponse.json({ error: "Requisição inválida." }, { status: 400 }); // honeypot
 
   const [psiResult, checksResult] = await Promise.allSettled([runPageSpeed(url.toString()), runChecks(url)]);
@@ -50,7 +52,10 @@ export async function POST(request: Request) {
   };
 
   // Relatório por e-mail, lead no banco e no CRM. Nada disso pode atrasar a resposta por falha externa.
-  const [sent] = await Promise.all([sendEmail({ to: email, ...diagnosticEmail(report) }), sendToWebhook("diagnostico", { email, ip, report })]);
+  const [sent] = await Promise.all([
+    email ? sendEmail({ to: email, ...diagnosticEmail(report) }) : Promise.resolve(false),
+    sendToWebhook("diagnostico", { email, ip, report }),
+  ]);
   await saveLead({ email, site: report.url, ip, relatorio: report, enviado: sent, origem: String(body?.origem ?? "").slice(0, 60) || undefined });
 
   return NextResponse.json({ ...report, emailSent: sent });

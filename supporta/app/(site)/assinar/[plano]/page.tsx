@@ -4,10 +4,10 @@ import { notFound } from "next/navigation";
 import { CheckoutFlow } from "@/components/checkout/CheckoutFlow";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { getPlan, plans } from "@/lib/plans";
+import { annualFreeMonths, billing, getPlan, plans, priceFor } from "@/lib/plans";
 import { segments } from "@/lib/segments";
 import { pageMetadata } from "@/lib/seo";
-import { site, whatsappUrl } from "@/lib/site";
+import { formatBRL, site, whatsappUrl } from "@/lib/site";
 
 type Props = { params: Promise<{ plano: string }> };
 
@@ -36,7 +36,7 @@ export default async function AssinarPage({ params }: Props) {
     <section aria-labelledby="page-title" className="pb-24 pt-8 md:pt-12">
       <div className="container-site">
         <Breadcrumbs items={[{ name: "Planos", path: "/planos" }, { name: `Assinar ${plan.name}`, path: `/assinar/${plan.id}` }]} />
-        <div className="mt-10 grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+        <div className="mt-4 grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
           <div>
             <SectionLabel>Assinatura</SectionLabel>
             <h1 id="page-title" className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1] tracking-[-0.055em]">
@@ -47,11 +47,15 @@ export default async function AssinarPage({ params }: Props) {
             </div>
           </div>
           <aside aria-label="Resumo do plano" className="lg:sticky lg:top-24 lg:self-start">
-            <div className={`rounded-[2rem] p-7 ${plan.highlight ? "on-pink bg-pink" : "border border-line bg-white"}`}>
+            <div className={`rounded-[2rem] p-7 ${plan.highlight ? "glow-card neon-ring text-paper" : "border border-line bg-white"}`}>
               <p className="label-mono">Plano {plan.name}</p>
               <p className="mt-3 text-5xl font-semibold tracking-[-0.06em]">
                 R${plan.price}
                 <span className="text-lg font-normal">/mês</span>
+              </p>
+              <p className="mt-2 text-sm">
+                ou {formatBRL(priceFor(plan, "anual"))}/ano no anual ({annualFreeMonths} meses grátis). Mínimo de {billing.minMonths} meses e {billing.loyaltyDiscountPct}%
+                de desconto a partir do 13º mês.
               </p>
               <ul className="mt-6 space-y-2.5">
                 {plan.features.map((f) => (

@@ -25,7 +25,7 @@ export default function PlanosPage() {
         crumbs={[{ name: "Planos", path: "/planos" }]}
         label="Planos"
         title="Quanto custa ter um site profissional?"
-        lead="De R$89 a R$389 por mês, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e depois mês a mês."
+        lead="De R$89 a R$389 por mês, ou no anual com 2 meses grátis, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e 10% de desconto a partir do 13º mês."
       />
       <section aria-label="Planos" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
@@ -36,7 +36,7 @@ export default function PlanosPage() {
       <CostComparison />
       <Section tone="white" labelledBy="cobranca-title">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
-          <SectionHeading id="cobranca-title" label="Cobrança" title="Dúvidas sobre pagamento" lead="Assinatura no cartão de crédito, cobrada todo mês, com nota fiscal." />
+          <SectionHeading id="cobranca-title" label="Cobrança" title="Dúvidas sobre pagamento" lead="Assinatura no cartão de crédito, mensal ou anual, com nota fiscal." />
           <Faq items={billingFaq} />
         </div>
       </Section>

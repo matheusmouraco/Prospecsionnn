@@ -31,8 +31,8 @@ const faq: FaqItem[] = [
     a: "De 90 a 100 é bom (verde), de 50 a 89 precisa melhorar (laranja) e abaixo de 50 é ruim (vermelho). Os sites da Supporta são feitos para ficar com 90 ou mais no celular.",
   },
   {
-    q: "O que vocês fazem com o meu e-mail?",
-    a: "Enviamos o relatório e podemos entrar em contato para falar do resultado. Você pode pedir para sair a qualquer momento.",
+    q: "Preciso informar o meu e-mail?",
+    a: "Não. O relatório aparece na tela. Se quiser uma cópia, informe o e-mail: enviamos o relatório e podemos entrar em contato para falar do resultado. Você pode pedir para sair a qualquer momento.",
   },
 ];
 
@@ -43,7 +43,7 @@ export default function DiagnosticoPage() {
         crumbs={[{ name: "Diagnóstico", path: "/diagnostico" }]}
         label="Ferramenta grátis"
         title="Qual a nota do seu site no Google?"
-        lead="Digite o endereço e o seu e-mail. Em menos de um minuto você vê as 4 notas do PageSpeed no celular, se o site está pronto pras IAs e 3 recomendações práticas."
+        lead="Digite o endereço do site, sem cadastro. Em menos de um minuto você vê as 4 notas do PageSpeed no celular, se o site está pronto pras IAs e 3 recomendações práticas."
       />
       <section aria-label="Ferramenta de diagnóstico" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site max-w-5xl">

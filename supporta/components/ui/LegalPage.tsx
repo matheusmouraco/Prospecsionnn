@@ -7,7 +7,7 @@ export function LegalPage({ title, path, updated, children }: { title: string; p
     <article className="pb-24 pt-8 md:pt-12">
       <div className="container-site">
         <Breadcrumbs items={[{ name: title, path }]} />
-        <div className="mx-auto mt-10 max-w-3xl">
+        <div className="mx-auto mt-6 max-w-3xl">
           <SectionLabel>Atualizado em {updated}</SectionLabel>
           <h1 className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.02] tracking-[-0.055em]">{title}</h1>
           <p className="mt-6 rounded-2xl bg-pink-light px-5 py-4 text-[15px]">

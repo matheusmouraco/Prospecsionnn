@@ -76,3 +76,11 @@ A conexão da Vercel que eu uso não tem permissão para cadastrar variáveis ne
 
 - [ ] Primeiros cases reais em `lib/cases.ts` (notas medidas antes e depois, depoimento autorizado por escrito)
 - [ ] Fotos reais para os modelos, se quiser trocar as formas abstratas das demos
+
+## Cobrança mensal ou anual, multa e desconto (out/2026)
+
+- Regras em `lib/plans.ts` (`billing`): prazo mínimo 12 meses, multa de 30% sobre as mensalidades que faltam, 10% de desconto a partir do 13º mês, anual = 10 mensalidades por 12 meses. Mudar ali atualiza site, checkout, Termos e llms.txt. **Confirmar os números e passar os Termos pela revisão jurídica.**
+- Banco: aplicar `supabase/migrations/0002_ciclo_e_fidelidade.sql` (coluna `ciclo`, `desconto_fidelidade_em`, e-mail opcional nos leads do diagnóstico).
+- Asaas: nada a configurar; o anual usa `cycle: YEARLY` e o desconto troca o valor da assinatura sozinho depois da 12ª mensalidade (ou da 1ª anuidade).
+- Stripe: criar os Prices anuais (`STRIPE_PRICE_*_ANUAL`) e um cupom de 10% "forever" (`STRIPE_COUPON_FIDELIDADE`).
+- A multa de cancelamento antecipado não é cobrada automaticamente: ao receber um pedido de cancelamento antes de 12 meses, calcular pelo exemplo dos Termos e cobrar pelo provedor.

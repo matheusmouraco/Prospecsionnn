@@ -1,4 +1,4 @@
-import type { Plan } from "@/lib/plans";
+import type { Cycle, Plan } from "@/lib/plans";
 
 export type Customer = {
   name: string;
@@ -10,6 +10,10 @@ export type Customer = {
 
 export type CheckoutInput = {
   plan: Plan;
+  /** Mensal ou anual. */
+  cycle: Cycle;
+  /** Valor de cada cobrança no ciclo (mensalidade ou anuidade), em reais. */
+  amount: number;
   customer: Customer;
   /** Identificador nosso da assinatura, enviado ao provedor e devolvido nos webhooks. */
   reference: string;
@@ -48,6 +52,8 @@ export interface PaymentProvider {
   parseWebhook(request: Request): Promise<PaymentEvent>;
   /** Últimas faturas do cliente, para a área do cliente. */
   listInvoices(customerId: string): Promise<Invoice[]>;
+  /** Desconto de quem continua depois do prazo mínimo: passa a cobrar `value` nas próximas cobranças. */
+  applyLoyaltyDiscount(input: { subscriptionId: string; value: number; plan: Plan; cycle: Cycle }): Promise<void>;
   /** Página do provedor onde o cliente troca o cartão sozinho, quando o provedor oferece. */
   manageUrl?(customerId: string, returnUrl: string): Promise<string | null>;
 }

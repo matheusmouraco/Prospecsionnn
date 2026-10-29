@@ -1,14 +1,14 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { PlanId } from "@/lib/plans";
+import type { Cycle, PlanId } from "@/lib/plans";
 import type { CheckoutInput, CheckoutResult, Invoice, PaymentEvent, PaymentProvider } from "./types";
 
 // Stripe Billing via Checkout Session (modo subscription). Sem SDK para manter o bundle leve:
 // chamadas REST com form-encoding e verificação manual da assinatura do webhook.
 
-const priceIds: Record<PlanId, string | undefined> = {
-  start: process.env.STRIPE_PRICE_START,
-  pro: process.env.STRIPE_PRICE_PRO,
-  premium: process.env.STRIPE_PRICE_PREMIUM,
+// Um Price recorrente por plano e ciclo no painel da Stripe (mensal: interval=month; anual: interval=year).
+const priceIds: Record<Cycle, Record<PlanId, string | undefined>> = {
+  mensal: { start: process.env.STRIPE_PRICE_START, pro: process.env.STRIPE_PRICE_PRO, premium: process.env.STRIPE_PRICE_PREMIUM },
+  anual: { start: process.env.STRIPE_PRICE_START_ANUAL, pro: process.env.STRIPE_PRICE_PRO_ANUAL, premium: process.env.STRIPE_PRICE_PREMIUM_ANUAL },
 };
 
 function form(data: Record<string, string>) {
@@ -28,8 +28,8 @@ export const stripeProvider: PaymentProvider = {
   name: "stripe",
 
   async createSubscriptionCheckout(input: CheckoutInput): Promise<CheckoutResult> {
-    const price = priceIds[input.plan.id];
-    if (!price) throw new Error(`Stripe: STRIPE_PRICE_${input.plan.id.toUpperCase()} não configurado.`);
+    const price = priceIds[input.cycle][input.plan.id];
+    if (!price) throw new Error(`Stripe: STRIPE_PRICE_${input.plan.id.toUpperCase()}${input.cycle === "anual" ? "_ANUAL" : ""} não configurado.`);
     const metadata: Record<string, string> = {};
     for (const [k, v] of Object.entries({ reference: input.reference, plan: input.plan.id, ...input.metadata })) {
       metadata[`metadata[${k}]`] = v;
@@ -83,6 +83,19 @@ export const stripeProvider: PaymentProvider = {
       amount: typeof obj.amount_paid === "number" ? obj.amount_paid / 100 : undefined,
       raw: { type: event.type, id: obj.id, status: obj.status },
     };
+  },
+
+  async applyLoyaltyDiscount({ subscriptionId }) {
+    // Cupom percentual com duração "forever" criado no painel (STRIPE_COUPON_FIDELIDADE).
+    const coupon = process.env.STRIPE_COUPON_FIDELIDADE;
+    if (!coupon) throw new Error("Stripe: STRIPE_COUPON_FIDELIDADE não configurado.");
+    const res = await fetch(`https://api.stripe.com/v1/subscriptions/${encodeURIComponent(subscriptionId)}`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`, "content-type": "application/x-www-form-urlencoded" },
+      body: form({ "discounts[0][coupon]": coupon }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!res.ok) throw new Error(`Stripe: ${(await res.json().catch(() => ({})))?.error?.message ?? res.status}`);
   },
 
   async listInvoices(customerId: string): Promise<Invoice[]> {

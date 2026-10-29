@@ -1,5 +1,5 @@
 import { db, monthStart, tryDb } from "./db";
-import type { PlanId } from "./plans";
+import type { Cycle, PlanId } from "./plans";
 
 // Acesso ao schema supporta. Cada função devolve null quando não há banco configurado.
 
@@ -7,7 +7,9 @@ export type Assinatura = {
   id: string;
   referencia: string;
   plano: PlanId;
+  ciclo: Cycle;
   valor: string;
+  desconto_fidelidade_em: Date | null;
   status: "aguardando_pagamento" | "ativa" | "pagamento_recusado" | "cancelada" | "teste";
   provedor: string;
   provedor_cliente_id: string | null;
@@ -43,7 +45,7 @@ export type Cliente = {
 
 export type Ajuste = { id: string; cliente_id: string; descricao: string; status: "aberto" | "em_andamento" | "feito"; pedido_em: Date; concluido_em: Date | null };
 
-export function saveLead(lead: { email: string; site: string; ip: string; relatorio: unknown; enviado: boolean; origem?: string }) {
+export function saveLead(lead: { email: string | null; site: string; ip: string; relatorio: unknown; enviado: boolean; origem?: string }) {
   return tryDb("saveLead", async (sql) => {
     const [row] = await sql`
       insert into leads (email, site, ip, relatorio, relatorio_enviado_em, origem)
@@ -56,6 +58,7 @@ export function saveLead(lead: { email: string; site: string; ip: string; relato
 export function createSubscription(input: {
   referencia: string;
   plano: PlanId;
+  ciclo: Cycle;
   valor: number;
   status: Assinatura["status"];
   provedor: string;
@@ -67,8 +70,8 @@ export function createSubscription(input: {
   return tryDb("createSubscription", (sql) =>
     sql.begin(async (tx) => {
       const [row] = await tx`
-        insert into assinaturas (referencia, plano, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem)
-        values (${input.referencia}, ${input.plano}, ${input.valor}, ${input.status}, ${input.provedor}, ${input.customer.company}, ${input.customer.name},
+        insert into assinaturas (referencia, plano, ciclo, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem)
+        values (${input.referencia}, ${input.plano}, ${input.ciclo}, ${input.valor}, ${input.status}, ${input.provedor}, ${input.customer.company}, ${input.customer.name},
                 ${input.customer.cpfCnpj}, ${input.customer.email}, ${input.customer.phone}, ${tx.json(input.briefing)}, ${tx.json(input.origem)})
         returning id`;
       await tx`
@@ -115,6 +118,26 @@ export function logPaymentEvent(e: { assinaturaId: string | null; provedor: stri
   return tryDb("logPaymentEvent", (sql) => sql`
     insert into eventos_pagamento (assinatura_id, provedor, evento, tipo, valor, bruto)
     values (${e.assinaturaId}, ${e.provedor}, ${e.evento}, ${e.tipo}, ${e.valor ?? null}, ${sql.json((e.bruto ?? null) as never)})`);
+}
+
+/** Cobranças aprovadas e distintas (o Asaas manda CONFIRMED e RECEIVED para a mesma cobrança). */
+export function countApprovedPayments(assinaturaId: string) {
+  return tryDb("countApprovedPayments", async (sql) => {
+    const [row] = await sql`
+      select count(distinct coalesce(bruto->>'id', id::text))::int as n
+      from eventos_pagamento where assinatura_id = ${assinaturaId} and tipo = 'payment_approved'`;
+    return row.n as number;
+  });
+}
+
+/** Marca o desconto de fidelidade como aplicado. true só na primeira vez. */
+export function markLoyaltyDiscount(id: string, valor: number) {
+  return tryDb("markLoyaltyDiscount", async (sql) => {
+    const rows = await sql`
+      update assinaturas set desconto_fidelidade_em = now(), valor = ${valor}, atualizado_em = now()
+      where id = ${id} and desconto_fidelidade_em is null returning id`;
+    return rows.length > 0;
+  });
 }
 
 /** Cria o cliente na primeira cobrança aprovada. Os nomes de busca começam com o nome da empresa e o domínio. */

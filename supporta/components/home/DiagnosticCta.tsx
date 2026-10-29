@@ -1,6 +1,6 @@
-import { ArrowRight, Gauge, Globe, SearchCheck, Sparkles } from "lucide-react";
+import { Gauge, SearchCheck, Sparkles } from "lucide-react";
+import { QuickDiagnostic } from "@/components/diagnostico/QuickDiagnostic";
 import { AiLogos } from "@/components/ui/AiLogos";
-import { buttonClass } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 
@@ -10,7 +10,7 @@ const checks = [
   { icon: Sparkles, title: "Pronto pras IAs", text: "llms.txt, robots e dados estruturados" },
 ];
 
-/** Formulário simples (GET) que leva a URL para a ferramenta em /diagnostico. Funciona sem JavaScript. */
+/** Diagnóstico grátis na home: o relatório abre num popup, sem e-mail e sem trocar de página. */
 export function DiagnosticCta() {
   return (
     <Section tone="ink" labelledBy="diag-title" className="glow-field">
@@ -23,25 +23,7 @@ export function DiagnosticCta() {
           Em menos de um minuto você vê a nota do Google para o seu site no celular e se ele está pronto pras IAs.
         </p>
 
-        <form action="/diagnostico" method="get" className="neon-ring mx-auto mt-10 flex max-w-2xl flex-col gap-2 rounded-[1.75rem] bg-card-dark p-2 sm:flex-row sm:rounded-full">
-          <label htmlFor="diag-url" className="sr-only">Endereço do seu site</label>
-          <div className="flex flex-1 items-center gap-3 px-4">
-            <Globe aria-hidden strokeWidth={1.75} className="h-5 w-5 shrink-0 text-mist" />
-            <input
-              id="diag-url"
-              name="url"
-              type="text"
-              inputMode="url"
-              autoComplete="url"
-              required
-              placeholder="seusite.com.br"
-              className="h-14 w-full bg-transparent text-lg text-paper placeholder:text-mist focus:outline-none"
-            />
-          </div>
-          <button type="submit" className={buttonClass("neon", "lg", "h-14")}>
-            Testar agora <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
-          </button>
-        </form>
+        <QuickDiagnostic />
 
         <ul className="mt-10 grid gap-3 text-left sm:grid-cols-3">
           {checks.map(({ icon: Icon, title, text }) => (

@@ -37,7 +37,7 @@ export default async function PostPage({ params }: Props) {
       <article className="pb-20 pt-8 md:pb-28 md:pt-12">
         <div className="container-site">
           <Breadcrumbs items={[{ name: "Blog", path: "/blog" }, { name: post.title, path: `/blog/${post.slug}` }]} />
-          <div className="mx-auto mt-10 max-w-3xl">
+          <div className="mx-auto mt-6 max-w-3xl">
             <SectionLabel>
               <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.readingMinutes} min de leitura
             </SectionLabel>

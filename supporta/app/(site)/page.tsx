@@ -56,7 +56,7 @@ export default function Home() {
           id="planos-title"
           label="Planos"
           title="Quanto custa o site por assinatura?"
-          lead="De R$89 a R$389 por mês, sem custo de criação. É uma assinatura: o site fica no ar enquanto ela estiver ativa, com mínimo de 12 meses e, depois, mês a mês."
+          lead="De R$89 a R$389 por mês, sem custo de criação, ou no anual com 2 meses grátis. É uma assinatura: o site fica no ar enquanto ela estiver ativa, com mínimo de 12 meses e 10% de desconto a partir do 13º mês."
           align="center"
         />
         <div className="mt-12 md:mt-16">
@@ -73,11 +73,11 @@ export default function Home() {
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <SectionHeading id="duvidas-title" label="Dúvidas" title="Perguntas frequentes" lead="Não achou o que procurava? Chame no WhatsApp, a resposta vem de gente." />
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-              <Button href={whatsappUrl("Oi! Vim pelo site da Supporta e tenho uma dúvida.")} size="lg" variant="neon" data-track="whatsapp_click" data-track-origin="faq">
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href={whatsappUrl("Oi! Vim pelo site da Supporta e tenho uma dúvida.")} variant="neon" data-track="whatsapp_click" data-track-origin="faq">
                 Chamar no WhatsApp
               </Button>
-              <Button href="/perguntas-frequentes" size="lg" variant="outline">
+              <Button href="/perguntas-frequentes" variant="outline">
                 Ver todas as dúvidas
               </Button>
             </div>

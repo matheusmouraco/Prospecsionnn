@@ -21,17 +21,17 @@ export function Hero() {
           <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-graphite md:text-xl">
             Site profissional, hospedagem, manutenção e GEO numa assinatura só. Sem custo de criação e pronto para aparecer no Google e nas IAs.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button href="/#planos" size="lg" variant="neon" data-track="plan_click" data-track-origin="hero">
+          <div className="mt-8 flex flex-nowrap gap-3">
+            <Button href="/#planos" size="lg" variant="neon" className="max-sm:px-5" data-track="plan_click" data-track-origin="hero">
               Ver planos <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
             </Button>
-            <Button href="/modelos" size="lg" variant="outline" className="bg-white">
+            <Button href="/modelos" size="lg" variant="outline" className="bg-white max-sm:px-5">
               Ver modelos
             </Button>
           </div>
-          <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[15px] text-graphite">
+          <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm text-graphite lg:flex-nowrap">
             {["Sem custo de criação", "Hospedagem e SSL inclusos", "Domínio grátis no 1º ano"].map((t) => (
-              <li key={t} className="flex items-center gap-1.5">
+              <li key={t} className="flex items-center gap-1.5 whitespace-nowrap">
                 <Check aria-hidden strokeWidth={2} className="h-4 w-4 text-pink" />
                 {t}
               </li>
@@ -45,7 +45,7 @@ export function Hero() {
 
         <div className="relative min-w-0">
           <TemplateMarquee />
-          {/* Selos flutuando sobre a parede (só no desktop, onde há espaço). */}
+          {/* Selo flutuando sobre a parede (só no desktop, onde há espaço). */}
           <div aria-hidden className="pointer-events-none absolute left-2 top-16 hidden items-center gap-3 rounded-2xl border border-line bg-white/95 p-3 pr-5 shadow-[0_20px_50px_-20px_rgb(11_11_15/0.35)] backdrop-blur lg:flex">
             <svg viewBox="0 0 64 64" className="h-11 w-11">
               <circle cx="32" cy="32" r="26" fill="none" stroke="var(--line)" strokeWidth="7" />
@@ -54,13 +54,6 @@ export function Hero() {
             <div>
               <p className="text-xl font-semibold leading-none tracking-[-0.04em]">90+</p>
               <p className="mt-1 text-xs text-graphite">Nota no celular</p>
-            </div>
-          </div>
-          <div aria-hidden className="pointer-events-none absolute bottom-16 right-0 hidden items-center gap-3 rounded-2xl bg-ink p-3 pr-5 text-paper neon-ring lg:flex">
-            <AiLogos only={["chatgpt", "gemini", "perplexity"]} tone="dark" names={false} size={18} className="gap-x-2 rounded-xl bg-card-dark px-2.5 py-2" />
-            <div>
-              <p className="text-sm font-semibold leading-tight">Pronto pras IAs</p>
-              <p className="text-xs text-mist">llms.txt e dados estruturados</p>
             </div>
           </div>
         </div>

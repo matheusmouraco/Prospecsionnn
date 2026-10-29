@@ -66,6 +66,46 @@ export function getPlan(id: string) {
   return plans.find((p) => p.id === id);
 }
 
+/** Como a assinatura é cobrada: todo mês ou uma vez por ano. */
+export type Cycle = "mensal" | "anual";
+export const cycles: Cycle[] = ["mensal", "anual"];
+export const parseCycle = (v: unknown): Cycle => (v === "anual" ? "anual" : "mensal");
+
+/** Regras comerciais da assinatura. Mudar aqui muda o site, o checkout, os Termos e o llms.txt. */
+export const billing = {
+  /** Prazo mínimo de contrato, em meses. */
+  minMonths: 12,
+  /** Cancelamento antes do fim do prazo mínimo: multa sobre o valor das mensalidades que faltam. */
+  earlyCancelFeePct: 30,
+  /** Desconto na mensalidade a partir do 13º mês, para quem continua. */
+  loyaltyDiscountPct: 10,
+  /** No anual, o cliente paga este número de mensalidades e leva 12 meses. */
+  annualMonthsCharged: 10,
+};
+
+const round2 = (n: number) => Math.round(n * 100) / 100;
+
+/** Valor de cada cobrança no ciclo escolhido (mensalidade ou anuidade). */
+export function priceFor(plan: Pick<Plan, "price">, cycle: Cycle) {
+  return cycle === "anual" ? plan.price * billing.annualMonthsCharged : plan.price;
+}
+
+/** Valor de cada cobrança a partir do 13º mês, já com o desconto de quem continua. */
+export function loyaltyPriceFor(plan: Pick<Plan, "price">, cycle: Cycle) {
+  return round2(priceFor(plan, cycle) * (1 - billing.loyaltyDiscountPct / 100));
+}
+
+/** Meses grátis no anual (12 menos os meses cobrados). */
+export const annualFreeMonths = 12 - billing.annualMonthsCharged;
+
+/** Multa de cancelamento antecipado no plano mensal, dado quantas mensalidades já foram pagas. */
+export function earlyCancelFee(plan: Pick<Plan, "price">, paidMonths: number) {
+  const remaining = Math.max(0, billing.minMonths - paidMonths);
+  return round2(remaining * plan.price * (billing.earlyCancelFeePct / 100));
+}
+
+const perPlan = (fn: (p: Plan) => string) => Object.fromEntries(plans.map((p) => [p.id, fn(p)])) as Record<PlanId, string>;
+
 /** Linhas da tabela comparativa. true = incluso, false = não incluso, string = valor. */
 export const comparison: { group: string; rows: { label: string; values: Record<PlanId, boolean | string> }[] }[] = [
   {
@@ -108,8 +148,10 @@ export const comparison: { group: string; rows: { label: string; values: Record<
     group: "Contrato",
     rows: [
       { label: "Custo de criação", values: { start: "R$0", pro: "R$0", premium: "R$0" } },
-      { label: "Pagamento", values: { start: "Cartão, todo mês", pro: "Cartão, todo mês", premium: "Cartão, todo mês" } },
-      { label: "Fidelidade", values: { start: "12 meses", pro: "12 meses", premium: "12 meses" } },
+      { label: "Pagamento no cartão", values: { start: "Mensal ou anual", pro: "Mensal ou anual", premium: "Mensal ou anual" } },
+      { label: `Anual (${billing.annualMonthsCharged} mensalidades por 12 meses)`, values: perPlan((p) => `R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano`) },
+      { label: "Prazo mínimo", values: { start: "12 meses", pro: "12 meses", premium: "12 meses" } },
+      { label: "Desconto a partir do 13º mês", values: perPlan(() => `${billing.loyaltyDiscountPct}%`) },
     ],
   },
 ];

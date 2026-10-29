@@ -1,6 +1,6 @@
 import type { CheckoutInput, CheckoutResult, Invoice, PaymentEvent, PaymentProvider } from "./types";
 
-// Asaas: cliente + assinatura mensal no cartão. O cliente paga a 1ª fatura na página segura do Asaas
+// Asaas: cliente + assinatura (mensal ou anual) no cartão. O cliente paga a 1ª fatura na página segura do Asaas
 // (invoiceUrl) e o cartão fica salvo para as próximas cobranças. Nenhum dado de cartão passa pelo nosso servidor.
 
 const baseUrl = () => (process.env.ASAAS_API_URL || "https://api.asaas.com/v3").replace(/\/$/, "");
@@ -53,10 +53,10 @@ export const asaasProvider: PaymentProvider = {
       body: JSON.stringify({
         customer: customer.id,
         billingType: "CREDIT_CARD",
-        value: input.plan.price,
+        value: input.amount,
         nextDueDate: today(),
-        cycle: "MONTHLY",
-        description: `Supporta, plano ${input.plan.name} (fidelidade de 12 meses)`,
+        cycle: input.cycle === "anual" ? "YEARLY" : "MONTHLY",
+        description: `Supporta, plano ${input.plan.name} ${input.cycle} (prazo mínimo de 12 meses)`,
         externalReference: input.reference,
         callback: { successUrl: input.successUrl, autoRedirect: true },
       }),
@@ -85,6 +85,11 @@ export const asaasProvider: PaymentProvider = {
       amount: payment.value,
       raw: { event, id: payment.id ?? body?.subscription?.id, status: payment.status, billingType: payment.billingType },
     };
+  },
+
+  async applyLoyaltyDiscount({ subscriptionId, value }) {
+    // updatePendingPayments: a próxima fatura, se já gerada, também sai com o valor novo.
+    await asaas(`/subscriptions/${encodeURIComponent(subscriptionId)}`, { method: "POST", body: JSON.stringify({ value, updatePendingPayments: true }) });
   },
 
   async listInvoices(customerId: string): Promise<Invoice[]> {

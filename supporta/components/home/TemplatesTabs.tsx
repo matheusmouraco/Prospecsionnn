@@ -72,7 +72,7 @@ export function TemplatesTabs({ segments }: { segments: Segment[] }) {
               </li>
             ))}
           </ul>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-7 flex flex-wrap gap-3">
             <Link href={`/assinar/start?modelo=${seg.slug}`} className={buttonClass("primary", "lg")} data-track="plan_click" data-track-plan="start" data-track-origin={`modelo:${seg.slug}`}>
               Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
             </Link>

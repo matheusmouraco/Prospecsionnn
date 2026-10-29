@@ -61,8 +61,7 @@ export function CostComparison() {
           </ul>
         </div>
       </div>
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-graphite">Valores de site tradicional variam. Exemplo com valores comuns de mercado.</p>
+      <div className="mt-8 flex justify-center">
         <Button href="/assinar/start" size="lg" data-track="plan_click" data-track-plan="start" data-track-origin="faca-a-conta">
           Assinar o Start <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
         </Button>
