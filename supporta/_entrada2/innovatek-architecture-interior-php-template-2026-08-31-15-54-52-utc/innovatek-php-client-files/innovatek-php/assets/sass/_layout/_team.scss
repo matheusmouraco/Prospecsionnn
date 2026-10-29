@@ -1,0 +1,198 @@
+// Team area start here ***
+.team {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1160px;
+		margin: 0 auto;
+	}
+
+	&__item {
+		.team__image {
+			img {
+				width: 100%;
+			}
+			display: block;
+			transition: var(--transition);
+			border: 2px solid var(--heading-color);
+		}
+		&:hover {
+			.team__image {
+				border: 2px solid var(--theme-color1);
+			}
+		}
+		&-add {
+			@extend .team__item;
+			position: relative;
+			img {
+				opacity: 0;
+				visibility: hidden;
+			}
+			h3 {
+				position: absolute;
+				bottom: 20px;
+				left: 30px;
+				font-weight: 400;
+				font-size: 22px;
+				line-height: 30px;
+				@include breakpoint(max-sm) {
+					font-size: 18px;
+					left: 10px;
+					bottom: 10px;
+				}
+			}
+			i {
+				display: inline-block;
+				font-size: 30px;
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				transition: var(--transition);
+			}
+			&:hover {
+				i {
+					transform: rotate(180deg);
+				}
+			}
+		}
+	}
+}
+// Team area end here ***
+
+// Team five area start here ***
+.team-five {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		padding-bottom: 280px;
+		@include breakpoint(max-md) {
+			padding-bottom: 60px;
+		}
+	}
+	&__wrp {
+		max-width: 1290px;
+		margin: 0 auto;
+		margin-top: 80px;
+		@include breakpoint(max-lg) {
+			margin-top: 0;
+		}
+	}
+	&__shape {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+	}
+	&__content {
+		max-width: 500px;
+		.section-header {
+			h3 {
+				font-size: 96px;
+				line-height: 0px;
+				color: #0000000d;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				font-weight: 700;
+			}
+			p {
+				max-width: 390px;
+			}
+			&.dark-area {
+				h3 {
+					color: #ffffff0d;
+				}
+			}
+		}
+	}
+
+	&__item {
+		.team-five__image {
+			border-radius: 30px;
+			overflow: hidden;
+			position: relative;
+			z-index: 1;
+			img {
+				width: 100%;
+			}
+			&::before {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 0;
+				content: "";
+				background: linear-gradient(
+					360deg,
+					#bb9a65 0%,
+					rgba(187, 154, 101, 0) 91.03%
+				);
+				transition: var(--transition);
+			}
+			.share {
+				box-sizing: unset;
+				@include radius(50px, 50px, 50px);
+				background-color: var(--heading-color);
+				border: 7px solid var(--white);
+				position: absolute;
+				bottom: 15px;
+				right: 20px;
+				display: block;
+				cursor: pointer;
+				.socials {
+					background-color: var(--heading-color);
+					border-radius: 30px;
+					position: absolute;
+					bottom: 70px;
+					left: 0;
+					width: 50px;
+					display: flex;
+					flex-direction: column;
+					padding: 10px 0;
+					opacity: 0;
+					visibility: hidden;
+					transform: translateY(20px);
+					transition: var(--transition);
+					a {
+						display: block;
+						color: var(--white);
+						line-height: 40px;
+						&:hover {
+							color: var(--theme-color1);
+						}
+					}
+				}
+				&:hover {
+					.socials {
+						opacity: 1;
+						visibility: visible;
+						transform: translate(0);
+					}
+				}
+			}
+		}
+		.content {
+			padding: 40px 35px;
+			background-color: var(--white);
+		}
+		border: 1px solid #0000001a;
+		background-color: var(--white);
+		border-radius: 40px;
+		overflow: hidden;
+		&:hover {
+			.team-five__image {
+				&::before {
+					height: 100%;
+				}
+			}
+		}
+		&.have-margin {
+			margin-top: -80px;
+			@include breakpoint(max-lg) {
+				margin-top: 0;
+			}
+		}
+	}
+}
+// Team five area end here ***

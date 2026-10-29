@@ -1,0 +1,110 @@
+// Plan area start here ***
+.plan {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		@include bg-image;
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			background: linear-gradient(
+				276.18deg,
+				rgba(0, 0, 0, 0) 2.88%,
+				rgba(0, 0, 0, 0.8) 80.07%
+			);
+			content: "";
+		}
+	}
+	&__videoBtn {
+		position: absolute;
+		top: 50%;
+		right: 23%;
+		transform: translateY(-50%);
+		a {
+			width: 100px;
+			height: 100px;
+			line-height: 100px;
+			background-color: #ffffff99;
+			backdrop-filter: blur(10px);
+			color: var(--theme-color3);
+			font-size: 30px;
+			@include breakpoint(max-sm) {
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				font-size: 20px;
+			}
+		}
+		@include breakpoint(max-xl) {
+			right: 10%;
+		}
+		@include breakpoint(max-md) {
+			top: 70%;
+		}
+		@include breakpoint(max-sm) {
+			top: 78%;
+		}
+	}
+	&__content {
+		padding-left: 170px;
+		@include breakpoint(max-lg) {
+			padding-left: 30px;
+		}
+		@include breakpoint(max-sm) {
+			padding-left: 15px;
+		}
+		.section-header {
+			max-width: 580px;
+			h2 {
+				font-size: 80px;
+				line-height: 90px;
+			}
+			border-bottom: 1px solid #ffffff33;
+			padding-bottom: 60px;
+			margin-bottom: 50px;
+			@include breakpoint(max-md) {
+				h2 {
+					line-height: 40px;
+					font-size: 36px;
+				}
+				padding-bottom: 30px;
+				margin-bottom: 20;
+			}
+		}
+		.counter {
+			.icon {
+				@include radius(66px, 66px, 66px);
+				background-color: #ffffff99;
+				color: var(--white);
+			}
+			h2 {
+				font-size: 80px;
+				line-height: 90px;
+				color: var(--white);
+				display: flex;
+				align-items: start;
+				span {
+					color: inherit;
+				}
+				sup {
+					font-size: 30px;
+					line-height: 90px;
+					margin-left: 10px;
+				}
+				@include breakpoint(max-sm) {
+					font-size: 50px;
+					line-height: 50px;
+					sup {
+						line-height: 50px;
+					}
+				}
+			}
+		}
+	}
+}
+// Plan area end here ***

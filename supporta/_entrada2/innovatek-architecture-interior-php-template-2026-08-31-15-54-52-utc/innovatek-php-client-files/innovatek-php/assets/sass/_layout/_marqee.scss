@@ -1,0 +1,165 @@
+// Marquee area start here ***
+.marquee {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			content: "";
+			background-color: #00000080;
+		}
+		padding: 150px 0;
+		@include bg-image;
+		@include breakpoint(max-xxl) {
+			padding: 80px;
+		}
+		@include breakpoint(max-lg) {
+			padding: 60px;
+		}
+	}
+	&__wrp {
+		position: relative;
+	}
+	&__slide {
+		display: flex;
+		position: relative;
+		&.marquee-revers {
+			.marquee__item-wrp {
+				position: relative;
+				-webkit-animation: slide-har-revers 20s linear infinite;
+				animation: slide-har-revers 20s linear infinite;
+				@-webkit-keyframes slide-har-revers {
+					100% {
+						-webkit-transform: translateX(0%);
+						transform: translateX(0%);
+					}
+					0% {
+						-webkit-transform: translateX(-100%);
+						transform: translateX(-100%);
+					}
+				}
+
+				@keyframes slide-har-revers {
+					100% {
+						-webkit-transform: translateX(0%);
+						transform: translateX(0%);
+					}
+					0% {
+						-webkit-transform: translateX(-100%);
+						transform: translateX(-100%);
+					}
+				}
+			}
+		}
+	}
+	&__item {
+		padding: 0 60px;
+		@include breakpoint(max-lg) {
+			padding: 0 30px;
+		}
+		h2 {
+			font-size: 106px;
+			line-height: 128px;
+			font-weight: 700;
+			-webkit-text-fill-color: transparent;
+			-webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: #ffffffb2;
+			text-transform: uppercase;
+			white-space: nowrap;
+			@include breakpoint(max-lg) {
+				font-size: 60px;
+				line-height: 70px;
+			}
+		}
+		&-wrp {
+			display: flex;
+			position: relative;
+			-webkit-animation: slide-har 20s linear infinite;
+			animation: slide-har 20s linear infinite;
+			@-webkit-keyframes slide-har {
+				0% {
+					-webkit-transform: translateX(0%);
+					transform: translateX(0%);
+				}
+				100% {
+					-webkit-transform: translateX(-100%);
+					transform: translateX(-100%);
+				}
+			}
+			@keyframes slide-har {
+				0% {
+					-webkit-transform: translateX(0%);
+					transform: translateX(0%);
+				}
+				100% {
+					-webkit-transform: translateX(-100%);
+					transform: translateX(-100%);
+				}
+			}
+		}
+	}
+}
+// Marquee area end here ***
+
+// Marquee two area start here ***
+.marquee-two {
+	&-area {
+		overflow: hidden;
+		background-color: var(--theme-color3);
+	}
+	&__item {
+		padding: 0 30px;
+		@include breakpoint(max-lg) {
+			padding: 0 15px;
+		}
+		svg {
+			margin-top: 15px;
+			@include breakpoint(max-md) {
+				margin-top: -3px;
+			}
+		}
+		h2 {
+			font-weight: 700;
+			font-size: 80px;
+			line-height: 84px;
+			color: var(--white);
+			text-transform: uppercase;
+			white-space: nowrap;
+			@include breakpoint(max-md) {
+				font-size: 50px;
+				line-height: 50px;
+			}
+		}
+		.stroke-text {
+			-webkit-text-fill-color: transparent;
+			-webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: var(--white);
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+	}
+}
+// Marquee two area end here ***
+
+// Marquee four area start here ***
+.marquee-four {
+	&-area {
+		@extend .marquee-two-area;
+		background-color: var(--white);
+	}
+	&__item {
+		@extend .marquee-two__item;
+		h2 {
+			color: var(--theme-color2);
+		}
+		.stroke-text {
+			-webkit-text-stroke-color: var(--theme-color2);
+		}
+	}
+}
+// Marquee four area end here ***

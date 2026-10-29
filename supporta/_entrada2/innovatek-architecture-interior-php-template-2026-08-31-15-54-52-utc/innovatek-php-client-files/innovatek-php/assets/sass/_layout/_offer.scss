@@ -1,0 +1,43 @@
+// Offer area start here ***
+.offer {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		max-width: 1220px;
+		margin: 0 auto;
+		@include justify-wrp;
+		gap: 50px;
+	}
+	&__item {
+		h2 {
+			font-size: 130px;
+			line-height: 96px;
+			color: var(--theme-color3);
+			position: relative;
+			z-index: 1;
+			text-transform: uppercase;
+			img {
+				position: absolute;
+				left: 25px;
+				bottom: -10px;
+				z-index: -1;
+			}
+		}
+		h4 {
+			margin-top: 35px;
+			margin-bottom: 20px;
+			color: var(--theme-color3);
+		}
+		ul {
+			li {
+				color: var(--theme-color3);
+				font-weight: 500;
+				&:not(:last-child) {
+					margin-bottom: 10px;
+				}
+			}
+		}
+	}
+}
+// Offer area end here ***

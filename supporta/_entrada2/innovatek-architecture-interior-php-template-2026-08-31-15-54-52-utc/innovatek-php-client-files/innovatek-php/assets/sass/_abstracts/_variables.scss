@@ -1,0 +1,80 @@
+:root {
+	// Font family ***
+	--font-title: "Urbanist", sans-serif;
+	--font-body: "Mulish", sans-serif;
+
+	// Colors ***
+	--theme-color1: #bb9a65;
+	--theme-color2: #131313;
+	--theme-color3: #000000;
+	--text-color1: #ffffff;
+	--text-color2: #ffffff;
+	--text-color3: #9f9e9e;
+
+	--main-bg: #ffffff;
+	--sub-bg: #f6f6f6;
+
+	--heading-color: #272e39;
+	--paragraph: #75727b;
+	--span: #75727b;
+
+	--border: #ebebeb;
+	--white: #ffffff;
+	--theme-color-light: #ffffff;
+	--black: #000000;
+
+	// Radius ***
+	--radius: 10px;
+
+	// Transitions ***
+	--transition: all 0.4s ease-in-out;
+
+	// Box shadow ***
+	--shadow: 0px 4px 30px 0px #0000000d;
+}
+
+// Dark mood area start here ***
+:root[data-theme="dark"] {
+	// Colors ***
+	--theme-color1: #bb9a65;
+	--theme-color2: #cccccc;
+	--theme-color3: #ffffff;
+	--text-color1: #ffffff;
+	--text-color2: #ffffff;
+	--text-color3: #9f9e9e;
+
+	--main-bg: #131313;
+	--sub-bg: #6a6a6a33;
+
+	--heading-color: #ffffff;
+	--paragraph: #cccccc;
+	--span: #cccccc;
+
+	--border: #202020;
+	--white: #000000;
+	--black: #ffffff;
+}
+// Dark mood area end here ***
+
+// Dark mood overright area start here ***
+:root[data-theme="dark"] .light-area {
+	// Colors ***
+	--theme-color1: #bb9a65;
+	--theme-color2: #131313;
+	--theme-color3: #000000;
+	--text-color1: #ffffff;
+	--text-color2: #ffffff;
+	--text-color3: #9f9e9e;
+
+	--main-bg: #ffffff;
+	--sub-bg: #f6f6f6;
+
+	--heading-color: #272e39;
+	--paragraph: #75727b;
+	--span: #75727b;
+
+	--border: #ebebeb;
+	--white: #ffffff;
+	--black: #000000;
+}
+// Dark mood overright area end here ***

@@ -1,0 +1,146 @@
+// Talk area start here ***
+.talk {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__shape {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translateY(-50%);
+		z-index: -1;
+	}
+	&__wrp {
+		max-width: 1300px;
+		margin: 0 auto;
+	}
+	&__form {
+		form {
+			input,
+			textarea {
+				width: 100%;
+				padding: 14px 20px;
+				border: none;
+				border: 1px solid var(--border);
+			}
+			textarea {
+				height: 105px;
+				resize: none;
+			}
+			button {
+				width: 100%;
+				padding: 14px 20px;
+				text-align: center;
+				background-color: var(--theme-color2);
+				color: var(--text-color2);
+				font-weight: 600;
+				transition: var(--transition);
+				&:hover {
+					letter-spacing: 2px;
+				}
+			}
+		}
+		&.dark-area {
+			input,
+			textarea {
+				background-color: transparent;
+				border: 1px solid #ebebeb1a;
+			}
+			button {
+				background-color: transparent;
+			}
+		}
+	}
+	&__item {
+		padding: 80px 40px;
+		border: 1px solid #e5e5e5;
+		h3 {
+			font-size: 34px;
+			font-weight: 600;
+			@include breakpoint(max-lg) {
+				font-size: 28px;
+			}
+		}
+		ul {
+			li {
+				margin-bottom: 40px;
+				h4 {
+					margin-bottom: 10px;
+				}
+				padding-bottom: 30px;
+				border-bottom: 1px solid var(--border);
+			}
+		}
+		@include bg-image;
+		.socials {
+			@include flex;
+			gap: 10px;
+			a {
+				@include radius(56px, 56px, 56px);
+				border: 1px solid var(--border);
+				background-color: #fafafa;
+				&:hover {
+					transform: translateY(-5px);
+					color: var(--theme-color1);
+				}
+			}
+		}
+	}
+}
+// Talk area end here ***
+
+// Talk three area start here ***
+.talk-three {
+	&-area {
+		overflow: hidden;
+		@include bg-image;
+	}
+	&__form {
+		background-color: #ffffffb2;
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		padding-left: 90px;
+		padding-right: 90px;
+		@include breakpoint(max-md) {
+			padding-left: 30px;
+			padding-right: 30px;
+		}
+		form {
+			max-width: 850px;
+			input,
+			textarea {
+				width: 100%;
+				padding: 14px 20px;
+				border: 1px solid transparent;
+				background-color: #ffffff99;
+				border-radius: 30px;
+				&::placeholder {
+					color: var(--theme-color2);
+				}
+				&:focus {
+					border: 1px solid var(--border);
+				}
+			}
+			textarea {
+				height: 240px;
+				resize: none;
+				border-radius: 20px;
+			}
+		}
+		&.dark-area {
+			background-color: #101010b2;
+			form {
+				max-width: 850px;
+				input,
+				textarea {
+					&::placeholder {
+						color: #131313;
+					}
+				}
+			}
+		}
+	}
+}
+// Talk three area end here ***

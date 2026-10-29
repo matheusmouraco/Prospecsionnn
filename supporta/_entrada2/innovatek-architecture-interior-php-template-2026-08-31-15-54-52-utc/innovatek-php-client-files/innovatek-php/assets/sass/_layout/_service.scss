@@ -1,0 +1,33 @@
+// Service area start here ***
+.service {
+	&-area {
+		overflow: hidden;
+		padding: 60px;
+		@include bg-image;
+		@include breakpoint(max-lg) {
+			padding: 60px 30px;
+		}
+	}
+	&__image {
+		img {
+			width: 100%;
+			border-radius: 10px;
+		}
+	}
+	&__item {
+		max-width: 300px;
+		h4 {
+			margin-top: 20px;
+			margin-bottom: 10px;
+			color: var(--white);
+			a {
+				color: inherit;
+			}
+			&:hover {
+				letter-spacing: 1px;
+				color: var(--theme-color1);
+			}
+		}
+	}
+}
+// Service area end here ***

@@ -1,0 +1,165 @@
+// Choose area start here ***
+.choose {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	&__wrp {
+		max-width: 1320px;
+		margin: 0 auto;
+	}
+	&__shape {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+	}
+	&__content {
+		ul {
+			li {
+				display: flex;
+				align-items: center;
+				gap: 15px;
+				width: 250px;
+				h3 {
+					font-weight: 700;
+				}
+			}
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+		max-width: 580px;
+	}
+	&__image {
+		position: relative;
+		img {
+			width: 100%;
+		}
+		.stroke-text {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			@include breakpoint(max-xxl) {
+				display: none;
+			}
+			h2 {
+				text-transform: uppercase;
+				font-size: 146px;
+				line-height: 150px;
+				font-weight: 700;
+				letter-spacing: 5px;
+				-webkit-text-fill-color: transparent;
+				-webkit-text-stroke-width: 1px;
+				-webkit-text-stroke-color: #0000003b;
+			}
+			&.dark-area {
+				h2 {
+					-webkit-text-fill-color: #bb9a6533;
+				}
+			}
+		}
+	}
+}
+// Choose area end here ***
+
+// Choose two area end here ***
+.choose-two {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		&::before {
+			position: absolute;
+			content: "";
+			bottom: 0;
+			left: 0;
+			height: 38%;
+			width: 100%;
+			background-color: var(--sub-bg);
+			z-index: -1;
+		}
+		&.dark-area {
+			&::before {
+				background-color: var(--white);
+			}
+		}
+	}
+	&__wrp {
+		max-width: 1460px;
+		margin: 0 auto;
+	}
+	&__image {
+		border-radius: 30px;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		box-shadow: var(--shadow);
+		img {
+			width: 100%;
+		}
+		@extend .overlay;
+		&::before {
+			background-color: #00000033;
+			z-index: 0;
+		}
+	}
+	&__content {
+		bottom: 60px;
+		left: 50%;
+		transform: translateX(-50%);
+		position: absolute;
+		width: 88%;
+		@include justify;
+		@include breakpoint(max-lg) {
+			width: 92%;
+		}
+		@include breakpoint(max-md) {
+			flex-wrap: wrap;
+			gap: 30px;
+			bottom: 30px;
+		}
+		@include breakpoint(max-sm) {
+			gap: 20px;
+			bottom: 20px;
+		}
+		h2 {
+			max-width: 650px;
+			font-weight: 600;
+			color: var(--white);
+			@include breakpoint(max-xl) {
+				max-width: 450px;
+			}
+			@include breakpoint(max-lg) {
+				font-size: 28px;
+				line-height: 40px;
+				max-width: 300px;
+			}
+			@include breakpoint(max-sm) {
+				font-size: 20px;
+				line-height: 30px;
+				text-align: center;
+				max-width: 300px;
+			}
+		}
+	}
+	&__video {
+		@include flex;
+		gap: 30px;
+		.info {
+			h3 {
+				font-size: 24px;
+				font-weight: 600;
+				color: var(--white);
+				@include breakpoint(max-sm) {
+					font-size: 16px;
+					line-height: 26px;
+				}
+			}
+		}
+	}
+}
+// Choose two area end here ***

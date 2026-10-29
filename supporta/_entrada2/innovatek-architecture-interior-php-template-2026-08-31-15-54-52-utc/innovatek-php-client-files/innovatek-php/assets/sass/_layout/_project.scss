@@ -1,0 +1,260 @@
+// Project area start here ***
+.project {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		@include bg-image;
+		-webkit-transition: background-image 0.3s ease-in-out;
+		-moz-transition: background-image 0.3s ease-in-out;
+		transition: background-image 0.3s ease-in-out;
+		position: relative;
+		z-index: 1;
+		&:hover {
+			.project__slider-arrys {
+				button {
+					opacity: 1;
+					visibility: visible;
+					transform: translateY(0px);
+				}
+			}
+		}
+	}
+	&__slider {
+		&-arrys {
+			@include flex;
+			gap: 5px;
+			position: absolute;
+			top: 50px;
+			left: 50px;
+			z-index: 9;
+			button {
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(-20px);
+				@include radius(50px, 50px, 50px);
+				border-radius: 12px;
+				color: var(--black);
+				background-color: var(--white);
+				transition: var(--transition);
+				font-size: 18px;
+				&:last-child {
+					transition: all 0.5s ease-in-out;
+				}
+				&:hover {
+					background-color: var(--theme-color1);
+					color: var(--text-color1);
+				}
+				@include breakpoint(max-md) {
+					@include radius(40px, 40px, 40px);
+					font-size: 16px;
+					border-radius: 12px;
+				}
+			}
+			@include breakpoint(max-md) {
+				top: 20px;
+				left: 20px;
+			}
+		}
+	}
+	&__content {
+		padding: 30px;
+		position: relative;
+		z-index: 1;
+		&::after {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 0;
+			z-index: -1;
+			content: "";
+			background-color: rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(20px);
+			-webkit-backdrop-filter: blur(20px);
+			transition: var(--transition);
+		}
+
+		h6 {
+			font-weight: 400;
+			color: var(--white);
+		}
+		h4 {
+			margin-top: 10px;
+			a {
+				color: var(--white);
+				&:hover {
+					color: var(--theme-color1);
+				}
+			}
+		}
+		@include breakpoint(max-sm) {
+			padding: 15px;
+			h4 {
+				margin-top: 0;
+			}
+		}
+	}
+	&__item {
+		display: flex;
+		flex-direction: column;
+		justify-content: end;
+		height: 700px;
+		border-right: 1px solid var(--white);
+		@include breakpoint(max-xl) {
+			height: 500px;
+		}
+		@include breakpoint(max-lg) {
+			height: 400px;
+		}
+		@include breakpoint(max-sm) {
+			height: 350px;
+		}
+		&:hover {
+			.project__content {
+				&::after {
+					height: 100%;
+				}
+			}
+			.btn-arrow {
+				transform: rotate(0deg);
+			}
+		}
+	}
+}
+// Project area end here ***
+
+// Project two area start here ***
+.project-two {
+	&-area {
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		background-color: var(--theme-color3);
+	}
+	&__shape {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: -1;
+		&-two {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			z-index: -1;
+		}
+	}
+	&__wrp {
+		max-width: 1320px;
+		margin: 0 auto;
+	}
+	&__image {
+		overflow: hidden;
+		position: relative;
+		-webkit-clip-path: inset(0);
+		clip-path: inset(0);
+		-webkit-transition: var(--transition);
+		-moz-transition: var(--transition);
+		transition: var(--transition);
+		a {
+			display: block;
+		}
+		img {
+			width: 100%;
+			-webkit-transition: var(--transition);
+			-moz-transition: var(--transition);
+			transition: var(--transition);
+		}
+		&:hover {
+			-webkit-clip-path: inset(5px 10px);
+			clip-path: inset(5px 10px);
+			img {
+				transform: scale(1.05);
+			}
+		}
+	}
+	&__content {
+		h5 {
+			a {
+				color: var(--white);
+				text-transform: uppercase;
+				&:hover {
+					color: var(--theme-color1);
+				}
+			}
+		}
+		span {
+			font-style: italic;
+		}
+	}
+	&__item {
+		&-sm {
+			max-width: 480px;
+		}
+	}
+}
+// Project two area end here ***
+
+// Project three area end here ***
+.project-three {
+	&-area {
+		overflow: hidden;
+	}
+	&__content {
+		h5 {
+			a {
+				color: var(--theme-color2);
+				text-transform: uppercase;
+				&:hover {
+					color: var(--theme-color1);
+				}
+			}
+		}
+	}
+}
+// Project three area end here ***
+
+// Project four area end here ***
+.project-four {
+	&-area {
+		overflow: hidden;
+	}
+	&__wrp {
+		position: relative;
+		z-index: 1;
+		&::before {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			content: "";
+			background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+			z-index: -1;
+		}
+	}
+	&__content {
+		padding: 0 40px 40px 40px;
+		h2 {
+			font-size: 80px;
+			line-height: 70px;
+			font-weight: 600;
+			-webkit-text-fill-color: transparent;
+			-webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: #ffffff66;
+		}
+		h4 {
+			a {
+				color: var(--white);
+			}
+			max-width: 200px;
+		}
+		.btn-arrow {
+			font-size: 40px;
+			color: var(--white);
+			transform: rotate(45deg);
+		}
+	}
+}
+// Project four area end here ***

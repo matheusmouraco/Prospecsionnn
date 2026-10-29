@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<title>Innovatek - Architecture & Interior PHP Template</title>
+
+<!-- Styles -->
+<link href="css/collection.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700,900,500%7CRoboto:300,400,500,700,900" rel="stylesheet" type="text/css">
+
+<!-- Favicons -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="images/favicon.ico">
+</head>
+
+<body data-spy="scroll" data-target=".sidebar" data-offset="200">
+
+<!-- Sidebar -->
+<aside class="sidebar sidebar-boxed sidebar-dark"> <a class="sidebar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
+  <ul class="nav sidenav dropable">
+    <li><a href="#item_intro">Intro</a></li>
+    <li><a href="#documenter_cover">Core Features</a></li>
+    <li><a href="#how_to_install">How to Install</a></li>
+    <li><a href="#getting_started" title="Getting Started">Getting Started</a></li>
+    <li><a href="#fonts_used" title="Fonts used">Fonts used</a></li>
+    <li><a href="#head_css_structure" title="HEAD CSS Structure">HEAD Structure</a></li>
+    <li><a href="#header_structure" title="Header Structure">Header Structure</a></li>
+    <li><a href="#top_nav_menu" title="Top Nav Menu">Top Nav Menu</a></li>
+    <li><a href="#default-layout" title="Layout Structure">Layout Structure</a>
+      <ul>
+        <li><a href="#default-layout" title="Default Layout">Default Layout</a></li>
+        <li><a href="#dark-layout" title="Dark Layout">Dark Layout</a></li>
+        <li><a href="#rtl-layout" title="RTL Layout">RTL Layout</a></li>
+      </ul>
+    </li>
+    <li><a href="#javascript_structure" title="Javascript Structure">Javascript Structure</a></li>
+    <li><a href="#preloader" title="Preloader">Preloader</a></li>
+    <li><a href="#contact_form" title="Contact Form">Contact Form</a></li>
+    <li><a href="#mailchimp_form" title="Mailchimp">Mailchimp</a></li>
+    <li><a href="#scripts" title="Javascript Links">Javascript Links</a></li>
+    <li><a href="#credits" title="Credits">Credits</a></li>
+    <li><a href="#supports" title="Support">Support</a></li>
+  </ul>
+</aside>
+<!-- END Sidebar -->
+
+<header class="site-header navbar-transparent">
+
+  <!-- Top navbar & branding -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+      <!-- Toggle buttons and brand -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar"> <span class="glyphicon glyphicon-option-vertical"></span> </button>
+        <button type="button" class="navbar-toggle for-sidebar" data-toggle="offcanvas"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      </div>
+      <!-- END Toggle buttons and brand -->
+
+      <!-- Top navbar -->
+      <div id="navbar" class="navbar-collapse collapse" aria-expanded="true" role="banner">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="index.html">Documentation</a></li>
+          <li class="hero"><a target="_blank" href="#">Purchase</a></li>
+        </ul>
+      </div>
+      <!-- END Top navbar -->
+
+    </div>
+  </nav>
+  <!-- END Top navbar & branding -->
+
+  <!-- Banner -->
+  <div class="banner auto-size" style="background-color: #222429">
+    <div class="container-fluid text-white">
+      <h1><strong>Innovatek PHP</strong> documentation</h1>
+    </div>
+  </div>
+  <!-- END Banner -->
+
+</header>
+<main class="container-fluid">
+
+  <!-- Main content -->
+  <article class="main-content" role="main">
+    <section id="item_intro">
+      <h4>Innovatek - Architecture & Interior PHP Template</h4>
+      <hr>
+      <ul>
+        <li>Created: December 25, 2024</li>
+        <li>Last Update: December 25, 2024</li>
+        <li>Version 1.0</li>
+        <li>By: <a target="_blank" href="http://themeforest.net/user/ThemeMascot"> ThemeMascot </a> & <a target="_blank" href="http://themeforest.net/user/KodeSolution"> KodeSolution</a></li>
+        <li>Email: <a href="mailto:help.thememascot@gmail.com?subject=Innovatek PHP Theme Support">help.thememascot@gmail.com </a></li>
+      </ul>
+      <p></p>
+    </section>
+
+
+
+    <section id="documenter_cover">
+      <h4>Core Features</h4>
+      <hr>
+      <ul>
+        <li><i class="icon_document_alt"></i>Built with <b>PHP</b></li>
+        <li><i class="icon_document_alt"></i>Built with <b>Bootstrap 5.x</b></li>
+        <li><strong>28+</strong> PHP Files</li>
+        <li>3 Index Multi Pages Demo</li>
+        <li>3 Index Single Pages Demo</li>
+        <li>3 Index Dark Pages Demo</li>
+        <li>1 Index RTL Page Demo</li>
+        <li>Easy to customize</li>
+        <li>PHP, CSS3 & SCSS</li>
+        <li>Clean & Simple Design</li>
+        <li>Fully Responsive Layout</li>
+        <li>Crossbrowser Compatible with Edge, IE9+, Firefox, Safari, Opera, Chrome</li>
+        <li> Retina ready </li>
+        <li> Font Awesome <strong>400+ icons</strong></li>
+        <li> 7 Stroke <strong>200+ icons</strong></li>
+        <li> Elegant Icon Font <strong>360+ icons</strong></li>
+        <li> Smooth animation </li>
+        <li> Parallax sections </li>
+        <li> Working <strong>Ajax contact form</strong> with validation </li>
+        <li> Google Maps easy to setup via data attributes </li>
+        <li> <strong>Powerful shortcodes</strong></li>
+        <li> Responsive video</li>
+        <li> <strong>Well documented</strong></li>
+      </ul>
+    </section>
+
+
+    <section id="how_to_install">
+      <h4>How to Install</h4>
+      <hr>
+        <h6>1. Install PHP</h6>
+        <p>If you're using XAMPP, WAMP, or MAMP, PHP should already be included. Make sure your server environment (Apache, Nginx, etc.) is configured to work with PHP. If PHP is not installed, you can download it from the official <a target="_blank" href="https://www.php.net/downloads">PHP website.</a></p>
+        <br>
+
+        <h6>2. Download and Extract the Zip File:</h6>
+        <p>Download the zip file containing all files integrated with Innovatek. Extract the contents of the zip file to your desired location.</p>
+        <br>
+
+
+        <h6>3. Running the PHP Application</h6>
+        <p>Start your PHP server. If you're using XAMPP, WAMP, or MAMP, start Apache. Navigate to localhost in your web browser and specify the port number if necessary (e.g.,http://localhost:{{PORT}}).</p>
+        <br>
+
+
+        <h6>4. Editing Innovatek Template</h6>
+        <p>Before all that you have to edit your template and place your own contents by replacing old demo contents, in this case, you will need a code editor such as – <b>VScode, Sublime Text</b> etc.</p>
+        <br>
+
+
+        <h6>5. Package comes with documentation unzip the download package, you’ll find a folder with all template files, like above screenshot.</h6>
+        <img class="w-100 img-thumbnail" src="images/file-structure.jpg" alt="File structure">
+    </section>
+
+
+    <section id="getting_started">
+      <div class="page-header">
+        <h3>Getting Started</h3>
+      </div>
+      <p>Unzip the archive and find out the <strong>folder Innovatek-client-php</strong>. There are all the template files in this folder.</p>
+      <p>The <strong>file and folder structure</strong> is something like this:</p>
+      <ol>
+        <li> <strong>/css</strong> — folder with css files. </li>
+        <li> <strong>/fonts</strong> — folder with icon fonts. </li>
+        <li> <strong>/images</strong> — folder with image files. </li>
+        <li> <strong>/includes</strong> — folder with twitter, phpmailer and different appointment, contact form php handler. </li>
+        <li> <strong>/js</strong> — folder with Javascript files. </li>
+        <li> <strong>/parts</strong> — all kind of header, footer and different layout section part exist in this folder. </li>
+        <li> <strong>/Plugins</strong> — For Slider Revolution </li>
+        <li> <strong>/scss</strong> — folder containing scss files of the template. <br>
+        </li>
+        <li> <strong>index-*.php, ...</strong> — Index page demos. </li>
+        <li> <strong>page-*.php, ...</strong> — Different inner page demos. </li>
+      </ol>
+      <p>Upload the template files to server with the help of one of the FTP-clients like FileZilla</p>
+      <p>&nbsp; </p>
+    </section>
+
+
+    <section id="fonts_used">
+      <div class="page-header">
+        <h3>Fonts used</h3>
+      </div>
+      <p> By default, the template loads <strong>DM+Sans</strong> font from Google Web Font Services, you can change the font with the one that suits you best.</p>
+      <p>You will find the font code in the &quot;<strong>style.css</strong>&quot; file in the "<strong>css</strong>" folder:</p>
+      <pre class="line-numbers">
+<code class="language-css">
+@import url(https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap);
+</code>
+</pre>
+    </section>
+
+
+    <section id="head_css_structure">
+      <div class="page-header">
+        <h3>HEAD Structure</h3>
+      </div>
+      <p> These is the default <strong>HEAD</strong> structure which can be found in <strong>parts/head.php</strong></p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&#60;!DOCTYPE html&#62;
+&#60;html &#60;?php if(isset($rtl_mode)&#38;&#38;!empty($rtl_mode)) {?&#62;dir="rtl"&#60;?php }?&#62; lang="en"&#62;
+&#60;head&#62;
+&#60;meta charset="UTF-8"&#62;
+&#60;meta http-equiv="X-UA-Compatible" content="IE=edge"&#62;
+&#60;meta name="viewport" content="width=device-width, initial-scale=1.0"&#62;
+&#60;title&#62;&#60;?php echo $head_title;?&#62;&#60;/title&#62;
+&#60;!-- Favicon img --&#62;
+&#60;link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon"&#62;
+&#60;link rel="icon" href="assets/images/favicon.png" type="image/x-icon"&#62;
+&#60;!-- Bootstarp min css --&#62;
+&#60;link rel="stylesheet" href="assets/css/bootstrap.min.css"&#62;
+&#60;!-- Mean menu css --&#62;
+&#60;link rel="stylesheet" href="assets/css/meanmenu.css"&#62;
+&#60;!-- All min css --&#62;
+&#60;link rel="stylesheet" href="assets/css/all.min.css"&#62;
+&#60;!-- Swiper bundle min css --&#62;
+&#60;link rel="stylesheet" href="assets/css/swiper-bundle.min.css"&#62;
+&#60;!-- Magnigic popup css --&#62;
+&#60;link rel="stylesheet" href="assets/css/magnific-popup.css"&#62;
+&#60;!-- Animate css --&#62;
+&#60;link rel="stylesheet" href="assets/css/animate.css"&#62;
+&#60;!-- Splitting css --&#62;
+&#60;link rel="stylesheet" href="assets/css/splitting.css"&#62;
+&#60;!-- Nice select css --&#62;
+&#60;link rel="stylesheet" href="assets/css/nice-select.css"&#62;
+
+&#60;!-- Style css --&#62;
+&#60;?php if(isset($rtl_mode)&#38;&#38;!empty($rtl_mode)) {?&#62;
+&#60;link href="assets/css/style-rtl.css" rel="stylesheet"&#62;
+&#60;?php } else {?&#62;
+&#60;link href="assets/css/style.css" rel="stylesheet"&#62;
+&#60;?php }?&#62;
+&#60;/head&#62;
+
+&#60;body
+&#60;?php if(isset($body_class)&#38;&#38;!empty($body_class)) {?&#62;
+class="&#60;?php echo $body_class;?&#62;"
+&#60;?php }?&#62;
+&#60;?php if(isset($body_bg_image)&#38;&#38;!empty($body_bg_image)) {?&#62;
+data-tm-bg-img="&#60;?php echo $body_bg_image;?&#62;"
+&#60;?php }?&#62;
+&#62;
+</code>
+</pre>
+    </section>
+
+
+
+    <section id="header_structure">
+      <div class="page-header">
+        <h3>Header</h3>
+      </div>
+      <p>If you want to change the menu list item or any kind of text then you have to open files from <strong>parts/header/header.php</strong></p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&#60;?php require_once('header-common.php'); ?&#62;
+
+&#60;!-- Preloader --&#62;
+&#60;?php require_once('parts/preloader/preloader.php'); ?&#62; 
+
+&#60;!-- Mouse cursor area start here --&#62;
+&#60;div class="mouse-cursor cursor-outer"&#62;&#60;/div&#62;
+&#60;div class="mouse-cursor cursor-inner"&#62;&#60;/div&#62;
+&#60;!-- Mouse cursor area end here --&#62;
+
+&#60;!-- Top header area start here --&#62;
+&#60;div class="header-top-area d-none d-lg-block"&#62;
+  &#60;div class="container"&#62;
+    &#60;div class="header-top__wrp"&#62;
+      &#60;div class="header-top__socials"&#62;
+        &#60;a href="#"&#62;&#60;i class="fa-brands fa-twitter"&#62;&#60;/i&#62;&#60;/a&#62;
+        &#60;a href="#"&#62;&#60;i class="fa-brands fa-facebook-f"&#62;&#60;/i&#62;&#60;/a&#62;
+        &#60;a href="#"&#62;&#60;i class="fa-brands fa-linkedin-in"&#62;&#60;/i&#62;&#60;/a&#62;
+        &#60;a href="#"&#62;&#60;i class="fa-brands fa-instagram"&#62;&#60;/i&#62;&#60;/a&#62;
+      &#60;/div&#62;
+      &#60;ul class="header-top__links"&#62;
+        &#60;li&#62;&#60;i class="fa-light fa-location-dot"&#62;&#60;/i&#62; &#60;a href="#0"&#62;121 King Street, Melbourne&#60;/a&#62;&#60;/li&#62;
+        &#60;li&#62;&#60;i class="fa-light fa-envelope-open-text"&#62;&#60;/i&#62; &#60;a href="#0"&#62;info.company@gmail.com&#60;/a&#62;&#60;/li&#62;
+      &#60;/ul&#62;
+    &#60;/div&#62;
+  &#60;/div&#62;
+&#60;/div&#62;
+&#60;!-- Top header area end here --&#62;
+
+&#60;!-- Header area start here --&#62;
+&#60;header class="header-area"&#62;
+  &#60;div class="container"&#62;
+    &#60;div class="header__main"&#62;
+      &#60;?php
+      $default_logo_url = "assets/images/logo/logo.png";
+      if(isset($dark_logo_url)&#38;&#38;!empty($dark_logo_url)) {
+      $default_logo_url = $dark_logo_url;
+      }
+      ?&#62;
+      &#60;a href="index.php" class="logo"&#62;
+        &#60;img src="&#60;?php echo $default_logo_url;?&#62;" alt="logo"&#62;
+      &#60;/a&#62;
+      &#60;div class="main-menu"&#62;
+        &#60;nav&#62;
+          &#60;?php
+          $default_menu_file = "parts/header/menu.php";
+          if(isset($single_menu_file)&#38;&#38;!empty($single_menu_file)) {
+          $default_menu_file = $single_menu_file;
+          }
+          ?&#62;
+          &#60;?php require_once($default_menu_file); ?&#62;
+        &#60;/nav&#62;
+        &#60;div class="menu-btns"&#62;
+          &#60;button class="search-trigger d-none d-lg-block"&#62;
+            &#60;i class="fa-light fa-magnifying-glass"&#62;&#60;/i&#62;
+          &#60;/button&#62;
+          &#60;button class="menubars" type="button" data-bs-toggle="offcanvas" data-bs-target="#menubar"&#62;
+            &#60;span&#62;&#60;/span&#62;
+            &#60;span&#62;&#60;/span&#62;
+            &#60;span&#62;&#60;/span&#62;
+          &#60;/button&#62;
+        &#60;/div&#62;
+      &#60;/div&#62;
+    &#60;/div&#62;
+  &#60;/div&#62;
+&#60;/header&#62;
+&#60;!-- Header area end here --&#62;
+
+&#60;!-- Sidebar area start here --&#62;
+&#60;div class="sidebar-area offcanvas offcanvas-end" id="menubar"&#62;
+  &#60;div class="offcanvas-header"&#62;
+    &#60;a href="index.php" class="logo"&#62; &#60;img src="assets/images/logo/logo-light.png" alt="logo"&#62;&#60;/a&#62;
+    &#60;button type="button" class="btn-close" data-bs-dismiss="offcanvas"&#62;&#60;i class="fa-regular fa-xmark"&#62;&#60;/i&#62;&#60;/button&#62;
+  &#60;/div&#62;
+  &#60;div class="offcanvas-body sidebar__body"&#62;
+    &#60;div class="mobile-menu overflow-hidden"&#62;&#60;/div&#62;
+    &#60;div class="d-none d-lg-block"&#62;
+      &#60;h5 class="text-white mb-20"&#62;About Us&#60;/h5&#62;
+      &#60;p class="sidebar__text"&#62;Unleash the full potential of your website and elevate its online presence with our comprehensive SEO solutions.&#60;/p&#62;
+    &#60;/div&#62;
+    &#60;div class="sidebar__contact-info mt-30"&#62;
+      &#60;h5 class="text-white mb-20"&#62;Contact Info&#60;/h5&#62;
+      &#60;ul&#62;
+        &#60;li&#62;&#60;i class="fa-solid fa-location-dot"&#62;&#60;/i&#62; &#60;a href="#0"&#62;121 King Street, Melbourne&#60;/a&#62;&#60;/li&#62;
+        &#60;li class="py-2"&#62;&#60;i class="fa-solid fa-phone-volume"&#62;&#60;/i&#62; &#60;a href="tel:+912659302003"&#62;+91 2659302 003&#60;/a&#62;&#60;/li&#62;
+        &#60;li&#62;&#60;i class="fa-solid fa-paper-plane"&#62;&#60;/i&#62; &#60;a href="#0"&#62;info.company@gmail.com&#60;/a&#62;&#60;/li&#62;
+      &#60;/ul&#62;
+    &#60;/div&#62;
+    &#60;div class="sidebar__btns my-4"&#62;
+      &#60;a href="sign-up.php"&#62;Sign Up&#60;/a&#62;
+      &#60;a class="sign-in" href="sign-in.php"&#62;Sign In&#60;/a&#62;
+    &#60;/div&#62;
+    &#60;div class="sidebar__socials"&#62;
+      &#60;ul&#62;
+        &#60;li&#62;
+          &#60;a href="#0"&#62;
+            &#60;svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+              xmlns="http://www.w3.org/2000/svg"&#62;
+              &#60;path
+                d="M7.76562 0H8.20406C9.50719 0.0371875 10.8041 0.385625 11.9359 1.03531C13.3297 1.82094 14.4756 3.03625 15.1816 4.47188C15.6875 5.49438 15.9603 6.62656 16 7.76562V8.205C15.9647 9.38344 15.6775 10.5553 15.1419 11.6069C14.6209 12.6316 13.8803 13.5447 12.9794 14.2594C12.0306 15.0175 10.9072 15.5569 9.71937 15.8141C9.22219 15.9275 8.71313 15.9788 8.20438 16H7.795C6.40844 15.9609 5.03281 15.5628 3.84875 14.8387C2.44469 13.985 1.3125 12.6919 0.659063 11.1838C0.252187 10.255 0.0365625 9.2475 0 8.23531V7.79406C0.0359375 6.53 0.366875 5.27437 0.976875 4.16594C1.73094 2.78781 2.8975 1.64031 4.28937 0.911563C5.35844 0.34625 6.55844 0.041875 7.76562 0ZM3.40094 3.29594C4.59812 5.03813 5.79531 6.78 6.99188 8.52219C5.79563 9.91344 4.59812 11.3038 3.40219 12.6953C3.6325 12.6966 3.86313 12.695 4.09344 12.6962C4.13844 12.6884 4.20125 12.7166 4.23281 12.6722C5.27312 11.4641 6.3125 10.2553 7.35219 9.04656C8.18937 10.2625 9.02344 11.4809 9.86156 12.6962C10.7741 12.695 11.6866 12.6962 12.5988 12.6956C11.3594 10.8869 10.1119 9.08313 8.87594 7.27219C10.0203 5.94969 11.1578 4.62156 12.2987 3.29625C12.0281 3.29563 11.7578 3.29563 11.4872 3.29625C10.4987 4.44875 9.50437 5.59656 8.51844 6.75094C7.72031 5.60344 6.93437 4.44688 6.14062 3.29625C5.2275 3.29563 4.31437 3.29594 3.40094 3.29594Z"
+                fill="white" /&#62;
+            &#60;/svg&#62;
+          &#60;/a&#62;
+        &#60;/li&#62;
+        &#60;li&#62;
+          &#60;a href="#0"&#62;
+            &#60;svg width="8" height="16" viewBox="0 0 8 16" fill="none"
+              xmlns="http://www.w3.org/2000/svg"&#62;
+              &#60;path d="M5.10223 8.99555V16H1.97333V8.99555H0V6.09778H1.97333V3.89334C1.97333 1.38667 3.46666 0 5.76 0C6.85333 0 8 0.195557 8 0.195557V2.65778H6.73778C5.49334 2.65778 5.10223 3.43111 5.10223 4.22222V6.09778H7.88444L7.44 8.99555H5.10223Z" fill="white" /&#62;
+            &#60;/svg&#62;
+          &#60;/a&#62;
+        &#60;/li&#62;
+
+        &#60;li&#62;
+          &#60;a href="#0"&#62;
+            &#60;svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+              xmlns="http://www.w3.org/2000/svg"&#62;
+              &#60;path d="M3.58958 15.9911H0.222698V5.89045H3.58958V15.9911ZM3.92717 1.96389C3.92717 0.897859 3.08323 0.0361424 2.01719 0.000607979C0.933392 -0.0260429 0.0272588 0.826778 0.00060798 1.91058C-0.0260429 2.99438 0.826779 3.90051 1.91058 3.92716C3.01215 3.93605 3.9094 3.06546 3.92717 1.96389ZM15.9467 9.88807C15.9467 6.74327 13.9124 5.78383 12.1801 5.78383C10.963 5.7483 9.81701 6.34351 9.15074 7.35624V5.89932H5.89933V16H9.26622V10.7587C9.26622 10.7054 9.26622 10.6521 9.26622 10.5988C9.26622 10.5988 9.26622 10.5988 9.26622 10.5899C9.19515 9.51495 10.0124 8.58218 11.0874 8.51111C11.9668 8.51111 12.6331 9.07966 12.6331 10.6787V16H16L15.9556 9.89695L15.9467 9.88807Z" fill="white" /&#62;
+            &#60;/svg&#62;
+          &#60;/a&#62;
+        &#60;/li&#62;
+
+        &#60;li&#62;
+          &#60;a href="#0"&#62;
+            &#60;svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+              xmlns="http://www.w3.org/2000/svg"&#62;
+              &#60;path d="M15.9466 4.69593C15.8843 3.41522 15.5906 2.27682 14.6563 1.34297C13.7219 0.409114 12.5829 0.11562 11.3014 0.053363C9.97553 -0.0177877 6.01557 -0.0177877 4.69855 0.053363C3.41713 0.11562 2.28699 0.409114 1.34372 1.34297C0.400455 2.27682 0.115684 3.41522 0.0533926 4.69593C-0.0177975 6.02111 -0.0177975 9.97887 0.0533926 11.3041C0.115684 12.5848 0.409354 13.7232 1.34372 14.657C2.28699 15.5909 3.41713 15.8844 4.69855 15.9466C6.02447 16.0178 9.98443 16.0178 11.3014 15.9466C12.5829 15.8844 13.7219 15.5909 14.6563 14.657C15.5906 13.7232 15.8843 12.5848 15.9466 11.3041C16.0178 9.97887 16.0178 6.02112 15.9466 4.70483V4.69593ZM7.99111 12.2201C5.65963 12.2201 3.76419 10.3257 3.76419 7.99555C3.76419 5.66536 5.65963 3.77098 7.99111 3.77098C10.3226 3.77098 12.218 5.66536 12.218 7.99555C12.218 10.3257 10.3226 12.2201 7.99111 12.2201ZM12.9032 3.99332C12.4138 3.99332 12.0133 3.5931 12.0133 3.10394C12.0133 2.61478 12.4049 2.21456 12.9032 2.21456C13.3926 2.21456 13.7931 2.61478 13.7931 3.10394C13.7931 3.5931 13.3926 3.99332 12.9032 3.99332ZM10.8832 7.99555C10.8832 9.58754 9.58399 10.886 7.99111 10.886C6.39823 10.886 5.09901 9.58754 5.09901 7.99555C5.09901 6.40355 6.39823 5.10505 7.99111 5.10505C9.58399 5.10505 10.8832 6.40355 10.8832 7.99555Z" fill="white" /&#62;
+            &#60;/svg&#62;
+          &#60;/a&#62;
+        &#60;/li&#62;
+      &#60;/ul&#62;
+    &#60;/div&#62;
+  &#60;/div&#62;
+&#60;/div&#62;
+&#60;!-- Sidebar area end here --&#62;
+
+&#60;!-- Fullscreen search area start here --&#62;
+&#60;div class="search-wrap"&#62;
+  &#60;div class="search-inner"&#62;
+    &#60;i class="fa-light fa-xmark search-close" id="search-close"&#62;&#60;/i&#62;
+    &#60;div class="search-cell"&#62;
+      &#60;form method="get"&#62;
+        &#60;div class="search-field-holder"&#62;
+          &#60;input type="search" class="main-search-input" placeholder="Search..."&#62;
+        &#60;/div&#62;
+      &#60;/form&#62;
+    &#60;/div&#62;
+  &#60;/div&#62;
+&#60;/div&#62;
+&#60;!-- Fullscreen search area end here --&#62;
+
+&#60;!-- Mood btn area start here --&#62;
+&#60;a href="index-dark.php" class="btn__mood-dark"&#62;&#60;i class="fa-light fa-moon"&#62;&#60;/i&#62;&#60;/a&#62;
+&#60;!-- Mood btn area end here --&#62;
+
+&#60;main&#62;
+</code>
+</pre>
+    </section>
+
+
+
+    <section id="top_nav_menu">
+      <div class="page-header">
+        <h3>Top Nav Menu</h3>
+      </div>
+      <p>If you want to change the menu list item or any kind of text then you have to open files from <strong>parts/header/menu.php</strong></p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&#60;ul&#62;
+  &#60;li&#62;
+    &#60;a href="#0"&#62;Home &#60;i class="fa-solid fa-angle-down"&#62;&#60;/i&#62;&#60;/a&#62;
+      &#60;ul class="sub-menu"&#62;
+        &#60;li&#62;&#60;a href="index.php"&#62;Home Page 01&#60;/a&#62;&#60;/li&#62;
+        &#60;li&#62;&#60;a href="index-2.php"&#62;Home Page 02&#60;/a&#62;&#60;/li&#62;
+        &#60;li&#62;&#60;a href="index-3.php"&#62;Home Page 03&#60;/a&#62;&#60;/li&#62;
+        &#60;li&#62;&#60;a href="index-4.php"&#62;Home Page 04&#60;/a&#62;&#60;/li&#62;
+        &#60;li&#62;&#60;a href="index-5.php"&#62;Home Page 05&#60;/a&#62;&#60;/li&#62;
+        &#60;li&#62;
+          &#60;a class="arrow" href="#"&#62;Dark&#60;/a&#62;
+          &#60;ul class="sub-sub-menu"&#62;
+            &#60;li&#62;&#60;a href="index-dark.php"&#62;Dark Style 01&#60;/a&#62;&#60;/li&#62;
+            &#60;li&#62;&#60;a href="index-2-dark.php"&#62;Dark Style 02&#60;/a&#62;&#60;/li&#62;
+            &#60;li&#62;&#60;a href="index-3-dark.php"&#62;Dark Style 03&#60;/a&#62;&#60;/li&#62;
+            &#60;li&#62;&#60;a href="index-4-dark.php"&#62;Dark Style 04&#60;/a&#62;&#60;/li&#62;
+            &#60;li&#62;&#60;a href="index-5-dark.php"&#62;Dark Style 05&#60;/a&#62;&#60;/li&#62;
+          &#60;/ul&#62;
+        &#60;/li&#62;
+      &#60;li&#62;
+        &#60;a class="arrow" href="#"&#62;RTL&#60;/a&#62;
+        &#60;ul class="sub-sub-menu"&#62;
+          &#60;li&#62;&#60;a href="index-1-rtl.php"&#62;RTL Style 01&#60;/a&#62;&#60;/li&#62;
+          &#60;li&#62;&#60;a href="index-2-rtl.php"&#62;RTL Style 02&#60;/a&#62;&#60;/li&#62;
+          &#60;li&#62;&#60;a href="index-3-rtl.php"&#62;RTL Style 03&#60;/a&#62;&#60;/li&#62;
+          &#60;li&#62;&#60;a href="index-4-rtl.php"&#62;RTL Style 04&#60;/a&#62;&#60;/li&#62;
+          &#60;li&#62;&#60;a href="index-5-rtl.php"&#62;RTL Style 05&#60;/a&#62;&#60;/li&#62;
+        &#60;/ul&#62;
+      &#60;/li&#62;
+    &#60;/ul&#62;
+  &#60;/li&#62;
+  &#60;li&#62;&#60;a href="page-about.php"&#62;About Us&#60;/a&#62;&#60;/li&#62;
+  &#60;li&#62;
+    &#60;a href="#0"&#62;Services &#60;i class="fa-solid fa-angle-down"&#62;&#60;/i&#62;&#60;/a&#62;
+    &#60;ul class="sub-menu"&#62;
+      &#60;li&#62;&#60;a href="page-services.php"&#62;Service Grid&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-service-details.php"&#62;Service Details&#60;/a&#62;&#60;/li&#62;
+    &#60;/ul&#62;
+  &#60;/li&#62;
+  &#60;li&#62;
+    &#60;a href="#0"&#62;Pages &#60;i class="fa-solid fa-angle-down"&#62;&#60;/i&#62;&#60;/a&#62;
+    &#60;ul class="sub-menu"&#62;
+      &#60;li&#62;&#60;a href="contact.php"&#62;Contact V1&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-gallery.php"&#62;Galler&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-projects.php"&#62;Project Grid&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-project-details.php"&#62;Project Details&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-team.php"&#62;Team&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-team-details.php"&#62;Team Details&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-testimonial.php"&#62;Testimonials&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-faq.php"&#62;FAQ&#8217;s&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="shop-products.php"&#62;Shop Product&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="shop-products-sidebar.php"&#62;Products Sidebar&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="shop-product-details.php"&#62;Product Details&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="shop-checkout.php"&#62;Checkout&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="shop-cart.php"&#62;Cart&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="page-404.php"&#62;404 Error&#60;/a&#62;&#60;/li&#62;
+    &#60;/ul&#62;
+  &#60;/li&#62;
+  &#60;li&#62;
+    &#60;a href="#0"&#62;Blog &#60;i class="fa-solid fa-angle-down"&#62;&#60;/i&#62;&#60;/a&#62;
+    &#60;ul class="sub-menu"&#62;
+      &#60;li&#62;&#60;a href="news-grid.php"&#62;Blog Grid&#60;/a&#62;&#60;/li&#62;
+      &#60;li&#62;&#60;a href="news-details.php"&#62;Blog Details&#60;/a&#62;&#60;/li&#62;
+    &#60;/ul&#62;
+  &#60;/li&#62;
+  &#60;li&#62;&#60;a href="page-contact.php"&#62;Contact&#60;/a&#62;&#60;/li&#62;
+&#60;/ul&#62;
+</code>
+</pre>
+    </section>
+
+
+
+    <section id="default-layout">
+      <div class="page-header">
+        <h3>Default Layout Structure</h3>
+      </div>
+      <p>The general template structure is the same throughout the template. Here is the general structure.</p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&#60;?php 
+$head_title="Innovatek - Architecture &#38; Interior PHP Template";
+?&#62;
+
+&#60;?php require_once('parts/header/header.php'); ?&#62;
+
+&#60;?php
+
+require_once('parts/home1/banner.php');
+require_once('parts/home1/about.php');
+require_once('parts/home1/project.php');
+require_once('parts/home1/why-choose-us.php');
+require_once('parts/home1/testimonial.php');
+require_once('parts/home1/fun-fact.php');
+require_once('parts/home1/marquee.php');
+require_once('parts/home1/clients.php');
+require_once('parts/home1/contact.php');
+require_once('parts/home1/news.php');
+
+?&#62;
+&#60;?php
+$new_footer_logo_url = "assets/images/logo/logo.png";
+?&#62;
+&#60;?php require_once('parts/footer/footer.php'); ?&#62;
+</code>
+</pre>
+    </section>
+
+
+
+
+
+
+
+    <section id="dark-layout">
+      <div class="page-header">
+        <h3>Dark Layout</h3>
+      </div>
+      <pre class="line-numbers">
+<code class="language-markup">
+&#60;?php 
+$head_title="Innovatek - Architecture &#38; Interior PHP Template | Home Dark One";
+$dark_mode=true;
+$dark_logo_url="assets/images/logo/logo-light.png";
+$sticky_logo_url="assets/images/logo/logo-light.png";
+?&#62;
+&#60;?php require_once('parts/header/header-dark.php'); ?&#62;
+&#60;?php
+
+require_once('parts/home1-dark/banner.php');
+require_once('parts/home1-dark/about.php');
+require_once('parts/home1-dark/project.php');
+require_once('parts/home1-dark/why-choose-us.php');
+require_once('parts/home1-dark/testimonial.php');
+require_once('parts/home1-dark/fun-fact.php');
+require_once('parts/home1-dark/marquee.php');
+require_once('parts/home1-dark/clients.php');
+require_once('parts/home1-dark/contact.php');
+require_once('parts/home1-dark/news.php');
+
+?&#62;
+&#60;?php
+$new_footer_logo_url = "assets/images/logo/logo-light.png";
+?&#62;
+&#60;?php require_once('parts/footer/footer-dark1.php'); ?&#62;
+</code>
+</pre>
+    </section>
+
+
+    <section id="rtl-layout">
+      <div class="page-header">
+        <h3>RTL Layout</h3>
+      </div>
+      <pre class="line-numbers">
+<code class="language-markup">
+&#60;?php 
+$head_title="Innovatek - Architecture &#38; Interior PHP Template | Home Page 01 RTL";
+?&#62;
+
+&#60;?php
+  $rtl_mode=true;
+  $body_class="rtl";
+?&#62;
+&#60;?php require_once('parts/header/header.php'); ?&#62;
+
+&#60;?php
+
+require_once('parts/home1-rtl/banner.php');
+require_once('parts/home1-rtl/about.php');
+require_once('parts/home1-rtl/project.php');
+require_once('parts/home1-rtl/why-choose-us.php');
+require_once('parts/home1-rtl/testimonial.php');
+require_once('parts/home1-rtl/fun-fact.php');
+require_once('parts/home1-rtl/marquee.php');
+require_once('parts/home1-rtl/clients.php');
+require_once('parts/home1-rtl/contact.php');
+require_once('parts/home1-rtl/news.php');
+
+?&#62;
+&#60;?php
+$new_footer_logo_url = "assets/images/logo/logo.png";
+?&#62;
+&#60;?php require_once('parts/footer/footer.php'); ?&#62;
+</code>
+</pre>
+    </section>
+    
+    <section id="javascript_structure">
+      <div class="page-header">
+        <h3>Javascript Structure</h3>
+      </div>
+      <p> These are the <strong>JS</strong> files which are loaded into the <strong>template</strong> before the end of the <strong>BODY end tag</strong>.</p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&#60;!-- Jquery 3.7.0 Min Js --&#62;
+&#60;script src="assets/js/jquery-3.7.1.min.js"&#62;&#60;/script&#62;
+&#60;!-- Bootstrap min Js --&#62;
+&#60;script src="assets/js/bootstrap.min.js"&#62;&#60;/script&#62;
+&#60;!-- Mean menu Js --&#62;
+&#60;script src="assets/js/meanmenu.js"&#62;&#60;/script&#62;
+&#60;!-- Swiper bundle min Js --&#62;
+&#60;script src="assets/js/swiper-bundle.min.js"&#62;&#60;/script&#62;
+&#60;script src="assets/js/bxslider.js"&#62;&#60;/script&#62;
+&#60;script src="assets/js/jquery-ui.js"&#62;&#60;/script&#62;
+&#60;script src="assets/js/mixitup.js"&#62;&#60;/script&#62;
+&#60;!-- Counterup min Js --&#62;
+&#60;script src="assets/js/jquery.counterup.min.js"&#62;&#60;/script&#62;
+&#60;!-- Wow min Js --&#62;
+ &#60;!-- Apear Js --&#62;
+&#60;script src="assets/js/appear.js"&#62;&#60;/script&#62;
+&#60;script src="assets/js/wow.min.js"&#62;&#60;/script&#62;
+&#60;!-- Magnific popup min Js --&#62;
+&#60;script src="assets/js/magnific-popup.min.js"&#62;&#60;/script&#62;
+&#60;!-- Nice select min Js --&#62;
+&#60;script src="assets/js/nice-select.min.js"&#62;&#60;/script&#62;
+&#60;!-- Isotope pkgd min Js --&#62;
+&#60;script src="assets/js/isotope.pkgd.min.js"&#62;&#60;/script&#62;
+&#60;!-- Parallax Js --&#62;
+&#60;script src="assets/js/parallax.js"&#62;&#60;/script&#62;
+&#60;!-- Splitting Js --&#62;
+&#60;script src="assets/js/splitting.js"&#62;&#60;/script&#62;
+&#60;!-- Waypoints Js --&#62;
+&#60;script src="assets/js/jquery.waypoints.js"&#62;&#60;/script&#62;
+&#60;!-- Gsap --&#62;
+&#60;script src="assets/js/gsap/gsap.min.js"&#62;&#60;/script&#62;
+&#60;script src="assets/js/gsap/ScrollTrigger.min.js"&#62;&#60;/script&#62;
+&#60;script src="assets/js/gsap/ScrollSmoother.min.js"&#62;&#60;/script&#62;
+&#60;!-- Script Js --&#62;
+&#60;script src="assets/js/script.js"&#62;&#60;/script&#62;
+</code>
+</pre>
+    </section>
+    <section id="html_structure">
+      <div class="page-header">
+        <h3>HTML Structure</h3>
+      </div>
+      This template has a responsive layout and is based on the <strong>Bootstrap V5 Framework</strong>. For more information about this visit <a target="_blank" href="http://getbootstrap.com/css/"><strong>Bootstrap CSS</strong></a>.
+      <p>The general template structure is the same throughout the template. Here is the <strong>general structure:</strong></p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&lt;section id=&quot;sectionID_if_Needed&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;!-- Section Title --&gt;
+            &lt;div class=&quot;section-title&quot;&gt;
+                &lt;div class=&quot;col-md-12&quot;&gt;
+                    ...          ...          ...
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;!-- Section Content --&gt;
+            &lt;div class=&quot;section-content&quot;&gt;
+                &lt;div class=&quot;col-md-12&quot;&gt;
+                    ...          ...          ...
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+</code>
+</pre>
+      <p>&nbsp; </p>
+    </section>
+    <section id="preloader">
+      <div class="page-header">
+        <h3>Preloader</h3>
+      </div>
+      <p><strong>CSS animated</strong> preloader example:</p>
+      <pre class="line-numbers">
+<code class="language-markup">
+  &#60;!-- Preloader --&#62;
+  &#60;div class="preloader"&#62;&#60;/div&#62;
+
+  &#60;?php require_once('parts/preloader.php'); ?&#62;
+
+</code>
+</pre>
+      <p>For changing <strong>CSS</strong> preloader you have to just copy those html code and replace your existing preloader in index files.</a></p>
+    </section>
+    <section id="contact_form">
+      <div class="page-header">
+        <h3>Contact Form</h3>
+      </div>
+      <p>The Contact form <strong>html</strong> code example is as follows :</p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&lt;!-- Contact Form --&gt;
+&lt;form id=&quot;contact_form&quot; name=&quot;contact_form&quot; class=&quot;&quot; action=&quot;includes/sendmail.php&quot; method=&quot;post&quot;&gt;
+
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-sm-6&quot;&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;form_name&quot;&gt;Name &lt;small&gt;*&lt;/small&gt;&lt;/label&gt;
+        &lt;input id=&quot;form_name&quot; name=&quot;form_name&quot; class=&quot;form-control&quot; type=&quot;text&quot; placeholder=&quot;Enter Name&quot; required=&quot;&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-sm-6&quot;&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;form_email&quot;&gt;Email &lt;small&gt;*&lt;/small&gt;&lt;/label&gt;
+        &lt;input id=&quot;form_email&quot; name=&quot;form_email&quot; class=&quot;form-control required email&quot; type=&quot;email&quot; placeholder=&quot;Enter Email&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-sm-6&quot;&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;form_name&quot;&gt;Subject &lt;small&gt;*&lt;/small&gt;&lt;/label&gt;
+        &lt;input id=&quot;form_subject&quot; name=&quot;form_subject&quot; class=&quot;form-control required&quot; type=&quot;text&quot; placeholder=&quot;Enter Subject&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-sm-6&quot;&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;form_phone&quot;&gt;Phone&lt;/label&gt;
+        &lt;input id=&quot;form_phone&quot; name=&quot;form_phone&quot; class=&quot;form-control&quot; type=&quot;text&quot; placeholder=&quot;Enter Phone&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;form_name&quot;&gt;Message&lt;/label&gt;
+    &lt;textarea id=&quot;form_message&quot; name=&quot;form_message&quot; class=&quot;form-control required&quot; rows=&quot;5&quot; placeholder=&quot;Enter Message&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;input id=&quot;form_botcheck&quot; name=&quot;form_botcheck&quot; class=&quot;form-control&quot; type=&quot;hidden&quot; value=&quot;&quot; /&gt;
+    &lt;button type=&quot;submit&quot; class=&quot;btn btn-dark btn-theme-colored btn-flat mr-5&quot; data-loading-text=&quot;Please wait...&quot;&gt;Send your message&lt;/button&gt;
+    &lt;button type=&quot;reset&quot; class=&quot;btn btn-default btn-flat btn-theme-colored&quot;&gt;Reset&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;!-- Contact Form Validation--&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $(&quot;#contact_form&quot;).validate({
+    submitHandler: function(form) {
+      var form_btn = $(form).find('button[type=&quot;submit&quot;]');
+      var form_result_div = '#form-result';
+      $(form_result_div).remove();
+      form_btn.before('&lt;div id=&quot;form-result&quot; class=&quot;alert alert-success&quot; role=&quot;alert&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt;');
+      var form_btn_old_msg = form_btn.html();
+      form_btn.html(form_btn.prop('disabled', true).data(&quot;loading-text&quot;));
+      $(form).ajaxSubmit({
+        dataType:  'json',
+        success: function(data) {
+          if( data.status == 'true' ) {
+            $(form).find('.form-control').val('');
+          }
+          form_btn.prop('disabled', false).html(form_btn_old_msg);
+          $(form_result_div).html(data.message).fadeIn('slow');
+          setTimeout(function(){ $(form_result_div).fadeOut('slow') }, 6000);
+        }
+      });
+    }
+  });
+&lt;/script&gt;
+</code>
+</pre>
+      <p>For placing your email address, just go to form action location <strong>action="includes/sendmail.php"</strong> and open the <strong> sendmail.php</strong> file in <strong>includes</strong> folder. In that php file at <strong>line 32</strong>, you will see <strong>$toemail = 'spam.thememascot@gmail.com'; </strong> Now just replace that email address by your own email address. Now your contact form is ready!</p>
+    </section>
+    <section id="mailchimp_form">
+      <div class="page-header">
+        <h3>Mailchimp Subscribe Form</h3>
+      </div>
+      <p>The Mailchimp subscribe form <strong>html</strong> code example is as follows :</p>
+      <pre class="line-numbers">
+<code class="language-markup">
+&lt;!-- Mailchimp Subscription Form--&gt;
+&lt;form id=&quot;mailchimp-subscription-form1&quot; class=&quot;newsletter-form mt-40&quot;&gt;
+  &lt;label for=&quot;mce-EMAIL&quot;&gt;&lt;/label&gt;
+  &lt;div class=&quot;input-group&quot;&gt;
+    &lt;input type=&quot;email&quot; id=&quot;mce-EMAIL&quot; data-height=&quot;45px&quot; class=&quot;form-control input-lg&quot; placeholder=&quot;Your Email&quot; name=&quot;EMAIL&quot; value=&quot;&quot;&gt;
+    &lt;span class=&quot;input-group-btn&quot;&gt;
+      &lt;button type=&quot;submit&quot; class=&quot;btn btn-colored btn-dark btn-lg m-0&quot; data-height=&quot;45px&quot;&gt;Subscribe&lt;/button&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;!-- Mailchimp Subscription Form Validation--&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $('#mailchimp-subscription-form1').ajaxChimp({
+    callback: mailChimpCallBack,
+    url: '//thememascot.us9.list-manage.com/subscribe/post?u=a01f440178e35febc8cf4e51f&amp;amp;id=49d6d30e1e'
+  });
+
+  function mailChimpCallBack(resp) {
+    // Hide any previous response text
+    var $mailchimpform = $('#mailchimp-subscription-form1'),
+        $response = '';
+    $mailchimpform.children(&quot;.alert&quot;).remove();
+    console.log(resp);
+    if (resp.result === 'success') {
+      $response = '&lt;div class=&quot;alert alert-success&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;' + resp.msg + '&lt;/div&gt;';
+    } else if (resp.result === 'error') {
+      $response = '&lt;div class=&quot;alert alert-danger&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;' + resp.msg + '&lt;/div&gt;';
+    }
+    $mailchimpform.prepend($response);
+  }
+&lt;/script&gt;
+</code>
+</pre>
+      <p>Now you just have to replace the existing Mailchimp List URL by your own <strong>Mailchimp List URL</strong> which is shown in <strong>line 16</strong> . Now your mailchimp subscribe form is ready!</p>
+    </section>
+    <section id="scripts">
+      <div class="page-header">
+        <h3>Javascript Links</h3>
+      </div>
+      <p> These are the <strong>scripts</strong> used in the template with their <strong>related links</strong> for documentation.</p>
+      <ul>
+        <li><a target="_blank" href="http://jquery.com/">jQuery</a></li>
+        <li><a target="_blank" href="http://getbootstrap.com/">Bootstrap Framework</a></li>
+        <li><a target="_blank" href="https://github.com/galambalazs/smoothscroll">Smoothscroll</a></li>
+        <li><a target="_blank" href="https://github.com/paulirish/infinite-scroll">Infinite Scroll</a></li>
+        <li><a target="_blank" href="https://github.com/flesler/jquery.scrollTo">scrollTo</a></li>
+        <li><a target="_blank" href="http://gsgd.co.uk/sandbox/jquery/easing/">jQuery Easing</a></li>
+        <li><a target="_blank" href="https://github.com/galambalazs/smoothscroll-for-websites">SmoothScroll</a></li>
+        <li><a target="_blank" href="https://github.com/morr/jquery.appear/">jQuery appear plugin</a></li>
+        <li><a target="_blank" href="https://github.com/carhartl/jquery-cookie">jQuery Cookie Plugin</a></li>
+        <li><a target="_blank" href="https://github.com/metafizzy/isotope">Isotope</a></li>
+        <li><a target="_blank" href="https://github.com/markdalgleish/stellar.js/">jquery Stellar parallax</a></li>
+        <li><a target="_blank" href="http://codecanyon.net/item/menuzord-responsive-megamenu/8536398">Menuzord Mega Menu</a></li>
+        <li><a target="_blank" href="http://jquery.malsup.com/cycle/">jQuery Cycle Plugin</a></li>
+        <li><a target="_blank" href="http://blog.aaronvanderzwan.com/2012/07/maximage-2-0/">Maximage Slider</a></li>
+        <li><a target="_blank" href="http://ianlunn.co.uk/plugins/jquery-parallax/">Jquery Parallax</a></li>
+        <li><a target="_blank" href="http://www.owlgraphic.com/owlcarousel/">Owl Carousel</a></li>
+        <li><a target="_blank" href="https://github.com/woothemes/FlexSlider">FlexSlider</a></li>
+        <li><a target="_blank" href="http://dimsemenov.com/plugins/magnific-popup/">Magnific Popup</a></li>
+        <li><a target="_blank" href="https://github.com/gilbitron/Nivo-Lightbox">Nivo Lightbox</a></li>
+        <li><a target="_blank" href="https://github.com/scaron/prettyphoto">PrettyPhoto Lightbox</a></li>
+        <li><a target="_blank" href="https://github.com/fullcalendar/fullcalendar">FullCalendar</a></li>
+        <li><a target="_blank" href="https://github.com/matthieua/WOW">WOW</a></li>
+        <li><a target="_blank" href="https://github.com/pupunzi/jquery.mb.YTPlayer">YTPlayer</a></li>
+        <li><a target="_blank" href="https://github.com/davatron5000/FitVids.js">FitVids</a></li>
+        <li><a target="_blank" href="https://github.com/VodkaBears/Vide">Vide</a></li>
+        <li><a target="_blank" href="http://www.newmediacampaigns.com/blog/a-jquery-flickr-feed-plugin">Jflickrfeed</a></li>
+        <li><a target="_blank" href="https://github.com/aterrien/jQuery-Knob">JQuery Knob</a></li>
+        <li>Typed Animation</li>
+        <li><a target="_blank" href="https://github.com/JeanMarcGoepfert/pretty-maps">Pretty Maps</a></li>
+        <li><a target="_blank" href="http://imulus.github.io/retinajs/">Retinajs</a></li>
+        <li><a target="_blank" href="https://github.com/scdoshi/jquery-ajaxchimp">Ajaxchimp</a></li>
+        <li><a target="_blank" href="http://esimakin.github.io/twbs-pagination/">Pagination</a></li>
+        <li><a target="_blank" href="https://github.com/sonnyt/Tweetie">Tweetie Twitter Feed</a></li>
+        <li><a target="_blank" href="https://github.com/stevenschobert/instafeed.js/">Instafeed</a></li>
+        <li>animateNumbers</li>
+        <li>CountDown</li>
+      </ul>
+    </section>
+    <section id="credits">
+      <div class="page-header">
+        <h3>Credits</h3>
+      </div>
+      <p><strong>Note:</strong> All <strong>images</strong> are used for <strong>preview</strong> purpose only and <strong>not included</strong> in the <strong>final purchase</strong> files. </p>
+      <p> <strong>Images from:</strong><br />
+        <a target="_blank" href="https://www.freepik.com/">https://www.freepik.com/</a><br />
+        <a target="_blank" href="https://www.flickr.com/">https://www.flickr.com/</a><br />
+        <a target="_blank" href="http://pixabay.com/">http://pixabay.com/</a><br />
+        <a target="_blank" href="http://www.pixeden.com/free-graphics">http://www.pixeden.com/free-graphics</a><br />
+        <a target="_blank" href="http://dribbble.com/">http://dribbble.com/</a><br />
+        <a target="_blank" href="https://wallpaperscraft.com/">https://wallpaperscraft.com/</a><br />
+        <a target="_blank" href="http://behance.net/">http://behance.net/</a><br />
+        <a target="_blank" href="http://pinterest.com/">http://pinterest.com/</a><br />
+      </p>
+      <p> <strong>Video from:</strong><br/>
+        <a target="_blank" href="http://youtube.com/">http://youtube.com/</a><br/>
+        <a target="_blank" href="https://vimeo.com/">https://vimeo.com/</a></p>
+      <p> <strong>Icon Fonts:</strong><br>
+        <a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">Font Awesome Icon Font</a><br>
+        <a href="http://themes-pixeden.com/font-demos/7-stroke/" target="_blank">Pe-icon-7-stroke</a><br>
+        <a href="https://www.elegantthemes.com/blog/resources/elegant-icon-font/" target="_blank">Elegant Icon Font</a> </p>
+    </section>
+    <section id="supports">
+      <div class="page-header">
+        <h3>Support</h3>
+      </div>
+      <p><strong>Again, thank you for purchasing this Template!</strong></p>
+      <p> If you have any questions, please use our profile contact form on Envato ( <a target="_blank" href="http://themeforest.net/user/ThemeMascot">http://themeforest.net/user/ThemeMascot</a> ) or at ( <a target="_blank" href="http://themeforest.net/user/KodeSolution">http://themeforest.net/user/KodeSolution</a> ) <br>
+        We aim to answer all questions within <strong>24 hours</strong> . In some cases the waiting time can be extended to <strong>48 hours.</strong></p>
+      <p>Email: <a href="mailto:help.thememascot@gmail.com?subject=LegalFirm HTML Theme Support">help.thememascot@gmail.com</a></p>
+    </section>
+  </article>
+  <!-- END Main content -->
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container-fluid"> <a id="scroll-up" href="#"><i class="fa fa-angle-up"></i></a>
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <p>Copyright &copy; 2024. All right reserved</p>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <ul class="footer-menu">
+          <li><a href="#">Changelog</a></li>
+          <li><a href="mailto:help.thememascot@gmail.com?subject=LegalFirm HTML Theme Support">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- END Footer -->
+
+<!-- Scripts -->
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/other.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
