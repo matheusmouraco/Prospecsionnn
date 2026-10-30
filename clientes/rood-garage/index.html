@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rood Garage | Insulfilm e PPF</title>
+<meta name="description" content="Rood Garage Film & Detail: aplicação de insulfilm com controle solar e PPF para proteção de pintura. Peça seu orçamento pelo WhatsApp (11) 93020-1546.">
+<meta property="og:title" content="Rood Garage | Insulfilm e PPF">
+<meta property="og:description" content="Insulfilm com controle solar e PPF para proteção de pintura. Orçamento pelo WhatsApp.">
+<meta property="og:image" content="img/carro.jpg">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="img/logo-rood.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoRepair",
+  "name": "Rood Garage",
+  "description": "Aplicação de insulfilm (película de controle solar) e PPF (proteção de pintura).",
+  "telephone": "+55 11 93020-1546",
+  "sameAs": ["https://www.instagram.com/roodgarage/"],
+  "makesOffer": [
+    {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Insulfilm"}},
+    {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "PPF, película de proteção de pintura"}}
+  ]
+}
+</script>
+<style>
+  :root{
+    --bg:#0a0a0b; --bg2:#111113; --card:#151518; --line:#26262b;
+    --tx:#f4f4f2; --mut:#9a9aa2; --soft:#cfcfd4; --wa:#25d366;
+    --r:18px; --max:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--tx);font-family:"Archivo",system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{max-width:100%;height:auto;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .disp{font-stretch:72%;font-weight:850;text-transform:uppercase;letter-spacing:-.01em;line-height:.95}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--mut)}
+  .eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:999px;font-weight:700;font-size:15.5px;transition:transform .2s,background .2s,border-color .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn-w{background:var(--tx);color:#0a0a0b}
+  .btn-w:hover{background:#fff}
+  .btn-o{border:1px solid #3a3a40;color:var(--tx)}
+  .btn-o:hover{border-color:var(--tx)}
+
+  /* nav */
+  nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+  nav.on{background:rgba(10,10,11,.86);backdrop-filter:blur(14px);border-color:var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+  nav .logo img{height:42px;width:auto}
+  nav ul{display:flex;gap:34px;list-style:none;font-size:14.5px;color:var(--soft)}
+  nav ul a:hover{color:#fff}
+  nav .btn{padding:11px 20px;font-size:14px}
+
+  /* hero */
+  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:120px;overflow:hidden;background:radial-gradient(120% 70% at 50% 100%,#1b1b1f 0%,var(--bg) 60%)}
+  .hex{position:absolute;top:-30px;right:-60px;width:min(720px,80vw);opacity:.9;pointer-events:none}
+  .hex path{fill:none;stroke:#fff;stroke-width:7;filter:drop-shadow(0 0 10px rgba(255,255,255,.75)) drop-shadow(0 0 28px rgba(255,255,255,.35))}
+  .hero-txt,.hero-foot{width:100%}
+  .hero-txt{position:relative;z-index:2}
+  .hero h1{font-size:clamp(52px,9.4vw,136px);margin:22px 0 26px;max-width:11ch}
+  .hero h1 span{color:transparent;-webkit-text-stroke:1.5px var(--tx)}
+  .hero p.lead{max-width:520px;color:var(--soft);font-size:18.5px}
+  .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+  .hero-car{position:relative;z-index:1;margin-top:-40px;margin-left:auto;width:min(1080px,100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 16%,#000 92%,transparent 100%),linear-gradient(180deg,transparent 0%,#000 14%,#000 78%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0%,#000 16%,#000 92%,transparent 100%),linear-gradient(180deg,transparent 0%,#000 14%,#000 78%,transparent 100%);mask-composite:intersect}
+  .hero-foot{position:relative;z-index:2;display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding-top:22px;padding-bottom:28px;font-size:13.5px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
+
+  /* benefits */
+  .benef{border-bottom:1px solid var(--line);background:var(--bg)}
+  .benef .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+  .b{padding:42px 26px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:16px}
+  .b:last-child{border-right:1px solid var(--line)}
+  .b svg{width:40px;height:40px;stroke:var(--tx);fill:none;stroke-width:1.4}
+  .b h3{font-size:16px;font-weight:700;line-height:1.3;text-transform:uppercase;letter-spacing:.03em}
+  .b p{font-size:14.5px;color:var(--mut);line-height:1.5}
+
+  section{padding:130px 0}
+  .head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:64px}
+  .head h2{font-size:clamp(42px,6vw,80px);margin-top:18px}
+  .head p{color:var(--soft);max-width:460px;justify-self:end}
+
+  /* services */
+  .svc{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:44px 40px 40px;overflow:hidden;display:flex;flex-direction:column}
+  .card .tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+  .card h3{font-size:clamp(54px,6.4vw,92px);margin:14px 0 6px}
+  .card .sub{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:26px}
+  .card > p{color:var(--soft);margin-bottom:28px}
+  .card ul{list-style:none;border-top:1px solid var(--line);margin-bottom:34px}
+  .card li{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+  .card li::before{content:"";flex:none;width:8px;height:8px;margin-top:9px;background:var(--tx);transform:rotate(45deg)}
+  .card .btn{margin-top:auto;align-self:flex-start}
+  .card .glow{position:absolute;top:-120px;right:-120px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.09),transparent 70%);pointer-events:none}
+
+  /* compare */
+  .cmp{background:var(--bg2);border-block:1px solid var(--line)}
+  .tbl{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+  .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.5fr}
+  .row > div{padding:22px 28px;border-bottom:1px solid var(--line)}
+  .row > div + div{border-left:1px solid var(--line)}
+  .row:last-child > div{border-bottom:0}
+  .row.th > div{font-stretch:72%;font-weight:850;text-transform:uppercase;font-size:26px;background:#18181b}
+  .row .k{color:var(--mut);font-size:14px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+  .row > div:not(.k){color:var(--soft)}
+  .note{margin-top:22px;color:var(--mut);font-size:15px}
+  .note b{color:var(--tx);font-weight:600}
+
+  /* process */
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s}
+  .st{padding:0 22px 0 0;position:relative}
+  .st .n{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .st .n b{counter-increment:s;width:46px;height:46px;flex:none;display:grid;place-items:center;border:1px solid var(--tx);transform:rotate(45deg)}
+  .st .n b::after{content:counter(s,decimal-leading-zero);transform:rotate(-45deg);font-size:14px;font-weight:700}
+  .st .n i{flex:1;height:1px;background:var(--line)}
+  .st:last-child .n i{display:none}
+  .st h4{font-size:18px;font-weight:700;margin-bottom:8px}
+  .st p{font-size:15px;color:var(--mut);line-height:1.55}
+
+  /* faq */
+  .faq{max-width:860px}
+  details{border-bottom:1px solid var(--line)}
+  details:first-child{border-top:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;font-size:19px;font-weight:600}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:28px;font-weight:300;line-height:1;transition:transform .25s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 0 26px;color:var(--soft);max-width:720px}
+
+  /* cta */
+  .cta{position:relative;overflow:hidden;text-align:center;padding:150px 0 140px;background:radial-gradient(70% 90% at 50% 120%,#202024 0%,var(--bg) 70%)}
+  .cta .hex{top:auto;bottom:-140px;left:50%;right:auto;transform:translateX(-50%);width:min(900px,120vw);opacity:.35}
+  .cta img.lg{width:min(360px,72vw);margin:0 auto 44px;position:relative}
+  .cta h2{font-size:clamp(46px,7.4vw,104px);max-width:14ch;margin:0 auto 24px;position:relative}
+  .cta p{color:var(--soft);max-width:520px;margin:0 auto 38px;position:relative}
+  .cta .ctas{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;position:relative}
+  .contact{display:flex;justify-content:center;flex-wrap:wrap;gap:14px 44px;margin-top:56px;position:relative;font-size:15px;color:var(--mut)}
+  .contact a{color:var(--tx);font-weight:600}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;font-size:13.5px;color:var(--mut)}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer img{height:34px;width:auto;opacity:.85}
+
+  .fab{position:fixed;right:20px;bottom:20px;z-index:60;width:60px;height:60px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:transform .2s}
+  .fab:hover{transform:scale(1.07)}
+  .fab svg{width:30px;height:30px;fill:#fff}
+
+  /* reveal */
+  .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .js .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+  @media (max-width:980px){
+    nav ul{display:none}
+    .benef .wrap{grid-template-columns:1fr 1fr;padding:0}
+    .b{border-left:0;border-bottom:1px solid var(--line);padding:30px 24px}
+    .b:nth-child(odd){border-right:1px solid var(--line)}
+    .b:last-child{border-right:0}
+    .b:nth-last-child(-n+2){border-bottom:0}
+    .head{grid-template-columns:1fr;gap:18px;margin-bottom:44px}
+    .head p{justify-self:start}
+    .svc{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr;gap:30px}
+    .st{display:grid;grid-template-columns:46px 1fr;gap:6px 22px;padding:0}
+    .st .n{grid-row:span 2;margin:0}
+    .st .n i{display:none}
+    section{padding:96px 0}
+  }
+  @media (max-width:640px){
+    body{font-size:16px}
+    .wrap{padding:0 16px}
+    nav .wrap{height:66px}
+    nav .logo img{height:34px}
+    nav .btn span{display:none}
+    nav .btn{padding:10px 12px}
+    .hero{padding-top:100px}
+    .hero p.lead{font-size:16.5px}
+    .hero .btn{width:100%;justify-content:center}
+    .hero-car{margin-top:16px;width:140%;max-width:none;margin-left:-22%}
+    .hero-foot{flex-direction:column;gap:6px;font-size:12px}
+    .b{padding:26px 16px}
+    .b h3{font-size:14px}
+    .b p{font-size:13.5px}
+    .card{padding:32px 22px 26px}
+    .card .btn{width:100%;justify-content:center}
+    .row{grid-template-columns:1fr 1fr}
+    .row .k{grid-column:1/-1;background:#18181b;padding:12px 18px}
+    .row > div{padding:16px 18px;font-size:14.5px}
+    .row > div + div{border-left:0}
+    .row > div:last-child{border-left:1px solid var(--line)}
+    .row.th > div:first-child{display:none}
+    .row.th > div{font-size:22px}
+    summary{font-size:17px;padding:22px 0}
+    .cta{padding:110px 0 100px}
+    .cta .btn{width:100%;justify-content:center}
+    .fab{width:54px;height:54px;right:14px;bottom:14px}
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#topo" class="logo" aria-label="Rood Garage, início"><img src="img/logo-rood.png" alt="Rood Garage Film &amp; Detail"></a>
+    <ul>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#comparar">Qual escolher</a></li>
+      <li><a href="#processo">Como funciona</a></li>
+      <li><a href="#duvidas">Dúvidas</a></li>
+    </ul>
+    <a class="btn btn-w wa" href="#" data-msg="Olá! Vim pelo site e quero um orçamento."><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg><span>Orçamento</span></a>
+  </div>
+</nav>
+
+<header class="hero" id="topo">
+  <svg class="hex" viewBox="0 0 720 420" aria-hidden="true">
+    <path d="M250 40h150l60 52-60 52H250l-60-52z"/>
+    <path d="M480 40h150l60 52-60 52H480l-60-52z"/>
+    <path d="M365 196h150l60 52-60 52H365l-60-52z"/>
+    <path d="M595 196h150l60 52-60 52H595l-60-52z"/>
+  </svg>
+  <div class="wrap hero-txt">
+    <span class="eyebrow rv">Film &amp; Detail</span>
+    <h1 class="disp rv">Insulfilm e <span>PPF</span> com acabamento de estúdio</h1>
+    <p class="lead rv">Película de controle solar para os vidros e película de proteção para a pintura. Seu carro mais fresco, mais reservado e protegido no dia a dia.</p>
+    <div class="ctas rv">
+      <a class="btn btn-w wa" href="#" data-msg="Olá! Quero um orçamento de insulfilm / PPF."><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg>Pedir orçamento no WhatsApp</a>
+      <a class="btn btn-o" href="#servicos">Conhecer os serviços</a>
+    </div>
+  </div>
+  <img class="hero-car" src="img/carro.jpg" alt="Mercedes CLA 200 branca no estúdio da Rood Garage" width="1342" height="694">
+  <div class="wrap hero-foot">
+    <span>Insulfilm · PPF · Detailing</span>
+    <span>WhatsApp (11) 93020-1546</span>
+  </div>
+</header>
+
+<div class="benef">
+  <div class="wrap">
+    <div class="b rv">
+      <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="8"/><path d="M20 4v5M20 31v5M4 20h5M31 20h5M8.7 8.7l3.5 3.5M27.8 27.8l3.5 3.5M8.7 31.3l3.5-3.5M27.8 12.2l3.5-3.5"/></svg>
+      <h3>Proteção contra raios UV</h3>
+      <p>Menos sol direto na pele e no interior do carro.</p>
+    </div>
+    <div class="b rv">
+      <svg viewBox="0 0 40 40"><path d="M17 6a3 3 0 0 1 6 0v17a7 7 0 1 1-6 0z"/><circle cx="20" cy="29" r="3"/><path d="M26 10h4M26 15h3M26 20h4"/></svg>
+      <h3>Conforto térmico</h3>
+      <p>Cabine mais agradável, principalmente com o carro parado no sol.</p>
+    </div>
+    <div class="b rv">
+      <svg viewBox="0 0 40 40"><path d="M3 20s6-10 17-10 17 10 17 10-6 10-17 10S3 20 3 20z"/><circle cx="20" cy="20" r="5"/></svg>
+      <h3>Privacidade e estilo</h3>
+      <p>Visual mais limpo e menos exposição de quem está dentro.</p>
+    </div>
+    <div class="b rv">
+      <svg viewBox="0 0 40 40"><path d="M12 7h16l7 9-15 18L5 16z"/><path d="M5 16h30M15 16l5 18 5-18M12 7l3 9M28 7l-3 9M20 7v9"/></svg>
+      <h3>Tecnologia nano cerâmica</h3>
+      <p>Películas de linha atual para quem quer desempenho de verdade.</p>
+    </div>
+  </div>
+</div>
+
+<section id="servicos">
+  <div class="wrap">
+    <div class="head">
+      <div class="rv">
+        <span class="eyebrow">O que aplicamos</span>
+        <h2 class="disp">Dois serviços.<br>Um padrão.</h2>
+      </div>
+      <p class="rv">Cada carro é avaliado antes. A gente indica a película certa para o seu uso, prepara a superfície com cuidado e entrega com acabamento que não aparece.</p>
+    </div>
+    <div class="svc">
+      <article class="card rv">
+        <div class="glow"></div>
+        <span class="tag">Vidros</span>
+        <h3 class="disp">Insulfilm</h3>
+        <div class="sub">Película de controle solar</div>
+        <p>Aplicada nos vidros para filtrar o sol, reduzir o calor que entra na cabine e deixar o carro com um visual mais sóbrio.</p>
+        <ul>
+          <li>Proteção contra raios UV para você e para o interior</li>
+          <li>Mais conforto térmico no trânsito e no estacionamento</li>
+          <li>Privacidade sem perder a visibilidade de quem dirige</li>
+          <li>Opções em nano cerâmica</li>
+        </ul>
+        <a class="btn btn-w wa" href="#" data-msg="Olá! Quero um orçamento de insulfilm."><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg>Orçar insulfilm</a>
+      </article>
+      <article class="card rv">
+        <div class="glow"></div>
+        <span class="tag">Pintura</span>
+        <h3 class="disp">PPF</h3>
+        <div class="sub">Proteção de pintura</div>
+        <p>Película transparente aplicada sobre a pintura. Funciona como uma camada de sacrifício: o desgaste fica nela, não no verniz original do carro.</p>
+        <ul>
+          <li>Ajuda a proteger contra pedriscos e riscos do uso diário</li>
+          <li>Preserva a pintura original e o valor de revenda</li>
+          <li>Áreas mais expostas ou o carro inteiro</li>
+          <li>Praticamente invisível depois de aplicada</li>
+        </ul>
+        <a class="btn btn-w wa" href="#" data-msg="Olá! Quero um orçamento de PPF."><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg>Orçar PPF</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cmp" id="comparar">
+  <div class="wrap">
+    <div class="head">
+      <div class="rv">
+        <span class="eyebrow">Qual escolher</span>
+        <h2 class="disp">Insulfilm ou PPF?</h2>
+      </div>
+      <p class="rv">Um não substitui o outro. Insulfilm cuida de quem está dentro do carro. PPF cuida do carro por fora.</p>
+    </div>
+    <div class="tbl rv">
+      <div class="row th"><div></div><div>Insulfilm</div><div>PPF</div></div>
+      <div class="row"><div class="k">Onde vai</div><div>Vidros</div><div>Pintura e partes externas</div></div>
+      <div class="row"><div class="k">Protege</div><div>Você e o interior, do sol e do calor</div><div>A pintura, de pedriscos e riscos do dia a dia</div></div>
+      <div class="row"><div class="k">Você sente</div><div>Cabine mais fresca e mais reservada</div><div>Pintura preservada por mais tempo</div></div>
+      <div class="row"><div class="k">Ideal para</div><div>Quem roda muito no sol ou deixa o carro na rua</div><div>Carro novo, carro de valor ou quem pega estrada</div></div>
+    </div>
+    <p class="note rv"><b>Na dúvida, manda uma foto do carro no WhatsApp.</b> A gente explica o que faz sentido para você.</p>
+  </div>
+</section>
+
+<section id="processo">
+  <div class="wrap">
+    <div class="head">
+      <div class="rv">
+        <span class="eyebrow">Como funciona</span>
+        <h2 class="disp">Do orçamento<br>à entrega</h2>
+      </div>
+      <p class="rv">Processo simples, sem surpresa. Você sabe o que vai ser feito antes de deixar o carro.</p>
+    </div>
+    <div class="steps">
+      <div class="st rv"><div class="n"><b></b><i></i></div><h4>Contato</h4><p>Você chama no WhatsApp, conta o modelo do carro e o que procura.</p></div>
+      <div class="st rv"><div class="n"><b></b><i></i></div><h4>Recomendação</h4><p>A gente indica a película e as áreas certas e passa o orçamento.</p></div>
+      <div class="st rv"><div class="n"><b></b><i></i></div><h4>Preparação</h4><p>Limpeza e preparo da superfície, a parte que define o acabamento.</p></div>
+      <div class="st rv"><div class="n"><b></b><i></i></div><h4>Aplicação</h4><p>Aplicação no estúdio, com atenção a bordas, cantos e recortes.</p></div>
+      <div class="st rv"><div class="n"><b></b><i></i></div><h4>Entrega</h4><p>Você recebe o carro com as orientações de cuidado dos primeiros dias.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cmp" id="duvidas">
+  <div class="wrap">
+    <div class="head">
+      <div class="rv">
+        <span class="eyebrow">Dúvidas</span>
+        <h2 class="disp">Perguntas<br>frequentes</h2>
+      </div>
+      <p class="rv">Não achou a sua? Pergunta direto no WhatsApp.</p>
+    </div>
+    <div class="faq rv">
+      <details>
+        <summary>Insulfilm é permitido por lei?</summary>
+        <p>Sim, desde que a película respeite os limites de transparência definidos pelo Contran para cada vidro. A gente indica a opção certa para o para-brisa, os vidros dianteiros e os traseiros.</p>
+      </details>
+      <details>
+        <summary>PPF deixa o carro com aparência diferente?</summary>
+        <p>A ideia é justamente o contrário: o PPF é transparente e, bem aplicado, quase não se percebe. O carro continua com a cor e o brilho originais.</p>
+      </details>
+      <details>
+        <summary>Posso proteger só uma parte do carro com PPF?</summary>
+        <p>Pode. É comum começar pelas áreas que mais sofrem, como frente, capô e retrovisores. Também dá para fazer o carro inteiro.</p>
+      </details>
+      <details>
+        <summary>Quanto tempo o carro fica no estúdio?</summary>
+        <p>Depende do serviço e da área aplicada. O prazo vem junto com o orçamento, para você se programar.</p>
+      </details>
+      <details>
+        <summary>Como faço para pedir um orçamento?</summary>
+        <p>Chama no WhatsApp (11) 93020-1546 com o modelo e o ano do carro e o serviço que você quer. Se puder, manda uma foto.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <svg class="hex" viewBox="0 0 720 420" aria-hidden="true">
+    <path d="M250 40h150l60 52-60 52H250l-60-52z"/>
+    <path d="M480 40h150l60 52-60 52H480l-60-52z"/>
+    <path d="M135 196h150l60 52-60 52H135l-60-52z"/>
+    <path d="M365 196h150l60 52-60 52H365l-60-52z"/>
+  </svg>
+  <div class="wrap">
+    <img class="lg rv" src="img/logo-rood.png" alt="Rood Garage Film &amp; Detail">
+    <h2 class="disp rv">Seu carro merece esse cuidado</h2>
+    <p class="rv">Fala com a gente e receba a recomendação certa para o seu carro.</p>
+    <div class="ctas rv">
+      <a class="btn btn-w wa" href="#" data-msg="Olá! Vim pelo site e quero um orçamento."><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg>Chamar no WhatsApp</a>
+      <a class="btn btn-o" href="https://www.instagram.com/roodgarage/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@roodgarage</a>
+    </div>
+    <div class="contact rv">
+      <span>WhatsApp <a class="wa" href="#" data-msg="Olá! Vim pelo site.">(11) 93020-1546</a></span>
+      <span>Instagram <a href="https://www.instagram.com/roodgarage/" target="_blank" rel="noopener">@roodgarage</a></span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo-rood.png" alt="Rood Garage">
+    <span>© <span id="ano">2026</span> Rood Garage. Todos os direitos reservados.</span>
+  </div>
+</footer>
+
+<a class="fab wa" href="#" data-msg="Olá! Vim pelo site e quero um orçamento." aria-label="Falar no WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.02c0-5.2 4.24-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.67c0 5.2-4.24 9.43-9.44 9.43zm8.03-17.46A11.27 11.27 0 0 0 12.05.72C5.8.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.6l6-1.57a11.3 11.3 0 0 0 5.43 1.38h.01c6.25 0 11.34-5.09 11.34-11.34 0-3.03-1.18-5.88-3.31-8.02z"/></symbol>
+</svg>
+
+<script>
+  var WA = '5511930201546';
+  document.querySelectorAll('a.wa').forEach(function (a) {
+    a.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(a.dataset.msg || 'Olá!');
+    a.target = '_blank'; a.rel = 'noopener';
+  });
+  document.getElementById('ano').textContent = new Date().getFullYear();
+  var nav = document.getElementById('nav');
+  var onScroll = function () { nav.classList.toggle('on', window.scrollY > 30); };
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el); });
+  } else {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+  }
+</script>
+</body>
+</html>
