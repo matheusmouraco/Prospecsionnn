@@ -12,7 +12,7 @@
 <link rel="icon" href="img/logo-rood.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/carro.webp">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"AutoRepair","name":"Rood Garage","description":"Aplicação de insulfilm (película de controle solar) e PPF (película de proteção de pintura).","telephone":"+55 11 93020-1546","sameAs":["https://www.instagram.com/roodgarage/"],"makesOffer":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Insulfilm"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"PPF, película de proteção de pintura"}}]}
@@ -22,7 +22,7 @@
 :root{
   --bg:#070708;--bg2:#0d0d0f;--card:#121215;--ink:#f2f1ee;--soft:#c9c8c4;--mut:#86868d;--dim:#2a2a2f;
   --line:rgba(255,255,255,.1);--wa:#25d366;--max:1320px;--g:clamp(16px,4vw,48px);
-  --cond:"Archivo",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  --cond:"Inter Tight",system-ui,sans-serif;--disp:"Anton",Impact,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
   --ease:cubic-bezier(.16,1,.3,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -34,7 +34,7 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 ::selection{background:var(--ink);color:var(--bg)}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--g)}
-.x{font-stretch:62%;font-weight:900;text-transform:uppercase;line-height:.86;letter-spacing:-.005em}
+.x{font-family:var(--disp);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:.005em}
 .mono{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .mono b{color:var(--ink);font-weight:500}
 .out{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
@@ -87,7 +87,7 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 .car img{width:100%}
 .floor{position:absolute;z-index:3;left:0;right:0;bottom:0;height:42%;background:linear-gradient(to top,var(--bg) 18%,transparent);pointer-events:none}
 .hero .bottom{position:relative;z-index:4;margin-top:auto;display:grid;grid-template-columns:1.25fr 1fr;align-items:end;gap:40px;padding-bottom:42px}
-.hero h1{font-size:clamp(38px,4.7vw,74px)}
+.hero h1{font-size:clamp(36px,4.4vw,68px)}
 .hero h1 .ln{display:block;overflow:hidden;padding:.14em 0 .04em;margin-top:-.12em}
 .hero h1 .ln > span{display:block}
 .hero .side{display:flex;flex-direction:column;gap:26px;align-items:flex-start;justify-self:end;max-width:430px}
@@ -111,12 +111,12 @@ section{position:relative}
 .lab::before{content:"";width:9px;height:9px;border:1px solid var(--ink);transform:rotate(45deg)}
 
 /* manifesto */
-.mani p{font-size:clamp(30px,4.6vw,68px);font-weight:600;font-stretch:80%;line-height:1.08;letter-spacing:-.015em;max-width:21ch}
+.mani p{font-size:clamp(30px,4.4vw,64px);font-weight:600;line-height:1.08;letter-spacing:-.025em;max-width:22ch}
 .mani p .w{color:var(--dim);transition:color .2s}
 .mani p .w.on{color:var(--ink)}
 .no-js-on .mani p .w,html:not(.js) .mani p .w{color:var(--ink)}
 .mani .foot{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-top:70px;flex-wrap:wrap}
-.mani .foot p{font-size:16px;font-weight:400;font-stretch:100%;color:var(--soft);max-width:400px;letter-spacing:0;line-height:1.6}
+.mani .foot p{font-size:16px;font-weight:400;color:var(--soft);max-width:400px;letter-spacing:0;line-height:1.6}
 
 /* services */
 .svc{border-top:1px solid var(--line)}
@@ -149,12 +149,19 @@ section{position:relative}
 .ben .intro{width:min(520px,80vw);display:flex;flex-direction:column;justify-content:center;padding-right:40px}
 .ben .intro h2{font-size:clamp(64px,8.6vw,132px)}
 .ben .intro p{color:var(--soft);margin-top:26px;max-width:380px}
-.bc{position:relative;width:min(440px,78vw);height:min(560px,68vh);min-height:440px;border:1px solid var(--line);border-radius:22px;padding:34px;display:flex;flex-direction:column;background:var(--card);overflow:hidden}
+.bc{position:relative;width:min(440px,78vw);height:min(580px,70vh);min-height:460px;border:1px solid var(--line);border-radius:22px;padding:30px 32px 34px;display:flex;flex-direction:column;justify-content:flex-end;background:var(--card);overflow:hidden;isolation:isolate}
+.bc .ph{position:absolute;z-index:-1;inset:0 0 auto;height:66%;background:center/cover no-repeat;opacity:.85;transition:transform 1.2s var(--ease),opacity .6s;-webkit-mask-image:linear-gradient(#000 45%,transparent);mask-image:linear-gradient(#000 45%,transparent)}
+.bc:nth-of-type(1) .ph{background-image:url(img/ben-1.webp)}
+.bc:nth-of-type(2) .ph{background-image:url(img/ben-2.webp)}
+.bc:nth-of-type(3) .ph{background-image:url(img/ben-3.webp)}
+.bc:nth-of-type(4) .ph{background-image:url(img/ben-4.webp);background-position:40% 50%}
+.bc:hover .ph{transform:scale(1.06);opacity:1}
+.bc::after{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:42%;background:linear-gradient(rgba(7,7,8,.75),transparent);pointer-events:none}
+.bc .i{position:absolute;left:32px;right:32px;top:26px;align-items:flex-start}
+.bc .i span:first-child{font-family:var(--disp);font-size:72px;line-height:1;color:transparent;-webkit-text-stroke:1.2px var(--ink);letter-spacing:0}
 .bc .i{font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.14em;display:flex;justify-content:space-between}
-.bc svg{width:120px;height:120px;margin:auto 0;stroke:var(--ink);fill:none;stroke-width:1.2}
 .bc h3{font-size:clamp(38px,3.6vw,52px);margin-bottom:14px}
 .bc p{color:var(--mut);font-size:15.5px;max-width:320px}
-.bc::after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%)}
 
 /* versus */
 .vs .grid{display:grid;grid-template-columns:1fr auto 1fr;gap:0;border:1px solid var(--line);border-radius:22px;overflow:hidden}
@@ -263,7 +270,8 @@ footer .by img{width:84px;opacity:.75}
   .btn{height:54px}
   .spec li{font-size:15px}
   .svc .txt .btn{width:100%;justify-content:center}
-  .bc{padding:26px;width:100%;height:auto;min-height:360px}
+  .bc{padding:26px;width:100%;height:auto;min-height:420px}
+  .bc .i{left:26px;right:26px}
   .ben .intro{width:100%;padding:0 0 20px}
   .proc .row{grid-template-columns:64px 1fr;gap:6px 16px}
   .proc .n{font-size:52px;grid-row:span 2}
@@ -422,25 +430,25 @@ footer .by img{width:84px;opacity:.75}
     </div>
     <article class="bc">
       <div class="i"><span>01</span><span>/04</span></div>
-      <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="20"/><circle cx="60" cy="60" r="34" stroke-dasharray="2 6"/><path d="M60 8v12M60 100v12M8 60h12M100 60h12M23 23l9 9M88 88l9 9M23 97l9-9M88 32l9-9"/></svg>
+      <div class="ph"></div>
       <h3 class="x">Proteção UV</h3>
       <p>Menos sol direto na pele e no painel, bancos e acabamentos internos.</p>
     </article>
     <article class="bc">
       <div class="i"><span>02</span><span>/04</span></div>
-      <svg viewBox="0 0 120 120"><path d="M52 18a8 8 0 0 1 16 0v52a18 18 0 1 1-16 0z"/><circle cx="60" cy="86" r="8"/><path d="M60 78V44M78 30h14M78 44h10M78 58h14"/></svg>
+      <div class="ph"></div>
       <h3 class="x">Conforto térmico</h3>
       <p>Cabine mais agradável, principalmente com o carro parado no sol.</p>
     </article>
     <article class="bc">
       <div class="i"><span>03</span><span>/04</span></div>
-      <svg viewBox="0 0 120 120"><path d="M8 60s20-32 52-32 52 32 52 32-20 32-52 32S8 60 8 60z"/><circle cx="60" cy="60" r="16"/><circle cx="60" cy="60" r="5" fill="#fff"/></svg>
+      <div class="ph"></div>
       <h3 class="x">Privacidade e estilo</h3>
       <p>Visual mais sóbrio e menos exposição de quem está dentro.</p>
     </article>
     <article class="bc">
       <div class="i"><span>04</span><span>/04</span></div>
-      <svg viewBox="0 0 120 120"><path d="M34 18h52l22 28-48 58L12 46z"/><path d="M12 46h96M42 46l18 58 18-58M34 18l8 28M86 18l-8 28M60 18v28"/></svg>
+      <div class="ph"></div>
       <h3 class="x">Nano cerâmica</h3>
       <p>Películas de linha atual para quem quer desempenho de verdade.</p>
     </article>
