@@ -226,6 +226,8 @@ footer .by img{width:84px;opacity:.75}
 
 .fab{position:fixed;right:22px;bottom:22px;z-index:60;width:62px;height:62px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 12px 34px rgba(0,0,0,.5);transition:transform .35s var(--ease)}
 .fab:hover{transform:scale(1.08)}
+.fab.off{transform:scale(.4);opacity:0;pointer-events:none}
+.fab{transition:transform .35s var(--ease),opacity .35s}
 .fab svg{width:30px;height:30px;fill:#fff}
 
 /* cursor */
@@ -238,7 +240,7 @@ footer .by img{width:84px;opacity:.75}
   .hero .bottom{grid-template-columns:1fr;gap:24px}
   .hero .side{justify-self:start}
   .svc .grid{grid-template-columns:1fr}
-  .svc.rev .vis{order:0}
+  .svc .vis,.svc.rev .vis{order:2}
   .vis{max-width:560px;width:100%}
   .vs .grid{grid-template-columns:1fr}
   .vs .mid{border-inline:0;border-block:1px solid var(--line);padding:14px 0}
@@ -280,7 +282,16 @@ footer .by img{width:84px;opacity:.75}
   details .a p{padding-right:0}
   .end .ctas .btn{width:100%;justify-content:center}
   footer .top{grid-template-columns:1fr}
-  .fab{width:56px;height:56px;right:14px;bottom:14px}
+  .fab{width:54px;height:54px;right:14px;bottom:14px}
+  .end{padding:110px 0 90px}
+  .end .bgcar{width:220vw;opacity:.12;bottom:-2%}
+  .end h2{font-size:clamp(56px,17vw,84px)}
+  footer{padding:56px 0 30px;text-align:center}
+  footer .top{grid-template-columns:1fr;justify-items:center;gap:34px;padding-bottom:44px}
+  footer .top img{width:170px;margin:0 auto}
+  footer ul{justify-items:center}
+  footer .bot{flex-direction:column;justify-content:center;gap:16px}
+  .vs .after{flex-direction:column;align-items:flex-start}
 }
 @media (prefers-reduced-motion:reduce){
   body::after,.scroll::after{animation:none}
@@ -551,6 +562,16 @@ footer .by img{width:84px;opacity:.75}
   // manifesto words
   var m = document.getElementById('mani');
   m.innerHTML = m.textContent.trim().split(/\s+/).map(function (w) { return '<span class="w">' + w + '</span>'; }).join(' ');
+
+  // floating WhatsApp button stays out of the way where the page already shows WhatsApp buttons
+  var fab = document.querySelector('.fab'), shown = {};
+  if ('IntersectionObserver' in window) {
+    var fo = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { shown[e.target.className] = e.isIntersecting; });
+      fab.classList.toggle('off', Object.keys(shown).some(function (k) { return shown[k]; }));
+    }, { threshold: .15 });
+    document.querySelectorAll('.hero, .end').forEach(function (el) { fo.observe(el); });
+  }
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var loader = document.getElementById('loader');

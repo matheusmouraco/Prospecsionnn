@@ -10,6 +10,16 @@
   var m = document.getElementById('mani');
   m.innerHTML = m.textContent.trim().split(/\s+/).map(function (w) { return '<span class="w">' + w + '</span>'; }).join(' ');
 
+  // floating WhatsApp button stays out of the way where the page already shows WhatsApp buttons
+  var fab = document.querySelector('.fab'), shown = {};
+  if ('IntersectionObserver' in window) {
+    var fo = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { shown[e.target.className] = e.isIntersecting; });
+      fab.classList.toggle('off', Object.keys(shown).some(function (k) { return shown[k]; }));
+    }, { threshold: .15 });
+    document.querySelectorAll('.hero, .end').forEach(function (el) { fo.observe(el); });
+  }
+
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var loader = document.getElementById('loader');
   var words = m.querySelectorAll('.w');
