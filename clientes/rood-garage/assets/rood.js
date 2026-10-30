@@ -77,7 +77,7 @@ gsap.from(el, { yPercent: 30, opacity: 0, duration: 1.4, ease: 'expo.out', scrol
 });
 // insulfilm diagram: rays travel in, part passes, part bounces back
 function draw(sel) {
-document.querySelectorAll(sel).forEach(function (p) { var l = p.getTotalLength(); p.style.strokeDasharray = p.classList.contains('uv') ? '' : l; if (!p.classList.contains('uv')) p.style.strokeDashoffset = l; });
+document.querySelectorAll(sel).forEach(function (p) { if (p.classList.contains('uv') || p.getAttribute('stroke-dasharray')) return; var l = p.getTotalLength(); p.style.strokeDasharray = l; p.style.strokeDashoffset = l; });
 }
 draw('#visIns .ray');
 var ti = gsap.timeline({ scrollTrigger: { trigger: '#visIns', start: 'top 70%' } });
