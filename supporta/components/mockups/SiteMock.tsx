@@ -53,7 +53,7 @@ export function SiteMock({ mock, variant }: { mock: Segment["mock"]; variant: Va
       </div>
 
       {/* Serviços */}
-      <div style={{ background: "#ffffff", padding: `${u(5, 8)} ${pad}` }}>
+      <div style={{ background: mock.text.toUpperCase() === "#FFFFFF" ? "transparent" : "#ffffff", padding: `${u(5, 8)} ${pad}` }}>
         <div style={{ ...heading, fontSize: u(2.8, 7) }}>Serviços</div>
         <div style={{ display: "grid", gridTemplateColumns: d ? "repeat(3, 1fr)" : "1fr", gap: u(1.6, 3), marginTop: u(2.4, 4.5) }}>
           {mock.services.map((s, i) => (

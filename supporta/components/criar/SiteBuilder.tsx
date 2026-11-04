@@ -310,7 +310,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
                     type="button"
                     aria-pressed={r.direcao[direcaoAtual.id] === o.id}
                     onClick={() => responderDirecao(o.id)}
-                    className={`group overflow-hidden rounded-[1.5rem] border bg-white text-left transition-[border-color,box-shadow,transform] hover:border-pink active:scale-[0.98] ${r.direcao[direcaoAtual.id] === o.id ? "border-ink" : "border-line"}`}
+                    className={`group flex flex-col justify-start overflow-hidden rounded-[1.5rem] border bg-white text-left transition-[border-color,box-shadow,transform] hover:border-pink active:scale-[0.98] ${r.direcao[direcaoAtual.id] === o.id ? "border-ink" : "border-line"}`}
                   >
                     <span aria-hidden className="flex h-32 items-center justify-center text-6xl" style={{ background: o.demo.bg, color: o.demo.fg, fontFamily: o.demo.font, fontWeight: o.demo.peso }}>
                       {o.demo.texto}
