@@ -9,6 +9,7 @@ import { block, prospectByEmail, reactivateDue, replyKnown, saveReply, setRetoma
 import { SnovClient } from '../snov/client.js';
 import { parseReply } from '../snov/replies.js';
 import { formatLead, notify } from '../telegram/notify.js';
+import { runNpm } from '../lib/run.js';
 
 const log = logger.child({ etapa: 'respostas' });
 const SEIS_MESES_MS = 182 * 24 * 60 * 60 * 1000;
@@ -48,6 +49,7 @@ async function main(): Promise<void> {
   }
 
   const linhas: string[] = [];
+  let gerarAgora = false;
   for (const raw of brutas) {
     const r = parseReply(raw);
     if (!r) {
@@ -84,8 +86,13 @@ async function main(): Promise<void> {
       await snov.addToDoNotEmailList([r.email]);
       await block(r.email, p.dominio, `respondeu: ${c.resumo}`.slice(0, 300));
       await incrementMetric('descadastros', 1);
+      await notify(`🚫 ${p.empresa ?? p.dominio ?? r.email} pediu para sair.\n${r.email}\n"${r.texto.replace(/\s+/g, ' ').slice(0, 300)}"\n\nJá tirei da campanha e bloqueei para sempre (Snov e banco).`);
     }
-    if (acoes.includes('retomar_6_meses')) await setRetomar(p.id, new Date(Date.now() + SEIS_MESES_MS));
+    if (acoes.includes('retomar_6_meses')) {
+      await setRetomar(p.id, new Date(Date.now() + SEIS_MESES_MS));
+      await notify(`👎 ${p.empresa ?? p.dominio ?? r.email} disse que não tem interesse.\n${r.email}\n"${r.texto.replace(/\s+/g, ' ').slice(0, 300)}"\n\nA campanha parou para ele. Volta para a fila daqui a 6 meses (para bloquear de vez: /bloquear ${p.dominio ?? ''}).`);
+    }
+    if (acoes.includes('gerar_esboco')) gerarAgora = true;
     const destino = STATUS[c.categoria];
     try {
       await advance(p, destino);
@@ -93,6 +100,13 @@ async function main(): Promise<void> {
       log.warn('Status do prospect não mudou', { dominio: p.dominio, de: p.status, para: destino, err });
     }
     // gerar_esboco runs from the new status (esbocos).
+  }
+
+  // Positive replies get their draft right away instead of waiting for the next esbocos cycle.
+  if (gerarAgora && !env.DRY_RUN) {
+    log.info('Resposta positiva: gerando o esboço agora');
+    const r = await runNpm('ciclo:esbocos');
+    if (r.code !== 0) log.error('ciclo:esbocos falhou', { saida: r.saida.slice(-500) });
   }
 
   await writeFile('out/respostas.md', [
