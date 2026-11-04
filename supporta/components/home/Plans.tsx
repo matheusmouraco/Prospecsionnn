@@ -28,22 +28,6 @@ function CycleSwitch({ cycle, onChange }: { cycle: Cycle; onChange: (c: Cycle) =
         {opt("mensal", "Mensal")}
         {opt("anual", "Anual", `${annualFreeMonths} meses grátis`)}
       </div>
-      <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-[2rem] border border-line bg-white p-6 text-center md:flex-row md:p-8 md:text-left">
-        <div>
-          <p className="text-xl font-semibold tracking-[-0.03em]">{customProject.label}</p>
-          <p className="mt-1 text-[15px] text-graphite">Sistema, loja, integração ou um site fora desses formatos: o Matheus monta um projeto só para você.</p>
-        </div>
-        <a
-          href={`https://wa.me/${customProject.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(customProject.message)}`}
-          target="_blank"
-          rel="noopener"
-          className={buttonClass("primary", "lg", "shrink-0")}
-          data-track="whatsapp_click"
-          data-track-origin="planos-personalizado"
-        >
-          {customProject.cta}
-        </a>
-      </div>
     </div>
   );
 }
