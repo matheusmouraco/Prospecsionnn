@@ -11,56 +11,56 @@ export type Plan = {
   highlight?: boolean;
 };
 
+// Os três planos têm os mesmos extras; muda só o tamanho do site. Sob medida vai para o WhatsApp do Matheus (customProject).
+const extras = [
+  "Criado pela IA a partir das suas respostas, com a sua marca",
+  "Domínio .com.br incluso no 1º ano",
+  "Hospedagem, SSL e manutenção",
+  "Botão de WhatsApp e Google Maps",
+  "GEO: dados estruturados, llms.txt e robots liberado pras IAs",
+  "1 ajuste por mês",
+];
+
 export const plans: Plan[] = [
   {
     id: "start",
-    name: "Start",
-    price: 89,
-    pitch: "Para colocar a empresa no ar com cara profissional.",
-    features: [
-      "Site one page em modelo pronto com a marca do cliente",
-      "Domínio .com.br incluso no 1º ano",
-      "Hospedagem, SSL e manutenção",
-      "Botão de WhatsApp e Google Maps",
-      "GEO básico (dados estruturados, llms.txt, robots liberado pras IAs)",
-      "1 ajuste por mês",
-    ],
+    name: "Landing page",
+    price: 49.9,
+    pitch: "Uma página completa para apresentar a empresa e levar ao WhatsApp.",
+    features: ["Site de 1 página (landing page)", ...extras],
   },
   {
     id: "pro",
-    name: "Pro",
-    price: 189,
-    pitch: "Para quem quer ser encontrado e escolhido todo mês.",
+    name: "Site",
+    price: 99.9,
+    pitch: "Site com até 5 páginas: início, sobre, serviços, perguntas e contato.",
     highlight: true,
-    includes: "Tudo do Start, e mais:",
-    features: [
-      "Até 5 páginas com design personalizado a partir do modelo",
-      "Blog com 2 artigos por mês feitos pra aparecer nas IAs",
-      "Google Meu Negócio otimizado",
-      "3 ajustes por mês",
-      "Relatório mensal de visitas",
-    ],
+    features: ["Site com até 5 páginas", ...extras],
   },
   {
     id: "premium",
-    name: "Premium",
-    price: 389,
-    pitch: "Para virar a referência do seu segmento nas IAs.",
-    includes: "Tudo do Pro, e mais:",
-    features: [
-      "Site sob medida",
-      "GEO avançado e monitoramento mensal de citações no ChatGPT, Gemini e Perplexity",
-      "4 artigos por mês",
-      "Ajustes ilimitados (prazo de até 48h)",
-      "Suporte prioritário no WhatsApp",
-    ],
+    name: "Site com blog",
+    price: 149.9,
+    pitch: "O site de 5 páginas com um blog para aparecer em mais buscas e nas IAs.",
+    features: ["Site com até 5 páginas e blog", "2 artigos iniciais no blog, escritos pela IA", ...extras],
   },
 ];
+
+/** Projeto sob medida: fora da assinatura automática, falado direto com o Matheus. */
+export const customProject = {
+  label: "Quer algo personalizado?",
+  cta: "Falar com o Matheus",
+  whatsapp: "+55 11 99264-4010",
+  message: "Oi, Matheus! Vim pela Supporta, mas quero um projeto personalizado.",
+};
+
+/** Preço formatado com centavos, como aparece para o cliente (R$ 49,90). */
+export const priceLabel = (value: number) => value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export const planIds = plans.map((p) => p.id);
 
 /** Ajustes incluídos por mês (null = ilimitado). */
-export const adjustmentsPerMonth: Record<PlanId, number | null> = { start: 1, pro: 3, premium: null };
+export const adjustmentsPerMonth: Record<PlanId, number | null> = { start: 1, pro: 1, premium: 1 };
 
 export function getPlan(id: string) {
   return plans.find((p) => p.id === id);
@@ -87,7 +87,7 @@ const round2 = (n: number) => Math.round(n * 100) / 100;
 
 /** Valor de cada cobrança no ciclo escolhido (mensalidade ou anuidade). */
 export function priceFor(plan: Pick<Plan, "price">, cycle: Cycle) {
-  return cycle === "anual" ? plan.price * billing.annualMonthsCharged : plan.price;
+  return round2(cycle === "anual" ? plan.price * billing.annualMonthsCharged : plan.price);
 }
 
 /** Valor de cada cobrança a partir do 13º mês, já com o desconto de quem continua. */
@@ -111,37 +111,20 @@ export const comparison: { group: string; rows: { label: string; values: Record<
   {
     group: "Site",
     rows: [
-      { label: "Tipo de site", values: { start: "One page em modelo pronto", pro: "Até 5 páginas personalizadas", premium: "Sob medida" } },
-      { label: "Sua marca (logo, cores, textos)", values: { start: true, pro: true, premium: true } },
+      { label: "Tamanho", values: { start: "1 página", pro: "Até 5 páginas", premium: "Até 5 páginas" } },
+      { label: "Blog", values: { start: false, pro: false, premium: "Com 2 artigos iniciais" } },
+      { label: "Criado pela IA com a sua marca", values: { start: true, pro: true, premium: true } },
       { label: "Feito pro celular", values: { start: true, pro: true, premium: true } },
       { label: "Botão de WhatsApp e Google Maps", values: { start: true, pro: true, premium: true } },
-      { label: "Blog", values: { start: false, pro: "2 artigos por mês", premium: "4 artigos por mês" } },
     ],
   },
   {
-    group: "Infraestrutura",
+    group: "Infraestrutura e GEO",
     rows: [
       { label: "Domínio .com.br", values: { start: "Incluso no 1º ano", pro: "Incluso no 1º ano", premium: "Incluso no 1º ano" } },
-      { label: "Hospedagem e SSL (cadeado)", values: { start: true, pro: true, premium: true } },
-      { label: "Manutenção e atualizações", values: { start: true, pro: true, premium: true } },
-      { label: "Ajustes por mês", values: { start: "1", pro: "3", premium: "Ilimitados (até 48h)" } },
-    ],
-  },
-  {
-    group: "Google e IAs",
-    rows: [
-      { label: "Dados estruturados e llms.txt", values: { start: true, pro: true, premium: true } },
-      { label: "robots.txt liberado pras IAs", values: { start: true, pro: true, premium: true } },
-      { label: "Google Meu Negócio otimizado", values: { start: false, pro: true, premium: true } },
-      { label: "GEO avançado", values: { start: false, pro: false, premium: true } },
-      { label: "Monitoramento de citações no ChatGPT, Gemini e Perplexity", values: { start: false, pro: false, premium: "Mensal" } },
-    ],
-  },
-  {
-    group: "Acompanhamento",
-    rows: [
-      { label: "Relatório mensal de visitas", values: { start: false, pro: true, premium: true } },
-      { label: "Suporte no WhatsApp", values: { start: "Padrão", pro: "Padrão", premium: "Prioritário" } },
+      { label: "Hospedagem, SSL e manutenção", values: { start: true, pro: true, premium: true } },
+      { label: "Dados estruturados, llms.txt e robots pras IAs", values: { start: true, pro: true, premium: true } },
+      { label: "Ajustes por mês", values: { start: "1", pro: "1", premium: "1" } },
     ],
   },
   {
@@ -149,7 +132,7 @@ export const comparison: { group: string; rows: { label: string; values: Record<
     rows: [
       { label: "Custo de criação", values: { start: "R$0", pro: "R$0", premium: "R$0" } },
       { label: "Pagamento no cartão", values: { start: "Mensal ou anual", pro: "Mensal ou anual", premium: "Mensal ou anual" } },
-      { label: `Anual (${billing.annualMonthsCharged} mensalidades por 12 meses)`, values: perPlan((p) => `R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano`) },
+      { label: `Anual (${billing.annualMonthsCharged} mensalidades por 12 meses)`, values: perPlan((p) => `${priceLabel(priceFor(p, "anual"))}/ano`) },
       { label: "Prazo mínimo", values: { start: "12 meses", pro: "12 meses", premium: "12 meses" } },
       { label: "Desconto a partir do 13º mês", values: perPlan(() => `${billing.loyaltyDiscountPct}%`) },
     ],

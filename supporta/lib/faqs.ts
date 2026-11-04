@@ -1,4 +1,4 @@
-import { annualFreeMonths, billing, earlyCancelFee, plans } from "./plans";
+import { annualFreeMonths, billing, customProject, earlyCancelFee, plans, priceLabel } from "./plans";
 import { formatBRLCents } from "./site";
 
 export type Faq = { q: string; a: string };
@@ -16,19 +16,19 @@ export const homeFaq: Faq[] = [
   },
   {
     q: "Como funciona o cancelamento?",
-    a: `Depois dos ${minMonths} meses, você cancela quando quiser, sem multa, direto na área do cliente. Antes disso, a multa é de ${fee}% do valor das mensalidades que faltam para completar os ${minMonths} meses. Exemplo no Start: cancelando depois de 8 meses pagos, faltam 4 mensalidades de R$${plans[0].price}, e a multa fica em ${formatBRLCents(earlyCancelFee(plans[0], 8))}.`,
+    a: `Depois dos ${minMonths} meses, você cancela quando quiser, sem multa, direto na área do cliente. Antes disso, a multa é de ${fee}% do valor das mensalidades que faltam para completar os ${minMonths} meses. Exemplo no plano ${plans[0].name}: cancelando depois de 8 meses pagos, faltam 4 mensalidades de ${priceLabel(plans[0].price)}, e a multa fica em ${formatBRLCents(earlyCancelFee(plans[0], 8))}.`,
   },
   {
     q: "O que acontece com o site e o domínio se eu cancelar?",
     a: "O site fica no ar enquanto a assinatura estiver ativa. Com o cancelamento ele sai do ar e nada é entregue, porque você assinou um serviço, não comprou um site. O domínio .com.br é registrado no seu CPF ou CNPJ, então o endereço continua seu. A partir do 2º ano, a renovação do domínio é paga por você direto no Registro.br.",
   },
   {
-    q: "Qual o prazo para o site ficar pronto?",
-    a: "Depois do briefing completo, o Start fica pronto em até 7 dias úteis, o Pro em até 15 e o Premium em até 30. Você aprova antes de publicar.",
+    q: "Quanto tempo leva para o site ficar pronto?",
+    a: "Poucos minutos. Você responde um jogo rápido de escolhas, a IA monta o site e você vê a prévia na hora. Depois de escolher o plano e pagar, o site entra no ar sozinho em nome.supporta.com.br. O domínio próprio .com.br a gente combina com você pelo WhatsApp.",
   },
   {
     q: "Quem escreve os textos do site?",
-    a: "A gente. Você responde um briefing de 10 minutos e nossa equipe escreve os textos pensando no Google e nas IAs. Você revisa e aprova tudo antes de ir ao ar.",
+    a: "A IA da Supporta, a partir das suas respostas no jogo rápido de escolhas. Os textos já saem pensados para o Google e para as IAs, com a sua marca, e você vê a prévia completa antes de assinar.",
   },
   {
     q: "Posso mudar de plano depois?",
@@ -48,7 +48,11 @@ export const homeFaq: Faq[] = [
   },
   {
     q: "Como peço ajustes no site?",
-    a: "Pelo WhatsApp. Você manda o que quer mudar (texto, foto, horário, preço) e a gente faz. O Start inclui 1 ajuste por mês, o Pro 3 e o Premium ajustes ilimitados com prazo de até 48h.",
+    a: "Pelo WhatsApp. Você manda o que quer mudar (texto, foto, horário, preço) e a gente faz. Todos os planos incluem 1 ajuste por mês.",
+  },
+  {
+    q: customProject.label,
+    a: `Os planos são montados pela IA a partir das suas respostas. Se você precisa de um projeto personalizado, fale com o Matheus no WhatsApp ${customProject.whatsapp}.`,
   },
 ];
 
@@ -110,6 +114,6 @@ export const geoFaq: Faq[] = [
   },
   {
     q: "Preciso fazer algo além do site?",
-    a: "Ajuda manter o Google Meu Negócio atualizado, pedir avaliações para clientes satisfeitos e ter o mesmo nome, endereço e telefone em todos os lugares. No plano Pro a gente cuida do Google Meu Negócio pra você.",
+    a: "Ajuda manter o Google Meu Negócio atualizado, pedir avaliações para clientes satisfeitos e ter o mesmo nome, endereço e telefone em todos os lugares. O seu site já sai com esses dados em texto e em dados estruturados, para bater com o perfil no Google.",
   },
 ];

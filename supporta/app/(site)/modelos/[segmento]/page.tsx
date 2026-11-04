@@ -115,7 +115,7 @@ export default async function SegmentPage({ params }: Props) {
       </Section>
 
       <Section labelledBy="seg-planos">
-        <SectionHeading id="seg-planos" label="Planos" title={`Quanto custa um ${seg.title.toLowerCase()}?`} lead="A partir de R$89 por mês, sem custo de criação. Escolha o plano:" />
+        <SectionHeading id="seg-planos" label="Planos" title={`Quanto custa um ${seg.title.toLowerCase()}?`} lead="A partir de R$49,90 por mês, sem custo de criação. Escolha o plano:" />
         <div className="mt-12">
           <PlanCards />
         </div>

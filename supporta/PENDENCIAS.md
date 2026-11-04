@@ -95,3 +95,19 @@ A conexão da Vercel que eu uso não tem permissão para cadastrar variáveis ne
 - Stripe: ativar o **Customer Portal** (Settings > Billing > Customer portal) para o botão "Trocar cartão". Deixe desligadas no portal as opções de cancelar e trocar de plano, porque isso já é feito pela área do cliente com as regras do contrato.
 - Asaas (se usar): a multa vira uma fatura com link (Pix, boleto ou cartão), porque o Asaas não cobra o cartão salvo fora da assinatura.
 - Nota fiscal: manual por enquanto (decisão sua). As FAQs continuam dizendo que a nota é emitida a cada cobrança.
+
+## Criador automático com IA (nov/2026)
+
+O cliente joga o criador em `/criar`, a IA do VPS monta a home, ele vê a prévia em `/criar/<token>`, escolhe o plano e paga; o VPS gera as páginas do plano e publica em `<nome>.supporta.com.br`. Sem essas configurações, o criador oferece mandar as respostas pelo WhatsApp.
+
+- [x] Banco: schema `supporta` criado no Supabase do Prospector (`metodo-tracao`), com as migrations 0001 a 0004 e o bucket público `supporta-sites`.
+- [ ] Vercel (`supportasite` > Settings > Environment Variables), tipo sensitive:
+  - `SUPABASE_DB_URL`: Supabase > Project Settings > Database > Connection string > Transaction pooler (porta 6543), com a senha do banco.
+  - `SUPABASE_URL` = `https://bzarlpqkbbvhuwmmdzem.supabase.co` e `SUPABASE_SERVICE_ROLE_KEY` (Project Settings > API Keys > service_role).
+  - `SESSION_SECRET` (`openssl rand -base64 48`).
+  - `SUPPORTA_WORKER_SECRET` (`openssl rand -hex 24`): o mesmo valor vai no `.env` do VPS.
+  - Depois, Redeploy.
+- [ ] DNS na Hostinger (zona supporta.com.br): registro `CNAME` com nome `*` apontando para `cname.vercel-dns.com`. É o que faz cada `nome.supporta.com.br` abrir.
+- [ ] VPS (`/opt/prospector/.env`): `SUPPORTA_URL=https://supporta.com.br` e `SUPPORTA_WORKER_SECRET=<o mesmo da Vercel>`. Depois, no Mac: `bash deploy/enviar-para-vps.sh` e `ssh root@72.61.57.12 'pm2 restart agendador'`.
+- [ ] Teste real: jogar o criador com os seus dados, esperar a prévia (uns 6 minutos), assinar e conferir o site no subdomínio.
+- Custo: cerca de US$ 1 por prévia (inclusive de quem não assina), mais uns US$ 0,30 por página interna depois do pagamento.

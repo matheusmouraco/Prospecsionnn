@@ -23,7 +23,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "Supporta | Site profissional por assinatura mensal",
   description:
-    "Site profissional, hospedagem, manutenção e GEO numa assinatura só. A partir de R$89/mês, sem custo de criação. Pronto pro Google e pras IAs.",
+    "Site profissional, hospedagem, manutenção e GEO numa assinatura só. A partir de R$49,90/mês, sem custo de criação. Pronto pro Google e pras IAs.",
   path: "/",
 });
 
@@ -55,7 +55,7 @@ export default function Home() {
           id="planos-title"
           label="Planos"
           title="Quanto custa o site por assinatura?"
-          lead="De R$89 a R$389 por mês, sem custo de criação, ou no anual com 2 meses grátis. É uma assinatura: o site fica no ar enquanto ela estiver ativa, com mínimo de 12 meses e 10% de desconto a partir do 13º mês."
+          lead="De R$49,90 a R$149,90 por mês, sem custo de criação, ou no anual com 2 meses grátis. É uma assinatura: o site fica no ar enquanto ela estiver ativa, com mínimo de 12 meses e 10% de desconto a partir do 13º mês."
           align="center"
         />
         <div className="mt-12 md:mt-16">

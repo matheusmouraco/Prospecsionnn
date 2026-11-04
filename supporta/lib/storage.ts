@@ -1,6 +1,8 @@
-// Supabase Storage (bucket privado supporta-briefings) via REST. Upload e download só por URL assinada.
+// Supabase Storage via REST. Briefing antigo: bucket privado supporta-briefings (download só por URL assinada).
+// Criador: bucket público supporta-sites, porque logo e fotos entram no HTML do site publicado.
 
 const BUCKET = "supporta-briefings";
+export const SITES_BUCKET = "supporta-sites";
 
 function config() {
   const url = process.env.SUPABASE_URL?.replace(/\/$/, "");
@@ -20,10 +22,10 @@ export const allowedUploads: Record<string, string> = {
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 /** URL para o navegador enviar o arquivo direto ao Storage (PUT), sem passar pela função da Vercel. */
-export async function signedUploadUrl(path: string) {
+export async function signedUploadUrl(path: string, bucket = BUCKET) {
   const c = config();
   if (!c) throw new Error("Storage não configurado.");
-  const res = await fetch(`${c.url}/storage/v1/object/upload/sign/${BUCKET}/${path}`, {
+  const res = await fetch(`${c.url}/storage/v1/object/upload/sign/${bucket}/${path}`, {
     method: "POST",
     headers: { authorization: `Bearer ${c.key}`, apikey: c.key },
     signal: AbortSignal.timeout(10_000),
@@ -45,4 +47,10 @@ export async function signedDownloadUrl(path: string, expiresIn = 3600) {
   });
   const data = await res.json().catch(() => ({}));
   return res.ok && data.signedURL ? `${c.url}/storage/v1${data.signedURL}` : null;
+}
+
+/** Endereço público de um arquivo do bucket do criador. */
+export function publicSiteFileUrl(path: string) {
+  const c = config();
+  return c ? `${c.url}/storage/v1/object/public/${SITES_BUCKET}/${path}` : null;
 }

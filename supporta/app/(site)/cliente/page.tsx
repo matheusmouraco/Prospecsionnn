@@ -11,7 +11,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { getPaymentProvider, type Invoice } from "@/lib/payments";
 import { contractState, planChangeRule } from "@/lib/autoatendimento";
 import { adjustmentsPerMonth, billing, getPlan, loyaltyPriceFor, plans, priceFor } from "@/lib/plans";
-import { countAdjustmentsThisMonth, getSubscriptionById, latestCitations, latestVisitReports, listAdjustments, listRequests } from "@/lib/repo";
+import { countAdjustmentsThisMonth, getSubscriptionById, listAdjustments, listRequests } from "@/lib/repo";
 import { pageMetadata } from "@/lib/seo";
 import { currentClient } from "@/lib/session";
 import { absoluteUrl, formatBRLCents, site, whatsappUrl } from "@/lib/site";
@@ -33,7 +33,6 @@ const invoiceLabel: Record<string, string> = {
   paid: "Paga", open: "Em aberto", void: "Cancelada", uncollectible: "Não paga", draft: "Rascunho",
 };
 const date = (d: Date | string) => new Date(d).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
-const month = (d: Date) => new Date(d).toLocaleDateString("pt-BR", { month: "long", year: "numeric", timeZone: "UTC" });
 
 function Panel({ title, children, className = "" }: { title: string; children: React.ReactNode; className?: string }) {
   return (
@@ -49,12 +48,10 @@ export default async function ClientePage() {
   if (!client) redirect("/cliente/entrar");
 
   const plan = getPlan(client.plano)!;
-  const [assinatura, used, ajustes, visitas, citacoes, pedidos] = await Promise.all([
+  const [assinatura, used, ajustes, pedidos] = await Promise.all([
     getSubscriptionById(client.assinatura_id),
     countAdjustmentsThisMonth(client.id),
     listAdjustments(client.id),
-    latestVisitReports(client.id),
-    latestCitations(client.id),
     listRequests(client.id, 5),
   ]);
   const limit = adjustmentsPerMonth[client.plano];
@@ -234,47 +231,6 @@ export default async function ClientePage() {
               </p>
             </Panel>
 
-            {client.plano !== "start" ? (
-              <Panel title="Visitas do site">
-                {visitas?.length ? (
-                  <ul className="divide-y divide-line">
-                    {visitas.map((v) => (
-                      <li key={String(v.mes)} className="flex justify-between gap-4 py-3 text-[15px]">
-                        <span className="capitalize">{month(v.mes)}</span>
-                        <span>{Number(v.dados.visitantes ?? 0).toLocaleString("pt-BR")} pessoas</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-[15px] text-graphite">O primeiro relatório chega no início do mês seguinte à publicação do site.</p>
-                )}
-              </Panel>
-            ) : null}
-
-            {client.plano === "premium" ? (
-              <Panel title="Citações nas IAs">
-                {citacoes?.length ? (
-                  <>
-                    <p className="text-[15px] text-graphite">
-                      {month(citacoes[0].mes)}: citada em {citacoes.filter((c) => c.citado).length} de {citacoes.filter((c) => !c.erro).length} respostas.
-                    </p>
-                    <ul className="mt-4 divide-y divide-line">
-                      {citacoes.map((c) => (
-                        <li key={`${c.motor}-${c.pergunta}`} className="flex items-start justify-between gap-4 py-3 text-[15px]">
-                          <span>
-                            {c.pergunta}
-                            <span className="block text-sm text-graphite">{c.motor}</span>
-                          </span>
-                          <span className={`shrink-0 font-medium ${c.erro ? "text-graphite" : c.citado ? "text-ok" : "text-bad"}`}>{c.erro ? "não rodou" : c.citado ? "citou" : "não citou"}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  <p className="text-[15px] text-graphite">O primeiro monitoramento roda no início do mês seguinte à publicação do site.</p>
-                )}
-              </Panel>
-            ) : null}
           </div>
         </div>
       </div>

@@ -3,7 +3,9 @@ import { dueJobs, momento } from '../src/scheduler/jobs.js';
 
 describe('scheduler', () => {
   it('runs each cycle at its São Paulo time', () => {
-    const nomes = (dia: number, hora: number, minuto: number) => dueJobs({ dia, hora, minuto }).map((j) => j.nome);
+    // The Supporta builder runs every minute; the other cycles keep their times.
+    const nomes = (dia: number, hora: number, minuto: number) => dueJobs({ dia, hora, minuto }).map((j) => j.nome).filter((n) => n !== 'supporta');
+    expect(dueJobs({ dia: 0, hora: 3, minuto: 47 }).map((j) => j.nome)).toEqual(['supporta']);
     expect(nomes(1, 7, 0)).toEqual(['importar']);
     expect(nomes(1, 8, 15)).toEqual(['enviar', 'esbocos']);
     expect(nomes(6, 8, 15)).toEqual(['esbocos']);       // Saturday: no sending

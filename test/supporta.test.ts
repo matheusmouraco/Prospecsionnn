@@ -1,29 +1,57 @@
 import { describe, expect, it } from 'vitest';
-import { linkSupporta, segmentoSupporta } from '../src/flow/supporta.js';
+import type { SiteRow } from '../src/supporta/db.js';
+import { homeMultipagina, menuDe, paginasDoPlano } from '../src/supporta/pages.js';
+import { applySiteRules, injectCredito, validateSite } from '../src/supporta/rules.js';
 
-describe('Supporta link', () => {
-  it('maps the detected niche to a Supporta template', () => {
-    expect(segmentoSupporta('Odontologia estética')).toBe('odontologia');
-    expect(segmentoSupporta('Escritório de advocacia trabalhista')).toBe('advocacia');
-    expect(segmentoSupporta('Clínica de fisioterapia')).toBe('saude');
-    expect(segmentoSupporta('Pizzaria')).toBe('restaurante');
-    expect(segmentoSupporta('Arquitetura de interiores')).toBe('arquitetura');
-    expect(segmentoSupporta('Contabilidade')).toBe('servicos');
-    expect(segmentoSupporta(null)).toBe('servicos');
+const WA = 'https://wa.me/5511999998888?text=Oi';
+const page = (body: string, head = '<meta name="viewport" content="width=device-width"><title>Padaria Teste</title><meta name="description" content="x">') =>
+  `<!doctype html><html><head>${head}</head><body>${body}</body></html>`;
+
+const site = (plano: SiteRow['plano']): SiteRow => ({
+  id: '1', token: 't', slug: 'padaria-teste', status: 'pago', plano, empresa: 'Padaria Teste', contato_nome: 'Ana', contato_email: 'a@b.com',
+  contato_whatsapp: '11999998888', dominio: null, custo_usd: 0, tentativas: 1,
+  respostas: { empresa: 'Padaria Teste', ramo: 'restaurante', ramoOutro: '', frase: 'Pães desde cedo', estilos: [], personalidade: [], cores: { modo: 'ia' },
+    servicos: ['Pão francês', 'Bolos'], diferenciais: '', publico: '', objetivo: '', cidade: 'São Paulo', endereco: '', horario: '', whatsappSite: '', instagram: '', siteAtual: '', logo: '', fotos: [] },
+});
+
+describe('supporta site rules', () => {
+  it('fills WhatsApp, drops robots meta and foreign scripts', () => {
+    const out = applySiteRules(page('<a href="%%WHATSAPP%%">Fale</a><script src="https://evil.com/x.js"></script>', '<meta name="robots" content="noindex">'), WA);
+    expect(out).toContain(`href="${WA.replace(/&/g, '&amp;')}"`);
+    expect(out).not.toContain('robots');
+    expect(out).not.toContain('evil.com');
   });
 
-  it('builds the checkout link with the lead data', () => {
-    const url = new URL(linkSupporta('https://www.supporta.com.br', { nicho: 'dentista', dominio: 'cirod.com.br', empresa: 'Cirod & Cia' }));
-    expect(url.pathname).toBe('/assinar/start');
-    expect(url.searchParams.get('modelo')).toBe('odontologia');
-    expect(url.searchParams.get('site')).toBe('cirod.com.br');
-    expect(url.searchParams.get('empresa')).toBe('Cirod & Cia');
-    expect(url.searchParams.get('origem')).toBe('matilab-esboco');
+  it('rejects forms, invented numbers and foreign images', () => {
+    const html = applySiteRules(page('<h1>Padaria</h1><a href="%%WHATSAPP%%">Fale</a><form></form><p>Há 25 anos no bairro</p><img src="https://images.unsplash.com/x.jpg" alt="">'), WA);
+    const issues = validateSite(html, { whatsapp: WA, imagens: [], fonteNumeros: 'Padaria Teste' });
+    expect(issues.join(' ')).toMatch(/form/);
+    expect(issues.join(' ')).toMatch(/25/);
+    expect(issues.join(' ')).toMatch(/imagens do dono/);
   });
 
-  it('never passes the 255 characters of a Snov custom field', () => {
-    const link = linkSupporta('https://www.supporta.com.br', { nicho: null, dominio: 'exemplo.com.br', empresa: 'Á'.repeat(200) });
-    expect(link.length).toBeLessThanOrEqual(255);
-    expect(new URL(link).searchParams.get('site')).toBe('exemplo.com.br');
+  it('accepts a clean page', () => {
+    const html = applySiteRules(page('<h1>Padaria Teste</h1><a href="%%WHATSAPP%%">Fale no WhatsApp</a>'), WA);
+    expect(validateSite(html, { whatsapp: WA, imagens: [], fonteNumeros: 'Padaria Teste' })).toEqual([]);
+    expect(injectCredito(html)).toContain('Site feito com');
+  });
+});
+
+describe('supporta plan pages', () => {
+  it('gives each plan its pages', () => {
+    expect(paginasDoPlano(site('start'))).toEqual([]);
+    expect(paginasDoPlano(site('pro')).map((p) => p.caminho)).toEqual(['/sobre', '/servicos', '/perguntas', '/contato']);
+    const premium = paginasDoPlano(site('premium')).map((p) => p.caminho);
+    expect(premium).toContain('/blog');
+    expect(premium.filter((c) => c.startsWith('/blog/'))).toHaveLength(2);
+    expect(menuDe(site('premium'))).toContain('Blog = "/blog"');
+  });
+
+  it('points the home menu to the pages and adds Blog only in menus', () => {
+    const home = '<header><nav><a class="m" href="#sobre">Sobre</a><a class="m" href="#perguntas">Perguntas</a></nav></header><main><a href="#perguntas">Ver dúvidas</a></main>';
+    const out = homeMultipagina(home, site('premium'));
+    expect(out).toContain('href="/sobre"');
+    expect(out.match(/href="\/blog"/g)).toHaveLength(1);
+    expect(out).toContain('<a class="m" href="/blog">Blog</a>');
   });
 });

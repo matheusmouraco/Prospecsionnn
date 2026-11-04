@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { CheckoutFlow } from "@/components/checkout/CheckoutFlow";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { annualFreeMonths, billing, getPlan, plans, priceFor } from "@/lib/plans";
+import { annualFreeMonths, billing, getPlan, plans, priceFor, priceLabel } from "@/lib/plans";
 import { segments } from "@/lib/segments";
 import { pageMetadata } from "@/lib/seo";
 import { formatBRL, site, whatsappUrl } from "@/lib/site";
@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const plan = getPlan((await params).plano);
   if (!plan) return {};
   return pageMetadata({
-    title: `Assinar o plano ${plan.name} por R$${plan.price}/mês | Supporta`,
-    description: `Assine o plano ${plan.name} da Supporta por R$${plan.price}/mês no cartão, sem custo de criação. Em 3 etapas: dados, briefing e pagamento.`,
+    title: `Assinar o plano ${plan.name} por ${priceLabel(plan.price)}/mês | Supporta`,
+    description: `Assine o plano ${plan.name} da Supporta por ${priceLabel(plan.price)}/mês no cartão, sem custo de criação. O site entra no ar sozinho depois do pagamento.`,
     path: `/assinar/${plan.id}`,
     noindex: true,
   });
@@ -50,7 +50,7 @@ export default async function AssinarPage({ params }: Props) {
             <div className={`rounded-[2rem] p-7 ${plan.highlight ? "glow-card neon-ring text-paper" : "border border-line bg-white"}`}>
               <p className="label-mono">Plano {plan.name}</p>
               <p className="mt-3 text-5xl font-semibold tracking-[-0.06em]">
-                R${plan.price}
+                {priceLabel(plan.price)}
                 <span className="text-lg font-normal">/mês</span>
               </p>
               <p className="mt-2 text-sm">
@@ -66,7 +66,7 @@ export default async function AssinarPage({ params }: Props) {
                 ))}
               </ul>
               <p className="mt-6 border-t border-current/15 pt-5 text-sm">
-                Site pronto em até {site.deliveryDays[plan.id]} dias úteis depois do briefing completo.
+                O site entra no ar automaticamente após a confirmação do pagamento, em geral em minutos.
               </p>
             </div>
             <p className="mt-5 text-sm text-graphite">

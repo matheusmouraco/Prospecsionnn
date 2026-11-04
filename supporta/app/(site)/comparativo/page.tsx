@@ -19,12 +19,13 @@ type V = boolean | string;
 const cols = ["Construtor (você faz)", "Freelancer", "Agência", "Supporta"];
 const rows: { label: string; v: V[] }[] = [
   { label: "Custo de criação", v: ["Seu tempo", "Pagamento único", "Pagamento único, maior", "R$0"] },
-  { label: "Mensalidade", v: ["Plano do construtor", "Hospedagem à parte", "Hospedagem e manutenção à parte", "De R$89 a R$389, tudo incluso"] },
-  { label: "Quem escreve os textos", v: ["Você", "Você, na maioria das vezes", "Agência, geralmente", "A Supporta"] },
+  { label: "Mensalidade", v: ["Plano do construtor", "Hospedagem à parte", "Hospedagem e manutenção à parte", "De R$49,90 a R$149,90, tudo incluso"] },
+  { label: "Quem escreve os textos", v: ["Você", "Você, na maioria das vezes", "Agência, geralmente", "A IA da Supporta, a partir das suas respostas"] },
+  { label: "Tempo até ficar pronto", v: ["Depende do seu tempo", "Semanas, em geral", "Semanas ou meses", "Minutos, com prévia antes de pagar"] },
   { label: "Feito pro celular e rápido", v: ["Depende do modelo", "Depende do profissional", true, "Meta de 90+ no PageSpeed"] },
   { label: "Dados estruturados e llms.txt", v: [false, "Raramente", "Às vezes", true] },
   { label: "Robôs das IAs liberados", v: ["Depende do construtor", "Raramente conferido", "Às vezes", true] },
-  { label: "Ajustes depois de pronto", v: ["Você faz", "Cobrado à parte", "Cobrado à parte", "Inclusos no plano"] },
+  { label: "Ajustes depois de pronto", v: ["Você faz", "Cobrado à parte", "Cobrado à parte", "1 por mês, incluso"] },
   { label: "Se a pessoa sumir", v: ["Não se aplica", "Site fica sem suporte", "Contrato", "Contrato e área do cliente"] },
   { label: "Modelo de contratação", v: ["Assinatura do construtor", "Compra do site", "Compra do site", "Assinatura do site (mínimo de 12 meses)"] },
   { label: "Se parar de pagar", v: ["Site sai do ar", "Site continua, sem manutenção", "Site continua, sem manutenção", "Site sai do ar; o domínio é seu"] },

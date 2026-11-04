@@ -13,17 +13,17 @@ export function Hero() {
         <div className="min-w-0 lg:py-16">
           <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-white/80 py-1.5 pl-1.5 pr-4 text-sm font-medium text-ink shadow-[0_1px_0_rgb(11_11_15/0.04)] backdrop-blur">
             <span aria-hidden className="neon-pulse ml-2 h-2 w-2 rounded-full bg-pink shadow-[0_0_10px_rgb(255_61_113/0.9)]" />
-            Sites por assinatura, a partir de R$89/mês
+            Sites por assinatura, a partir de R$49,90/mês
           </p>
           <h1 id="hero-title" className="mt-6 text-[clamp(3rem,8.5vw,5.75rem)] leading-[0.92] tracking-[-0.065em]">
             <span className="block">Seu site no ar.</span> <span className="neon-text block">Todo mês.</span>
           </h1>
           <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-graphite md:text-xl">
-            Site profissional, hospedagem, manutenção e GEO numa assinatura só. Sem custo de criação e pronto para aparecer no Google e nas IAs.
+            Responda um jogo rápido e a IA monta o site da sua empresa em minutos. Você vê a prévia antes de pagar. Hospedagem, manutenção e GEO inclusos.
           </p>
           <div className="mt-8 flex flex-nowrap gap-3">
-            <Button href="/#planos" size="lg" variant="neon" className="max-sm:px-5" data-track="plan_click" data-track-origin="hero">
-              Ver planos <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
+            <Button href="/criar" size="lg" variant="neon" className="max-sm:px-5" data-track="plan_click" data-track-origin="hero">
+              Criar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
             </Button>
             <Button href="/modelos" size="lg" variant="outline" className="bg-white max-sm:px-5">
               Ver modelos

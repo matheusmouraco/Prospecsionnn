@@ -36,7 +36,8 @@
     "snov:enviar": "tsx src/scripts/snov-enviar.ts",
     "revisao": "tsx src/scripts/revisao-emails.ts",
     "semana": "tsx src/scripts/resumo-semanal.ts",
-    "estoque": "tsx src/scripts/estoque.ts"
+    "estoque": "tsx src/scripts/estoque.ts",
+    "supporta:ciclo": "tsx src/scripts/supporta-ciclo.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",

@@ -3,10 +3,9 @@
 import { Check, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AiLogos } from "@/components/ui/AiLogos";
 import { buttonClass } from "@/components/ui/Button";
-import { annualFreeMonths, billing, plans, priceFor, type Cycle } from "@/lib/plans";
-import { formatBRL, formatBRLCents } from "@/lib/site";
+import { annualFreeMonths, billing, customProject, plans, priceFor, priceLabel, type Cycle } from "@/lib/plans";
+import { formatBRLCents } from "@/lib/site";
 import { readChosenModel, rememberModel, vitrine, vitrineUrl } from "@/lib/vitrine";
 
 /** Chave Mensal / Anual. Fica acima dos cards e muda preços e links de assinatura. */
@@ -28,6 +27,22 @@ function CycleSwitch({ cycle, onChange }: { cycle: Cycle; onChange: (c: Cycle) =
       <div role="radiogroup" aria-label="Forma de pagamento" className="inline-flex rounded-full border border-line bg-white p-1">
         {opt("mensal", "Mensal")}
         {opt("anual", "Anual", `${annualFreeMonths} meses grátis`)}
+      </div>
+      <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-[2rem] border border-line bg-white p-6 text-center md:flex-row md:p-8 md:text-left">
+        <div>
+          <p className="text-xl font-semibold tracking-[-0.03em]">{customProject.label}</p>
+          <p className="mt-1 text-[15px] text-graphite">Sistema, loja, integração ou um site fora desses formatos: o Matheus monta um projeto só para você.</p>
+        </div>
+        <a
+          href={`https://wa.me/${customProject.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(customProject.message)}`}
+          target="_blank"
+          rel="noopener"
+          className={buttonClass("primary", "lg", "shrink-0")}
+          data-track="whatsapp_click"
+          data-track-origin="planos-personalizado"
+        >
+          {customProject.cta}
+        </a>
       </div>
     </div>
   );
@@ -72,7 +87,8 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
           const hot = plan.highlight;
           const charge = priceFor(plan, cycle);
           const query = new URLSearchParams({ ...(annual ? { ciclo: "anual" } : {}), ...(tema ? { tema } : {}) }).toString();
-          const href = `/assinar/${plan.id}${query ? `?${query}` : ""}`;
+          // A contratação começa pelo criador: o cliente monta o site, vê a prévia e só então paga.
+          const href = `/criar?plano=${plan.id}${query ? `&${query}` : ""}`;
           return (
             <article
               key={plan.id}
@@ -88,7 +104,7 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
               <p className={`mt-2 text-[15px] ${hot ? "text-mist" : "text-graphite"}`}>{plan.pitch}</p>
               <p className="mt-7 flex items-baseline gap-1">
                 <span className={`font-semibold leading-none tracking-[-0.06em] ${annual ? "text-[48px]" : "text-[60px]"} ${hot ? "neon-text" : ""}`}>
-                  {annual ? formatBRL(charge) : `R$${charge}`}
+                  {priceLabel(charge)}
                 </span>
                 <span className={hot ? "text-mist" : "text-graphite"}>{annual ? "/ano" : "/mês"}</span>
               </p>
@@ -96,7 +112,7 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
                 {annual ? (
                   <>
                     Equivale a {formatBRLCents(charge / 12)}/mês ·{" "}
-                    <span className={hot ? "text-pink" : "font-medium text-ink"}>economia de {formatBRL(plan.price * annualFreeMonths)}</span>
+                    <span className={hot ? "text-pink" : "font-medium text-ink"}>economia de {priceLabel(plan.price * annualFreeMonths)}</span>
                   </>
                 ) : (
                   <>Cerca de {formatBRLCents(plan.price / 30)} por dia · R$0 de criação</>
@@ -120,21 +136,15 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
                   <p className="mt-2 text-[15px] leading-snug text-paper/90">Quem depende de clientes da região: clínicas, escritórios, restaurantes e prestadores de serviço.</p>
                 </div>
               ) : null}
-              {plan.id === "premium" ? (
-                <div className="mt-6 rounded-2xl bg-paper p-4">
-                  <p className="label-mono text-graphite">Monitoramento mensal em</p>
-                  <AiLogos only={["chatgpt", "gemini", "perplexity"]} size={16} small className="mt-3 flex-nowrap gap-x-3" />
-                </div>
-              ) : null}
               <Link
                 href={href}
                 className={buttonClass(hot ? "neon" : "outline", "lg", "mt-8 w-full")}
                 data-track="plan_click"
                 data-track-plan={plan.id}
                 data-track-cycle={cycle}
-                aria-label={`Assinar o plano ${plan.name} ${annual ? `anual por ${formatBRL(charge)} por ano` : `por R$${charge} por mês`}`}
+                aria-label={`Criar meu site no plano ${plan.name}, ${annual ? `${priceLabel(charge)} por ano` : `${priceLabel(charge)} por mês`}`}
               >
-                Assinar o {plan.name}
+                Criar meu site
               </Link>
               <p className={`mt-3 text-center text-[13px] ${hot ? "text-mist" : "text-graphite"}`}>
                 {annual ? "Cartão, 1 vez por ano · mínimo de 12 meses" : "Cartão, todo mês · mínimo de 12 meses"}
@@ -142,6 +152,22 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
             </article>
           );
         })}
+      </div>
+      <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-[2rem] border border-line bg-white p-6 text-center md:flex-row md:p-8 md:text-left">
+        <div>
+          <p className="text-xl font-semibold tracking-[-0.03em]">{customProject.label}</p>
+          <p className="mt-1 text-[15px] text-graphite">Sistema, loja, integração ou um site fora desses formatos: o Matheus monta um projeto só para você.</p>
+        </div>
+        <a
+          href={`https://wa.me/${customProject.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(customProject.message)}`}
+          target="_blank"
+          rel="noopener"
+          className={buttonClass("primary", "lg", "shrink-0")}
+          data-track="whatsapp_click"
+          data-track-origin="planos-personalizado"
+        >
+          {customProject.cta}
+        </a>
       </div>
     </div>
   );

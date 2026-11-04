@@ -26,6 +26,8 @@ export const JOBS: Job[] = [
   { nome: 'revisao', script: 'revisao', quando: (m) => util(m) && as(8, 5)(m) }, // 10 min before sending
   { nome: 'estoque', script: 'estoque', quando: (m) => util(m) && as(9, 0)(m) },
   { nome: 'semana', script: 'semana', quando: (m) => m.dia === 5 && as(18, 0)(m) },
+  // Supporta builder: clients are waiting on the screen, so it runs every minute, every day.
+  { nome: 'supporta', script: 'supporta:ciclo', quando: () => true },
 ];
 
 export function momento(d: Date = new Date()): Momento {

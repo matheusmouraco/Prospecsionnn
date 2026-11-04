@@ -2,22 +2,21 @@ import type { Metadata } from "next";
 import { CheckoutComplete } from "@/components/checkout/CheckoutComplete";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { plans } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
-import { site, whatsappUrl } from "@/lib/site";
+import { whatsappUrl } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Assinatura recebida | Supporta",
-  description: "Recebemos a sua assinatura. Veja os próximos passos e o prazo para o seu site ficar pronto.",
+  description: "Recebemos a sua assinatura. Veja os próximos passos e quando o seu site entra no ar.",
   path: "/obrigado",
   noindex: true,
 });
 
 const next = [
   { n: "01", title: "Confirmação do pagamento", text: "Você recebe a confirmação por e-mail assim que o cartão for aprovado." },
-  { n: "02", title: "Briefing completo", text: "Leva uns 10 minutos: informações da empresa, serviços, logo e fotos. Dá para fazer agora mesmo pelo botão acima." },
-  { n: "03", title: "Primeira versão para aprovar", text: "Você recebe o link da primeira versão, pede os ajustes e aprova." },
-  { n: "04", title: "Site no ar", text: "Publicamos com domínio, SSL, dados estruturados, llms.txt e tudo configurado." },
+  { n: "02", title: "Site no ar", text: "O site que você viu na prévia entra no ar sozinho em nome.supporta.com.br, com SSL, dados estruturados e llms.txt." },
+  { n: "03", title: "Domínio próprio", text: "Quer usar o seu .com.br? A gente combina pelo WhatsApp e liga o domínio ao site." },
+  { n: "04", title: "Ajustes do mês", text: "Todo plano inclui 1 ajuste por mês. É só mandar o que quer mudar pelo WhatsApp." },
 ];
 
 export default function ObrigadoPage() {
@@ -26,10 +25,10 @@ export default function ObrigadoPage() {
       <div className="container-site">
         <SectionLabel>Assinatura recebida</SectionLabel>
         <h1 id="page-title" className="mt-4 max-w-4xl text-[clamp(2.5rem,7vw,5rem)] leading-[1] tracking-[-0.055em]">
-          Pronto. Agora é com a gente.
+          Pronto. O seu site já está a caminho.
         </h1>
         <CheckoutComplete />
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphite">Veja o que acontece a partir de agora e quando o seu site fica pronto.</p>
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphite">Veja o que acontece a partir de agora.</p>
 
         <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {next.map((s) => (
@@ -42,19 +41,11 @@ export default function ObrigadoPage() {
         </ol>
 
         <div className="mt-12 rounded-[2rem] bg-ink p-7 text-paper md:p-10">
-          <h2 className="text-2xl tracking-[-0.04em]">Prazo de entrega</h2>
-          <p className="mt-2 text-mist">Contado em dias úteis a partir do briefing completo.</p>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-3">
-            {plans.map((p) => (
-              <li key={p.id} className="rounded-2xl border border-line-dark bg-card-dark p-5">
-                <p className="label-mono text-mist">{p.name}</p>
-                <p className="mt-2 text-3xl font-semibold tracking-[-0.05em]">até {site.deliveryDays[p.id]} dias</p>
-              </li>
-            ))}
-          </ul>
+          <h2 className="text-2xl tracking-[-0.04em]">Quando o site entra no ar?</h2>
+          <p className="mt-2 text-mist">Automaticamente, após a confirmação do pagamento. Em geral leva minutos, e no máximo 1 dia útil.</p>
           <div className="mt-8">
-            <Button href={whatsappUrl("Oi! Acabei de assinar a Supporta e quero começar o briefing.")} variant="paper" size="lg" data-track="whatsapp_click" data-track-origin="obrigado">
-              Adiantar o briefing no WhatsApp
+            <Button href={whatsappUrl("Oi! Acabei de assinar a Supporta e quero combinar o meu domínio próprio.")} variant="paper" size="lg" data-track="whatsapp_click" data-track-origin="obrigado">
+              Combinar o domínio no WhatsApp
             </Button>
           </div>
         </div>

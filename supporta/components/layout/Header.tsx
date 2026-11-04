@@ -56,8 +56,8 @@ export function Header() {
         </nav>
         <div className="flex items-center gap-2">
           <span className="hidden sm:block">
-            <Link href="/planos" className={buttonClass("neon", "md")} data-track="plan_click" data-track-origin="header">
-              Assinar a partir de R$89
+            <Link href="/criar" className={buttonClass("neon", "md")} data-track="plan_click" data-track-origin="header">
+              Criar meu site
             </Link>
           </span>
           <button
@@ -100,8 +100,8 @@ export function Header() {
                 </li>
               ))}
             </ul>
-            <Link href="/planos" onClick={() => setOpen(false)} className={buttonClass("neon", "lg", "w-full")} data-track="plan_click" data-track-origin="menu-mobile">
-              Assinar a partir de R$89
+            <Link href="/criar" onClick={() => setOpen(false)} className={buttonClass("neon", "lg", "w-full")} data-track="plan_click" data-track-origin="menu-mobile">
+              Criar meu site
             </Link>
           </nav>
         </div>

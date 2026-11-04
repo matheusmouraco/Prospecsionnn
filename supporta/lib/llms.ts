@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { posts } from "./blog";
 import { glossary } from "./glossary";
 import { billingFaq, geoFaq, homeFaq, type Faq } from "./faqs";
-import { annualFreeMonths, billing, earlyCancelFee, plans, priceFor } from "./plans";
+import { annualFreeMonths, billing, earlyCancelFee, plans, priceFor, priceLabel } from "./plans";
 import { segments } from "./segments";
 import { absoluteUrl, formatBRLCents, site } from "./site";
 
@@ -13,7 +13,7 @@ const billingMd = () =>
 const faqMd = (items: Faq[]) => items.map((f) => `### ${f.q}\n\n${f.a}`).join("\n\n");
 
 const plansMd = () =>
-  plans.map((p) => `### Plano ${p.name}: R$${p.price}/mês ou R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano\n\n${p.pitch}\n\n${p.features.map((f) => `- ${f}`).join("\n")}`).join("\n\n");
+  plans.map((p) => `### Plano ${p.name}: ${priceLabel(p.price)}/mês ou R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano\n\n${p.pitch}\n\n${p.features.map((f) => `- ${f}`).join("\n")}`).join("\n\n");
 
 /** /llms.txt: resumo curto da empresa, planos e páginas principais. */
 export function llmsTxt() {
@@ -27,7 +27,7 @@ Contato: WhatsApp ${site.whatsapp}, e-mail ${site.email}.
 
 ## Planos
 
-${plans.map((p) => `- Plano ${p.name}, R$${p.price}/mês ou R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano: ${p.features.join("; ")}.`).join("\n")}
+${plans.map((p) => `- Plano ${p.name}, ${priceLabel(p.price)}/mês ou R$${priceFor(p, "anual").toLocaleString("pt-BR")}/ano: ${p.features.join("; ")}.`).join("\n")}
 
 ## Páginas principais
 
@@ -74,7 +74,7 @@ URL: ${absoluteUrl("/")}
 
 ${site.name} vende sites profissionais por assinatura mensal para pequenas e médias empresas do Brasil. Site, hospedagem, manutenção e GEO numa assinatura só, sem custo de criação.
 
-Como funciona: 01 Assina. 02 Preenche o briefing (10 minutos). 03 Aprova e publica.
+Como funciona, 100% automático: 01 O cliente responde um jogo rápido de escolhas em /criar. 02 A IA monta o site em poucos minutos e ele vê a prévia. 03 Escolhe o plano, paga e o site entra no ar sozinho em nome.supporta.com.br. O domínio próprio é combinado pelo WhatsApp.
 
 As 3 camadas: SEO (aparecer no Google), AEO (virar a resposta direta) e GEO (ser citado pelas IAs).
 

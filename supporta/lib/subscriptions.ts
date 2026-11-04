@@ -1,16 +1,18 @@
 import { notifyTeam, sendEmail } from "./email/send";
-import { paymentRefusedEmail, welcomeEmail } from "./email/templates";
+import { noticeEmail, paymentRefusedEmail, welcomeEmail } from "./email/templates";
 import { sendToWebhook } from "./leads";
 import { getPaymentProvider, type PaymentEvent } from "./payments";
 import { billing, getPlan, loyaltyPriceFor, type Plan } from "./plans";
 import type { Assinatura } from "./repo";
 import {
+  cancelSiteBySubscription,
   countApprovedPayments,
   deactivateClient,
   ensureClient,
   findSubscription,
   logPaymentEvent,
   markLoyaltyDiscount,
+  markSitePaid,
   markWelcomeSent,
   setProviderIds,
   setSubscriptionStatus,
@@ -39,13 +41,21 @@ export async function handlePaymentEvent(event: PaymentEvent) {
   if (event.type === "payment_approved") {
     await setSubscriptionStatus(assinatura.id, "ativa");
     await ensureClient({ ...assinatura, status: "ativa" });
+    // Site do criador: o gerador do VPS publica sozinho assim que o site fica "pago".
+    if (assinatura.site_id) await markSitePaid(assinatura.site_id, assinatura.id, assinatura.plano);
     if (await markWelcomeSent(assinatura.id)) {
-      const mail = welcomeEmail({
-        nome: assinatura.responsavel.split(" ")[0],
-        plano: plan?.name ?? assinatura.plano,
-        prazo: site.deliveryDays[assinatura.plano],
-        briefingUrl: briefingUrl(assinatura.referencia),
-      });
+      const mail = assinatura.site_id
+        ? noticeEmail("Pagamento confirmado. Seu site está indo ao ar", [
+            `Oi, ${assinatura.responsavel.split(" ")[0]}. Pagamento confirmado: o plano ${plan?.name ?? assinatura.plano} da Supporta está ativo.`,
+            "A IA está terminando as páginas do seu plano e publica o site sozinha. Em poucos minutos você recebe o link do site no ar.",
+            "Na área do cliente você acompanha tudo e pede ajustes quando quiser.",
+          ])
+        : welcomeEmail({
+            nome: assinatura.responsavel.split(" ")[0],
+            plano: plan?.name ?? assinatura.plano,
+            prazo: site.deliveryDays[assinatura.plano],
+            briefingUrl: briefingUrl(assinatura.referencia),
+          });
       await sendEmail({ to: assinatura.email, ...mail });
       await notifyTeam(`Nova assinatura: ${assinatura.empresa} (${plan?.name})`, [
         `${assinatura.responsavel} · ${assinatura.email} · ${assinatura.whatsapp}`,
@@ -64,6 +74,7 @@ export async function handlePaymentEvent(event: PaymentEvent) {
     if (assinatura.cancelar_em && new Date(assinatura.cancelar_em).toISOString().slice(0, 10) >= today) return;
     await setSubscriptionStatus(assinatura.id, "cancelada");
     await deactivateClient(assinatura.id);
+    await cancelSiteBySubscription(assinatura.id);
     await notifyTeam(`Assinatura cancelada: ${assinatura.empresa}`, [`${assinatura.email} · ${assinatura.whatsapp}`]);
   }
 }

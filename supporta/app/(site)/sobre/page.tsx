@@ -15,9 +15,9 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const principles = [
-  { n: "01", title: "Site não é projeto, é serviço", text: "Um site precisa de cuidado todo mês: segurança, ajustes, conteúdo novo. Por isso a gente cobra como serviço, não como obra entregue e esquecida." },
-  { n: "02", title: "Sem promessa que não dá para provar", text: "Ninguém controla o Google nem as IAs. A gente mostra o que mede (velocidade, notas, citações) e trabalha para melhorar esses números." },
-  { n: "03", title: "Simples para quem é ocupado", text: "Briefing em 10 minutos, ajustes pelo WhatsApp e área do cliente sem senha. O dono do negócio não precisa entender de tecnologia." },
+  { n: "01", title: "Site não é projeto, é serviço", text: "Um site precisa de cuidado todo mês: segurança, atualizações e ajustes. Por isso a gente cobra como serviço, não como obra entregue e esquecida." },
+  { n: "02", title: "Sem promessa que não dá para provar", text: "Ninguém controla o Google nem as IAs. A gente mostra o que dá para medir (velocidade e notas do Google) e entrega o site pronto para ser lido pelas IAs." },
+  { n: "03", title: "Simples para quem é ocupado", text: "Site montado pela IA em poucos minutos, ajustes pelo WhatsApp e área do cliente sem senha. O dono do negócio não precisa entender de tecnologia." },
   { n: "04", title: "Feito para virar fonte", text: "Toda resposta de IA se apoia em alguma fonte. Cada site sai organizado para ser essa fonte: claro, rápido e com dados estruturados." },
 ];
 
@@ -35,7 +35,7 @@ export default function SobrePage() {
           <SectionHeading id="sobre-por-que" label="Por que existe" title="Por que site por assinatura?" />
           <div className="space-y-4 text-lg leading-relaxed text-graphite">
             <p>Porque o modelo tradicional não funciona para quem é pequeno. Paga-se caro para fazer o site, ele fica pronto, e depois ninguém atualiza. Em pouco tempo está lento, desatualizado e invisível.</p>
-            <p>Na assinatura, o site nunca para: hospedagem, segurança, ajustes e conteúdo entram na mensalidade. E como os clientes agora também perguntam para o ChatGPT e o Gemini, cada site já sai pronto para ser lido e citado pelas IAs.</p>
+            <p>Na assinatura, o site nunca para: hospedagem, segurança, manutenção e ajustes entram na mensalidade. E como os clientes agora também perguntam para o ChatGPT e o Gemini, cada site já sai pronto para ser lido e citado pelas IAs.</p>
             <p>A Supporta nasceu dentro de uma agência que cria sites, sistemas e identidades visuais, vendo de perto quanto negócio bom perde cliente por causa de um site fraco.</p>
           </div>
         </div>

@@ -15,14 +15,14 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "Modelos de site por segmento | Supporta",
   description:
-    "Modelos de site para arquitetos, restaurantes, dentistas, advogados, clínicas e prestadores de serviço. Com a sua marca, a partir de R$89/mês.",
+    "Modelos de site para arquitetos, restaurantes, dentistas, advogados, clínicas e prestadores de serviço. Com a sua marca, a partir de R$49,90/mês.",
   path: "/modelos",
 });
 
 const faq: FaqItem[] = [
   {
     q: "O site vai ficar igual ao de outras empresas?",
-    a: "Não. O modelo é o ponto de partida. A gente aplica o seu logo, as suas cores, os seus textos e as suas fotos. No Pro o design é personalizado a partir do modelo e no Premium o site é sob medida.",
+    a: "Não. O modelo é o ponto de partida. A IA monta o site a partir das suas respostas, com o seu logo, as suas cores e os seus textos. Quer algo personalizado? Fale com o Matheus pelo WhatsApp (11) 99264-4010.",
   },
   {
     q: "Meu segmento não está na lista. E agora?",

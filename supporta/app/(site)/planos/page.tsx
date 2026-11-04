@@ -14,7 +14,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "Planos e preços do site por assinatura | Supporta",
   description:
-    "Planos Start (R$89), Pro (R$189) e Premium (R$389) por mês. Site, hospedagem, manutenção e GEO inclusos, sem custo de criação.",
+    "Planos Landing page (R$49,90), Site (R$99,90) e Site com blog (R$149,90) por mês. Site criado pela IA, hospedagem, manutenção e GEO inclusos, sem custo de criação.",
   path: "/planos",
 });
 
@@ -26,7 +26,7 @@ export default function PlanosPage() {
         label="Planos"
         art="camadas"
         title="Quanto custa ter um site profissional?"
-        lead="De R$89 a R$389 por mês, ou no anual com 2 meses grátis, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e 10% de desconto a partir do 13º mês."
+        lead="De R$49,90 a R$149,90 por mês, ou no anual com 2 meses grátis, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e 10% de desconto a partir do 13º mês."
       />
       <section aria-label="Planos" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
@@ -41,7 +41,7 @@ export default function PlanosPage() {
           <Faq items={billingFaq} />
         </div>
       </Section>
-      <FinalCta title="Escolha o plano e tenha o site no ar ainda este mês." href="/assinar/pro" cta="Assinar o Pro" />
+      <FinalCta title="Responda algumas escolhas. Veja o seu site pronto em minutos." href="/criar" cta="Criar meu site" />
       <JsonLd data={[serviceSchema(), faqSchema(billingFaq)]} />
     </>
   );

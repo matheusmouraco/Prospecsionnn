@@ -24,6 +24,7 @@ export type Assinatura = {
   boas_vindas_em: Date | null;
   briefing_enviado_em: Date | null;
   modelo: string | null;
+  site_id: string | null;
   cancelamento_pedido_em: Date | null;
   cancelar_em: Date | null;
   criado_em: Date;
@@ -88,14 +89,16 @@ export function createSubscription(input: {
   briefing: Record<string, string>;
   origem: Record<string, string>;
   modelo: string | null;
+  siteId?: string | null;
   aceite: { text: string; termsVersion: string; termsUrl: string; acceptedAt: string; ip: string; userAgent: string };
 }) {
   return tryDb("createSubscription", (sql) =>
     sql.begin(async (tx) => {
       const [row] = await tx`
-        insert into assinaturas (referencia, plano, ciclo, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem, modelo)
+        insert into assinaturas (referencia, plano, ciclo, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem, modelo, site_id, briefing_enviado_em)
         values (${input.referencia}, ${input.plano}, ${input.ciclo}, ${input.valor}, ${input.status}, ${input.provedor}, ${input.customer.company}, ${input.customer.name},
-                ${input.customer.cpfCnpj}, ${input.customer.email}, ${input.customer.phone}, ${tx.json(input.briefing)}, ${tx.json(input.origem)}, ${input.modelo})
+                ${input.customer.cpfCnpj}, ${input.customer.email}, ${input.customer.phone}, ${tx.json(input.briefing)}, ${tx.json(input.origem)}, ${input.modelo},
+                ${input.siteId ?? null}, ${input.siteId ? new Date() : null})
         returning id`;
       await tx`
         insert into aceites (assinatura_id, texto, versao_termos, url_termos, aceito_em, ip, user_agent)
@@ -320,6 +323,102 @@ export function scheduleCancellation(assinaturaId: string, cancelarEm: string) {
 export function dueCancellations() {
   return tryDb("dueCancellations", (sql) => sql<Assinatura[]>`
     select * from assinaturas where cancelar_em is not null and cancelar_em < (now() at time zone 'America/Sao_Paulo')::date and status <> 'cancelada'`);
+}
+
+/** Site montado pela IA no criador (/criar). */
+export type Site = {
+  id: string;
+  token: string;
+  slug: string;
+  status: "na_fila" | "gerando" | "previa" | "erro" | "pago" | "publicando" | "no_ar" | "cancelado";
+  plano: PlanId;
+  empresa: string;
+  contato_nome: string;
+  contato_email: string;
+  contato_whatsapp: string;
+  respostas: Record<string, unknown>;
+  assinatura_id: string | null;
+  dominio: string | null;
+  erro: string | null;
+  criado_em: Date;
+  previa_em: Date | null;
+  publicado_em: Date | null;
+};
+
+/** Um site ativo por e-mail ou WhatsApp: quem volta ao criador continua de onde parou. */
+export function findSiteByContact(email: string, whatsapp: string) {
+  return tryDb("findSiteByContact", async (sql) => {
+    const [row] = await sql<Site[]>`
+      select * from sites where status <> 'cancelado' and (lower(contato_email) = lower(${email}) or contato_whatsapp = ${whatsapp})
+      order by criado_em desc limit 1`;
+    return row ?? null;
+  });
+}
+
+export function slugTaken(slug: string) {
+  return tryDb("slugTaken", async (sql) => {
+    const [row] = await sql`select 1 from sites where slug = ${slug}`;
+    return Boolean(row);
+  });
+}
+
+export function createSite(input: { token: string; slug: string; plano: PlanId; empresa: string; contato: { nome: string; email: string; whatsapp: string }; respostas: unknown; ip: string }) {
+  return tryDb("createSite", async (sql) => {
+    const [row] = await sql<Site[]>`
+      insert into sites (token, slug, plano, empresa, contato_nome, contato_email, contato_whatsapp, respostas, ip)
+      values (${input.token}, ${input.slug}, ${input.plano}, ${input.empresa}, ${input.contato.nome}, ${input.contato.email}, ${input.contato.whatsapp},
+              ${sql.json(input.respostas as never)}, ${input.ip})
+      returning *`;
+    return row;
+  });
+}
+
+export function getSiteByToken(token: string) {
+  return tryDb("getSiteByToken", async (sql) => {
+    const [row] = await sql<Site[]>`select * from sites where token = ${token}`;
+    return row ?? null;
+  });
+}
+
+/** Site publicado pelo endereço: subdomínio de supporta.com.br ou domínio próprio. */
+export function getLiveSiteByHost(host: { slug?: string; dominio?: string }) {
+  return tryDb("getLiveSiteByHost", async (sql) => {
+    const [row] = await sql<Site[]>`
+      select * from sites where status = 'no_ar'
+        and ((${host.slug ?? null}::text is not null and slug = ${host.slug ?? null}) or (${host.dominio ?? null}::text is not null and dominio = ${host.dominio ?? null}))
+      limit 1`;
+    return row ?? null;
+  });
+}
+
+export function getSitePage(siteId: string, caminho: string) {
+  return tryDb("getSitePage", async (sql) => {
+    const [row] = await sql<{ html: string; titulo: string }[]>`select html, titulo from site_paginas where site_id = ${siteId} and caminho = ${caminho}`;
+    return row ?? null;
+  });
+}
+
+export function listSitePages(siteId: string) {
+  return tryDb("listSitePages", (sql) => sql<{ caminho: string; titulo: string; atualizado_em: Date }[]>`
+    select caminho, titulo, atualizado_em from site_paginas where site_id = ${siteId} order by caminho`);
+}
+
+export function setSitePlan(siteId: string, plano: PlanId) {
+  return tryDb("setSitePlan", (sql) => sql`update sites set plano = ${plano}, atualizado_em = now() where id = ${siteId}`);
+}
+
+/** Pagamento confirmado: o gerador do VPS pega o site e publica conforme o plano. */
+export function markSitePaid(siteId: string, assinaturaId: string, plano: PlanId) {
+  return tryDb("markSitePaid", async (sql) => {
+    const rows = await sql`
+      update sites set status = 'pago', pago_em = now(), assinatura_id = ${assinaturaId}, plano = ${plano}, locked_at = null, atualizado_em = now()
+      where id = ${siteId} and status in ('previa', 'erro') returning id`;
+    return rows.length > 0;
+  });
+}
+
+export function cancelSiteBySubscription(assinaturaId: string) {
+  return tryDb("cancelSiteBySubscription", (sql) => sql`update sites set status = 'cancelado', atualizado_em = now() where assinatura_id = ${assinaturaId}`);
 }
 
 export { db };

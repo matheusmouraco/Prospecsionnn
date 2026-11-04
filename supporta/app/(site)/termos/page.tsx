@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/ui/LegalPage";
-import { annualFreeMonths, billing, earlyCancelFee, loyaltyPriceFor, plans, priceFor } from "@/lib/plans";
+import { annualFreeMonths, billing, earlyCancelFee, loyaltyPriceFor, plans, priceFor, priceLabel } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 import { formatBRLCents, site } from "@/lib/site";
 
@@ -28,7 +28,7 @@ export default function TermosPage() {
         {plans.map((p) => (
           <li key={p.id}>
             <strong>
-              {p.name} (R${p.price}/mês no mensal ou {formatBRLCents(priceFor(p, "anual"))}/ano no anual):
+              {p.name} ({priceLabel(p.price)}/mês no mensal ou {formatBRLCents(priceFor(p, "anual"))}/ano no anual):
             </strong> {p.features.join("; ")}.
           </li>
         ))}
@@ -63,14 +63,14 @@ export default function TermosPage() {
       <p>
         <strong>Cancelamento antes de {billing.minMonths} meses.</strong> Fora do prazo de arrependimento do item 4, o cancelamento pelo Cliente antes do fim do prazo
         mínimo gera multa de <strong>{billing.earlyCancelFeePct}% sobre o valor das mensalidades que faltam</strong> para completar os {billing.minMonths} meses.
-        No ciclo mensal, a multa é cobrada uma única vez, no cartão cadastrado. Exemplo: no Start, cancelando após 8 mensalidades pagas, faltam 4 mensalidades de R$
-        {plans[0].price}, e a multa é de {formatBRLCents(earlyCancelFee(plans[0], 8))}. No ciclo anual, o Cliente recebe de volta o valor proporcional aos meses não
+        No ciclo mensal, a multa é cobrada uma única vez, no cartão cadastrado. Exemplo: no plano {plans[0].name}, cancelando após 8 mensalidades pagas, faltam 4 mensalidades de{" "}
+        {priceLabel(plans[0].price)}, e a multa é de {formatBRLCents(earlyCancelFee(plans[0], 8))}. No ciclo anual, o Cliente recebe de volta o valor proporcional aos meses não
         usados, descontada a multa de {billing.earlyCancelFeePct}% sobre esse valor.
       </p>
       <p>
         <strong>Depois de {billing.minMonths} meses.</strong> A assinatura segue por prazo indeterminado e pode ser cancelada a qualquer momento,{" "}
         <strong>sem multa</strong>, pela área do cliente, pelo WhatsApp ou por e-mail. A partir do 13º mês, o Cliente que continua tem{" "}
-        <strong>{billing.loyaltyDiscountPct}% de desconto</strong> sobre o valor do plano (por exemplo, o Start passa de R${plans[0].price} para{" "}
+        <strong>{billing.loyaltyDiscountPct}% de desconto</strong> sobre o valor do plano (por exemplo, o plano {plans[0].name} passa de {priceLabel(plans[0].price)} para{" "}
         {formatBRLCents(loyaltyPriceFor(plans[0], "mensal"))} por mês no mensal), salvo reajuste comunicado conforme o item 10. O cancelamento interrompe a próxima
         cobrança; o período já pago segue no ar até o fim.
       </p>
@@ -84,15 +84,15 @@ export default function TermosPage() {
 
       <h2>5. Prazos de entrega</h2>
       <p>
-        Os prazos contam em dias úteis a partir do recebimento do briefing completo e dos materiais (logo, fotos e informações): Start em até{" "}
-        {site.deliveryDays.start} dias, Pro em até {site.deliveryDays.pro} dias e Premium em até {site.deliveryDays.premium} dias. Atrasos no envio dos materiais
-        pelo Cliente suspendem a contagem.
+        O site é montado pela IA a partir das respostas do Cliente e a prévia aparece antes da contratação. O site entra no ar automaticamente após a confirmação
+        do pagamento, em geral em minutos, e em até 1 dia útil, no endereço nome.supporta.com.br. A ligação de um domínio próprio é combinada com o Cliente pelo
+        WhatsApp.
       </p>
 
       <h2>6. Ajustes</h2>
       <p>
-        Ajustes são pequenas alterações de conteúdo (textos, fotos, horários, preços, contatos), pedidos pelo WhatsApp. A quantidade mensal depende do plano e
-        não é cumulativa. Mudanças estruturais (novas seções, troca de modelo, novas páginas fora do plano) são avaliadas e combinadas à parte.
+        Ajustes são pequenas alterações de conteúdo (textos, fotos, horários, preços, contatos), pedidos pelo WhatsApp. Todos os planos incluem 1 (um) ajuste por mês,
+        que não é cumulativo. Mudanças estruturais (novas seções, troca de modelo, novas páginas fora do plano) são avaliadas e combinadas à parte.
       </p>
 
       <h2>7. Domínio</h2>

@@ -32,7 +32,7 @@ export const segments: Segment[] = [
     title: "Site para arquiteto",
     metaTitle: "Site para arquiteto e escritório de arquitetura",
     metaDescription:
-      "Site para arquiteto com portfólio, contato pelo WhatsApp e pronto pro Google e pras IAs. Assinatura a partir de R$89/mês, sem custo de criação.",
+      "Site para arquiteto com portfólio, contato pelo WhatsApp e pronto pro Google e pras IAs. Assinatura a partir de R$49,90/mês, sem custo de criação.",
     intro:
       "Um site de arquitetura precisa mostrar o trabalho antes de qualquer conversa. O modelo da Supporta coloca seus projetos em primeiro plano, explica como você trabalha e leva o cliente direto pro WhatsApp.",
     aiQuestion: "Quem é um bom arquiteto de interiores perto de mim?",
@@ -58,7 +58,7 @@ export const segments: Segment[] = [
       },
       {
         q: "Serve para escritório pequeno ou arquiteto autônomo?",
-        a: "Serve. O plano Start já resolve para quem trabalha sozinho. O Pro é indicado para quem quer páginas separadas por tipo de projeto e blog.",
+        a: "Serve. O plano Landing page já resolve para quem trabalha sozinho. O plano Site tem até 5 páginas, e o plano Site com blog soma um blog com 2 artigos iniciais escritos pela IA.",
       },
     ],
     mock: {
@@ -80,7 +80,7 @@ export const segments: Segment[] = [
     title: "Site para restaurante",
     metaTitle: "Site para restaurante com cardápio e reservas",
     metaDescription:
-      "Site para restaurante com cardápio, horário, mapa e reserva pelo WhatsApp. Pronto pro Google e pras IAs, a partir de R$89/mês.",
+      "Site para restaurante com cardápio, horário, mapa e reserva pelo WhatsApp. Pronto pro Google e pras IAs, a partir de R$49,90/mês.",
     intro:
       "Quem procura onde comer quer três respostas rápidas: o que tem no cardápio, se está aberto e como chegar. O modelo de restaurante responde as três na primeira tela do celular.",
     aiQuestion: "Onde comer uma boa massa no centro hoje à noite?",
@@ -98,7 +98,7 @@ export const segments: Segment[] = [
     faq: [
       {
         q: "Consigo mudar preços e pratos do cardápio?",
-        a: "Consegue. Mudanças de cardápio entram como ajuste do plano. No Premium os ajustes são ilimitados, com prazo de até 48h.",
+        a: "Consegue. Mudanças de cardápio entram no ajuste do mês, que todos os planos incluem. Basta mandar pelo WhatsApp.",
       },
       {
         q: "Dá para ligar com o iFood ou outro app de pedidos?",
@@ -129,7 +129,7 @@ export const segments: Segment[] = [
     title: "Site para dentista",
     metaTitle: "Site para dentista e clínica odontológica",
     metaDescription:
-      "Site para dentista e clínica odontológica com tratamentos, convênios e agendamento pelo WhatsApp. Pronto pro Google e pras IAs, a partir de R$89/mês.",
+      "Site para dentista e clínica odontológica com tratamentos, convênios e agendamento pelo WhatsApp. Pronto pro Google e pras IAs, a partir de R$49,90/mês.",
     intro:
       "Paciente novo escolhe dentista pelo celular, comparando duas ou três clínicas em poucos minutos. O modelo de odontologia passa confiança logo de cara e leva direto para o agendamento no WhatsApp.",
     aiQuestion: "Qual clínica de implante dentário é boa no meu bairro?",
@@ -155,7 +155,7 @@ export const segments: Segment[] = [
       },
       {
         q: "Funciona para clínica com várias unidades?",
-        a: "Funciona. No Pro cada unidade pode ter sua página, com endereço e mapa próprios.",
+        a: "Funciona. No plano Site, com até 5 páginas, cada unidade pode ter a sua página, com endereço e mapa próprios.",
       },
     ],
     mock: {
@@ -177,7 +177,7 @@ export const segments: Segment[] = [
     title: "Site para advogado",
     metaTitle: "Site para advogado e escritório de advocacia",
     metaDescription:
-      "Site para advogado com áreas de atuação, conteúdo informativo e contato pelo WhatsApp, dentro das regras da OAB. A partir de R$89/mês.",
+      "Site para advogado com áreas de atuação, conteúdo informativo e contato pelo WhatsApp, dentro das regras da OAB. A partir de R$49,90/mês.",
     intro:
       "Na advocacia, o site é o seu cartão de visitas e a sua prova de conhecimento. O modelo apresenta áreas de atuação com clareza, publica conteúdo informativo e respeita as regras de publicidade da OAB.",
     aiQuestion: "Preciso de um advogado trabalhista, quem você indica?",
@@ -188,7 +188,7 @@ export const segments: Segment[] = [
       },
       {
         heading: "Conteúdo jurídico ajuda a aparecer nas IAs?",
-        body: "Ajuda muito. Quando alguém pergunta uma dúvida jurídica, a IA procura fontes que expliquem o assunto com clareza. Artigos bem escritos no seu site (planos Pro e Premium) fazem do escritório essa fonte.",
+        body: "Ajuda muito. Quando alguém pergunta uma dúvida jurídica, a IA procura fontes que expliquem o assunto com clareza. Artigos bem escritos no seu site (o plano Site com blog já começa com 2) fazem do escritório essa fonte.",
       },
     ],
     includes: ["Página por área de atuação", "Equipe com OAB", "Artigos informativos", "Contato discreto pelo WhatsApp"],
@@ -199,11 +199,11 @@ export const segments: Segment[] = [
       },
       {
         q: "Quem escreve os artigos jurídicos?",
-        a: "A gente escreve a partir dos temas que você indicar e você revisa antes de publicar. Nada vai ao ar sem a sua aprovação.",
+        a: "No plano Site com blog, a IA escreve os 2 artigos iniciais a partir das suas respostas. Você vê tudo na prévia antes de assinar, e a revisão final dos textos é sua.",
       },
       {
         q: "Posso ter uma página para cada área de atuação?",
-        a: "Pode. O plano Pro tem até 5 páginas e o Premium é sob medida, sem limite de páginas.",
+        a: "Pode. O plano Site tem até 5 páginas. Se o escritório precisa de mais páginas, fale com o Matheus pelo WhatsApp (11) 99264-4010 para um projeto personalizado.",
       },
     ],
     mock: {
@@ -226,7 +226,7 @@ export const segments: Segment[] = [
     title: "Site para clínica e profissional de saúde",
     metaTitle: "Site para clínica médica e profissional de saúde",
     metaDescription:
-      "Site para clínica, médico, psicólogo, fisioterapeuta e nutricionista, com agendamento pelo WhatsApp e pronto pras IAs. A partir de R$89/mês.",
+      "Site para clínica, médico, psicólogo, fisioterapeuta e nutricionista, com agendamento pelo WhatsApp e pronto pras IAs. A partir de R$49,90/mês.",
     intro:
       "Clínicas, médicos, psicólogos, fisioterapeutas e nutricionistas precisam de um site que acolha e explique. O modelo de saúde mostra especialidades, equipe e convênios, e facilita o agendamento.",
     aiQuestion: "Tem fisioterapeuta bom pra coluna aqui perto?",
@@ -252,7 +252,7 @@ export const segments: Segment[] = [
       },
       {
         q: "Dá para integrar com sistema de agendamento online?",
-        a: "Dá para colocar o link do seu sistema de agendamento nos botões do site. Integrações mais complexas são avaliadas no Premium.",
+        a: "Dá para colocar o link do seu sistema de agendamento nos botões do site. Para integrações mais complexas, fale com o Matheus pelo WhatsApp (11) 99264-4010 sobre um projeto personalizado.",
       },
     ],
     mock: {
@@ -274,7 +274,7 @@ export const segments: Segment[] = [
     title: "Site para prestador de serviço",
     metaTitle: "Site para prestador de serviço e comércio local",
     metaDescription:
-      "Site para prestador de serviço e comércio local com orçamento pelo WhatsApp, mapa e região de atendimento. A partir de R$89/mês, sem custo de criação.",
+      "Site para prestador de serviço e comércio local com orçamento pelo WhatsApp, mapa e região de atendimento. A partir de R$49,90/mês, sem custo de criação.",
     intro:
       "Eletricista, contador, oficina, salão, escola, loja de bairro. Quem presta serviço local precisa ser achado rápido e passar confiança. O modelo de serviços mostra o que você faz, onde atende e como pedir orçamento.",
     aiQuestion: "Preciso de um eletricista de confiança hoje, quem chamar?",
@@ -285,18 +285,18 @@ export const segments: Segment[] = [
       },
       {
         heading: "Como aparecer pra quem procura no bairro?",
-        body: "Com a região de atendimento escrita no site, dados estruturados de negócio local e o Google Meu Negócio bem cuidado (incluso no Pro). Isso ajuda o Google e as IAs a recomendarem você para quem está perto.",
+        body: "Com a região de atendimento escrita no site, dados estruturados de negócio local e o mesmo nome, endereço e telefone do seu perfil no Google. Isso ajuda o Google e as IAs a recomendarem você para quem está perto.",
       },
     ],
     includes: ["Lista de serviços", "Região de atendimento", "Orçamento pelo WhatsApp", "Fotos de trabalhos"],
     faq: [
       {
         q: "Meu negócio é pequeno, vale a pena ter site?",
-        a: "Vale. O site é onde o Google e as IAs confirmam que você existe, o que faz e onde atende. O plano Start foi feito para começar com pouco.",
+        a: "Vale. O site é onde o Google e as IAs confirmam que você existe, o que faz e onde atende. O plano Landing page foi feito para começar com pouco.",
       },
       {
         q: "Atendo em várias cidades, dá para mostrar isso?",
-        a: "Dá. Listamos as cidades e bairros atendidos. No Pro é possível ter páginas separadas por região.",
+        a: "Dá. Listamos as cidades e bairros atendidos. No plano Site, com até 5 páginas, dá para separar as regiões em páginas próprias.",
       },
       {
         q: "Tenho loja física e também vendo pelo Instagram. Serve?",

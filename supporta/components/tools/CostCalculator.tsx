@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { plans } from "@/lib/plans";
+import { plans, priceLabel } from "@/lib/plans";
 
 const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
 const kinds = [
@@ -79,7 +79,7 @@ export function CostCalculator() {
         <div className="on-pink rounded-[2rem] bg-pink p-6 md:p-8">
           <p className="label-mono">Supporta {plan.name} · {years} {years === 1 ? "ano" : "anos"}</p>
           <p className="mt-2 text-5xl font-semibold tracking-[-0.06em]">{brl(supporta)}</p>
-          <p className="mt-2 text-[15px]">R${plan.price}/mês, com criação, hospedagem, ajustes e GEO inclusos.</p>
+          <p className="mt-2 text-[15px]">{priceLabel(plan.price)}/mês, com criação, hospedagem, ajustes e GEO inclusos.</p>
         </div>
         <p className="px-2 text-[15px] text-graphite">
           {diff > 0 ? `Diferença de ${brl(diff)} no período, a favor da assinatura.` : `Neste cenário o modelo tradicional sai ${brl(-diff)} mais barato no período. Ele compensa quando o site quase nunca muda.`}

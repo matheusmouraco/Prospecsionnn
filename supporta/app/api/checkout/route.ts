@@ -5,7 +5,8 @@ import { isEmail, sendToWebhook } from "@/lib/leads";
 import { getPaymentProvider } from "@/lib/payments";
 import { getPlan, parseCycle, priceFor } from "@/lib/plans";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
-import { createSubscription, setProviderIds } from "@/lib/repo";
+import { ramos } from "@/lib/criador";
+import { createSubscription, getSiteByToken, setProviderIds, setSitePlan } from "@/lib/repo";
 import { briefingSignature } from "@/lib/tokens";
 import { absoluteUrl, site, termsAcceptanceText } from "@/lib/site";
 import { vitrine } from "@/lib/vitrine";
@@ -42,7 +43,26 @@ export async function POST(request: Request) {
   if (body?.aceite !== true) errors.push("aceite dos Termos");
   if (errors.length) return NextResponse.json({ error: `Confira: ${errors.join(", ")}.` }, { status: 400 });
 
-  const briefing = {
+  // Site montado no criador: o briefing sai das respostas do jogo.
+  const siteToken = str(body?.site, 40);
+  const criado = siteToken ? await getSiteByToken(siteToken) : null;
+  if (siteToken && (!criado || !["previa", "erro"].includes(criado.status))) {
+    return NextResponse.json({ error: criado?.status === "no_ar" || criado?.status === "pago" ? "Este site já foi publicado." : "A prévia deste site ainda não está pronta." }, { status: 409 });
+  }
+  const r = (criado?.respostas ?? {}) as Record<string, unknown>;
+  const fromSite = criado
+    ? {
+        segmento: ramos.find((x) => x.slug === r.ramo)?.segmento ?? "outro",
+        cidade: String(r.cidade ?? ""),
+        siteAtual: String(r.siteAtual ?? ""),
+        servicos: (Array.isArray(r.servicos) ? r.servicos : []).join(", "),
+        objetivo: String(r.objetivo ?? ""),
+        temLogo: r.logo ? "sim" : "nao",
+        observacoes: `Site montado pela IA no criador (${criado.slug}.supporta.com.br)`,
+      }
+    : null;
+
+  const briefing = fromSite ?? {
     segmento: str(body?.briefing?.segmento, 60),
     cidade: str(body?.briefing?.cidade, 120),
     siteAtual: str(body?.briefing?.siteAtual, 200),
@@ -91,8 +111,10 @@ export async function POST(request: Request) {
     briefing,
     origem,
     modelo,
+    siteId: criado?.id ?? null,
     aceite: acceptance,
   });
+  if (criado) await setSitePlan(criado.id, plan.id);
 
   if (!provider) {
     if (process.env.VERCEL_ENV === "production") {

@@ -20,7 +20,7 @@ export default function PrivacidadePage() {
       <h2>1. Dados que coletamos</h2>
       <ul>
         <li><strong>Diagnóstico grátis:</strong> endereço do site analisado, e-mail e IP.</li>
-        <li><strong>Assinatura:</strong> nome, nome da empresa, CPF ou CNPJ, e-mail, WhatsApp, informações do briefing e registro do aceite dos Termos (data, hora, IP e navegador).</li>
+        <li><strong>Assinatura:</strong> nome, nome da empresa, CPF ou CNPJ, e-mail, WhatsApp, respostas dadas na criação do site e registro do aceite dos Termos (data, hora, IP e navegador).</li>
         <li><strong>Pagamento:</strong> os dados do cartão são digitados direto na página do provedor de pagamento (Stripe). Não recebemos nem armazenamos o número do cartão.</li>
         <li><strong>Navegação:</strong> com o seu consentimento, cookies de medição do Google Analytics e do Meta Pixel.</li>
       </ul>

@@ -1,5 +1,5 @@
 import { Check, ChevronDown, Minus } from "lucide-react";
-import { comparison, plans } from "@/lib/plans";
+import { comparison, plans, priceLabel } from "@/lib/plans";
 
 function Value({ v }: { v: boolean | string }) {
   if (v === true) return <><Check aria-hidden strokeWidth={1.75} className="mx-auto h-5 w-5" /><span className="sr-only">Incluso</span></>;
@@ -17,14 +17,14 @@ export function CompareTable({ open = false }: { open?: boolean }) {
       </summary>
       <div className="relative overflow-x-auto border-t border-line">
         <table className="w-full min-w-[640px] border-collapse text-left text-[15px]">
-          <caption className="sr-only">Comparação dos planos Start, Pro e Premium</caption>
+          <caption className="sr-only">Comparação dos planos {plans.map((p) => p.name).join(", ")}</caption>
           <thead>
             <tr className="border-b border-line">
               <th scope="col" className="px-6 py-4 font-medium text-graphite md:px-8">Recurso</th>
               {plans.map((p) => (
                 <th key={p.id} scope="col" className={`px-4 py-4 text-center font-semibold ${p.highlight ? "bg-pink-light" : ""}`}>
                   {p.name}
-                  <span className="block text-[13px] font-normal text-graphite">R${p.price}/mês</span>
+                  <span className="block text-[13px] font-normal text-graphite">{priceLabel(p.price)}/mês</span>
                 </th>
               ))}
             </tr>

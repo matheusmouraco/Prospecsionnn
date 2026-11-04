@@ -1,7 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
-import { formatBRL } from "@/lib/site";
+import { plans, priceLabel } from "@/lib/plans";
+import { formatBRL, formatBRLCents } from "@/lib/site";
 
 // Exemplo de mercado para comparação. Valores de site tradicional variam.
 const traditional = [
@@ -11,14 +12,15 @@ const traditional = [
   { label: "Ajustes avulsos (6 × R$150)", value: 900 },
 ];
 const traditionalTotal = traditional.reduce((sum, i) => sum + i.value, 0);
+const plan = plans[0];
+const supportaTotal = Math.round(plan.price * 12 * 100) / 100;
 const supporta = [
-  { label: "Plano Start (R$89/mês × 12)", value: 1068 },
+  { label: `Plano ${plan.name} (${priceLabel(plan.price)}/mês × 12)`, value: supportaTotal },
   { label: "Criação do site", value: 0 },
   { label: "Hospedagem, SSL e manutenção", value: 0 },
   { label: "Domínio .com.br no 1º ano", value: 0 },
   { label: "1 ajuste por mês", value: 0 },
 ];
-const supportaTotal = 1068;
 
 export function CostComparison() {
   const pct = (supportaTotal / traditionalTotal) * 100;
@@ -28,7 +30,7 @@ export function CostComparison() {
         id="conta-title"
         label="Faça a conta · 12 meses"
         title="Quanto custa um site em 12 meses?"
-        lead={`Num site tradicional, cerca de ${formatBRL(traditionalTotal)} no primeiro ano. No Supporta Start, ${formatBRL(supportaTotal)}, com tudo incluso.`}
+        lead={`Num site tradicional, cerca de ${formatBRL(traditionalTotal)} no primeiro ano. No plano ${plan.name} da Supporta, ${formatBRLCents(supportaTotal)}, com tudo incluso.`}
         align="center"
       />
       <div className="mt-12 grid gap-4 lg:grid-cols-2">
@@ -46,8 +48,8 @@ export function CostComparison() {
           </ul>
         </div>
         <div className="rounded-[2rem] border border-line bg-white p-7 md:p-8">
-          <p className="label-mono text-graphite">Supporta Start</p>
-          <p className="mt-3 text-5xl font-semibold tracking-[-0.06em]">{formatBRL(supportaTotal)}</p>
+          <p className="label-mono text-graphite">Supporta {plan.name}</p>
+          <p className="mt-3 text-5xl font-semibold tracking-[-0.06em]">{formatBRLCents(supportaTotal)}</p>
           <div className="mt-6 h-4 w-full rounded-full bg-line" aria-hidden>
             <div className="neon-bar h-4 rounded-full" style={{ width: `${pct}%` }} />
           </div>
@@ -55,15 +57,15 @@ export function CostComparison() {
             {supporta.map((i) => (
               <li key={i.label} className="flex justify-between gap-4 py-3 text-[15px]">
                 <span className="text-graphite">{i.label}</span>
-                <span className="font-medium">{i.value ? formatBRL(i.value) : "Incluso"}</span>
+                <span className="font-medium">{i.value ? formatBRLCents(i.value) : "Incluso"}</span>
               </li>
             ))}
           </ul>
         </div>
       </div>
       <div className="mt-8 flex justify-center">
-        <Button href="/assinar/start" size="lg" data-track="plan_click" data-track-plan="start" data-track-origin="faca-a-conta">
-          Assinar o Start <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
+        <Button href="/criar" size="lg" data-track="plan_click" data-track-plan={plan.id} data-track-origin="faca-a-conta">
+          Criar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
         </Button>
       </div>
     </Section>

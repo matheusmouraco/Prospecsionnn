@@ -16,7 +16,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const factors = [
-  { title: "Criação", text: "É o valor para desenhar e montar o site. Varia com o número de páginas, se o design é de modelo ou sob medida e quem escreve os textos." },
+  { title: "Criação", text: "É o valor para desenhar e montar o site. Varia com o número de páginas, se o design parte de um modelo ou é feito do zero e quem escreve os textos." },
   { title: "Hospedagem", text: "O servidor onde o site fica no ar. Planos baratos costumam deixar o site lento, o que pesa no Google." },
   { title: "Domínio", text: "O endereço .com.br, renovado todo ano no Registro.br." },
   { title: "Manutenção e ajustes", text: "Atualizar textos, fotos, preços e horários, além de segurança e atualizações técnicas. É o custo que mais gente esquece." },
@@ -24,7 +24,7 @@ const factors = [
 ];
 
 const faq: FaqItem[] = [
-  { q: "Quanto custa um site simples para empresa?", a: "No modelo tradicional, um site de uma página costuma custar alguns milhares de reais de criação, mais hospedagem e domínio. Na Supporta, o plano Start custa R$89 por mês, sem custo de criação." },
+  { q: "Quanto custa um site simples para empresa?", a: "No modelo tradicional, um site de uma página costuma custar alguns milhares de reais de criação, mais hospedagem e domínio. Na Supporta, o plano Landing page custa R$49,90 por mês, sem custo de criação, e a IA monta o site em poucos minutos." },
   { q: "Por que alguns orçamentos são tão diferentes?", a: "Porque incluem coisas diferentes: alguns entregam só o design, outros incluem textos, SEO, hospedagem e ajustes. Compare sempre o que está incluso, não só o valor." },
   { q: "O que é mais barato a longo prazo?", a: "Depende de quanto o site muda. Se ele quase nunca precisa de ajuste, o modelo tradicional pode sair mais barato depois de alguns anos. Se você atualiza com frequência e quer aparecer no Google e nas IAs, a assinatura costuma compensar." },
 ];

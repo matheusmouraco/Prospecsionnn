@@ -7,7 +7,7 @@ export const site = {
   tagline: "Seu site no ar. Todo mês.",
   signature: "A IA sempre se apoia em alguma fonte. Faça ser a sua.",
   description:
-    "Site profissional, hospedagem, manutenção e GEO numa assinatura só. A partir de R$89/mês, sem custo de criação.",
+    "Site profissional, hospedagem, manutenção e GEO numa assinatura só. A partir de R$49,90/mês, sem custo de criação.",
   whatsapp: env(process.env.NEXT_PUBLIC_WHATSAPP, "+55 11 99264-4010"),
   email: env(process.env.NEXT_PUBLIC_EMAIL, "contato@supporta.com.br"),
   razaoSocial: env(process.env.NEXT_PUBLIC_RAZAO_SOCIAL, "Matilab Tecnologia"),
@@ -21,7 +21,7 @@ export const site = {
   locale: "pt_BR",
   // Prazos de entrega em dias úteis, contados a partir do briefing completo. Confirmar antes de publicar.
   deliveryDays: { start: 7, pro: 15, premium: 30 } as Record<string, number>,
-  termsVersion: "2026-10-29c",
+  termsVersion: "2026-11-04",
 };
 
 export const termsAcceptanceText = "Li e aceito os Termos da assinatura, incluindo o prazo mínimo de 12 meses e a multa por cancelamento antecipado";

@@ -43,6 +43,8 @@ const envSchema = z.object({
   SENDER_WHATSAPP_URL: optionalString,
   DRAFT_BASE_URL: z.string().trim().url().default('https://analise.matilab.com.br'),
   SUPPORTA_URL: optionalString, // Supporta site; when set, the "esboço pronto" email gets link_supporta (subscription checkout)
+  SUPPORTA_WORKER_SECRET: optionalString, // shared with the Supporta site (/api/interno/site) to email the client
+  SUPPORTA_VERCEL_PROJECT: z.string().trim().min(1).default('supportasite'), // gets nome.supporta.com.br for each published site
 
   ANTHROPIC_API_KEY: optionalString,
   MODEL_FAST: z.string().trim().min(1).default('claude-sonnet-5-5'),
@@ -89,6 +91,7 @@ export const SECRET_KEYS = [
   'CLOUDFLARE_API_TOKEN',
   'TELEGRAM_BOT_TOKEN',
   'VERCEL_TOKEN',
+  'SUPPORTA_WORKER_SECRET',
 ] as const satisfies readonly (keyof Env)[];
 
 export function parseEnv(source: Record<string, string | undefined>): Env {

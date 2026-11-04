@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
 import { isCpfOrCnpj, onlyDigits } from "@/lib/documents";
-import { annualFreeMonths, billing, parseCycle, priceFor, type Cycle, type Plan } from "@/lib/plans";
+import { annualFreeMonths, billing, parseCycle, priceFor, type Cycle, type Plan, priceLabel } from "@/lib/plans";
 import { formatBRL, formatBRLCents } from "@/lib/site";
 import { readChosenModel, rememberModel, vitrine, vitrineCategories, vitrineThumb, vitrineUrl } from "@/lib/vitrine";
 
@@ -55,6 +55,8 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
   const [canceled, setCanceled] = useState(false);
   const [origem, setOrigem] = useState({ origem: "", site: "", modelo: "" });
   const [tema, setTema] = useState("");
+  // Vindo do criador (/criar): o site já foi montado pela IA, então os dados vêm dele e o briefing é pulado.
+  const [siteToken, setSiteToken] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
   const started = useRef(false);
 
@@ -69,6 +71,19 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
     if (siteAtual) setBriefing((b) => ({ ...b, siteAtual }));
     setOrigem({ origem: params.get("origem")?.slice(0, 60) ?? "", site: siteAtual ?? "", modelo: modelo ?? "" });
     setTema(readChosenModel(params.get("tema")));
+    const token = params.get("site");
+    if (token && /^[A-Za-z0-9_-]{20,40}$/.test(token)) {
+      setSiteToken(token);
+      fetch(`/api/criar/${token}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((s) => {
+          if (!s?.contato) return;
+          const d = String(s.contato.whatsapp ?? "");
+          const phone = d.length === 11 ? `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}` : d;
+          setCompany((c) => ({ ...c, empresa: c.empresa || s.empresa, responsavel: c.responsavel || s.contato.nome, email: c.email || s.contato.email, whatsapp: c.whatsapp || phone }));
+        })
+        .catch(() => {});
+    }
     setCanceled(params.get("cancelado") === "1");
     setCycle(parseCycle(params.get("ciclo")));
     if (!started.current) {
@@ -113,7 +128,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
       document.getElementById(`c-${Object.keys(found)[0]}`)?.focus();
       return;
     }
-    go(step + 1);
+    go(step === 0 && siteToken ? 2 : step + 1);
   }
 
   async function onPay(e: FormEvent) {
@@ -129,7 +144,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ plan: plan.id, ciclo: cycle, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, tema, aceite, origem }),
+        body: JSON.stringify({ plan: plan.id, ciclo: cycle, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, tema, site: siteToken, aceite, origem }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Não foi possível continuar.");
@@ -140,12 +155,13 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
     }
   }
 
+  const labels = siteToken ? ["Dados da empresa", "Site montado pela IA", "Pagamento"] : stepsLabels;
   const aria = (key: string) => ({ "aria-invalid": Boolean(errors[key]) || undefined, "aria-describedby": errors[key] ? `c-${key}-erro` : undefined });
 
   return (
     <div>
       <ol aria-label="Etapas do checkout" className="grid grid-cols-3 gap-2">
-        {stepsLabels.map((label, i) => (
+        {labels.map((label, i) => (
           <li key={label} aria-current={i === step ? "step" : undefined} className="min-w-0">
             <span className={`block h-2 rounded-full ${i <= step ? "bg-ink" : "bg-line"}`} />
             <span className={`label-mono mt-2 block truncate ${i === step ? "text-ink" : "text-graphite"}`}>
@@ -160,7 +176,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
       ) : null}
 
       <h2 ref={headingRef} tabIndex={-1} className="mt-10 scroll-mt-24 text-3xl tracking-[-0.045em] focus:outline-none">
-        {stepsLabels[step]}
+        {labels[step]}
       </h2>
 
       {step === 0 ? (
@@ -303,7 +319,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
                       {c === "anual" ? <span className="rounded-full bg-pink px-2.5 py-0.5 text-xs font-semibold text-ink">{annualFreeMonths} meses grátis</span> : null}
                     </span>
                     <span className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
-                      {c === "mensal" ? `R$${plan.price}` : formatBRL(priceFor(plan, "anual"))}
+                      {c === "mensal" ? `${priceLabel(plan.price)}` : formatBRL(priceFor(plan, "anual"))}
                       <span className="text-base font-normal text-graphite">{c === "mensal" ? "/mês" : "/ano"}</span>
                     </span>
                     <span className="mt-1 text-sm text-graphite">
@@ -319,7 +335,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
             <div className="flex items-baseline justify-between gap-4">
               <p className="text-lg font-semibold tracking-[-0.03em]">Plano {plan.name} {cycle}</p>
               <p className="text-2xl font-semibold tracking-[-0.04em]">
-                {cycle === "anual" ? formatBRL(priceFor(plan, "anual")) : `R$${plan.price}`}
+                {cycle === "anual" ? formatBRL(priceFor(plan, "anual")) : `${priceLabel(plan.price)}`}
                 <span className="text-base font-normal text-graphite">{cycle === "anual" ? "/ano" : "/mês"}</span>
               </p>
             </div>
@@ -365,7 +381,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
               {sending ? <LoaderCircle aria-hidden strokeWidth={1.75} className="h-4 w-4 animate-spin" /> : <Lock aria-hidden strokeWidth={1.75} className="h-4 w-4" />}
               {sending ? "Abrindo pagamento seguro" : "Ir para o pagamento seguro"}
             </button>
-            <button type="button" onClick={() => go(1)} className={buttonClass("ghost", "lg")}>
+            <button type="button" onClick={() => go(siteToken ? 0 : 1)} className={buttonClass("ghost", "lg")}>
               <ArrowLeft aria-hidden strokeWidth={1.75} className="h-4 w-4" /> Voltar
             </button>
           </div>

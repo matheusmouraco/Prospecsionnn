@@ -3,8 +3,23 @@ import { isAdminAuthorization } from "@/lib/admin-auth";
 
 const LEGACY = ["/teleprompter", "/casafirme"];
 
+/** Hosts do próprio site da Supporta; qualquer outro é site de cliente (subdomínio ou domínio próprio). */
+function clientHost(host: string) {
+  const h = host.toLowerCase().replace(/:\d+$/, "").replace(/\.$/, "");
+  if (!h || h === "supporta.com.br" || h === "www.supporta.com.br" || h === "localhost" || h.endsWith(".vercel.app") || /^\d+\.\d+\.\d+\.\d+$/.test(h)) return null;
+  return h;
+}
+
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  // Sites dos clientes: nome.supporta.com.br ou domínio próprio apontado para a Vercel.
+  const host = clientHost(request.headers.get("host") ?? "");
+  if (host) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/hospedado/${host}${pathname === "/" ? "" : pathname}`;
+    return NextResponse.rewrite(url);
+  }
 
   // Apps antigos: sempre com barra no fim, como eram servidos na Hostinger.
   if (LEGACY.includes(pathname)) {

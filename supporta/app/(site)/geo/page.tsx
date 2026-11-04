@@ -79,9 +79,9 @@ const sections = [
   {
     id: "como-fazemos",
     title: "Como a Supporta faz GEO para a sua empresa?",
-    answer: "Todo plano já inclui o GEO básico, e os planos Pro e Premium vão além com conteúdo e monitoramento.",
+    answer: "Todo plano já inclui o GEO completo da base técnica: dados estruturados, llms.txt e robots.txt liberado para as IAs.",
     body: [
-      "Start: dados estruturados, llms.txt e robots.txt liberado para as IAs. Pro: tudo do Start, mais 2 artigos por mês escritos para responder perguntas reais dos seus clientes e o Google Meu Negócio otimizado. Premium: GEO avançado, 4 artigos por mês e monitoramento mensal de citações no ChatGPT, Gemini e Perplexity.",
+      "Os três planos têm o mesmo GEO. O que muda é o tamanho do site: o plano Landing page tem 1 página, o plano Site tem até 5 páginas (início, sobre, serviços, perguntas e contato) e o plano Site com blog soma um blog com 2 artigos iniciais escritos pela IA para responder perguntas reais dos seus clientes.",
     ],
   },
 ];
