@@ -1,10 +1,12 @@
 import { randomBytes } from "node:crypto";
 import { NextResponse } from "next/server";
 import { parseContato, parseRespostas, planoValido, slugify, slugsReservados } from "@/lib/criador";
-import { notifyTeam } from "@/lib/email/send";
+import { notifyTeam, sendEmail } from "@/lib/email/send";
 import { sendToWebhook } from "@/lib/leads";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
-import { createSite, findSiteByContact, slugTaken } from "@/lib/repo";
+import { createSite, findSiteByContact, siteRecenteDoIp, slugTaken } from "@/lib/repo";
+import { site as supporta } from "@/lib/site";
+import { noticeEmail } from "@/lib/email/templates";
 
 export const runtime = "nodejs";
 
@@ -21,7 +23,7 @@ async function freeSlug(empresa: string) {
   return `${base}-${randomBytes(2).toString("hex")}`;
 }
 
-/** Fim do jogo: grava as respostas e coloca o site na fila do gerador. Um site por e-mail ou WhatsApp. */
+/** Fim do jogo: grava as respostas e coloca o site na fila do gerador. Uma prévia por pessoa, porque cada uma custa IA antes do pagamento. */
 export async function POST(request: Request) {
   const ip = clientIp(request.headers);
   if (!rateLimit(`criar:${ip}`, 4, 24 * 60 * 60 * 1000).ok) {
@@ -34,7 +36,19 @@ export async function POST(request: Request) {
   if (falta.length) return NextResponse.json({ error: `Falta: ${falta.join(", ")}.` }, { status: 400 });
 
   const existente = await findSiteByContact(contato.email, contato.whatsapp);
-  if (existente) return NextResponse.json({ token: existente.token, existente: true });
+  if (existente) {
+    // O link da prévia dá acesso aos dados do pedido, então vai só para o e-mail cadastrado, nunca para esta resposta.
+    await sendEmail({
+      to: existente.contato_email,
+      ...noticeEmail(`Sua prévia da ${existente.empresa}`, [`Oi, ${existente.contato_nome}. Você já criou uma prévia do site da ${existente.empresa}. Ela continua aqui:`], undefined, { label: "Ver minha prévia", href: `${supporta.url}/criar/${existente.token}` }),
+    });
+    return NextResponse.json({ error: "Você já criou uma prévia, e cada pessoa tem direito a uma. Mandamos o link para o seu e-mail. Se não chegar, fale com a gente no WhatsApp." }, { status: 409 });
+  }
+
+  const ipsLivres = (process.env.CRIADOR_IPS_LIVRES ?? "").split(",").map((x) => x.trim());
+  if (!ipsLivres.includes(ip) && (await siteRecenteDoIp(ip))) {
+    return NextResponse.json({ error: "Já criaram uma prévia nesta conexão. Se foi outra pessoa, fale com a gente no WhatsApp que a gente libera a sua." }, { status: 409 });
+  }
 
   try {
     const site = await createSite({

@@ -27,7 +27,7 @@ const etapas = [
   "Ajustando para o celular",
   "Revisando tudo antes de mostrar",
 ];
-const MINUTOS = 6;
+const MINUTOS = 10;
 
 /** Espera com progresso enquanto a IA monta, depois a prévia com a escolha do plano. */
 export function SiteProgress({ token }: { token: string }) {
@@ -80,7 +80,7 @@ export function SiteProgress({ token }: { token: string }) {
       <div className="mx-auto max-w-2xl">
         <p className="label-mono text-pink">A IA está trabalhando</p>
         <h1 className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1] tracking-[-0.055em]">Montando o site da {estado.empresa}.</h1>
-        <p className="mt-4 text-lg text-graphite">Leva uns {MINUTOS} minutos. Pode fechar esta página: o link chega no seu e-mail quando ficar pronto.</p>
+        <p className="mt-4 text-lg text-graphite">Leva até {MINUTOS} minutos. Pode fechar esta página: o link chega no seu e-mail quando ficar pronto.</p>
         <div className="mt-8 h-3 overflow-hidden rounded-full bg-line" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label="Progresso da criação">
           <div className="neon-bar h-full rounded-full transition-[width] duration-1000" style={{ width: `${Math.max(4, pct)}%` }} />
         </div>

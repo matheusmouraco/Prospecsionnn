@@ -346,12 +346,34 @@ export type Site = {
 };
 
 /** Um site ativo por e-mail ou WhatsApp: quem volta ao criador continua de onde parou. */
+/** E-mail na forma usada para comparar: sem "+apelido" e, no Gmail, sem pontos. */
+export function emailCanonico(email: string) {
+  const [local = "", dominio = ""] = email.trim().toLowerCase().split("@");
+  const base = local.split("+")[0];
+  return `${dominio === "gmail.com" || dominio === "googlemail.com" ? base.replace(/\./g, "") : base}@${dominio === "googlemail.com" ? "gmail.com" : dominio}`;
+}
+
+/** Uma prévia por pessoa: o mesmo e-mail (com variações) ou o mesmo WhatsApp. */
 export function findSiteByContact(email: string, whatsapp: string) {
   return tryDb("findSiteByContact", async (sql) => {
     const [row] = await sql<Site[]>`
-      select * from sites where status <> 'cancelado' and (lower(contato_email) = lower(${email}) or contato_whatsapp = ${whatsapp})
+      select * from sites
+      where status <> 'cancelado' and (
+        contato_whatsapp = ${whatsapp}
+        or (case when lower(split_part(contato_email, '@', 2)) in ('gmail.com', 'googlemail.com')
+              then replace(split_part(lower(split_part(contato_email, '@', 1)), '+', 1), '.', '') || '@gmail.com'
+              else split_part(lower(split_part(contato_email, '@', 1)), '+', 1) || '@' || lower(split_part(contato_email, '@', 2)) end) = ${emailCanonico(email)}
+      )
       order by criado_em desc limit 1`;
     return row ?? null;
+  });
+}
+
+/** Já saiu uma prévia deste IP nos últimos 30 dias? Fica no banco porque o limite em memória zera a cada instância. */
+export function siteRecenteDoIp(ip: string) {
+  return tryDb("siteRecenteDoIp", async (sql) => {
+    const [row] = await sql`select 1 from sites where ip = ${ip} and status <> 'cancelado' and criado_em > now() - interval '30 days' limit 1`;
+    return Boolean(row);
   });
 }
 

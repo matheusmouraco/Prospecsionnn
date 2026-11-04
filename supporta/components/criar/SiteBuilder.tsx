@@ -6,18 +6,29 @@ import { BrowserFrame } from "@/components/mockups/Frames";
 import { SiteMock } from "@/components/mockups/SiteMock";
 import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
-import { duelos, objetivos, paletas, personalidades, ramos, respostasVazias, type Contato, type Respostas } from "@/lib/criador";
+import { direcoes, objetivos, personalidades, ramos, respostasVazias, type Contato, type Respostas } from "@/lib/criador";
 import { onlyDigits } from "@/lib/documents";
 import { plans, priceLabel, type PlanId } from "@/lib/plans";
 import { whatsappUrl } from "@/lib/site";
-import { vitrine, vitrineThumb } from "@/lib/vitrine";
+import { coresDoLogo } from "./logoColors";
 
-const DRAFT_KEY = "supporta-criar";
+const DRAFT_KEY = "supporta-criar-v2";
 const input = "mt-2 h-14 w-full rounded-2xl border border-line bg-white px-5 text-lg focus:border-ink focus:outline-none";
 const textarea = "mt-2 w-full rounded-2xl border border-line bg-white px-5 py-4 text-lg focus:border-ink focus:outline-none";
 
-const fases = ["Nome", "Ramo", "O que faz", "Estilo", "Personalidade", "Cores", "Serviços", "Onde atende", "Logo e fotos", "Seus dados"];
-const elogios = ["Bom nome.", "Anotado.", "Ficou claro.", "Ótimo gosto.", "Combina.", "Lindas cores.", "Isso vende.", "Perfeito.", "Quase lá.", ""];
+const fases = [
+  { id: "nome", nome: "Nome", elogio: "Bom nome." },
+  { id: "logo", nome: "Logo e cores", elogio: "Sua marca manda aqui." },
+  { id: "ramo", nome: "Ramo", elogio: "Anotado." },
+  { id: "faz", nome: "O que faz", elogio: "Ficou claro." },
+  { id: "historia", nome: "Sua história", elogio: "É isso que diferencia." },
+  { id: "estilo", nome: "Direção", elogio: "Ótimo gosto." },
+  { id: "sensacao", nome: "Sensação", elogio: "Combina." },
+  { id: "servicos", nome: "Serviços", elogio: "Isso vende." },
+  { id: "onde", nome: "Onde atende", elogio: "Perfeito." },
+  { id: "fotos", nome: "Fotos", elogio: "Quase lá." },
+  { id: "dados", nome: "Seus dados", elogio: "" },
+] as const;
 
 function maskPhone(v: string) {
   const d = onlyDigits(v).slice(0, 11);
@@ -44,7 +55,8 @@ function Chip({ on, onClick, children, disabled }: { on: boolean; onClick: () =>
 /** O jogo: uma pergunta por vez, com o site tomando forma ao lado. No fim, a IA monta a versão de verdade. */
 export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
   const [fase, setFase] = useState(0);
-  const [duelo, setDuelo] = useState(0);
+  const [rodada, setRodada] = useState(0);
+  const [logoMono, setLogoMono] = useState(false);
   const [r, setR] = useState<Respostas>(respostasVazias);
   const [contato, setContato] = useState<Contato>({ nome: "", email: "", whatsapp: "" });
   const [plano, setPlano] = useState<PlanId>(initialPlan);
@@ -78,15 +90,15 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
     } catch {}
   }, [r, contato, fase, lote]);
 
+  const etapa = fases[fase].id;
   const ramo = ramos.find((x) => x.slug === r.ramo);
   const set = <K extends keyof Respostas>(k: K, v: Respostas[K]) => setR((prev) => ({ ...prev, [k]: v }));
 
   const mock = useMemo(() => {
-    const cores = r.cores;
-    const paleta = cores.modo === "paleta" ? paletas.find((p) => p.id === cores.paleta) : undefined;
-    const accent = cores.modo === "propria" ? cores.primaria : (paleta?.cores[1] ?? "#FF3D71");
-    const text = paleta?.cores[0] ?? "#0B0B0F";
-    const surface = paleta?.cores[2] ?? "#FFFFFF";
+    const accent = r.cores.modo === "propria" ? r.cores.primaria : "#FF3D71";
+    const escuro = r.direcao.fundo === "escuro";
+    const text = escuro ? "#FFFFFF" : "#0B0B0F";
+    const surface = escuro ? "#0F0F12" : "#FFFFFF";
     const servicos = (r.servicos.length ? r.servicos : (ramo?.servicos ?? ["Serviço 1", "Serviço 2", "Serviço 3"])).slice(0, 3);
     return {
       business: r.empresa || "Seu negócio",
@@ -98,18 +110,19 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
       accent,
       surface,
       text,
-      serif: r.personalidade.some((p) => p === "Elegante" || p === "Acolhedor") || r.estilos.some((e) => e === "arquitetura-autoral" || e === "cafeteria"),
+      serif: r.direcao.letra === "classica",
     };
   }, [r, ramo]);
 
   function podeAvancar(): string {
-    if (fase === 0 && r.empresa.trim().length < 2) return "Escreva o nome do negócio.";
-    if (fase === 1 && !r.ramo) return "Escolha o ramo.";
-    if (fase === 1 && r.ramo === "outro" && r.ramoOutro.trim().length < 3) return "Conte qual é o ramo.";
-    if (fase === 2 && r.frase.trim().length < 8) return "Escreva em uma frase o que você faz.";
-    if (fase === 6 && !r.servicos.length) return "Escolha ou escreva pelo menos um serviço.";
-    if (fase === 7 && r.cidade.trim().length < 2) return "Diga a cidade ou região que você atende.";
-    if (fase === 9) {
+    if (etapa === "nome" && r.empresa.trim().length < 2) return "Escreva o nome do negócio.";
+    if (etapa === "logo" && !r.coresOrigem) return logoMono ? "Seu logo é preto e branco: escolha as cores da marca ou deixe a IA escolher." : "Escolha as cores da marca ou deixe a IA escolher.";
+    if (etapa === "ramo" && !r.ramo) return "Escolha o ramo.";
+    if (etapa === "ramo" && r.ramo === "outro" && r.ramoOutro.trim().length < 3) return "Conte qual é o ramo.";
+    if (etapa === "faz" && r.frase.trim().length < 8) return "Escreva em uma frase o que você faz.";
+    if (etapa === "servicos" && !r.servicos.length) return "Escolha ou escreva pelo menos um serviço.";
+    if (etapa === "onde" && r.cidade.trim().length < 2) return "Diga a cidade ou região que você atende.";
+    if (etapa === "dados") {
       if (contato.nome.trim().length < 2) return "Escreva o seu nome.";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contato.email)) return "E-mail inválido.";
       const d = onlyDigits(contato.whatsapp);
@@ -121,7 +134,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
 
   function ir(next: number) {
     setErro("");
-    if (next > fase) setElogio(elogios[fase] ?? "");
+    if (next > fase) setElogio(fases[fase].elogio);
     setFase(next);
     requestAnimationFrame(() => {
       headingRef.current?.focus();
@@ -139,9 +152,13 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
     ir(fase + 1);
   }
 
-  function escolherDuelo(slug: string | null) {
-    if (slug) set("estilos", [...r.estilos.filter((s) => !duelos[duelo].includes(s)), slug]);
-    if (duelo < duelos.length - 1) setDuelo(duelo + 1);
+  function responderDirecao(opcao: string | null) {
+    const atual = direcoes[rodada];
+    const direcao = { ...r.direcao };
+    if (opcao) direcao[atual.id] = opcao;
+    else delete direcao[atual.id];
+    set("direcao", direcao);
+    if (rodada < direcoes.length - 1) setRodada(rodada + 1);
     else ir(fase + 1);
   }
 
@@ -167,7 +184,19 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
         if (data.lote) setLote(data.lote);
         const put = await fetch(data.uploadUrl, { method: "PUT", headers: { "content-type": file.type }, body: file });
         if (!put.ok) throw new Error("Falha ao enviar o arquivo.");
-        if (kind === "logo") set("logo", data.url);
+        if (kind === "logo") {
+          const cores = await coresDoLogo(file);
+          setLogoMono(!cores.length);
+          setR((prev) => ({
+            ...prev,
+            logo: data.url,
+            ...(cores.length
+              ? { cores: { modo: "propria" as const, primaria: cores[0], secundaria: cores[1] ?? cores[0] }, coresOrigem: "logo" as const }
+              : prev.coresOrigem === "logo"
+                ? { cores: { modo: "ia" as const }, coresOrigem: "" as const }
+                : {}),
+          }));
+        }
         else setR((prev) => ({ ...prev, fotos: [...prev.fotos, data.url].slice(0, 8) }));
       } catch (err) {
         setErro(`${file.name}: ${(err as Error).message}`);
@@ -187,7 +216,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
         body: JSON.stringify({ respostas: { ...r, whatsappSite: r.whatsappSite || contato.whatsapp }, contato: { ...contato, whatsapp: onlyDigits(contato.whatsapp) }, plano }),
       });
       const data = await res.json().catch(() => ({}));
-      if (res.status === 503) setPlantao(true);
+      if (res.status === 503 || res.status === 409) setPlantao(true);
       if (!res.ok) throw new Error(data.error ?? "Não foi possível continuar.");
       track("criar_enviado", { plan: plano });
       try {
@@ -201,14 +230,13 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
   }
 
   const pct = Math.round((fase / (fases.length - 1)) * 100);
-  const [a, b] = duelos[duelo];
-  const nomeModelo = (slug: string) => vitrine.find((v) => v.slug === slug)?.name ?? slug;
+  const direcaoAtual = direcoes[rodada];
 
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-14">
       <div className="min-w-0">
         <div className="flex items-center justify-between gap-4 text-sm">
-          <span className="label-mono text-graphite">Fase {fase + 1} de {fases.length} · {fases[fase]}</span>
+          <span className="label-mono text-graphite">Fase {fase + 1} de {fases.length} · {fases[fase].nome}</span>
           <span aria-live="polite" className="font-medium text-pink">{elogio}</span>
         </div>
         <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-line" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label="Progresso do seu site">
@@ -219,10 +247,10 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
           className="mt-10"
           onSubmit={(e) => {
             e.preventDefault();
-            if (fase !== 3) avancar();
+            if (etapa !== "estilo") avancar();
           }}
         >
-          {fase === 0 ? (
+          {etapa === "nome" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Como se chama o seu negócio?</h2>
               <p className="mt-3 text-lg text-graphite">É o nome que vai aparecer no topo do site.</p>
@@ -231,7 +259,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           ) : null}
 
-          {fase === 1 ? (
+          {etapa === "ramo" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Qual é o seu ramo?</h2>
               <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-4">
@@ -242,7 +270,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
                     aria-pressed={r.ramo === x.slug}
                     onClick={() => {
                       set("ramo", x.slug);
-                      if (x.slug !== "outro") setTimeout(() => ir(2), 180);
+                      if (x.slug !== "outro") setTimeout(() => ir(fase + 1), 180);
                     }}
                     className={`flex flex-col items-start gap-2 rounded-2xl border p-4 text-left text-[15px] font-medium transition-[border-color,transform] active:scale-95 ${r.ramo === x.slug ? "border-ink bg-ink text-paper" : "border-line bg-white hover:border-ink"}`}
                   >
@@ -260,7 +288,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           ) : null}
 
-          {fase === 2 ? (
+          {etapa === "faz" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Em uma frase, o que você faz?</h2>
               <p className="mt-3 text-lg text-graphite">Do seu jeito. A IA lapida o texto, sem inventar nada.</p>
@@ -271,33 +299,41 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           ) : null}
 
-          {fase === 3 ? (
+          {etapa === "estilo" ? (
             <div>
-              <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Qual tem mais a sua cara?</h2>
-              <p className="mt-3 text-lg text-graphite">Rodada {duelo + 1} de {duelos.length}. Não precisa ser do seu ramo, vale o estilo.</p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                {[a, b].map((slug) => (
+              <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">{direcaoAtual.pergunta}</h2>
+              <p className="mt-3 text-lg text-graphite">Pergunta {rodada + 1} de {direcoes.length}. {direcaoAtual.ajuda}</p>
+              <div className={`mt-6 grid gap-3 ${direcaoAtual.opcoes.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+                {direcaoAtual.opcoes.map((o) => (
                   <button
-                    key={slug}
+                    key={o.id}
                     type="button"
-                    onClick={() => escolherDuelo(slug)}
-                    className={`group overflow-hidden rounded-[1.5rem] border bg-white text-left transition-[border-color,box-shadow,transform] hover:border-pink hover:shadow-[0_0_0_1px_rgb(255_61_113/0.6),0_0_24px_rgb(255_61_113/0.25)] active:scale-[0.98] ${r.estilos.includes(slug) ? "border-pink" : "border-line"}`}
+                    aria-pressed={r.direcao[direcaoAtual.id] === o.id}
+                    onClick={() => responderDirecao(o.id)}
+                    className={`group overflow-hidden rounded-[1.5rem] border bg-white text-left transition-[border-color,box-shadow,transform] hover:border-pink active:scale-[0.98] ${r.direcao[direcaoAtual.id] === o.id ? "border-ink" : "border-line"}`}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={vitrineThumb(slug)} alt={`Estilo do modelo ${nomeModelo(slug)}`} width={880} height={605} className="aspect-[880/605] w-full object-cover object-top" />
-                    <span className="flex items-center justify-between gap-3 p-4 text-[15px] font-medium">
-                      Esse aqui <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <span aria-hidden className="flex h-32 items-center justify-center text-6xl" style={{ background: o.demo.bg, color: o.demo.fg, fontFamily: o.demo.font, fontWeight: o.demo.peso }}>
+                      {o.demo.texto}
+                    </span>
+                    <span className="block p-4">
+                      <span className="block text-[17px] font-semibold">{o.nome}</span>
+                      <span className="mt-1 block text-sm text-graphite">{o.desc}</span>
                     </span>
                   </button>
                 ))}
               </div>
-              <button type="button" onClick={() => escolherDuelo(null)} className="mt-4 text-[15px] text-graphite underline underline-offset-4">
-                Tanto faz, próxima
-              </button>
+              <div className="mt-5 flex flex-wrap items-center gap-4 text-[15px]">
+                {rodada > 0 ? (
+                  <button type="button" onClick={() => setRodada(rodada - 1)} className="text-graphite underline underline-offset-4">Voltar</button>
+                ) : (
+                  <button type="button" onClick={() => ir(fase - 1)} className="text-graphite underline underline-offset-4">Voltar</button>
+                )}
+                <button type="button" onClick={() => responderDirecao(null)} className="text-graphite underline underline-offset-4">Tanto faz, a IA decide</button>
+              </div>
             </div>
           ) : null}
 
-          {fase === 4 ? (
+          {etapa === "sensacao" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Como você quer que o cliente te sinta?</h2>
               <p className="mt-3 text-lg text-graphite">Escolha até 2.</p>
@@ -311,40 +347,67 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
                   );
                 })}
               </div>
+              <label htmlFor="q-admira" className="mt-7 block text-[15px] font-medium">Uma marca ou site que você admira, e por quê? (opcional)</label>
+              <input id="q-admira" className={input} value={r.admira} onChange={(e) => set("admira", e.target.value)} placeholder="Ex.: a Apple, pela simplicidade" />
+              <label htmlFor="q-evitar" className="mt-5 block text-[15px] font-medium">O que você não quer de jeito nenhum? (opcional)</label>
+              <input id="q-evitar" className={input} value={r.evitar} onChange={(e) => set("evitar", e.target.value)} placeholder="Ex.: nada muito colorido, sem cara de banco" />
             </div>
           ) : null}
 
-          {fase === 5 ? (
+          {etapa === "logo" ? (
             <div>
-              <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">E as cores?</h2>
-              <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                {paletas.map((p) => {
-                  const on = r.cores.modo === "paleta" && r.cores.paleta === p.id;
-                  return (
-                    <button key={p.id} type="button" aria-pressed={on} onClick={() => set("cores", { modo: "paleta", paleta: p.id })} className={`rounded-2xl border bg-white p-3 text-left text-sm font-medium transition-[border-color,transform] active:scale-95 ${on ? "border-ink shadow-[0_0_0_1px_var(--ink)]" : "border-line hover:border-ink"}`}>
-                      <span aria-hidden className="flex h-10 overflow-hidden rounded-xl">
-                        {p.cores.map((c) => <span key={c} className="flex-1" style={{ background: c }} />)}
-                      </span>
-                      <span className="mt-2 block">{p.nome}</span>
+              <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Tem logo?</h2>
+              <p className="mt-3 text-lg text-graphite">Ele define as cores do site inteiro. Se não tiver, a gente segue sem.</p>
+              <div className="mt-6 rounded-2xl border border-line bg-white p-5">
+                {r.logo ? (
+                  <div className="flex items-center gap-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={r.logo} alt="Seu logo" className="h-16 max-w-[200px] object-contain" />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setLogoMono(false);
+                        setR((prev) => ({ ...prev, logo: "", ...(prev.coresOrigem === "logo" ? { cores: { modo: "ia" as const }, coresOrigem: "" as const } : {}) }));
+                      }}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line"
+                      aria-label="Remover logo"
+                    >
+                      <X aria-hidden strokeWidth={1.75} className="h-4 w-4" />
                     </button>
-                  );
-                })}
+                  </div>
+                ) : (
+                  <label className={buttonClass("outline", "md", "cursor-pointer has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink")}>
+                    <ImagePlus aria-hidden strokeWidth={1.75} className="h-4 w-4" /> Enviar logo
+                    <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="sr-only" onChange={(e) => upload(e.target.files, "logo")} />
+                  </label>
+                )}
+                {uploading > 0 ? (
+                  <p role="status" className="mt-3 flex items-center gap-2 text-sm">
+                    <LoaderCircle aria-hidden strokeWidth={1.75} className="h-4 w-4 animate-spin" /> Enviando e lendo as cores...
+                  </p>
+                ) : null}
               </div>
-              <div className="mt-4 flex flex-wrap gap-2.5">
-                <Chip on={r.cores.modo === "propria"} onClick={() => set("cores", { modo: "propria", primaria: r.cores.modo === "propria" ? r.cores.primaria : "#FF3D71", secundaria: r.cores.modo === "propria" ? r.cores.secundaria : "#0B0B0F" })}>
-                  Já tenho as cores da marca
-                </Chip>
-                <Chip on={r.cores.modo === "ia"} onClick={() => set("cores", { modo: "ia" })}>
-                  <Wand2 aria-hidden strokeWidth={1.75} className="h-4 w-4" /> A IA escolhe
-                </Chip>
-              </div>
+
+              <p className="mt-6 text-[15px] font-medium">
+                {r.coresOrigem === "logo" ? "Pegamos estas cores do seu logo. Ajuste se quiser:" : logoMono ? "Seu logo é preto e branco. Quais são as cores da sua marca?" : "Quais são as cores da sua marca?"}
+              </p>
+              {r.coresOrigem !== "logo" ? (
+                <div className="mt-3 flex flex-wrap gap-2.5">
+                  <Chip on={r.coresOrigem === "cliente"} onClick={() => setR((prev) => ({ ...prev, coresOrigem: "cliente", cores: prev.cores.modo === "propria" ? prev.cores : { modo: "propria", primaria: "#1E3A8A", secundaria: "#F97316" } }))}>
+                    Escolher minhas cores
+                  </Chip>
+                  <Chip on={r.coresOrigem === "ia"} onClick={() => setR((prev) => ({ ...prev, coresOrigem: "ia", cores: { modo: "ia" } }))}>
+                    <Wand2 aria-hidden strokeWidth={1.75} className="h-4 w-4" /> Deixar a IA escolher
+                  </Chip>
+                </div>
+              ) : null}
               {r.cores.modo === "propria" ? (
-                <div className="mt-5 flex flex-wrap gap-6">
+                <div className="mt-4 flex flex-wrap gap-6">
                   {(["primaria", "secundaria"] as const).map((k) => (
                     <label key={k} className="flex items-center gap-3 text-[15px] font-medium">
                       <input
                         type="color"
-                        value={r.cores.modo === "propria" ? r.cores[k] : "#000000"}
+                        value={r.cores.modo === "propria" ? r.cores[k].toLowerCase() : "#000000"}
                         onChange={(e) => r.cores.modo === "propria" && set("cores", { ...r.cores, [k]: e.target.value.toUpperCase() })}
                         className="h-12 w-16 cursor-pointer rounded-xl border border-line bg-white p-1"
                       />
@@ -356,7 +419,20 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           ) : null}
 
-          {fase === 6 ? (
+          {etapa === "historia" ? (
+            <div>
+              <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Conta um pouco da sua história.</h2>
+              <p className="mt-3 text-lg text-graphite">É daqui que sai um site que só você poderia ter. Escreva do seu jeito, a IA organiza. Tudo opcional.</p>
+              <label htmlFor="q-hist" className="mt-6 block text-[15px] font-medium">Como começou? Por que você faz isso?</label>
+              <textarea id="q-hist" autoFocus rows={3} className={textarea} value={r.historia} onChange={(e) => set("historia", e.target.value)} placeholder="Ex.: Comecei atendendo em casa porque..." />
+              <label htmlFor="q-dif" className="mt-5 block text-[15px] font-medium">Por que os clientes escolhem você?</label>
+              <textarea id="q-dif" rows={2} className={textarea} value={r.diferenciais} onChange={(e) => set("diferenciais", e.target.value)} placeholder="Só o que for verdade. Ex.: atendo no mesmo dia" />
+              <label htmlFor="q-duv" className="mt-5 block text-[15px] font-medium">O que os clientes mais perguntam antes de fechar?</label>
+              <textarea id="q-duv" rows={2} className={textarea} value={r.duvidas} onChange={(e) => set("duvidas", e.target.value)} placeholder="Ex.: Atende convênio? Quanto tempo leva?" />
+            </div>
+          ) : null}
+
+          {etapa === "servicos" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">O que você oferece?</h2>
               <p className="mt-3 text-lg text-graphite">Toque para escolher e escreva o que faltar. Até 8.</p>
@@ -384,8 +460,6 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
                   <Plus aria-hidden strokeWidth={1.75} className="h-5 w-5" />
                 </button>
               </div>
-              <label htmlFor="q-dif" className="mt-6 block text-[15px] font-medium">O que você faz de diferente? (opcional)</label>
-              <textarea id="q-dif" rows={2} className={textarea} value={r.diferenciais} onChange={(e) => set("diferenciais", e.target.value)} placeholder="Só o que for verdade: tempo de mercado, estrutura, especialização" />
               <p className="mt-6 text-[15px] font-medium">O principal objetivo do site</p>
               <div className="mt-2 flex flex-wrap gap-2.5">
                 {objetivos.map((o) => <Chip key={o} on={r.objetivo === o} onClick={() => set("objetivo", o)}>{o}</Chip>)}
@@ -393,7 +467,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           ) : null}
 
-          {fase === 7 ? (
+          {etapa === "onde" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Onde e quando você atende?</h2>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -421,28 +495,11 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           ) : null}
 
-          {fase === 8 ? (
+          {etapa === "fotos" ? (
             <div>
-              <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Tem logo e fotos?</h2>
+              <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Tem fotos do seu trabalho?</h2>
               <p className="mt-3 text-lg text-graphite">Fotos reais deixam o site muito melhor. Se não tiver agora, pode pular: a IA monta com tipografia e cor.</p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-line bg-white p-5">
-                  <p className="font-medium">Logo</p>
-                  {r.logo ? (
-                    <div className="mt-3 flex items-center gap-3">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={r.logo} alt="Seu logo" className="h-14 max-w-[160px] object-contain" />
-                      <button type="button" onClick={() => set("logo", "")} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line" aria-label="Remover logo">
-                        <X aria-hidden strokeWidth={1.75} className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ) : (
-                    <label className={buttonClass("outline", "md", "mt-3 cursor-pointer has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink")}>
-                      <ImagePlus aria-hidden strokeWidth={1.75} className="h-4 w-4" /> Enviar logo
-                      <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="sr-only" onChange={(e) => upload(e.target.files, "logo")} />
-                    </label>
-                  )}
-                </div>
+              <div className="mt-6">
                 <div className="rounded-2xl border border-line bg-white p-5">
                   <p className="font-medium">Fotos (até 8)</p>
                   {r.fotos.length < 8 ? (
@@ -474,10 +531,10 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           ) : null}
 
-          {fase === 9 ? (
+          {etapa === "dados" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Pra quem a gente manda o site?</h2>
-              <p className="mt-3 text-lg text-graphite">A IA leva uns 5 minutos. Você acompanha aqui e recebe o link no e-mail.</p>
+              <p className="mt-3 text-lg text-graphite">A IA leva até 10 minutos. Pode fechar a página: o link chega no seu e-mail. Cada pessoa cria uma prévia, então capriche.</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <label htmlFor="q-nome" className="text-[15px] font-medium">Seu nome</label>
@@ -531,11 +588,11 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </a>
           ) : null}
 
-          {fase !== 3 ? (
+          {etapa !== "estilo" ? (
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <button type="submit" disabled={enviando} className={buttonClass(fase === fases.length - 1 ? "neon" : "primary", "lg")}>
                 {enviando ? <LoaderCircle aria-hidden strokeWidth={1.75} className="h-5 w-5 animate-spin" /> : fase === fases.length - 1 ? <Sparkles aria-hidden strokeWidth={1.75} className="h-5 w-5" /> : null}
-                {fase === fases.length - 1 ? (enviando ? "Enviando para a IA" : "Montar meu site com IA") : fase === 8 && !r.logo && !r.fotos.length ? "Pular por agora" : "Continuar"}
+                {fase === fases.length - 1 ? (enviando ? "Enviando para a IA" : "Montar meu site com IA") : etapa === "fotos" && !r.fotos.length ? "Pular por agora" : "Continuar"}
                 {fase < fases.length - 1 ? <ArrowRight aria-hidden strokeWidth={1.75} className="h-5 w-5" /> : null}
               </button>
               {fase > 0 ? (
@@ -560,7 +617,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
             </div>
           </BrowserFrame>
         </div>
-        <p className="mt-4 text-sm text-graphite">Este é só um rascunho. No fim, a IA cria o site de verdade, com layout próprio, os seus textos e as suas fotos.</p>
+        <p className="mt-4 text-sm text-graphite">Este é só um rascunho. No fim, a IA cria um site só seu, sem modelo pronto, com as suas cores, os seus textos e as suas fotos.</p>
       </aside>
     </div>
   );

@@ -28,6 +28,13 @@ export interface Respostas {
   estilos: string[];
   personalidade: string[];
   cores: { modo: 'paleta'; paleta: string } | { modo: 'propria'; primaria: string; secundaria: string } | { modo: 'ia' };
+  // Campos do jogo novo: pedidos antigos não têm.
+  coresOrigem?: '' | 'logo' | 'cliente' | 'ia';
+  direcao?: Record<string, string>;
+  historia?: string;
+  duvidas?: string;
+  admira?: string;
+  evitar?: string;
   servicos: string[];
   diferenciais: string;
   publico: string;

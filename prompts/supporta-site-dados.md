@@ -14,7 +14,19 @@ Diferenciais (use só estes, sem inventar outros):
 {{diferenciais}}
 
 Cores: {{cores}}
-Estilos que ele escolheu entre os modelos (os prints vêm acima):
+Direção visual que ele pediu (é o gosto dele, siga):
+{{direcao}}
+
+Marca ou site que ele admira (inspiração de atitude, não copie): {{admira}}
+O que ele não quer de jeito nenhum: {{evitar}}
+
+História do negócio, nas palavras dele:
+{{historia}}
+
+O que os clientes mais perguntam (use nas perguntas frequentes):
+{{duvidas}}
+
+Estilos de pedidos antigos:
 {{estilos}}
 
 Contato e localização:

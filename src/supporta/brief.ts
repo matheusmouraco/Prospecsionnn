@@ -31,6 +31,19 @@ const RAMOS: Record<string, string> = {
   tecnologia: 'Tecnologia e agência', educacao: 'Escola e cursos', pet: 'Pet e veterinária',
 };
 
+// Mesmas rodadas de direção de supporta/lib/criador.ts, escritas para o diretor de arte.
+const DIRECOES: Record<string, Record<string, string>> = {
+  fundo: { claro: 'página clara e arejada, muito espaço em branco', escuro: 'página predominantemente escura, com presença forte' },
+  letra: { classica: 'títulos em serifada elegante', moderna: 'sem serifa limpa e atual', impacto: 'títulos enormes, pesados, de grande impacto' },
+  protagonista: { imagens: 'as imagens são protagonistas e aparecem primeiro', palavras: 'o texto é protagonista e o argumento vem primeiro' },
+  ritmo: { calmo: 'ritmo calmo e sóbrio, movimento discreto', vibrante: 'ritmo vibrante, com bastante energia e movimento' },
+};
+
+export function direcaoDe(r: Respostas): string {
+  const itens = Object.entries(r.direcao ?? {}).map(([k, v]) => DIRECOES[k]?.[v]).filter((x): x is string => Boolean(x));
+  return itens.length ? lista(itens) : '(deixou com você: decida a partir do ramo e da personalidade)';
+}
+
 const lista = (items: string[]) => (items.length ? items.map((t) => `- ${t}`).join('\n') : '(nenhum)');
 const ou = (v: string, vazio = '(não informado)') => (v?.trim() ? v.trim() : vazio);
 
@@ -43,7 +56,7 @@ export function coresDe(r: Respostas): string {
     const p = PALETAS[r.cores.paleta];
     return p ? `paleta "${p.nome}": ${p.cores.join(', ')} (escura, destaque, fundo suave)` : 'escolha você';
   }
-  if (r.cores.modo === 'propria') return `cores da marca: principal ${r.cores.primaria}, apoio ${r.cores.secundaria}`;
+  if (r.cores.modo === 'propria') return `${r.coresOrigem === 'logo' ? 'cores tiradas do logo do dono' : 'cores da marca informadas pelo dono'}: principal ${r.cores.primaria}, apoio ${r.cores.secundaria}. Obrigatório: a identidade do site parte delas, e os neutros só dão apoio`;
   return 'o dono pediu para você escolher, de acordo com o ramo e a personalidade';
 }
 
@@ -54,7 +67,7 @@ export function whatsappLink(r: Respostas, site: SiteRow): string {
 
 /** All real text the owner gave: any number on the page must come from here. */
 export function fonteNumeros(r: Respostas, site: SiteRow): string {
-  return [site.empresa, r.frase, r.publico, r.diferenciais, r.cidade, r.endereco, r.horario, r.instagram, r.siteAtual, r.whatsappSite, site.contato_whatsapp, ...r.servicos, String(new Date().getFullYear())].join(' ');
+  return [site.empresa, r.frase, r.publico, r.diferenciais, r.historia ?? '', r.duvidas ?? '', r.cidade, r.endereco, r.horario, r.instagram, r.siteAtual, r.whatsappSite, site.contato_whatsapp, ...r.servicos, String(new Date().getFullYear())].join(' ');
 }
 
 export async function buildSiteBrief(site: SiteRow, referencias: FichaRef[], feedback: string[]): Promise<string> {
@@ -69,7 +82,12 @@ export async function buildSiteBrief(site: SiteRow, referencias: FichaRef[], fee
     servicos: lista(r.servicos),
     diferenciais: ou(r.diferenciais, '(nenhum informado: não escreva diferenciais)'),
     cores: coresDe(r),
-    estilos: r.estilos.length ? lista(r.estilos.map((s) => ESTILOS[s] ?? s)) : '(não escolheu; siga as referências)',
+    estilos: r.estilos.length ? lista(r.estilos.map((s) => ESTILOS[s] ?? s)) : '(nenhum)',
+    direcao: direcaoDe(r),
+    historia: ou(r.historia ?? '', '(não contou: não invente história)'),
+    duvidas: ou(r.duvidas ?? '', '(não informou)'),
+    admira: ou(r.admira ?? '', '(não informou)'),
+    evitar: ou(r.evitar ?? '', '(não informou)'),
     cidade: ou(r.cidade),
     endereco: ou(r.endereco, '(atende sem endereço físico ou não informou: não escreva endereço)'),
     horario: ou(r.horario, '(não informado: não escreva horário)'),

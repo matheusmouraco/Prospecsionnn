@@ -25,22 +25,55 @@ export const ramos: Ramo[] = [
   { slug: "outro", nome: "Outro ramo", emoji: "✨", segmento: "outro", servicos: [] },
 ];
 
-/** Rodadas de "qual combina mais com você": dois modelos da vitrine bem diferentes por rodada. */
-export const duelos: [string, string][] = [
-  ["arquitetura-autoral", "agencia-design"],
-  ["psicologia", "academia-fitness"],
-  ["cafeteria", "tecnologia"],
-];
+/** Ids antigos de estilo: só para ler pedidos feitos antes do jogo novo. */
+export const estiloDoModelo: Record<string, string> = {};
 
-/** Como cada modelo dos duelos é descrito para a IA (o print dele vai junto como referência). */
-export const estiloDoModelo: Record<string, string> = {
-  "arquitetura-autoral": "editorial e minimalista: muito branco, tipografia serifada elegante, fotos grandes, pouca cor",
-  "agencia-design": "ousado e vibrante: cor forte de fundo, títulos enormes em caixa alta, contraste alto",
-  psicologia: "acolhedor e calmo: tons suaves, cantos arredondados, fotos de pessoas, leitura tranquila",
-  "academia-fitness": "energético: tipografia condensada e pesada, laranja e preto, chamadas diretas",
-  cafeteria: "artesanal e caloroso: serifada com itálico, tons quentes, fotos de perto, clima de bairro",
-  tecnologia: "corporativo e confiável: azul, layout organizado em blocos, sem serifa, cara de empresa grande",
-};
+/**
+ * Rodadas de direção visual. O cliente responde sobre o gosto dele, nunca sobre modelos prontos:
+ * a composição do site nasce das respostas e não de um template.
+ */
+export type OpcaoDirecao = { id: string; nome: string; desc: string; demo: { bg: string; fg: string; font: string; peso: number; texto: string } };
+export type Direcao = { id: string; pergunta: string; ajuda: string; opcoes: OpcaoDirecao[] };
+
+export const direcoes: Direcao[] = [
+  {
+    id: "fundo",
+    pergunta: "O site é mais claro ou mais escuro?",
+    ajuda: "Pense no ambiente do seu negócio.",
+    opcoes: [
+      { id: "claro", nome: "Claro e arejado", desc: "Muito espaço em branco, leve de ler", demo: { bg: "#F7F7F4", fg: "#111111", font: "inherit", peso: 500, texto: "Aa" } },
+      { id: "escuro", nome: "Escuro e marcante", desc: "Fundo escuro, presença forte", demo: { bg: "#0F0F12", fg: "#FFFFFF", font: "inherit", peso: 500, texto: "Aa" } },
+    ],
+  },
+  {
+    id: "letra",
+    pergunta: "Qual letra tem a sua voz?",
+    ajuda: "A letra diz muito antes de a pessoa ler.",
+    opcoes: [
+      { id: "classica", nome: "Clássica", desc: "Serifada, tradicional e elegante", demo: { bg: "#FFFFFF", fg: "#111111", font: "Georgia, serif", peso: 400, texto: "Aa" } },
+      { id: "moderna", nome: "Moderna", desc: "Limpa, direta e atual", demo: { bg: "#FFFFFF", fg: "#111111", font: "inherit", peso: 500, texto: "Aa" } },
+      { id: "impacto", nome: "Grande e forte", desc: "Títulos enormes que chamam atenção", demo: { bg: "#FFFFFF", fg: "#111111", font: "Impact, 'Arial Black', sans-serif", peso: 800, texto: "AA" } },
+    ],
+  },
+  {
+    id: "protagonista",
+    pergunta: "O que vende mais o seu trabalho?",
+    ajuda: "Isso define o que aparece primeiro.",
+    opcoes: [
+      { id: "imagens", nome: "As imagens", desc: "Fotos grandes contam a história", demo: { bg: "#E8E4DC", fg: "#111111", font: "inherit", peso: 500, texto: "▧" } },
+      { id: "palavras", nome: "As palavras", desc: "Explicar bem é o que convence", demo: { bg: "#FFFFFF", fg: "#111111", font: "inherit", peso: 500, texto: "¶" } },
+    ],
+  },
+  {
+    id: "ritmo",
+    pergunta: "Qual é o ritmo do seu negócio?",
+    ajuda: "Vale para as cores, os espaços e o movimento.",
+    opcoes: [
+      { id: "calmo", nome: "Calmo", desc: "Sóbrio, sem pressa, transmite segurança", demo: { bg: "#EEF1EE", fg: "#2B3A33", font: "inherit", peso: 400, texto: "~" } },
+      { id: "vibrante", nome: "Vibrante", desc: "Muita energia e movimento na tela", demo: { bg: "#111111", fg: "#FFFFFF", font: "inherit", peso: 800, texto: "!" } },
+    ],
+  },
+];
 
 export const personalidades = ["Elegante", "Moderno", "Acolhedor", "Ousado", "Minimalista", "Divertido", "Sério e técnico", "Natural"];
 
@@ -72,6 +105,13 @@ export type Respostas = {
   estilos: string[];
   personalidade: string[];
   cores: Cores;
+  /** De onde vieram as cores. Vazio: o cliente ainda não decidiu. */
+  coresOrigem: "" | "logo" | "cliente" | "ia";
+  direcao: Record<string, string>;
+  historia: string;
+  duvidas: string;
+  admira: string;
+  evitar: string;
   servicos: string[];
   diferenciais: string;
   publico: string;
@@ -94,6 +134,12 @@ export const respostasVazias: Respostas = {
   estilos: [],
   personalidade: [],
   cores: { modo: "ia" },
+  coresOrigem: "",
+  direcao: {},
+  historia: "",
+  duvidas: "",
+  admira: "",
+  evitar: "",
   servicos: [],
   diferenciais: "",
   publico: "",
@@ -136,9 +182,20 @@ export function parseRespostas(body: unknown): { respostas: Respostas; faltando:
     ramo: ramos.some((x) => x.slug === r.ramo) ? String(r.ramo) : "outro",
     ramoOutro: noDash(s(r.ramoOutro, 80)),
     frase: noDash(s(r.frase, 220)),
-    estilos: list(r.estilos, 3, 40).filter((x) => x in estiloDoModelo),
+    estilos: [],
     personalidade: list(r.personalidade, 2, 30).filter((x) => personalidades.includes(x)),
     cores,
+    coresOrigem: r.coresOrigem === "logo" || r.coresOrigem === "cliente" ? r.coresOrigem : "ia",
+    direcao: Object.fromEntries(
+      direcoes.flatMap((d) => {
+        const v = ((r.direcao ?? {}) as Record<string, unknown>)[d.id];
+        return d.opcoes.some((o) => o.id === v) ? [[d.id, String(v)]] : [];
+      }),
+    ),
+    historia: noDash(s(r.historia, 600)),
+    duvidas: noDash(s(r.duvidas, 500)),
+    admira: noDash(s(r.admira, 300)),
+    evitar: noDash(s(r.evitar, 300)),
     servicos: list(r.servicos, 8, 60).map(noDash),
     diferenciais: noDash(s(r.diferenciais, 600)),
     publico: noDash(s(r.publico, 300)),
