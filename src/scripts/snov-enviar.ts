@@ -4,7 +4,7 @@ import { incrementMetric, isPaused } from '../db/control.js';
 import { advance, claimProspects, fail } from '../db/queue.js';
 import { logger } from '../lib/logger.js';
 import { SnovClient } from '../snov/client.js';
-import { enviadosHoje, isBlocked, loadEnvio, markSent, type EnvioPronto } from '../snov/outreach-store.js';
+import { enviadosHoje, isBlocked, loadEnvio, markSent, outraEmpresa, type EnvioPronto } from '../snov/outreach-store.js';
 
 const log = logger.child({ etapa: 'envio' });
 
@@ -37,8 +37,10 @@ async function main(): Promise<void> {
   for (const p of batch) {
     try {
       const e = await loadEnvio(p.id);
-      if (await isBlocked(e.email, e.dominio)) {
-        linhas.push({ ...e, situacao: 'bloqueado, não enviado' });
+      const motivo = (await isBlocked(e.email, e.dominio)) ? 'bloqueado' : outraEmpresa(e.email, e.dominio) ? `email de ${e.email.split('@')[1]}, site analisado ${e.dominio}` : null;
+      if (motivo) {
+        linhas.push({ ...e, situacao: `${motivo}, não enviado` });
+        if (!env.DRY_RUN) await advance(p, 'erro_final'); // out of the queue for good, so it never takes a daily slot again
         continue;
       }
       if (!snov) {
@@ -52,7 +54,7 @@ async function main(): Promise<void> {
       await markSent(e.email_id);
       await advance(p, 'enviado_snov');
       await incrementMetric('enviados', 1);
-      linhas.push({ ...e, situacao: r.updated && !r.added ? 'já existia no Snov, atualizado' : 'enviado' });
+      linhas.push({ ...e, situacao: 'enviado' });
       log.info('Prospect na campanha', { dominio: e.dominio });
     } catch (err) {
       log.error('Falha no envio', { prospect: p.id, err });

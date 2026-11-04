@@ -6,6 +6,9 @@ const GENERICOS = new Set([
   'faleconosco', 'ouvidoria', 'rh', 'diretoria', 'gerencia', 'gerência', 'equipe', 'time', 'empresa',
 ]);
 
+// Honorifics the Snov sometimes stores as first name ("Comendador Marcos"): skipped, the next word is the name.
+const TITULOS = new Set(['comendador', 'doutor', 'doutora', 'dr', 'dra', 'prof', 'professor', 'professora', 'sr', 'sra', 'senhor', 'senhora', 'eng', 'engenheiro', 'engenheira', 'pastor', 'padre', 'coronel', 'capitao', 'major', 'juiz', 'juiza', 'ministro', 'vereador', 'deputado']);
+
 const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
 function capitalize(word: string): string {
@@ -17,7 +20,8 @@ function capitalize(word: string): string {
 // ("ibo" for iboodontologia.com.br, "Odontoclinic" for odontoclinic.com.br), not a person.
 // A real name inside the brand ("Mariana" at marianaodonto) also gets "Olá", which is harmless.
 export function saudacao(primeiroNome: string | null, dominio: string, empresa: string | null): string {
-  const token = (primeiroNome ?? '').trim().split(/\s+/)[0]?.replace(/[^\p{L}'-]/gu, '') ?? '';
+  const palavras = (primeiroNome ?? '').trim().split(/\s+/).map((w) => w.replace(/[^\p{L}'-]/gu, '')).filter(Boolean);
+  const token = palavras.find((w) => !TITULOS.has(fold(w))) ?? '';
   if (token.length < 3) return 'Olá';
   const f = fold(token);
   if (GENERICOS.has(f)) return 'Olá';

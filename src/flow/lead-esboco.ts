@@ -149,7 +149,7 @@ export async function aprovarEEnviar(prospectId: string): Promise<string> {
     companyName: lead.empresa, companySite: `https://${lead.dominio}`,
     customFields: {
       ...(e?.campos ?? {}), link_esboco: link, mensagem_esboco: (await mensagemSalva(prospectId)) ?? (await gerarMensagem(lead)),
-      ...(env.SUPPORTA_URL ? { link_supporta: linkSupporta(env.SUPPORTA_URL, lead) } : {}),
+      ...(env.SUPPORTA_URL && env.SUPPORTA_LINK_ESBOCO === 'true' ? { link_supporta: linkSupporta(env.SUPPORTA_URL, lead) } : {}),
     },
   });
   if (!r.ok) throw new Error(`Snov não incluiu o lead na lista do esboço: ${JSON.stringify(r.raw).slice(0, 200)}`);

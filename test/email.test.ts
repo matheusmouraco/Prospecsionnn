@@ -190,3 +190,11 @@ describe('renderEmail1', () => {
     expect(txt).not.toMatch(/https?:|www\.|—|–/);
   });
 });
+
+describe('saudacao with honorifics', () => {
+  it('skips titles stored as first name', () => {
+    expect(saudacao('Comendador', 'qualitysegconsultoria.com.br', 'Quality Seg')).toBe('Olá');
+    expect(saudacao('Comendador Marcos', 'qualitysegconsultoria.com.br', 'Quality Seg')).toBe('Oi Marcos');
+    expect(saudacao('Dra. Ana', 'clinica.com.br', null)).toBe('Oi Ana');
+  });
+});

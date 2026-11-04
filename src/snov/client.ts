@@ -10,7 +10,7 @@
 // - https://api.snov.io/v1/get-prospect-by-id  id. Full record with company/site (shape confirmed via snov:inspect).
 // - POST https://api.snov.io/v1/add-prospect-to-list  email, fullName, firstName, lastName, companyName,
 //   companySite, listId (required), updateContact, customFields[nome]=valor (custom fields must exist in Snov).
-//   Response shape not documented; parseAddResult() accepts success/added/updated.
+//   Response per the docs: { success, id, added, updated }. Only `added: true` means it is in the list.
 // - POST https://api.snov.io/v1/do-not-email-list  items[] (emails or domains).
 // - GET  https://api.snov.io/v1/get-emails-replies  campaignId (campaign_id returned HTTP 400 on a real account). Prospect, subject/body, step, date per reply;
 //   exact field names not documented, see src/snov/replies.ts and `npm run respostas:ler -- --amostra`.
@@ -77,9 +77,10 @@ export interface AddResult {
 
 export function parseAddResult(raw: unknown): AddResult {
   const b = (raw ?? {}) as Record<string, unknown>;
-  const added = b.added === true || b.success === true && b.updated !== true;
+  const added = b.added === true;
   const updated = b.updated === true;
-  const ok = b.success !== false && (added || updated || b.success === true);
+  // Only a real addition puts the prospect in the campaign list; an update alone does not.
+  const ok = b.success !== false && b.added === true;
   return { ok, added, updated, raw };
 }
 
@@ -145,7 +146,10 @@ export class SnovClient {
 
   // Adds (or updates) a prospect in a list. A list linked to a campaign starts the sequence.
   async addProspectToList(listId: string, p: NovoProspect): Promise<AddResult> {
-    const params: Params = { email: p.email, listId, updateContact: '1' };
+    // createDuplicates, not updateContact: every lead already exists in a Snov source list, and with
+    // updateContact=true the API only updates that profile ("updated": true) without putting it in
+    // this list, so the campaign never sees it (confirmed on 28/10/2026 with 5 real prospects).
+    const params: Params = { email: p.email, listId, createDuplicates: '1' };
     if (p.firstName) params.firstName = p.firstName;
     if (p.fullName) params.fullName = p.fullName;
     if (p.companyName) params.companyName = p.companyName;

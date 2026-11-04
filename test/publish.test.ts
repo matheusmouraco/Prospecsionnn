@@ -10,6 +10,14 @@ describe('publish', () => {
     expect(files[2]!.data).toContain('Disallow: /');
   });
 
+  it('redirects old slugs of a renamed draft to the current one', () => {
+    const files = buildSite([{ slug: 'yeshua', html: '<html>y</html>', slugsAntigos: ['recrie-08f5'] }, { slug: 'ibo-1a2b', html: '<html>i</html>' }]);
+    const config = JSON.parse(files[0]!.data);
+    expect(config.redirects).toEqual([{ source: '/recrie-08f5', destination: '/yeshua', permanent: true }]);
+    expect(files.map((f) => f.file)).not.toContain('recrie-08f5/index.html');
+    expect(JSON.parse(buildSite([{ slug: 'ibo-1a2b', html: 'x' }])[0]!.data).redirects).toBeUndefined();
+  });
+
   it('uploads by sha and deploys to production only when asked', async () => {
     const calls: { url: string; body: string }[] = [];
     const fetchFn = (async (url: string, init: RequestInit) => {

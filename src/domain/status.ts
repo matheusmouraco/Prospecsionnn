@@ -42,7 +42,8 @@ export const TRANSITIONS: Record<ProspectStatus, readonly ProspectStatus[]> = {
   analisando: ['descartado_site_bom', 'analisado'],
   descartado_site_bom: [],
   analisado: ['email_pronto'],
-  email_pronto: ['enviado_snov'],
+  // erro_final: never sendable (blocked, or the email belongs to another company than the site).
+  email_pronto: ['enviado_snov', 'erro_final'],
   enviado_snov: REPLY_OUTCOMES,
   respondeu_quer_ver: ['gerando_esboco'],
   gerando_esboco: ['esboco_publicado', 'notificado_moura'],

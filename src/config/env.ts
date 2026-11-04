@@ -43,6 +43,7 @@ const envSchema = z.object({
   SENDER_WHATSAPP_URL: optionalString,
   DRAFT_BASE_URL: z.string().trim().url().default('https://analise.matilab.com.br'),
   SUPPORTA_URL: optionalString, // Supporta site; when set, the "esboço pronto" email gets link_supporta (subscription checkout)
+  SUPPORTA_LINK_ESBOCO: optionalString, // 'true' = o email de esboço pronto leva link_supporta; sem isso, SUPPORTA_URL serve só ao gerador
   SUPPORTA_WORKER_SECRET: optionalString, // shared with the Supporta site (/api/interno/site) to email the client
   SUPPORTA_VERCEL_PROJECT: z.string().trim().min(1).default('supportasite'), // gets nome.supporta.com.br for each published site
 
