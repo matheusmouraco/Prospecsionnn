@@ -21,6 +21,7 @@ import { notify } from '../telegram/notify.js';
 import { loadLead, setStatus, type LeadEsboco } from './store.js';
 import { getSupabase } from '../db/client.js';
 import { linkSupporta } from './supporta.js';
+import { desligados, lerAjustes } from '../control/ajustes.js';
 
 const log = logger.child({ etapa: 'esboco-lead' });
 const DIR = 'out/esbocos';
@@ -123,13 +124,44 @@ export async function cicloEsbocos(limit = 3): Promise<number> {
         const r = await runNpm('esbocos', ['--dominio', lead.dominio, '--sem-abrir', '--sem-telegram', '--sem-publicar']);
         if (r.code !== 0 || !existsSync(htmlPath(lead.dominio))) throw new Error(`esbocos falhou: ${r.saida.slice(-500)}`);
       }
-      await pedirAprovacao(await loadLead(p.id));
+      if (await envioAutomatico(p.id)) await enviarSozinho(p.id);
+      else await pedirAprovacao(await loadLead(p.id));
     } catch (err) {
       log.error('Falha no esboço do lead', { prospect: p.id, err });
       await notify(`⚠️ Não consegui preparar o esboço do lead ${p.id}: ${err instanceof Error ? err.message.slice(0, 300) : String(err)}`);
     }
   }
   return leads.length;
+}
+
+// Moura's decision (nov/2026): a positive reply gets the draft by email without waiting for his approval,
+// unless the optional cycle "esboco_automatico" is switched off on Telegram (/auto) or DRY_RUN is on.
+// Only replies classified as positive (the classifier asked for the draft) go out alone; an ambiguous
+// "outro" also lands in respondeu_interesse and still waits for Moura's buttons.
+async function envioAutomatico(prospectId: string): Promise<boolean> {
+  if (getEnv().DRY_RUN) return false;
+  const a = await lerAjustes().catch(() => ({}) as Record<string, string>);
+  if (desligados(a).has('esboco_automatico')) return false;
+  const { data } = await getSupabase().from('respostas').select('acao_tomada').eq('prospect_id', prospectId).order('recebida_em', { ascending: false }).limit(1).maybeSingle();
+  return String(data?.acao_tomada ?? '').includes('gerar_esboco');
+}
+
+async function enviarSozinho(prospectId: string): Promise<void> {
+  const resultado = await aprovarEEnviar(prospectId);
+  const lead = await loadLead(prospectId);
+  const dono = requireEnv('TELEGRAM_CHAT_ID');
+  const p = await prints(lead.dominio);
+  await sendPhoto(dono, p.desktop, `Esboço de ${lead.empresa ?? lead.dominio} (computador)`);
+  await sendPhoto(dono, p.mobile, 'Celular');
+  const msg = await mensagemSalva(prospectId);
+  await sendMessageWithButtons(dono, [
+    `🚀 ${lead.empresa ?? lead.dominio} respondeu positivo e já recebeu o esboço.`,
+    `Contato: ${lead.email}`,
+    lead.resposta ? `O cliente falou: "${lead.resposta.replace(/\s+/g, ' ').slice(0, 400)}"` : '',
+    msg ? `\n✉️ O que foi para ele:\n${saudacaoDe(lead)},\n${msg}` : '',
+    '',
+    resultado,
+  ].filter(Boolean).join('\n'), [[{ texto: '✍️ Responder', dados: `/resp ${prospectId}` }]]);
 }
 
 // Approve button: publish (production unless DRY_RUN) and hand the link to the Snov "esboço pronto" list.

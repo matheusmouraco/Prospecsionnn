@@ -29,6 +29,8 @@ const etapas = [
 ];
 const MINUTOS = 10;
 
+class NaoEncontrado extends Error {}
+
 /** Espera com progresso enquanto a IA monta, depois a prévia com a escolha do plano. */
 export function SiteProgress({ token }: { token: string }) {
   const [estado, setEstado] = useState<Estado | null>(null);
@@ -44,14 +46,17 @@ export function SiteProgress({ token }: { token: string }) {
       try {
         const res = await fetch(`/api/criar/${token}`, { cache: "no-store" });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error ?? "Não encontramos este site.");
+        if (res.status === 404) throw new NaoEncontrado(data.error ?? "Não encontramos este site.");
+        if (!res.ok) throw new Error(data.error ?? "Falha ao consultar.");
         if (parar) return;
         setEstado(data);
         setPlano((p) => (p === "start" ? data.plano : p));
         if (data.status === "previa") track("criar_previa", { plan: data.plano });
         if (["na_fila", "gerando", "pago", "publicando"].includes(data.status)) timer = setTimeout(buscar, 5000);
       } catch (err) {
-        setErro((err as Error).message);
+        // Queda de internet ou do servidor não encerra a espera: só um pedido que não existe mostra erro.
+        if (err instanceof NaoEncontrado) setErro(err.message);
+        else if (!parar) timer = setTimeout(buscar, 10000);
       }
     }
     buscar();
