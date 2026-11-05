@@ -9,6 +9,7 @@ import { chooseReferences, loadFichas } from '../references/select.js';
 import { buildSiteBrief, fonteNumeros, ramoDe, whatsappLink } from './brief.js';
 import type { SiteRow } from './db.js';
 import { applySiteRules, injectCredito, validateSite } from './rules.js';
+import { fotosDoBanco } from './stock.js';
 
 const log = logger.child({ etapa: 'supporta' });
 const MAX_ATTEMPTS = 3;
@@ -70,7 +71,7 @@ export async function generateHome(site: SiteRow): Promise<Gerado> {
   const env = getEnv();
   const r = site.respostas;
   const whatsapp = whatsappLink(r, site);
-  const check = { whatsapp, imagens: [r.logo, ...r.fotos].filter(Boolean), fonteNumeros: fonteNumeros(r, site) };
+  const check = { whatsapp, imagens: [r.logo, ...r.fotos, ...fotosDoBanco(r, site.id).map((f) => f.url)].filter(Boolean), fonteNumeros: fonteNumeros(r, site) };
   const { refs, visual } = await contexto(site);
   const system = await loadPrompt('supporta-site-gerar');
   let feedback: string[] = [];
@@ -109,7 +110,7 @@ export async function generatePage(site: SiteRow, home: string, spec: PaginaSpec
   const env = getEnv();
   const r = site.respostas;
   const whatsapp = whatsappLink(r, site);
-  const check = { whatsapp, imagens: [r.logo, ...r.fotos].filter(Boolean), fonteNumeros: fonteNumeros(r, site) };
+  const check = { whatsapp, imagens: [r.logo, ...r.fotos, ...fotosDoBanco(r, site.id).map((f) => f.url)].filter(Boolean), fonteNumeros: fonteNumeros(r, site) };
   const dados = await buildSiteBrief(site, [], []);
   // The credit and structured data are added by code; strip them so the model does not copy them.
   const base = home.replace(/<p data-secao="credito-supporta"[\s\S]*?<\/p>\s*/i, '').replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/i, '');

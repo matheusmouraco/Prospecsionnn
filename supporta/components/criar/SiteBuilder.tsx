@@ -534,7 +534,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
           {etapa === "dados" ? (
             <div>
               <h2 ref={headingRef} tabIndex={-1} className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] tracking-[-0.05em] focus:outline-none">Pra quem a gente manda o site?</h2>
-              <p className="mt-3 text-lg text-graphite">A IA leva até 10 minutos. Pode fechar a página: o link chega no seu e-mail. Cada pessoa cria uma prévia, então capriche.</p>
+              <p className="mt-3 text-lg text-graphite">A IA leva até 15 minutos. Pode fechar a página: o link chega no seu e-mail. Cada pessoa cria uma prévia, então capriche.</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <label htmlFor="q-nome" className="text-[15px] font-medium">Seu nome</label>

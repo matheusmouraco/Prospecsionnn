@@ -7,9 +7,9 @@ Você é o desenvolvedor front-end da Supporta. Abaixo está a página inicial p
 - No menu e no rodapé, os links apontam para as páginas, com estes endereços exatos: {{menu}}. O link desta página fica marcado como atual (`aria-current="page"`).
 - Todo botão ou link de contato usa exatamente `href="%%WHATSAPP%%"`.
 - Conteúdo: {{instrucao}}
-- Use só as informações das respostas do dono e o que já está na página inicial. Proibido inventar depoimentos, números, preços, prazos, prêmios, clientes, horários ou endereços. Qualquer número precisa existir nas respostas.
+- Escreva uma página completa, a partir das respostas do dono, da página inicial e do que é comum e verdadeiro no ramo, em termos gerais. Proibido inventar depoimentos, números, preços, prazos, prêmios, clientes, horários ou endereços. Qualquer número precisa existir nas respostas.
 - Nenhum `<form>`, `<input>`, `<textarea>` ou `<select>`. Scripts só os da página inicial.
-- Um `<h1>` por página, cabeçalhos em ordem, imagens só da lista de fotos e logo, com `alt`.
+- Um `<h1>` por página, cabeçalhos em ordem, imagens só das fotos do dono, do logo e do banco de imagens, com a URL exata e `alt`.
 - Português do Brasil, sem travessão.
 
 ## Respostas do dono

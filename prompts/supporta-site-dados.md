@@ -10,7 +10,7 @@ Personalidade que ele quer passar: {{personalidade}}
 Serviços:
 {{servicos}}
 
-Diferenciais (use só estes, sem inventar outros):
+Diferenciais que ele contou (têm prioridade):
 {{diferenciais}}
 
 Cores: {{cores}}
@@ -38,8 +38,11 @@ Contato e localização:
 
 Logo: {{logo}}
 
-Fotos (use só estas, nesta ordem de preferência):
+Fotos do dono (têm prioridade e aparecem primeiro):
 {{fotos}}
+
+Banco de imagens (copie a URL exata, sem alterar nenhum caractere; escolha só as que combinam com este negócio e use de 6 a 10 na página):
+{{banco}}
 
 Referências de qualidade escolhidas para este ramo (os prints vêm acima):
 {{referencias}}

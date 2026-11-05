@@ -2,7 +2,7 @@ import { numbersIn } from '../email/validate.js';
 import { SCRIPTS_PERMITIDOS, visibleText } from '../draft/rules.js';
 
 // Hard rules for Supporta client sites (real sites, not drafts): no banner and no noindex,
-// contact always through the owner's WhatsApp, only the owner's images, nothing invented.
+// contact always through the owner's WhatsApp, only the owner's images and the checked stock photos, nothing invented.
 
 const escapeAttr = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 const SCRIPT_PROIBIDO = /\b(fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|eval|Function)\s*\(|new\s+(WebSocket|Function|Worker)|document\.cookie|localStorage|sessionStorage|indexedDB|window\.open|location\s*=|location\.(href|assign|replace)/;
@@ -10,7 +10,7 @@ const ORDINAL = /^0\d$/;
 
 export interface SiteCheck {
   whatsapp: string;
-  imagens: string[]; // the owner's logo and photos: the only images allowed
+  imagens: string[]; // the owner's logo and photos, plus the stock list: the only images allowed
   fonteNumeros: string;
 }
 
@@ -39,9 +39,9 @@ export function validateSite(html: string, c: SiteCheck): string[] {
     if (bad) issues.push(`o JavaScript da página só pode animar; remova "${bad[0].trim()}"`);
   }
   const permitidas = new Set(c.imagens);
-  const imagens = [...html.matchAll(/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/gi), ...html.matchAll(/url\(\s*["']?(https?:\/\/[^"')]+)/gi)].map((m) => m[1]!);
+  const imagens = [...html.matchAll(/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/gi), ...html.matchAll(/url\(\s*["']?(https?:\/\/[^"')]+)/gi)].map((m) => m[1]!.replace(/&amp;/g, '&'));
   const estranhas = [...new Set(imagens.filter((u) => /^https?:/i.test(u) && !permitidas.has(u) && !/fonts\.(googleapis|gstatic)\.com/i.test(u)))];
-  if (estranhas.length) issues.push(`use só as imagens do dono (logo e fotos da lista); remova: ${estranhas.slice(0, 4).join(', ')}`);
+  if (estranhas.length) issues.push(`use só as imagens do dono e do banco de imagens, com a URL exata; remova: ${estranhas.slice(0, 4).join(', ')}`);
 
   const texto = visibleText(html);
   const sobras = texto.match(/\[[A-ZÀ-Úa-zà-ú][^\]]{2,80}\]|lorem ipsum/gi);

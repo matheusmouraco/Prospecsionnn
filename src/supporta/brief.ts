@@ -2,6 +2,7 @@ import { loadPrompt } from '../lib/prompts.js';
 import { describeReferencias } from '../draft/generate.js';
 import type { FichaRef } from '../references/select.js';
 import type { Respostas, SiteRow } from './db.js';
+import { fotosDoBanco } from './stock.js';
 
 // Same options as supporta/lib/criador.ts (the builder). Kept here so the generator explains them to the model.
 const PALETAS: Record<string, { nome: string; cores: string[] }> = {
@@ -80,7 +81,7 @@ export async function buildSiteBrief(site: SiteRow, referencias: FichaRef[], fee
     objetivo: ou(r.objetivo),
     personalidade: r.personalidade.length ? r.personalidade.join(' e ') : '(livre)',
     servicos: lista(r.servicos),
-    diferenciais: ou(r.diferenciais, '(nenhum informado: não escreva diferenciais)'),
+    diferenciais: ou(r.diferenciais, '(não informou: escreva os benefícios típicos de um bom negócio deste ramo, sem afirmar fatos específicos)'),
     cores: coresDe(r),
     estilos: r.estilos.length ? lista(r.estilos.map((s) => ESTILOS[s] ?? s)) : '(nenhum)',
     direcao: direcaoDe(r),
@@ -94,7 +95,8 @@ export async function buildSiteBrief(site: SiteRow, referencias: FichaRef[], fee
     instagram: r.instagram ? `https://instagram.com/${r.instagram}` : '(não tem)',
     site_atual: ou(r.siteAtual, '(não tem)'),
     logo: r.logo || '(sem logo: use o nome da empresa com tratamento tipográfico forte)',
-    fotos: r.fotos.length ? lista(r.fotos) : '(nenhuma foto: proibido usar imagens; construa a força visual com tipografia, cor e formas)',
+    fotos: r.fotos.length ? lista(r.fotos) : '(o dono não enviou fotos: use as do banco de imagens abaixo)',
+    banco: fotosDoBanco(r, site.id).map((f) => `- ${f.url}\n  mostra: ${f.descricao}`).join('\n'),
     referencias: describeReferencias(referencias),
     feedback: feedback.length ? `\nA versão anterior foi recusada. Corrija tudo isto:\n${lista(feedback)}` : '',
   });

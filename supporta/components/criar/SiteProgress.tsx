@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, Check, LoaderCircle, Monitor, Smartphone } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
 import { customProject, plans, priceLabel, type PlanId } from "@/lib/plans";
@@ -27,9 +27,39 @@ const etapas = [
   "Ajustando para o celular",
   "Revisando tudo antes de mostrar",
 ];
-const MINUTOS = 10;
+const MINUTOS = 15;
 
 class NaoEncontrado extends Error {}
+
+const LARGURA_COMPUTADOR = 1280;
+
+/** A versão de computador abre sempre em 1280px e é reduzida para caber na tela, inclusive no celular. */
+function PreviaComputador({ src, titulo }: { src: string; titulo: string }) {
+  const caixa = useRef<HTMLDivElement>(null);
+  const [largura, setLargura] = useState(LARGURA_COMPUTADOR);
+  useEffect(() => {
+    const el = caixa.current;
+    if (!el) return;
+    const medir = () => setLargura(el.clientWidth || LARGURA_COMPUTADOR);
+    medir();
+    const obs = new ResizeObserver(medir);
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  const escala = Math.min(1, largura / LARGURA_COMPUTADOR);
+  // Mantém a proporção de uma tela de computador, com altura fixa e sem barra sobrando na lateral.
+  const alturaInterna = Math.round(Math.max(620, 800 * Math.max(escala, 0.6)) / escala);
+  return (
+    <div ref={caixa} className="w-full overflow-hidden" style={{ height: Math.round(alturaInterna * escala) }}>
+      <iframe
+        title={titulo}
+        src={src}
+        className="block origin-top-left border-0"
+        style={{ width: escala < 1 ? LARGURA_COMPUTADOR : "100%", height: alturaInterna, transform: `scale(${escala})` }}
+      />
+    </div>
+  );
+}
 
 /** Espera com progresso enquanto a IA monta, depois a prévia com a escolha do plano. */
 export function SiteProgress({ token }: { token: string }) {
@@ -146,7 +176,11 @@ export function SiteProgress({ token }: { token: string }) {
       {estado.previa ? (
         <div className="mt-8 flex justify-center">
           <div className={`overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[0_30px_80px_-30px_rgb(11_11_15/0.4)] ${tela === "mobile" ? "w-[390px] max-w-full" : "w-full"}`}>
-            <iframe title={`Prévia do site da ${estado.empresa}`} src={estado.previa} className={`block w-full ${tela === "mobile" ? "h-[760px]" : "h-[78vh]"}`} />
+            {tela === "mobile" ? (
+              <iframe title={`Prévia do site da ${estado.empresa}`} src={estado.previa} className="block h-[760px] w-full" />
+            ) : (
+              <PreviaComputador src={estado.previa} titulo={`Prévia do site da ${estado.empresa}`} />
+            )}
           </div>
         </div>
       ) : null}

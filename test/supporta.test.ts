@@ -27,7 +27,7 @@ describe('supporta site rules', () => {
     const issues = validateSite(html, { whatsapp: WA, imagens: [], fonteNumeros: 'Padaria Teste' });
     expect(issues.join(' ')).toMatch(/form/);
     expect(issues.join(' ')).toMatch(/25/);
-    expect(issues.join(' ')).toMatch(/imagens do dono/);
+    expect(issues.join(' ')).toMatch(/imagens do dono e do banco/);
   });
 
   it('accepts a clean page', () => {
@@ -53,5 +53,17 @@ describe('supporta plan pages', () => {
     expect(out).toContain('href="/sobre"');
     expect(out.match(/href="\/blog"/g)).toHaveLength(1);
     expect(out).toContain('<a class="m" href="/blog">Blog</a>');
+  });
+});
+
+describe('banco de imagens da Supporta', () => {
+  it('traz fotos do ramo, repetíveis para o mesmo site e aceitas pelas regras', async () => {
+    const { fotosDoBanco } = await import('../src/supporta/stock.js');
+    const a = fotosDoBanco({ ramo: 'saude' }, 'site-1');
+    expect(a.length).toBeGreaterThan(5);
+    expect(fotosDoBanco({ ramo: 'saude' }, 'site-1')).toEqual(a);
+    expect(a.map((f) => f.url)).not.toEqual(fotosDoBanco({ ramo: 'saude' }, 'site-2').map((f) => f.url));
+    expect(fotosDoBanco({ ramo: 'ramo-que-nao-existe' }, 'x').length).toBeGreaterThan(5);
+    expect(new Set(a.map((f) => f.url)).size).toBe(a.length);
   });
 });
