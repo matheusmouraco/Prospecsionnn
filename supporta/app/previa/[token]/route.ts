@@ -1,3 +1,4 @@
+import { comSelo } from "@/lib/selo";
 import { getSiteByToken, getSitePage } from "@/lib/repo";
 
 export const runtime = "nodejs";
@@ -13,7 +14,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ tok
   if (!page) {
     return new Response("Prévia ainda não está pronta.", { status: 404, headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex, nofollow" } });
   }
-  const html = page.html.replace(/<\/body>/i, `${BADGE}</body>`);
+  const html = comSelo(page.html).replace(/<\/body>/i, `${BADGE}</body>`);
   return new Response(html, {
     headers: { "content-type": "text/html; charset=utf-8", "x-robots-tag": "noindex, nofollow", "cache-control": "private, no-store" },
   });

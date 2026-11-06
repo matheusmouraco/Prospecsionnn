@@ -1,3 +1,4 @@
+import { comSelo } from "@/lib/selo";
 import { getLiveSiteByHost, getSitePage, listSitePages, type Site } from "@/lib/repo";
 
 export const runtime = "nodejs";
@@ -60,6 +61,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ hos
   const page = await getSitePage(site.id, path);
   if (!page) return notFound();
   // Site publicado vai para o Google: tira o noindex que só vale para a prévia.
-  const html = page.html.replace(/<meta[^>]+name=["']robots["'][^>]*>/gi, "");
+  const html = comSelo(page.html.replace(/<meta[^>]+name=["']robots["'][^>]*>/gi, ""));
   return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", ...cache } });
 }

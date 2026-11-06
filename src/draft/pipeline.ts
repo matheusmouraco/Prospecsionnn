@@ -28,7 +28,7 @@ const log = logger.child({ etapa: 'esboco' });
 // Extra attempts only happen when the code rejects the page for breaking a hard rule.
 const MAX_ATTEMPTS = 3;
 const LONGA_HEIGHT = 2_700;
-const SELO = join(import.meta.dirname, '..', '..', 'assets', 'selo-matilab.webp');
+const SELO = join(import.meta.dirname, '..', '..', 'assets', 'selo-supporta.webp');
 
 let seloSrc: string | null = null;
 export async function selo(): Promise<string> {

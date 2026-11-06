@@ -186,13 +186,13 @@ export function injectSelo(html: string, src: string, agencia: string, legal?: L
   const rodape = `<footer class="rodape-agencia" data-secao="selo">
     <div class="ra-wrap">
       <p class="ra-legal">${texto}</p>
-      <img src="${src}" alt="Selo de qualidade ${escapeHtml(agencia)}" width="110">
+      <img src="${src}" alt="Selo de qualidade Supporta" width="140">
     </div>
     <style>
       .rodape-agencia{background:#fff;border-top:1px solid #0000000f;padding:22px 24px}
       .ra-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
       .ra-legal{margin:0;font:400 12px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#8a8f98;letter-spacing:.01em}
-      .rodape-agencia img{width:110px;height:auto;display:block;flex-shrink:0}
+      .rodape-agencia img{width:140px;height:auto;display:block;flex-shrink:0}
       @media (max-width:640px){.ra-wrap{flex-direction:column-reverse;text-align:center;gap:14px}}
     </style>
     <script>if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0);addEventListener('load',function(){window.scrollTo(0,0)});</script>
