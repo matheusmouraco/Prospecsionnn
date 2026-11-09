@@ -48,7 +48,8 @@ export const FATOS = `Fatos da Supporta (não invente nada além disso):
 - Alterações sem custo nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega. Depois, R$ ${pricing.alteracao} cada.
 - A prévia é feita antes de pagar: o cliente só paga se gostar. Arrependimento em até 7 dias.
 - O site já vem pronto pro Google e pras IAs (ChatGPT, Gemini), com botão de WhatsApp e mapa.
-- Algo fora disso (loja virtual, sistema, integração) é com o Matheus, projeto personalizado.`;
+- Algo fora disso (loja virtual, sistema, integração) é projeto personalizado, com orçamento à parte combinado aqui mesmo no WhatsApp.
+- Quem conversa com o cliente é o Matheus, da Supporta. Fale sempre em primeira pessoa, como ele.`;
 
 const listaRamos = ramos.filter((r) => r.slug !== "outro").map((r) => `${r.slug} (${r.nome})`).join(", ");
 

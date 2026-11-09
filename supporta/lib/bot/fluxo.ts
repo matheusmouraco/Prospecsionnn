@@ -42,10 +42,13 @@ export function formatarFone(n: string) {
   return d.length === 11 ? `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}` : d.length === 10 ? `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}` : n;
 }
 
+// Quem "fala" no WhatsApp (como na conversa de referência: "Opa João, Matheus aqui!").
+const ATENDENTE = process.env.BOT_ATENDENTE || "Matheus";
+
 // ---------- roteiro (o que o cliente lê) ----------
 const R = {
   abertura: (nome: string) => [
-    process.env.BOT_ATENDENTE ? `Opa${nome ? ` ${nome}` : ""}, ${process.env.BOT_ATENDENTE} aqui!` : `Oi${nome ? ` ${nome}` : ""}! Aqui é da Supporta.`,
+    `Opa${nome ? ` ${nome}` : ""}, ${ATENDENTE} aqui!`,
     `Eu monto o site do seu negócio agora, aqui pelo WhatsApp, e você só paga se gostar: R$ ${pricing.site}, uma vez só.`,
   ],
   pedeNegocio: "Qual o nome do seu negócio? Se tiver Instagram ou site, me manda o link que eu já puxo as informações de lá.",
@@ -67,7 +70,7 @@ const R = {
   previa: (url: string) => [`Pronto! Essa é a prévia do seu site: ${url}`, "Abre e me fala o que achou. Se quiser mudar qualquer coisa, é só me falar aqui."],
   previaNova: (url: string) => [`Pronto, atualizei: ${url}`, "Dá uma olhada e me fala."],
   ajustando: "Deixa comigo, já mudo isso. Te mando a nova versão aqui em alguns minutos.",
-  muitosAjustes: "Anotei. Vou pedir pro Matheus olhar esses últimos ajustes com você, tá? Ele te chama aqui.",
+  muitosAjustes: "Anotei. Esses últimos ajustes eu vou olhar com calma e já te chamo aqui.",
   pedeDados: (slug: string) => [
     "Que bom que gostou! Pra gerar o pagamento, me passa: nome completo, e-mail e CPF ou CNPJ.",
     `E me diz se quer domínio próprio .com.br (+R$ ${pricing.dominio}/ano) ou se fica com ${slug}.supporta.com.br, que já está incluso.`,
@@ -83,7 +86,7 @@ const R = {
   noAr: (url: string) => [`Seu site está no ar: ${url}`, `Nos primeiros ${pricing.diasAlteracaoGratis} dias, qualquer alteração é sem custo. É só me pedir aqui.`],
   ajusteNoAr: (pago: boolean, url: string | null) =>
     pago ? "Anotado! A equipe faz a alteração e te avisa aqui." : `Anotado! Essa alteração custa R$ ${pricing.alteracao}${url ? `, link do pagamento: ${url}` : ". Já te mando o link do pagamento."}`,
-  humano: "Vou chamar o Matheus pra falar com você aqui. Ele já te responde.",
+  humano: "Entendi. Vou ver isso pessoalmente e já te respondo aqui.",
   mandaTexto: "Me manda por texto, por favor, que aqui eu não consigo ouvir áudio.",
   erro: "Deu um problema aqui do meu lado. Já estou vendo e te retorno.",
   erroGerador: "Tive um problema pra terminar o seu site. Já avisei a equipe e a gente te retorna aqui.",
