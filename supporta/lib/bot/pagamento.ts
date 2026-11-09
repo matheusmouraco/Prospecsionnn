@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { ramos } from "@/lib/criador";
 import { getPaymentProvider } from "@/lib/payments";
 import { chargesFor, getPlan } from "@/lib/plans";
-import { createSubscription, setProviderIds, setSitePlan, type Site } from "@/lib/repo";
+import { createSubscription, setProviderIds, setSitePlan, setSubscriptionStatus, type Site } from "@/lib/repo";
 import { absoluteUrl, site as supporta, termsAcceptanceText } from "@/lib/site";
 import { briefingSignature } from "@/lib/tokens";
 
@@ -56,6 +56,7 @@ export async function linkPagamento(input: { site: Site; nome: string; email: st
   await setSitePlan(input.site.id, plan.id);
   if (!provider) return { url: absoluteUrl(`${thanks}&teste=1`), hoje, anual };
 
+  // Se o provedor recusar, a assinatura criada aqui não fica "aguardando pagamento" para sempre.
   const result = await provider.createSubscriptionCheckout({
     plan,
     dominio: input.dominio,
@@ -67,6 +68,9 @@ export async function linkPagamento(input: { site: Site; nome: string; email: st
     cancelUrl: absoluteUrl(`/planos?cancelado=1`),
     remoteIp: "",
     metadata: { aceite_em: acceptance.acceptedAt, aceite_canal: "whatsapp", termos_versao: acceptance.termsVersion },
+  }).catch(async (err) => {
+    await setSubscriptionStatus(id, "cancelada");
+    throw err;
   });
   await setProviderIds(reference, { customerId: result.providerCustomerId, subscriptionId: result.providerSubscriptionId });
   return { url: result.redirectUrl, hoje, anual };

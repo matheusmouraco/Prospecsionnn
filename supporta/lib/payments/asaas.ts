@@ -36,7 +36,9 @@ export const asaasProvider: PaymentProvider = {
   name: "asaas",
 
   async createSubscriptionCheckout(input: CheckoutInput): Promise<CheckoutResult> {
-    const customer = await asaas<{ id: string }>("/customers", {
+    // Reaproveita o cliente do mesmo CPF/CNPJ (evita duplicar quando a pessoa tenta de novo).
+    const existente = await asaas<{ data?: { id: string }[] }>(`/customers?cpfCnpj=${encodeURIComponent(input.customer.cpfCnpj)}&limit=1`).catch(() => null);
+    const customer = existente?.data?.[0] ?? await asaas<{ id: string }>("/customers", {
       method: "POST",
       body: JSON.stringify({
         name: input.customer.company || input.customer.name,
@@ -48,17 +50,23 @@ export const asaasProvider: PaymentProvider = {
       }),
     });
 
+    const cobranca = {
+      customer: customer.id,
+      billingType: "UNDEFINED",
+      value: input.hoje,
+      dueDate: today(),
+      description: `Supporta: site profissional${input.dominio ? " + 1º ano do domínio próprio" : ""}`,
+      externalReference: input.reference,
+    };
+    // O retorno ao site depois de pagar só funciona com o site cadastrado na conta Asaas (Minha Conta > Informações).
+    // Sem isso o Asaas recusa a cobrança; nesse caso cria sem o retorno, e o resto (webhook, WhatsApp) segue igual.
     const payment = await asaas<{ invoiceUrl: string }>("/payments", {
       method: "POST",
-      body: JSON.stringify({
-        customer: customer.id,
-        billingType: "UNDEFINED",
-        value: input.hoje,
-        dueDate: today(),
-        description: `Supporta: site profissional${input.dominio ? " + 1º ano do domínio próprio" : ""}`,
-        externalReference: input.reference,
-        callback: { successUrl: input.successUrl, autoRedirect: true },
-      }),
+      body: JSON.stringify({ ...cobranca, callback: { successUrl: input.successUrl, autoRedirect: true } }),
+    }).catch((err: Error) => {
+      if (!/dom[ií]nio/i.test(err.message)) throw err;
+      console.warn("[asaas] site não cadastrado na conta; cobrança criada sem retorno ao site.");
+      return asaas<{ invoiceUrl: string }>("/payments", { method: "POST", body: JSON.stringify(cobranca) });
     });
     const nextYear = new Date(Date.now() + 365 * 864e5).toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
     const subscription = await asaas<{ id: string }>("/subscriptions", {
