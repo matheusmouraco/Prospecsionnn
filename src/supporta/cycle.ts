@@ -2,8 +2,9 @@ import { getEnv } from '../config/env.js';
 import { logger } from '../lib/logger.js';
 import { ensureDomain } from '../publish/vercel.js';
 import { notify } from '../telegram/notify.js';
-import { claimSite, getPage, savePage, updateSite, type SiteRow } from './db.js';
-import { enderecoDe, generateHome, generatePage } from './generate.js';
+import { claimSite, getPage, getSupportaDb, savePage, updateSite, type SiteRow } from './db.js';
+import { adjustHome, enderecoDe, generateHome, generatePage } from './generate.js';
+import { analisarSiteAtual } from './site-atual.js';
 import { homeMultipagina, menuDe, paginasDoPlano } from './pages.js';
 
 const log = logger.child({ etapa: 'supporta' });
@@ -45,13 +46,45 @@ export async function gerarPrevia(): Promise<boolean> {
   if (!site) return false;
   log.info('Gerando prévia', { slug: site.slug, empresa: site.empresa });
   try {
-    const home = await generateHome(site);
+    const comSite = await analisarSiteAtual(site);
+    const home = await generateHome(comSite);
     await savePage(site.id, '/', site.empresa, home.html);
-    await updateSite(site.id, { status: 'previa', previa_em: new Date().toISOString(), erro: null, locked_at: null, custo_usd: Number(site.custo_usd) + home.custo });
+    await updateSite(site.id, { status: 'previa', previa_em: new Date().toISOString(), erro: null, locked_at: null, tentativas: 0, custo_usd: Number(site.custo_usd) + home.custo });
     await avisarSite(site, 'previa');
     log.info('Prévia pronta', { slug: site.slug, custo_usd: Number(home.custo.toFixed(3)), tentativas: home.tentativas });
   } catch (err) {
     await falhou(site, 'na_fila', err);
+  }
+  return true;
+}
+
+/** ajuste > ajustando > previa: applies what the client asked on WhatsApp and sends the new preview. */
+export async function aplicarAjustes(): Promise<boolean> {
+  const site = await claimSite('ajuste', 'ajustando');
+  if (!site) return false;
+  const pedidos = site.respostas.ajustesPendentes ?? [];
+  log.info('Ajustando prévia', { slug: site.slug, pedidos: pedidos.length });
+  try {
+    const home = await getPage(site.id, '/');
+    const gerado = home && pedidos.length ? await adjustHome(site, home, pedidos) : null;
+    if (gerado) await savePage(site.id, '/', site.empresa, gerado.html);
+    // Requests that arrived while this one ran stay pending and go in the next round.
+    const db = getSupportaDb();
+    const { data } = await db.from('sites').select('respostas, status').eq('id', site.id).single();
+    const atual = (data as { respostas: SiteRow['respostas']; status: SiteRow['status'] } | null) ?? { respostas: site.respostas, status: site.status };
+    const restantes = (atual.respostas.ajustesPendentes ?? []).slice(pedidos.length);
+    const respostas = { ...atual.respostas, ajustesPendentes: restantes, ajustesFeitos: [...(atual.respostas.ajustesFeitos ?? []), ...pedidos] };
+    const custo = Number(site.custo_usd) + (gerado?.custo ?? 0);
+    if (atual.status === 'ajustando') {
+      await updateSite(site.id, { respostas, status: restantes.length ? 'ajuste' : 'previa', erro: null, locked_at: null, custo_usd: custo, tentativas: 0 });
+    } else {
+      // Paid meanwhile: keep the new status, only record the adjustment.
+      await updateSite(site.id, { respostas, custo_usd: custo });
+    }
+    await avisarSite(site, 'previa');
+    log.info('Ajuste pronto', { slug: site.slug, custo_usd: Number((gerado?.custo ?? 0).toFixed(3)) });
+  } catch (err) {
+    await falhou(site, 'ajuste', err);
   }
   return true;
 }

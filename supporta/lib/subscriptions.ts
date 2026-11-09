@@ -39,7 +39,12 @@ export async function handlePaymentEvent(event: PaymentEvent) {
     await setSubscriptionStatus(assinatura.id, "ativa");
     await ensureClient({ ...assinatura, status: "ativa" });
     // Site do criador: o gerador do VPS publica sozinho assim que o site fica "pago".
-    if (assinatura.site_id) await markSitePaid(assinatura.site_id, assinatura.id, assinatura.plano);
+    if (assinatura.site_id) {
+      await markSitePaid(assinatura.site_id, assinatura.id, assinatura.plano);
+      // Site criado pelo WhatsApp: o robô confirma por lá.
+      const { avisarConversa } = await import("./bot/fluxo");
+      await avisarConversa("", "pago", assinatura.site_id).catch((err) => console.error("[pagamento] whatsapp:", (err as Error).message));
+    }
     if (await markWelcomeSent(assinatura.id)) {
       const mail = assinatura.site_id
         ? noticeEmail("Pagamento confirmado. Seu site está indo ao ar", [

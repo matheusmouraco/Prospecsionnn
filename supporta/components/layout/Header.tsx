@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { buttonClass } from "@/components/ui/Button";
-import { nav } from "@/lib/site";
+import { botWhatsappUrl, nav } from "@/lib/site";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -56,9 +56,9 @@ export function Header() {
         </nav>
         <div className="flex items-center gap-2">
           <span className="hidden sm:block">
-            <Link href="/criar" className={buttonClass("neon", "md")} data-track="plan_click" data-track-origin="header">
+            <a href={botWhatsappUrl()} target="_blank" rel="noopener" className={buttonClass("neon", "md")} data-track="plan_click" data-track-origin="header">
               Criar meu site
-            </Link>
+            </a>
           </span>
           <button
             ref={openRef}
@@ -100,9 +100,9 @@ export function Header() {
                 </li>
               ))}
             </ul>
-            <Link href="/criar" onClick={() => setOpen(false)} className={buttonClass("neon", "lg", "w-full")} data-track="plan_click" data-track-origin="menu-mobile">
+            <a href={botWhatsappUrl()} target="_blank" rel="noopener" onClick={() => setOpen(false)} className={buttonClass("neon", "lg", "w-full")} data-track="plan_click" data-track-origin="menu-mobile">
               Criar meu site
-            </Link>
+            </a>
           </nav>
         </div>
       ) : null}

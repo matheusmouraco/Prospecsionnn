@@ -24,11 +24,11 @@ export const homeFaq: Faq[] = [
   },
   {
     q: "Quanto tempo leva para o site ficar pronto?",
-    a: `Até ${horas} horas depois do pagamento. Antes disso, você responde um jogo rápido de escolhas, a IA monta o site e você vê a prévia sem pagar nada. Depois do pagamento, o site entra no ar em nome.supporta.com.br. O domínio próprio .com.br a gente combina com você pelo WhatsApp.`,
+    a: `Até ${horas} horas depois do pagamento. Antes disso, você conversa com a gente no WhatsApp, a IA monta o site e você vê a prévia sem pagar nada. Depois do pagamento, o site entra no ar em nome.supporta.com.br. O domínio próprio .com.br a gente combina com você pelo WhatsApp.`,
   },
   {
     q: "Quem escreve os textos do site?",
-    a: "A IA da Supporta, a partir das suas respostas no jogo rápido de escolhas. Os textos já saem pensados para o Google e para as IAs, com a sua marca, e você vê a prévia completa antes de pagar.",
+    a: "A IA da Supporta, a partir do que você conta no WhatsApp (e do seu Instagram ou site, se tiver). Os textos já saem pensados para o Google e para as IAs, com a sua marca, e você vê a prévia completa antes de pagar.",
   },
   {
     q: "Como peço alterações no site?",

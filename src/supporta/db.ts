@@ -8,7 +8,7 @@ export interface SiteRow {
   id: string;
   token: string;
   slug: string;
-  status: 'na_fila' | 'gerando' | 'previa' | 'erro' | 'pago' | 'publicando' | 'no_ar' | 'cancelado';
+  status: 'na_fila' | 'gerando' | 'previa' | 'ajuste' | 'ajustando' | 'erro' | 'pago' | 'publicando' | 'no_ar' | 'cancelado';
   plano: 'start' | 'pro' | 'premium';
   empresa: string;
   contato_nome: string;
@@ -47,6 +47,14 @@ export interface Respostas {
   siteAtual: string;
   logo: string;
   fotos: string[];
+  // Pedidos que chegam pelo robô de WhatsApp (supporta/lib/bot).
+  origem?: string;
+  /** Tudo o que o dono contou e não cabe nos campos acima: preços, bio do Instagram, textos do site atual, correções. */
+  extra?: string;
+  ajustesPendentes?: string[];
+  ajustesFeitos?: string[];
+  /** Site atual do dono lido pelo analisador do Prospector (Playwright). */
+  siteAnalise?: { url: string; logo: string | null; cores: string[]; fontes: string[]; titulos: string[]; paragrafos: string[]; telefone: string | null; endereco: string | null; fotos: string[]; print: string | null } | null;
 }
 
 let client: SupportaDb | undefined;

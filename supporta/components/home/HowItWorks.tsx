@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/Button";
 import { NeonArt, type ArtName } from "@/components/ui/NeonArt";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { priceLabel, pricing } from "@/lib/plans";
+import { botWhatsappUrl } from "@/lib/site";
 
 const steps: { n: string; title: string; text: string; art: ArtName }[] = [
-  { n: "01", title: "Responde as escolhas", text: "Um jogo rápido de escolhas sobre a sua empresa, o estilo e as cores. Sem formulário longo e sem reunião.", art: "passo-2-briefing" },
+  { n: "01", title: "Chama no WhatsApp", text: "Conta o nome do negócio, o que vende e manda a logo e umas fotos. Se tiver Instagram ou site, é só mandar o link. Sem formulário e sem reunião.", art: "passo-2-briefing" },
   { n: "02", title: "Vê a prévia", text: "Em poucos minutos a IA monta o seu site, com os textos e a sua marca. Você vê tudo antes de pagar.", art: "passo-3-navegador" },
   { n: "03", title: "Paga uma vez e está no ar", text: `Paga ${priceLabel(pricing.site)} no cartão, uma vez só, e o site entra no ar em até ${pricing.prazoHoras}h em nome.supporta.com.br. O domínio próprio a gente combina pelo WhatsApp.`, art: "passo-1-cartao" },
 ];
@@ -27,7 +28,7 @@ export function HowItWorks() {
         ))}
       </ol>
       <div className="mt-10 flex justify-center">
-        <Button href="/criar" size="lg" data-track="plan_click" data-track-origin="como-funciona">
+        <Button href={botWhatsappUrl()} size="lg" data-track="plan_click" data-track-origin="como-funciona">
           Criar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
         </Button>
       </div>

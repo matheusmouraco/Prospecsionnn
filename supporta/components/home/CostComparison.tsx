@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { pricing, site99 } from "@/lib/plans";
 import { formatBRL, formatBRLCents } from "@/lib/site";
+import { botWhatsappUrl } from "@/lib/site";
 
 // Exemplo de mercado para comparação. Valores de site tradicional variam.
 const traditional = [
@@ -64,7 +65,7 @@ export function CostComparison() {
         </div>
       </div>
       <div className="mt-8 flex justify-center">
-        <Button href="/criar" size="lg" data-track="plan_click" data-track-plan={site99.id} data-track-origin="faca-a-conta">
+        <Button href={botWhatsappUrl()} size="lg" data-track="plan_click" data-track-plan={site99.id} data-track-origin="faca-a-conta">
           Criar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
         </Button>
       </div>

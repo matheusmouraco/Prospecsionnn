@@ -1,4 +1,4 @@
-Respostas do dono no jogo da Supporta:
+Respostas do dono (pelo WhatsApp ou pelo jogo da Supporta):
 
 Empresa: {{empresa}}
 Ramo: {{ramo}}
@@ -35,6 +35,12 @@ Contato e localização:
 - Horário: {{horario}}
 - Instagram: {{instagram}}
 - Site atual: {{site_atual}}
+
+Site atual do dono, lido pelo analisador (quando existe, o novo site parte dessa identidade e desses fatos, só que muito melhor):
+{{site_analise}}
+
+Mais do que o dono contou (preços, Instagram, textos, correções; os pedidos dele têm prioridade máxima):
+{{extra}}
 
 Logo: {{logo}}
 

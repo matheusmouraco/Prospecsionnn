@@ -68,7 +68,28 @@ export function whatsappLink(r: Respostas, site: SiteRow): string {
 
 /** All real text the owner gave: any number on the page must come from here. */
 export function fonteNumeros(r: Respostas, site: SiteRow): string {
-  return [site.empresa, r.frase, r.publico, r.diferenciais, r.historia ?? '', r.duvidas ?? '', r.cidade, r.endereco, r.horario, r.instagram, r.siteAtual, r.whatsappSite, site.contato_whatsapp, ...r.servicos, String(new Date().getFullYear())].join(' ');
+  const atual = r.siteAnalise ? [...r.siteAnalise.titulos, ...r.siteAnalise.paragrafos, r.siteAnalise.telefone ?? '', r.siteAnalise.endereco ?? ''] : [];
+  return [site.empresa, r.frase, r.publico, r.diferenciais, r.historia ?? '', r.duvidas ?? '', r.extra ?? '', r.cidade, r.endereco, r.horario, r.instagram, r.siteAtual, r.whatsappSite, site.contato_whatsapp, ...r.servicos, ...atual, String(new Date().getFullYear())].join(' ');
+}
+
+/** O site atual lido pelo analisador: identidade e textos reais para o novo site partir deles. */
+export function siteAnaliseDe(r: Respostas): string {
+  const a = r.siteAnalise;
+  if (!a) return '(não analisado)';
+  return [
+    `- Endereço: ${a.url}`,
+    `- Cores medidas no site: ${a.cores.join(', ') || '-'} (a identidade do dono; refine, não troque)`,
+    `- Fontes: ${a.fontes.join(' / ') || '-'}`,
+    a.telefone ? `- Telefone no site: ${a.telefone}` : '',
+    a.endereco ? `- Endereço no site: ${a.endereco}` : '',
+    a.titulos.length ? `- Títulos do site:\n${lista(a.titulos.slice(0, 12))}` : '',
+    a.paragrafos.length ? `- Textos do site (fonte de fatos reais):\n${lista(a.paragrafos.slice(0, 15))}` : '',
+  ].filter(Boolean).join('\n');
+}
+
+/** Imagens que o site pode usar: as do dono, as do site atual dele e as do banco. */
+export function imagensPermitidas(r: Respostas, siteId: string): string[] {
+  return [r.logo, r.siteAnalise?.logo ?? '', ...r.fotos, ...(r.siteAnalise?.fotos ?? []), ...fotosDoBanco(r, siteId).map((f) => f.url)].filter(Boolean);
 }
 
 export async function buildSiteBrief(site: SiteRow, referencias: FichaRef[], feedback: string[]): Promise<string> {
@@ -94,8 +115,10 @@ export async function buildSiteBrief(site: SiteRow, referencias: FichaRef[], fee
     horario: ou(r.horario, '(não informado: não escreva horário)'),
     instagram: r.instagram ? `https://instagram.com/${r.instagram}` : '(não tem)',
     site_atual: ou(r.siteAtual, '(não tem)'),
-    logo: r.logo || '(sem logo: use o nome da empresa com tratamento tipográfico forte)',
-    fotos: r.fotos.length ? lista(r.fotos) : '(o dono não enviou fotos: use as do banco de imagens abaixo)',
+    site_analise: siteAnaliseDe(r),
+    extra: ou(r.extra ?? '', '(nada além das respostas acima)'),
+    logo: r.logo || r.siteAnalise?.logo || '(sem logo: use o nome da empresa com tratamento tipográfico forte)',
+    fotos: r.fotos.length ? lista(r.fotos) : r.siteAnalise?.fotos.length ? `(não mandou fotos; estas são do site atual dele, use as que tiverem boa qualidade)\n${lista(r.siteAnalise.fotos)}` : '(o dono não enviou fotos: use as do banco de imagens abaixo)',
     banco: fotosDoBanco(r, site.id).map((f) => `- ${f.url}\n  mostra: ${f.descricao}`).join('\n'),
     referencias: describeReferencias(referencias),
     feedback: feedback.length ? `\nA versão anterior foi recusada. Corrija tudo isto:\n${lista(feedback)}` : '',

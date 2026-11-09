@@ -42,7 +42,7 @@ export default function PlanosPage() {
           <Faq items={billingFaq} />
         </div>
       </Section>
-      <FinalCta title="Responda algumas escolhas. Veja o seu site pronto em minutos." href="/criar" cta="Criar meu site" />
+      <FinalCta title="Chame no WhatsApp. Veja o seu site pronto em minutos." cta="Criar meu site" />
       <JsonLd data={[serviceSchema(), faqSchema(billingFaq)]} />
     </>
   );

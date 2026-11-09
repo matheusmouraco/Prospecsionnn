@@ -63,7 +63,7 @@ export function serviceSchema() {
         "@type": "Offer",
         name: site99.name,
         description: `${site99.features.join("; ")}. Pago uma vez, pronto em até ${pricing.prazoHoras}h.`,
-        url: absoluteUrl("/criar"),
+        url: absoluteUrl("/planos"),
         price: pricing.site.toFixed(2),
         priceCurrency: "BRL",
         availability: "https://schema.org/InStock",

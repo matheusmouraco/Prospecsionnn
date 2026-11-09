@@ -2,9 +2,10 @@ import { ArrowRight } from "lucide-react";
 import { Symbol } from "@/components/brand/Symbol";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
+import { botWhatsappUrl } from "@/lib/site";
 
 /** Fechamento de página: fundo escuro com a última frase acesa em neon. */
-export function FinalCta({ title = "A IA sempre se apoia em alguma fonte. Faça ser a sua.", href = "/criar", cta = "Criar meu site" }: { title?: string; href?: string; cta?: string }) {
+export function FinalCta({ title = "A IA sempre se apoia em alguma fonte. Faça ser a sua.", href = botWhatsappUrl(), cta = "Criar meu site" }: { title?: string; href?: string; cta?: string }) {
   // Acende a última frase do título ("Faça ser a sua.").
   const cut = title.slice(0, -1).lastIndexOf(". ");
   const [lead, lit] = cut > 0 ? [title.slice(0, cut + 1), title.slice(cut + 2)] : ["", title];

@@ -10,8 +10,18 @@ function clientHost(host: string) {
   return h;
 }
 
+const ANALISE_HOST = "analise.supporta.com.br";
+
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  const rawHost = (request.headers.get("host") ?? "").toLowerCase().replace(/:\d+$/, "");
+
+  // Prévias antes do pagamento: analise.supporta.com.br/nome (mesmo formato do analise.matilab.com.br).
+  if (rawHost === ANALISE_HOST) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/analise${pathname === "/" ? "" : pathname.replace(/\/+$/, "")}`;
+    return NextResponse.rewrite(url);
+  }
 
   // Sites dos clientes: nome.supporta.com.br ou domínio próprio apontado para a Vercel.
   const host = clientHost(request.headers.get("host") ?? "");

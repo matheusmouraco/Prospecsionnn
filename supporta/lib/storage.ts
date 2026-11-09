@@ -54,3 +54,17 @@ export function publicSiteFileUrl(path: string) {
   const c = config();
   return c ? `${c.url}/storage/v1/object/public/${SITES_BUCKET}/${path}` : null;
 }
+
+/** Envia um arquivo do servidor para o bucket público do criador (fotos e logo que chegam pelo WhatsApp). */
+export async function uploadSiteFile(path: string, body: Buffer, contentType: string) {
+  const c = config();
+  if (!c) throw new Error("Storage não configurado.");
+  const res = await fetch(`${c.url}/storage/v1/object/${SITES_BUCKET}/${path}`, {
+    method: "POST",
+    headers: { authorization: `Bearer ${c.key}`, apikey: c.key, "content-type": contentType, "x-upsert": "true" },
+    body: new Uint8Array(body),
+    signal: AbortSignal.timeout(30_000),
+  });
+  if (!res.ok) throw new Error(`Storage: ${res.status} ${(await res.text()).slice(0, 200)}`);
+  return publicSiteFileUrl(path)!;
+}

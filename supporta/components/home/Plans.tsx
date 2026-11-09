@@ -1,7 +1,7 @@
 import { ArrowRight, Check } from "lucide-react";
-import Link from "next/link";
 import { buttonClass } from "@/components/ui/Button";
 import { customProject, priceRows, pricing, site99 } from "@/lib/plans";
+import { botWhatsappUrl } from "@/lib/site";
 
 const reais = (v: number) => `R$${v.toLocaleString("pt-BR")}`;
 
@@ -29,9 +29,9 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
               </li>
             ))}
           </ul>
-          <Link href="/criar" className={buttonClass("neon", "lg", "mt-8 w-full")} data-track="plan_click" data-track-plan={site99.id}>
-            Criar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
-          </Link>
+          <a href={botWhatsappUrl()} target="_blank" rel="noopener" className={buttonClass("neon", "lg", "mt-8 w-full")} data-track="plan_click" data-track-plan={site99.id}>
+            Criar meu site no WhatsApp <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
+          </a>
           <p className="mt-3 text-center text-[13px] text-graphite">Você vê a prévia antes de pagar.</p>
         </article>
 

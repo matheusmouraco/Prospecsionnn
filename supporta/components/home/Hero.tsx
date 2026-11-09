@@ -3,6 +3,7 @@ import { TemplateMarquee } from "@/components/home/TemplateMarquee";
 import { AiLogos } from "@/components/ui/AiLogos";
 import { Button } from "@/components/ui/Button";
 import { pricing } from "@/lib/plans";
+import { botWhatsappUrl } from "@/lib/site";
 
 export function Hero() {
   return (
@@ -20,10 +21,10 @@ export function Hero() {
             <span className="block">Seu site no ar.</span> <span className="neon-text block">Em até {pricing.prazoHoras} horas.</span>
           </h1>
           <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-graphite md:text-xl">
-            Responda um jogo rápido e a IA monta o site da sua empresa em minutos. Você vê a prévia antes de pagar, paga uma vez e ele fica pronto em até {pricing.prazoHoras}h. Hospedagem e GEO inclusos.
+            Chame no WhatsApp, responda umas perguntas e a IA monta o site da sua empresa em minutos. Você vê a prévia antes de pagar, paga uma vez e ele fica pronto em até {pricing.prazoHoras}h. Hospedagem e GEO inclusos.
           </p>
           <div className="mt-8 flex flex-nowrap gap-3">
-            <Button href="/criar" size="lg" variant="neon" className="max-sm:px-5" data-track="plan_click" data-track-origin="hero">
+            <Button href={botWhatsappUrl()} size="lg" variant="neon" className="max-sm:px-5" data-track="plan_click" data-track-origin="hero">
               Criar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
             </Button>
             <Button href="/modelos" size="lg" variant="outline" className="bg-white max-sm:px-5">

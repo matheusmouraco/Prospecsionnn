@@ -31,6 +31,14 @@ export function whatsappDigits() {
   return site.whatsapp.replace(/\D/g, "");
 }
 
+/** WhatsApp do robô que cria os sites (Evolution). Todo "Criar meu site" leva para ele. */
+export const botWhatsapp = env(process.env.NEXT_PUBLIC_BOT_WHATSAPP, "+55 11 93621-4697");
+export const botMessage = "Oi! Quero criar o site do meu negócio.";
+
+export function botWhatsappUrl(message = botMessage) {
+  return `https://wa.me/${botWhatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+}
+
 export function whatsappUrl(message: string) {
   return `https://wa.me/${whatsappDigits()}?text=${encodeURIComponent(message)}`;
 }

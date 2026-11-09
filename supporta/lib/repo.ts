@@ -340,7 +340,7 @@ export type Site = {
   id: string;
   token: string;
   slug: string;
-  status: "na_fila" | "gerando" | "previa" | "erro" | "pago" | "publicando" | "no_ar" | "cancelado";
+  status: "na_fila" | "gerando" | "previa" | "ajuste" | "ajustando" | "erro" | "pago" | "publicando" | "no_ar" | "cancelado";
   plano: PlanId;
   empresa: string;
   contato_nome: string;
@@ -444,7 +444,7 @@ export function markSitePaid(siteId: string, assinaturaId: string, plano: PlanId
   return tryDb("markSitePaid", async (sql) => {
     const rows = await sql`
       update sites set status = 'pago', pago_em = now(), assinatura_id = ${assinaturaId}, plano = ${plano}, locked_at = null, atualizado_em = now()
-      where id = ${siteId} and status in ('previa', 'erro') returning id`;
+      where id = ${siteId} and status in ('previa', 'ajuste', 'ajustando', 'erro') returning id`;
     return rows.length > 0;
   });
 }
