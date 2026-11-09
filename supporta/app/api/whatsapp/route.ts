@@ -1,6 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { after, NextResponse } from "next/server";
 import { lerWebhook } from "@/lib/bot/evolution";
+import { comCliente } from "@/lib/bot/custos";
 import { tratarMensagem } from "@/lib/bot/fluxo";
 
 export const runtime = "nodejs";
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
   const mensagem = lerWebhook(payload);
   if (!mensagem) return NextResponse.json({ ok: true, ignorado: true });
   const tarefas: Promise<unknown>[] = [];
-  after(async () => {
+  after(() => comCliente(mensagem.de, async () => {
     try {
       await tratarMensagem(mensagem, (p) => tarefas.push(p.catch((err) => console.error("[whatsapp] tarefa:", (err as Error).message))));
       // Tarefas podem criar outras (ex.: imagem que leva ao resumo): espera até não sobrar nenhuma.
@@ -28,6 +29,6 @@ export async function POST(request: Request) {
     } catch (err) {
       console.error("[whatsapp]", (err as Error).message);
     }
-  });
+  }));
   return NextResponse.json({ ok: true });
 }

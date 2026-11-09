@@ -29,7 +29,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
   const s = /^[a-z0-9-]{2,60}$/.test(slug)
     ? await tryDb("analise", async (sql) => (await sql<Site[]>`select * from sites where slug = ${slug} and status <> 'cancelado'`)[0] ?? null)
     : null;
-  if (s?.status === "no_ar") return Response.redirect(s.dominio ? `https://${s.dominio}` : `https://${s.slug}.supporta.com.br`, 302);
+  if (s && ["no_ar", "ajuste_no_ar", "ajustando_no_ar"].includes(s.status)) return Response.redirect(s.dominio ? `https://${s.dominio}` : `https://${s.slug}.supporta.com.br`, 302);
   // Passou dos 5 dias sem contratar: sai do ar (o site continua guardado; o robô recoloca quando o cliente volta).
   if (s && previaExpirou(s as Site & { previa_expira_em: Date | null })) {
     const link = botWhatsappUrl(`Oi! Quero ver de novo a prévia do site da ${s.empresa} (analise.supporta.com.br/${s.slug}).`);

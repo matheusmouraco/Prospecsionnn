@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { lerWebhook } from "../lib/bot/evolution.ts";
-import { acharLinks } from "../lib/bot/enriquecer.ts";
+import { acharLinks } from "../lib/bot/links.ts";
 
 const evento = (data: object) => ({ event: "messages.upsert", instance: "supporta", data });
 

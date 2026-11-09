@@ -340,7 +340,7 @@ export type Site = {
   id: string;
   token: string;
   slug: string;
-  status: "na_fila" | "gerando" | "previa" | "ajuste" | "ajustando" | "erro" | "pago" | "publicando" | "no_ar" | "cancelado";
+  status: "na_fila" | "gerando" | "previa" | "ajuste" | "ajustando" | "erro" | "pago" | "publicando" | "no_ar" | "ajuste_no_ar" | "ajustando_no_ar" | "cancelado";
   plano: PlanId;
   empresa: string;
   contato_nome: string;
@@ -416,7 +416,7 @@ export function getSiteByToken(token: string) {
 export function getLiveSiteByHost(host: { slug?: string; dominio?: string }) {
   return tryDb("getLiveSiteByHost", async (sql) => {
     const [row] = await sql<Site[]>`
-      select * from sites where status = 'no_ar'
+      select * from sites where status in ('no_ar', 'ajuste_no_ar', 'ajustando_no_ar')
         and ((${host.slug ?? null}::text is not null and slug = ${host.slug ?? null}) or (${host.dominio ?? null}::text is not null and dominio = ${host.dominio ?? null}))
       limit 1`;
     return row ?? null;

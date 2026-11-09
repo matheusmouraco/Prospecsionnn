@@ -1,5 +1,6 @@
 import { ramos } from "@/lib/criador";
 import { pricing } from "@/lib/plans";
+import { custoClaude, registrarCusto } from "./custos";
 import type { Briefing, Servico } from "./db";
 
 // Chamadas ao Claude pela API de Messages (fetch, sem SDK). Sempre JSON; se vier quebrado, uma nova tentativa com o erro.
@@ -28,6 +29,7 @@ async function json<T>(sistema: string, conteudo: string | Bloco[], maxTokens = 
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(`Claude: ${res.status} ${data?.error?.message ?? ""}`.trim());
+    await registrarCusto("anthropic", Array.isArray(conteudo) ? "foto" : "conversa", custoClaude(MODELO(), data.usage ?? {}));
     const texto = ((data.content ?? []) as { type: string; text?: string }[]).filter((b) => b.type === "text").map((b) => b.text).join("");
     try {
       return JSON.parse(limparJson(texto)) as T;

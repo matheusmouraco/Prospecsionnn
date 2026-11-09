@@ -28,6 +28,8 @@ export const JOBS: Job[] = [
   { nome: 'semana', script: 'semana', quando: (m) => m.dia === 5 && as(18, 0)(m) },
   // Supporta builder: clients are waiting on the screen, so it runs every minute, every day.
   { nome: 'supporta', script: 'supporta:ciclo', quando: () => true },
+  // Supporta daily report: Moura's WhatsApp (sent by the site) and Telegram.
+  { nome: 'supporta_relatorio', script: 'supporta:relatorio', quando: as(19, 5) },
 ];
 
 export function momento(d: Date = new Date()): Momento {

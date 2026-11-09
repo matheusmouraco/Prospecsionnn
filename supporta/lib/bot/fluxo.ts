@@ -3,7 +3,7 @@ import { isCpfOrCnpj, onlyDigits } from "@/lib/documents";
 import { notifyTeam } from "@/lib/email/send";
 import { isEmail } from "@/lib/leads";
 import { respostasVazias, slugify, slugsReservados, type Respostas } from "@/lib/criador";
-import { pricing } from "@/lib/plans";
+import { alteracaoGratis, pricing } from "@/lib/plans";
 import { createSite, getSiteByToken, getSubscriptionById, slugTaken, type Cliente, type Site } from "@/lib/repo";
 import { tryDb } from "@/lib/db";
 import { uploadSiteFile } from "@/lib/storage";
@@ -35,6 +35,9 @@ const ESPERA_FOTOS_MS = Number(process.env.BOT_ESPERA_FOTOS_MS ?? 45_000);
 const MAX_AJUSTES_ANTES_DE_PAGAR = 8;
 const pausa = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const primeiroNome = (n?: string | null) => (n ?? "").trim().split(/\s+/)[0] ?? "";
+
+/** No ar (inclusive enquanto uma alteração é aplicada: o site continua aberto). */
+export const noAr = (s: Pick<Site, "status">) => ["no_ar", "ajuste_no_ar", "ajustando_no_ar"].includes(s.status);
 
 export const previaUrl = (slug: string) => `https://analise.supporta.com.br/${slug}`;
 export const siteUrl = (s: Pick<Site, "slug" | "dominio">) => (s.dominio ? `https://${s.dominio}` : `https://${s.slug}.supporta.com.br`);
@@ -103,6 +106,9 @@ const R = {
   ajusteNoAr: (pago: boolean, url: string | null) =>
     pago ? "Anotado! A equipe faz a alteração e te avisa aqui." : `Anotado! Essa alteração custa R$ ${pricing.alteracao}${url ? `, link do pagamento: ${url}` : ". Já te mando o link do pagamento."}`,
   humano: "Entendi. Vou ver isso pessoalmente e já te respondo aqui.",
+  ajustandoNoAr: "Deixa comigo, já mudo no site. Te aviso aqui assim que estiver atualizado.",
+  limiteAjustes: `Hoje já fiz ${Number(process.env.BOT_LIMITE_AJUSTES_DIA ?? 10)} alterações no seu site, que é o limite por dia. Me manda esse pedido de novo amanhã que eu faço na hora.`,
+  ajustado: (url: string) => [`Pronto, já atualizei o site: ${url}`, "Dá uma olhada e me fala."],
   mandaTexto: "Me manda por texto, por favor, que aqui eu não consigo ouvir áudio.",
   erro: "Deu um problema aqui do meu lado. Já estou vendo e te retorno.",
   erroGerador: "Tive um problema pra terminar o seu site. Já avisei a equipe e a gente te retorna aqui.",
@@ -455,7 +461,33 @@ async function pedirAjuste(conv: Conversa, site: Site, ajuste: string) {
 }
 
 /** Site já pago: vira uma alteração da área do cliente (sem custo nos primeiros 30 dias). */
+const LIMITE_AJUSTES_DIA = Number(process.env.BOT_LIMITE_AJUSTES_DIA ?? 10);
+const diaSP = (d: Date | string = new Date()) => new Date(new Date(d).getTime() - 3 * 3600_000).toISOString().slice(0, 10);
+
+/**
+ * Site já no ar. Nos primeiros 30 dias depois da entrega, a alteração é aplicada sozinha pelo gerador
+ * (até LIMITE_AJUSTES_DIA por dia por cliente, porque cada uma custa IA). Depois disso, vira alteração paga.
+ */
 async function pedirAjusteNoAr(conv: Conversa, site: Site, ajuste: string) {
+  if (noAr(site) && alteracaoGratis(site.publicado_em)) {
+    const feitos = ((site.respostas as { ajustesNoAr?: { em: string }[] }).ajustesNoAr ?? []).filter((a) => diaSP(a.em) === diaSP()).length;
+    if (feitos >= LIMITE_AJUSTES_DIA) {
+      await falar(conv.telefone, R.limiteAjustes);
+      await notifyTeam(`Limite de alterações do dia: ${site.empresa}`, [`${feitos} alterações hoje. Pedido não feito:`, ajuste]);
+      return;
+    }
+    const registro = { texto: ajuste.slice(0, 600), em: new Date().toISOString() };
+    const ok = await tryDb("pedirAjusteNoAr", (sql) => sql`
+      update sites set
+        respostas = jsonb_set(
+          jsonb_set(respostas, '{ajustesNoArPendentes}', coalesce(respostas->'ajustesNoArPendentes', '[]'::jsonb) || ${sql.json([registro.texto] as never)}),
+          '{ajustesNoAr}', coalesce(respostas->'ajustesNoAr', '[]'::jsonb) || ${sql.json([registro] as never)}),
+        status = case when status = 'ajustando_no_ar' then status else 'ajuste_no_ar' end,
+        locked_at = case when status = 'ajustando_no_ar' then locked_at else null end,
+        atualizado_em = now()
+      where id = ${site.id} and status in ('no_ar', 'ajuste_no_ar', 'ajustando_no_ar') returning id`);
+    if (ok?.length) return falar(conv.telefone, R.ajustandoNoAr);
+  }
   const cliente = site.assinatura_id
     ? await tryDb("clienteDoSite", async (sql) => (await sql<Cliente[]>`select * from clientes where assinatura_id = ${site.assinatura_id}`)[0] ?? null)
     : null;
@@ -611,7 +643,7 @@ async function etapaPagamento(conv: Conversa, texto: string) {
 async function etapaPago(conv: Conversa, texto: string) {
   const site = await siteDe(conv);
   if (!site) return chamarHumano(conv, texto);
-  const r = await interpretarResposta(texto, `O site do cliente já foi pago${site.status === "no_ar" ? ` e está no ar em ${siteUrl(site)}` : " e está sendo publicado"}.`);
+  const r = await interpretarResposta(texto, `O site do cliente já foi pago${noAr(site) ? ` e está no ar em ${siteUrl(site)}` : " e está sendo publicado"}.`);
   if (r.intencao === "ajuste") return pedirAjusteNoAr(conv, site, r.ajuste ?? texto);
   if (r.intencao === "humano") return chamarHumano(conv, texto);
   await falar(conv.telefone, r.resposta ?? "Qualquer coisa é só me chamar aqui.");
@@ -634,9 +666,9 @@ async function assumirSiteDoNumero(conv: Conversa) {
 
 async function continuarSite(conv: Conversa, site: Site) {
   const nome = primeiroNome(conv.nome);
-  if (site.status === "no_ar" || site.status === "pago" || site.status === "publicando") {
+  if (noAr(site) || site.status === "pago" || site.status === "publicando") {
     await salvarConversa(conv.telefone, { site_id: site.id, etapa: "pago" });
-    await falar(conv.telefone, site.status === "no_ar" ? `Oi${nome ? ` ${nome}` : ""}! O site da ${site.empresa} está no ar: ${siteUrl(site)}. Precisa de algo?` : `Oi${nome ? ` ${nome}` : ""}! O site da ${site.empresa} já está sendo publicado. Te aviso aqui assim que entrar no ar.`);
+    await falar(conv.telefone, noAr(site) ? `Oi${nome ? ` ${nome}` : ""}! O site da ${site.empresa} está no ar: ${siteUrl(site)}. Precisa de algo?` : `Oi${nome ? ` ${nome}` : ""}! O site da ${site.empresa} já está sendo publicado. Te aviso aqui assim que entrar no ar.`);
     return true;
   }
   if (["na_fila", "gerando"].includes(site.status)) {
@@ -654,7 +686,7 @@ async function continuarSite(conv: Conversa, site: Site) {
 // ---------- avisos do gerador e do pagamento ----------
 
 /** Chamado pelo /api/interno/site quando o gerador termina algo. Devolve true se havia conversa no WhatsApp. */
-export async function avisarConversa(token: string, evento: "previa" | "no_ar" | "erro" | "pago", siteId?: string) {
+export async function avisarConversa(token: string, evento: "previa" | "no_ar" | "erro" | "pago" | "ajustado", siteId?: string) {
   const site = siteId ? await siteDe({ site_id: siteId } as Conversa) : await getSiteByToken(token);
   if (!site) return false;
   const conv = await conversaDoSite(site.id);
@@ -666,6 +698,8 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
   } else if (evento === "pago") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
     await falar(conv.telefone, R.pagou(`${site.slug}.supporta.com.br`));
+  } else if (evento === "ajustado") {
+    await falar(conv.telefone, R.ajustado(siteUrl(site)));
   } else if (evento === "no_ar") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
     await falar(conv.telefone, R.noAr(siteUrl(site)));

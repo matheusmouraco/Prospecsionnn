@@ -1,6 +1,8 @@
 // Áudio do cliente vira texto (OpenAI, modelo de transcrição), para o robô entender quem prefere falar.
 // Sem OPENAI_API_KEY, o robô pede para mandar por texto.
 
+import { PRECO, registrarCusto } from "./custos";
+
 export const transcricaoLigada = () => Boolean(process.env.OPENAI_API_KEY);
 
 export async function transcrever(base64: string, mime: string): Promise<string> {
@@ -20,5 +22,7 @@ export async function transcrever(base64: string, mime: string): Promise<string>
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(`Transcrição: ${res.status} ${data?.error?.message ?? ""}`.trim());
+  // Duração estimada pelo tamanho (áudio de WhatsApp em opus fica perto de 2 KB por segundo).
+  await registrarCusto("openai", "transcricao", (Buffer.byteLength(base64, "base64") / 2000 / 60) * PRECO.transcricaoPorMinuto);
   return String(data.text ?? "").trim();
 }

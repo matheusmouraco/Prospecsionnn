@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   // A primeira prévia pronta começa a contar os 5 dias no ar.
   if (body?.evento === "previa") await marcarExpiracao(site.id);
   // Site criado pelo WhatsApp: o robô avisa por lá. E-mail só quando o cliente já informou um.
-  const peloWhatsapp = ["previa", "no_ar", "erro"].includes(body?.evento) ? await avisarConversa(site.token, body.evento).catch((err) => {
+  const peloWhatsapp = ["previa", "no_ar", "erro", "ajustado"].includes(body?.evento) ? await avisarConversa(site.token, body.evento).catch((err) => {
     console.error("[interno/site] whatsapp:", (err as Error).message);
     return false;
   }) : false;
@@ -59,6 +59,9 @@ export async function POST(request: Request) {
       ], undefined, { label: "Abrir o meu site", href: endereco }),
     });
     await notifyTeam(`Site no ar: ${site.empresa}`, [endereco, `Plano ${site.plano} · ${site.contato_email} · ${site.contato_whatsapp}`]);
+  } else if (body?.evento === "ajustado") {
+    // Alteração do site no ar aplicada: o robô já avisou no WhatsApp.
+    if (!peloWhatsapp) await notifyTeam(`Site ajustado: ${site.empresa}`, [String(body?.detalhe ?? ""), `https://${site.slug}.supporta.com.br`]);
   } else if (body?.evento === "erro") {
     await notifyTeam(`Gerador falhou: ${site.empresa}`, [String(body?.detalhe ?? "").slice(0, 500), link]);
   } else {

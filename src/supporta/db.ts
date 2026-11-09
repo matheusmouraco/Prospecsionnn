@@ -8,7 +8,7 @@ export interface SiteRow {
   id: string;
   token: string;
   slug: string;
-  status: 'na_fila' | 'gerando' | 'previa' | 'ajuste' | 'ajustando' | 'erro' | 'pago' | 'publicando' | 'no_ar' | 'cancelado';
+  status: 'na_fila' | 'gerando' | 'previa' | 'ajuste' | 'ajustando' | 'erro' | 'pago' | 'publicando' | 'no_ar' | 'ajuste_no_ar' | 'ajustando_no_ar' | 'cancelado';
   plano: 'start' | 'pro' | 'premium';
   empresa: string;
   contato_nome: string;
@@ -53,6 +53,9 @@ export interface Respostas {
   extra?: string;
   ajustesPendentes?: string[];
   ajustesFeitos?: string[];
+  /** Alterações pedidas com o site no ar (dentro dos 30 dias): aplicadas sozinhas pelo ciclo. */
+  ajustesNoArPendentes?: string[];
+  ajustesNoAr?: { texto: string; em: string }[];
   /** Site atual do dono lido pelo analisador do Prospector (Playwright). */
   siteAnalise?: { url: string; logo: string | null; cores: string[]; fontes: string[]; titulos: string[]; paragrafos: string[]; telefone: string | null; endereco: string | null; fotos: string[]; print: string | null } | null;
 }
@@ -88,4 +91,17 @@ export async function getPage(siteId: string, caminho: string, db = getSupportaD
   const { data, error } = await db.from('site_paginas').select('html').eq('site_id', siteId).eq('caminho', caminho).maybeSingle();
   if (error) throw new Error(`site_paginas: ${error.message}`);
   return (data as { html: string } | null)?.html ?? null;
+}
+
+/** Custo de API por cliente e por dia (supporta.custos), lido pelo relatório diário. Nunca derruba o ciclo. */
+export async function registrarCustoSite(siteId: string, operacao: string, usd: number, db = getSupportaDb()): Promise<void> {
+  if (!(usd > 0)) return;
+  const { error } = await db.from('custos').insert({ site_id: siteId, fornecedor: 'anthropic', operacao, usd: Number(usd.toFixed(5)) });
+  if (error) console.warn(`[custos] ${error.message}`);
+}
+
+export async function listPages(siteId: string, db = getSupportaDb()): Promise<string[]> {
+  const { data, error } = await db.from('site_paginas').select('caminho').eq('site_id', siteId);
+  if (error) throw new Error(`site_paginas: ${error.message}`);
+  return ((data as { caminho: string }[] | null) ?? []).map((p) => p.caminho);
 }

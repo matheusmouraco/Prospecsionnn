@@ -67,3 +67,17 @@ describe('banco de imagens da Supporta', () => {
     expect(new Set(a.map((f) => f.url)).size).toBe(a.length);
   });
 });
+
+import { paginasAfetadas } from '../src/supporta/cycle.js';
+
+describe('supporta live-site adjustments', () => {
+  const paginas = ['/', '/sobre', '/servicos', '/perguntas', '/contato'];
+  it('touches only the page named, or the home when none is named', () => {
+    expect(paginasAfetadas(['troca o texto da página sobre'], paginas)).toEqual(['/sobre']);
+    expect(paginasAfetadas(['muda a foto de fundo'], paginas)).toEqual(['/']);
+  });
+  it('touches every page for site-wide changes', () => {
+    expect(paginasAfetadas(['troca a cor do botão para azul'], paginas)).toEqual(paginas);
+    expect(paginasAfetadas(['muda o número do whatsapp'], paginas)).toEqual(paginas);
+  });
+});

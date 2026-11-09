@@ -37,7 +37,8 @@
     "revisao": "tsx src/scripts/revisao-emails.ts",
     "semana": "tsx src/scripts/resumo-semanal.ts",
     "estoque": "tsx src/scripts/estoque.ts",
-    "supporta:ciclo": "tsx src/scripts/supporta-ciclo.ts"
+    "supporta:ciclo": "tsx src/scripts/supporta-ciclo.ts",
+    "supporta:relatorio": "tsx src/scripts/supporta-relatorio.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.1.0",

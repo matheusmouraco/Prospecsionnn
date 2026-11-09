@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   const siteToken = str(body?.site, 40);
   const criado = siteToken ? await getSiteByToken(siteToken) : null;
   if (siteToken && (!criado || !["previa", "ajuste", "ajustando", "erro"].includes(criado.status))) {
-    return NextResponse.json({ error: criado?.status === "no_ar" || criado?.status === "pago" ? "Este site já foi publicado." : "A prévia deste site ainda não está pronta." }, { status: 409 });
+    return NextResponse.json({ error: criado?.status === "no_ar" || criado?.status === "ajuste_no_ar" || criado?.status === "ajustando_no_ar" || criado?.status === "pago" ? "Este site já foi publicado." : "A prévia deste site ainda não está pronta." }, { status: 409 });
   }
   const r = (criado?.respostas ?? {}) as Record<string, unknown>;
   const fromSite = criado

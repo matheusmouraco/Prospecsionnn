@@ -1,6 +1,6 @@
 import { logger } from '../lib/logger.js';
 import { getEnv } from '../config/env.js';
-import { aplicarAjustes, gerarPrevia, publicarPago } from '../supporta/cycle.js';
+import { aplicarAjustes, aplicarAjustesNoAr, gerarPrevia, publicarPago } from '../supporta/cycle.js';
 
 // Supporta builder worker (runs every minute from the scheduler): paid sites first (a client is waiting
 // on a published site), then previews. A few per run so one slow generation never blocks the queue for long.
@@ -27,6 +27,7 @@ async function main() {
   await retornos();
   for (let i = 0; i < 2 && (await publicarPago()); i++) feitos++;
   for (let i = 0; i < 3 && (await aplicarAjustes()); i++) feitos++;
+  for (let i = 0; i < 3 && (await aplicarAjustesNoAr()); i++) feitos++;
   for (let i = 0; i < 3 && (await gerarPrevia()); i++) feitos++;
   if (feitos) log.info('Ciclo da Supporta terminou', { sites: feitos });
 }

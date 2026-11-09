@@ -1,3 +1,5 @@
+import { PRECO, registrarCusto } from "./custos";
+export { acharLinks } from "./links";
 import type { Briefing } from "./db";
 
 // Dados públicos do negócio para o robô perguntar menos: Instagram (Apify, opcional), Google (Places, opcional) e o site atual.
@@ -15,6 +17,7 @@ export async function lerInstagram(usuario: string): Promise<Briefing["instagram
       body: JSON.stringify({ usernames: [usuario] }),
       signal: AbortSignal.timeout(100_000),
     });
+    await registrarCusto("apify", "instagram", PRECO.instagramPerfil);
     if (!r.ok) return undefined;
     const p = ((await r.json()) as Record<string, any>[])?.[0];
     if (!p) return undefined;
@@ -48,6 +51,7 @@ export async function lerGoogle(nome: string, cidade?: string): Promise<Briefing
       body: JSON.stringify({ textQuery: `${nome} ${cidade ?? ""}`.trim(), languageCode: "pt-BR", regionCode: "BR", maxResultCount: 1 }),
       signal: AbortSignal.timeout(10_000),
     });
+    await registrarCusto("google", "google", PRECO.googleBusca);
     if (!r.ok) return undefined;
     const p = ((await r.json()) as { places?: Record<string, any>[] }).places?.[0];
     if (!p) return undefined;
@@ -98,23 +102,6 @@ export async function lerSite(dominio: string): Promise<Briefing["site"] | undef
     console.warn("[bot] site:", (err as Error).message);
     return undefined;
   }
-}
-
-/** Instagram e site que vieram numa mensagem (link colado ou @). */
-export function acharLinks(texto: string): { instagram?: string; site?: string; analise?: string } {
-  const out: { instagram?: string; site?: string; analise?: string } = {};
-  const ig = texto.match(/instagram\.com\/([A-Za-z0-9._]{2,30})/i)?.[1] ?? texto.match(/(?:^|\s)@([A-Za-z0-9._]{2,30})\b/)?.[1];
-  if (ig && !["p", "reel", "stories", "explore"].includes(ig.toLowerCase())) out.instagram = ig.replace(/\.$/, "");
-  const analise = texto.match(/analise\.supporta\.com\.br\/([a-z0-9-]{2,60})/i)?.[1];
-  if (analise) out.analise = analise.toLowerCase();
-  for (const m of texto.matchAll(/(?:https?:\/\/)?(?:www\.)?([a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|adv|med|odo|arq|eng|io|app|site|online|store|br)(?:\.br)?)(?:\/\S*)?/gi)) {
-    const d = m[1].toLowerCase();
-    if (/instagram\.com|facebook\.com|wa\.me|whatsapp\.com|linktr\.ee|supporta\.com\.br|gmail\.com|hotmail\.com|outlook\.com|yahoo\.com/.test(d)) continue;
-    if (texto.slice(Math.max(0, (m.index ?? 0) - 1), m.index).includes("@")) continue; // e-mail
-    out.site = d;
-    break;
-  }
-  return out;
 }
 
 /** Baixa uma imagem pública (foto do perfil, logo do site) para reaproveitar no bucket da Supporta. */
