@@ -36,7 +36,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
       headers: { "content-type": "text/html; charset=utf-8", ...NOINDEX },
     });
   }
-  let html = page.html.replace(/<meta[^>]+name=["']robots["'][^>]*>/gi, "");
+  // Antes do pagamento só a página inicial existe: links internos (/sobre, /servicos, #secao) ficam dentro da prévia.
+  let html = page.html
+    .replace(/<meta[^>]+name=["']robots["'][^>]*>/gi, "")
+    .replace(/href=(["'])\/(?!\/)([^"'#]*)(#[^"']*)?\1/g, (_m, q: string, _p: string, hash = "") => `href=${q}/${s.slug}${hash}${q}`);
   html = /<head[^>]*>/i.test(html) ? html.replace(/<head[^>]*>/i, (m) => `${m}<meta name="robots" content="noindex, nofollow">`) : `<meta name="robots" content="noindex, nofollow">${html}`;
   html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${faixa(s)}</body>`) : html + faixa(s);
   return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", ...NOINDEX } });
