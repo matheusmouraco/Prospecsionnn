@@ -1,162 +1,204 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buttonClass } from "@/components/ui/Button";
-import { adminOverview } from "@/lib/admin";
-import { plans } from "@/lib/plans";
-import { vitrine } from "@/lib/vitrine";
-import { finishRequestAction, runCitationsNow, saveClient, setAdjustment, setStageAction } from "./actions";
+import { painelVendas } from "@/lib/admin-vendas";
+import { apagarInvestimento, salvarInvestimento } from "./actions";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 300;
-export const metadata: Metadata = { title: "Painel | Supporta", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Vendas | Supporta", robots: { index: false, follow: false } };
 
-const date = (d: Date) => new Date(d).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short" });
-const statusColor: Record<string, string> = { ativa: "bg-ok text-white", teste: "bg-line", aguardando_pagamento: "bg-pink-light", pagamento_recusado: "bg-bad text-white", cancelada: "bg-ink text-paper" };
-const field = "mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm";
-const etapaLabel: Record<string, string> = { briefing: "Aguardando briefing", producao: "Em criação", previa: "Prévia com o cliente", revisao: "Revisão pedida", aprovado: "Aprovado, publicar", publicado: "No ar" };
-const pedidoLabel: Record<string, string> = { revisao_previa: "Revisão da prévia", mudar_plano: "Troca de plano", cancelar: "Cancelamento" };
+const CAMBIO = Number(process.env.ADMIN_CAMBIO_USD ?? 5.5);
+const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const data = (d: Date | string | null) => (d ? new Date(d).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short" }) : "-");
+const fone = (n: string | null) => {
+  const d = (n ?? "").replace(/\D/g, "").replace(/^55/, "");
+  return d.length === 11 ? `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}` : d || "-";
+};
+const nomeMes = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleDateString("pt-BR", { month: "short", year: "2-digit" });
 
-export default async function AdminPage() {
-  const data = await adminOverview();
-  if (!data) {
-    return (
-      <section className="container-site py-16">
-        <h1 className="text-4xl tracking-[-0.05em]">Painel</h1>
-        <p className="mt-4 text-graphite">Banco não configurado. Defina SUPABASE_DB_URL e rode npm run db:migrate.</p>
-      </section>
-    );
-  }
-  const ativas = data.assinaturas.filter((a) => a.status === "ativa");
-  const mrr = ativas.reduce((sum, a) => sum + Number(a.valor), 0);
+const STATUS: Record<string, [string, string]> = {
+  na_fila: ["Na fila", "bg-line"],
+  gerando: ["Gerando prévia", "bg-line"],
+  previa: ["Prévia enviada", "bg-pink-light"],
+  ajuste: ["Ajuste na fila", "bg-pink-light"],
+  ajustando: ["Ajustando prévia", "bg-pink-light"],
+  erro: ["Erro", "bg-bad text-white"],
+  pago: ["Pago, publicando", "bg-ok text-white"],
+  publicando: ["Publicando", "bg-ok text-white"],
+  no_ar: ["No ar", "bg-ink text-paper"],
+  ajuste_no_ar: ["No ar, ajuste na fila", "bg-ink text-paper"],
+  ajustando_no_ar: ["No ar, ajustando", "bg-ink text-paper"],
+};
+const ETAPA: Record<string, string> = {
+  inicio: "Começou", negocio: "Nome do negócio", servicos: "Serviços", fotos: "Fotos", confirmacao: "Resumo",
+  gerando: "Gerando", previa: "Com a prévia", dados: "Dados do pagamento", pagamento: "Link de pagamento", pago: "Cliente", humano: "Esperando você",
+};
+
+export default async function AdminVendas() {
+  const p = await painelVendas();
+  if (!p) return <section className="container-site py-16"><h1 className="text-4xl tracking-[-0.05em]">Painel</h1><p className="mt-4 text-graphite">Banco indisponível.</p></section>;
+
+  const pagos = p.sites.filter((s) => s.pago);
+  const faturado = p.sites.reduce((t, s) => t + s.recebido, 0);
+  const custoTotal = p.meses.reduce((t, m) => t + m.custo, 0);
+  const trafegoTotal = p.meses.reduce((t, m) => t + m.trafego, 0);
+  const leads = p.sites.length + p.conversas.length;
+  const lucro = faturado - custoTotal * CAMBIO - trafegoTotal;
+  const humano = [...p.sites.filter((s) => s.etapa === "humano"), ...p.conversas.filter((c) => c.etapa === "humano")];
+  const mesAtual = new Date(Date.now() - 3 * 3600_000).toISOString().slice(0, 7);
 
   return (
-    <section className="container-site space-y-10 py-12">
-      <div>
-        <p className="label-mono text-graphite">Painel interno</p>
-        <h1 className="mt-2 text-4xl tracking-[-0.05em]">Supporta</h1>
-        <dl className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-          {[
-            ["Assinaturas ativas", String(ativas.length)],
-            ["Receita mensal", mrr.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })],
-            ["Ajustes na fila", String(data.ajustes.length)],
-            ["Diagnósticos (14 dias)", String(data.leads.reduce((s, l) => s + l.n, 0))],
-          ].map(([k, v]) => (
-            <div key={k} className="rounded-2xl border border-line bg-white p-4">
-              <dt className="text-sm text-graphite">{k}</dt>
-              <dd className="mt-1 text-2xl font-semibold tracking-[-0.04em]">{v}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mt-3 text-sm text-graphite">Por plano: {plans.map((p) => `${p.name} ${ativas.filter((a) => a.plano === p.id).length}`).join(" · ")}</p>
+    <section className="container-site space-y-12 py-12">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="label-mono text-graphite">Painel interno</p>
+          <h1 className="mt-2 text-4xl tracking-[-0.05em]">Vendas pelo WhatsApp</h1>
+        </div>
+        <Link href="/admin/assinaturas" className="link text-sm">Painel antigo (assinaturas e briefings)</Link>
       </div>
 
-      <div>
-        <h2 className="text-2xl tracking-[-0.04em]">Pedidos dos clientes</h2>
-        {data.pedidos.length ? (
-          <ul className="mt-4 divide-y divide-line rounded-2xl border border-line bg-white">
-            {data.pedidos.map((s) => (
-              <li key={s.id} className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <p className="font-medium">{pedidoLabel[s.tipo]}: {s.cliente_nome} <span className="text-sm text-graphite">({s.plano}) · {date(s.criado_em)} · {s.whatsapp}</span></p>
-                  {s.descricao ? <p className="mt-1 whitespace-pre-line text-[15px]">{s.descricao}</p> : null}
-                  {Object.keys(s.dados).length ? <p className="mt-1 text-sm text-graphite">{Object.entries(s.dados).filter(([, v]) => v !== null && v !== "").map(([k, v]) => `${k}: ${v}`).join(" · ")}</p> : null}
-                </div>
-                <form action={finishRequestAction}>
-                  <input type="hidden" name="id" value={s.id} />
-                  <button className={buttonClass("primary", "md")}>Resolvido</button>
-                </form>
-              </li>
+      <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          ["Sites vendidos", String(pagos.length), `${leads ? Math.round((pagos.length / leads) * 100) : 0}% dos ${leads} contatos`],
+          ["Faturado (total)", brl(faturado), `Ticket médio ${brl(pagos.length ? faturado / pagos.length : 0)}`],
+          ["Custo de API (6 meses)", brl(custoTotal * CAMBIO), `US$ ${custoTotal.toFixed(2)} a R$ ${CAMBIO.toFixed(2)}`],
+          ["Tráfego (6 meses)", brl(trafegoTotal), `Custo por venda ${brl(pagos.length ? trafegoTotal / pagos.length : 0)}`],
+          ["Resultado", brl(lucro), "Faturado menos API e tráfego"],
+          ["Retorno do tráfego", trafegoTotal ? `${(faturado / trafegoTotal).toFixed(1)}x` : "-", "Faturado dividido pelo tráfego"],
+          ["Com prévia, sem pagar", String(p.sites.filter((s) => ["previa", "ajuste", "ajustando"].includes(s.status)).length), "Ainda podem fechar"],
+          ["Esperando você", String(humano.length), humano.length ? "Veja abaixo" : "Nenhuma conversa parada"],
+        ].map(([k, v, d]) => (
+          <div key={k} className="rounded-2xl border border-line bg-white p-4">
+            <dt className="text-sm text-graphite">{k}</dt>
+            <dd className="mt-1 text-2xl font-semibold tracking-[-0.04em]">{v}</dd>
+            <p className="mt-1 text-xs text-graphite">{d}</p>
+          </div>
+        ))}
+      </dl>
+
+      {humano.length ? (
+        <div className="rounded-2xl border border-bad/40 bg-white p-5">
+          <h2 className="text-xl tracking-[-0.03em]">Conversas esperando você</h2>
+          <p className="mt-1 text-sm text-graphite">O robô parou nelas. Responda pelo WhatsApp e, se quiser, devolva ao robô na página da conversa.</p>
+          <ul className="mt-3 space-y-1 text-[15px]">
+            {humano.map((h) => (
+              <li key={h.telefone}><Link className="link" href={`/admin/conversa/${h.telefone}`}>{("empresa" in h ? h.empresa : h.negocio) || h.telefone}</Link> · {fone(h.telefone)}</li>
             ))}
           </ul>
-        ) : (
-          <p className="mt-3 text-graphite">Nenhum pedido aberto.</p>
-        )}
-      </div>
+        </div>
+      ) : null}
 
       <div>
-        <h2 className="text-2xl tracking-[-0.04em]">Ajustes na fila</h2>
-        {data.ajustes.length ? (
-          <ul className="mt-4 divide-y divide-line rounded-2xl border border-line bg-white">
-            {data.ajustes.map((a) => (
-              <li key={a.id} className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <p className="font-medium">{a.cliente_nome} <span className="text-sm text-graphite">({a.plano}) · {date(a.pedido_em)}</span></p>
-                  <p className="mt-1 text-[15px]">{a.descricao}</p>
-                </div>
-                <form action={setAdjustment} className="flex gap-2">
-                  <input type="hidden" name="id" value={a.id} />
-                  {a.status === "aberto" ? <button name="status" value="em_andamento" className={buttonClass("outline", "md")}>Começar</button> : null}
-                  <button name="status" value="feito" className={buttonClass("primary", "md")}>Feito (avisa o cliente)</button>
-                </form>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-3 text-graphite">Nenhum ajuste pendente.</p>
-        )}
-      </div>
-
-      <div>
-        <h2 className="text-2xl tracking-[-0.04em]">Assinaturas</h2>
-        <div className="relative mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
-          <table className="w-full min-w-[820px] text-left text-sm">
-            <thead className="bg-paper text-graphite">
-              <tr>{["Data", "Empresa", "Contato", "Plano", "Modelo", "Status", "Briefing", "Origem"].map((h) => <th key={h} className="px-4 py-3 font-medium">{h}</th>)}</tr>
+        <h2 className="text-2xl tracking-[-0.04em]">Mês a mês</h2>
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
+          <table className="w-full min-w-[760px] text-left text-[15px]">
+            <thead className="border-b border-line text-sm text-graphite">
+              <tr>{["Mês", "Contatos", "Vendas", "Conversão", "Faturado", "Custo de API", "Tráfego", "Resultado", "Retorno"].map((h) => <th key={h} className="px-4 py-3 font-medium">{h}</th>)}</tr>
             </thead>
             <tbody className="divide-y divide-line">
-              {data.assinaturas.map((a) => (
-                <tr key={a.id}>
-                  <td className="px-4 py-3">{date(a.criado_em)}</td>
-                  <td className="px-4 py-3 font-medium">{a.empresa}</td>
-                  <td className="px-4 py-3">{a.email}<br />{a.whatsapp}</td>
-                  <td className="px-4 py-3">{a.plano}{a.cancelar_em ? <span className="block text-bad">cancela {new Date(a.cancelar_em).toLocaleDateString("pt-BR", { timeZone: "UTC" })}</span> : null}</td>
-                  <td className="px-4 py-3">{a.modelo ? <a href={`/vitrine/${a.modelo}/index.html`} target="_blank" rel="noopener" className="link">{vitrine.find((v) => v.slug === a.modelo)?.name ?? a.modelo}</a> : "sugerir"}</td>
-                  <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 ${statusColor[a.status] ?? ""}`}>{a.status.replace(/_/g, " ")}</span></td>
-                  <td className="px-4 py-3">{a.briefing_id ? <Link href={`/admin/briefing/${a.briefing_id}`} className="link">ver</Link> : "pendente"}</td>
-                  <td className="px-4 py-3 text-graphite">{a.origem?.origem || "site"}</td>
-                </tr>
+              {p.meses.map((m) => {
+                const res = m.faturado - m.custo * CAMBIO - m.trafego;
+                return (
+                  <tr key={m.mes}>
+                    <td className="px-4 py-3 font-medium">{nomeMes(m.mes)}</td>
+                    <td className="px-4 py-3">{m.leads}</td>
+                    <td className="px-4 py-3">{m.vendas}</td>
+                    <td className="px-4 py-3">{m.leads ? `${Math.round((m.vendas / m.leads) * 100)}%` : "-"}</td>
+                    <td className="px-4 py-3">{brl(m.faturado)}</td>
+                    <td className="px-4 py-3">{brl(m.custo * CAMBIO)}</td>
+                    <td className="px-4 py-3">{brl(m.trafego)}</td>
+                    <td className={`px-4 py-3 font-medium ${res < 0 ? "text-bad" : ""}`}>{brl(res)}</td>
+                    <td className="px-4 py-3">{m.trafego ? `${(m.faturado / m.trafego).toFixed(1)}x` : "-"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+        <form action={salvarInvestimento} className="rounded-2xl border border-line bg-white p-5">
+          <h2 className="text-xl tracking-[-0.03em]">Lançar investimento em tráfego</h2>
+          <p className="mt-1 text-sm text-graphite">Quanto você investiu no mês (Meta Ads, Google Ads...). Entra no resultado e no retorno.</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <label className="text-sm">Mês<input name="mes" type="month" defaultValue={mesAtual} required className="mt-1 w-full rounded-xl border border-line px-3 py-2" /></label>
+            <label className="text-sm">Valor (R$)<input name="valor" inputMode="decimal" placeholder="500,00" required className="mt-1 w-full rounded-xl border border-line px-3 py-2" /></label>
+            <label className="text-sm">Canal<input name="canal" placeholder="Meta Ads" className="mt-1 w-full rounded-xl border border-line px-3 py-2" /></label>
+            <label className="text-sm">Observação<input name="obs" placeholder="Campanha dentistas" className="mt-1 w-full rounded-xl border border-line px-3 py-2" /></label>
+          </div>
+          <button className="mt-4 rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper">Salvar</button>
+        </form>
+        <div className="rounded-2xl border border-line bg-white p-5">
+          <h2 className="text-xl tracking-[-0.03em]">Investimentos lançados</h2>
+          {p.investimentos.length ? (
+            <ul className="mt-3 divide-y divide-line text-[15px]">
+              {p.investimentos.map((i) => (
+                <li key={i.id} className="flex items-center justify-between gap-3 py-2">
+                  <span>{nomeMes(new Date(i.mes).toISOString().slice(0, 7))} · {i.canal}{i.obs ? ` · ${i.obs}` : ""}</span>
+                  <span className="flex items-center gap-3"><strong>{brl(i.valor)}</strong>
+                    <form action={apagarInvestimento}><input type="hidden" name="id" value={i.id} /><button className="text-sm text-bad">apagar</button></form>
+                  </span>
+                </li>
               ))}
+            </ul>
+          ) : <p className="mt-3 text-sm text-graphite">Nenhum ainda.</p>}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-2xl tracking-[-0.04em]">Sites ({p.sites.length})</h2>
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
+          <table className="w-full min-w-[980px] text-left text-[14px]">
+            <thead className="border-b border-line text-sm text-graphite">
+              <tr>{["Empresa", "Situação", "Cliente", "WhatsApp", "Criado", "Pago em", "Recebido", "Custo API", "Alterações", "Links"].map((h) => <th key={h} className="px-3 py-3 font-medium">{h}</th>)}</tr>
+            </thead>
+            <tbody className="divide-y divide-line">
+              {p.sites.map((s) => {
+                const [label, cor] = STATUS[s.status] ?? [s.status, "bg-line"];
+                return (
+                  <tr key={s.id} className="align-top">
+                    <td className="px-3 py-3 font-medium"><Link className="link" href={`/admin/site/${s.id}`}>{s.empresa}</Link></td>
+                    <td className="px-3 py-3"><span className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs ${cor}`}>{label}</span>{s.etapa === "humano" ? <span className="ml-1 rounded-full bg-bad px-2 py-0.5 text-xs text-white">você</span> : null}</td>
+                    <td className="px-3 py-3">{s.contato_nome}<br /><span className="text-graphite">{s.contato_email || ""}</span></td>
+                    <td className="whitespace-nowrap px-3 py-3">{fone(s.telefone ?? s.contato_whatsapp)}</td>
+                    <td className="whitespace-nowrap px-3 py-3">{data(s.criado_em)}</td>
+                    <td className="whitespace-nowrap px-3 py-3">{data(s.pago_em)}</td>
+                    <td className="px-3 py-3">{s.recebido ? brl(s.recebido) : "-"}</td>
+                    <td className="px-3 py-3">{brl(s.custo * CAMBIO)}</td>
+                    <td className="px-3 py-3">{s.alteracoes}</td>
+                    <td className="whitespace-nowrap px-3 py-3">
+                      <a className="link" href={`https://analise.supporta.com.br/${s.slug}`} target="_blank" rel="noopener">prévia</a>
+                      {s.publicado_em ? <> · <a className="link" href={s.dominio ? `https://${s.dominio}` : `https://${s.slug}.supporta.com.br`} target="_blank" rel="noopener">site</a></> : null}
+                      {s.telefone ? <> · <Link className="link" href={`/admin/conversa/${s.telefone}`}>conversa</Link></> : null}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </div>
 
       <div>
-        <h2 className="text-2xl tracking-[-0.04em]">Clientes: relatórios e monitoramento</h2>
-        <p className="mt-1 text-sm text-graphite">Nomes de busca contam como citação. Perguntas: até 5, uma por linha (só Premium). Plausible: domínio cadastrado no Plausible (Pro e Premium).</p>
-        <div className="mt-4 space-y-3">
-          {data.clientes.map((c) => (
-            <details key={c.id} className="rounded-2xl border border-line bg-white">
-              <summary className="flex items-center justify-between px-4 py-3">
-                <span className="font-medium">{c.nome} <span className="text-sm text-graphite">· {c.plano} · {etapaLabel[c.etapa] ?? c.etapa}{c.ativo ? "" : " · inativo"}</span></span>
-                <span className="text-sm text-graphite">{c.email}</span>
-              </summary>
-              <form action={setStageAction} className="grid gap-3 border-t border-line p-4 md:grid-cols-3">
-                <input type="hidden" name="id" value={c.id} />
-                <label className="text-sm">Etapa do site
-                  <select name="etapa" defaultValue={c.etapa} className={field}>
-                    {Object.entries(etapaLabel).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-                  </select>
-                </label>
-                <label className="text-sm">Link da prévia<input name="previa" defaultValue={c.previa_url ?? ""} placeholder="https://..." className={field} /></label>
-                <label className="text-sm">Site publicado<input name="site" defaultValue={c.site_url ?? ""} placeholder="https://..." className={field} /></label>
-                <p className="text-sm text-graphite md:col-span-2">Prévia com o cliente e No ar mandam e-mail para o cliente. Na prévia, ele aprova ou pede revisão pela área do cliente.</p>
-                <div><button className={buttonClass("primary", "md")}>Salvar etapa</button></div>
-              </form>
-              <form action={saveClient} className="grid gap-3 border-t border-line p-4 md:grid-cols-2">
-                <input type="hidden" name="id" value={c.id} />
-                <label className="text-sm">Site<input name="site" defaultValue={c.site_url ?? ""} className={field} /></label>
-                <label className="text-sm">Plausible site_id<input name="plausible" defaultValue={c.plausible_site_id ?? ""} className={field} /></label>
-                <label className="text-sm">Nomes de busca (vírgula)<input name="nomes" defaultValue={c.nomes_busca.join(", ")} className={field} /></label>
-                <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="ativo" defaultChecked={c.ativo} /> Ativo</label>
-                <label className="text-sm md:col-span-2">Perguntas para as IAs<textarea name="perguntas" rows={4} defaultValue={c.perguntas_ia.join("\n")} className={field} /></label>
-                <div className="flex gap-2 md:col-span-2">
-                  <button className={buttonClass("primary", "md")}>Salvar</button>
-                  {c.plano === "premium" ? <button formAction={runCitationsNow} className={buttonClass("outline", "md")}>Rodar citações agora</button> : null}
-                </div>
-              </form>
-            </details>
-          ))}
+        <h2 className="text-2xl tracking-[-0.04em]">Conversas que ainda não viraram site ({p.conversas.length})</h2>
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
+          <table className="w-full min-w-[720px] text-left text-[14px]">
+            <thead className="border-b border-line text-sm text-graphite">
+              <tr>{["Contato", "Negócio", "Onde parou", "Começou", "Última mensagem", "Custo API"].map((h) => <th key={h} className="px-3 py-3 font-medium">{h}</th>)}</tr>
+            </thead>
+            <tbody className="divide-y divide-line">
+              {p.conversas.map((c) => (
+                <tr key={c.telefone}>
+                  <td className="px-3 py-3"><Link className="link" href={`/admin/conversa/${c.telefone}`}>{c.nome || fone(c.telefone)}</Link><br /><span className="text-graphite">{fone(c.telefone)}</span></td>
+                  <td className="px-3 py-3">{c.negocio || "-"}</td>
+                  <td className="px-3 py-3">{ETAPA[c.etapa] ?? c.etapa}</td>
+                  <td className="whitespace-nowrap px-3 py-3">{data(c.criado_em)}</td>
+                  <td className="whitespace-nowrap px-3 py-3">{data(c.ultima)}</td>
+                  <td className="px-3 py-3">{brl(c.custo * CAMBIO)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
