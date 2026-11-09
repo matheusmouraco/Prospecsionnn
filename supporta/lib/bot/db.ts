@@ -46,6 +46,7 @@ export type Conversa = {
   ultima_msg_cliente_em: Date | null;
   previa_em: Date | null;
   retornos: number;
+  ultimo_retorno_em: Date | null;
   criado_em: Date;
 };
 
@@ -83,7 +84,7 @@ export async function conversaDoSite(siteId: string) {
   });
 }
 
-type Patch = Partial<Pick<Conversa, "nome" | "etapa" | "briefing" | "midias" | "site_id" | "ultima_msg_cliente_em" | "previa_em" | "retornos">>;
+type Patch = Partial<Pick<Conversa, "nome" | "etapa" | "briefing" | "midias" | "site_id" | "ultima_msg_cliente_em" | "previa_em" | "retornos" | "ultimo_retorno_em">>;
 
 export async function salvarConversa(telefone: string, patch: Patch) {
   const sql = db();

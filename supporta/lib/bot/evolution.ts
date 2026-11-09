@@ -101,3 +101,9 @@ export function lerWebhook(payload: unknown): MensagemRecebida | null {
       return { ...base, tipo: "outro", texto: "", mime: "" };
   }
 }
+
+/** Mensagem de voz (aparece como áudio gravado na hora, com "gravando..." antes). `audio`: URL pública do arquivo. */
+export async function enviarAudio(numero: string, audio: string) {
+  const r = await chamar<{ key?: { id?: string } }>("message/sendWhatsAppAudio", { number: numero, audio, delay: 2500, encoding: true }, 60_000);
+  return r.key?.id ?? null;
+}

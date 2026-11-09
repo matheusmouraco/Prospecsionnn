@@ -21,7 +21,9 @@ import {
   type Midia,
 } from "./db";
 import { acharLinks, baixarImagem, lerGoogle, lerInstagram, lerSite } from "./enriquecer";
-import { baixarMidia, enviarTexto, evolutionEnabled, marcarLida, type MensagemRecebida } from "./evolution";
+import { transcrever, transcricaoLigada } from "./audio";
+import { baixarMidia, enviarAudio, enviarTexto, evolutionEnabled, marcarLida, type MensagemRecebida } from "./evolution";
+import { RETORNOS, quandoMandar } from "./retornos";
 import { extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
 
@@ -43,7 +45,7 @@ export function formatarFone(n: string) {
 // ---------- roteiro (o que o cliente lê) ----------
 const R = {
   abertura: (nome: string) => [
-    `Oi${nome ? ` ${nome}` : ""}! Aqui é da Supporta.`,
+    process.env.BOT_ATENDENTE ? `Opa${nome ? ` ${nome}` : ""}, ${process.env.BOT_ATENDENTE} aqui!` : `Oi${nome ? ` ${nome}` : ""}! Aqui é da Supporta.`,
     `Eu monto o site do seu negócio agora, aqui pelo WhatsApp, e você só paga se gostar: R$ ${pricing.site}, uma vez só.`,
   ],
   pedeNegocio: "Qual o nome do seu negócio? Se tiver Instagram ou site, me manda o link que eu já puxo as informações de lá.",
@@ -85,15 +87,6 @@ const R = {
   mandaTexto: "Me manda por texto, por favor, que aqui eu não consigo ouvir áudio.",
   erro: "Deu um problema aqui do meu lado. Já estou vendo e te retorno.",
   erroGerador: "Tive um problema pra terminar o seu site. Já avisei a equipe e a gente te retorna aqui.",
-  retornos: [
-    { minutos: 10, texto: "O que achou??" },
-    { minutos: 60, texto: "Fala comigo" },
-    { minutos: 360, texto: "👀" },
-    { minutos: 900, texto: "Se algo no site não te agradou, me diz o que mudar que eu ajusto sem custo." },
-    { dia: 1, hora: 8, texto: "Bom dia!! Tô no aguardo pra deixar seu site no ar 😆" },
-    { dia: 1, hora: 13, texto: "Se algo no site não te agradou, me diz o que mudar que eu ajusto sem custo." },
-    { dia: 1, hora: 18, texto: "Boa tarde! Se preferir, me escreve o que mudaria no site, que eu ajusto hoje." },
-  ] as { minutos?: number; dia?: number; hora?: number; texto: string }[],
 };
 
 /** Manda uma ou mais mensagens e guarda no histórico. Sem Evolution configurada (teste local), só registra. */
@@ -116,12 +109,20 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
   if (evolutionEnabled()) await marcarLida(m);
 
   const conv = await pegarConversa(m.de, m.nome);
-  await salvarConversa(m.de, { ultima_msg_cliente_em: new Date() });
+  // O cliente respondeu depois da prévia: a cadência recomeça a partir desta mensagem, mas já no "👀" (6h),
+  // para não cobrar 10 minutos depois de alguém que disse "vou ver com meu sócio".
+  await salvarConversa(m.de, { ultima_msg_cliente_em: new Date(), retornos: conv.previa_em ? 2 : 0, ultimo_retorno_em: null });
   if (conv.etapa === "humano") return; // alguém da equipe assumiu
 
   try {
     if (m.tipo === "imagem") return depois(tratarImagem(conv, m));
-    if (m.tipo === "audio" || m.tipo === "video") return await falar(conv.telefone, R.mandaTexto);
+    if (m.tipo === "video") return await falar(conv.telefone, R.mandaTexto);
+    if (m.tipo === "audio") {
+      if (!transcricaoLigada()) return await falar(conv.telefone, R.mandaTexto);
+      const { base64, mime } = m.base64 ? { base64: m.base64, mime: m.mime || "audio/ogg" } : await baixarMidia(m.id);
+      m.texto = await transcrever(base64, mime);
+      await registrarMensagem({ telefone: m.de, direcao: "in", tipo: "transcricao", corpo: m.texto });
+    }
     const texto = m.texto.trim();
     if (!texto) return;
     switch (conv.etapa) {
@@ -471,7 +472,7 @@ async function etapaDados(conv: Conversa, texto: string) {
   await tryDb("contatoDoSite", (sql) => sql`update sites set contato_nome = ${b.responsavel!}, contato_email = ${b.email!}, atualizado_em = now() where id = ${site.id}`);
   const pag = await linkPagamento({ site, nome: b.responsavel!, email: b.email!, documento: b.documento!, telefone: conv.telefone, dominio: b.dominio === true });
   await mesclarBriefing(conv.telefone, { checkoutUrl: pag.url });
-  await salvarConversa(conv.telefone, { etapa: "pagamento", previa_em: new Date(), retornos: 0 });
+  await salvarConversa(conv.telefone, { etapa: "pagamento", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
   await falar(conv.telefone, R.pagamento(pag.url, pag.hoje, pag.anual, `${site.slug}.supporta.com.br`));
   if (b.dominio) await notifyTeam(`Domínio próprio pedido: ${site.empresa}`, [b.dominioDesejado ?? "(não disse qual)", formatarFone(conv.telefone)]);
 }
@@ -530,7 +531,7 @@ async function continuarSite(conv: Conversa, site: Site) {
     await falar(conv.telefone, `Oi${nome ? ` ${nome}` : ""}! O site da ${site.empresa} está sendo montado. Te mando a prévia aqui assim que ficar pronta.`);
     return true;
   }
-  await salvarConversa(conv.telefone, { site_id: site.id, etapa: "previa", previa_em: new Date(), retornos: 0 });
+  await salvarConversa(conv.telefone, { site_id: site.id, etapa: "previa", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
   await falar(conv.telefone, [`Oi${nome ? ` ${nome}` : ""}! Que bom que você viu a prévia do site da ${site.empresa}: ${previaUrl(site.slug)}`, "O que achou? Se quiser mudar qualquer coisa, me fala aqui. Se gostou, eu já te passo o pagamento e ele vai ao ar."]);
   return true;
 }
@@ -545,7 +546,7 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
   if (!conv) return false;
   if (evento === "previa") {
     const primeira = conv.etapa === "gerando" || !conv.previa_em;
-    await salvarConversa(conv.telefone, { etapa: ["dados", "pagamento"].includes(conv.etapa) ? conv.etapa : "previa", previa_em: new Date(), retornos: 0 });
+    await salvarConversa(conv.telefone, { etapa: ["dados", "pagamento"].includes(conv.etapa) ? conv.etapa : "previa", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
     await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug)) : R.previaNova(previaUrl(site.slug)));
   } else if (evento === "pago") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
@@ -559,38 +560,41 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
   return true;
 }
 
-// ---------- "o que achou?" para quem sumiu depois da prévia ----------
+// ---------- "o que achou?" para quem sumiu depois da prévia (cadência em retornos.ts) ----------
 
-const FUSO = "America/Sao_Paulo";
-
-/** Instante de `hora`:00 em São Paulo, `dias` depois do dia de `base`. */
-function horaLocal(base: Date, dias: number, hora: number) {
-  const [y, m, d] = base.toLocaleDateString("en-CA", { timeZone: FUSO }).split("-").map(Number);
-  const utc = Date.UTC(y, m - 1, d + dias, hora + 3, 0, 0); // São Paulo é UTC-3 (sem horário de verão desde 2019)
-  return utc;
+/** Áudio do retorno: arquivo gravado pelo Moura. Sem ele, vai o texto da mesma etapa. */
+async function mandarAudio(telefone: string, url: string) {
+  let id: string | null = null;
+  if (evolutionEnabled()) id = await enviarAudio(telefone, url);
+  else console.log(`[bot -> ${telefone}] (áudio) ${url}`);
+  await registrarMensagem({ telefone, direcao: "out", tipo: "audio", corpo: `[áudio] ${url}`, wa_id: id });
 }
 
-export async function cobrarRetornos() {
+export async function cobrarRetornos(agora = Date.now()) {
   const enviados: string[] = [];
-  const agora = Date.now();
+  const audio = process.env.BOT_AUDIO_RETORNO_URL;
   for (const c of await conversasEsperandoRetorno()) {
-    const proximo = R.retornos[c.retornos];
-    if (!proximo || !c.previa_em) continue;
-    const previa = new Date(c.previa_em);
-    if (c.ultima_msg_cliente_em && new Date(c.ultima_msg_cliente_em) > previa) continue; // ele respondeu
-    const quando = proximo.minutos != null ? previa.getTime() + proximo.minutos * 60_000 : horaLocal(previa, proximo.dia ?? 1, proximo.hora ?? 9);
-    if (agora < quando) continue;
-    // Pulou etapas (cron parado): manda só a mais recente que já venceu.
+    if (!c.previa_em) continue;
+    const base = Math.max(new Date(c.previa_em).getTime(), c.ultima_msg_cliente_em ? new Date(c.ultima_msg_cliente_em).getTime() : 0);
+    const ultimo = Math.max(base, c.ultimo_retorno_em ? new Date(c.ultimo_retorno_em).getTime() : 0);
     let i = c.retornos;
-    while (R.retornos[i + 1]) {
-      const p = R.retornos[i + 1];
-      const q = p.minutos != null ? previa.getTime() + p.minutos * 60_000 : horaLocal(previa, p.dia ?? 1, p.hora ?? 9);
-      if (agora < q) break;
-      i++;
+    const doCliente = c.ultima_msg_cliente_em ? new Date(c.ultima_msg_cliente_em).getTime() : 0;
+    let quando = quandoMandar(i, base, ultimo, c.telefone, agora, doCliente);
+    while (quando && "pular" in quando) quando = quandoMandar(++i, base, ultimo, c.telefone, agora, doCliente); // horário marcado que já passou
+    if (!quando || agora < quando.em) {
+      if (i !== c.retornos) await salvarConversa(c.telefone, { retornos: i });
+      continue;
     }
-    await salvarConversa(c.telefone, { retornos: i + 1 });
-    await falar(c.telefone, R.retornos[i].texto).catch((err) => console.error("[bot] retorno:", (err as Error).message));
-    enviados.push(c.telefone);
+    const r = RETORNOS[i];
+    // Marca antes de mandar: se a Evolution falhar, não repete a mesma mensagem a cada minuto.
+    await salvarConversa(c.telefone, { retornos: i + 1, ultimo_retorno_em: new Date(agora) });
+    try {
+      if (r.tipo === "depois" && r.audio && audio) await mandarAudio(c.telefone, audio);
+      else await falar(c.telefone, r.tipo !== "depois" && r.textoSemAudio && !transcricaoLigada() ? r.textoSemAudio : r.texto);
+      enviados.push(c.telefone);
+    } catch (err) {
+      console.error("[bot] retorno:", (err as Error).message);
+    }
   }
   return enviados;
 }
