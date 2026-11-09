@@ -56,7 +56,7 @@ export default async function DemoPage({ params }: Props) {
           </p>
           <span className="flex gap-2">
             <Link href={`/modelos/${seg.slug}`} className="rounded-full border border-paper/25 px-4 py-1.5 hover:border-paper">Voltar</Link>
-            <Link href={`/assinar/start?modelo=${seg.slug}&origem=demo`} className="rounded-full bg-pink px-4 py-1.5 font-medium text-ink" data-track="plan_click" data-track-origin={`demo:${seg.slug}`}>
+            <Link href={`/assinar/pro?modelo=${seg.slug}&origem=demo`} className="rounded-full bg-pink px-4 py-1.5 font-medium text-ink" data-track="plan_click" data-track-origin={`demo:${seg.slug}`}>
               Quero esse modelo
             </Link>
           </span>
@@ -158,7 +158,7 @@ export default async function DemoPage({ params }: Props) {
       <footer style={{ background: m.text, color: m.surface }} className="border-t" >
         <div className="container-site flex flex-col justify-between gap-2 py-6 text-sm opacity-80 md:flex-row">
           <span>© {m.business}. Empresa fictícia.</span>
-          <span>Site por assinatura <Link href="/" className="underline">Supporta</Link></span>
+          <span>Site profissional feito com <Link href="/" className="underline">Supporta</Link></span>
         </div>
       </footer>
     </div>

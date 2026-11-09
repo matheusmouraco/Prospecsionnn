@@ -30,6 +30,13 @@ const nextConfig: NextConfig = {
       { source: "/vitrine/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
     ];
   },
+  // Planos antigos (links já enviados, inclusive pelo Prospector): o produto agora é um só e começa no criador.
+  async redirects() {
+    return [
+      { source: "/assinar/start", destination: "/criar", permanent: false },
+      { source: "/assinar/premium", destination: "/criar", permanent: false },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [

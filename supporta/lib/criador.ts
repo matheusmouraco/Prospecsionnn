@@ -242,4 +242,5 @@ export function slugify(nome: string) {
 /** Subdomínios que não podem ser de cliente. */
 export const slugsReservados = new Set(["www", "app", "api", "admin", "painel", "cliente", "blog", "mail", "email", "suporte", "status", "criar", "previa", "vitrine", "supporta", "teleprompter", "casafirme"]);
 
-export const planoValido = (v: unknown): PlanId => (v === "pro" || v === "premium" ? v : "start");
+/** Produto único (site profissional): todo site novo é "pro" (5 páginas). O parâmetro fica por compatibilidade de links antigos. */
+export const planoValido = (_v?: unknown): PlanId => "pro";

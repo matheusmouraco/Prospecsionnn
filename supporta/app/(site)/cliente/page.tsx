@@ -3,14 +3,13 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AdjustmentForm } from "@/components/cliente/AdjustmentForm";
 import { CancelFlow } from "@/components/cliente/CancelFlow";
-import { PlanChange } from "@/components/cliente/PlanChange";
 import { PreviewReview } from "@/components/cliente/PreviewReview";
 import { ProjectProgress } from "@/components/cliente/ProjectProgress";
 import { buttonClass } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { getPaymentProvider, type Invoice } from "@/lib/payments";
-import { contractState, planChangeRule } from "@/lib/autoatendimento";
-import { adjustmentsPerMonth, billing, getPlan, loyaltyPriceFor, plans, priceFor } from "@/lib/plans";
+import { contractState } from "@/lib/autoatendimento";
+import { alteracaoGratis, pricing } from "@/lib/plans";
 import { countAdjustmentsThisMonth, getSubscriptionById, listAdjustments, listRequests } from "@/lib/repo";
 import { pageMetadata } from "@/lib/seo";
 import { currentClient } from "@/lib/session";
@@ -47,44 +46,19 @@ export default async function ClientePage() {
   const client = await currentClient();
   if (!client) redirect("/cliente/entrar");
 
-  const plan = getPlan(client.plano)!;
-  const [assinatura, used, ajustes, pedidos] = await Promise.all([
-    getSubscriptionById(client.assinatura_id),
-    countAdjustmentsThisMonth(client.id),
-    listAdjustments(client.id),
-    listRequests(client.id, 5),
-  ]);
-  const limit = adjustmentsPerMonth[client.plano];
-  const remaining = limit === null ? null : Math.max(0, limit - (used ?? 0));
+  const [assinatura, ajustes, pedidos] = await Promise.all([getSubscriptionById(client.assinatura_id), listAdjustments(client.id), listRequests(client.id, 5)]);
 
-  // Situação do contrato: meses cobertos, multa se cancelar hoje, até quando está pago e desconto de quem continua.
-  const contract = assinatura ? await contractState(assinatura, plan) : null;
-  const cycle = assinatura?.ciclo ?? "mensal";
-  const monthsCovered = contract?.monthsCovered ?? 0;
-  const inMinimum = contract?.inMinimum ?? true;
-  const feeToday = contract?.fee ?? 0;
-  const chargeValue = assinatura ? Number(assinatura.valor) : plan.price;
-  const per = cycle === "anual" ? "ano" : "mês";
+  // Preço único: alterações sem custo até 30 dias depois da entrega; renovação anual do endereço a partir do 2º ano.
+  const contract = assinatura ? await contractState(assinatura) : null;
+  const gratis = alteracaoGratis(client.publicado_em);
+  const fimGratis = client.publicado_em ? new Date(new Date(client.publicado_em).getTime() + pricing.diasAlteracaoGratis * 86_400_000) : null;
   const brDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("pt-BR", { timeZone: "UTC" });
   const canceled = Boolean(assinatura?.cancelamento_pedido_em);
   const cancelPending = canceled ? false : (pedidos ?? []).some((r) => r.tipo === "cancelar" && r.status === "aberto");
-  const planPending = (pedidos ?? []).find((r) => r.tipo === "mudar_plano" && r.status === "aberto");
-
-  const planOptions = plans.map((p) => ({
-    id: p.id,
-    name: p.name,
-    price: `${formatBRLCents(assinatura?.desconto_fidelidade_em ? loyaltyPriceFor(p, cycle) : priceFor(p, cycle))}/${per}`,
-    pitch: p.pitch,
-    rule: planChangeRule(client.plano, p.id, inMinimum),
-  }));
   const cancelSummary = [
-    !inMinimum
-      ? "Sem multa: o prazo mínimo já foi cumprido."
-      : cycle === "mensal"
-        ? `Multa de ${formatBRLCents(feeToday)}: ${billing.earlyCancelFeePct}% das ${billing.minMonths - monthsCovered} mensalidades que faltam para os ${billing.minMonths} meses. Cobrada junto com o cancelamento.`
-        : `Plano anual dentro do prazo mínimo: a gente calcula a devolução proporcional, menos ${billing.earlyCancelFeePct}%, e confirma por e-mail em até 1 dia útil.`,
-    "Não haverá novas cobranças depois do cancelamento.",
+    "Sem multa e sem novas cobranças.",
     contract ? `O site fica no ar até ${brDate(contract.paidUntil)}, fim do período já pago. Depois disso ele sai do ar.` : "O site fica no ar até o fim do período já pago.",
+    "Quer mudar de ideia depois? É só falar com a gente antes dessa data.",
   ];
   const chosenModel = assinatura?.modelo ? vitrine.find((v) => v.slug === assinatura.modelo) : undefined;
 
@@ -104,7 +78,7 @@ export default async function ClientePage() {
             <SectionLabel>Área do cliente</SectionLabel>
             <h1 id="page-title" className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1] tracking-[-0.055em]">{client.nome}</h1>
             <p className="mt-3 text-graphite">
-              Plano {plan.name} {cycle}, {formatBRLCents(chargeValue)}/{cycle === "anual" ? "ano" : "mês"}{client.site_url ? <> · <a href={client.site_url} className="link" target="_blank" rel="noopener">{client.site_url.replace(/^https?:\/\//, "")}</a></> : null}
+              Site profissional{contract ? `, renova por ${formatBRLCents(contract.renovacao)}/ano` : ""}{client.site_url ? <> · <a href={client.site_url} className="link" target="_blank" rel="noopener">{client.site_url.replace(/^https?:\/\//, "")}</a></> : null}
             </p>
           </div>
           <form action="/api/cliente/sair" method="post">
@@ -113,7 +87,7 @@ export default async function ClientePage() {
         </div>
 
         <div className="mt-8 space-y-4">
-          <ProjectProgress etapa={client.etapa} briefingSent={Boolean(assinatura?.briefing_enviado_em)} prazo={site.deliveryDays[client.plano]} />
+          <ProjectProgress etapa={client.etapa} briefingSent={Boolean(assinatura?.briefing_enviado_em)} prazo={pricing.prazoHoras} />
           {assinatura && !assinatura.briefing_enviado_em ? (
             <div className="flex flex-col gap-4 rounded-[2rem] bg-ink p-6 text-paper md:flex-row md:items-center md:justify-between md:p-8">
               <div>
@@ -143,12 +117,16 @@ export default async function ClientePage() {
         </div>
 
         <div className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_1fr]">
-          <Panel title="Ajustes">
+          <Panel title="Alterações">
             <p className="text-[15px] text-graphite">
-              {remaining === null ? "Ajustes ilimitados, com prazo de até 48h." : `Você tem ${remaining} de ${limit} ajuste${limit === 1 ? "" : "s"} disponível${limit === 1 ? "" : "is"} neste mês.`}
+              {gratis
+                ? fimGratis
+                  ? `Alterações sem custo até ${fimGratis.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" })} (${pricing.diasAlteracaoGratis} dias depois da entrega).`
+                  : `Alterações sem custo até ${pricing.diasAlteracaoGratis} dias depois da entrega do site.`
+                : `Cada alteração custa ${formatBRLCents(pricing.alteracao)}, cobrada quando você pede.`}
             </p>
             <div className="mt-5">
-              <AdjustmentForm disabled={remaining === 0} />
+              <AdjustmentForm valor={gratis ? 0 : pricing.alteracao} />
             </div>
             {ajustes?.length ? (
               <ul className="mt-8 divide-y divide-line border-t border-line">
@@ -156,7 +134,11 @@ export default async function ClientePage() {
                   <li key={a.id} className="flex items-start justify-between gap-4 py-4">
                     <div>
                       <p className="text-[15px]">{a.descricao}</p>
-                      <p className="mt-1 text-sm text-graphite">Pedido em {date(a.pedido_em)}{a.concluido_em ? ` · feito em ${date(a.concluido_em)}` : ""}</p>
+                      <p className="mt-1 text-sm text-graphite">
+                        Pedido em {date(a.pedido_em)}{a.concluido_em ? ` · feito em ${date(a.concluido_em)}` : ""}
+                        {Number(a.valor) > 0 ? ` · ${formatBRLCents(Number(a.valor))}${a.pago ? " pago" : ""}` : ""}
+                      </p>
+                      {Number(a.valor) > 0 && !a.pago && a.cobranca_url ? <a href={a.cobranca_url} target="_blank" rel="noopener" className="link mt-1 inline-block text-sm">Pagar a alteração</a> : null}
                     </div>
                     <span className={`shrink-0 rounded-full px-3 py-1 text-sm font-medium ${a.status === "feito" ? "bg-ok text-white" : "bg-pink-light"}`}>{statusLabel[a.status]}</span>
                   </li>
@@ -185,44 +167,36 @@ export default async function ClientePage() {
               {manage ? (
                 <a href={manage} className={buttonClass("outline", "md", "mt-5")}>Trocar cartão e ver tudo</a>
               ) : (
-                <a href={whatsappUrl(`Oi! Sou cliente (${client.nome}) e quero trocar o cartão da assinatura.`)} target="_blank" rel="noopener" className={buttonClass("outline", "md", "mt-5")} data-track="whatsapp_click" data-track-origin="cliente-cartao">
+                <a href={whatsappUrl(`Oi! Sou cliente (${client.nome}) e quero trocar o cartão da renovação.`)} target="_blank" rel="noopener" className={buttonClass("outline", "md", "mt-5")} data-track="whatsapp_click" data-track-origin="cliente-cartao">
                   Trocar cartão pelo WhatsApp
                 </a>
               )}
             </Panel>
 
-            <Panel title="Contrato">
+            <Panel title="Renovação">
               <ul className="divide-y divide-line text-[15px]">
                 <li className="flex justify-between gap-4 py-3">
-                  <span className="text-graphite">Pagamento</span>
-                  <span>{cycle === "anual" ? "Anual, 1 vez por ano" : "Mensal, todo mês"}</span>
+                  <span className="text-graphite">Site</span>
+                  <span>Pago, {formatBRLCents(pricing.site)} uma vez</span>
                 </li>
                 <li className="flex justify-between gap-4 py-3">
-                  <span className="text-graphite">Meses pagos</span>
-                  <span>{monthsCovered} {inMinimum ? `de ${billing.minMonths} do prazo mínimo` : "(prazo mínimo cumprido)"}</span>
+                  <span className="text-graphite">Domínio próprio</span>
+                  <span className="text-right">{contract?.dominio ? "Contratado" : <a href={whatsappUrl(`Oi! Sou cliente (${client.nome}) e quero um domínio próprio .com.br.`)} target="_blank" rel="noopener" className="link">Quero um ({formatBRLCents(pricing.dominio)}/ano)</a>}</span>
                 </li>
                 <li className="flex justify-between gap-4 py-3">
-                  <span className="text-graphite">Desconto de {billing.loyaltyDiscountPct}%</span>
-                  <span>{assinatura?.desconto_fidelidade_em ? "Ativo" : "A partir do 13º mês"}</span>
-                </li>
-                <li className="flex justify-between gap-4 py-3">
-                  <span className="text-graphite">{canceled ? "Cancelamento" : "Se cancelar hoje"}</span>
+                  <span className="text-graphite">{canceled ? "No ar até" : "Próxima renovação"}</span>
                   <span className="text-right">
                     {canceled && assinatura?.cancelar_em
-                      ? `Pedido. No ar até ${new Date(assinatura.cancelar_em).toLocaleDateString("pt-BR", { timeZone: "UTC" })}`
-                      : !inMinimum
-                        ? "Sem multa"
-                        : cycle === "mensal"
-                          ? `Multa de ${formatBRLCents(feeToday)}`
-                          : `Devolução proporcional, menos ${billing.earlyCancelFeePct}%`}
+                      ? new Date(assinatura.cancelar_em).toLocaleDateString("pt-BR", { timeZone: "UTC" })
+                      : contract
+                        ? `${brDate(contract.paidUntil)}, ${formatBRLCents(contract.renovacao)}`
+                        : "Daqui a 1 ano"}
                   </span>
                 </li>
               </ul>
-              {planPending ? <p className="mt-4 rounded-2xl bg-pink-light px-4 py-3 text-sm">Troca de plano pedida: {planPending.descricao}. A gente confirma por e-mail.</p> : null}
               {cancelPending ? <p className="mt-4 rounded-2xl bg-pink-light px-4 py-3 text-sm">Cancelamento pedido. A gente confirma por e-mail em até 1 dia útil.</p> : null}
               {!canceled && !cancelPending && assinatura?.status === "ativa" ? (
                 <div className="mt-5 space-y-3">
-                  {!planPending ? <PlanChange options={planOptions} minMonths={billing.minMonths} /> : null}
                   <CancelFlow summary={cancelSummary} />
                 </div>
               ) : null}

@@ -1,5 +1,5 @@
 import type { Faq } from "./faqs";
-import { billing, plans, priceFor } from "./plans";
+import { pricing, site99 } from "./plans";
 import { absoluteUrl, site } from "./site";
 
 const orgId = `${site.url}/#organization`;
@@ -48,51 +48,43 @@ export function websiteSchema() {
   };
 }
 
-/** Service com uma Offer por plano, preço mensal recorrente em BRL. */
+/** Service com o site (pago uma vez) e a renovação anual do endereço a partir do 2º ano, em BRL. */
 export function serviceSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Site profissional por assinatura",
-    serviceType: "Criação, hospedagem e manutenção de sites com SEO e GEO",
+    name: "Site profissional com IA",
+    serviceType: "Criação e hospedagem de sites com SEO e GEO",
     description: site.description,
     provider: { "@id": orgId },
     areaServed: { "@type": "Country", name: "Brasil" },
-    offers: plans.map((plan) => ({
-      "@type": "Offer",
-      name: `Plano ${plan.name}`,
-      description: plan.features.join("; "),
-      url: absoluteUrl(`/assinar/${plan.id}`),
-      price: plan.price.toFixed(2),
-      priceCurrency: "BRL",
-      availability: "https://schema.org/InStock",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: plan.price.toFixed(2),
-        priceCurrency: "BRL",
-        unitCode: "MON",
-        referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
-      },
-      eligibleDuration: { "@type": "QuantitativeValue", value: 12, unitCode: "MON" },
-    })).concat(
-      plans.map((plan) => ({
+    offers: [
+      {
         "@type": "Offer",
-        name: `Plano ${plan.name} anual`,
-        description: `${plan.features.join("; ")}. Pagamento anual: ${billing.annualMonthsCharged} mensalidades por 12 meses.`,
-        url: absoluteUrl(`/assinar/${plan.id}?ciclo=anual`),
-        price: priceFor(plan, "anual").toFixed(2),
+        name: site99.name,
+        description: `${site99.features.join("; ")}. Pago uma vez, pronto em até ${pricing.prazoHoras}h.`,
+        url: absoluteUrl("/criar"),
+        price: pricing.site.toFixed(2),
+        priceCurrency: "BRL",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        name: "Renovação anual do endereço e da hospedagem",
+        description: "Endereço nome.supporta.com.br com hospedagem e SSL. Incluso no 1º ano; renova por ano a partir do 2º ano.",
+        url: absoluteUrl("/planos"),
+        price: pricing.endereco.toFixed(2),
         priceCurrency: "BRL",
         availability: "https://schema.org/InStock",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
-          price: priceFor(plan, "anual").toFixed(2),
+          price: pricing.endereco.toFixed(2),
           priceCurrency: "BRL",
           unitCode: "ANN",
           referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "ANN" },
         },
-        eligibleDuration: { "@type": "QuantitativeValue", value: 12, unitCode: "MON" },
-      })),
-    ),
+      },
+    ],
   };
 }
 

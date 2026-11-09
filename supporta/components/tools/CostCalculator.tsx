@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { plans, priceLabel } from "@/lib/plans";
+import { priceLabel, pricing, site99 } from "@/lib/plans";
 
 const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
 const kinds = [
@@ -33,18 +33,17 @@ export function CostCalculator() {
   const [adjustmentPrice, setAdjustmentPrice] = useState(150);
   const [years, setYears] = useState(1);
 
-  const plan = plans.find((p) => p.id === kind)!;
   const months = years * 12;
   const traditional = creation + hosting * months + domain * years + adjustments * adjustmentPrice * years;
-  // Domínio do 1º ano incluso na Supporta; a partir do 2º ano, a renovação depende dos Termos.
-  const supporta = plan.price * months;
+  // Supporta: site pago uma vez; endereço e hospedagem inclusos no 1º ano, renovação anual a partir do 2º.
+  const supporta = pricing.site + pricing.endereco * (years - 1);
   const diff = traditional - supporta;
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
       <div className="rounded-[2rem] border border-line bg-white p-6 md:p-8">
         <fieldset>
-          <legend className="text-[15px] font-medium">Tipo de site</legend>
+          <legend className="text-[15px] font-medium">Tipo de site no modelo tradicional</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {kinds.map((k) => (
               <label key={k.id} className={`inline-flex h-11 cursor-pointer items-center rounded-full border px-5 text-[15px] has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${kind === k.id ? "border-ink bg-ink text-paper" : "border-line"}`}>
@@ -77,12 +76,15 @@ export function CostCalculator() {
           <p className="mt-2 text-5xl font-semibold tracking-[-0.06em]">{brl(traditional)}</p>
         </div>
         <div className="on-pink rounded-[2rem] bg-pink p-6 md:p-8">
-          <p className="label-mono">Supporta {plan.name} · {years} {years === 1 ? "ano" : "anos"}</p>
-          <p className="mt-2 text-5xl font-semibold tracking-[-0.06em]">{brl(supporta)}</p>
-          <p className="mt-2 text-[15px]">{priceLabel(plan.price)}/mês, com criação, hospedagem, ajustes e GEO inclusos.</p>
+          <p className="label-mono">Supporta · {years} {years === 1 ? "ano" : "anos"}</p>
+          <p className="mt-2 text-5xl font-semibold tracking-[-0.06em]">{priceLabel(supporta)}</p>
+          <p className="mt-2 text-[15px]">
+            {site99.name} por {priceLabel(pricing.site)} pago uma vez, com hospedagem e endereço inclusos no 1º ano
+            {years > 1 ? ` e ${priceLabel(pricing.endereco)} por ano a partir do 2º` : ""}.
+          </p>
         </div>
         <p className="px-2 text-[15px] text-graphite">
-          {diff > 0 ? `Diferença de ${brl(diff)} no período, a favor da assinatura.` : `Neste cenário o modelo tradicional sai ${brl(-diff)} mais barato no período. Ele compensa quando o site quase nunca muda.`}
+          {diff > 0 ? `Diferença de ${brl(diff)} no período, a favor da Supporta.` : `Neste cenário o modelo tradicional sai ${brl(-diff)} mais barato no período. Ele compensa quando o site quase nunca muda.`}
         </p>
       </div>
     </div>

@@ -1,11 +1,12 @@
 import { Smartphone } from "lucide-react";
 import { AiLogos } from "@/components/ui/AiLogos";
+import { pricing } from "@/lib/plans";
 
 const item = "relative flex flex-col bg-ink p-6 md:p-8";
 const title = "mt-6 text-lg font-semibold tracking-[-0.02em] text-paper";
 const text = "mt-2 text-[15px] leading-relaxed text-mist";
 
-/** Quatro garantias numa faixa preta brilhante: a nota, o celular, onde o site aparece e o custo zero de criação. */
+/** Quatro garantias numa faixa preta brilhante: a nota, o celular, onde o site aparece e o preço pago uma vez. */
 export function ProofStrip() {
   return (
     <section aria-labelledby="garantias-title" className="bg-white pb-20 md:pb-28">
@@ -44,10 +45,10 @@ export function ProofStrip() {
 
           <li className={item}>
             <p className="flex h-14 items-center text-5xl font-semibold tracking-[-0.06em] text-paper">
-              R$<span className="neon-text">0</span>
+              R$<span className="neon-text">{pricing.site}</span>
             </p>
-            <h3 className={title}>De custo de criação</h3>
-            <p className={text}>Você paga só a assinatura mensal, com hospedagem e manutenção inclusas.</p>
+            <h3 className={title}>Pago uma vez</h3>
+            <p className={text}>Sem mensalidade. Endereço, hospedagem e SSL inclusos no 1º ano.</p>
           </li>
         </ul>
       </div>

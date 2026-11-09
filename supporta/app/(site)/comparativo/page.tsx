@@ -7,34 +7,35 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import type { Faq as FaqItem } from "@/lib/faqs";
 import { faqSchema } from "@/lib/schema";
+import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Supporta, construtor de sites, agência ou freelancer?",
-  description: "Compare as formas de ter um site: fazer sozinho num construtor, contratar freelancer, agência ou assinatura Supporta. Custo, tempo e manutenção.",
+  description: "Compare as formas de ter um site: fazer sozinho num construtor, contratar freelancer, agência ou Supporta. Custo, tempo e manutenção.",
   path: "/comparativo",
 });
 
 type V = boolean | string;
 const cols = ["Construtor (você faz)", "Freelancer", "Agência", "Supporta"];
 const rows: { label: string; v: V[] }[] = [
-  { label: "Custo de criação", v: ["Seu tempo", "Pagamento único", "Pagamento único, maior", "R$0"] },
-  { label: "Mensalidade", v: ["Plano do construtor", "Hospedagem à parte", "Hospedagem e manutenção à parte", "De R$49,90 a R$149,90, tudo incluso"] },
+  { label: "Custo de criação", v: ["Seu tempo", "Pagamento único", "Pagamento único, maior", `${priceLabel(pricing.site)}, pago uma vez`] },
+  { label: "Hospedagem", v: ["Plano mensal do construtor", "À parte, por mês", "À parte, com manutenção", `Inclusa no 1º ano; depois ${priceLabel(pricing.endereco)} por ano`] },
   { label: "Quem escreve os textos", v: ["Você", "Você, na maioria das vezes", "Agência, geralmente", "A IA da Supporta, a partir das suas respostas"] },
-  { label: "Tempo até ficar pronto", v: ["Depende do seu tempo", "Semanas, em geral", "Semanas ou meses", "Minutos, com prévia antes de pagar"] },
+  { label: "Tempo até ficar pronto", v: ["Depende do seu tempo", "Semanas, em geral", "Semanas ou meses", `Até ${pricing.prazoHoras}h, com prévia antes de pagar`] },
   { label: "Feito pro celular e rápido", v: ["Depende do modelo", "Depende do profissional", true, "Meta de 90+ no PageSpeed"] },
   { label: "Dados estruturados e llms.txt", v: [false, "Raramente", "Às vezes", true] },
   { label: "Robôs das IAs liberados", v: ["Depende do construtor", "Raramente conferido", "Às vezes", true] },
-  { label: "Ajustes depois de pronto", v: ["Você faz", "Cobrado à parte", "Cobrado à parte", "1 por mês, incluso"] },
+  { label: "Ajustes depois de pronto", v: ["Você faz", "Cobrado à parte", "Cobrado à parte", `Sem custo por ${pricing.diasAlteracaoGratis} dias; depois ${priceLabel(pricing.alteracao)} cada`] },
   { label: "Se a pessoa sumir", v: ["Não se aplica", "Site fica sem suporte", "Contrato", "Contrato e área do cliente"] },
-  { label: "Modelo de contratação", v: ["Assinatura do construtor", "Compra do site", "Compra do site", "Assinatura do site (mínimo de 12 meses)"] },
-  { label: "Se parar de pagar", v: ["Site sai do ar", "Site continua, sem manutenção", "Site continua, sem manutenção", "Site sai do ar; o domínio é seu"] },
+  { label: "Modelo de contratação", v: ["Assinatura do construtor", "Compra do site", "Compra do site", "Pagamento único e renovação anual, sem multa"] },
+  { label: "Se parar de pagar", v: ["Site sai do ar", "Site continua, sem manutenção", "Site continua, sem manutenção", "Site fica no ar até o fim do ano pago"] },
 ];
 
 const faq: FaqItem[] = [
   { q: "Vale a pena fazer o site sozinho num construtor?", a: "Vale se você tem tempo e gosta de mexer. O custo aparece no seu tempo: escrever textos, ajustar no celular, cuidar de SEO e manter atualizado. Muita gente começa e o site fica pela metade." },
-  { q: "Quando faz sentido contratar uma agência?", a: "Quando o projeto é grande ou muito específico: lojas virtuais complexas, sistemas, integrações. Para um site institucional de empresa local, a assinatura costuma resolver com menos custo e menos dor de cabeça." },
-  { q: "O site da Supporta é meu?", a: "A Supporta é uma assinatura, não a venda de um site. O site fica no ar e mantido enquanto a assinatura estiver ativa e, se ela acabar, nada é entregue. O domínio é registrado no seu CPF ou CNPJ e continua seu. É como uma assinatura de serviço: você não paga uma obra, paga para ter o site funcionando todo mês." },
+  { q: "Quando faz sentido contratar uma agência?", a: "Quando o projeto é grande ou muito específico: lojas virtuais complexas, sistemas, integrações. Para um site institucional de empresa local, a Supporta costuma resolver com menos custo e menos dor de cabeça." },
+  { q: "O site da Supporta é meu?", a: `Você paga ${priceLabel(pricing.site)} uma vez pelo site, e ele fica publicado na plataforma da Supporta enquanto a renovação anual do endereço e da hospedagem (${priceLabel(pricing.endereco)} por ano a partir do 2º ano) estiver em dia. Os textos, fotos e o logo que você enviou continuam seus, e o domínio próprio, se tiver, é registrado no seu CPF ou CNPJ.` },
 ];
 
 function Cell({ v, highlight }: { v: V; highlight: boolean }) {

@@ -2,6 +2,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { TemplateMarquee } from "@/components/home/TemplateMarquee";
 import { AiLogos } from "@/components/ui/AiLogos";
 import { Button } from "@/components/ui/Button";
+import { pricing } from "@/lib/plans";
 
 export function Hero() {
   return (
@@ -13,13 +14,13 @@ export function Hero() {
         <div className="min-w-0 lg:py-16">
           <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-white/80 py-1.5 pl-1.5 pr-4 text-sm font-medium text-ink shadow-[0_1px_0_rgb(11_11_15/0.04)] backdrop-blur">
             <span aria-hidden className="neon-pulse ml-2 h-2 w-2 rounded-full bg-pink shadow-[0_0_10px_rgb(255_61_113/0.9)]" />
-            Sites por assinatura, a partir de R$49,90/mês
+            Site profissional por R${pricing.site}, pago uma vez
           </p>
           <h1 id="hero-title" className="mt-6 text-[clamp(3rem,8.5vw,5.75rem)] leading-[0.92] tracking-[-0.065em]">
-            <span className="block">Seu site no ar.</span> <span className="neon-text block">Todo mês.</span>
+            <span className="block">Seu site no ar.</span> <span className="neon-text block">Em até {pricing.prazoHoras} horas.</span>
           </h1>
           <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-graphite md:text-xl">
-            Responda um jogo rápido e a IA monta o site da sua empresa em minutos. Você vê a prévia antes de pagar. Hospedagem, manutenção e GEO inclusos.
+            Responda um jogo rápido e a IA monta o site da sua empresa em minutos. Você vê a prévia antes de pagar, paga uma vez e ele fica pronto em até {pricing.prazoHoras}h. Hospedagem e GEO inclusos.
           </p>
           <div className="mt-8 flex flex-nowrap gap-3">
             <Button href="/criar" size="lg" variant="neon" className="max-sm:px-5" data-track="plan_click" data-track-origin="hero">
@@ -30,7 +31,7 @@ export function Hero() {
             </Button>
           </div>
           <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm text-graphite lg:flex-nowrap">
-            {["Sem custo de criação", "Hospedagem e SSL inclusos", "Domínio grátis no 1º ano"].map((t) => (
+            {["Sem mensalidade", "Hospedagem e SSL inclusos no 1º ano", "Prévia antes de pagar"].map((t) => (
               <li key={t} className="flex items-center gap-1.5 whitespace-nowrap">
                 <Check aria-hidden strokeWidth={2} className="h-4 w-4 text-pink" />
                 {t}

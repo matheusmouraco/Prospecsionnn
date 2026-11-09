@@ -1,5 +1,8 @@
 import { db, monthStart, tryDb } from "./db";
-import type { Cycle, PlanId } from "./plans";
+import type { PlanId } from "./plans";
+
+/** Assinaturas antigas tinham ciclo mensal; no preço único a renovação é sempre anual. */
+export type Cycle = "mensal" | "anual";
 
 // Acesso ao schema supporta. Cada função devolve null quando não há banco configurado.
 
@@ -25,6 +28,8 @@ export type Assinatura = {
   briefing_enviado_em: Date | null;
   modelo: string | null;
   site_id: string | null;
+  dominio_proprio: boolean;
+  valor_anual: string | null;
   cancelamento_pedido_em: Date | null;
   cancelar_em: Date | null;
   criado_em: Date;
@@ -66,7 +71,18 @@ export type Solicitacao = {
   concluido_em: Date | null;
 };
 
-export type Ajuste = { id: string; cliente_id: string; descricao: string; status: "aberto" | "em_andamento" | "feito"; pedido_em: Date; concluido_em: Date | null };
+export type Ajuste = {
+  id: string;
+  cliente_id: string;
+  descricao: string;
+  status: "aberto" | "em_andamento" | "feito";
+  pedido_em: Date;
+  concluido_em: Date | null;
+  /** Alteração cobrada (depois de 30 dias da entrega): valor, link da fatura e se já foi paga. */
+  valor: string;
+  cobranca_url: string | null;
+  pago: boolean;
+};
 
 export function saveLead(lead: { email: string | null; site: string; ip: string; relatorio: unknown; enviado: boolean; origem?: string }) {
   return tryDb("saveLead", async (sql) => {
@@ -90,15 +106,17 @@ export function createSubscription(input: {
   origem: Record<string, string>;
   modelo: string | null;
   siteId?: string | null;
+  dominioProprio?: boolean;
+  valorAnual?: number;
   aceite: { text: string; termsVersion: string; termsUrl: string; acceptedAt: string; ip: string; userAgent: string };
 }) {
   return tryDb("createSubscription", (sql) =>
     sql.begin(async (tx) => {
       const [row] = await tx`
-        insert into assinaturas (referencia, plano, ciclo, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem, modelo, site_id, briefing_enviado_em)
+        insert into assinaturas (referencia, plano, ciclo, valor, status, provedor, empresa, responsavel, documento, email, whatsapp, briefing_inicial, origem, modelo, site_id, briefing_enviado_em, dominio_proprio, valor_anual)
         values (${input.referencia}, ${input.plano}, ${input.ciclo}, ${input.valor}, ${input.status}, ${input.provedor}, ${input.customer.company}, ${input.customer.name},
                 ${input.customer.cpfCnpj}, ${input.customer.email}, ${input.customer.phone}, ${tx.json(input.briefing)}, ${tx.json(input.origem)}, ${input.modelo},
-                ${input.siteId ?? null}, ${input.siteId ? new Date() : null})
+                ${input.siteId ?? null}, ${input.siteId ? new Date() : null}, ${input.dominioProprio ?? false}, ${input.valorAnual ?? null})
         returning id`;
       await tx`
         insert into aceites (assinatura_id, texto, versao_termos, url_termos, aceito_em, ip, user_agent)
@@ -153,16 +171,6 @@ export function countApprovedPayments(assinaturaId: string) {
       select count(distinct coalesce(bruto->>'id', id::text))::int as n
       from eventos_pagamento where assinatura_id = ${assinaturaId} and tipo = 'payment_approved'`;
     return row.n as number;
-  });
-}
-
-/** Marca o desconto de fidelidade como aplicado. true só na primeira vez. */
-export function markLoyaltyDiscount(id: string, valor: number) {
-  return tryDb("markLoyaltyDiscount", async (sql) => {
-    const rows = await sql`
-      update assinaturas set desconto_fidelidade_em = now(), valor = ${valor}, atualizado_em = now()
-      where id = ${id} and desconto_fidelidade_em is null returning id`;
-    return rows.length > 0;
   });
 }
 
@@ -237,9 +245,11 @@ export function countAdjustmentsThisMonth(clienteId: string) {
   });
 }
 
-export function createAdjustment(clienteId: string, descricao: string) {
+export function createAdjustment(clienteId: string, descricao: string, cobranca: { valor: number; url: string | null; pago: boolean } = { valor: 0, url: null, pago: true }) {
   return tryDb("createAdjustment", async (sql) => {
-    const [row] = await sql<Ajuste[]>`insert into ajustes (cliente_id, descricao) values (${clienteId}, ${descricao}) returning *`;
+    const [row] = await sql<Ajuste[]>`
+      insert into ajustes (cliente_id, descricao, valor, cobranca_url, pago)
+      values (${clienteId}, ${descricao}, ${cobranca.valor}, ${cobranca.url}, ${cobranca.pago}) returning *`;
     return row;
   });
 }

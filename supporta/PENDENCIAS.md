@@ -111,3 +111,11 @@ O cliente joga o criador em `/criar`, a IA do VPS monta a home, ele vê a prévi
 - [ ] VPS (`/opt/prospector/.env`): `SUPPORTA_URL=https://supporta.com.br` e `SUPPORTA_WORKER_SECRET=<o mesmo da Vercel>`. Depois, no Mac: `bash deploy/enviar-para-vps.sh` e `ssh root@72.61.57.12 'pm2 restart agendador'`.
 - [ ] Teste real: jogar o criador com os seus dados, esperar a prévia (uns 6 minutos), assinar e conferir o site no subdomínio.
 - Custo: cerca de US$ 1 por prévia (inclusive de quem não assina), mais uns US$ 0,30 por página interna depois do pagamento.
+
+## Preço único (nov/2026)
+
+- Modelo: site R$99 pago uma vez (pronto em até 2h); endereço nome.supporta.com.br incluso no 1º ano e R$45/ano a partir do 2º; domínio próprio opcional R$75/ano desde o 1º; alterações sem custo por 30 dias depois da entrega e R$50 cada depois. Valores em `lib/plans.ts` (`pricing`).
+- Stripe: não precisa mais cadastrar preços no painel (o checkout cria os preços na hora). Basta `STRIPE_SECRET_KEY`, o webhook (`checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`, `customer.subscription.deleted`) e o Customer Portal para troca de cartão. A cobrança cria uma assinatura anual com 365 dias de carência: hoje cobra o site (e o 1º ano do domínio, se pedido) e a renovação começa no 2º ano.
+- Banco: migration `0005_preco_unico.sql` aplicada (domínio próprio e valor anual na assinatura; valor e link de cobrança nas alterações).
+- Links antigos `/assinar/start` e `/assinar/premium` redirecionam para `/criar`.
+- Confirmar nos Termos a regra de propriedade: com a hospedagem encerrada, o código e o design ficam com a Supporta; conteúdo e domínio são do cliente.

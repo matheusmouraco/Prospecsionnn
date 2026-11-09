@@ -1,4 +1,4 @@
-import type { Cycle, Plan } from "@/lib/plans";
+import type { Plan } from "@/lib/plans";
 
 export type Customer = {
   name: string;
@@ -10,10 +10,12 @@ export type Customer = {
 
 export type CheckoutInput = {
   plan: Plan;
-  /** Mensal ou anual. */
-  cycle: Cycle;
-  /** Valor de cada cobrança no ciclo (mensalidade ou anuidade), em reais. */
-  amount: number;
+  /** Cliente quer domínio próprio .com.br (cobrado já no 1º ano e renovado todo ano). */
+  dominio: boolean;
+  /** Cobrado hoje: o site (pago uma vez) e, se pedido, o 1º ano do domínio. Em reais. */
+  hoje: number;
+  /** Renovação anual a partir do 2º ano: endereço e, se pedido, domínio. Em reais. */
+  anual: number;
   customer: Customer;
   /** Identificador nosso da assinatura, enviado ao provedor e devolvido nos webhooks. */
   reference: string;
@@ -52,14 +54,10 @@ export interface PaymentProvider {
   parseWebhook(request: Request): Promise<PaymentEvent>;
   /** Últimas faturas do cliente, para a área do cliente. */
   listInvoices(customerId: string): Promise<Invoice[]>;
-  /** Desconto de quem continua depois do prazo mínimo: passa a cobrar `value` nas próximas cobranças. */
-  applyLoyaltyDiscount(input: { subscriptionId: string; value: number; plan: Plan; cycle: Cycle }): Promise<void>;
   /** Página do provedor onde o cliente troca o cartão sozinho, quando o provedor oferece. */
   manageUrl?(customerId: string, returnUrl: string): Promise<string | null>;
-  /** Troca o plano da assinatura. O novo valor vale a partir da próxima cobrança, sem cobrança proporcional. */
-  changePlan(input: { subscriptionId: string; plan: Plan; cycle: Cycle; value: number; loyalty: boolean }): Promise<void>;
-  /** Para as próximas cobranças. O site fica no ar até o fim do período já pago (controlado por nós). */
+  /** Para as renovações anuais. O site fica no ar até o fim do ano já pago (controlado por nós). */
   cancelSubscription(subscriptionId: string): Promise<void>;
-  /** Cobrança avulsa (multa de cancelamento antecipado). Devolve o link da fatura e se já foi paga. */
+  /** Cobrança avulsa (alteração depois de 30 dias). Devolve o link da fatura e se já foi paga. */
   chargeOnce(input: { customerId: string; value: number; description: string; reference: string }): Promise<{ url: string | null; paid: boolean }>;
 }

@@ -1,15 +1,12 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { Cycle, PlanId } from "@/lib/plans";
+import { pricing } from "@/lib/plans";
 import type { CheckoutInput, CheckoutResult, Invoice, PaymentEvent, PaymentProvider } from "./types";
 
-// Stripe Billing via Checkout Session (modo subscription). Sem SDK para manter o bundle leve:
-// chamadas REST com form-encoding e verificação manual da assinatura do webhook.
-
-// Um Price recorrente por plano e ciclo no painel da Stripe (mensal: interval=month; anual: interval=year).
-const priceIds: Record<Cycle, Record<PlanId, string | undefined>> = {
-  mensal: { start: process.env.STRIPE_PRICE_START, pro: process.env.STRIPE_PRICE_PRO, premium: process.env.STRIPE_PRICE_PREMIUM },
-  anual: { start: process.env.STRIPE_PRICE_START_ANUAL, pro: process.env.STRIPE_PRICE_PRO_ANUAL, premium: process.env.STRIPE_PRICE_PREMIUM_ANUAL },
-};
+// Stripe via Checkout Session. Sem SDK para manter o bundle leve: chamadas REST com form-encoding
+// e verificação manual da assinatura do webhook.
+// Uma sessão só cobra o site (avulso, hoje) e cria a renovação anual com 365 dias de carência:
+// o endereço (e o domínio, se pedido) só começa a ser cobrado no 2º ano. Preços criados na hora
+// (price_data), então não há preço para cadastrar no painel da Stripe.
 
 function form(data: Record<string, string>) {
   return new URLSearchParams(data).toString();
@@ -41,35 +38,34 @@ export const stripeProvider: PaymentProvider = {
   name: "stripe",
 
   async createSubscriptionCheckout(input: CheckoutInput): Promise<CheckoutResult> {
-    const price = priceIds[input.cycle][input.plan.id];
-    if (!price) throw new Error(`Stripe: STRIPE_PRICE_${input.plan.id.toUpperCase()}${input.cycle === "anual" ? "_ANUAL" : ""} não configurado.`);
-    const metadata: Record<string, string> = {};
-    for (const [k, v] of Object.entries({ reference: input.reference, plan: input.plan.id, ...input.metadata })) {
-      metadata[`metadata[${k}]`] = v;
-      metadata[`subscription_data[metadata][${k}]`] = v;
-    }
-    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
-        "content-type": "application/x-www-form-urlencoded",
-      },
-      body: form({
-        mode: "subscription",
-        "line_items[0][price]": price,
-        "line_items[0][quantity]": "1",
-        "payment_method_types[0]": "card",
-        customer_email: input.customer.email,
-        client_reference_id: input.reference,
-        success_url: input.successUrl,
-        cancel_url: input.cancelUrl,
-        locale: "pt-BR",
-        ...metadata,
-      }),
-      signal: AbortSignal.timeout(15_000),
+    const items: { nome: string; valor: number; anual: boolean }[] = [
+      { nome: "Site profissional Supporta (pago uma vez)", valor: pricing.site, anual: false },
+      ...(input.dominio ? [{ nome: "Domínio próprio .com.br, 1º ano", valor: pricing.dominio, anual: false }] : []),
+      { nome: "Renovação anual do endereço e hospedagem (a partir do 2º ano)", valor: pricing.endereco, anual: true },
+      ...(input.dominio ? [{ nome: "Renovação anual do domínio próprio (a partir do 2º ano)", valor: pricing.dominio, anual: true }] : []),
+    ];
+    const body: Record<string, string> = {
+      mode: "subscription",
+      "payment_method_types[0]": "card",
+      customer_email: input.customer.email,
+      client_reference_id: input.reference,
+      success_url: input.successUrl,
+      cancel_url: input.cancelUrl,
+      locale: "pt-BR",
+      "subscription_data[trial_period_days]": "365",
+    };
+    items.forEach((it, i) => {
+      body[`line_items[${i}][quantity]`] = "1";
+      body[`line_items[${i}][price_data][currency]`] = "brl";
+      body[`line_items[${i}][price_data][unit_amount]`] = String(Math.round(it.valor * 100));
+      body[`line_items[${i}][price_data][product_data][name]`] = it.nome;
+      if (it.anual) body[`line_items[${i}][price_data][recurring][interval]`] = "year";
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(`Stripe: ${data?.error?.message ?? res.status}`);
+    for (const [k, v] of Object.entries({ reference: input.reference, plan: input.plan.id, dominio: input.dominio ? "sim" : "nao", ...input.metadata })) {
+      body[`metadata[${k}]`] = v;
+      body[`subscription_data[metadata][${k}]`] = v;
+    }
+    const data = await stripe<{ url: string; subscription?: string }>("/checkout/sessions", body);
     return { redirectUrl: data.url, providerSubscriptionId: data.subscription ?? undefined };
   },
 
@@ -98,19 +94,6 @@ export const stripeProvider: PaymentProvider = {
     };
   },
 
-  async applyLoyaltyDiscount({ subscriptionId }) {
-    // Cupom percentual com duração "forever" criado no painel (STRIPE_COUPON_FIDELIDADE).
-    const coupon = process.env.STRIPE_COUPON_FIDELIDADE;
-    if (!coupon) throw new Error("Stripe: STRIPE_COUPON_FIDELIDADE não configurado.");
-    const res = await fetch(`https://api.stripe.com/v1/subscriptions/${encodeURIComponent(subscriptionId)}`, {
-      method: "POST",
-      headers: { authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`, "content-type": "application/x-www-form-urlencoded" },
-      body: form({ "discounts[0][coupon]": coupon }),
-      signal: AbortSignal.timeout(10_000),
-    });
-    if (!res.ok) throw new Error(`Stripe: ${(await res.json().catch(() => ({})))?.error?.message ?? res.status}`);
-  },
-
   async listInvoices(customerId: string): Promise<Invoice[]> {
     const res = await fetch(`https://api.stripe.com/v1/invoices?customer=${encodeURIComponent(customerId)}&limit=12`, {
       headers: { authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}` },
@@ -125,21 +108,6 @@ export const stripeProvider: PaymentProvider = {
       status: i.status,
       url: i.hosted_invoice_url,
     }));
-  },
-
-  async changePlan({ subscriptionId, plan, cycle }) {
-    const price = priceIds[cycle][plan.id];
-    if (!price) throw new Error(`Stripe: preço do plano ${plan.id} ${cycle} não configurado.`);
-    const sub = await stripe<{ items: { data: { id: string }[] } }>(`/subscriptions/${encodeURIComponent(subscriptionId)}`);
-    const itemId = sub.items?.data?.[0]?.id;
-    if (!itemId) throw new Error("Stripe: assinatura sem item.");
-    // O cupom de fidelidade, se houver, continua valendo no preço novo.
-    await stripe(`/subscriptions/${encodeURIComponent(subscriptionId)}`, {
-      "items[0][id]": itemId,
-      "items[0][price]": price,
-      proration_behavior: "none",
-      "metadata[plan]": plan.id,
-    });
   },
 
   async cancelSubscription(subscriptionId: string) {

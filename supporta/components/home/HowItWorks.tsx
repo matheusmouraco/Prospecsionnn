@@ -2,11 +2,12 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { NeonArt, type ArtName } from "@/components/ui/NeonArt";
 import { Section, SectionHeading } from "@/components/ui/Section";
+import { priceLabel, pricing } from "@/lib/plans";
 
 const steps: { n: string; title: string; text: string; art: ArtName }[] = [
   { n: "01", title: "Responde as escolhas", text: "Um jogo rápido de escolhas sobre a sua empresa, o estilo e as cores. Sem formulário longo e sem reunião.", art: "passo-2-briefing" },
   { n: "02", title: "Vê a prévia", text: "Em poucos minutos a IA monta o seu site, com os textos e a sua marca. Você vê tudo antes de pagar.", art: "passo-3-navegador" },
-  { n: "03", title: "Assina e está no ar", text: "Escolhe o plano, paga no cartão e o site entra no ar sozinho em nome.supporta.com.br. O domínio próprio a gente combina pelo WhatsApp.", art: "passo-1-cartao" },
+  { n: "03", title: "Paga uma vez e está no ar", text: `Paga ${priceLabel(pricing.site)} no cartão, uma vez só, e o site entra no ar em até ${pricing.prazoHoras}h em nome.supporta.com.br. O domínio próprio a gente combina pelo WhatsApp.`, art: "passo-1-cartao" },
 ];
 
 export function HowItWorks() {

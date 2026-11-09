@@ -9,6 +9,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { geoFaq } from "@/lib/faqs";
 import { articleSchema, faqSchema } from "@/lib/schema";
+import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -79,9 +80,9 @@ const sections = [
   {
     id: "como-fazemos",
     title: "Como a Supporta faz GEO para a sua empresa?",
-    answer: "Todo plano já inclui o GEO completo da base técnica: dados estruturados, llms.txt e robots.txt liberado para as IAs.",
+    answer: "Todo site da Supporta já sai com o GEO completo da base técnica: dados estruturados, llms.txt e robots.txt liberado para as IAs.",
     body: [
-      "Os três planos têm o mesmo GEO. O que muda é o tamanho do site: o plano Landing page tem 1 página, o plano Site tem até 5 páginas (início, sobre, serviços, perguntas e contato) e o plano Site com blog soma um blog com 2 artigos iniciais escritos pela IA para responder perguntas reais dos seus clientes.",
+      `O site tem até 5 páginas (início, sobre, serviços, perguntas e contato), com textos escritos pela IA a partir das suas respostas para responder perguntas reais dos seus clientes. Custa ${priceLabel(pricing.site)}, pago uma vez, e fica pronto em até ${pricing.prazoHoras}h.`,
     ],
   },
 ];
@@ -128,8 +129,8 @@ export default function GeoPage() {
                   ))}
                   {s.extra}
                   {i === 2 || i === 6 ? (
-                    <Button href={i === 2 ? "/diagnostico" : "/#planos"} size="lg" className="mt-8" data-track={i === 6 ? "plan_click" : undefined} data-track-origin="geo">
-                      {i === 2 ? "Testar se meu site está pronto pras IAs" : "Ver planos"} <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
+                    <Button href={i === 2 ? "/diagnostico" : "/planos"} size="lg" className="mt-8" data-track={i === 6 ? "plan_click" : undefined} data-track-origin="geo">
+                      {i === 2 ? "Testar se meu site está pronto pras IAs" : "Ver o preço"} <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
                     </Button>
                   ) : null}
                 </div>

@@ -1,3 +1,7 @@
+// Preço da Supporta (nov/2026): o site é pago uma vez. Depois do 1º ano, só renova o endereço;
+// domínio próprio é opcional. Mudar aqui muda o site, o checkout, os Termos e o llms.txt.
+
+// O banco aceita 'start' | 'pro' | 'premium' (assinaturas antigas); o produto atual é um só: 'pro'.
 export type PlanId = "start" | "pro" | "premium";
 
 export type Plan = {
@@ -6,47 +10,52 @@ export type Plan = {
   price: number;
   pitch: string;
   features: string[];
-  /** Linha antes da lista, quando o plano soma ao anterior. */
-  includes?: string;
   highlight?: boolean;
 };
 
-// Os três planos têm os mesmos extras; muda só o tamanho do site. Sob medida vai para o WhatsApp do Matheus (customProject).
-const extras = [
-  "Criado pela IA a partir das suas respostas, com a sua marca",
-  "Domínio .com.br incluso no 1º ano",
-  "Hospedagem, SSL e manutenção",
-  "Botão de WhatsApp e Google Maps",
-  "GEO: dados estruturados, llms.txt e robots liberado pras IAs",
-  "1 ajuste por mês",
-];
+export const pricing = {
+  /** Site profissional, pago uma vez. */
+  site: 99,
+  /** Horas até o site ficar pronto depois do pagamento. */
+  prazoHoras: 2,
+  /** Endereço nome.supporta.com.br (hospedagem incluída): incluso no 1º ano, renova por ano a partir do 2º. */
+  endereco: 45,
+  /** Domínio próprio .com.br, opcional, por ano desde o 1º ano. */
+  dominio: 75,
+  /** Alterações sem custo até estes dias depois da entrega do site. */
+  diasAlteracaoGratis: 30,
+  /** Cada alteração depois desse prazo. */
+  alteracao: 50,
+};
 
 export const plans: Plan[] = [
   {
-    id: "start",
-    name: "Landing page",
-    price: 49.9,
-    pitch: "Uma página completa para apresentar a empresa e levar ao WhatsApp.",
-    features: ["Site de 1 página (landing page)", ...extras],
-  },
-  {
     id: "pro",
-    name: "Site",
-    price: 99.9,
-    pitch: "Site com até 5 páginas: início, sobre, serviços, perguntas e contato.",
+    name: "Site profissional",
+    price: pricing.site,
+    pitch: `Pago uma vez, pronto em até ${pricing.prazoHoras}h. Criado pela IA a partir das suas respostas, com a sua marca.`,
     highlight: true,
-    features: ["Site com até 5 páginas", ...extras],
-  },
-  {
-    id: "premium",
-    name: "Site com blog",
-    price: 149.9,
-    pitch: "O site de 5 páginas com um blog para aparecer em mais buscas e nas IAs.",
-    features: ["Site com até 5 páginas e blog", "2 artigos iniciais no blog, escritos pela IA", ...extras],
+    features: [
+      "Site completo com até 5 páginas: início, sobre, serviços, perguntas e contato",
+      "Feito pro celular, com botão de WhatsApp e Google Maps",
+      "Endereço nome.supporta.com.br e hospedagem com SSL inclusos no 1º ano",
+      "GEO: dados estruturados, llms.txt e robots liberado pras IAs",
+      `Alterações sem custo nos primeiros ${pricing.diasAlteracaoGratis} dias`,
+    ],
   },
 ];
 
-/** Projeto sob medida: fora da assinatura automática, falado direto com o Matheus. */
+export const site99 = plans[0];
+
+/** Linhas do "tudo o que você paga". */
+export const priceRows = [
+  { item: "Site profissional", detail: `pago uma vez, pronto em até ${pricing.prazoHoras}h`, value: pricing.site, per: "" },
+  { item: "Endereço .supporta.com.br", detail: "incluso no 1º ano, depois renova", value: pricing.endereco, per: "/ano" },
+  { item: "Domínio próprio .com.br", detail: "opcional, renova todo ano", value: pricing.dominio, per: "/ano" },
+  { item: "Alteração no site", detail: `depois de ${pricing.diasAlteracaoGratis} dias da entrega`, value: pricing.alteracao, per: "/cada" },
+];
+
+/** Projeto sob medida: fora do site automático, falado direto com o Matheus. */
 export const customProject = {
   label: "Quer algo personalizado?",
   cta: "Falar com o Matheus",
@@ -54,87 +63,28 @@ export const customProject = {
   message: "Oi, Matheus! Vim pela Supporta, mas quero um projeto personalizado.",
 };
 
-/** Preço formatado com centavos, como aparece para o cliente (R$ 49,90). */
+/** Preço formatado com centavos, como aparece para o cliente (R$ 99,00). */
 export const priceLabel = (value: number) => value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export const planIds = plans.map((p) => p.id);
 
-/** Ajustes incluídos por mês (null = ilimitado). */
-export const adjustmentsPerMonth: Record<PlanId, number | null> = { start: 1, pro: 1, premium: 1 };
-
-export function getPlan(id: string) {
+/** Assinaturas antigas podem ter outros ids; todas valem como o produto atual. */
+export function getPlan(id: string): Plan | undefined {
+  if (id === "start" || id === "premium") return { ...site99, id };
   return plans.find((p) => p.id === id);
 }
 
-/** Como a assinatura é cobrada: todo mês ou uma vez por ano. */
-export type Cycle = "mensal" | "anual";
-export const cycles: Cycle[] = ["mensal", "anual"];
-export const parseCycle = (v: unknown): Cycle => (v === "anual" ? "anual" : "mensal");
-
-/** Regras comerciais da assinatura. Mudar aqui muda o site, o checkout, os Termos e o llms.txt. */
-export const billing = {
-  /** Prazo mínimo de contrato, em meses. */
-  minMonths: 12,
-  /** Cancelamento antes do fim do prazo mínimo: multa sobre o valor das mensalidades que faltam. */
-  earlyCancelFeePct: 30,
-  /** Desconto na mensalidade a partir do 13º mês, para quem continua. */
-  loyaltyDiscountPct: 10,
-  /** No anual, o cliente paga este número de mensalidades e leva 12 meses. */
-  annualMonthsCharged: 10,
-};
-
-const round2 = (n: number) => Math.round(n * 100) / 100;
-
-/** Valor de cada cobrança no ciclo escolhido (mensalidade ou anuidade). */
-export function priceFor(plan: Pick<Plan, "price">, cycle: Cycle) {
-  return round2(cycle === "anual" ? plan.price * billing.annualMonthsCharged : plan.price);
+/** O que o cliente paga hoje e a cada ano a partir do 2º, com ou sem domínio próprio. */
+export function chargesFor(dominio: boolean) {
+  return {
+    hoje: pricing.site + (dominio ? pricing.dominio : 0),
+    anual: pricing.endereco + (dominio ? pricing.dominio : 0),
+  };
 }
 
-/** Valor de cada cobrança a partir do 13º mês, já com o desconto de quem continua. */
-export function loyaltyPriceFor(plan: Pick<Plan, "price">, cycle: Cycle) {
-  return round2(priceFor(plan, cycle) * (1 - billing.loyaltyDiscountPct / 100));
+/** Alteração sem custo enquanto o site tem até `diasAlteracaoGratis` dias no ar (ou ainda não foi entregue). */
+export function alteracaoGratis(publicadoEm: Date | string | null, agora = new Date()) {
+  if (!publicadoEm) return true;
+  const dias = (agora.getTime() - new Date(publicadoEm).getTime()) / 86_400_000;
+  return dias <= pricing.diasAlteracaoGratis;
 }
-
-/** Meses grátis no anual (12 menos os meses cobrados). */
-export const annualFreeMonths = 12 - billing.annualMonthsCharged;
-
-/** Multa de cancelamento antecipado no plano mensal, dado quantas mensalidades já foram pagas. */
-export function earlyCancelFee(plan: Pick<Plan, "price">, paidMonths: number) {
-  const remaining = Math.max(0, billing.minMonths - paidMonths);
-  return round2(remaining * plan.price * (billing.earlyCancelFeePct / 100));
-}
-
-const perPlan = (fn: (p: Plan) => string) => Object.fromEntries(plans.map((p) => [p.id, fn(p)])) as Record<PlanId, string>;
-
-/** Linhas da tabela comparativa. true = incluso, false = não incluso, string = valor. */
-export const comparison: { group: string; rows: { label: string; values: Record<PlanId, boolean | string> }[] }[] = [
-  {
-    group: "Site",
-    rows: [
-      { label: "Tamanho", values: { start: "1 página", pro: "Até 5 páginas", premium: "Até 5 páginas" } },
-      { label: "Blog", values: { start: false, pro: false, premium: "Com 2 artigos iniciais" } },
-      { label: "Criado pela IA com a sua marca", values: { start: true, pro: true, premium: true } },
-      { label: "Feito pro celular", values: { start: true, pro: true, premium: true } },
-      { label: "Botão de WhatsApp e Google Maps", values: { start: true, pro: true, premium: true } },
-    ],
-  },
-  {
-    group: "Infraestrutura e GEO",
-    rows: [
-      { label: "Domínio .com.br", values: { start: "Incluso no 1º ano", pro: "Incluso no 1º ano", premium: "Incluso no 1º ano" } },
-      { label: "Hospedagem, SSL e manutenção", values: { start: true, pro: true, premium: true } },
-      { label: "Dados estruturados, llms.txt e robots pras IAs", values: { start: true, pro: true, premium: true } },
-      { label: "Ajustes por mês", values: { start: "1", pro: "1", premium: "1" } },
-    ],
-  },
-  {
-    group: "Contrato",
-    rows: [
-      { label: "Custo de criação", values: { start: "R$0", pro: "R$0", premium: "R$0" } },
-      { label: "Pagamento no cartão", values: { start: "Mensal ou anual", pro: "Mensal ou anual", premium: "Mensal ou anual" } },
-      { label: `Anual (${billing.annualMonthsCharged} mensalidades por 12 meses)`, values: perPlan((p) => `${priceLabel(priceFor(p, "anual"))}/ano`) },
-      { label: "Prazo mínimo", values: { start: "12 meses", pro: "12 meses", premium: "12 meses" } },
-      { label: "Desconto a partir do 13º mês", values: perPlan(() => `${billing.loyaltyDiscountPct}%`) },
-    ],
-  },
-];

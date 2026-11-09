@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/ui/LegalPage";
-import { annualFreeMonths, billing, earlyCancelFee, loyaltyPriceFor, plans, priceFor, priceLabel } from "@/lib/plans";
+import { chargesFor, priceLabel, priceRows, pricing, site99 } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
-import { formatBRLCents, site } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Termos de Uso e da Assinatura | Supporta",
-  description: "Termos da assinatura Supporta: planos, cobrança mensal ou anual no cartão, prazo mínimo de 12 meses, multa, desconto, cancelamento, domínio, ajustes e prazos.",
+  title: "Termos de Uso | Supporta",
+  description: `Termos de uso da Supporta: site por ${priceLabel(pricing.site)} pago uma vez, renovação anual do endereço por ${priceLabel(pricing.endereco)} a partir do 2º ano, domínio opcional, alterações, cancelamento sem multa e arrependimento em 7 dias.`,
   path: "/termos",
 });
 
+const comDominio = chargesFor(true);
+
 export default function TermosPage() {
   return (
-    <LegalPage title="Termos de Uso e da Assinatura" path="/termos" updated="outubro de 2026">
+    <LegalPage title="Termos de Uso" path="/termos" updated="novembro de 2026">
       <p>
         Estes Termos regulam a contratação dos serviços da {site.name}, nome fantasia de <strong>{site.razaoSocial}</strong>, inscrita no CNPJ sob o
         nº <strong>{site.cnpj}</strong>, com sede na {site.address.street}, {site.address.city}/{site.address.state} (&quot;Supporta&quot;), por pessoas físicas ou jurídicas (&quot;Cliente&quot;). Versão {site.termsVersion}.
@@ -21,108 +23,102 @@ export default function TermosPage() {
 
       <h2>1. O serviço</h2>
       <p>
-        A Supporta cria, publica, hospeda e mantém o site do Cliente mediante assinatura, com cobrança mensal ou anual, conforme o plano e o ciclo escolhidos. Os planos e seus itens são os
-        publicados na página <Link href="/planos" className="link text-ink">Planos</Link> no momento da contratação:
+        A Supporta cria, publica e hospeda o site do Cliente. O site é montado por inteligência artificial a partir das respostas do Cliente no criador, com a marca dele, e o
+        Cliente vê a prévia antes de pagar. O produto e seus itens são os publicados na página <Link href="/planos" className="link text-ink">Preço</Link> no momento da contratação:
       </p>
       <ul>
-        {plans.map((p) => (
-          <li key={p.id}>
-            <strong>
-              {p.name} ({priceLabel(p.price)}/mês no mensal ou {formatBRLCents(priceFor(p, "anual"))}/ano no anual):
-            </strong> {p.features.join("; ")}.
+        <li>
+          <strong>
+            {site99.name} ({priceLabel(site99.price)}, pago uma vez):
+          </strong>{" "}
+          {site99.features.join("; ")}.
+        </li>
+      </ul>
+      <p>Valores de cada item:</p>
+      <ul>
+        {priceRows.map((r) => (
+          <li key={r.item}>
+            <strong>{r.item}:</strong> {priceLabel(r.value)}
+            {r.per}, {r.detail}.
           </li>
         ))}
       </ul>
+      <p>
+        Projetos personalizados, fora do site criado automaticamente, são combinados à parte, diretamente pelo WhatsApp, com proposta e valores próprios.
+      </p>
 
       <h2>2. Pagamento</h2>
       <p>
-        A assinatura é cobrada no cartão de crédito informado pelo Cliente, por meio de parceiro de pagamento (Stripe), em um dos dois
-        ciclos escolhidos na contratação:
-      </p>
-      <ul>
-        <li>
-          <strong>Mensal:</strong> uma cobrança por mês no valor do plano. A primeira ocorre na contratação e as seguintes na mesma data dos meses subsequentes.
-        </li>
-        <li>
-          <strong>Anual:</strong> uma cobrança por ano equivalente a {billing.annualMonthsCharged} mensalidades, cobrindo 12 meses de assinatura ({annualFreeMonths}{" "}
-          meses sem custo). A primeira ocorre na contratação e as seguintes a cada 12 meses.
-        </li>
-      </ul>
-      <p>Não há custo de criação em nenhum dos ciclos. O Cliente pode trocar de ciclo na renovação, com aviso pelo WhatsApp ou e-mail.</p>
-      <p>
-        Em caso de recusa do cartão, a Supporta avisará o Cliente e fará novas tentativas. Com {site.overdue.suspendAfterDays} dias de atraso, o site poderá ser suspenso (fora do ar) até a regularização. Com{" "}
-        {site.overdue.cancelAfterDays} dias de atraso, a Supporta poderá encerrar a assinatura; se isso ocorrer dentro do prazo mínimo, aplica-se a multa do item 3
-        sobre as mensalidades que faltam, além dos valores em atraso.
+        O pagamento é feito no cartão de crédito informado pelo Cliente, por meio de parceiro de pagamento (Stripe). Na contratação, o Cliente paga{" "}
+        <strong>{priceLabel(pricing.site)} uma única vez</strong> pelo site, mais {priceLabel(pricing.dominio)} se escolher o domínio próprio (total de{" "}
+        {priceLabel(comDominio.hoje)}). Não há mensalidade. A nota fiscal é emitida a cada cobrança, no CPF ou CNPJ informado.
       </p>
 
-      <h2>3. Prazo mínimo de {billing.minMonths} meses, multa e desconto</h2>
+      <h2>3. Renovação anual</h2>
       <p>
-        A contratação é uma <strong>assinatura</strong>, e não a compra de um site: o site fica publicado e mantido enquanto a assinatura estiver ativa. A
-        assinatura tem prazo mínimo de {billing.minMonths} (doze) meses contados da primeira cobrança. <strong>É o que permite não cobrar a criação do site.</strong>
+        O endereço nome.supporta.com.br, com hospedagem e certificado SSL, está incluso no primeiro ano, contado da publicação do site. A partir do segundo ano, ele é
+        renovado automaticamente por <strong>{priceLabel(pricing.endereco)} por ano</strong>, cobrados no cartão cadastrado. Com domínio próprio, a renovação anual soma{" "}
+        {priceLabel(pricing.dominio)} do domínio, total de {priceLabel(comDominio.anual)} por ano. A Supporta avisa o Cliente por e-mail antes de cada renovação.
       </p>
       <p>
-        <strong>Cancelamento antes de {billing.minMonths} meses.</strong> Fora do prazo de arrependimento do item 4, o cancelamento pelo Cliente antes do fim do prazo
-        mínimo gera multa de <strong>{billing.earlyCancelFeePct}% sobre o valor das mensalidades que faltam</strong> para completar os {billing.minMonths} meses.
-        No ciclo mensal, a multa é cobrada uma única vez, no cartão cadastrado. Exemplo: no plano {plans[0].name}, cancelando após 8 mensalidades pagas, faltam 4 mensalidades de{" "}
-        {priceLabel(plans[0].price)}, e a multa é de {formatBRLCents(earlyCancelFee(plans[0], 8))}. No ciclo anual, o Cliente recebe de volta o valor proporcional aos meses não
-        usados, descontada a multa de {billing.earlyCancelFeePct}% sobre esse valor.
+        Em caso de recusa do cartão na renovação, a Supporta avisará o Cliente e fará novas tentativas. Com {site.overdue.suspendAfterDays} dias de atraso, o site poderá
+        ser suspenso (fora do ar) até a regularização. Com {site.overdue.cancelAfterDays} dias de atraso, a Supporta poderá encerrar a hospedagem do site.
       </p>
       <p>
-        <strong>Depois de {billing.minMonths} meses.</strong> A assinatura segue por prazo indeterminado e pode ser cancelada a qualquer momento,{" "}
-        <strong>sem multa</strong>, pela área do cliente, pelo WhatsApp ou por e-mail. A partir do 13º mês, o Cliente que continua tem{" "}
-        <strong>{billing.loyaltyDiscountPct}% de desconto</strong> sobre o valor do plano (por exemplo, o plano {plans[0].name} passa de {priceLabel(plans[0].price)} para{" "}
-        {formatBRLCents(loyaltyPriceFor(plans[0], "mensal"))} por mês no mensal), salvo reajuste comunicado conforme o item 10. O cancelamento interrompe a próxima
-        cobrança; o período já pago segue no ar até o fim.
+        Eventual reajuste dos valores de renovação será comunicado com pelo menos 30 dias de antecedência e só vale a partir da renovação seguinte.
+      </p>
+
+      <h2>4. Cancelamento</h2>
+      <p>
+        Não há prazo mínimo, fidelidade nem multa. O Cliente pode cancelar a renovação anual quando quiser, pela área do cliente, pelo WhatsApp ou por e-mail. O
+        cancelamento interrompe a próxima cobrança, e o site fica no ar até o fim do ano já pago. Valores de anos já iniciados não são devolvidos, salvo o direito de
+        arrependimento do item 5.
       </p>
       <p>O aceite destes Termos é registrado com data, hora, IP e versão do documento no momento da contratação.</p>
 
-      <h2>4. Direito de arrependimento</h2>
+      <h2>5. Direito de arrependimento</h2>
       <p>
-        Conforme o art. 49 do Código de Defesa do Consumidor, o Cliente pode desistir da contratação em até 7 (sete) dias da assinatura, com
-        devolução integral dos valores pagos. Esse direito vale tanto para pessoas físicas (CPF) quanto para empresas (CNPJ).
+        Conforme o art. 49 do Código de Defesa do Consumidor, o Cliente pode desistir da contratação em até 7 (sete) dias do pagamento, com
+        reembolso integral dos valores pagos. Esse direito vale tanto para pessoas físicas (CPF) quanto para empresas (CNPJ).
       </p>
 
-      <h2>5. Prazos de entrega</h2>
+      <h2>6. Prazo de entrega</h2>
       <p>
-        O site é montado pela IA a partir das respostas do Cliente e a prévia aparece antes da contratação. O site entra no ar automaticamente após a confirmação
-        do pagamento, em geral em minutos, e em até 1 dia útil, no endereço nome.supporta.com.br. A ligação de um domínio próprio é combinada com o Cliente pelo
-        WhatsApp.
+        O site é montado pela IA a partir das respostas do Cliente e a prévia aparece antes do pagamento. Depois da confirmação do pagamento, o site entra no ar em até{" "}
+        {pricing.prazoHoras} horas no endereço nome.supporta.com.br. A ligação de um domínio próprio é combinada com o Cliente pelo WhatsApp.
       </p>
 
-      <h2>6. Ajustes</h2>
+      <h2>7. Alterações</h2>
       <p>
-        Ajustes são pequenas alterações de conteúdo (textos, fotos, horários, preços, contatos), pedidos pelo WhatsApp. Todos os planos incluem 1 (um) ajuste por mês,
-        que não é cumulativo. Mudanças estruturais (novas seções, troca de modelo, novas páginas fora do plano) são avaliadas e combinadas à parte.
+        Alterações são mudanças de conteúdo (textos, fotos, horários, preços, contatos), pedidas pelo WhatsApp ou pela área do cliente. Nos primeiros{" "}
+        {pricing.diasAlteracaoGratis} dias depois da entrega do site, as alterações não têm custo. Depois desse prazo, cada alteração custa{" "}
+        <strong>{priceLabel(pricing.alteracao)}</strong>, cobrados no cartão cadastrado depois da confirmação do Cliente. Mudanças estruturais (novas seções, troca de
+        modelo, páginas além das incluídas) são avaliadas e combinadas à parte.
       </p>
 
-      <h2>7. Domínio</h2>
+      <h2>8. Domínio próprio</h2>
       <p>
-        O domínio .com.br incluso no primeiro ano é registrado em nome do Cliente (CPF ou CNPJ informado). A partir do segundo ano, a renovação do domínio é paga pelo Cliente, diretamente ao Registro.br, e não faz parte da mensalidade. Em caso de cancelamento,
-        o domínio continua registrado em nome do Cliente.
+        O domínio próprio .com.br é opcional e custa {priceLabel(pricing.dominio)} por ano desde o primeiro ano, renovado junto com o endereço. Ele é registrado em nome
+        do Cliente (CPF ou CNPJ informado). Se o Cliente cancelar a renovação, o domínio continua registrado em seu nome e pode ser renovado por ele diretamente no
+        Registro.br.
       </p>
 
-      <h2>8. Conteúdo e propriedade</h2>
+      <h2>9. Conteúdo e propriedade</h2>
       <p>
         O Cliente garante ter direito de uso sobre os materiais que envia (logo, fotos, textos) e é responsável pela veracidade das informações. Para profissões
         regulamentadas (como saúde, odontologia e advocacia), o Cliente é responsável por revisar e aprovar os textos conforme as regras do seu conselho de classe.
       </p>
       <p>
-        O conteúdo do Cliente pertence ao Cliente. O código, os modelos e o sistema de publicação pertencem à Supporta. Por se tratar de uma assinatura, <strong>nada é entregue ao Cliente com o fim dela</strong>: o site deixa de ser publicado e o
-        código, o layout, o design e os textos e imagens produzidos pela Supporta não são transferidos. Os materiais que o próprio Cliente enviou (logo, fotos e
+        O conteúdo do Cliente pertence ao Cliente. O código, os modelos e o sistema de publicação pertencem à Supporta. O site é publicado na plataforma da Supporta
+        enquanto a hospedagem estiver em dia: <strong>com o fim da hospedagem, o site deixa de ser publicado</strong> e o código, o layout e o design não são transferidos. Os materiais que o próprio Cliente enviou (logo, fotos e
         textos dele) continuam sendo dele, e o domínio continua registrado em seu nome.
       </p>
 
-      <h2>9. Disponibilidade e limitações</h2>
+      <h2>10. Disponibilidade e limitações</h2>
       <p>
         A Supporta se esforça para manter o site no ar continuamente, mas não garante disponibilidade ininterrupta, que depende de terceiros (hospedagem, provedores de
         internet, registro de domínio). A Supporta não garante posições no Google nem citações em ferramentas de inteligência artificial, cujos resultados não
         controla.
-      </p>
-
-      <h2>10. Mudança de plano e reajuste</h2>
-      <p>
-        O Cliente pode subir de plano a qualquer momento pela área do cliente: os recursos do plano novo valem na hora e o novo valor entra na próxima cobrança, sem cobrança proporcional. Descer de plano fica liberado depois do prazo mínimo. O valor
-        fica fixo durante os {billing.minMonths} meses iniciais; reajustes posteriores serão comunicados com pelo menos 30 dias de antecedência.
       </p>
 
       <h2>11. Dados pessoais</h2>

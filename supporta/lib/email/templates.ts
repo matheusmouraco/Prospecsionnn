@@ -85,25 +85,25 @@ ${p(`Prefere conversar? Responda este e-mail ou chame no WhatsApp: ${whatsappUrl
     ...report.checks.map((c) => `${c.ok ? "OK" : "Atenção"}: ${c.label}. ${c.detail}`),
     "Recomendações:",
     ...report.recommendations.map((r, i) => `${i + 1}. ${r.title}: ${r.text}`),
-    `Planos: ${absoluteUrl("/planos")}`,
+    `Preço: ${absoluteUrl("/planos")}`,
   ].filter(Boolean);
   return { subject: `Diagnóstico do ${host}`, html, text: text.join("\n") };
 }
 
 export function welcomeEmail({ nome, plano, prazo, briefingUrl }: { nome: string; plano: string; prazo: number; briefingUrl: string }) {
-  const body = `${p(`Oi, ${nome}. Pagamento confirmado: o plano ${plano} da Supporta está ativo.`)}
+  const body = `${p(`Oi, ${nome}. Pagamento confirmado: o seu site ${plano} da Supporta está confirmado.`)}
 ${p(`O próximo passo é o briefing completo. Leva uns 10 minutos e é por ele que você manda logo, fotos e as informações da empresa. O site fica pronto em até ${prazo} dias úteis depois do briefing.`)}
 ${button("Preencher o briefing", briefingUrl)}
 ${p(`Na sua área do cliente você acompanha o andamento e pede ajustes: ${absoluteUrl("/cliente")}`)}`;
   return {
-    subject: "Assinatura confirmada. Agora é o briefing",
+    subject: "Pagamento confirmado. Agora é o briefing",
     html: layout("Bem-vindo à Supporta", body, "Pagamento confirmado e próximo passo"),
     text: `Oi, ${nome}. Pagamento confirmado: plano ${plano} ativo.\nPreencha o briefing (10 minutos): ${briefingUrl}\nO site fica pronto em até ${prazo} dias úteis depois do briefing.\nÁrea do cliente: ${absoluteUrl("/cliente")}`,
   };
 }
 
 export function paymentRefusedEmail(nome: string) {
-  const msg = `Oi, ${nome}. A cobrança da sua assinatura Supporta não foi aprovada pelo cartão. Vamos tentar de novo nos próximos dias. Se quiser trocar o cartão ou tirar uma dúvida, é só responder este e-mail ou chamar no WhatsApp.`;
+  const msg = `Oi, ${nome}. A cobrança da renovação do seu site Supporta não foi aprovada pelo cartão. Vamos tentar de novo nos próximos dias. Se quiser trocar o cartão ou tirar uma dúvida, é só responder este e-mail ou chamar no WhatsApp.`;
   return {
     subject: "Cobrança não aprovada",
     html: layout("Não conseguimos cobrar no cartão", `${p(msg)}${button("Falar no WhatsApp", whatsappUrl("Oi! Minha cobrança da Supporta não foi aprovada."))}`),

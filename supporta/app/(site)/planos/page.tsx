@@ -9,12 +9,13 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { billingFaq } from "@/lib/faqs";
 import { faqSchema, serviceSchema } from "@/lib/schema";
+import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Planos e preços do site por assinatura | Supporta",
+  title: `Preço do site: R$${pricing.site}, pago uma vez | Supporta`,
   description:
-    "Planos Landing page (R$49,90), Site (R$99,90) e Site com blog (R$149,90) por mês. Site criado pela IA, hospedagem, manutenção e GEO inclusos, sem custo de criação.",
+    `Site profissional com até 5 páginas por ${priceLabel(pricing.site)}, pago uma vez e pronto em até ${pricing.prazoHoras}h. Endereço e hospedagem inclusos no 1º ano; depois, ${priceLabel(pricing.endereco)} por ano. Domínio próprio opcional.`,
   path: "/planos",
 });
 
@@ -22,13 +23,13 @@ export default function PlanosPage() {
   return (
     <>
       <PageHero
-        crumbs={[{ name: "Planos", path: "/planos" }]}
-        label="Planos"
+        crumbs={[{ name: "Preço", path: "/planos" }]}
+        label="Preço"
         art="camadas"
         title="Quanto custa ter um site profissional?"
-        lead="De R$49,90 a R$149,90 por mês, ou no anual com 2 meses grátis, com site, hospedagem, manutenção e GEO inclusos. É uma assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de 12 meses, que é o que permite não cobrar a criação, e 10% de desconto a partir do 13º mês."
+        lead={`${priceLabel(pricing.site)}, pago uma vez, e o site fica pronto em até ${pricing.prazoHoras}h. O endereço nome.supporta.com.br, com hospedagem e SSL, vem incluso no 1º ano; a partir do 2º, renova por ${priceLabel(pricing.endereco)} por ano. Domínio próprio é opcional, por ${priceLabel(pricing.dominio)} por ano. Sem mensalidade, sem prazo mínimo e sem multa.`}
       />
-      <section aria-label="Planos" className="pb-20 pt-12 md:pb-28 md:pt-16">
+      <section aria-label="Preço" className="pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-site">
           <PlanCards headingLevel="h2" />
           <CompareTable open />
@@ -37,7 +38,7 @@ export default function PlanosPage() {
       <CostComparison />
       <Section tone="white" labelledBy="cobranca-title">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
-          <SectionHeading id="cobranca-title" label="Cobrança" title="Dúvidas sobre pagamento" lead="Assinatura no cartão de crédito, mensal ou anual, com nota fiscal." />
+          <SectionHeading id="cobranca-title" label="Pagamento" title="Dúvidas sobre pagamento" lead="Pagamento no cartão de crédito, com nota fiscal a cada cobrança e 7 dias para se arrepender." />
           <Faq items={billingFaq} />
         </div>
       </Section>

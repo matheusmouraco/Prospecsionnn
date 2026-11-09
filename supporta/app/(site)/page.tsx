@@ -19,11 +19,12 @@ import { homeFaq } from "@/lib/faqs";
 import { faqSchema, serviceSchema } from "@/lib/schema";
 import { whatsappUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
+import { priceLabel, pricing } from "@/lib/plans";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Supporta | Site profissional por assinatura mensal",
+  title: `Supporta | Site profissional por R$${pricing.site}, pago uma vez`,
   description:
-    "Site profissional, hospedagem, manutenção e GEO numa assinatura só. A partir de R$49,90/mês, sem custo de criação. Pronto pro Google e pras IAs.",
+    `Site profissional com até 5 páginas, criado pela IA com a sua marca, por ${priceLabel(pricing.site)} pago uma vez. Pronto em até ${pricing.prazoHoras}h, sem mensalidade, pronto pro Google e pras IAs.`,
   path: "/",
 });
 
@@ -53,9 +54,9 @@ export default function Home() {
       <Section id="planos" labelledBy="planos-title">
         <SectionHeading
           id="planos-title"
-          label="Planos"
-          title="Quanto custa o site por assinatura?"
-          lead="De R$49,90 a R$149,90 por mês, sem custo de criação, ou no anual com 2 meses grátis. É uma assinatura: o site fica no ar enquanto ela estiver ativa, com mínimo de 12 meses e 10% de desconto a partir do 13º mês."
+          label="Preço"
+          title="Quanto custa o site da Supporta?"
+          lead={`${priceLabel(pricing.site)}, pago uma vez, com o endereço e a hospedagem inclusos no 1º ano. A partir do 2º ano, só ${priceLabel(pricing.endereco)} por ano para manter o site no ar. Sem mensalidade e sem multa.`}
           align="center"
         />
         <div className="mt-12 md:mt-16">

@@ -8,7 +8,7 @@ const columns = [
   {
     title: "Supporta",
     links: [
-      { href: "/planos", label: "Planos" },
+      { href: "/planos", label: "Preço" },
       { href: "/modelos", label: "Modelos" },
       { href: "/#como-funciona", label: "Como funciona" },
       { href: "/diagnostico", label: "Diagnóstico grátis" },

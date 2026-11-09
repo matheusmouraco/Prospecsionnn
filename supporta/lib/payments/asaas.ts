@@ -1,7 +1,7 @@
 import type { CheckoutInput, CheckoutResult, Invoice, PaymentEvent, PaymentProvider } from "./types";
 
-// Asaas: cliente + assinatura (mensal ou anual) no cartão. O cliente paga a 1ª fatura na página segura do Asaas
-// (invoiceUrl) e o cartão fica salvo para as próximas cobranças. Nenhum dado de cartão passa pelo nosso servidor.
+// Asaas: cliente + cobrança avulsa do site (paga hoje, na página segura do Asaas) + assinatura anual da renovação,
+// com o 1º vencimento daqui a 1 ano. Nenhum dado de cartão passa pelo nosso servidor.
 
 const baseUrl = () => (process.env.ASAAS_API_URL || "https://api.asaas.com/v3").replace(/\/$/, "");
 
@@ -48,24 +48,33 @@ export const asaasProvider: PaymentProvider = {
       }),
     });
 
-    const subscription = await asaas<{ id: string }>("/subscriptions", {
+    const payment = await asaas<{ invoiceUrl: string }>("/payments", {
       method: "POST",
       body: JSON.stringify({
         customer: customer.id,
-        billingType: "CREDIT_CARD",
-        value: input.amount,
-        nextDueDate: today(),
-        cycle: input.cycle === "anual" ? "YEARLY" : "MONTHLY",
-        description: `Supporta, plano ${input.plan.name} ${input.cycle} (prazo mínimo de 12 meses)`,
+        billingType: "UNDEFINED",
+        value: input.hoje,
+        dueDate: today(),
+        description: `Supporta: site profissional${input.dominio ? " + 1º ano do domínio próprio" : ""}`,
         externalReference: input.reference,
         callback: { successUrl: input.successUrl, autoRedirect: true },
       }),
     });
-
-    const payments = await asaas<{ data: { invoiceUrl: string }[] }>(`/subscriptions/${subscription.id}/payments`);
-    const invoiceUrl = payments.data?.[0]?.invoiceUrl;
-    if (!invoiceUrl) throw new Error("Asaas: assinatura criada sem fatura inicial.");
-    return { redirectUrl: invoiceUrl, providerCustomerId: customer.id, providerSubscriptionId: subscription.id };
+    const nextYear = new Date(Date.now() + 365 * 864e5).toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+    const subscription = await asaas<{ id: string }>("/subscriptions", {
+      method: "POST",
+      body: JSON.stringify({
+        customer: customer.id,
+        billingType: "UNDEFINED",
+        value: input.anual,
+        nextDueDate: nextYear,
+        cycle: "YEARLY",
+        description: `Supporta: renovação anual do endereço${input.dominio ? " e do domínio próprio" : ""}`,
+        externalReference: input.reference,
+      }),
+    });
+    if (!payment.invoiceUrl) throw new Error("Asaas: cobrança criada sem fatura.");
+    return { redirectUrl: payment.invoiceUrl, providerCustomerId: customer.id, providerSubscriptionId: subscription.id };
   },
 
   async parseWebhook(request: Request): Promise<PaymentEvent> {
@@ -87,18 +96,6 @@ export const asaasProvider: PaymentProvider = {
     };
   },
 
-  async applyLoyaltyDiscount({ subscriptionId, value }) {
-    // updatePendingPayments: a próxima fatura, se já gerada, também sai com o valor novo.
-    await asaas(`/subscriptions/${encodeURIComponent(subscriptionId)}`, { method: "POST", body: JSON.stringify({ value, updatePendingPayments: true }) });
-  },
-
-  async changePlan({ subscriptionId, plan, cycle, value }) {
-    await asaas(`/subscriptions/${encodeURIComponent(subscriptionId)}`, {
-      method: "POST",
-      body: JSON.stringify({ value, description: `Supporta, plano ${plan.name} ${cycle} (prazo mínimo de 12 meses)`, updatePendingPayments: true }),
-    });
-  },
-
   async cancelSubscription(subscriptionId: string) {
     // O Asaas encerra na hora e apaga as cobranças pendentes; o site segue no ar até cancelar_em (cron diário).
     await asaas(`/subscriptions/${encodeURIComponent(subscriptionId)}`, { method: "DELETE" });
@@ -106,10 +103,10 @@ export const asaasProvider: PaymentProvider = {
 
   async chargeOnce({ customerId, value, description, reference }) {
     const due = new Date(Date.now() + 3 * 864e5).toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
-    // UNDEFINED: o cliente escolhe Pix, boleto ou cartão na fatura. externalReference próprio para não contar como mensalidade.
+    // UNDEFINED: o cliente escolhe Pix, boleto ou cartão na fatura. externalReference próprio para não contar como renovação.
     const payment = await asaas<{ invoiceUrl: string | null; status: string }>("/payments", {
       method: "POST",
-      body: JSON.stringify({ customer: customerId, billingType: "UNDEFINED", value, dueDate: due, description, externalReference: `multa_${reference}` }),
+      body: JSON.stringify({ customer: customerId, billingType: "UNDEFINED", value, dueDate: due, description, externalReference: `avulso_${reference}` }),
     });
     return { url: payment.invoiceUrl, paid: payment.status === "RECEIVED" || payment.status === "CONFIRMED" };
   },

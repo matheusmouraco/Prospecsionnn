@@ -9,7 +9,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: "Supporta | Sites por assinatura", template: "%s | Supporta" },
+  title: { default: "Supporta | Site profissional com IA", template: "%s | Supporta" },
   description: site.description,
   applicationName: site.name,
   formatDetection: { telephone: false },

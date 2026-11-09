@@ -4,10 +4,10 @@ import { notFound } from "next/navigation";
 import { CheckoutFlow } from "@/components/checkout/CheckoutFlow";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { annualFreeMonths, billing, getPlan, plans, priceFor, priceLabel } from "@/lib/plans";
+import { getPlan, plans, priceLabel, pricing } from "@/lib/plans";
 import { segments } from "@/lib/segments";
 import { pageMetadata } from "@/lib/seo";
-import { formatBRL, site, whatsappUrl } from "@/lib/site";
+import { whatsappUrl } from "@/lib/site";
 
 type Props = { params: Promise<{ plano: string }> };
 
@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const plan = getPlan((await params).plano);
   if (!plan) return {};
   return pageMetadata({
-    title: `Assinar o plano ${plan.name} por ${priceLabel(plan.price)}/mês | Supporta`,
-    description: `Assine o plano ${plan.name} da Supporta por ${priceLabel(plan.price)}/mês no cartão, sem custo de criação. O site entra no ar sozinho depois do pagamento.`,
+    title: `Contratar o ${plan.name} por ${priceLabel(plan.price)} | Supporta`,
+    description: `Contrate o ${plan.name} da Supporta por ${priceLabel(plan.price)}, pago uma vez no cartão. O site fica pronto em até ${pricing.prazoHoras}h depois do pagamento.`,
     path: `/assinar/${plan.id}`,
     noindex: true,
   });
@@ -35,27 +35,27 @@ export default async function AssinarPage({ params }: Props) {
   return (
     <section aria-labelledby="page-title" className="pb-24 pt-8 md:pt-12">
       <div className="container-site">
-        <Breadcrumbs items={[{ name: "Planos", path: "/planos" }, { name: `Assinar ${plan.name}`, path: `/assinar/${plan.id}` }]} />
+        <Breadcrumbs items={[{ name: "Preço", path: "/planos" }, { name: `Contratar ${plan.name}`, path: `/assinar/${plan.id}` }]} />
         <div className="mt-4 grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
           <div>
-            <SectionLabel>Assinatura</SectionLabel>
+            <SectionLabel>Contratação</SectionLabel>
             <h1 id="page-title" className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1] tracking-[-0.055em]">
-              Assinar o plano {plan.name}
+              Contratar o {plan.name}
             </h1>
             <div className="mt-10">
               <CheckoutFlow plan={plan} segments={segments.map((s) => ({ slug: s.slug, tab: s.tab }))} />
             </div>
           </div>
-          <aside aria-label="Resumo do plano" className="lg:sticky lg:top-24 lg:self-start">
+          <aside aria-label="Resumo do pedido" className="lg:sticky lg:top-24 lg:self-start">
             <div className={`rounded-[2rem] p-7 ${plan.highlight ? "glow-card neon-ring text-paper" : "border border-line bg-white"}`}>
-              <p className="label-mono">Plano {plan.name}</p>
+              <p className="label-mono">{plan.name}</p>
               <p className="mt-3 text-5xl font-semibold tracking-[-0.06em]">
                 {priceLabel(plan.price)}
-                <span className="text-lg font-normal">/mês</span>
+                <span className="ml-2 text-lg font-normal tracking-normal">uma vez</span>
               </p>
               <p className="mt-2 text-sm">
-                ou {formatBRL(priceFor(plan, "anual"))}/ano no anual ({annualFreeMonths} meses grátis). Mínimo de {billing.minMonths} meses e {billing.loyaltyDiscountPct}%
-                de desconto a partir do 13º mês.
+                Endereço e hospedagem inclusos no 1º ano. A partir do 2º ano, {priceLabel(pricing.endereco)} por ano. Domínio próprio opcional por{" "}
+                {priceLabel(pricing.dominio)} por ano. Sem mensalidade e sem multa.
               </p>
               <ul className="mt-6 space-y-2.5">
                 {plan.features.map((f) => (
@@ -66,12 +66,12 @@ export default async function AssinarPage({ params }: Props) {
                 ))}
               </ul>
               <p className="mt-6 border-t border-current/15 pt-5 text-sm">
-                O site entra no ar automaticamente após a confirmação do pagamento, em geral em minutos.
+                O site entra no ar em até {pricing.prazoHoras}h após a confirmação do pagamento. Você tem 7 dias para se arrepender, com reembolso integral.
               </p>
             </div>
             <p className="mt-5 text-sm text-graphite">
-              Dúvida antes de assinar?{" "}
-              <a href={whatsappUrl(`Oi! Estou assinando o plano ${plan.name} e tenho uma dúvida.`)} target="_blank" rel="noopener" className="link text-ink" data-track="whatsapp_click" data-track-origin="checkout">
+              Dúvida antes de contratar?{" "}
+              <a href={whatsappUrl(`Oi! Estou contratando o ${plan.name} e tenho uma dúvida.`)} target="_blank" rel="noopener" className="link text-ink" data-track="whatsapp_click" data-track-origin="checkout">
                 Fale com a gente no WhatsApp
               </a>
               .

@@ -4,7 +4,7 @@ import { ArrowRight, Check, LoaderCircle, Monitor, Smartphone } from "lucide-rea
 import { useEffect, useRef, useState } from "react";
 import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
-import { customProject, plans, priceLabel, type PlanId } from "@/lib/plans";
+import { chargesFor, customProject, pricing, priceLabel, type PlanId } from "@/lib/plans";
 import { whatsappUrl } from "@/lib/site";
 
 type Estado = {
@@ -61,13 +61,13 @@ function PreviaComputador({ src, titulo }: { src: string; titulo: string }) {
   );
 }
 
-/** Espera com progresso enquanto a IA monta, depois a prévia com a escolha do plano. */
+/** Espera com progresso enquanto a IA monta, depois a prévia com o preço e o botão de publicar. */
 export function SiteProgress({ token }: { token: string }) {
   const [estado, setEstado] = useState<Estado | null>(null);
   const [erro, setErro] = useState("");
   const [agora, setAgora] = useState(() => Date.now());
   const [tela, setTela] = useState<"desktop" | "mobile">("desktop");
-  const [plano, setPlano] = useState<PlanId>("start");
+  const [dominio, setDominio] = useState(false);
 
   useEffect(() => {
     let parar = false;
@@ -80,7 +80,6 @@ export function SiteProgress({ token }: { token: string }) {
         if (!res.ok) throw new Error(data.error ?? "Falha ao consultar.");
         if (parar) return;
         setEstado(data);
-        setPlano((p) => (p === "start" ? data.plano : p));
         if (data.status === "previa") track("criar_previa", { plan: data.plano });
         if (["na_fila", "gerando", "pago", "publicando"].includes(data.status)) timer = setTimeout(buscar, 5000);
       } catch (err) {
@@ -157,9 +156,9 @@ export function SiteProgress({ token }: { token: string }) {
             {publicado ? (
               <a href={estado.endereco ?? "#"} className="link" target="_blank" rel="noopener">{estado.endereco?.replace("https://", "")}</a>
             ) : publicando ? (
-              "A IA está criando as outras páginas do seu plano. Você recebe o link no e-mail em poucos minutos."
+              "A IA está criando as outras páginas do site. Você recebe o link no e-mail assim que ele entrar no ar."
             ) : (
-              "Gostou? Escolha o plano e ele vai ao ar em minutos. Ajustes você pede depois, pela área do cliente."
+              "Veja no computador e no celular. Se gostar, publique logo abaixo. Ajustes você pede depois, pela área do cliente."
             )}
           </p>
         </div>
@@ -186,30 +185,29 @@ export function SiteProgress({ token }: { token: string }) {
       ) : null}
 
       {!publicado && !publicando ? (
-        <section aria-labelledby="escolha-plano" className="mt-12">
-          <h2 id="escolha-plano" className="text-center text-3xl tracking-[-0.045em]">Escolha o plano para publicar</h2>
-          <div className="mx-auto mt-8 grid max-w-4xl gap-3 md:grid-cols-3">
-            {plans.map((p) => (
-              <label key={p.id} className={`cursor-pointer rounded-[1.5rem] border bg-white p-5 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${plano === p.id ? "border-ink shadow-[0_0_0_1px_var(--ink)]" : "border-line"}`}>
-                <input type="radio" name="plano" value={p.id} checked={plano === p.id} onChange={() => setPlano(p.id)} className="sr-only" />
-                <span className="flex items-center justify-between gap-2">
-                  <span className="text-lg font-semibold">{p.name}</span>
-                  {p.highlight ? <span className="rounded-full bg-pink px-2.5 py-0.5 text-xs font-semibold">Mais escolhido</span> : null}
-                </span>
-                <span className="mt-1 block text-2xl font-semibold tracking-[-0.04em]">{priceLabel(p.price)}<span className="text-base font-normal text-graphite">/mês</span></span>
-                <span className="mt-2 block text-sm text-graphite">{p.pitch}</span>
-              </label>
-            ))}
-          </div>
-          <div className="mt-8 flex flex-col items-center gap-3">
-            <a href={`/assinar/${plano}?site=${token}`} className={buttonClass("neon", "lg")} data-track="plan_click" data-track-plan={plano} data-track-origin="criar-previa">
-              Publicar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-5 w-5" />
-            </a>
-            <p className="text-sm text-graphite">Sem custo de criação. Mínimo de 12 meses, no cartão.</p>
-            <a href={whatsappUrl(customProject.message)} target="_blank" rel="noopener" className="link mt-2 text-[15px]">
+        <section aria-labelledby="publicar" className="mx-auto mt-12 max-w-2xl rounded-[2rem] border border-line bg-white p-6 md:p-8">
+          <h2 id="publicar" className="text-3xl tracking-[-0.045em]">Gostou? Publique por {priceLabel(pricing.site)}.</h2>
+          <p className="mt-2 text-[15px] text-graphite">Pago uma vez, no ar em até {pricing.prazoHoras}h em <span className="font-medium text-ink">{estado.slug}.supporta.com.br</span>. Alterações sem custo nos primeiros {pricing.diasAlteracaoGratis} dias.</p>
+          <label className={`mt-5 flex cursor-pointer gap-3 rounded-2xl border p-4 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${dominio ? "border-ink" : "border-line"}`}>
+            <input type="checkbox" checked={dominio} onChange={(e) => setDominio(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#0B0B0F]" />
+            <span className="text-[15px]">
+              <span className="font-medium">Quero domínio próprio .com.br</span> (+{priceLabel(pricing.dominio)}/ano)
+              <span className="block text-sm text-graphite">Opcional. Ex.: suaempresa.com.br.</span>
+            </span>
+          </label>
+          <dl className="mt-5 divide-y divide-line text-[15px]">
+            <div className="flex justify-between gap-4 py-2.5"><dt>Hoje</dt><dd className="font-semibold">{priceLabel(chargesFor(dominio).hoje)}</dd></div>
+            <div className="flex justify-between gap-4 py-2.5"><dt className="text-graphite">A partir do 2º ano (endereço{dominio ? " e domínio" : ""})</dt><dd className="text-graphite">{priceLabel(chargesFor(dominio).anual)}/ano</dd></div>
+          </dl>
+          <a href={`/assinar/pro?site=${token}${dominio ? "&dominio=1" : ""}`} className={buttonClass("neon", "lg", "mt-6 w-full")} data-track="plan_click" data-track-plan="pro" data-track-origin="criar-previa">
+            Publicar meu site <ArrowRight aria-hidden strokeWidth={1.75} className="h-5 w-5" />
+          </a>
+          <p className="mt-3 text-center text-sm text-graphite">Sem mensalidade e sem fidelidade. Arrependimento em até 7 dias.</p>
+          <p className="mt-4 text-center">
+            <a href={whatsappUrl(customProject.message)} target="_blank" rel="noopener" className="link text-[15px]">
               {customProject.label} {customProject.cta}
             </a>
-          </div>
+          </p>
         </section>
       ) : null}
     </div>

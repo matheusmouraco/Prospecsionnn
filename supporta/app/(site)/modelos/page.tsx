@@ -10,12 +10,13 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import type { Faq as FaqItem } from "@/lib/faqs";
 import { faqSchema } from "@/lib/schema";
 import { segments } from "@/lib/segments";
+import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Modelos de site por segmento | Supporta",
   description:
-    "Modelos de site para arquitetos, restaurantes, dentistas, advogados, clínicas e prestadores de serviço. Com a sua marca, a partir de R$49,90/mês.",
+    `Modelos de site para arquitetos, restaurantes, dentistas, advogados, clínicas e prestadores de serviço. Com a sua marca, por ${priceLabel(pricing.site)} pago uma vez.`,
   path: "/modelos",
 });
 
@@ -30,7 +31,7 @@ const faq: FaqItem[] = [
   },
   {
     q: "Posso trocar de modelo depois?",
-    a: "Pode. Troca de modelo conta como ajuste maior e é combinada com você pelo WhatsApp, sem custo extra dentro da assinatura.",
+    a: `Pode. Troca de modelo é uma mudança maior e é combinada com você pelo WhatsApp. Nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega, os ajustes no site não têm custo.`,
   },
 ];
 

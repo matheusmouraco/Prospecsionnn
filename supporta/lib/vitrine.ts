@@ -1,5 +1,5 @@
 // Modelos de demonstração (templates HTML traduzidos, com o logo da Supporta), servidos em public/vitrine/<slug>/index.html.
-// São só a home de cada modelo, com noindex: servem para o cliente ver o estilo antes de assinar.
+// São só a home de cada modelo, com noindex: servem para o cliente ver o estilo antes de contratar.
 
 // `path`: home de modelos exportados de Next/React que não fica na raiz da pasta.
 export type VitrineItem = { slug: string; name: string; category: string; path?: string };

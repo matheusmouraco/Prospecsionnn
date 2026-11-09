@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { SiteBuilder } from "@/components/criar/SiteBuilder";
 import { planoValido } from "@/lib/criador";
+import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Crie seu site com IA em minutos | Supporta",
-  description: "Responda um jogo rápido de escolhas e a IA da Supporta monta o site da sua empresa. Você vê a prévia antes de pagar. A partir de R$49,90/mês.",
+  description: `Responda um jogo rápido de escolhas e a IA da Supporta monta o site da sua empresa. Você vê a prévia antes de pagar. ${priceLabel(pricing.site)}, pago uma vez.`,
   path: "/criar",
 });
 

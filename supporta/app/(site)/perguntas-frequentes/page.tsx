@@ -9,12 +9,12 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Perguntas frequentes sobre a Supporta",
-  description: "Todas as dúvidas sobre a Supporta: fidelidade, cancelamento, domínio, prazos, pagamento, ajustes, GEO e como funciona o site por assinatura.",
+  description: "Todas as dúvidas sobre a Supporta: quanto custa, renovação anual, cancelamento, domínio, prazo, pagamento, alterações, GEO e como funciona o site.",
   path: "/perguntas-frequentes",
 });
 
 const groups = [
-  { id: "assinatura", title: "Assinatura e site", items: homeFaq },
+  { id: "site", title: "Preço e site", items: homeFaq },
   { id: "pagamento", title: "Pagamento", items: billingFaq.filter((b) => !homeFaq.some((h) => h.q === b.q)) },
   { id: "geo", title: "Google e IAs", items: geoFaq.filter((g) => !homeFaq.some((h) => h.q === g.q)) },
 ];
@@ -27,7 +27,7 @@ export default function PerguntasPage() {
         crumbs={[{ name: "Perguntas frequentes", path: "/perguntas-frequentes" }]}
         label="Central de dúvidas"
         title="Perguntas frequentes"
-        lead={`${all.length} respostas diretas sobre a assinatura, o pagamento e como aparecer no Google e nas IAs.`}
+        lead={`${all.length} respostas diretas sobre o preço, o pagamento e como aparecer no Google e nas IAs.`}
       >
         <nav aria-label="Temas" className="mt-8 flex flex-wrap gap-2">
           {groups.map((g) => <a key={g.id} href={`#${g.id}`} className="rounded-full border border-ink/15 px-4 py-2 text-[15px] hover:border-ink">{g.title}</a>)}

@@ -15,5 +15,5 @@ export async function POST(request: Request) {
   const assinatura = await getSubscriptionById(client.assinatura_id);
   if (!assinatura || assinatura.status === "cancelada") return NextResponse.json({ error: "A assinatura já está cancelada." }, { status: 409 });
   const result = await cancel(client, assinatura, String(body?.motivo ?? "").trim().slice(0, 600));
-  return NextResponse.json(result.ok ? { ok: true, message: result.message, feeUrl: result.feeUrl } : { error: result.message }, { status: result.ok ? 200 : 409 });
+  return NextResponse.json(result.ok ? { ok: true, message: result.message } : { error: result.message }, { status: result.ok ? 200 : 409 });
 }

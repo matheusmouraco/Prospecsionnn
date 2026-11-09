@@ -14,6 +14,7 @@ import { faqSchema, serviceSchema } from "@/lib/schema";
 import { getSegment, segments } from "@/lib/segments";
 import { posts } from "@/lib/blog";
 import Link from "next/link";
+import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ segmento: string }> };
@@ -46,7 +47,7 @@ export default async function SegmentPage({ params }: Props) {
         lead={seg.intro}
       >
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href={`/assinar/start?modelo=${seg.slug}&tema=${segmentModel[seg.slug] ?? ""}`} size="lg" variant="neon" data-track="plan_click" data-track-plan="start" data-track-origin={`segmento:${seg.slug}`}>
+          <Button href={`/assinar/pro?modelo=${seg.slug}&tema=${segmentModel[seg.slug] ?? ""}`} size="lg" variant="neon" data-track="plan_click" data-track-plan="pro" data-track-origin={`segmento:${seg.slug}`}>
             Quero esse modelo <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
           </Button>
           <Button href={vitrineUrl(segmentModel[seg.slug])} size="lg" variant="outline" target="_blank" data-track="demo_open" data-track-origin={segmentModel[seg.slug]}>
@@ -115,7 +116,7 @@ export default async function SegmentPage({ params }: Props) {
       </Section>
 
       <Section labelledBy="seg-planos">
-        <SectionHeading id="seg-planos" label="Planos" title={`Quanto custa um ${seg.title.toLowerCase()}?`} lead="A partir de R$49,90 por mês, sem custo de criação. Escolha o plano:" />
+        <SectionHeading id="seg-planos" label="Preço" title={`Quanto custa um ${seg.title.toLowerCase()}?`} lead={`${priceLabel(pricing.site)}, pago uma vez, pronto em até ${pricing.prazoHoras}h. A partir do 2º ano, só ${priceLabel(pricing.endereco)} por ano de endereço e hospedagem.`} />
         <div className="mt-12">
           <PlanCards />
         </div>

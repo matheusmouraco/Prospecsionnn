@@ -6,8 +6,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
 import { isCpfOrCnpj, onlyDigits } from "@/lib/documents";
-import { annualFreeMonths, billing, parseCycle, priceFor, type Cycle, type Plan, priceLabel } from "@/lib/plans";
-import { formatBRL, formatBRLCents } from "@/lib/site";
+import { chargesFor, pricing, priceLabel, type Plan } from "@/lib/plans";
 import { readChosenModel, rememberModel, vitrine, vitrineCategories, vitrineThumb, vitrineUrl } from "@/lib/vitrine";
 
 type Segment = { slug: string; tab: string };
@@ -48,7 +47,8 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
   const [company, setCompany] = useState({ empresa: "", responsavel: "", documento: "", email: "", whatsapp: "" });
   const [briefing, setBriefing] = useState({ segmento: "", cidade: "", siteAtual: "", servicos: "", objetivo: "Receber mais contatos", temLogo: "sim", observacoes: "" });
   const [aceite, setAceite] = useState(false);
-  const [cycle, setCycle] = useState<Cycle>("mensal");
+  // Domínio próprio .com.br: opcional, cobrado já no 1º ano e renovado todo ano.
+  const [dominio, setDominio] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -85,10 +85,10 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
         .catch(() => {});
     }
     setCanceled(params.get("cancelado") === "1");
-    setCycle(parseCycle(params.get("ciclo")));
+    setDominio(params.get("dominio") === "1");
     if (!started.current) {
       started.current = true;
-      track("begin_checkout", { plan: plan.id, value: plan.price, currency: "BRL" });
+      track("begin_checkout", { plan: plan.id, value: pricing.site, currency: "BRL" });
     }
   }, [plan, segments]);
 
@@ -144,7 +144,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ plan: plan.id, ciclo: cycle, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, tema, site: siteToken, aceite, origem }),
+        body: JSON.stringify({ plan: plan.id, dominio, company: { ...company, whatsapp: `55${onlyDigits(company.whatsapp)}` }, briefing, tema, site: siteToken, aceite, origem }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Não foi possível continuar.");
@@ -303,53 +303,31 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
 
       {step === 2 ? (
         <form onSubmit={onPay} noValidate className="mt-6 space-y-6">
-          <fieldset>
-            <legend className="text-[15px] font-medium">Como você prefere pagar?</legend>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {(["mensal", "anual"] as Cycle[]).map((c) => {
-                const on = cycle === c;
-                return (
-                  <label
-                    key={c}
-                    className={`relative flex cursor-pointer flex-col rounded-3xl border p-5 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${on ? "border-ink bg-white shadow-[0_0_0_1px_var(--ink)]" : "border-line bg-white"}`}
-                  >
-                    <input type="radio" name="ciclo" value={c} checked={on} onChange={() => setCycle(c)} className="sr-only" />
-                    <span className="flex items-center justify-between gap-3">
-                      <span className="font-semibold">{c === "mensal" ? "Mensal" : "Anual"}</span>
-                      {c === "anual" ? <span className="rounded-full bg-pink px-2.5 py-0.5 text-xs font-semibold text-ink">{annualFreeMonths} meses grátis</span> : null}
-                    </span>
-                    <span className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
-                      {c === "mensal" ? `${priceLabel(plan.price)}` : formatBRL(priceFor(plan, "anual"))}
-                      <span className="text-base font-normal text-graphite">{c === "mensal" ? "/mês" : "/ano"}</span>
-                    </span>
-                    <span className="mt-1 text-sm text-graphite">
-                      {c === "mensal" ? "Uma cobrança por mês no cartão" : `Uma cobrança por ano, equivale a ${formatBRLCents(priceFor(plan, "anual") / 12)}/mês`}
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
+          <label className={`flex cursor-pointer gap-4 rounded-3xl border bg-white p-5 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${dominio ? "border-ink shadow-[0_0_0_1px_var(--ink)]" : "border-line"}`}>
+            <input type="checkbox" checked={dominio} onChange={(e) => setDominio(e.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-[#0B0B0F]" />
+            <span>
+              <span className="block font-semibold">Quero domínio próprio .com.br (+{priceLabel(pricing.dominio)}/ano)</span>
+              <span className="mt-1 block text-sm text-graphite">Opcional. Ex.: suaempresa.com.br no lugar de suaempresa.supporta.com.br. A gente registra no seu CPF ou CNPJ e combina o nome com você no WhatsApp.</span>
+            </span>
+          </label>
 
           <div className="rounded-3xl border border-line bg-white p-6">
             <div className="flex items-baseline justify-between gap-4">
-              <p className="text-lg font-semibold tracking-[-0.03em]">Plano {plan.name} {cycle}</p>
-              <p className="text-2xl font-semibold tracking-[-0.04em]">
-                {cycle === "anual" ? formatBRL(priceFor(plan, "anual")) : `${priceLabel(plan.price)}`}
-                <span className="text-base font-normal text-graphite">{cycle === "anual" ? "/ano" : "/mês"}</span>
-              </p>
+              <p className="text-lg font-semibold tracking-[-0.03em]">Total hoje</p>
+              <p className="text-3xl font-semibold tracking-[-0.04em]">{priceLabel(chargesFor(dominio).hoje)}</p>
             </div>
-            {tema ? <p className="mt-2 text-[15px] text-graphite">Modelo escolhido: <span className="font-medium text-ink">{vitrine.find((v) => v.slug === tema)?.name}</span></p> : null}
-            <ul className="mt-4 space-y-1.5 text-[15px] text-graphite">
-              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> {cycle === "anual" ? "Cobrança no cartão de crédito, uma vez por ano" : "Cobrança recorrente no cartão de crédito, todo mês"}</li>
-              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Sem custo de criação</li>
-              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Assinatura: o site fica no ar enquanto ela estiver ativa. Mínimo de {billing.minMonths} meses, que é o que permite não cobrar a criação.</li>
-              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Cancelar antes de {billing.minMonths} meses: multa de {billing.earlyCancelFeePct}% sobre o que falta. Depois, cancela quando quiser, sem multa.</li>
-              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> A partir do 13º mês, {billing.loyaltyDiscountPct}% de desconto para quem continua.</li>
+            <ul className="mt-4 divide-y divide-line text-[15px]">
+              <li className="flex justify-between gap-4 py-2.5"><span>Site profissional, pago uma vez</span><span>{priceLabel(pricing.site)}</span></li>
+              <li className="flex justify-between gap-4 py-2.5"><span className="text-graphite">Endereço .supporta.com.br e hospedagem, 1º ano</span><span className="text-graphite">incluso</span></li>
+              {dominio ? <li className="flex justify-between gap-4 py-2.5"><span>Domínio próprio .com.br, 1º ano</span><span>{priceLabel(pricing.dominio)}</span></li> : null}
             </ul>
-            <p className="mt-4 text-sm text-graphite">
-              Quer outro plano? <Link href="/planos" className="link text-ink">Ver os planos</Link>
-            </p>
+            {tema ? <p className="mt-3 text-[15px] text-graphite">Modelo escolhido: <span className="font-medium text-ink">{vitrine.find((v) => v.slug === tema)?.name}</span></p> : null}
+            <ul className="mt-4 space-y-1.5 text-[15px] text-graphite">
+              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Pronto em até {pricing.prazoHoras}h depois do pagamento.</li>
+              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> A partir do 2º ano: {priceLabel(chargesFor(dominio).anual)}/ano para manter {dominio ? "o endereço e o domínio" : "o endereço"} no ar, no mesmo cartão. Cancela quando quiser, sem multa.</li>
+              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Alterações sem custo nos primeiros {pricing.diasAlteracaoGratis} dias depois da entrega; depois, {priceLabel(pricing.alteracao)} cada.</li>
+              <li className="flex gap-2"><Check aria-hidden strokeWidth={1.75} className="mt-1 h-4 w-4 shrink-0 text-ink" /> Arrependimento em até 7 dias: devolvemos o valor pago.</li>
+            </ul>
           </div>
 
           <div>
@@ -366,7 +344,7 @@ export function CheckoutFlow({ plan, segments }: { plan: Plan; segments: Segment
               <span className="text-[15px] leading-relaxed">
                 Li e aceito os{" "}
                 <Link href="/termos" target="_blank" className="link font-medium">Termos</Link>
-                 da assinatura, incluindo o prazo mínimo de {billing.minMonths} meses e a multa por cancelamento antecipado. Também li a{" "}
+                 de uso, incluindo a renovação anual a partir do 2º ano e o valor das alterações depois de {pricing.diasAlteracaoGratis} dias. Também li a{" "}
                 <Link href="/privacidade" target="_blank" className="link">Política de Privacidade</Link>.
               </span>
             </label>

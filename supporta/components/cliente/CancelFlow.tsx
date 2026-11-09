@@ -38,7 +38,7 @@ export function CancelFlow({ summary }: { summary: string[] }) {
   return (
     <div>
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className={buttonClass("ghost", "md")}>
-        Cancelar assinatura
+        Cancelar renovação
       </button>
       {open ? (
         <div className="mt-4 rounded-2xl border border-line p-4">
@@ -53,7 +53,7 @@ export function CancelFlow({ summary }: { summary: string[] }) {
           </select>
           <label className="mt-4 flex cursor-pointer gap-3 text-[15px]">
             <input type="checkbox" checked={confirm} onChange={(e) => setConfirm(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#0B0B0F]" />
-            Entendi as condições acima e quero cancelar a assinatura.
+            Entendi as condições acima e quero cancelar a renovação anual.
           </label>
           <button type="button" disabled={!confirm || sending} onClick={submit} className={buttonClass("primary", "md", "mt-4")}>
             {sending ? <LoaderCircle aria-hidden strokeWidth={1.75} className="h-4 w-4 animate-spin" /> : null}

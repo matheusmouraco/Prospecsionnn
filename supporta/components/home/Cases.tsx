@@ -17,7 +17,7 @@ function Score({ label, before, after }: { label: string; before: number; after:
 export function CaseCard({ c }: { c: Case }) {
   return (
     <article className="flex h-full flex-col rounded-[2rem] border border-line bg-white p-7">
-      <p className="label-mono text-graphite">{c.cidade} · plano {c.plano}</p>
+      <p className="label-mono text-graphite">{c.cidade}</p>
       <h3 className="mt-3 text-2xl tracking-[-0.04em]">{c.empresa}</h3>
       <p className="mt-2 flex-1 leading-relaxed text-graphite">{c.resumo}</p>
       <div className="mt-6 grid grid-cols-2 gap-4 border-t border-line pt-5">

@@ -8,7 +8,7 @@ import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
 import { direcoes, objetivos, personalidades, ramos, respostasVazias, type Contato, type Respostas } from "@/lib/criador";
 import { onlyDigits } from "@/lib/documents";
-import { plans, priceLabel, type PlanId } from "@/lib/plans";
+import { pricing, priceLabel, type PlanId } from "@/lib/plans";
 import { whatsappUrl } from "@/lib/site";
 import { coresDoLogo } from "./logoColors";
 
@@ -59,7 +59,7 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
   const [logoMono, setLogoMono] = useState(false);
   const [r, setR] = useState<Respostas>(respostasVazias);
   const [contato, setContato] = useState<Contato>({ nome: "", email: "", whatsapp: "" });
-  const [plano, setPlano] = useState<PlanId>(initialPlan);
+  const plano = initialPlan;
   const [novoServico, setNovoServico] = useState("");
   const [lote, setLote] = useState("");
   const [uploading, setUploading] = useState(0);
@@ -549,18 +549,9 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
                   <input id="q-whats" type="tel" inputMode="tel" className={input} autoComplete="tel-national" value={contato.whatsapp} onChange={(e) => setContato({ ...contato, whatsapp: maskPhone(e.target.value) })} />
                 </div>
               </div>
-              <fieldset className="mt-7">
-                <legend className="text-[15px] font-medium">Qual plano você está pensando? (dá pra trocar depois de ver)</legend>
-                <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
-                  {plans.map((p) => (
-                    <label key={p.id} className={`cursor-pointer rounded-2xl border bg-white p-4 has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-pink ${plano === p.id ? "border-ink shadow-[0_0_0_1px_var(--ink)]" : "border-line"}`}>
-                      <input type="radio" name="plano" value={p.id} checked={plano === p.id} onChange={() => setPlano(p.id)} className="sr-only" />
-                      <span className="block font-semibold">{p.name}</span>
-                      <span className="mt-1 block text-sm text-graphite">{priceLabel(p.price)}/mês</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
+              <p className="mt-7 rounded-2xl border border-line bg-white px-5 py-4 text-[15px] text-graphite">
+                Ver a prévia é grátis. Se gostar, o site sai por <span className="font-semibold text-ink">{priceLabel(pricing.site)}, pago uma vez</span>, e fica pronto em até {pricing.prazoHoras}h.
+              </p>
             </div>
           ) : null}
 
@@ -574,7 +565,6 @@ export function SiteBuilder({ initialPlan }: { initialPlan: PlanId }) {
                   `O que faço: ${r.frase}`,
                   `Serviços: ${r.servicos.join(", ")}`,
                   `Cidade: ${r.cidade}`,
-                  `Plano: ${plans.find((p) => p.id === plano)?.name}`,
                   `Meu nome: ${contato.nome} · ${contato.email}`,
                 ].join("\n"),
               )}

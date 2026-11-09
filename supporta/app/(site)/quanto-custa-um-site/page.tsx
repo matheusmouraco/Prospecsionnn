@@ -7,11 +7,12 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import type { Faq as FaqItem } from "@/lib/faqs";
 import { articleSchema, faqSchema } from "@/lib/schema";
+import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Quanto custa um site para empresa? Calculadora",
-  description: "Quanto custa um site profissional: criação, hospedagem, domínio e manutenção. Use a calculadora e compare com o site por assinatura.",
+  description: "Quanto custa um site profissional: criação, hospedagem, domínio e manutenção. Use a calculadora e compare com o site da Supporta, pago uma vez.",
   path: "/quanto-custa-um-site",
 });
 
@@ -24,9 +25,9 @@ const factors = [
 ];
 
 const faq: FaqItem[] = [
-  { q: "Quanto custa um site simples para empresa?", a: "No modelo tradicional, um site de uma página costuma custar alguns milhares de reais de criação, mais hospedagem e domínio. Na Supporta, o plano Landing page custa R$49,90 por mês, sem custo de criação, e a IA monta o site em poucos minutos." },
+  { q: "Quanto custa um site simples para empresa?", a: `No modelo tradicional, um site de uma página costuma custar alguns milhares de reais de criação, mais hospedagem e domínio. Na Supporta, o site com até 5 páginas custa ${priceLabel(pricing.site)}, pago uma vez, fica pronto em até ${pricing.prazoHoras}h e já vem com endereço e hospedagem no 1º ano.` },
   { q: "Por que alguns orçamentos são tão diferentes?", a: "Porque incluem coisas diferentes: alguns entregam só o design, outros incluem textos, SEO, hospedagem e ajustes. Compare sempre o que está incluso, não só o valor." },
-  { q: "O que é mais barato a longo prazo?", a: "Depende de quanto o site muda. Se ele quase nunca precisa de ajuste, o modelo tradicional pode sair mais barato depois de alguns anos. Se você atualiza com frequência e quer aparecer no Google e nas IAs, a assinatura costuma compensar." },
+  { q: "O que é mais barato a longo prazo?", a: `Compare o total de cada ano. Na Supporta, você paga ${priceLabel(pricing.site)} no 1º ano e ${priceLabel(pricing.endereco)} por ano a partir do 2º para manter endereço e hospedagem. Alterações não têm custo nos primeiros ${pricing.diasAlteracaoGratis} dias e depois custam ${priceLabel(pricing.alteracao)} cada. No modelo tradicional, some criação, hospedagem mensal, domínio e cada ajuste avulso.` },
 ];
 
 export default function QuantoCustaPage() {

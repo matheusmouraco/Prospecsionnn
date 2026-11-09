@@ -11,16 +11,16 @@ export const metadata: Metadata = pageMetadata({
 
 export default function PrivacidadePage() {
   return (
-    <LegalPage title="Política de Privacidade" path="/privacidade" updated="outubro de 2026">
+    <LegalPage title="Política de Privacidade" path="/privacidade" updated="novembro de 2026">
       <p>
         Esta Política explica como <strong>{site.razaoSocial}</strong> (CNPJ {site.cnpj}), controladora dos dados, trata dados pessoais de quem visita o site, usa o
-        diagnóstico grátis ou assina um plano, conforme a Lei Geral de Proteção de Dados (Lei 13.709/2018, LGPD).
+        diagnóstico grátis ou contrata o seu site, conforme a Lei Geral de Proteção de Dados (Lei 13.709/2018, LGPD).
       </p>
 
       <h2>1. Dados que coletamos</h2>
       <ul>
         <li><strong>Diagnóstico grátis:</strong> endereço do site analisado, e-mail e IP.</li>
-        <li><strong>Assinatura:</strong> nome, nome da empresa, CPF ou CNPJ, e-mail, WhatsApp, respostas dadas na criação do site e registro do aceite dos Termos (data, hora, IP e navegador).</li>
+        <li><strong>Contratação:</strong> nome, nome da empresa, CPF ou CNPJ, e-mail, WhatsApp, respostas dadas na criação do site e registro do aceite dos Termos (data, hora, IP e navegador).</li>
         <li><strong>Pagamento:</strong> os dados do cartão são digitados direto na página do provedor de pagamento (Stripe). Não recebemos nem armazenamos o número do cartão.</li>
         <li><strong>Navegação:</strong> com o seu consentimento, cookies de medição do Google Analytics e do Meta Pixel.</li>
       </ul>
@@ -28,7 +28,7 @@ export default function PrivacidadePage() {
       <h2>2. Para que usamos</h2>
       <ul>
         <li>Gerar e enviar o relatório do diagnóstico e entrar em contato sobre ele (legítimo interesse e procedimentos preliminares a contrato).</li>
-        <li>Executar a assinatura: criar o site, cobrar, emitir nota fiscal e prestar suporte (execução de contrato).</li>
+        <li>Executar o contrato: criar e hospedar o site, cobrar, emitir nota fiscal e prestar suporte (execução de contrato).</li>
         <li>Guardar o registro do aceite dos Termos (exercício regular de direitos).</li>
         <li>Cumprir obrigações fiscais e legais (obrigação legal).</li>
         <li>Medir o desempenho do site e de anúncios (consentimento, que pode ser recusado ou retirado a qualquer momento).</li>
@@ -53,7 +53,7 @@ export default function PrivacidadePage() {
 
       <h2>5. Por quanto tempo guardamos</h2>
       <p>
-        Dados do diagnóstico: até 24 meses ou até você pedir a exclusão. Dados da assinatura: durante o contrato e pelo prazo legal após o fim
+        Dados do diagnóstico: até 24 meses ou até você pedir a exclusão. Dados da contratação: durante o contrato e pelo prazo legal após o fim
         (obrigações fiscais e defesa em processos), em geral 5 anos.
       </p>
 

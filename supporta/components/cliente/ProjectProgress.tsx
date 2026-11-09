@@ -42,7 +42,7 @@ export function ProjectProgress({ etapa, briefingSent, prazo }: { etapa: Etapa; 
       </ol>
       <p className="mt-5 text-[15px] text-graphite">
         {detail[etapa === "briefing" && briefingSent ? "producao" : etapa]}
-        {etapa === "producao" && prazo ? ` Prazo: até ${prazo} dias úteis depois do briefing.` : ""}
+        {etapa === "producao" && prazo ? ` Prazo: até ${prazo}h depois do pagamento.` : ""}
       </p>
     </section>
   );

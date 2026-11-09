@@ -1,17 +1,14 @@
 import { notifyTeam, sendEmail } from "./email/send";
 import { noticeEmail, paymentRefusedEmail, welcomeEmail } from "./email/templates";
 import { sendToWebhook } from "./leads";
-import { getPaymentProvider, type PaymentEvent } from "./payments";
-import { billing, getPlan, loyaltyPriceFor, type Plan } from "./plans";
-import type { Assinatura } from "./repo";
+import type { PaymentEvent } from "./payments";
+import { getPlan, pricing } from "./plans";
 import {
   cancelSiteBySubscription,
-  countApprovedPayments,
   deactivateClient,
   ensureClient,
   findSubscription,
   logPaymentEvent,
-  markLoyaltyDiscount,
   markSitePaid,
   markWelcomeSent,
   setProviderIds,
@@ -46,9 +43,9 @@ export async function handlePaymentEvent(event: PaymentEvent) {
     if (await markWelcomeSent(assinatura.id)) {
       const mail = assinatura.site_id
         ? noticeEmail("Pagamento confirmado. Seu site está indo ao ar", [
-            `Oi, ${assinatura.responsavel.split(" ")[0]}. Pagamento confirmado: o plano ${plan?.name ?? assinatura.plano} da Supporta está ativo.`,
-            "A IA está terminando as páginas do seu plano e publica o site sozinha. Em poucos minutos você recebe o link do site no ar.",
-            "Na área do cliente você acompanha tudo e pede ajustes quando quiser.",
+            `Oi, ${assinatura.responsavel.split(" ")[0]}. Pagamento confirmado: o seu site profissional Supporta está pago.`,
+            `A IA está terminando as páginas e publica o site sozinha, em até ${pricing.prazoHoras}h. Você recebe o link do site no ar por e-mail.`,
+            `Nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega, as alterações são sem custo. É só pedir na área do cliente.`,
           ])
         : welcomeEmail({
             nome: assinatura.responsavel.split(" ")[0],
@@ -57,13 +54,12 @@ export async function handlePaymentEvent(event: PaymentEvent) {
             briefingUrl: briefingUrl(assinatura.referencia),
           });
       await sendEmail({ to: assinatura.email, ...mail });
-      await notifyTeam(`Nova assinatura: ${assinatura.empresa} (${plan?.name})`, [
+      await notifyTeam(`Novo site vendido: ${assinatura.empresa}`, [
         `${assinatura.responsavel} · ${assinatura.email} · ${assinatura.whatsapp}`,
-        `Plano ${plan?.name} ${assinatura.ciclo}, R$${assinatura.valor} por cobrança`,
+        `Pago hoje R$${assinatura.valor}${assinatura.dominio_proprio ? " (com domínio próprio: registrar no registro.br e combinar no WhatsApp)" : ""}; renovação de R$${assinatura.valor_anual ?? "45"}/ano a partir do 2º ano`,
         `Origem: ${JSON.stringify(assinatura.origem)}`,
       ]);
     }
-    if (plan) await maybeApplyLoyaltyDiscount(assinatura, plan);
   } else if (event.type === "payment_refused") {
     await setSubscriptionStatus(assinatura.id, "pagamento_recusado");
     await sendEmail({ to: assinatura.email, ...paymentRefusedEmail(assinatura.responsavel.split(" ")[0]) });
@@ -76,28 +72,5 @@ export async function handlePaymentEvent(event: PaymentEvent) {
     await deactivateClient(assinatura.id);
     await cancelSiteBySubscription(assinatura.id);
     await notifyTeam(`Assinatura cancelada: ${assinatura.empresa}`, [`${assinatura.email} · ${assinatura.whatsapp}`]);
-  }
-}
-
-/**
- * Desconto de quem continua: a partir do 13º mês a cobrança cai billing.loyaltyDiscountPct.
- * No mensal, aplica depois da 12ª mensalidade paga; no anual, depois da 1ª anuidade (a próxima já é a do 13º mês).
- */
-async function maybeApplyLoyaltyDiscount(assinatura: Assinatura, plan: Plan) {
-  if (assinatura.desconto_fidelidade_em || !assinatura.provedor_assinatura_id) return;
-  const paid = await countApprovedPayments(assinatura.id);
-  const threshold = assinatura.ciclo === "anual" ? 1 : billing.minMonths;
-  if (paid === null || paid < threshold) return;
-  const provider = getPaymentProvider();
-  if (!provider || provider.name !== assinatura.provedor) return;
-  const value = loyaltyPriceFor(plan, assinatura.ciclo);
-  try {
-    await provider.applyLoyaltyDiscount({ subscriptionId: assinatura.provedor_assinatura_id, value, plan, cycle: assinatura.ciclo });
-    if (await markLoyaltyDiscount(assinatura.id, value)) {
-      await notifyTeam(`Desconto de fidelidade aplicado: ${assinatura.empresa}`, [`Plano ${plan.name} ${assinatura.ciclo}, próximas cobranças de R$${value}`]);
-    }
-  } catch (err) {
-    console.error("[fidelidade]", (err as Error).message);
-    await notifyTeam(`Falha ao aplicar desconto de fidelidade: ${assinatura.empresa}`, [(err as Error).message, "Aplicar manualmente no painel do provedor."]);
   }
 }

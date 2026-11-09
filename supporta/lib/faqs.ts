@@ -1,38 +1,42 @@
-import { annualFreeMonths, billing, customProject, earlyCancelFee, plans, priceLabel } from "./plans";
-import { formatBRLCents } from "./site";
+import { chargesFor, customProject, priceLabel, pricing } from "./plans";
 
 export type Faq = { q: string; a: string };
 
-const { minMonths, earlyCancelFeePct: fee, loyaltyDiscountPct: loyalty } = billing;
+const { site: preco, endereco, dominio, alteracao, diasAlteracaoGratis: dias, prazoHoras: horas } = pricing;
+const comDominio = chargesFor(true);
 
 export const homeFaq: Faq[] = [
   {
-    q: "Por que tem fidelidade de 12 meses?",
-    a: "É o que permite não cobrar a criação do site. A Supporta não vende um site: é uma assinatura. Você paga a mensalidade e tem o site no ar, hospedado e cuidado, enquanto a assinatura estiver ativa. Os 12 meses são o prazo mínimo do contrato.",
+    q: "Quanto custa o site da Supporta?",
+    a: `${priceLabel(preco)}, pago uma vez. O site fica pronto em até ${horas}h, com até 5 páginas (início, sobre, serviços, perguntas e contato), feito pela IA a partir das suas respostas e com a sua marca. O endereço nome.supporta.com.br, com hospedagem e SSL, já vem incluso no 1º ano.`,
   },
   {
-    q: "E depois dos 12 meses?",
-    a: `O site segue no ar e você ganha ${loyalty}% de desconto na mensalidade a partir do 13º mês, como agradecimento por continuar. Daí em diante dá para cancelar quando quiser, sem multa.`,
+    q: "Tem mensalidade?",
+    a: `Não. Você paga ${priceLabel(preco)} uma vez pelo site. A partir do 2º ano, só renova o endereço nome.supporta.com.br com hospedagem e SSL, por ${priceLabel(endereco)} por ano. Se quiser domínio próprio .com.br, ele custa ${priceLabel(dominio)} por ano.`,
   },
   {
-    q: "Como funciona o cancelamento?",
-    a: `Depois dos ${minMonths} meses, você cancela quando quiser, sem multa, direto na área do cliente. Antes disso, a multa é de ${fee}% do valor das mensalidades que faltam para completar os ${minMonths} meses. Exemplo no plano ${plans[0].name}: cancelando depois de 8 meses pagos, faltam 4 mensalidades de ${priceLabel(plans[0].price)}, e a multa fica em ${formatBRLCents(earlyCancelFee(plans[0], 8))}.`,
+    q: "E depois do 1º ano?",
+    a: `O site continua no ar com a renovação anual do endereço e da hospedagem, por ${priceLabel(endereco)} por ano. Com domínio próprio, a renovação fica em ${priceLabel(comDominio.anual)} por ano (${priceLabel(endereco)} do endereço e hospedagem + ${priceLabel(dominio)} do domínio).`,
   },
   {
-    q: "O que acontece com o site e o domínio se eu cancelar?",
-    a: "O site fica no ar enquanto a assinatura estiver ativa. Com o cancelamento ele sai do ar e nada é entregue, porque você assinou um serviço, não comprou um site. O domínio .com.br é registrado no seu CPF ou CNPJ, então o endereço continua seu. A partir do 2º ano, a renovação do domínio é paga por você direto no Registro.br.",
+    q: "Posso cancelar?",
+    a: "Pode, quando quiser e sem multa. Não existe prazo mínimo nem fidelidade. Se você cancelar a renovação anual, o site fica no ar até o fim do ano já pago e depois sai do ar.",
   },
   {
     q: "Quanto tempo leva para o site ficar pronto?",
-    a: "Poucos minutos. Você responde um jogo rápido de escolhas, a IA monta o site e você vê a prévia na hora. Depois de escolher o plano e pagar, o site entra no ar sozinho em nome.supporta.com.br. O domínio próprio .com.br a gente combina com você pelo WhatsApp.",
+    a: `Até ${horas} horas depois do pagamento. Antes disso, você responde um jogo rápido de escolhas, a IA monta o site e você vê a prévia sem pagar nada. Depois do pagamento, o site entra no ar em nome.supporta.com.br. O domínio próprio .com.br a gente combina com você pelo WhatsApp.`,
   },
   {
     q: "Quem escreve os textos do site?",
-    a: "A IA da Supporta, a partir das suas respostas no jogo rápido de escolhas. Os textos já saem pensados para o Google e para as IAs, com a sua marca, e você vê a prévia completa antes de assinar.",
+    a: "A IA da Supporta, a partir das suas respostas no jogo rápido de escolhas. Os textos já saem pensados para o Google e para as IAs, com a sua marca, e você vê a prévia completa antes de pagar.",
   },
   {
-    q: "Posso mudar de plano depois?",
-    a: "Pode, direto na área do cliente. Subir de plano vale na hora, com o novo valor a partir da próxima cobrança. Descer de plano fica liberado depois do prazo mínimo de 12 meses.",
+    q: "Como peço alterações no site?",
+    a: `Pelo WhatsApp. Você manda o que quer mudar (texto, foto, horário, preço) e a gente faz. Nos primeiros ${dias} dias depois da entrega, as alterações não têm custo. Depois disso, cada alteração custa ${priceLabel(alteracao)}.`,
+  },
+  {
+    q: "Preciso ter domínio próprio?",
+    a: `Não. O site já vai ao ar em nome.supporta.com.br, com hospedagem e SSL inclusos no 1º ano. O domínio próprio .com.br é opcional e custa ${priceLabel(dominio)} por ano desde o 1º ano.`,
   },
   {
     q: "O que é GEO?",
@@ -43,55 +47,55 @@ export const homeFaq: Faq[] = [
     a: "Temos modelos para arquitetura, restaurantes, odontologia, advocacia, saúde e serviços em geral. Se o seu negócio atende clientes e precisa ser encontrado, funciona. Na dúvida, chame no WhatsApp.",
   },
   {
-    q: "Preciso ter CNPJ para assinar?",
-    a: "Não. Dá para assinar com CPF. Se tiver CNPJ, o domínio .com.br e a nota fiscal saem no nome da empresa.",
-  },
-  {
-    q: "Como peço ajustes no site?",
-    a: "Pelo WhatsApp. Você manda o que quer mudar (texto, foto, horário, preço) e a gente faz. Todos os planos incluem 1 ajuste por mês.",
+    q: "Preciso ter CNPJ para contratar?",
+    a: "Não. Dá para contratar com CPF. Se tiver CNPJ, a nota fiscal sai no nome da empresa.",
   },
   {
     q: customProject.label,
-    a: `Os planos são montados pela IA a partir das suas respostas. Se você precisa de um projeto personalizado, fale com o Matheus no WhatsApp ${customProject.whatsapp}.`,
+    a: `O site da Supporta é montado pela IA a partir das suas respostas. Se você precisa de um projeto personalizado, fale com o Matheus no WhatsApp ${customProject.whatsapp}.`,
   },
 ];
 
 export const billingFaq: Faq[] = [
   {
-    q: "Como é feita a cobrança?",
-    a: `No cartão de crédito, do jeito que você preferir: mensal, com uma cobrança por mês, ou anual, com uma cobrança por ano em que você paga ${billing.annualMonthsCharged} mensalidades e leva 12 (${annualFreeMonths} meses grátis).`,
+    q: "Como é feito o pagamento?",
+    a: `No cartão de crédito. Você paga ${priceLabel(preco)} uma vez pelo site (${priceLabel(comDominio.hoje)} se incluir o domínio próprio). Depois, só a renovação anual a partir do 2º ano.`,
   },
   {
-    q: "Tem custo de criação ou taxa de setup?",
-    a: "Não. Você paga só a mensalidade do plano escolhido. Criação, hospedagem e manutenção fazem parte da assinatura.",
+    q: "O que está incluso nos R$99?",
+    a: `O site completo com até 5 páginas, criado pela IA com a sua marca, feito pro celular, com botão de WhatsApp, Google Maps e GEO. O endereço nome.supporta.com.br, a hospedagem e o SSL vêm inclusos no 1º ano, e as alterações não têm custo nos primeiros ${dias} dias.`,
   },
   {
-    q: "Por que tem fidelidade de 12 meses?",
-    a: `É o que permite não cobrar a criação do site. Depois dos ${minMonths} meses, a assinatura continua com ${loyalty}% de desconto e pode ser cancelada quando você quiser, sem multa.`,
+    q: "Quanto custa a renovação?",
+    a: `A partir do 2º ano, ${priceLabel(endereco)} por ano para manter o endereço nome.supporta.com.br, a hospedagem e o SSL. Com domínio próprio, soma ${priceLabel(dominio)} por ano do domínio, total de ${priceLabel(comDominio.anual)} por ano.`,
   },
   {
-    q: "O valor da mensalidade muda?",
-    a: `O valor fica fixo durante os ${minMonths} meses do contrato. A partir do 13º mês ele cai ${loyalty}%. Um eventual reajuste depois disso é avisado com pelo menos 30 dias de antecedência.`,
+    q: "O domínio próprio é obrigatório?",
+    a: `Não. É opcional e custa ${priceLabel(dominio)} por ano desde o 1º ano, renovando todo ano. Sem ele, o site fica em nome.supporta.com.br.`,
+  },
+  {
+    q: "Quanto custa uma alteração no site?",
+    a: `Nos primeiros ${dias} dias depois da entrega, nada: você aprova o site e tem 1 mês de alterações sem custo. Depois disso, ${priceLabel(alteracao)} por alteração.`,
+  },
+  {
+    q: "Posso cancelar a renovação?",
+    a: "Pode, quando quiser e sem multa. O site fica no ar até o fim do ano já pago.",
   },
   {
     q: "Posso pagar no boleto ou Pix?",
-    a: "No momento a assinatura é só no cartão de crédito, porque a cobrança recorrente evita atrasos e mantém o site sempre no ar.",
+    a: "No momento o pagamento é só no cartão de crédito.",
   },
   {
-    q: "O que acontece se o cartão for recusado?",
+    q: "O que acontece se o cartão for recusado na renovação?",
     a: "A gente avisa por e-mail e WhatsApp e tenta de novo nos dias seguintes. Você pode trocar o cartão a qualquer momento. O site só sai do ar depois de 15 dias de atraso, e volta assim que o pagamento é regularizado.",
   },
   {
     q: "Recebo nota fiscal?",
-    a: "Sim. A nota fiscal é emitida a cada cobrança no CPF ou CNPJ informado na assinatura.",
+    a: "Sim. A nota fiscal é emitida a cada cobrança no CPF ou CNPJ informado na contratação.",
   },
   {
-    q: "Vale mais a pena o mensal ou o anual?",
-    a: `No anual você economiza ${annualFreeMonths} mensalidades por ano, mas paga tudo de uma vez. No mensal o valor é dividido mês a mês. Os dois têm os mesmos itens, o mesmo prazo mínimo de ${minMonths} meses e o mesmo desconto de ${loyalty}% a partir do 13º mês.`,
-  },
-  {
-    q: "E se eu cancelar o anual antes de 12 meses?",
-    a: `Você recebe de volta o valor proporcional aos meses que não usou, descontada a multa de ${fee}% sobre esse valor. Nos primeiros 7 dias, vale o direito de arrependimento com devolução integral.`,
+    q: "E se eu me arrepender?",
+    a: "Você tem 7 dias depois do pagamento para desistir, com reembolso integral, como prevê o Código de Defesa do Consumidor (art. 49). Vale também para quem contrata com CNPJ.",
   },
 ];
 
@@ -110,7 +114,7 @@ export const geoFaq: Faq[] = [
   },
   {
     q: "Em quanto tempo aparecem os resultados?",
-    a: "O Google costuma levar algumas semanas para indexar e posicionar páginas novas. Nas IAs o tempo varia, porque cada uma atualiza suas fontes de um jeito. Por isso o trabalho é mensal.",
+    a: "O Google costuma levar algumas semanas para indexar e posicionar páginas novas. Nas IAs o tempo varia, porque cada uma atualiza suas fontes de um jeito. Por isso vale manter o site atualizado.",
   },
   {
     q: "Preciso fazer algo além do site?",

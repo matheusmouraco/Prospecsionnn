@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { isCpfOrCnpj, onlyDigits } from "@/lib/documents";
 import { isEmail, sendToWebhook } from "@/lib/leads";
 import { getPaymentProvider } from "@/lib/payments";
-import { getPlan, parseCycle, priceFor } from "@/lib/plans";
+import { chargesFor, getPlan } from "@/lib/plans";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { ramos } from "@/lib/criador";
 import { createSubscription, getSiteByToken, setProviderIds, setSitePlan } from "@/lib/repo";
@@ -24,8 +24,11 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const plan = getPlan(str(body?.plan, 20));
   if (!plan) return NextResponse.json({ error: "Plano inválido." }, { status: 400 });
-  const cycle = parseCycle(body?.ciclo);
-  const amount = priceFor(plan, cycle);
+  // Site pago uma vez; renovação anual (endereço e, se pedido, domínio) a partir do 2º ano.
+  const dominio = body?.dominio === true;
+  const { hoje, anual } = chargesFor(dominio);
+  const cycle = "anual" as const;
+  const amount = hoje;
 
   const customer = {
     company: str(body?.company?.empresa, 120),
@@ -93,12 +96,12 @@ export async function POST(request: Request) {
   const modelo = vitrine.some((v) => v.slug === tema) ? tema : null;
 
   const reference = `sup_${randomUUID()}`;
-  const thanks = `/obrigado?plano=${plan.id}&ciclo=${cycle}&ref=${reference}&t=${briefingSignature(reference)}`;
+  const thanks = `/obrigado?plano=${plan.id}&ref=${reference}&t=${briefingSignature(reference)}`;
   const successUrl = absoluteUrl(thanks);
-  const cancelUrl = absoluteUrl(`/assinar/${plan.id}?cancelado=1${cycle === "anual" ? "&ciclo=anual" : ""}`);
+  const cancelUrl = absoluteUrl(`/assinar/${plan.id}?cancelado=1${dominio ? "&dominio=1" : ""}${criado ? `&site=${criado.token}` : ""}`);
 
   const provider = getPaymentProvider();
-  const record = { reference, plan: plan.id, cycle, price: amount, customer, briefing, modelo, acceptance, origem, provider: provider?.name ?? "teste" };
+  const record = { reference, plan: plan.id, dominio, hoje, anual, customer, briefing, modelo, acceptance, origem, provider: provider?.name ?? "teste" };
   const testMode = !provider && process.env.VERCEL_ENV !== "production";
   await createSubscription({
     referencia: reference,
@@ -112,6 +115,8 @@ export async function POST(request: Request) {
     origem,
     modelo,
     siteId: criado?.id ?? null,
+    dominioProprio: dominio,
+    valorAnual: anual,
     aceite: acceptance,
   });
   if (criado) await setSitePlan(criado.id, plan.id);
@@ -129,14 +134,15 @@ export async function POST(request: Request) {
   try {
     const result = await provider.createSubscriptionCheckout({
       plan,
-      cycle,
-      amount,
+      dominio,
+      hoje,
+      anual,
       customer,
       reference,
       successUrl,
       cancelUrl,
       remoteIp: ip,
-      metadata: { ciclo: cycle, aceite_em: acceptance.acceptedAt, aceite_ip: ip, termos_versao: acceptance.termsVersion },
+      metadata: { aceite_em: acceptance.acceptedAt, aceite_ip: ip, termos_versao: acceptance.termsVersion },
     });
     await setProviderIds(reference, { customerId: result.providerCustomerId, subscriptionId: result.providerSubscriptionId });
     await sendToWebhook("assinatura_iniciada", { ...record, providerCustomerId: result.providerCustomerId, providerSubscriptionId: result.providerSubscriptionId });
