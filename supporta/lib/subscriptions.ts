@@ -14,7 +14,7 @@ import {
   setProviderIds,
   setSubscriptionStatus,
 } from "./repo";
-import { absoluteUrl, site } from "./site";
+import { absoluteUrl, botWhatsapp, botWhatsappUrl, site } from "./site";
 import { briefingSignature } from "./tokens";
 
 export function briefingUrl(referencia: string) {
@@ -49,9 +49,9 @@ export async function handlePaymentEvent(event: PaymentEvent) {
       const mail = assinatura.site_id
         ? noticeEmail("Pagamento confirmado. Seu site está indo ao ar", [
             `Oi, ${assinatura.responsavel.split(" ")[0]}. Pagamento confirmado: o seu site profissional Supporta está pago.`,
-            `A IA está terminando as páginas e publica o site sozinha, em até ${pricing.prazoHoras}h. Você recebe o link do site no ar por e-mail.`,
-            `Nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega, as alterações são sem custo. É só pedir na área do cliente.`,
-          ])
+            `Agora entram as páginas Sobre, Serviços, Perguntas frequentes e Contato, e o site vai ao ar em até ${pricing.prazoHoras}h. Você recebe o link no WhatsApp e por e-mail.`,
+            `Nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega, as alterações são sem custo. É só pedir pelo WhatsApp ${botWhatsapp}.`,
+          ], undefined, { label: "Falar no WhatsApp", href: botWhatsappUrl("Oi! Já paguei o meu site e queria falar sobre ele.") })
         : welcomeEmail({
             nome: assinatura.responsavel.split(" ")[0],
             plano: plan?.name ?? assinatura.plano,

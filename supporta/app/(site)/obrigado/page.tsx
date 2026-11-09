@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { priceLabel, pricing } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
-import { whatsappUrl } from "@/lib/site";
+import { botWhatsappUrl } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Pagamento recebido | Supporta",
@@ -14,9 +14,9 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const next = [
-  { n: "01", title: "Confirmação do pagamento", text: "Você recebe a confirmação por e-mail assim que o cartão for aprovado." },
+  { n: "01", title: "Confirmação do pagamento", text: "Assim que o pagamento for aprovado, você recebe a confirmação no WhatsApp e por e-mail." },
   { n: "02", title: "Site no ar", text: `O site que você viu na prévia entra no ar em até ${pricing.prazoHoras}h em nome.supporta.com.br, com SSL, dados estruturados e llms.txt.` },
-  { n: "03", title: "Domínio próprio", text: `Quer usar o seu .com.br? Ele custa ${priceLabel(pricing.dominio)} por ano. A gente combina pelo WhatsApp e liga o domínio ao site.` },
+  { n: "03", title: "Domínio próprio", text: `Já tem um .com.br? A gente liga ao site sem custo. Quer um novo? Vemos a disponibilidade no registro.br e ele custa ${priceLabel(pricing.dominio)} por ano.` },
   { n: "04", title: "Alterações", text: `Nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega, as alterações não têm custo. Depois, ${priceLabel(pricing.alteracao)} cada. É só mandar pelo WhatsApp.` },
 ];
 
@@ -45,7 +45,7 @@ export default function ObrigadoPage() {
           <h2 className="text-2xl tracking-[-0.04em]">Quando o site entra no ar?</h2>
           <p className="mt-2 text-mist">Em até {pricing.prazoHoras} horas após a confirmação do pagamento.</p>
           <div className="mt-8">
-            <Button href={whatsappUrl("Oi! Acabei de contratar a Supporta e quero combinar o meu domínio próprio.")} variant="paper" size="lg" data-track="whatsapp_click" data-track-origin="obrigado">
+            <Button href={botWhatsappUrl("Oi! Acabei de contratar a Supporta e quero combinar o meu domínio próprio.")} variant="paper" size="lg" data-track="whatsapp_click" data-track-origin="obrigado">
               Combinar o domínio no WhatsApp
             </Button>
           </div>

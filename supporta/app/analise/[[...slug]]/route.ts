@@ -1,6 +1,7 @@
 import { tryDb } from "@/lib/db";
 import { getSitePage, type Site } from "@/lib/repo";
 import { DIAS_PREVIA, previaExpirou } from "@/lib/bot/expiracao";
+import { comSelo, donoDoSite } from "@/lib/selo";
 import { botWhatsappUrl, site as supporta } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -46,7 +47,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
     });
   }
   // Antes do pagamento só a página inicial existe: links internos (/sobre, /servicos, #secao) ficam dentro da prévia.
-  let html = page.html
+  let html = comSelo(page.html, donoDoSite(s))
     .replace(/<meta[^>]+name=["']robots["'][^>]*>/gi, "")
     .replace(/href=(["'])\/(?!\/)([^"'#]*)(#[^"']*)?\1/g, (_m, q: string, _p: string, hash = "") => `href=${q}/${s.slug}${hash}${q}`);
   html = /<head[^>]*>/i.test(html) ? html.replace(/<head[^>]*>/i, (m) => `${m}<meta name="robots" content="noindex, nofollow">`) : `<meta name="robots" content="noindex, nofollow">${html}`;

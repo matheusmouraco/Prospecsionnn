@@ -12,6 +12,10 @@
     {
       "path": "/api/cron/cancelamentos",
       "schedule": "23 10 * * *"
+    },
+    {
+      "path": "/api/cron/renovacoes",
+      "schedule": "17 13 * * *"
     }
   ]
 }

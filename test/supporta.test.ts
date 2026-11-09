@@ -33,7 +33,7 @@ describe('supporta site rules', () => {
   it('accepts a clean page', () => {
     const html = applySiteRules(page('<h1>Padaria Teste</h1><a href="%%WHATSAPP%%">Fale no WhatsApp</a>'), WA);
     expect(validateSite(html, { whatsapp: WA, imagens: [], fonteNumeros: 'Padaria Teste' })).toEqual([]);
-    expect(injectCredito(html)).toContain('Site feito com');
+    expect(injectCredito(html)).not.toContain('Site feito com');
   });
 });
 

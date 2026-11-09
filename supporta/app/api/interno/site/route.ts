@@ -4,7 +4,7 @@ import { notifyTeam, sendEmail } from "@/lib/email/send";
 import { noticeEmail } from "@/lib/email/templates";
 import { tryDb } from "@/lib/db";
 import { getSiteByToken } from "@/lib/repo";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, botWhatsapp } from "@/lib/site";
 import { avisarConversa } from "@/lib/bot/fluxo";
 import { marcarExpiracao } from "@/lib/bot/expiracao";
 
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       ...noticeEmail("Seu site está no ar", [
         `Oi, ${nome}. O site da ${site.empresa} está publicado: ${endereco}`,
         "Para usar o seu próprio domínio (.com.br), é só chamar a gente no WhatsApp que a gente aponta para o mesmo site.",
-        peloWhatsapp ? "Ajustes você pede pelo mesmo WhatsApp ou pela área do cliente." : "Ajustes você pede pela área do cliente.",
+        `Ajustes você pede pelo WhatsApp: ${botWhatsapp}.`,
       ], undefined, { label: "Abrir o meu site", href: endereco }),
     });
     await notifyTeam(`Site no ar: ${site.empresa}`, [endereco, `Plano ${site.plano} · ${site.contato_email} · ${site.contato_whatsapp}`]);

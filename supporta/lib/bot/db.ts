@@ -31,6 +31,16 @@ export type Briefing = {
   documento?: string;
   dominio?: boolean;
   dominioDesejado?: string;
+  /** WhatsApp (só números, com DDD, sem 55) que recebe as mensagens do botão do site. */
+  whatsappSite?: string;
+  aguardandoWhatsapp?: boolean;
+  /** Domínio que o cliente já tem (liga sem custo). */
+  jaTemDominio?: string;
+  /** Opções livres no registro.br mandadas ao cliente, esperando a escolha. */
+  dominioOpcoes?: string[];
+  aguardandoDominio?: boolean;
+  /** Domínio .com.br novo escolhido ("a definir" quando a consulta falhou e a equipe vai pesquisar). */
+  dominioEscolhido?: string;
   checkoutUrl?: string;
 };
 

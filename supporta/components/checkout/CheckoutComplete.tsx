@@ -1,17 +1,13 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { buttonClass } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
 import { getPlan, pricing, priceLabel } from "@/lib/plans";
 
-/** Dispara o evento de conclusão uma vez e mostra o plano assinado. */
+/** Dispara o evento de conclusão uma vez e mostra o que foi pago. (O site já vem da conversa no WhatsApp: não há briefing.) */
 export function CheckoutComplete() {
   const [label, setLabel] = useState("");
   const [test, setTest] = useState(false);
-  const [briefing, setBriefing] = useState("");
   const sent = useRef(false);
 
   useEffect(() => {
@@ -21,8 +17,6 @@ export function CheckoutComplete() {
     const value = pricing.site;
     if (plan) setLabel(`Site profissional, ${priceLabel(pricing.site)} pago uma vez.`);
     const ref = params.get("ref") ?? "";
-    const t = params.get("t") ?? "";
-    if (/^sup_[0-9a-f-]{36}$/.test(ref) && t) setBriefing(`/briefing?ref=${ref}&t=${encodeURIComponent(t)}`);
     if (plan && !sent.current) {
       sent.current = true;
       const key = `supporta-done-${ref}`;
@@ -41,14 +35,6 @@ export function CheckoutComplete() {
         {label}
         {test ? <span className="label-mono text-graphite">modo teste, nenhuma cobrança feita</span> : null}
       </p>
-      {briefing ? (
-        <div className="mt-6">
-          <Link href={briefing} className={buttonClass("primary", "lg")}>
-            Preencher o briefing agora (10 minutos) <ArrowRight aria-hidden strokeWidth={1.75} className="h-4 w-4" />
-          </Link>
-          <p className="mt-2 text-sm text-graphite">O link também vai por e-mail assim que o pagamento for confirmado.</p>
-        </div>
-      ) : null}
     </div>
   );
 }

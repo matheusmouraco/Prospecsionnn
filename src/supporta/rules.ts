@@ -48,6 +48,11 @@ export function validateSite(html: string, c: SiteCheck): string[] {
   if (sobras) issues.push(`sobraram textos de exemplo: ${[...new Set(sobras)].slice(0, 5).join(', ')}`);
   if (/[—–]/.test(texto)) issues.push('o texto usa travessão; reescreva sem ele');
   if (/<(s|del|strike)\b|line-through/i.test(html)) issues.push('não use texto riscado');
+  const h1 = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? '';
+  const palavrasH1 = visibleText(h1).split(/\s+/).filter(Boolean).length;
+  const quebrasH1 = (h1.match(/<br\b/gi) ?? []).length + (h1.match(/display\s*:\s*block/gi) ?? []).length;
+  if (palavrasH1 > 10) issues.push(`o título do hero tem ${palavrasH1} palavras; deixe com até 8`);
+  if (quebrasH1 > 1) issues.push('o título do hero está quebrado em várias linhas forçadas; tire os <br> e os spans em bloco e deixe em no máximo 3 linhas');
   const permitidos = new Set(numbersIn(c.fonteNumeros));
   const inventados = [...new Set(numbersIn(texto).filter((n) => !ORDINAL.test(n) && !permitidos.has(n)))];
   if (inventados.length) issues.push(`números que o dono não informou: ${inventados.slice(0, 8).join(', ')}. Não invente anos, quantidades, preços ou estatísticas`);
@@ -56,6 +61,6 @@ export function validateSite(html: string, c: SiteCheck): string[] {
 
 /** Discreet credit at the very end, the same on every Supporta site. */
 export function injectCredito(html: string): string {
-  const credito = `<p data-secao="credito-supporta" style="margin:0;padding:14px 20px;text-align:center;background:#fff;border-top:1px solid #0000000d;font:400 12px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#8a8f98">Site feito com <a href="https://supporta.com.br/?ref=site" style="color:inherit">Supporta</a></p>`;
-  return html.replace(/<\/body>/i, `${credito}\n</body>`);
+  // Pedido do Moura (nov/2026): sem o texto "Site feito com Supporta"; o rodapé com o selo é inserido pelo site da Supporta ao servir.
+  return html.replace(/<p data-secao="credito-supporta"[\s\S]*?<\/p>\s*/gi, '');
 }

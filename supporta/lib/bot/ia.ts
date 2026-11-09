@@ -44,7 +44,7 @@ const TOM = `Português do Brasil, simples e direto, como uma pessoa falando no 
 export const FATOS = `Fatos da Supporta (não invente nada além disso):
 - O site profissional custa R$ ${pricing.site} pago uma vez. Fica pronto em até ${pricing.prazoHoras}h depois do pagamento, com até 5 páginas (início, sobre, serviços, perguntas e contato).
 - Endereço nome.supporta.com.br com hospedagem e SSL incluso no 1º ano. A partir do 2º ano, renova por R$ ${pricing.endereco}/ano. Sem mensalidade, sem fidelidade.
-- Domínio próprio .com.br é opcional: R$ ${pricing.dominio}/ano desde o 1º ano.
+- Domínio próprio .com.br novo é opcional: R$ ${pricing.dominio}/ano desde o 1º ano (a disponibilidade é vista no registro.br e mandamos as opções). Se o cliente já tem um domínio, ligamos o site nele sem custo nenhum.
 - Alterações sem custo nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega. Depois, R$ ${pricing.alteracao} cada.
 - A prévia é feita antes de pagar: o cliente só paga se gostar. Arrependimento em até 7 dias.
 - O site já vem pronto pro Google e pras IAs (ChatGPT, Gemini), com botão de WhatsApp e mapa.
@@ -126,7 +126,7 @@ Classifique a mensagem do cliente:
 - "ajuste": pede qualquer mudança no site (texto, foto, cor, preço, tirar ou colocar algo). Em "ajuste", a instrução objetiva.
 - "pagou": diz que já pagou ou mandou comprovante.
 - "duvida": pergunta sobre preço, prazo, domínio, o que está incluso. Responda em "resposta" com 1 ou 2 frases, só com os fatos abaixo.
-- "humano": quer falar com uma pessoa, reclamação séria, ou pede algo fora do site (loja, sistema).
+- "humano": quer falar com uma pessoa, reclamação séria, quer cancelar a renovação, ou pede algo fora do site (loja, sistema).
 - "outro": o resto. "resposta" curta e simpática puxando de volta pro site.
 ${FATOS}`,
     `Mensagem: """${texto}"""\nJSON: {"intencao", "ajuste": string|null, "resposta": string|null}`,
@@ -134,7 +134,7 @@ ${FATOS}`,
   );
 }
 
-export type DadosPagamento = { nome: string | null; email: string | null; documento: string | null; dominio: boolean | null; dominioDesejado: string | null };
+export type DadosPagamento = { nome: string | null; email: string | null; documento: string | null; dominio: boolean | null; dominioDesejado: string | null; jaTemDominio: boolean | null };
 
 export async function extrairDados(texto: string) {
   return json<DadosPagamento>(
@@ -142,9 +142,10 @@ export async function extrairDados(texto: string) {
 - nome: nome completo do responsável, se veio.
 - email: e-mail, se veio.
 - documento: CPF ou CNPJ só com números, se veio.
-- dominio: true se quer domínio próprio .com.br, false se disse que não quer ou que fica com o endereço da Supporta, null se não falou.
-- dominioDesejado: o domínio que ele quer (ex: "clinicax.com.br"), se disse.`,
-    `Mensagem: """${texto}"""\nJSON: {"nome","email","documento","dominio","dominioDesejado"}`,
+- dominio: true se quer um domínio .com.br NOVO, false se disse que não quer ou que fica com o endereço da Supporta (o "incluso"), null se não falou.
+- jaTemDominio: true se disse que JÁ TEM um domínio próprio e quer usar ele; senão null.
+- dominioDesejado: o domínio que ele quer ou que já tem (ex: "clinicax.com.br"), se disse.`,
+    `Mensagem: """${texto}"""\nJSON: {"nome","email","documento","dominio","jaTemDominio","dominioDesejado"}`,
     300,
   );
 }

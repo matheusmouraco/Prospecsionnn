@@ -23,6 +23,7 @@ Faça:
 - Detalhes de acabamento de site premium: rótulos pequenos acima dos títulos, linhas finas, hover cuidadoso, sombras sutis só quando fazem sentido, bordas e raios consistentes.
 - Movimento no nível das referências: rolagem suave, títulos que entram, imagens que revelam com máscara, parallax leve, faixa de texto correndo, botões com hover cuidadoso. Movimento a serviço da leitura, nunca exagerado ou lento.
 - No celular, uma composição desenhada para 390px, não apenas o computador empilhado: título com tamanho certo, botões fáceis de tocar, seções mais curtas.
+- Título do hero (o `<h1>`) curto e inteiro: até 8 palavras, no máximo 3 linhas no computador e 4 no celular. O bloco do título ocupa largura suficiente (pelo menos 55% da largura no computador, a largura toda no celular) e o tamanho usa `clamp()` para caber nessas linhas. Proibido quebrar uma palavra por linha: nada de `<br>` dentro do título, nada de um `<span>` com `display:block` para cada palavra, nada de coluna estreita que empurre cada palavra para baixo.
 - Textos curtos, específicos e com a voz pedida, a partir das palavras do dono. Frases que só essa empresa poderia dizer. Escreva como site comercial brasileiro de verdade.
 - Não force a cidade no meio de frases; localização só no contato, no endereço ou quando ajudar a ser encontrado ("Atendemos em Moema e região").
 - Nada de texto riscado. Fotos com texto por cima só no hero, com contraste garantido.

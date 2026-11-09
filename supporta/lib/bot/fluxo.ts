@@ -24,6 +24,7 @@ import { acharLinks, baixarImagem, lerGoogle, lerInstagram, lerSite } from "./en
 import { transcrever, transcricaoLigada } from "./audio";
 import { baixarMidia, enviarAudio, enviarTexto, evolutionEnabled, marcarLida, type MensagemRecebida } from "./evolution";
 import { DIAS_PREVIA, DIAS_REATIVADA, lerExpiracao, marcarAvisoExpiracao, previaExpirou, previasNoUltimoDia, reativarPrevia } from "./expiracao";
+import { candidatos, consultarDominio, normalizarDominio, opcoesLivres } from "./dominio";
 import { RETORNOS, quandoMandar } from "./retornos";
 import { extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
@@ -64,6 +65,8 @@ const R = {
     : fotos ? "Recebi as fotos! Sem logo, eu faço uma versão bonita só com o nome."
     : logo ? "Recebi a logo! Sem fotos, eu uso imagens do seu ramo e depois você troca pelas suas se quiser."
     : "Sem problema, eu monto com imagens do seu ramo e o nome bem trabalhado. Depois, se quiser, você manda as suas e eu troco.",
+  pedeWhatsapp: (aqui: string) => `Os botões do site vão levar os clientes pra qual WhatsApp? Se for este mesmo (${aqui}), é só responder "esse". Se for outro, me manda o número com DDD.`,
+  whatsappInvalido: 'Não entendi o número. Me manda o WhatsApp com DDD (ex.: 11 91234-5678) ou responda "esse" pra usar este mesmo.',
   pedeOk: "Posso começar? Em uns 50 minutos te mando a prévia aqui. Você só paga se gostar.",
   anotado: "Anotado. Posso começar?",
   comecou: "Fechado! Já estou montando. Te mando a prévia aqui em uns 50 minutos.",
@@ -83,7 +86,7 @@ const R = {
   muitosAjustes: "Anotei. Esses últimos ajustes eu vou olhar com calma e já te chamo aqui.",
   pedeDados: (slug: string) => [
     "Que bom que gostou! Pra gerar o pagamento, me passa: nome completo, e-mail e CPF ou CNPJ.",
-    `E me diz se quer domínio próprio .com.br (+R$ ${pricing.dominio}/ano) ou se fica com ${slug}.supporta.com.br, que já está incluso.`,
+    `E me diz como prefere o endereço do site: ${slug}.supporta.com.br (já incluso), um domínio .com.br novo (+R$ ${pricing.dominio}/ano, eu vejo a disponibilidade pra você) ou um domínio que você já tem (aí não tem custo nenhum).`,
   ],
   faltaDados: (falta: string[]) => `Só falta: ${falta.join(", ")}.`,
   pagamento: (url: string, hoje: number, anual: number, endereco: string) => [
@@ -92,7 +95,10 @@ const R = {
     `Pagando, você aceita os Termos de uso (supporta.com.br/termos). Assim que cair, o site vai ao ar em até ${pricing.prazoHoras}h em ${endereco} e eu te aviso aqui.`,
   ],
   aguardandoPagamento: "Assim que o pagamento confirmar eu te aviso aqui.",
-  pagou: `Pagamento confirmado! Agora a IA monta as outras páginas e o site vai ao ar em até ${pricing.prazoHoras}h. Te mando o link aqui.`,
+  pagou: (endereco: string) => [
+    "Pagamento confirmado! Muito obrigado 🙌",
+    `Agora eu termino o site: além da página inicial que você viu, entram as páginas Sobre, Serviços, Perguntas frequentes e Contato, todas no mesmo estilo. Ele vai ao ar em até ${pricing.prazoHoras}h em ${endereco} e eu te mando o link aqui.`,
+  ],
   noAr: (url: string) => [`Seu site está no ar: ${url}`, `Nos primeiros ${pricing.diasAlteracaoGratis} dias, qualquer alteração é sem custo. É só me pedir aqui.`],
   ajusteNoAr: (pago: boolean, url: string | null) =>
     pago ? "Anotado! A equipe faz a alteração e te avisa aqui." : `Anotado! Essa alteração custa R$ ${pricing.alteracao}${url ? `, link do pagamento: ${url}` : ". Já te mando o link do pagamento."}`,
@@ -263,20 +269,39 @@ async function etapaFotos(conv: Conversa, texto: string) {
 async function seguirParaResumo(conv: Conversa) {
   const logo = conv.midias.some((x) => x.tipo === "logo");
   const fotos = conv.midias.filter((x) => x.tipo === "foto").length;
-  await salvarConversa(conv.telefone, { etapa: "confirmacao" });
-  const resumo = await resumoFinal(conv.briefing, formatarFone(conv.telefone)).catch(
-    () => `Show, então ficou assim: ${conv.briefing.negocio}, ${conv.briefing.servicos?.map((s) => s.nome).join(", ")}, ${conv.briefing.atendeTodoBrasil ? "para todo o Brasil" : (conv.briefing.cidade ?? "")}, com o botão no seu WhatsApp ${formatarFone(conv.telefone)}.`,
-  );
   const online = conv.briefing.instagram || conv.briefing.siteAtual;
   // Sem fotos mandadas mas com site ou Instagram: as fotos saem de lá (importarImagensOnline), não do banco de imagens.
   const aviso = fotos || !online ? R.recebiFotos(logo, fotos) : logo ? `Recebi a logo! As fotos eu pego do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.` : `Beleza, eu uso a logo e as fotos do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.`;
-  await falar(conv.telefone, [aviso, resumo, R.pedeOk]);
+  // Antes do resumo: para qual WhatsApp vão as mensagens do site (nem sempre é quem está conversando).
+  await mesclarBriefing(conv.telefone, { aguardandoWhatsapp: true });
+  await salvarConversa(conv.telefone, { etapa: "confirmacao" });
+  await falar(conv.telefone, [aviso, R.pedeWhatsapp(formatarFone(conv.telefone))]);
+}
+
+async function mandarResumo(conv: Conversa) {
+  const numero = formatarFone(conv.briefing.whatsappSite ?? conv.telefone);
+  const resumo = await resumoFinal(conv.briefing, numero).catch(
+    () => `Show, então ficou assim: ${conv.briefing.negocio}, ${conv.briefing.servicos?.map((s) => s.nome).join(", ")}, ${conv.briefing.atendeTodoBrasil ? "para todo o Brasil" : (conv.briefing.cidade ?? "")}, com o botão no WhatsApp ${numero}.`,
+  );
+  await falar(conv.telefone, [resumo, R.pedeOk]);
+}
+
+/** Resposta à pergunta do WhatsApp do site: "esse" (o número da conversa) ou outro número com DDD. */
+async function respostaWhatsapp(conv: Conversa, texto: string) {
+  const digitos = texto.replace(/\D/g, "").replace(/^55(?=\d{10,11}$)/, "");
+  let numero: string | null = null;
+  if (digitos.length === 10 || digitos.length === 11) numero = digitos;
+  else if (digitos.length < 8 && /\b(esse|este|mesmo|essa|esta|pode ser|sim|isso|aqui|o meu|meu)\b/i.test(texto)) numero = conv.telefone.replace(/^55/, "");
+  if (!numero) return falar(conv.telefone, R.whatsappInvalido);
+  const atual = await mesclarBriefing(conv.telefone, { whatsappSite: numero, aguardandoWhatsapp: false });
+  return mandarResumo(atual);
 }
 
 const ehOk = (t: string) =>
   /^(ok|okay|sim|pode|combinado|fechado|fechou|beleza|bora|vamos|isso|certo|show|top|blz|👍|perfeito|manda|t[aá]|tamo|vai|claro)\b/i.test(t.trim()) || /combinado|fechado|pode come[cç]ar|pode fazer|pode seguir/i.test(t);
 
 async function etapaConfirmacao(conv: Conversa, texto: string, depois: Depois) {
+  if (conv.briefing.aguardandoWhatsapp) return respostaWhatsapp(conv, texto);
   if (!ehOk(texto)) {
     await mesclarBriefing(conv.telefone, { ajustes: [...(conv.briefing.ajustes ?? []), texto.slice(0, 500)] });
     await falar(conv.telefone, R.anotado);
@@ -359,7 +384,7 @@ export function montarRespostas(conv: Conversa, midias: Midia[]): Respostas & Re
     publico: b.publico ?? "",
     diferenciais: b.diferenciais ?? "",
     historia: b.historia ?? "",
-    whatsappSite: conv.telefone.replace(/^55/, ""),
+    whatsappSite: (b.whatsappSite ?? conv.telefone).replace(/^55(?=\d{10,11}$)/, ""),
     instagram: b.instagram ?? "",
     siteAtual: b.siteAtual ?? "",
     logo: logo?.url ?? "",
@@ -474,31 +499,95 @@ async function etapaPrevia(conv: Conversa, texto: string) {
 async function etapaDados(conv: Conversa, texto: string) {
   const site = await siteDe(conv);
   if (!site) return falar(conv.telefone, R.gerando);
+  if (conv.briefing.aguardandoDominio) return escolhaDeDominio(conv, site, texto);
   const d = await extrairDados(texto);
-  const achou = d.nome || d.email || d.documento || d.dominio !== null;
+  const achou = d.nome || d.email || d.documento || d.dominio !== null || d.jaTemDominio;
   if (!achou) {
-    const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e o robô pediu nome, e-mail e CPF/CNPJ para gerar o pagamento.`);
+    const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e o robô pediu nome, e-mail e CPF/CNPJ para gerar o pagamento, e se quer o endereço incluso, um domínio novo ou um que ele já tem.`);
     if (r.intencao === "ajuste") return pedirAjuste(conv, site, r.ajuste ?? texto);
     if (r.intencao === "humano") return chamarHumano(conv, texto);
     return falar(conv.telefone, [r.resposta ?? "", R.pedeDados(site.slug)[0]].filter(Boolean));
   }
+  const existente = d.jaTemDominio && d.dominioDesejado ? d.dominioDesejado.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] : undefined;
   const atual = await mesclarBriefing(conv.telefone, {
     responsavel: d.nome ?? undefined,
     email: d.email && isEmail(d.email.toLowerCase()) ? d.email.toLowerCase() : undefined,
     documento: d.documento && isCpfOrCnpj(onlyDigits(d.documento)) ? onlyDigits(d.documento) : undefined,
-    dominio: d.dominio ?? undefined,
-    dominioDesejado: d.dominioDesejado ?? undefined,
+    dominio: d.jaTemDominio ? false : (d.dominio ?? undefined),
+    dominioDesejado: d.jaTemDominio ? undefined : (d.dominioDesejado ?? undefined),
+    jaTemDominio: existente,
   });
   const b = atual.briefing;
   const falta = [!b.responsavel && "nome completo", !b.email && "e-mail", !b.documento && (d.documento ? "um CPF ou CNPJ válido" : "CPF ou CNPJ")].filter((x): x is string => Boolean(x));
+  if (d.jaTemDominio && !existente) falta.push("qual é o domínio que você já tem");
   if (falta.length) return falar(conv.telefone, R.faltaDados(falta));
+  if (b.dominio === true && !b.dominioEscolhido) return oferecerDominios(atual, site);
+  return gerarPagamento(atual, site);
+}
 
+/** Domínio novo: consulta o registro.br e manda até 3 opções livres para o cliente escolher. */
+async function oferecerDominios(conv: Conversa, site: Site) {
+  await falar(conv.telefone, "Vou ver a disponibilidade no registro.br e já te mando as opções.");
+  const cidade = conv.briefing.cidade;
+  const { livres } = await opcoesLivres(candidatos(site.empresa, conv.briefing.dominioDesejado, cidade));
+  if (livres.length) {
+    await mesclarBriefing(conv.telefone, { dominioOpcoes: livres, aguardandoDominio: true });
+    return falar(conv.telefone, [
+      `Esses estão livres:\n${livres.map((x, i) => `${i + 1}) ${x}`).join("\n")}`,
+      "Qual você prefere? Se quiser outro nome, me manda que eu verifico.",
+    ]);
+  }
+  // Não deu para consultar (ou nada livre): a equipe pesquisa e manda as opções; o pagamento segue com o domínio incluso.
+  await notifyTeam(`Pesquisar domínio .com.br: ${site.empresa}`, [`Cliente ${formatarFone(conv.telefone)} quer domínio novo.`, `Pediu: ${conv.briefing.dominioDesejado ?? "(não disse)"}`, "A consulta automática ao registro.br não achou opção livre ou não respondeu. Mande as opções pelo WhatsApp."]);
+  const atual = await mesclarBriefing(conv.telefone, { dominioEscolhido: "a definir" });
+  await falar(conv.telefone, "Vou pesquisar com calma as opções de domínio no registro.br e te mando aqui pra você escolher. O pagamento já pode ser feito, com o domínio incluso:");
+  return gerarPagamento(atual, site);
+}
+
+async function escolhaDeDominio(conv: Conversa, site: Site, texto: string) {
+  const t = texto.trim().toLowerCase();
+  const opcoes = conv.briefing.dominioOpcoes ?? [];
+  if (/incluso|n[aã]o quero|sem dom[ií]nio|supporta\.com\.br|deixa sem/.test(t)) {
+    const atual = await mesclarBriefing(conv.telefone, { dominio: false, aguardandoDominio: false });
+    return gerarPagamento(atual, site);
+  }
+  const numero = t.match(/^\s*(?:op[cç][aã]o\s*)?(\d)\b/)?.[1];
+  let escolhido = numero ? opcoes[Number(numero) - 1] : opcoes.find((o) => t.includes(o) || t.includes(o.replace(".com.br", "")));
+  if (!escolhido) {
+    const pedido = normalizarDominio(texto);
+    if (!pedido) return falar(conv.telefone, `Me diz o número da opção (1 a ${opcoes.length}) ou o nome que você quer, que eu verifico.`);
+    const r = await consultarDominio(pedido);
+    if (r === "ocupado") {
+      return falar(conv.telefone, `O ${pedido} já tem dono. ${opcoes.length ? `Os livres que eu achei: ${opcoes.join(", ")}. ` : ""}Quer um deles ou outro nome?`);
+    }
+    if (r === "desconhecido") {
+      await notifyTeam(`Confirmar domínio no registro.br: ${pedido}`, [site.empresa, formatarFone(conv.telefone), "A consulta automática não respondeu; confira se está livre antes de registrar."]);
+      await falar(conv.telefone, `Vou confirmar se o ${pedido} está livre e te aviso. Se não estiver, te mando outras opções.`);
+    }
+    escolhido = pedido;
+  }
+  const atual = await mesclarBriefing(conv.telefone, { dominioEscolhido: escolhido, aguardandoDominio: false, dominio: true });
+  await falar(conv.telefone, `Fechado, ${escolhido}!`);
+  return gerarPagamento(atual, site);
+}
+
+async function gerarPagamento(conv: Conversa, site: Site) {
+  const b = conv.briefing;
   await tryDb("contatoDoSite", (sql) => sql`update sites set contato_nome = ${b.responsavel!}, contato_email = ${b.email!}, atualizado_em = now() where id = ${site.id}`);
-  const pag = await linkPagamento({ site, nome: b.responsavel!, email: b.email!, documento: b.documento!, telefone: conv.telefone, dominio: b.dominio === true });
+  // CNPJ do cliente vai para o rodapé do site dele (CPF nunca aparece).
+  if (b.documento?.length === 14) await tryDb("cnpjDoSite", (sql) => sql`update sites set respostas = respostas || ${sql.json({ cnpj: b.documento } as never)} where id = ${site.id}`);
+  const comDominio = b.dominio === true;
+  const pag = await linkPagamento({ site, nome: b.responsavel!, email: b.email!, documento: b.documento!, telefone: conv.telefone, dominio: comDominio });
   await mesclarBriefing(conv.telefone, { checkoutUrl: pag.url });
   await salvarConversa(conv.telefone, { etapa: "pagamento", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
-  await falar(conv.telefone, R.pagamento(pag.url, pag.hoje, pag.anual, `${site.slug}.supporta.com.br`));
-  if (b.dominio) await notifyTeam(`Domínio próprio pedido: ${site.empresa}`, [b.dominioDesejado ?? "(não disse qual)", formatarFone(conv.telefone)]);
+  if (b.jaTemDominio) {
+    await falar(conv.telefone, `Como você já tem o domínio ${b.jaTemDominio}, não tem custo nenhum: depois que o site entrar no ar, eu te passo o passo a passo pra apontar ele pra gente.`);
+    await notifyTeam(`Ligar domínio que o cliente já tem: ${site.empresa}`, [b.jaTemDominio, formatarFone(conv.telefone), "Sem custo. Depois de no ar: mandar a configuração do DNS e gravar em sites.dominio."]);
+  }
+  const textos = R.pagamento(pag.url, pag.hoje, pag.anual, `${site.slug}.supporta.com.br`);
+  if (comDominio && b.dominioEscolhido && b.dominioEscolhido !== "a definir") textos.splice(1, 0, `O domínio ${b.dominioEscolhido} entra junto: assim que o pagamento cair, eu registro ele pra você.`);
+  await falar(conv.telefone, textos);
+  if (comDominio) await notifyTeam(`Registrar domínio novo: ${site.empresa}`, [b.dominioEscolhido ?? "(a definir)", `CPF/CNPJ do titular: ${b.documento}`, formatarFone(conv.telefone), "Registrar no registro.br depois que o pagamento cair e gravar em sites.dominio."]);
 }
 
 async function etapaPagamento(conv: Conversa, texto: string) {
@@ -576,7 +665,7 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
     await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug)) : R.previaNova(previaUrl(site.slug)));
   } else if (evento === "pago") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
-    await falar(conv.telefone, R.pagou);
+    await falar(conv.telefone, R.pagou(`${site.slug}.supporta.com.br`));
   } else if (evento === "no_ar") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
     await falar(conv.telefone, R.noAr(siteUrl(site)));
@@ -640,5 +729,8 @@ export async function avisarUltimoDia(agora = new Date()) {
   }
   return enviados;
 }
+
+/** Mensagem fora de uma conversa (ex.: aviso de renovação), registrada no histórico do número. */
+export const mensagemAvulsa = falar;
 
 export const roteiro = R;
