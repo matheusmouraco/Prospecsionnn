@@ -575,7 +575,8 @@ async function mandarAudio(telefone: string, url: string) {
 
 export async function cobrarRetornos(agora = Date.now()) {
   const enviados: string[] = [];
-  const audio = process.env.BOT_AUDIO_RETORNO_URL;
+  // Áudio gravado pelo Matheus (public/bot/retorno.ogg, ogg/opus como mensagem de voz do WhatsApp).
+  const audio = process.env.BOT_AUDIO_RETORNO_URL || "https://supporta.com.br/bot/retorno.ogg";
   for (const c of await conversasEsperandoRetorno()) {
     if (!c.previa_em) continue;
     const base = Math.max(new Date(c.previa_em).getTime(), c.ultima_msg_cliente_em ? new Date(c.ultima_msg_cliente_em).getTime() : 0);
