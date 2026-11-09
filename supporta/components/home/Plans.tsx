@@ -44,7 +44,10 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
             {priceRows.map((r, i) => (
               <div key={r.item} className="flex items-center justify-between gap-4 py-5">
                 <dt>
-                  <span className="block text-lg font-semibold tracking-[-0.02em]">{r.item}</span>
+                  <span className="flex flex-wrap items-center gap-2 text-lg font-semibold tracking-[-0.02em]">
+                    {r.item}
+                    <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.06em] ${r.obrigatorio ? "bg-pink text-ink" : "border border-line-dark text-mist"}`}>{r.obrigatorio ? "Obrigatório" : "Opcional"}</span>
+                  </span>
                   <span className="mt-1 block text-[15px] text-mist">{r.detail}</span>
                 </dt>
                 <dd className="shrink-0 text-right">
@@ -54,7 +57,7 @@ export function PlanCards({ headingLevel = "h3" }: { headingLevel?: "h2" | "h3" 
               </div>
             ))}
           </dl>
-          <p className="mt-5 text-sm text-mist">Sem mensalidade e sem fidelidade. A renovação do endereço pode ser cancelada quando quiser.</p>
+          <p className="mt-5 text-sm text-mist">Obrigatório é só o site e a renovação do endereço. Sem mensalidade e sem fidelidade: a renovação pode ser cancelada quando quiser.</p>
         </article>
       </div>
 

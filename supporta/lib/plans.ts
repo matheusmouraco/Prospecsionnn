@@ -49,10 +49,10 @@ export const site99 = plans[0];
 
 /** Linhas do "tudo o que você paga". */
 export const priceRows = [
-  { item: "Site profissional", detail: `pago uma vez, pronto em até ${pricing.prazoHoras}h`, value: pricing.site, per: "" },
-  { item: "Endereço .supporta.com.br", detail: "incluso no 1º ano, depois renova", value: pricing.endereco, per: "/ano" },
-  { item: "Domínio próprio .com.br", detail: "opcional, renova todo ano", value: pricing.dominio, per: "/ano" },
-  { item: "Alteração no site", detail: `depois de ${pricing.diasAlteracaoGratis} dias da entrega`, value: pricing.alteracao, per: "/cada" },
+  { item: "Site profissional", detail: `pago uma vez, pronto em até ${pricing.prazoHoras}h`, value: pricing.site, per: "", obrigatorio: true },
+  { item: "Endereço .supporta.com.br", detail: "incluso no 1º ano, depois renova todo ano", value: pricing.endereco, per: "/ano", obrigatorio: true },
+  { item: "Domínio próprio .com.br", detail: "renova todo ano", value: pricing.dominio, per: "/ano", obrigatorio: false },
+  { item: "Alteração no site", detail: `depois de ${pricing.diasAlteracaoGratis} dias da entrega`, value: pricing.alteracao, per: "/cada", obrigatorio: false },
 ];
 
 /** Projeto sob medida: fora do site automático, falado direto com o Matheus. */
