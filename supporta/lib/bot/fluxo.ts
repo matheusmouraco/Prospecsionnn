@@ -63,9 +63,9 @@ const R = {
     : fotos ? "Recebi as fotos! Sem logo, eu faço uma versão bonita só com o nome."
     : logo ? "Recebi a logo! Sem fotos, eu uso imagens do seu ramo e depois você troca pelas suas se quiser."
     : "Sem problema, eu monto com imagens do seu ramo e o nome bem trabalhado. Depois, se quiser, você manda as suas e eu troco.",
-  pedeOk: "Posso começar? Em uns 15 minutos te mando a prévia aqui. Você só paga se gostar.",
+  pedeOk: "Posso começar? Em uns 50 minutos te mando a prévia aqui. Você só paga se gostar.",
   anotado: "Anotado. Posso começar?",
-  comecou: "Fechado! Já estou montando. Te mando a prévia aqui em uns 15 minutos.",
+  comecou: "Fechado! Já estou montando. Te mando a prévia aqui em uns 50 minutos.",
   gerando: "Estou terminando o seu site, já te mando aqui.",
   previa: (url: string) => [`Pronto! Essa é a prévia do seu site: ${url}`, "Abre e me fala o que achou. Se quiser mudar qualquer coisa, é só me falar aqui."],
   previaNova: (url: string) => [`Pronto, atualizei: ${url}`, "Dá uma olhada e me fala."],
@@ -249,7 +249,9 @@ async function seguirParaResumo(conv: Conversa) {
     () => `Show, então ficou assim: ${conv.briefing.negocio}, ${conv.briefing.servicos?.map((s) => s.nome).join(", ")}, ${conv.briefing.atendeTodoBrasil ? "para todo o Brasil" : (conv.briefing.cidade ?? "")}, com o botão no seu WhatsApp ${formatarFone(conv.telefone)}.`,
   );
   const online = conv.briefing.instagram || conv.briefing.siteAtual;
-  await falar(conv.telefone, [logo || fotos || !online ? R.recebiFotos(logo, fotos) : "Beleza, eu uso o que tiver no seu site e no Instagram.", resumo, R.pedeOk]);
+  // Sem fotos mandadas mas com site ou Instagram: as fotos saem de lá (importarImagensOnline), não do banco de imagens.
+  const aviso = fotos || !online ? R.recebiFotos(logo, fotos) : logo ? `Recebi a logo! As fotos eu pego do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.` : `Beleza, eu uso a logo e as fotos do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.`;
+  await falar(conv.telefone, [aviso, resumo, R.pedeOk]);
 }
 
 const ehOk = (t: string) =>
