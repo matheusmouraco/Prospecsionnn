@@ -23,6 +23,7 @@ import {
 import { acharLinks, baixarImagem, lerGoogle, lerInstagram, lerSite } from "./enriquecer";
 import { transcrever, transcricaoLigada } from "./audio";
 import { baixarMidia, enviarAudio, enviarTexto, evolutionEnabled, marcarLida, type MensagemRecebida } from "./evolution";
+import { DIAS_PREVIA, DIAS_REATIVADA, lerExpiracao, marcarAvisoExpiracao, previaExpirou, previasNoUltimoDia, reativarPrevia } from "./expiracao";
 import { RETORNOS, quandoMandar } from "./retornos";
 import { extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
@@ -67,7 +68,16 @@ const R = {
   anotado: "Anotado. Posso começar?",
   comecou: "Fechado! Já estou montando. Te mando a prévia aqui em uns 50 minutos.",
   gerando: "Estou terminando o seu site, já te mando aqui.",
-  previa: (url: string) => [`Pronto! Essa é a prévia do seu site: ${url}`, "Abre e me fala o que achou. Se quiser mudar qualquer coisa, é só me falar aqui."],
+  previa: (url: string) => [
+    `Pronto! Essa é a prévia do seu site: ${url}`,
+    "Abre e me fala o que achou. Se quiser mudar qualquer coisa, é só me falar aqui.",
+    `Ela fica no ar por ${DIAS_PREVIA} dias. Depois disso eu tiro do ar.`,
+  ],
+  ultimoDia: (url: string) => [
+    `Passando pra avisar: hoje é o último dia da prévia do seu site no ar (${url}). Amanhã eu tiro do ar.`,
+    "Se quiser deixar ele no ar de vez, me fala que eu te mando o link do pagamento. E se quiser mudar alguma coisa antes, é só pedir.",
+  ],
+  reativada: (url: string) => `A prévia tinha saído do ar, mas já coloquei de volta por mais ${DIAS_REATIVADA} dias: ${url}`,
   previaNova: (url: string) => [`Pronto, atualizei: ${url}`, "Dá uma olhada e me fala."],
   ajustando: "Deixa comigo, já mudo isso. Te mando a nova versão aqui em alguns minutos.",
   muitosAjustes: "Anotei. Esses últimos ajustes eu vou olhar com calma e já te chamo aqui.",
@@ -116,6 +126,15 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
   // para não cobrar 10 minutos depois de alguém que disse "vou ver com meu sócio".
   await salvarConversa(m.de, { ultima_msg_cliente_em: new Date(), retornos: conv.previa_em ? 2 : 0, ultimo_retorno_em: null });
   if (conv.etapa === "humano") return; // alguém da equipe assumiu
+  // Prévia que já saiu do ar e o cliente voltou a falar: volta ao ar por mais uns dias antes de seguir a conversa.
+  if (conv.site_id && ["previa", "dados", "pagamento"].includes(conv.etapa)) {
+    const e = await lerExpiracao(conv.site_id);
+    const site = e && previaExpirou(e) ? await siteDe(conv) : null;
+    if (site) {
+      await reativarPrevia(site.id);
+      await falar(conv.telefone, R.reativada(previaUrl(site.slug)));
+    }
+  }
 
   try {
     if (m.tipo === "imagem") return depois(tratarImagem(conv, m));
@@ -536,6 +555,8 @@ async function continuarSite(conv: Conversa, site: Site) {
     await falar(conv.telefone, `Oi${nome ? ` ${nome}` : ""}! O site da ${site.empresa} está sendo montado. Te mando a prévia aqui assim que ficar pronta.`);
     return true;
   }
+  const e = await lerExpiracao(site.id);
+  if (e && previaExpirou(e)) await reativarPrevia(site.id);
   await salvarConversa(conv.telefone, { site_id: site.id, etapa: "previa", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
   await falar(conv.telefone, [`Oi${nome ? ` ${nome}` : ""}! Que bom que você viu a prévia do site da ${site.empresa}: ${previaUrl(site.slug)}`, "O que achou? Se quiser mudar qualquer coisa, me fala aqui. Se gostou, eu já te passo o pagamento e ele vai ao ar."]);
   return true;
@@ -600,6 +621,21 @@ export async function cobrarRetornos(agora = Date.now()) {
       enviados.push(c.telefone);
     } catch (err) {
       console.error("[bot] retorno:", (err as Error).message);
+    }
+  }
+  return enviados;
+}
+
+/** Último dia da prévia no ar, sem pagamento: um lembrete só (o link sai do ar no fim do dia, sem apagar nada). */
+export async function avisarUltimoDia(agora = new Date()) {
+  const enviados: string[] = [];
+  for (const p of await previasNoUltimoDia(agora)) {
+    await marcarAvisoExpiracao(p.id); // marca antes: se o envio falhar, não repete a cada minuto
+    try {
+      await falar(p.telefone, R.ultimoDia(previaUrl(p.slug)));
+      enviados.push(p.telefone);
+    } catch (err) {
+      console.error("[bot] último dia:", (err as Error).message);
     }
   }
   return enviados;

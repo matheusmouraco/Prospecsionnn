@@ -6,6 +6,7 @@ import { tryDb } from "@/lib/db";
 import { getSiteByToken } from "@/lib/repo";
 import { absoluteUrl } from "@/lib/site";
 import { avisarConversa } from "@/lib/bot/fluxo";
+import { marcarExpiracao } from "@/lib/bot/expiracao";
 
 export const runtime = "nodejs";
 
@@ -26,6 +27,8 @@ export async function POST(request: Request) {
   if (!site) return NextResponse.json({ error: "Site não encontrado." }, { status: 404 });
   const nome = site.contato_nome.split(" ")[0];
   const link = absoluteUrl(`/criar/${site.token}`);
+  // A primeira prévia pronta começa a contar os 5 dias no ar.
+  if (body?.evento === "previa") await marcarExpiracao(site.id);
   // Site criado pelo WhatsApp: o robô avisa por lá. E-mail só quando o cliente já informou um.
   const peloWhatsapp = ["previa", "no_ar", "erro"].includes(body?.evento) ? await avisarConversa(site.token, body.evento).catch((err) => {
     console.error("[interno/site] whatsapp:", (err as Error).message);

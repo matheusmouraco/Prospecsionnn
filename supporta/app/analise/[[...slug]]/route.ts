@@ -1,5 +1,6 @@
 import { tryDb } from "@/lib/db";
 import { getSitePage, type Site } from "@/lib/repo";
+import { DIAS_PREVIA, previaExpirou } from "@/lib/bot/expiracao";
 import { botWhatsappUrl, site as supporta } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -28,6 +29,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
     ? await tryDb("analise", async (sql) => (await sql<Site[]>`select * from sites where slug = ${slug} and status <> 'cancelado'`)[0] ?? null)
     : null;
   if (s?.status === "no_ar") return Response.redirect(s.dominio ? `https://${s.dominio}` : `https://${s.slug}.supporta.com.br`, 302);
+  // Passou dos 5 dias sem contratar: sai do ar (o site continua guardado; o robô recoloca quando o cliente volta).
+  if (s && previaExpirou(s as Site & { previa_expira_em: Date | null })) {
+    const link = botWhatsappUrl(`Oi! Quero ver de novo a prévia do site da ${s.empresa} (analise.supporta.com.br/${s.slug}).`);
+    return new Response(`<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prévia fora do ar · Supporta</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:#0B0B0F;color:#F5F5F2;font:16px/1.5 Inter,Helvetica,Arial,sans-serif;text-align:center"><main style="max-width:440px"><p style="margin:0 0 8px;color:#FF3D71;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:12px">Prévia fora do ar</p><h1 style="margin:0 0 12px;font-size:28px;line-height:1.15">A prévia do site da ${esc(s.empresa)} saiu do ar.</h1><p style="margin:0 0 24px;color:#B8B8C0">Ela ficou disponível por ${DIAS_PREVIA} dias. O site continua guardado: é só chamar no WhatsApp que eu coloco no ar de novo.</p><a href="${esc(link)}" style="display:inline-block;padding:12px 22px;border-radius:999px;background:#FF3D71;color:#0B0B0F;font-weight:600;text-decoration:none">Ver de novo no WhatsApp</a></main>`, {
+      status: 410,
+      headers: { "content-type": "text/html; charset=utf-8", ...NOINDEX },
+    });
+  }
   const page = s ? await getSitePage(s.id, "/") : null;
   if (!s || !page) {
     const msg = s ? "O site ainda está sendo montado. Volte em alguns minutos." : "Prévia não encontrada.";
