@@ -39,7 +39,8 @@ async function chamar<T>(rota: string, body: unknown, timeout = 20_000): Promise
 
 /** Texto simples. `delay` mostra "digitando..." antes, para não parecer robô respondendo em 0 segundo. */
 export async function enviarTexto(numero: string, texto: string) {
-  const delay = Math.min(3500, 600 + texto.length * 25);
+  // "digitando..." no tempo de uma pessoa: ~40 ms por letra, entre 1,5 e 7 segundos, com uma variação.
+  const delay = Math.round(Math.min(7000, Math.max(1500, 1200 + texto.length * 40)) * (0.85 + Math.random() * 0.3));
   const r = await chamar<{ key?: { id?: string } }>("message/sendText", { number: numero, text: texto, delay, linkPreview: true });
   return r.key?.id ?? null;
 }

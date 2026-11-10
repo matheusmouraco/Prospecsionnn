@@ -70,8 +70,10 @@ const ATENDENTE = process.env.BOT_ATENDENTE || "Matheus";
 // ---------- roteiro (o que o cliente lê) ----------
 const R = {
   abertura: (nome: string) => [
-    `Opa${nome ? ` ${nome}` : ""}, ${ATENDENTE} aqui!`,
-    `Eu monto o site do seu negócio agora, aqui pelo WhatsApp, e você só paga se gostar. E tenho uma boa notícia: o anúncio fala em R$ ${pricing.site}, mas por aqui sai por R$ ${ofertaWhatsapp.site}, uma vez só. Essa condição vale por ${ofertaWhatsapp.dias} dias.`,
+    `Opa${nome ? ` ${nome}` : ""}, tudo bem? Aqui é o ${ATENDENTE} 😊`,
+    ofertaWhatsapp.site < pricing.site
+      ? `Faço o seu site hoje e você só paga se gostar. Pelo WhatsApp sai por R$ ${ofertaWhatsapp.site} (no anúncio é R$ ${pricing.site}), condição de ${ofertaWhatsapp.dias} dias.`
+      : `Faço o seu site hoje e você só paga se gostar: R$ ${pricing.site}, uma vez só.`,
   ],
   naoEntendiNegocio: "Sem problema! Me fala só o nome do seu negócio (pode ser o seu nome mesmo, se você trabalha por conta). Se tiver Instagram ou site, me manda o link.",
   fornecedor: "Obrigado pelo contato! No momento não temos interesse, mas fico com o seu contato aqui.",
@@ -84,7 +86,7 @@ const R = {
     `Opa${nome ? ` ${nome}` : ""}! Vou montar uma ideia de site pra ${empresa}, sem compromisso: você só paga se gostar, R$ ${preco}, uma vez só (condição de ${ofertaWhatsapp.dias} dias).`,
     "Vocês têm site ou Instagram? Se tiver, me manda o link que eu uso a logo e as fotos de lá. Se não tiver, me conta o que vocês fazem e de que cidade atendem.",
   ],
-  pedeNegocio: "Qual o nome do seu negócio? Se tiver Instagram ou site, me manda o link que eu já puxo as informações de lá.",
+  pedeNegocio: "Pra começar: qual o nome do seu negócio? Se tiver Instagram, pode mandar o @ também.",
   olhando: (onde: string) => `Beleza, já vou dar uma olhada no seu ${onde}.`,
   pedeServicos: "O que vocês vendem ou fazem? Se quiser mostrar preço, me passa também. E de que cidade vocês atendem?",
   pedeFotos: (temOnline: boolean) =>
@@ -149,7 +151,10 @@ const R = {
 
 /** Manda uma ou mais mensagens e guarda no histórico. Sem Evolution configurada (teste local), só registra. */
 async function falar(telefone: string, textos: string | string[]) {
-  for (const t of Array.isArray(textos) ? textos : [textos]) {
+  const lista = Array.isArray(textos) ? textos : [textos];
+  for (const [i, t] of lista.entries()) {
+    // Entre uma mensagem e outra, a pausa de quem termina de digitar e começa a próxima.
+    if (i > 0 && evolutionEnabled()) await pausa(1200 + Math.random() * 1800);
     let id: string | null = null;
     if (evolutionEnabled()) id = await enviarTexto(telefone, t);
     else console.log(`[bot -> ${telefone}] ${t}`);
@@ -171,6 +176,11 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
   // para não cobrar 10 minutos depois de alguém que disse "vou ver com meu sócio".
   await salvarConversa(m.de, { ultima_msg_cliente_em: new Date(), retornos: conv.previa_em ? 2 : 0, ultimo_retorno_em: null });
   if (conv.etapa === "humano") return; // alguém da equipe assumiu
+  // Ninguém responde no mesmo segundo: no primeiro contato espera uns 15 a 25 s, depois uns 3 a 7 s antes de começar a digitar.
+  if (evolutionEnabled() && m.tipo !== "imagem") await pausa(conv.etapa === "inicio" ? 15_000 + Math.random() * 10_000 : 3000 + Math.random() * 4000);
+  // Durante a espera outra mensagem pode ter avançado a conversa: segue da etapa atual.
+  const atualizada = (await buscarConversa(m.de)) ?? conv;
+  if (atualizada.etapa !== conv.etapa) Object.assign(conv, atualizada);
   // Prévia que já saiu do ar e o cliente voltou a falar: volta ao ar por mais uns dias antes de seguir a conversa.
   if (conv.site_id && ["previa", "dados", "pagamento"].includes(conv.etapa)) {
     const e = await lerExpiracao(conv.site_id);
@@ -216,6 +226,9 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
 // ---------- etapas ----------
 
 async function etapaInicio(conv: Conversa, texto: string, depois: Depois) {
+  // Duas mensagens seguidas no começo ("Olá" + "quero um site"): só a primeira abre a conversa.
+  const ganhou = await tryDb("abrirConversa", (sql) => sql`update conversas set etapa = 'negocio', atualizado_em = now() where telefone = ${conv.telefone} and etapa = 'inicio' returning 1`);
+  if (ganhou && !ganhou.length) return;
   const links = acharLinks(texto);
   // Veio da prévia (analise.supporta.com.br/nome): continua a conversa daquele site.
   if (links.analise && (await assumirSitePorSlug(conv, links.analise))) return;
