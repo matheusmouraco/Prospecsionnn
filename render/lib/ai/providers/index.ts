@@ -1,19 +1,33 @@
 import "server-only";
 import sharp from "sharp";
 import { serverEnv } from "@/lib/server/env";
-import { callGemini } from "./gemini-client";
-import type { ImageProvider, ImageRequest, ImageResult } from "./types";
+import { callGemini, NO_QUOTA_MESSAGE } from "./gemini-client";
+import { FriendlyError, type ImageProvider, type ImageRequest, type ImageResult } from "./types";
 
 class GeminiImageProvider implements ImageProvider {
   constructor(
     readonly id: string,
     private readonly costUsd: number,
+    private readonly fallback?: { id: string; costUsd: number },
   ) {}
 
   async generate(req: ImageRequest): Promise<ImageResult> {
-    const out = await callGemini({ model: this.id, parts: req.parts, image: { aspectRatio: req.aspectRatio, size: req.size } });
+    try {
+      return await this.call(this.id, this.costUsd, req);
+    } catch (err) {
+      // No quota for the main model (e.g. free tier): try the fallback model once.
+      if (err instanceof FriendlyError && err.message === NO_QUOTA_MESSAGE && this.fallback && this.fallback.id !== this.id) {
+        console.warn(`[render] sem cota em ${this.id}, tentando ${this.fallback.id}`);
+        return this.call(this.fallback.id, this.fallback.costUsd, req);
+      }
+      throw err;
+    }
+  }
+
+  private async call(model: string, costUsd: number, req: ImageRequest): Promise<ImageResult> {
+    const out = await callGemini({ model, parts: req.parts, image: { aspectRatio: req.aspectRatio, size: req.size } });
     const img = out.images[out.images.length - 1]!;
-    return { mime: img.mime, data: img.data, model: this.id, costUsd: this.costUsd };
+    return { mime: img.mime, data: img.data, model, costUsd };
   }
 }
 
@@ -45,7 +59,10 @@ export function isDemo(): boolean {
 export function providerFor(quality: "1k" | "2k"): ImageProvider {
   const env = serverEnv();
   if (!env.geminiKey) return new DemoProvider();
-  return quality === "2k" ? new GeminiImageProvider(env.modelHd, env.costHd) : new GeminiImageProvider(env.modelStandard, env.costStandard);
+  const fallback = { id: env.modelFallback, costUsd: env.costStandard };
+  return quality === "2k"
+    ? new GeminiImageProvider(env.modelHd, env.costHd, fallback)
+    : new GeminiImageProvider(env.modelStandard, env.costStandard, fallback);
 }
 
 /**

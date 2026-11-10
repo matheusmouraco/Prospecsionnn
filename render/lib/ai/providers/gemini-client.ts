@@ -108,6 +108,9 @@ async function post(style: Style, c: GeminiCall): Promise<Response> {
   return fetch(url, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(c.timeoutMs ?? 110_000) });
 }
 
+export const NO_QUOTA_MESSAGE =
+  "A chave do Gemini está no plano gratuito, que não libera geração de imagem. Ative o faturamento no Google AI Studio (ai.dev) e tente de novo.";
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export async function callGemini(c: GeminiCall): Promise<GeminiOutput> {
@@ -149,6 +152,10 @@ export async function callGemini(c: GeminiCall): Promise<GeminiOutput> {
         return out;
       }
       lastDetail = `${style} HTTP ${res.status}: ${text.slice(0, 400)}`;
+      // Free tier with zero quota for this model: retrying never helps.
+      if (res.status === 429 && /limit:\s*0\b/.test(text)) {
+        throw new FriendlyError(NO_QUOTA_MESSAGE, 402, lastDetail);
+      }
       if (res.status === 429 || res.status >= 500) {
         if (attempt < 2) {
           await sleep(1500 * 2 ** attempt);

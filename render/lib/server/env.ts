@@ -8,6 +8,8 @@ export function serverEnv() {
     modelStandard: e.GEMINI_MODEL_STANDARD?.trim() || "gemini-3.1-flash-image",
     modelHd: e.GEMINI_MODEL_HD?.trim() || "gemini-3-pro-image",
     modelText: e.GEMINI_MODEL_TEXT?.trim() || "gemini-2.5-flash",
+    // Used when the main model has no quota on this key.
+    modelFallback: e.GEMINI_MODEL_FALLBACK?.trim() || "gemini-2.5-flash-image",
     apiStyle: (e.GEMINI_API_STYLE?.trim() === "generateContent" ? "generateContent" : "interactions") as
       | "interactions"
       | "generateContent",

@@ -1,8 +1,10 @@
-# Renderiza (nome provisório)
+# ArquiStudio Render
+
+Produção: https://arquistudio-render.vercel.app/editor (Vercel, projeto `arquistudio-render`).
 
 SaaS de render fotorrealista com IA: o usuário manda um print do SketchUp/Promob/Revit/Lumion, uma foto do ambiente, um croqui ou uma fachada, define tudo num wizard visual e recebe o render mantendo a geometria original. Sem escrever prompt.
 
-App Next.js isolado dentro deste repositório (não depende do prospector nem da Supporta).
+Produto do ArquiStudio. Repositório próprio, deploy automático na Vercel a cada push na `main`.
 
 ## Status das etapas
 
