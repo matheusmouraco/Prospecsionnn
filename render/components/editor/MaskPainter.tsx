@@ -7,7 +7,7 @@ import { Button, cx } from "@/components/ui/kit";
 
 export type MaskResult = { bw: string; alpha: string; preview: string };
 
-const PAINT = "rgb(232, 181, 109)";
+const PAINT = "rgb(141, 179, 226)";
 const MAX_SIDE = 1536;
 
 /**

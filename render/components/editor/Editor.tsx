@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Bookmark, History, ImagePlus, MessageSquareText, Wand2, Zap } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { INPUT_TYPES, QUALITIES } from "@/config/options";
+import { ArrowLeft, ArrowRight, Bookmark, Brush, Check, History, ImagePlus, MessageSquareText, RefreshCw, Sparkles, Zap } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FORMATS, GOALS, INPUT_TYPES, PALETTES, QUALITIES, ROOMS, STYLES, TIMES, FURNITURE_MODES, ANGLES, surfacesForRoom } from "@/config/options";
 import { APP_NAME } from "@/lib/brand";
 import { summarySentence } from "@/lib/ai/summary";
 import { compositeWithMask, compressDataUrl, compressImage, downloadDataUrl, type Img } from "@/lib/image/client";
@@ -20,35 +20,35 @@ import {
   type Session,
 } from "@/lib/store/local";
 import { cloneChoices, creditsFor, DEFAULT_CHOICES, mergeChoices, type Choices } from "@/lib/wizard/types";
-import { Button, cx, Segmented } from "@/components/ui/kit";
+import { ProductLockup } from "@/components/ui/brand";
+import { Button, cx, Icon, Segmented } from "@/components/ui/kit";
 import { BeforeAfter } from "./BeforeAfter";
 import { AccessGate, AssistantDialog, HistoryDrawer, PresetsDrawer } from "./Dialogs";
 import { Generating } from "./Generating";
 import { MaskPainter, type MaskResult } from "./MaskPainter";
-import { ResultPanel } from "./ResultPanel";
+import { OutputThumb, ResultPanel } from "./ResultPanel";
 import { StepCamera, StepFurniture, StepGoal, StepLighting, StepMaterials, StepPalette, StepRoom, StepStyle } from "./steps/choices-steps";
-import { StepRefine, StepSummary, StepUpload } from "./steps/media-steps";
+import { SAMPLES, StepRefine, StepSummary, StepUpload, type Sample } from "./steps/media-steps";
 
 type StepId = "upload" | "objetivo" | "ambiente" | "estilo" | "materiais" | "paleta" | "luz" | "mobiliario" | "camera" | "ajustes" | "resumo";
 
-const STEP_META: Record<StepId, { title: string; subtitle: string; short: string }> = {
-  upload: { title: "Envie sua imagem", subtitle: "Print do SketchUp, Promob, Revit, foto do ambiente, croqui ou fachada.", short: "Imagem" },
-  objetivo: { title: "O que você quer fazer?", subtitle: "Isso define o quanto a IA pode mudar.", short: "Objetivo" },
-  ambiente: { title: "Qual é o ambiente?", subtitle: "Ajuda a IA a escolher móveis e materiais coerentes.", short: "Ambiente" },
-  estilo: { title: "Escolha o estilo", subtitle: "Ou deixe a IA escolher o que combina com o espaço.", short: "Estilo" },
-  materiais: { title: "Materiais por superfície", subtitle: "Escolha só o que importa. O resto a IA decide ou mantém.", short: "Materiais" },
-  paleta: { title: "Paleta de cores", subtitle: "Uma paleta pronta ou até 4 cores suas.", short: "Paleta" },
-  luz: { title: "Iluminação e clima", subtitle: "A luz é o que mais faz o render parecer foto.", short: "Luz" },
-  mobiliario: { title: "Mobiliário e elementos", subtitle: "O que entra e o que não pode aparecer de jeito nenhum.", short: "Móveis" },
-  camera: { title: "Câmera e formato", subtitle: "Manter o ângulo original garante a geometria exata.", short: "Câmera" },
-  ajustes: { title: "Referências e ajuste fino", subtitle: "Moodboard, pincel e detalhes em texto. Tudo opcional.", short: "Ajustes" },
-  resumo: { title: "Confira e gere", subtitle: "Revise tudo antes de gastar créditos.", short: "Resumo" },
+const STEP_META: Record<StepId, { title: string; subtitle: string; short: string; icon: string }> = {
+  upload: { title: "Envie sua imagem", subtitle: "Print do SketchUp, Promob, Revit ou Lumion, foto do ambiente, croqui ou fachada.", short: "Imagem", icon: "ImagePlus" },
+  objetivo: { title: "O que você quer fazer?", subtitle: "Isso define o quanto a IA pode mudar na cena.", short: "Objetivo", icon: "Target" },
+  ambiente: { title: "Qual é o ambiente?", subtitle: "Ajuda a IA a escolher móveis e materiais coerentes.", short: "Ambiente", icon: "Home" },
+  estilo: { title: "Escolha o estilo", subtitle: "Ou deixe a IA escolher o que combina com o espaço.", short: "Estilo", icon: "Sparkles" },
+  materiais: { title: "Materiais por superfície", subtitle: "Escolha só o que importa. O resto a IA decide ou mantém.", short: "Materiais", icon: "Layers" },
+  paleta: { title: "Paleta de cores", subtitle: "Uma paleta pronta ou até 4 cores suas.", short: "Paleta", icon: "Palette" },
+  luz: { title: "Iluminação e clima", subtitle: "A luz é o que mais faz o render parecer foto.", short: "Luz", icon: "Sun" },
+  mobiliario: { title: "Mobiliário e elementos", subtitle: "O que entra e o que não pode aparecer de jeito nenhum.", short: "Mobiliário", icon: "Armchair" },
+  camera: { title: "Câmera e formato", subtitle: "Manter o ângulo original garante a geometria exata.", short: "Câmera", icon: "Camera" },
+  ajustes: { title: "Referências e ajuste fino", subtitle: "Moodboard, pincel e detalhes em texto. Tudo opcional.", short: "Ajuste fino", icon: "SlidersHorizontal" },
+  resumo: { title: "Confira e gere", subtitle: "Revise tudo antes de gastar créditos.", short: "Resumo", icon: "ClipboardCheck" },
 };
 
 const FULL: StepId[] = ["upload", "objetivo", "ambiente", "estilo", "materiais", "paleta", "luz", "mobiliario", "camera", "ajustes", "resumo"];
 const QUICK: StepId[] = ["upload", "ambiente", "estilo", "resumo"];
 
-type Mask = MaskResult;
 type RenderResponse = { image: string; width: number; height: number; model: string; costUsd: number; prompt: string; demo: boolean; error?: string; code?: string };
 
 function suggestedGoal(type: string | null, empty: boolean): string {
@@ -63,13 +63,16 @@ function expectedSeconds(kind: OutputKind, quality: string): number {
   return QUALITIES.find((q) => q.id === quality)?.seconds ?? 20;
 }
 
+const lbl = (list: { id: string; label: string }[], id: string | null | undefined) => (id ? list.find((o) => o.id === id)?.label : undefined);
+
 export function Editor() {
   const [mode, setMode] = useState<"rapido" | "completo">("completo");
   const [stepIdx, setStepIdx] = useState(0);
   const [choices, setChoices] = useState<Choices>(DEFAULT_CHOICES);
+  const [title, setTitle] = useState("");
   const [input, setInput] = useState<Img | null>(null);
   const [refs, setRefs] = useState<Img[]>([]);
-  const [mask, setMask] = useState<Mask | null>(null);
+  const [mask, setMask] = useState<MaskResult | null>(null);
   const [maskLock, setMaskLock] = useState(true);
   const [detecting, setDetecting] = useState(false);
   const [emptySpace, setEmptySpace] = useState(false);
@@ -85,6 +88,7 @@ export function Editor() {
   const [demo, setDemo] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const steps = mode === "rapido" ? QUICK : FULL;
   const step = steps[Math.min(stepIdx, steps.length - 1)]!;
@@ -121,13 +125,20 @@ export function Editor() {
   /* ---------- upload + detection ---------- */
 
   const handleFile = useCallback(
-    async (file: File) => {
+    async (file: File | Blob, hint?: { type: string; room: string }) => {
       try {
         const img = await compressImage(file, 2048);
         setInput(img);
         setMask(null);
         setPhase("wizard");
-        update((d) => void (d.inputType = null));
+        update((d) => {
+          d.inputType = hint?.type ?? null;
+          if (hint) {
+            d.room = hint.room;
+            d.goal = suggestedGoal(hint.type, hint.room === "sala-estar");
+          }
+        });
+        if (hint) return;
         setDetecting(true);
         const small = await compressDataUrl(img.url, 768, 400_000);
         const res = await fetch("/api/detect", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ image: small.url }) });
@@ -148,6 +159,15 @@ export function Editor() {
     [flash, update],
   );
 
+  const loadSample = useCallback(
+    async (s: Sample) => {
+      const blob = await (await fetch(s.src)).blob();
+      if (!title) setTitle(s.title);
+      await handleFile(blob, { type: s.type, room: s.room });
+    },
+    [handleFile, title],
+  );
+
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(false);
@@ -155,7 +175,7 @@ export function Editor() {
     if (f && f.type.startsWith("image/")) void handleFile(f);
   };
 
-  // Paste an image from the clipboard (common when copying a SketchUp viewport)
+  // Paste an image from the clipboard (common when copying a SketchUp viewport).
   useEffect(() => {
     const onPaste = (e: ClipboardEvent) => {
       const f = Array.from(e.clipboardData?.files ?? []).find((x) => x.type.startsWith("image/"));
@@ -176,11 +196,13 @@ export function Editor() {
   const firstBlocked = steps.findIndex((s) => !canAdvance(s));
   const go = (i: number) => {
     if (firstBlocked !== -1 && i > firstBlocked) return;
+    setPhase("wizard");
     setStepIdx(Math.max(0, Math.min(steps.length - 1, i)));
   };
   const goStep = (id: string) => {
     if (mode === "rapido" && !QUICK.includes(id as StepId)) {
       setMode("completo");
+      setPhase("wizard");
       setStepIdx(FULL.indexOf(id as StepId));
       return;
     }
@@ -191,6 +213,47 @@ export function Editor() {
     setMode(m);
     const list = m === "rapido" ? QUICK : FULL;
     setStepIdx(Math.max(0, list.indexOf(current) === -1 ? list.length - 1 : list.indexOf(current)));
+  };
+
+  /** Short value shown under each step in the rail: the brief being built, live. */
+  const stepValue = (s: StepId): string | null => {
+    const c = choices;
+    switch (s) {
+      case "upload":
+        return input ? (lbl(INPUT_TYPES, c.inputType) ?? (detecting ? "Analisando..." : "Escolha o tipo")) : null;
+      case "objetivo":
+        return lbl(GOALS, c.goal) ?? null;
+      case "ambiente":
+        return lbl(ROOMS, c.room) ?? null;
+      case "estilo":
+        return c.style === "auto" ? "IA decide" : (lbl(STYLES, c.style) ?? null);
+      case "materiais": {
+        const n = surfacesForRoom(c.room).filter((k) => c.materials[k] !== "auto").length;
+        return n ? `${n} superfície${n > 1 ? "s" : ""} definida${n > 1 ? "s" : ""}` : "IA decide";
+      }
+      case "paleta":
+        return c.palette.mode === "preset" ? (lbl(PALETTES, c.palette.preset) ?? null) : c.palette.mode === "custom" ? `${c.palette.colors.length} cores suas` : "IA decide";
+      case "luz": {
+        const t = c.lighting.time === "auto" ? null : lbl(TIMES, c.lighting.time);
+        const a = c.lighting.artificial.length;
+        return [t, a ? `${a} luz${a > 1 ? "es" : ""}` : null].filter(Boolean).join(" · ") || "IA decide";
+      }
+      case "mobiliario": {
+        const m = c.furniture.mode === "auto" ? null : lbl(FURNITURE_MODES, c.furniture.mode);
+        const n = c.furniture.items.length;
+        return [m, n ? `${n} ite${n > 1 ? "ns" : "m"}` : null].filter(Boolean).join(" · ") || "IA decide";
+      }
+      case "camera":
+        return [c.camera.angle === "original" ? "Ângulo original" : lbl(ANGLES, c.camera.angle), c.camera.format !== "original" ? FORMATS.find((f) => f.id === c.camera.format)?.label : null].filter(Boolean).join(" · ");
+      case "ajustes": {
+        const parts = [refs.length ? `${refs.length} ref.` : null, mask ? "pincel" : null, c.refine.notes.trim() ? "texto" : null].filter(Boolean);
+        return parts.length ? parts.join(" · ") : null;
+      }
+      case "resumo": {
+        const t = creditsFor(c.quality, c.variations);
+        return `${c.variations}× ${c.quality.toUpperCase()} · ${t} crédito${t > 1 ? "s" : ""}`;
+      }
+    }
   };
 
   /* ---------- generation ---------- */
@@ -230,11 +293,11 @@ export function Editor() {
     void saveSession(session).then(() => listSessions().then(setSessions));
   }, [session]);
 
-  const renderBody = (c: Choices) => ({
+  const renderBody = (c: Choices, base: Img) => ({
     mode: "render",
     choices: c,
     quality: c.quality,
-    image: input!.url,
+    image: base.url,
     mask: mask?.bw,
     refs: refs.map((r) => r.url),
   });
@@ -244,19 +307,13 @@ export function Editor() {
     const c = cloneChoices(choices);
     if (!c.goal) c.goal = suggestedGoal(c.inputType, emptySpace);
     const now = Date.now();
-    const outputs: Output[] = Array.from({ length: c.variations }, (_, i) => ({
-      id: uid(),
-      kind: "render" as const,
-      status: "pending" as const,
-      label: `Opção ${i + 1}`,
-      createdAt: now,
-    }));
-    const s: Session = { id: uid(), createdAt: now, updatedAt: now, input, choices: c, summary: summarySentence(c), outputs };
+    const outputs: Output[] = Array.from({ length: c.variations }, (_, i) => ({ id: uid(), kind: "render" as const, status: "pending" as const, label: `Opção ${i + 1}`, createdAt: now }));
+    const s: Session = { id: uid(), title: title.trim() || undefined, createdAt: now, updatedAt: now, input, choices: c, summary: summarySentence(c), outputs };
     setSession(s);
     setSelectedId(outputs[0]!.id);
     setPhase("result");
     const composite = mask && maskLock && c.camera.format === "original" ? { base: input.url, alpha: mask.alpha } : undefined;
-    runJobs(outputs.map((o) => ({ output: o, body: renderBody(c), composite })));
+    runJobs(outputs.map((o) => ({ output: o, body: renderBody(c, input), composite })));
   };
 
   const selected = session?.outputs.find((o) => o.id === selectedId) ?? session?.outputs[0];
@@ -270,12 +327,19 @@ export function Editor() {
   };
 
   const prepared = async (o: Output) => (await compressDataUrl(o.url!, 2048, 2_600_000)).url;
+  const slug = (s: string) =>
+    s
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
 
   const actions = {
     download: () => {
       if (!selected?.url || !session) return;
-      const room = session.choices.room ?? "render";
-      downloadDataUrl(selected.url, `${APP_NAME.toLowerCase()}-${room}-${selected.label.toLowerCase().replace(/\s+/g, "-")}.jpg`);
+      const name = session.title || lbl(ROOMS, session.choices.room) || "render";
+      downloadDataUrl(selected.url, `${slug(APP_NAME)}-${slug(name)}-${slug(selected.label)}.jpg`);
     },
     upscale: async () => {
       if (!selected?.url) return;
@@ -294,15 +358,15 @@ export function Editor() {
       });
     },
     editText: async (text: string) => {
-      if (!selected?.url) return;
-      const n = session!.outputs.filter((o) => o.kind === "edit").length + 1;
-      addChild("edit", `Edição ${n}`, selected, { mode: "edit", quality: session!.choices.quality, image: await prepared(selected), instruction: text });
+      if (!selected?.url || !session) return;
+      const n = session.outputs.filter((o) => o.kind === "edit").length + 1;
+      addChild("edit", `Edição ${n}`, selected, { mode: "edit", quality: session.choices.quality, image: await prepared(selected), instruction: text });
     },
-    editArea: async (m: Mask, text: string) => {
-      if (!selected?.url) return;
+    editArea: async (m: MaskResult, text: string) => {
+      if (!selected?.url || !session) return;
       const base = await prepared(selected);
-      const n = session!.outputs.filter((o) => o.kind === "edit").length + 1;
-      addChild("edit", `Edição ${n}`, selected, { mode: "edit", quality: session!.choices.quality, image: base, mask: m.bw, instruction: text }, { base: selected.url, alpha: m.alpha });
+      const n = session.outputs.filter((o) => o.kind === "edit").length + 1;
+      addChild("edit", `Edição ${n}`, selected, { mode: "edit", quality: session.choices.quality, image: base, mask: m.bw, instruction: text }, { base: selected.url, alpha: m.alpha });
     },
     retry: (id: string) => {
       if (!session) return;
@@ -313,7 +377,7 @@ export function Editor() {
         return;
       }
       patchOutput(id, { status: "pending", error: undefined, createdAt: Date.now() });
-      runJobs([{ output: o, body: { ...renderBody(session.choices), image: session.input.url } }]);
+      runJobs([{ output: o, body: renderBody(session.choices, session.input) }]);
     },
   };
 
@@ -321,6 +385,7 @@ export function Editor() {
     setSession(s);
     setInput(s.input);
     setChoices(s.choices);
+    setTitle(s.title ?? "");
     setSelectedId(s.outputs.find((o) => o.favorite)?.id ?? s.outputs[0]?.id ?? null);
     setPhase("result");
     setDialog(null);
@@ -331,97 +396,131 @@ export function Editor() {
     setInput(null);
     setRefs([]);
     setMask(null);
+    setTitle("");
     setChoices((c) => ({ ...cloneChoices(DEFAULT_CHOICES), quality: c.quality, variations: c.variations }));
     setStepIdx(0);
     setPhase("wizard");
   };
 
-  /* ---------- stage (left) ---------- */
+  /* ---------- canvas (center) ---------- */
 
-  const pendingCount = session?.outputs.filter((o) => o.status === "pending").length ?? 0;
   const doneCount = session?.outputs.filter((o) => o.status === "done").length ?? 0;
   const parentOf = (o: Output) => (o.parentId ? session?.outputs.find((x) => x.id === o.parentId) : undefined);
 
-  const stage = (() => {
+  const canvas = (() => {
     if (!input) {
       return (
-        <label
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragOver(true);
-          }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={onDrop}
-          className={cx(
-            "group relative flex size-full cursor-pointer flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed p-8 text-center transition",
-            dragOver ? "border-accent bg-accent-soft" : "border-line-strong hover:border-accent/60",
-          )}
-        >
-          <input type="file" accept="image/*" className="sr-only" onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])} />
-          <span className="grid size-16 place-items-center rounded-2xl bg-panel-3 text-accent transition group-hover:scale-105">
-            <ImagePlus className="size-7" strokeWidth={1.5} />
-          </span>
-          <span>
-            <span className="block text-lg font-medium">Arraste sua imagem aqui</span>
-            <span className="mt-1 block text-sm text-muted">ou clique para escolher. Também dá para colar com Ctrl+V.</span>
-          </span>
-          <span className="flex flex-wrap justify-center gap-1.5">
-            {["SketchUp", "Promob", "Revit", "Lumion", "Foto", "Croqui", "Fachada"].map((t) => (
-              <span key={t} className="rounded-full border border-line px-2.5 py-1 text-[11px] text-muted">
-                {t}
-              </span>
-            ))}
-          </span>
-        </label>
+        <div className="flex size-full flex-col items-center justify-center gap-6 p-2 sm:p-6">
+          <div className="hidden text-center lg:block">
+            <p className="text-[11px] font-semibold tracking-[0.2em] text-muted uppercase font-wide">Render fotorrealista com IA</p>
+            <h2 className="mt-3 text-[34px] leading-[1.08] font-semibold font-display">
+              Do print do SketchUp ao render
+              <br />
+              <span className="text-muted">mantendo cada linha do projeto.</span>
+            </h2>
+          </div>
+          <label
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragOver(true);
+            }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={onDrop}
+            className={cx(
+              "group relative flex w-full max-w-2xl flex-1 cursor-pointer flex-col items-center justify-center gap-4 overflow-hidden rounded-3xl border border-dashed p-8 text-center transition lg:max-h-[380px] lg:flex-none lg:py-16",
+              dragOver ? "border-accent bg-accent-soft" : "border-line-strong bg-panel/40 hover:border-white/30 hover:bg-panel/70",
+            )}
+          >
+            <div className="slats slats-fade pointer-events-none absolute inset-x-0 bottom-0 h-1/2 text-white/[.03]" />
+            <input ref={fileRef} type="file" accept="image/*" className="sr-only" onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])} />
+            <span className="grid size-14 place-items-center rounded-2xl border border-line-strong bg-panel-3 text-ink transition group-hover:-translate-y-0.5">
+              <ImagePlus className="size-6" strokeWidth={1.5} />
+            </span>
+            <span>
+              <span className="block text-lg font-medium">Arraste sua imagem aqui</span>
+              <span className="mt-1 block text-sm text-muted">ou clique para escolher. Também dá para colar com Ctrl+V.</span>
+            </span>
+            <span className="flex flex-wrap justify-center gap-1.5">
+              {["SketchUp", "Promob", "Revit", "Lumion", "Foto", "Croqui", "Fachada"].map((t) => (
+                <span key={t} className="rounded-full border border-line px-2.5 py-1 text-[11px] text-muted">
+                  {t}
+                </span>
+              ))}
+            </span>
+          </label>
+          <div className="hidden w-full max-w-2xl lg:block">
+            <p className="mb-2.5 text-center text-xs text-faint">Ou teste com um exemplo</p>
+            <div className="grid grid-cols-3 gap-3">
+              {SAMPLES.map((s) => (
+                <button key={s.src} type="button" onClick={() => loadSample(s)} className="group overflow-hidden rounded-2xl border border-line bg-panel text-left transition hover:border-line-strong">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={s.src} alt="" className="aspect-[16/10] w-full object-cover opacity-80 transition group-hover:opacity-100" />
+                  <span className="block px-3 py-2 text-xs text-ink/80">{s.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       );
     }
 
     if (phase === "result" && session && selected) {
       const before = parentOf(selected)?.url ?? session.input.url;
-      if (selected.status === "pending") {
-        return (
-          <div className="relative size-full">
-            <Generating
-              image={before}
-              startedAt={selected.createdAt}
-              expectedSeconds={expectedSeconds(selected.kind, session.choices.quality)}
-              label={selected.kind === "upscale" ? "Aumentando para HD 2K" : selected.kind === "edit" ? "Aplicando sua edição" : "Gerando seu render"}
-              done={doneCount}
-              total={selected.kind === "render" ? session.outputs.filter((o) => o.kind === "render").length : undefined}
-            />
-          </div>
-        );
-      }
-      if (selected.status === "done" && selected.url) {
-        return (
-          <div className="flex size-full items-center justify-center">
-            <BeforeAfter key={selected.id} before={before} after={selected.url} width={selected.width ?? session.input.width} height={selected.height ?? session.input.height} />
-          </div>
-        );
-      }
+      const w = selected.width ?? session.input.width;
+      const h = selected.height ?? session.input.height;
       return (
         <div className="flex size-full items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={before} alt="" className="max-h-full max-w-full rounded-2xl opacity-40" />
+          <div className="relative max-h-full max-w-full overflow-hidden rounded-2xl ring-1 ring-line shadow-lift" style={{ aspectRatio: `${w} / ${h}` }}>
+            {selected.status === "pending" ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={before} alt="" className="block max-h-full max-w-full opacity-0" />
+                <Generating
+                  image={before}
+                  startedAt={selected.createdAt}
+                  expectedSeconds={expectedSeconds(selected.kind, session.choices.quality)}
+                  label={selected.kind === "upscale" ? "Aumentando para HD 2K" : selected.kind === "edit" ? "Aplicando sua edição" : selected.kind === "variation" ? "Criando a variação" : "Gerando seu render"}
+                  done={doneCount}
+                  total={selected.kind === "render" ? session.outputs.filter((o) => o.kind === "render").length : undefined}
+                />
+              </>
+            ) : selected.status === "done" && selected.url ? (
+              <BeforeAfter key={selected.id} before={before} after={selected.url} width={w} height={h} />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={before} alt="" className="block max-h-full max-w-full opacity-30" />
+            )}
+          </div>
         </div>
       );
     }
 
-    const typeLabel = INPUT_TYPES.find((t) => t.id === choices.inputType)?.label;
     return (
       <div className="flex size-full items-center justify-center" onDragOver={(e) => e.preventDefault()} onDrop={onDrop}>
-        <div className="relative max-h-full max-w-full" style={{ aspectRatio: `${input.width} / ${input.height}` }}>
+        <div className="group relative max-h-full max-w-full overflow-hidden rounded-2xl ring-1 ring-line shadow-lift" style={{ aspectRatio: `${input.width} / ${input.height}` }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={input.url} alt="Imagem enviada" className="block max-h-full max-w-full rounded-2xl object-contain" />
+          <img src={input.url} alt="Imagem enviada" className="block max-h-full max-w-full object-contain" />
           {mask && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={mask.alpha} alt="" className="pointer-events-none absolute inset-0 size-full rounded-2xl opacity-45 mix-blend-screen" style={{ filter: "sepia(1) saturate(4) hue-rotate(-10deg)" }} />
+            <img src={mask.alpha} alt="" className="pointer-events-none absolute inset-0 size-full opacity-40" style={{ filter: "sepia(1) saturate(3) hue-rotate(175deg)" }} />
           )}
-          {detecting && <div className="absolute inset-x-0 top-0 h-[10%] bg-gradient-to-b from-transparent via-accent/40 to-transparent animate-scan" />}
-          <span className="absolute top-3 left-3 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-medium backdrop-blur">
-            {detecting ? "Analisando a imagem..." : (typeLabel ?? "Escolha o tipo")}
-          </span>
+          {detecting && <div className="absolute inset-x-0 top-0 h-[12%] bg-gradient-to-b from-transparent via-white/25 to-transparent animate-scan" />}
+          <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+            <span className="glass rounded-full px-2.5 py-1 text-[11px] font-medium">{detecting ? "Analisando a imagem..." : (lbl(INPUT_TYPES, choices.inputType) ?? "Escolha o tipo")}</span>
+            <span className="glass hidden rounded-full px-2.5 py-1 font-mono text-[10.5px] text-ink/70 sm:inline">
+              {input.width}×{input.height}
+            </span>
+          </div>
+          <div className="absolute top-3 right-3 flex gap-1.5 opacity-100 transition lg:opacity-0 lg:group-hover:opacity-100">
+            <button type="button" onClick={() => setPainter({ target: "input" })} className="glass flex h-8 items-center gap-1.5 rounded-full px-3 text-[12px] hover:bg-panel-3">
+              <Brush className="size-3.5" /> Pincel
+            </button>
+            <button type="button" onClick={() => fileRef.current?.click()} className="glass flex h-8 items-center gap-1.5 rounded-full px-3 text-[12px] hover:bg-panel-3">
+              <RefreshCw className="size-3.5" /> Trocar
+            </button>
+          </div>
         </div>
+        <input ref={fileRef} type="file" accept="image/*" className="sr-only" onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])} />
       </div>
     );
   })();
@@ -432,7 +531,7 @@ export function Editor() {
     const p = { c: choices, update };
     switch (step) {
       case "upload":
-        return <StepUpload {...p} input={input} detecting={detecting} onFile={handleFile} />;
+        return <StepUpload {...p} input={input} detecting={detecting} onFile={handleFile} onSample={loadSample} />;
       case "objetivo":
         return <StepGoal {...p} />;
       case "ambiente":
@@ -490,21 +589,87 @@ export function Editor() {
   const isLast = step === "resumo";
   const meta = STEP_META[step];
   const optional = !["upload", "objetivo", "ambiente", "resumo"].includes(step);
-  const progress = useMemo(() => ((stepIdx + 1) / steps.length) * 100, [stepIdx, steps.length]);
+  const progress = ((stepIdx + 1) / steps.length) * 100;
+
+  /* ---------- step rail (left, xl+) ---------- */
+
+  const rail = (
+    <nav className="hidden min-h-0 flex-col border-r border-line bg-panel xl:flex" aria-label="Etapas">
+      <div className="px-5 pt-5 pb-3">
+        <p className="text-[10.5px] font-semibold tracking-[0.16em] text-faint uppercase font-wide">{mode === "rapido" ? "Modo rápido" : "Briefing do render"}</p>
+      </div>
+      <ol className="min-h-0 flex-1 space-y-0.5 overflow-y-auto px-3 pb-4 scroll-thin">
+        {steps.map((s, i) => {
+          const locked = firstBlocked !== -1 && i > firstBlocked;
+          const current = phase === "wizard" && s === step;
+          const done = !current && (i < stepIdx || phase === "result") && canAdvance(s);
+          const value = stepValue(s);
+          return (
+            <li key={s}>
+              <button
+                type="button"
+                disabled={locked}
+                onClick={() => goStep(s)}
+                aria-current={current ? "step" : undefined}
+                className={cx(
+                  "group flex w-full items-start gap-3 rounded-xl px-2.5 py-2 text-left transition",
+                  current ? "bg-panel-3" : "hover:bg-panel-2",
+                  locked && "pointer-events-none opacity-35",
+                )}
+              >
+                <span
+                  className={cx(
+                    "mt-0.5 grid size-6 shrink-0 place-items-center rounded-full border text-[11px] tabular-nums transition",
+                    current ? "border-ink bg-ink text-bg" : done ? "border-line-strong bg-panel-3 text-ink" : "border-line-strong text-faint",
+                  )}
+                >
+                  {done ? <Check className="size-3" strokeWidth={3} /> : i + 1}
+                </span>
+                <span className="min-w-0">
+                  <span className={cx("block text-[13px] leading-tight", current ? "font-medium text-ink" : "text-ink/80")}>{STEP_META[s].short}</span>
+                  {value && <span className="mt-0.5 block truncate text-[11.5px] text-faint">{value}</span>}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      {input && (
+        <div className="border-t border-line p-4">
+          <p className="line-clamp-3 text-[11.5px] leading-relaxed text-muted">{summarySentence(choices)}.</p>
+        </div>
+      )}
+    </nav>
+  );
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
       {/* Top bar */}
-      <header className="flex h-14 shrink-0 items-center gap-2 border-b border-line px-3 sm:px-4">
-        <button type="button" onClick={reset} className="flex items-center gap-2 pr-2">
-          <span className="grid size-8 place-items-center rounded-lg bg-accent text-accent-ink">
-            <Wand2 className="size-4" strokeWidth={2} />
+      <header className="flex h-14 shrink-0 items-center gap-2 border-b border-line bg-bg/80 px-3 backdrop-blur sm:gap-3 sm:px-4">
+        <button type="button" onClick={reset} className="shrink-0 rounded-lg py-1 pr-1" aria-label="Novo render">
+          <span className="hidden sm:block">
+            <ProductLockup />
           </span>
-          <span className="hidden font-semibold tracking-tight sm:inline">{APP_NAME}</span>
+          <span className="sm:hidden">
+            <ProductLockup compact />
+          </span>
         </button>
+        <span className="hidden h-5 w-px bg-line-strong md:block" />
+        <input
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            setSession((s) => (s ? { ...s, title: e.target.value.trim() || undefined } : s));
+          }}
+          placeholder="Projeto sem nome"
+          maxLength={60}
+          aria-label="Nome do projeto"
+          className="hidden h-8 w-52 min-w-0 rounded-lg bg-transparent px-2 text-sm text-ink placeholder:text-faint hover:bg-panel-2 focus:bg-panel-2 focus:outline-none md:block"
+        />
         {phase === "wizard" && (
-          <div className="ml-1 w-44 sm:w-56">
+          <div className="ml-auto w-[138px] sm:w-48 md:ml-2">
             <Segmented
+              compact
               value={mode}
               onChange={switchMode}
               options={[
@@ -514,38 +679,61 @@ export function Editor() {
             />
           </div>
         )}
-        {demo && <span className="hidden rounded-full border border-accent/40 px-2.5 py-1 text-[11px] text-accent md:inline">Modo demonstração</span>}
-        <div className="ml-auto flex items-center gap-0.5">
+        <div className={cx("flex items-center gap-0.5", phase === "wizard" ? "" : "ml-auto")}>
+          {demo && <span className="mr-2 hidden rounded-full border border-line-strong px-2.5 py-1 text-[11px] text-muted lg:inline">Modo demonstração</span>}
           <Button size="sm" variant="ghost" onClick={() => setDialog("assistant")} aria-label="Assistente">
             <MessageSquareText className="size-4" />
-            <span className="hidden lg:inline">Assistente</span>
+            <span className="hidden xl:inline">Assistente</span>
           </Button>
           <Button size="sm" variant="ghost" onClick={() => setDialog("presets")} aria-label="Presets">
             <Bookmark className="size-4" />
-            <span className="hidden lg:inline">Presets</span>
+            <span className="hidden xl:inline">Presets</span>
           </Button>
           <Button size="sm" variant="ghost" onClick={() => setDialog("history")} aria-label="Histórico">
             <History className="size-4" />
-            <span className="hidden lg:inline">Histórico</span>
+            <span className="hidden xl:inline">Histórico</span>
           </Button>
         </div>
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_460px]">
-        {/* Stage */}
-        <main className="relative h-[38dvh] shrink-0 p-3 sm:h-[44dvh] lg:h-auto lg:p-6">
-          <div className="relative size-full">{stage}</div>
+      <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_440px] xl:grid-cols-[236px_minmax(0,1fr)_440px]">
+        {rail}
+
+        {/* Canvas */}
+        <main className="canvas-grid relative flex h-[40dvh] shrink-0 flex-col sm:h-[46dvh] lg:h-auto">
+          <div className="relative min-h-0 flex-1 p-3 lg:p-8">{canvas}</div>
+          {phase === "result" && session && session.outputs.length > 1 && (
+            <div className="hidden shrink-0 justify-center px-8 pb-6 lg:flex">
+              <div className="glass flex max-w-full gap-2 overflow-x-auto rounded-2xl border border-line p-2 no-scrollbar">
+                {session.outputs.map((o) => (
+                  <div key={o.id} className="w-28 shrink-0">
+                    <OutputThumb
+                      o={o}
+                      selected={o.id === selected?.id}
+                      onClick={() => setSelectedId(o.id)}
+                      onFavorite={() => patchOutput(o.id, { favorite: !o.favorite })}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </main>
 
         {/* Panel */}
         <aside className="flex min-h-0 flex-1 flex-col border-t border-line bg-panel lg:border-t-0 lg:border-l">
           {phase === "wizard" ? (
             <>
-              <div className="shrink-0 px-5 pt-4">
-                <div className="h-1 overflow-hidden rounded-full bg-panel-3">
-                  <div className="h-full rounded-full bg-accent transition-all duration-500" style={{ width: `${progress}%` }} />
+              <div className="shrink-0 px-5 pt-4 lg:px-6 lg:pt-6">
+                <div className="flex items-center gap-3">
+                  <span className="text-[11px] font-semibold tracking-[0.14em] text-faint uppercase tabular-nums font-wide">
+                    Etapa {stepIdx + 1} de {steps.length}
+                  </span>
+                  <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-panel-3">
+                    <div className="h-full rounded-full bg-ink transition-all duration-500" style={{ width: `${progress}%` }} />
+                  </div>
                 </div>
-                <nav className="-mx-1 mt-3 flex gap-1 overflow-x-auto px-1 pb-1 scroll-thin" aria-label="Etapas">
+                <nav className="-mx-1 mt-3 flex gap-1 overflow-x-auto px-1 pb-1 no-scrollbar xl:hidden" aria-label="Etapas">
                   {steps.map((s, i) => {
                     const locked = firstBlocked !== -1 && i > firstBlocked;
                     return (
@@ -557,36 +745,36 @@ export function Editor() {
                         aria-current={s === step ? "step" : undefined}
                         className={cx(
                           "shrink-0 rounded-full px-2.5 py-1 text-[11.5px] transition",
-                          s === step ? "bg-accent-soft text-accent" : i < stepIdx ? "text-ink/70 hover:text-ink" : "text-faint",
+                          s === step ? "bg-ink text-bg" : i < stepIdx ? "text-ink/70 hover:text-ink" : "text-faint",
                           locked && "opacity-40",
                         )}
                       >
-                        {i + 1}. {STEP_META[s].short}
+                        {STEP_META[s].short}
                       </button>
                     );
                   })}
                 </nav>
-                <div className="mt-3 pb-4" key={step}>
-                  <h1 className="text-xl font-semibold tracking-tight animate-fade-in">{meta.title}</h1>
-                  <p className="mt-1 text-sm text-muted">
+                <div className="mt-3 pb-4 lg:mt-5 lg:pb-5" key={step}>
+                  <h1 className="text-[22px] leading-tight font-semibold font-display animate-fade-in">{meta.title}</h1>
+                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
                     {meta.subtitle}
                     {optional && <span className="ml-1 text-faint">Opcional.</span>}
                   </p>
                 </div>
               </div>
-              <div ref={panelRef} className="min-h-0 flex-1 overflow-y-auto px-5 pb-6 scroll-thin">
+              <div ref={panelRef} className="min-h-0 flex-1 overflow-y-auto px-5 pb-6 scroll-thin lg:px-6">
                 <div key={step} className="animate-fade-in">
                   {stepBody}
                 </div>
               </div>
-              <footer className="flex shrink-0 items-center gap-2 border-t border-line bg-panel px-4 py-3 pb-[max(12px,env(safe-area-inset-bottom))]">
+              <footer className="flex shrink-0 items-center gap-2 border-t border-line bg-panel px-4 py-3 pb-[max(12px,env(safe-area-inset-bottom))] lg:px-5">
                 <Button variant="ghost" onClick={() => go(stepIdx - 1)} disabled={stepIdx === 0} aria-label="Voltar">
                   <ArrowLeft className="size-4" />
                   <span className="hidden sm:inline">Voltar</span>
                 </Button>
                 {optional && (
                   <Button variant="ghost" className="text-muted" onClick={() => go(steps.indexOf("resumo"))}>
-                    Pular para o resumo
+                    <Sparkles className="size-3.5" /> IA decide o resto
                   </Button>
                 )}
                 {isLast ? (
@@ -601,7 +789,7 @@ export function Editor() {
               </footer>
             </>
           ) : session ? (
-            <div ref={panelRef} className="min-h-0 flex-1 overflow-y-auto p-5 scroll-thin">
+            <div ref={panelRef} className="min-h-0 flex-1 overflow-y-auto p-5 scroll-thin lg:p-6">
               <ResultPanel
                 session={session}
                 selected={selected}
@@ -623,7 +811,6 @@ export function Editor() {
                 onNew={reset}
                 onRetry={actions.retry}
               />
-              {pendingCount > 0 && <p className="mt-4 text-center text-xs text-muted">Gerando {pendingCount} imagem{pendingCount > 1 ? "s" : ""}... pode continuar mexendo.</p>}
             </div>
           ) : null}
         </aside>
@@ -684,7 +871,7 @@ export function Editor() {
             setDialog(null);
             setPhase("wizard");
             setMode("completo");
-            flash("Wizard preenchido. Confira e ajuste o que quiser.");
+            flash("Briefing preenchido. Confira e ajuste o que quiser.");
             setStepIdx(input && choices.inputType ? FULL.indexOf("resumo") : 0);
           }}
           onClose={() => setDialog(null)}
@@ -694,7 +881,10 @@ export function Editor() {
 
       {toast && (
         <div className="pointer-events-none fixed inset-x-0 bottom-24 z-50 flex justify-center px-4 lg:bottom-8">
-          <div className="rounded-full border border-line-strong bg-panel-3 px-4 py-2.5 text-sm shadow-2xl animate-pop">{toast}</div>
+          <div className="flex items-center gap-2 rounded-full border border-line-strong bg-panel-3 px-4 py-2.5 text-sm shadow-lift animate-pop">
+            <Icon name="Check" className="size-4 text-ok" />
+            {toast}
+          </div>
         </div>
       )}
     </div>

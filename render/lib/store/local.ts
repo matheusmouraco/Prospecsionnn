@@ -29,6 +29,7 @@ export type Output = {
 
 export type Session = {
   id: string;
+  title?: string;
   createdAt: number;
   updatedAt: number;
   input: Img;

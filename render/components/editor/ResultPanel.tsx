@@ -87,16 +87,16 @@ export function ResultPanel({
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-[11px] font-semibold tracking-wider text-accent uppercase">Resultado</p>
+        <p className="text-[10.5px] font-semibold tracking-[0.16em] text-faint uppercase font-wide">{session.title || "Resultado"}</p>
         <p className="mt-1 text-sm leading-relaxed text-ink/85">{session.summary}.</p>
         {demo && (
-          <p className="mt-2 rounded-xl border border-accent/30 bg-accent-soft px-3 py-2 text-xs text-accent">
+          <p className="mt-3 rounded-xl border border-line-strong bg-panel-2 px-3 py-2.5 text-xs leading-relaxed text-muted">
             Modo demonstração: a imagem só recebe um ajuste de cor. Configure a GEMINI_API_KEY para gerar renders de verdade.
           </p>
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className={cx("grid grid-cols-3 gap-2", session.outputs.length > 1 && "lg:hidden")}>
         {session.outputs.map((o) => (
           <OutputThumb key={o.id} o={o} selected={o.id === selected?.id} onClick={() => onSelect(o.id)} onFavorite={() => onFavorite(o.id)} />
         ))}
@@ -125,7 +125,7 @@ export function ResultPanel({
       </div>
 
       <section className="space-y-2.5">
-        <h3 className="text-[13px] font-semibold tracking-wide text-ink/90 uppercase">Editar</h3>
+        <h3 className="text-[11.5px] font-semibold tracking-[0.12em] text-muted uppercase font-wide">Editar</h3>
         <form
           className="flex gap-2"
           onSubmit={(e) => {
@@ -157,7 +157,7 @@ export function ResultPanel({
 
       {chain.length > 1 && (
         <section className="space-y-2.5">
-          <h3 className="text-[13px] font-semibold tracking-wide text-ink/90 uppercase">Versões</h3>
+          <h3 className="text-[11.5px] font-semibold tracking-[0.12em] text-muted uppercase font-wide">Versões</h3>
           <ol className="flex items-center gap-1.5 overflow-x-auto pb-1 scroll-thin">
             {chain.map((o, i) => (
               <li key={o.id} className="flex shrink-0 items-center gap-1.5">

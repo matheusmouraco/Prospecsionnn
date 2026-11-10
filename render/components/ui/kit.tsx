@@ -43,12 +43,11 @@ import {
 } from "lucide-react";
 
 // Explicit map (not `import *`) so only the icons in use are bundled.
-const ICONS: Record<string, LucideIcon> = { Box, Camera, PenTool, Building2, Sparkles, Armchair, Hammer, Sofa, Trees, ChefHat, UtensilsCrossed, BedDouble, Baby, Bath, Droplets, Flame, Sun, Shirt, Laptop, Briefcase, Store, Waves, Sunrise, Sunset, Moon, Minus, Lamp, Lightbulb, CloudSun, Lock, RotateCcw, Plus, Square, Ratio, Grid2x2, Maximize2, Circle };
+const ICONS: Record<string, LucideIcon> = { Check, Box, Camera, PenTool, Building2, Sparkles, Armchair, Hammer, Sofa, Trees, ChefHat, UtensilsCrossed, BedDouble, Baby, Bath, Droplets, Flame, Sun, Shirt, Laptop, Briefcase, Store, Waves, Sunrise, Sunset, Moon, Minus, Lamp, Lightbulb, CloudSun, Lock, RotateCcw, Plus, Square, Ratio, Grid2x2, Maximize2, Circle };
 import type { ComponentProps, ReactNode } from "react";
 
-export function cx(...c: (string | false | null | undefined)[]) {
-  return c.filter(Boolean).join(" ");
-}
+import { cx } from "./cx";
+export { cx };
 
 export function Icon({ name, className = "size-5" }: { name?: string; className?: string }) {
   const C = (name && ICONS[name]) || Circle;
@@ -65,12 +64,12 @@ export function Button({
     <button
       {...props}
       className={cx(
-        "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40",
+        "inline-flex items-center justify-center gap-2 rounded-xl font-medium tracking-[-0.005em] transition active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
         size === "sm" && "h-9 px-3 text-sm",
         size === "md" && "h-11 px-4 text-sm",
         size === "lg" && "h-13 px-6 text-[15px]",
-        variant === "primary" && "bg-accent text-accent-ink shadow-[0_8px_30px_-8px_rgb(232_181_109/0.6)] hover:brightness-105",
+        variant === "primary" && "bg-ink text-bg shadow-[0_10px_30px_-12px_rgb(237_239_237/0.45)] hover:bg-white",
         variant === "ghost" && "text-ink/80 hover:bg-white/5 hover:text-ink",
         variant === "outline" && "border border-line-strong text-ink hover:border-white/30 hover:bg-white/5",
         variant === "soft" && "bg-panel-3 text-ink hover:bg-white/10",
@@ -179,7 +178,7 @@ export function Section({ title, hint, children, action }: { title: string; hint
     <section className="space-y-3">
       <div className="flex items-end justify-between gap-3">
         <div>
-          <h3 className="text-[13px] font-semibold tracking-wide text-ink/90 uppercase">{title}</h3>
+          <h3 className="text-[11.5px] font-semibold tracking-[0.12em] text-muted uppercase font-wide">{title}</h3>
           {hint && <p className="mt-0.5 text-xs text-muted">{hint}</p>}
         </div>
         {action}
@@ -206,7 +205,7 @@ export function Palette({ colors, className }: { colors: string[]; className?: s
   );
 }
 
-export function Segmented<T extends string>({ value, onChange, options }: { value: T; onChange: (v: T) => void; options: { id: T; label: string; hint?: string }[] }) {
+export function Segmented<T extends string>({ value, onChange, options, compact }: { value: T; onChange: (v: T) => void; options: { id: T; label: string; hint?: string }[]; compact?: boolean }) {
   return (
     <div className="grid gap-1 rounded-2xl border border-line bg-panel-2 p-1" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
       {options.map((o) => (
@@ -216,8 +215,8 @@ export function Segmented<T extends string>({ value, onChange, options }: { valu
           onClick={() => onChange(o.id)}
           aria-pressed={value === o.id}
           className={cx(
-            "flex flex-col items-center rounded-xl px-2 py-2 text-[13px] transition",
-            value === o.id ? "bg-panel-3 text-ink shadow-[inset_0_0_0_1px_rgb(232_181_109/0.6)]" : "text-muted hover:text-ink",
+            "flex flex-col items-center rounded-xl transition", compact ? "px-1 py-1.5 text-[12px]" : "px-2 py-2 text-[13px]",
+            value === o.id ? "bg-panel-4 text-ink shadow-[inset_0_0_0_1px_rgb(237_239_237/0.18)]" : "text-muted hover:text-ink",
           )}
         >
           <span className="font-medium">{o.label}</span>

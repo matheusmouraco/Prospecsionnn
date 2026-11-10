@@ -9,6 +9,15 @@ import { creditsFor } from "@/lib/wizard/types";
 import { Button, cx, Icon, Section } from "@/components/ui/kit";
 import type { StepProps } from "./choices-steps";
 
+export type Sample = { src: string; title: string; type: string; room: string };
+
+/** Example inputs (SketchUp-style prints) so anyone can try the flow in one click. */
+export const SAMPLES: Sample[] = [
+  { src: "/samples/cozinha-3d.jpg", title: "Cozinha no SketchUp", type: "3d", room: "cozinha" },
+  { src: "/samples/sala-vazia-3d.jpg", title: "Sala vazia para mobiliar", type: "3d", room: "sala-estar" },
+  { src: "/samples/fachada-3d.jpg", title: "Fachada em volumetria", type: "fachada", room: "fachada" },
+];
+
 export function FilePickers({ onFile, compact }: { onFile: (f: File) => void; compact?: boolean }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const camRef = useRef<HTMLInputElement>(null);
@@ -37,11 +46,24 @@ export function StepUpload({
   input,
   detecting,
   onFile,
-}: StepProps & { input: Img | null; detecting: boolean; onFile: (f: File) => void }) {
+  onSample,
+}: StepProps & { input: Img | null; detecting: boolean; onFile: (f: File) => void; onSample: (s: Sample) => void }) {
   if (!input) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-6">
         <FilePickers onFile={onFile} />
+        <div className="lg:hidden">
+          <p className="mb-2 text-xs text-faint">Ou teste com um exemplo</p>
+          <div className="grid grid-cols-3 gap-2">
+            {SAMPLES.map((s) => (
+              <button key={s.src} type="button" onClick={() => onSample(s)} className="overflow-hidden rounded-xl border border-line bg-panel-2 text-left">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.src} alt="" className="aspect-[16/10] w-full object-cover" />
+                <span className="block truncate px-2 py-1.5 text-[11px] text-ink/80">{s.title}</span>
+              </button>
+            ))}
+          </div>
+        </div>
         <ul className="grid grid-cols-2 gap-2 text-[12.5px] text-muted">
           {INPUT_TYPES.map((t) => (
             <li key={t.id} className="flex items-center gap-2 rounded-xl border border-line bg-panel-2 px-3 py-2.5">
@@ -236,7 +258,7 @@ export function StepSummary({
   return (
     <div className="space-y-7">
       <div className="rounded-2xl border border-line bg-gradient-to-br from-panel-3 to-panel-2 p-4">
-        <p className="text-[11px] font-semibold tracking-wider text-accent uppercase">Seu render</p>
+        <p className="text-[10.5px] font-semibold tracking-[0.16em] text-faint uppercase font-wide">Seu render</p>
         <p className="mt-1.5 text-[15px] leading-relaxed text-ink">{summarySentence(c)}.</p>
         {(refsCount > 0 || hasMask) && (
           <p className="mt-2 text-xs text-muted">
@@ -278,7 +300,7 @@ export function StepSummary({
             >
               <span className="flex items-center justify-between">
                 <span className="text-sm font-semibold">{q.label}</span>
-                <span className="rounded-full bg-black/30 px-2 py-0.5 text-[11px] text-accent">
+                <span className="rounded-full border border-line-strong px-2 py-0.5 text-[11px] text-ink/80">
                   {q.credits} crédito{q.credits > 1 ? "s" : ""}
                 </span>
               </span>
@@ -303,7 +325,7 @@ export function StepSummary({
           </Button>
         </div>
         <p className="text-center text-sm">
-          Total: <span className="font-semibold text-accent">{total} crédito{total > 1 ? "s" : ""}</span>
+          Total: <span className="font-semibold text-ink">{total} crédito{total > 1 ? "s" : ""}</span>
         </p>
       </Section>
 
