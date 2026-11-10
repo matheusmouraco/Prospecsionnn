@@ -75,16 +75,18 @@ export function getPlan(id: string): Plan | undefined {
 }
 
 /** O que o cliente paga hoje e a cada ano a partir do 2º, com ou sem domínio próprio. */
-/** Oferta do WhatsApp (decisão do Moura, nov/2026): o anúncio fala em R$99 e no WhatsApp sai por R$89, por 3 dias a partir do 1º contato. */
+/**
+ * Oferta do WhatsApp (decisão do Moura, nov/2026): o anúncio fala em R$99 e no WhatsApp sai por R$89.
+ * Os "3 dias" são só o gatilho de urgência nas mensagens: o preço vale para todo mundo até o Moura mudar BOT_PRECO_OFERTA.
+ */
 export const ofertaWhatsapp = {
   site: Number(process.env.BOT_PRECO_OFERTA ?? 89),
   dias: Number(process.env.BOT_OFERTA_DIAS ?? 3),
 };
 
-/** Preço do site para quem começou a conversar em `inicio`: a oferta enquanto valer, depois o preço cheio. */
-export function precoWhatsapp(inicio: Date | string, agora = new Date()) {
-  const ate = new Date(new Date(inicio).getTime() + ofertaWhatsapp.dias * 86_400_000);
-  return { site: agora < ate ? ofertaWhatsapp.site : pricing.site, oferta: agora < ate, ate };
+/** Preço do site pelo WhatsApp: sempre o da oferta (o prazo de 3 dias é só argumento de venda). */
+export function precoWhatsapp(_inicio?: Date | string) {
+  return { site: ofertaWhatsapp.site, oferta: ofertaWhatsapp.site < pricing.site };
 }
 
 export function chargesFor(dominio: boolean, site: number = pricing.site) {

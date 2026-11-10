@@ -44,7 +44,7 @@ const TOM = `Português do Brasil, simples e direto, como uma pessoa falando no 
 
 /** O que o robô pode afirmar sobre a Supporta. Nada além disso. */
 export const FATOS = `Fatos da Supporta (não invente nada além disso):
-- O site profissional custa R$ ${pricing.site} pago uma vez. Pelo WhatsApp há uma oferta (R$ ${ofertaWhatsapp.site} por ${ofertaWhatsapp.dias} dias a partir do primeiro contato); o preço deste cliente agora vem no contexto, use ele. Fica pronto em até ${pricing.prazoHoras}h depois do pagamento, com até 5 páginas (início, sobre, serviços, perguntas e contato).
+- O site profissional custa R$ ${pricing.site} pago uma vez. Pelo WhatsApp sai por R$ ${ofertaWhatsapp.site}, apresentado como condição de ${ofertaWhatsapp.dias} dias; o preço deste cliente vem no contexto, use ele. Fica pronto em até ${pricing.prazoHoras}h depois do pagamento, com até 5 páginas (início, sobre, serviços, perguntas e contato).
 - Endereço nome.supporta.com.br com hospedagem e SSL incluso no 1º ano. A partir do 2º ano, renova por R$ ${pricing.endereco}/ano. Sem mensalidade, sem fidelidade.
 - Domínio próprio .com.br novo é opcional: R$ ${pricing.dominio}/ano desde o 1º ano (a disponibilidade é vista no registro.br e mandamos as opções). Se o cliente já tem um domínio, ligamos o site nele sem custo nenhum.
 - Alterações sem custo nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega. Depois, R$ ${pricing.alteracao} cada.

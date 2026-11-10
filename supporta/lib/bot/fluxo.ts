@@ -46,10 +46,11 @@ const primeiroNome = (n?: string | null) => {
 
 /** Preço do site para esta conversa (oferta do WhatsApp por 3 dias a partir do 1º contato). */
 const precoDe = (conv: Pick<Conversa, "criado_em">) => precoWhatsapp(conv.criado_em);
-const dataCurta = (d: Date) => new Date(d.getTime() - 3 * 3600_000).toISOString().slice(5, 10).split("-").reverse().join("/");
 const precoContexto = (conv: Pick<Conversa, "criado_em">) => {
   const p = precoDe(conv);
-  return p.oferta ? `Preço deste cliente agora: R$ ${p.site} (oferta do WhatsApp até ${dataCurta(p.ate)}; o preço normal é R$ ${pricing.site}).` : `Preço deste cliente agora: R$ ${p.site} (a oferta de R$ ${ofertaWhatsapp.site} já acabou).`;
+  return p.oferta
+    ? `Preço deste cliente: R$ ${p.site} (oferta do WhatsApp, apresentada como condição de ${ofertaWhatsapp.dias} dias; o preço normal é R$ ${pricing.site}). Se ele perguntar se ainda vale, vale.`
+    : `Preço deste cliente: R$ ${p.site}.`;
 };
 
 /** No ar (inclusive enquanto uma alteração é aplicada: o site continua aberto). */
@@ -804,7 +805,7 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
     const primeira = conv.etapa === "gerando" || !conv.previa_em;
     await salvarConversa(conv.telefone, { etapa: ["dados", "pagamento"].includes(conv.etapa) ? conv.etapa : "previa", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
     const p = precoDe(conv);
-    const oferta = p.oferta ? ` E lembrando: por aqui ele sai por R$ ${p.site} (em vez de R$ ${pricing.site}) até ${dataCurta(p.ate)}.` : "";
+    const oferta = p.oferta ? ` E lembrando: por aqui ele sai por R$ ${p.site} (em vez de R$ ${pricing.site}), condição de ${ofertaWhatsapp.dias} dias.` : "";
     await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug), oferta) : R.previaNova(previaUrl(site.slug)));
   } else if (evento === "pago") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
