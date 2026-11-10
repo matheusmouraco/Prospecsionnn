@@ -121,7 +121,7 @@ export async function textoConfig(): Promise<Resposta> {
 async function textoAuto(): Promise<Resposta> {
   const off = desligados(await lerAjustes());
   return {
-    texto: 'Ciclos automáticos (toque para ligar ou desligar). Travas e resumo nunca desligam.',
+    texto: 'Ciclos automáticos (toque para ligar ou desligar). As travas nunca desligam.',
     linhas: JOBS_OPCIONAIS.map((j) => [{ texto: `${off.has(j) ? '⛔' : '✅'} ${j}`, dados: `/auto ${j} ${off.has(j) ? 'on' : 'off'}` }]),
   };
 }
