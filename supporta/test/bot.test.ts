@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { lerWebhook } from "../lib/bot/evolution.ts";
+import { lerEnviada, lerWebhook } from "../lib/bot/evolution.ts";
 import { acharLinks } from "../lib/bot/links.ts";
 
 const evento = (data: object) => ({ event: "messages.upsert", instance: "supporta", data });
@@ -25,4 +25,12 @@ test("acha Instagram, site e link da prévia, sem confundir e-mail", () => {
   assert.equal(acharLinks("o site é www.clinicax.com.br/sobre").site, "clinicax.com.br");
   assert.equal(acharLinks("meu email joao@empresa.com.br").site, undefined);
   assert.equal(acharLinks("Vi a prévia (analise.supporta.com.br/qualy-pisos)").analise, "qualy-pisos");
+});
+
+test("mensagem enviada por fora (celular ou API) é lida para a prospecção", () => {
+  const celular = lerEnviada(evento({ key: { remoteJid: "5511998417415@s.whatsapp.net", fromMe: true, id: "P1" }, message: { conversation: "Oi! Matheus aqui" } }));
+  assert.equal(celular?.para, "5511998417415");
+  const api = lerEnviada({ event: "SEND_MESSAGE", data: { key: { remoteJid: "5511998417415@s.whatsapp.net", fromMe: true, id: "P2" }, message: { extendedTextMessage: { text: "Oi de novo" } } } });
+  assert.equal(api?.texto, "Oi de novo");
+  assert.equal(lerEnviada(evento({ key: { remoteJid: "5511998417415@s.whatsapp.net", fromMe: false, id: "P3" }, message: { conversation: "x" } })), null);
 });

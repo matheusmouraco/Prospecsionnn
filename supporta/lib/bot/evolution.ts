@@ -112,7 +112,8 @@ export async function enviarAudio(numero: string, audio: string) {
 export function lerEnviada(payload: unknown): { id: string; para: string; texto: string } | null {
   const p = (payload ?? {}) as { event?: string; data?: Dados | Dados[] };
   const evento = String(p.event ?? "").toLowerCase().replace(/_/g, ".");
-  if (evento && evento !== "messages.upsert") return null;
+  // Pelo celular chega em messages.upsert; pela API da Evolution (disparador), em send.message.
+  if (evento && evento !== "messages.upsert" && evento !== "send.message") return null;
   const d = Array.isArray(p.data) ? p.data[0] : p.data;
   const key = d?.key;
   if (!d || !key?.id || !key.fromMe) return null;
