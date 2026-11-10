@@ -192,7 +192,7 @@ Classifique a mensagem do cliente:
 - "outro": o resto. "resposta" curta e simpática puxando de volta pro site.
 ${FATOS}`,
     `Mensagem: """${texto}"""\nJSON: {"intencao", "ajuste": string|null, "resposta": string|null}`,
-    500,
+    1200,
   );
 }
 

@@ -223,6 +223,18 @@ async function esperarClienteTerminar(telefone: string, waId: string, silencioMs
 /** Quantos follow-ups por silêncio do cliente (decisão do Moura: 1; se ele responder e sumir de novo, vale mais 1). */
 const LIMITE_FOLLOWUPS = Math.max(1, Number(process.env.BOT_MAX_FOLLOWUPS ?? 1));
 
+/** A IA leu errado ou devolveu algo quebrado (ex.: áudio longo): mensagem longa vira pedido de ajuste, curta vira conversa. */
+async function interpretarSeguro(texto: string, contexto: string) {
+  try {
+    return await interpretarResposta(texto, contexto);
+  } catch (err) {
+    console.error("[bot] interpretar:", (err as Error).message);
+    return texto.length > 30
+      ? { intencao: "ajuste" as const, ajuste: texto.slice(0, 1500), resposta: null }
+      : { intencao: "outro" as const, ajuste: null, resposta: null };
+  }
+}
+
 const ignorados = () => new Set((process.env.BOT_IGNORAR ?? "").split(",").map((n) => n.replace(/\D/g, "")).filter(Boolean));
 
 /** Ponto de entrada: uma mensagem que chegou no WhatsApp do robô. Trabalho demorado vai para `depois`. */
@@ -730,7 +742,7 @@ async function chamarHumano(conv: Conversa, texto: string) {
 async function etapaPrevia(conv: Conversa, texto: string) {
   const site = await siteDe(conv);
   if (!site) return falar(conv.telefone, R.gerando);
-  const r = await interpretarResposta(texto, `O cliente recebeu a prévia do site dele em ${previaUrl(site.slug)}. Ele ainda não pagou. ${precoContexto(conv)}`);
+  const r = await interpretarSeguro(texto, `O cliente recebeu a prévia do site dele em ${previaUrl(site.slug)}. Ele ainda não pagou. ${precoContexto(conv)}`);
   switch (r.intencao) {
     case "aprovou":
       await salvarConversa(conv.telefone, { etapa: "dados" });
@@ -753,7 +765,7 @@ async function etapaDados(conv: Conversa, texto: string) {
   const d = await extrairDados(texto);
   const achou = d.nome || d.email || d.documento || d.dominio !== null || d.jaTemDominio;
   if (!achou) {
-    const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e o robô pediu nome, e-mail e CPF/CNPJ para gerar o pagamento, e se quer o endereço incluso, um domínio novo ou um que ele já tem. ${precoContexto(conv)}`);
+    const r = await interpretarSeguro(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e o robô pediu nome, e-mail e CPF/CNPJ para gerar o pagamento, e se quer o endereço incluso, um domínio novo ou um que ele já tem. ${precoContexto(conv)}`);
     if (r.intencao === "ajuste") return pedirAjuste(conv, site, r.ajuste ?? texto);
     if (r.intencao === "humano") return chamarHumano(conv, texto);
     return falar(conv.telefone, [r.resposta ?? "", R.pedeDados(site.slug)[0]].filter(Boolean));
@@ -843,7 +855,7 @@ async function gerarPagamento(conv: Conversa, site: Site) {
 async function etapaPagamento(conv: Conversa, texto: string) {
   const site = await siteDe(conv);
   if (!site) return falar(conv.telefone, R.gerando);
-  const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e recebeu o link de pagamento: ${conv.briefing.checkoutUrl ?? ""}. Ainda não pagou. ${precoContexto(conv)}`);
+  const r = await interpretarSeguro(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e recebeu o link de pagamento: ${conv.briefing.checkoutUrl ?? ""}. Ainda não pagou. ${precoContexto(conv)}`);
   switch (r.intencao) {
     case "pagou":
       return falar(conv.telefone, R.aguardandoPagamento);
@@ -861,7 +873,7 @@ async function etapaPagamento(conv: Conversa, texto: string) {
 async function etapaPago(conv: Conversa, texto: string) {
   const site = await siteDe(conv);
   if (!site) return chamarHumano(conv, texto);
-  const r = await interpretarResposta(texto, `O site do cliente já foi pago${noAr(site) ? ` e está no ar em ${siteUrl(site)}` : " e está sendo publicado"}.`);
+  const r = await interpretarSeguro(texto, `O site do cliente já foi pago${noAr(site) ? ` e está no ar em ${siteUrl(site)}` : " e está sendo publicado"}.`);
   if (r.intencao === "ajuste") return pedirAjusteNoAr(conv, site, r.ajuste ?? texto);
   if (r.intencao === "humano") return chamarHumano(conv, texto);
   await falar(conv.telefone, r.resposta ?? "Qualquer coisa é só me chamar aqui.");
