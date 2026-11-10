@@ -44,6 +44,7 @@ const TOM = `Português do Brasil, simples e direto, como uma pessoa falando no 
 
 /** O que o robô pode afirmar sobre a Supporta. Nada além disso. */
 export const FATOS = `Fatos da Supporta (não invente nada além disso):
+- O MAIS IMPORTANTE: o cliente não paga nada agora. Primeiro eu monto o site e mando a prévia; ele só paga depois de ver, e só se gostar. Sempre que ele falar de pagamento, Pix, banco, dinheiro ou desconfiança, deixe isso claro antes de qualquer outra coisa.
 - O site profissional custa R$ ${pricing.site} pago uma vez. Pelo WhatsApp sai por R$ ${ofertaWhatsapp.site}, apresentado como condição de ${ofertaWhatsapp.dias} dias; o preço deste cliente vem no contexto, use ele. Fica pronto em até ${pricing.prazoHoras}h depois do pagamento. É um site de uma página só, completa (apresentação, serviços, sobre, perguntas e contato na mesma página). Mais páginas ou blog é projeto à parte, com outro valor, combinado aqui no WhatsApp.
 - Endereço nome.supporta.com.br com hospedagem e SSL incluso no 1º ano. A partir do 2º ano, renova por R$ ${pricing.endereco}/ano. Sem mensalidade, sem fidelidade.
 - Domínio próprio .com.br novo é opcional: R$ ${pricing.dominio}/ano desde o 1º ano (a disponibilidade é vista no registro.br e mandamos as opções). Se o cliente já tem um domínio, ligamos o site nele sem custo nenhum.
@@ -108,12 +109,30 @@ export async function entenderFotos(texto: string, b: Briefing, historico: strin
     `${TOM}
 O Matheus pediu a logo e fotos do trabalho para montar o site do cliente. Leia a conversa e a última mensagem e decida:
 - "seguir": o cliente NÃO tem logo ou fotos agora, de qualquer jeito que diga ("não tenho", "não estou tendo no momento", "ainda não", "depois eu mando", "pode fazer sem", "usa as do Instagram"), disse que já mandou tudo, mandou só o nome da marca, ou qualquer coisa que não seja uma pergunta. Na dúvida, "seguir". Nunca prenda o cliente nessa etapa.
-- "vai_mandar": disse que vai mandar AGORA, em instantes ("peraí que vou pegar", "já te mando"). Um "vou ver se acho" vago é "seguir".
+- "vai_mandar": disse que vai mandar AGORA, em instantes ("peraí que vou pegar", "já te mando"), ou respondeu só "sim", "tenho", "ok", "vou mandar" ao pedido (quer dizer que tem e vai mandar). Um "vou ver se acho" vago é "seguir".
 - "pergunta": fez uma pergunta (preço, como funciona, que tipo de foto). resposta: 1 ou 2 frases respondendo com os fatos abaixo e lembrando que, sem logo e sem fotos, você monta com o nome.
 - negocio: se o cliente disse o nome do negócio ou da marca (ex.: "o logotipo é Deusa Turismo", "Deuza tur"), o nome escrito de forma limpa; senão null.
 ${FATOS}`,
     `Nome do negócio anotado: ${b.negocio ?? "?"}\nConversa até aqui:\n${historico}\n\nÚltima mensagem do cliente: """${texto}"""\nJSON: {"acao","negocio": string|null,"resposta": string|null}`,
     300,
+  );
+}
+
+export type RespostaConfirmacao = { acao: "comecar" | "esperar"; ajuste: string | null; resposta: string | null };
+
+/** Resposta do cliente ao resumo do site. Nunca insiste: na dúvida, começa; só espera se ele pedir ou estiver chateado. */
+export async function entenderConfirmacao(texto: string, historico: string, preco: string) {
+  return json<RespostaConfirmacao>(
+    `${TOM}
+O Matheus mandou o resumo do site e disse que, se estiver tudo certo, já começa a montar a prévia (pronta em uns 50 minutos). Leia a conversa e a última mensagem do cliente:
+- acao "comecar": concordou, ficou neutro ("entendi", "tá", "beleza"), corrigiu algo ou fez uma pergunta que dá pra responder. É o normal. Se ele acha que precisa pagar antes (fala de Pix, banco, dinheiro), "comecar" também, explicando que não paga nada agora.
+- acao "esperar": pediu claramente para esperar, disse que não quer agora, quer pensar, ou está chateado ou reclamando. Não insista e não termine com pergunta.
+- ajuste: a correção ou o pedido para o site, em uma frase objetiva, se ele pediu algo; senão null.
+- resposta: o que o Matheus diz antes de começar (ou no lugar, se for esperar), 1 ou 2 frases, calma e humana, respondendo de verdade ao que o cliente disse. null se não precisar dizer nada além de "comecei". Nunca "Anotado", nunca "Posso começar?". Se ele estiver chateado, acolha primeiro ("Fica tranquila, você não fez nada errado").
+${preco}
+${FATOS}`,
+    `Conversa:\n${historico}\n\nÚltima mensagem do cliente: """${texto}"""\nJSON: {"acao","ajuste": string|null,"resposta": string|null}`,
+    400,
   );
 }
 

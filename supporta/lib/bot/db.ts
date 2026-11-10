@@ -133,6 +133,29 @@ export async function conversasParadas() {
     select * from conversas where etapa in ('negocio', 'servicos', 'fotos', 'confirmacao') and ultima_msg_cliente_em is not null and retornos < 3`)) ?? [];
 }
 
+/** Última mensagem do cliente que conta para a espera (imagem e vídeo seguem por conta própria). */
+export async function ultimaDoCliente(telefone: string) {
+  const r = await tryDb("ultimaDoCliente", (sql) => sql<{ wa_id: string; criado_em: Date }[]>`
+    select wa_id, criado_em from mensagens where telefone = ${telefone} and direcao = 'in' and wa_id is not null and tipo not in ('imagem', 'video')
+    order by criado_em desc limit 1`);
+  return r?.[0] ?? null;
+}
+
+/** Tudo o que o cliente falou (texto e áudio transcrito) desde a última mensagem do robô, na ordem. */
+export async function falasPendentes(telefone: string) {
+  const r = await tryDb("falasPendentes", (sql) => sql<{ corpo: string }[]>`
+    select corpo from mensagens where telefone = ${telefone} and direcao = 'in' and tipo in ('texto', 'transcricao')
+      and criado_em > coalesce((select max(criado_em) from mensagens where telefone = ${telefone} and direcao = 'out'), 'epoch')
+    order by criado_em`);
+  return (r ?? []).map((x) => x.corpo.trim()).filter(Boolean).join("\n");
+}
+
+/** Quando saiu o último follow-up para qualquer cliente (para espaçar os envios e não parecer disparo em massa). */
+export async function ultimoFollowUp() {
+  const r = await tryDb("ultimoFollowUp", (sql) => sql<{ em: Date | null }[]>`select max(ultimo_retorno_em) as em from conversas`);
+  return r?.[0]?.em ? new Date(r[0].em).getTime() : 0;
+}
+
 /** Última mensagem que o robô mandou para o número (para nunca mandar a mesma duas vezes seguidas). */
 export async function ultimaEnviada(telefone: string) {
   const r = await tryDb("ultimaEnviada", (sql) => sql<{ corpo: string; criado_em: Date }[]>`

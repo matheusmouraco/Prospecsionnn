@@ -17,7 +17,10 @@ import {
   conversaDoSite,
   conversasEsperandoRetorno,
   conversasParadas,
+  falasPendentes,
   historico,
+  ultimaDoCliente,
+  ultimoFollowUp,
   ultimaEnviada,
   mesclarBriefing,
   pegarConversa,
@@ -33,7 +36,7 @@ import { baixarMidia, enviarAudio, enviarTexto, evolutionEnabled, marcarLida, ty
 import { DIAS_PREVIA, DIAS_REATIVADA, lerExpiracao, marcarAvisoExpiracao, previaExpirou, previasNoUltimoDia, reativarPrevia } from "./expiracao";
 import { candidatos, consultarDominio, normalizarDominio, opcoesLivres } from "./dominio";
 import { RETORNOS, quandoMandar, quandoParado } from "./retornos";
-import { classificarPrimeira, entenderFotos, extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, responderLivre, respostaProspeccao, resumoFinal } from "./ia";
+import { classificarPrimeira, entenderConfirmacao, entenderFotos, extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, responderLivre, respostaProspeccao, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
 
 type Depois = (p: Promise<unknown>) => void;
@@ -104,9 +107,8 @@ const R = {
   aguardoFotos: "Beleza, fico no aguardo. Se não achar, sem problema: eu monto com o nome e depois você troca.",
   pedeWhatsapp: (aqui: string) => `Os botões do site vão levar os clientes pra qual WhatsApp? Se for este mesmo (${aqui}), é só responder "esse". Se for outro, me manda o número com DDD.`,
   whatsappInvalido: 'Não entendi o número. Me manda o WhatsApp com DDD (ex.: 11 91234-5678) ou responda "esse" pra usar este mesmo.',
-  pedeOk: "Posso começar? Em uns 50 minutos te mando a prévia aqui. Você só paga se gostar.",
-  anotado: "Anotado. Posso começar?",
-  comecou: "Fechado! Já estou montando. Te mando a prévia aqui em uns 50 minutos.",
+  pedeOk: "Se estiver tudo certo, já começo a montar e em uns 50 minutos te mando a prévia aqui. Você não paga nada agora: só depois de ver o site pronto, e só se gostar.",
+  comecou: "Combinado! Já comecei a montar o seu site. Em uns 50 minutos te mando a prévia aqui. Lembrando: você não paga nada agora, só depois de ver, e só se gostar.",
   gerando: "Estou terminando o seu site, já te mando aqui.",
   previa: (url: string, oferta: string) => [
     `Pronto! Essa é a prévia do seu site: ${url}`,
@@ -205,6 +207,18 @@ async function falar(telefone: string, textos: string | string[]) {
   }
 }
 
+/** Espera `silencioMs` sem mensagem nova do cliente. false: chegou outra depois desta (ela é que responde). */
+async function esperarClienteTerminar(telefone: string, waId: string, silencioMs: number) {
+  const limite = Date.now() + 150_000;
+  for (;;) {
+    const ultima = await ultimaDoCliente(telefone);
+    if (ultima && ultima.wa_id !== waId) return false;
+    const falta = silencioMs - (Date.now() - new Date(ultima?.criado_em ?? Date.now()).getTime());
+    if (falta <= 0 || Date.now() > limite) return true;
+    await pausa(Math.min(falta, 4000));
+  }
+}
+
 const ignorados = () => new Set((process.env.BOT_IGNORAR ?? "").split(",").map((n) => n.replace(/\D/g, "")).filter(Boolean));
 
 /** Ponto de entrada: uma mensagem que chegou no WhatsApp do robô. Trabalho demorado vai para `depois`. */
@@ -219,8 +233,27 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
   // para não cobrar 10 minutos depois de alguém que disse "vou ver com meu sócio".
   await salvarConversa(m.de, { ultima_msg_cliente_em: new Date(), retornos: conv.previa_em ? 2 : 0, ultimo_retorno_em: null });
   if (conv.etapa === "humano") return; // alguém da equipe assumiu
-  // Ninguém responde no mesmo segundo: no primeiro contato espera uns 15 a 25 s, depois uns 3 a 7 s antes de começar a digitar.
-  if (evolutionEnabled() && m.tipo !== "imagem") await pausa(conv.etapa === "inicio" ? 15_000 + Math.random() * 10_000 : 3000 + Math.random() * 4000);
+  try {
+    if (m.tipo === "imagem") return depois(tratarImagem(conv, m));
+    if (m.tipo === "video") return await falar(conv.telefone, R.mandaTexto);
+    if (m.tipo === "audio") {
+      if (!transcricaoLigada()) return await falar(conv.telefone, R.mandaTexto);
+      const { base64, mime } = m.base64 ? { base64: m.base64, mime: m.mime || "audio/ogg" } : await baixarMidia(m.id);
+      m.texto = await transcrever(base64, mime);
+      await registrarMensagem({ telefone: m.de, direcao: "in", tipo: "transcricao", corpo: m.texto });
+    }
+  } catch (err) {
+    console.error("[bot] erro ao ler a mensagem", (err as Error).message);
+    await falar(conv.telefone, R.mandaTexto).catch(() => {});
+    return;
+  }
+  // Calma: espera o cliente terminar (vários áudios ou mensagens seguidas) e responde tudo de uma vez, como uma pessoa.
+  // Só a última mensagem da sequência responde; as anteriores param aqui.
+  if (evolutionEnabled()) {
+    const silencio = conv.etapa === "inicio" ? 15_000 + Math.random() * 10_000 : 16_000 + Math.random() * 10_000;
+    if (!(await esperarClienteTerminar(m.de, m.id, silencio))) return;
+    m.texto = (await falasPendentes(m.de)) || m.texto;
+  }
   // Durante a espera outra mensagem pode ter avançado a conversa: segue da etapa atual.
   const atualizada = (await buscarConversa(m.de)) ?? conv;
   if (atualizada.etapa !== conv.etapa) Object.assign(conv, atualizada);
@@ -235,14 +268,6 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
   }
 
   try {
-    if (m.tipo === "imagem") return depois(tratarImagem(conv, m));
-    if (m.tipo === "video") return await falar(conv.telefone, R.mandaTexto);
-    if (m.tipo === "audio") {
-      if (!transcricaoLigada()) return await falar(conv.telefone, R.mandaTexto);
-      const { base64, mime } = m.base64 ? { base64: m.base64, mime: m.mime || "audio/ogg" } : await baixarMidia(m.id);
-      m.texto = await transcrever(base64, mime);
-      await registrarMensagem({ telefone: m.de, direcao: "in", tipo: "transcricao", corpo: m.texto });
-    }
     const texto = m.texto.trim();
     if (!texto) return;
     switch (conv.etapa) {
@@ -487,15 +512,23 @@ const ehOk = (t: string) =>
   // "Ah, beleza, então. Manda pra mim analisar": concordância curta, sem pedir mudança.
   (t.length < 90 && /\b(beleza|blz|manda|pode|sim|ok|bora|show|fechou|combinado)\b/i.test(t) && !/\b(muda|mudar|troca|trocar|tira|tirar|coloca|colocar|corrig\w*|errad\w*|n[aã]o|mas)\b/i.test(t));
 
+/**
+ * Resposta ao resumo. Sem "posso começar?" de novo: concordou, ficou neutro ("entendi") ou tirou uma dúvida, o robô começa;
+ * corrigiu algo, anota e começa; só não começa quando o cliente pede pra esperar ou está chateado (responde com calma e não insiste).
+ */
 async function etapaConfirmacao(conv: Conversa, texto: string, depois: Depois) {
   if (conv.briefing.aguardandoWhatsapp) return respostaWhatsapp(conv, texto);
-  if (!ehOk(texto)) {
-    await mesclarBriefing(conv.telefone, { ajustes: [...(conv.briefing.ajustes ?? []), texto.slice(0, 500)] });
-    await falar(conv.telefone, R.anotado);
+  const curto = texto.length < 25 && ehOk(texto);
+  const r = curto
+    ? { acao: "comecar" as const, ajuste: null, resposta: null }
+    : await entenderConfirmacao(texto, await conversaTexto(conv.telefone), precoContexto(conv)).catch(() => ({ acao: (ehOk(texto) ? "comecar" : "esperar") as "comecar" | "esperar", ajuste: null, resposta: null }));
+  if (r.ajuste) await mesclarBriefing(conv.telefone, { ajustes: [...(conv.briefing.ajustes ?? []), r.ajuste.slice(0, 500)] });
+  if (r.acao === "esperar") {
+    if (r.resposta) await falar(conv.telefone, r.resposta);
     return;
   }
   await salvarConversa(conv.telefone, { etapa: "gerando" });
-  await falar(conv.telefone, R.comecou);
+  await falar(conv.telefone, r.resposta ? [r.resposta, R.comecou] : R.comecou);
   depois(
     criarPedido(conv.telefone).catch(async (err) => {
       console.error("[bot] criar pedido:", (err as Error).message);
@@ -918,6 +951,7 @@ export async function cobrarRetornos(agora = Date.now()) {
       if (i !== c.retornos) await salvarConversa(c.telefone, { retornos: i });
       continue;
     }
+    if (!(await podeMandarFollowUp(agora))) break;
     const r = RETORNOS[i];
     // Marca antes de mandar: se a Evolution falhar, não repete a mesma mensagem a cada minuto.
     await salvarConversa(c.telefone, { retornos: i + 1, ultimo_retorno_em: new Date(agora) });
@@ -928,26 +962,39 @@ export async function cobrarRetornos(agora = Date.now()) {
     } catch (err) {
       console.error("[bot] retorno:", (err as Error).message);
     }
+    break; // um por minuto, no máximo
   }
   return enviados;
 }
 
 // Follow-up de quem parou antes da prévia: curto e dizendo só o que falta.
-const PARADO: Record<string, { primeiro: string; falta: string }> = {
-  negocio: { primeiro: "me manda só o nome do seu negócio que eu já começo o seu site. Você só paga se gostar.", falta: "o nome do seu negócio" },
-  servicos: { primeiro: "me conta rapidinho o que vocês fazem e de que cidade atendem, que eu já começo o seu site.", falta: "o que vocês fazem e a cidade" },
-  fotos: { primeiro: "se não tiver a logo ou fotos agora, sem problema: eu monto com o nome e depois você troca. Posso seguir?", falta: "me dizer se eu sigo sem a logo" },
-  whatsapp: { primeiro: 'só falta me dizer pra qual WhatsApp vão os botões do site (ou "esse", pra usar este mesmo) que eu já começo.', falta: "o WhatsApp dos botões do site" },
-  confirmacao: { primeiro: "posso começar o seu site? É só me dar um ok que em uns 50 minutos te mando a prévia.", falta: "o seu ok pra eu começar" },
+// Cada número recebe uma variação diferente (o WhatsApp desconfia da mesma mensagem indo para muita gente).
+const PARADO: Record<string, { primeiro: string[]; falta: string }> = {
+  negocio: { primeiro: ["me manda só o nome do seu negócio que eu já começo o seu site.", "qual o nome do seu negócio? Com isso eu já começo a montar o seu site.", "ficou faltando só o nome do seu negócio pra eu começar o seu site."], falta: "o nome do seu negócio" },
+  servicos: { primeiro: ["me conta rapidinho o que vocês fazem e de que cidade atendem, que eu já começo o seu site.", "o que vocês fazem e em que cidade atendem? Com isso eu já monto o seu site.", "só falta me contar o que vocês fazem e a cidade pra eu começar o site."], falta: "o que vocês fazem e a cidade" },
+  fotos: { primeiro: ["se não tiver a logo ou fotos agora, sem problema: eu monto com o nome e depois você troca. Sigo assim?", "a logo e as fotos não são obrigatórias. Se preferir, eu monto só com o nome e depois a gente troca. Pode ser?", "se ainda não tiver a logo, tudo bem: eu faço com o nome bem trabalhado. Quer que eu siga assim?"], falta: "me dizer se eu sigo sem a logo" },
+  whatsapp: { primeiro: ['só falta me dizer pra qual WhatsApp vão os botões do site (ou "esse", pra usar este mesmo).', 'os botões do site vão pra este WhatsApp mesmo? É só responder "esse" ou me mandar outro número.', 'me confirma o WhatsApp dos botões do site? Pode responder "esse" se for este.'], falta: "o WhatsApp dos botões do site" },
+  confirmacao: { primeiro: ["quer que eu comece o seu site? Em uns 50 minutos te mando a prévia.", "posso montar o seu site? Te mando a prévia em uns 50 minutos.", "se quiser, já começo o seu site e te mando a prévia em uns 50 minutos."], falta: "o seu ok pra eu começar" },
 };
+const ABERTURA_PARADO = ["Oi", "Opa", "Oi, tudo bem"];
+const FIM_PARADO = ["Você só paga depois de ver, e só se gostar.", "E você não paga nada agora, só se gostar do site.", "Lembrando: o pagamento é só depois, e só se você gostar."];
 
-export function textoParado(c: Pick<Conversa, "etapa" | "nome" | "briefing">, i: number) {
+export function textoParado(c: Pick<Conversa, "etapa" | "nome" | "briefing" | "telefone">, i: number) {
   const p = PARADO[c.etapa === "confirmacao" && c.briefing.aguardandoWhatsapp ? "whatsapp" : c.etapa];
-  const nome = primeiroNome(c.nome);
   if (!p) return null;
-  if (i === 0) return `Oi${nome ? ` ${nome}` : ""}, ${p.primeiro}`;
-  if (i === 1) return `Oi${nome ? ` ${nome}` : ""}! Ainda quer o seu site? Falta pouco: ${p.falta}. Você só paga se gostar.`;
+  const nome = primeiroNome(c.nome);
+  let h = 0;
+  for (const ch of c.telefone) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const v = <T,>(lista: T[]) => lista[(h + i) % lista.length];
+  const oi = `${v(ABERTURA_PARADO)}${nome ? ` ${nome}` : ""}`;
+  if (i === 0) return `${oi}, ${v(p.primeiro)} ${v(FIM_PARADO)}`;
+  if (i === 1) return `${oi}! Ainda quer o seu site? Falta pouco: ${p.falta}. ${v(FIM_PARADO)}`;
   return "Vou deixar o seu pedido guardado aqui. Quando quiser continuar, é só me responder que eu sigo de onde parou.";
+}
+
+/** Follow-ups saem um de cada vez, com 5 a 12 minutos entre um e outro (contando todos os clientes), nunca em rajada. */
+async function podeMandarFollowUp(agora: number) {
+  return agora - (await ultimoFollowUp()) >= (5 + Math.random() * 7) * 60_000;
 }
 
 /** Quem parou de responder antes da prévia: até 3 lembretes curtos (1h, ~1 dia e 3 dias depois), das 8h às 21h. */
@@ -960,6 +1007,7 @@ export async function cobrarParados(agora = Date.now()) {
     const em = quandoParado(c.retornos, base, ultimo, c.telefone);
     const texto = textoParado(c, c.retornos);
     if (em === null || agora < em || !texto) continue;
+    if (!(await podeMandarFollowUp(agora))) break;
     await salvarConversa(c.telefone, { retornos: c.retornos + 1, ultimo_retorno_em: new Date(agora) });
     try {
       await falar(c.telefone, texto);
@@ -967,6 +1015,7 @@ export async function cobrarParados(agora = Date.now()) {
     } catch (err) {
       console.error("[bot] parado:", (err as Error).message);
     }
+    break; // um por minuto, no máximo
   }
   return enviados;
 }
