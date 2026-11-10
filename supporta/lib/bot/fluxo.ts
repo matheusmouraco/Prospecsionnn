@@ -220,6 +220,9 @@ async function esperarClienteTerminar(telefone: string, waId: string, silencioMs
   }
 }
 
+/** Quantos follow-ups por silêncio do cliente (decisão do Moura: 1; se ele responder e sumir de novo, vale mais 1). */
+const LIMITE_FOLLOWUPS = Math.max(1, Number(process.env.BOT_MAX_FOLLOWUPS ?? 1));
+
 const ignorados = () => new Set((process.env.BOT_IGNORAR ?? "").split(",").map((n) => n.replace(/\D/g, "")).filter(Boolean));
 
 /** Ponto de entrada: uma mensagem que chegou no WhatsApp do robô. Trabalho demorado vai para `depois`. */
@@ -232,7 +235,7 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
   const conv = await pegarConversa(m.de, m.nome);
   // O cliente respondeu depois da prévia: a cadência recomeça a partir desta mensagem, mas já no "👀" (6h),
   // para não cobrar 10 minutos depois de alguém que disse "vou ver com meu sócio".
-  await salvarConversa(m.de, { ultima_msg_cliente_em: new Date(), retornos: conv.previa_em ? 2 : 0, ultimo_retorno_em: null });
+  await salvarConversa(m.de, { ultima_msg_cliente_em: new Date(), retornos: LIMITE_FOLLOWUPS > 1 && conv.previa_em ? 2 : 0, ultimo_retorno_em: null });
   if (conv.etapa === "humano") return; // alguém da equipe assumiu
   try {
     if (m.tipo === "imagem") return depois(tratarImagem(conv, m));
@@ -949,6 +952,24 @@ export async function cobrarRetornos(agora = Date.now()) {
     if (!c.previa_em) continue;
     const base = Math.max(new Date(c.previa_em).getTime(), c.ultima_msg_cliente_em ? new Date(c.ultima_msg_cliente_em).getTime() : 0);
     const ultimo = Math.max(base, c.ultimo_retorno_em ? new Date(c.ultimo_retorno_em).getTime() : 0);
+    if (LIMITE_FOLLOWUPS <= 1) {
+      // Um follow-up só, ~1h depois da prévia (ou da última mensagem do cliente), das 8h às 21h.
+      if (c.retornos >= 1) continue;
+      const em = quandoParado(0, base, ultimo, c.telefone)!;
+      if (agora < em) continue;
+      if (!(await podeMandarFollowUp(agora))) break;
+      await salvarConversa(c.telefone, { retornos: 1, ultimo_retorno_em: new Date(agora) });
+      try {
+        const site = await siteDe(c);
+        const padrao = "Conseguiu ver o site? Se quiser mudar qualquer coisa, me fala que eu ajusto. Você só paga se gostar.";
+        const objetivo = `o cliente recebeu a prévia do site${site ? ` (${previaUrl(site.slug)})` : ""} e não respondeu. Perguntar com leveza o que achou ou se quer mudar algo, lembrando que só paga se gostar`;
+        await falar(c.telefone, (await followUpPersonalizado(c, objetivo)) ?? padrao);
+        enviados.push(c.telefone);
+      } catch (err) {
+        console.error("[bot] retorno:", (err as Error).message);
+      }
+      break;
+    }
     let i = c.retornos;
     const doCliente = c.ultima_msg_cliente_em ? new Date(c.ultima_msg_cliente_em).getTime() : 0;
     let quando = quandoMandar(i, base, ultimo, c.telefone, agora, doCliente);
@@ -1023,11 +1044,11 @@ async function podeMandarFollowUp(agora: number) {
   return agora - (await ultimoFollowUp()) >= (5 + Math.random() * 7) * 60_000;
 }
 
-/** Quem parou de responder antes da prévia: até 3 lembretes curtos (1h, ~1 dia e 3 dias depois), das 8h às 21h. */
+/** Quem parou de responder antes da prévia: um lembrete curto ~1h depois, das 8h às 21h (até 3 com BOT_MAX_FOLLOWUPS). */
 export async function cobrarParados(agora = Date.now()) {
   const enviados: string[] = [];
   for (const c of await conversasParadas()) {
-    if (!c.ultima_msg_cliente_em) continue;
+    if (!c.ultima_msg_cliente_em || c.retornos >= LIMITE_FOLLOWUPS) continue;
     const base = new Date(c.ultima_msg_cliente_em).getTime();
     const ultimo = c.ultimo_retorno_em ? new Date(c.ultimo_retorno_em).getTime() : base;
     const em = quandoParado(c.retornos, base, ultimo, c.telefone);
