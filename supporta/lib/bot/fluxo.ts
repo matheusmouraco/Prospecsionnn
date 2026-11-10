@@ -3,11 +3,15 @@ import { isCpfOrCnpj, onlyDigits } from "@/lib/documents";
 import { notifyTeam } from "@/lib/email/send";
 import { isEmail } from "@/lib/leads";
 import { respostasVazias, slugify, slugsReservados, type Respostas } from "@/lib/criador";
-import { alteracaoGratis, pricing } from "@/lib/plans";
+import { alteracaoGratis, ofertaWhatsapp, precoWhatsapp, pricing } from "@/lib/plans";
 import { createSite, getSiteByToken, getSubscriptionById, slugTaken, type Cliente, type Site } from "@/lib/repo";
 import { tryDb } from "@/lib/db";
 import { uploadSiteFile } from "@/lib/storage";
+import { suporteTexto } from "@/lib/site";
 import {
+  clienteFalouHaPouco,
+  jaRecebeuDoCliente,
+  mensagemExiste,
   adicionarMidia,
   buscarConversa,
   conversaDoSite,
@@ -26,7 +30,7 @@ import { baixarMidia, enviarAudio, enviarTexto, evolutionEnabled, marcarLida, ty
 import { DIAS_PREVIA, DIAS_REATIVADA, lerExpiracao, marcarAvisoExpiracao, previaExpirou, previasNoUltimoDia, reativarPrevia } from "./expiracao";
 import { candidatos, consultarDominio, normalizarDominio, opcoesLivres } from "./dominio";
 import { RETORNOS, quandoMandar } from "./retornos";
-import { extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, resumoFinal } from "./ia";
+import { classificarPrimeira, extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, respostaProspeccao, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
 
 type Depois = (p: Promise<unknown>) => void;
@@ -34,7 +38,20 @@ type Depois = (p: Promise<unknown>) => void;
 const ESPERA_FOTOS_MS = Number(process.env.BOT_ESPERA_FOTOS_MS ?? 45_000);
 const MAX_AJUSTES_ANTES_DE_PAGAR = 8;
 const pausa = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const primeiroNome = (n?: string | null) => (n ?? "").trim().split(/\s+/)[0] ?? "";
+/** "~leninha", "AZEVEDO", "elizabete" viram "Leninha", "Azevedo", "Elizabete" (o nome do perfil vem de qualquer jeito). */
+const primeiroNome = (n?: string | null) => {
+  const w = (n ?? "").replace(/[^\p{L}\s'-]/gu, " ").trim().split(/\s+/)[0] ?? "";
+  return w.length < 2 ? "" : w[0].toUpperCase() + w.slice(1).toLowerCase();
+};
+
+/** Preço do site para esta conversa (oferta do WhatsApp por 3 dias a partir do 1º contato). */
+const precoDe = (conv: Pick<Conversa, "criado_em">) => precoWhatsapp(conv.criado_em);
+const precoContexto = (conv: Pick<Conversa, "criado_em">) => {
+  const p = precoDe(conv);
+  return p.oferta
+    ? `Preço deste cliente: R$ ${p.site} (oferta do WhatsApp, apresentada como condição de ${ofertaWhatsapp.dias} dias; o preço normal é R$ ${pricing.site}). Se ele perguntar se ainda vale, vale.`
+    : `Preço deste cliente: R$ ${p.site}.`;
+};
 
 /** No ar (inclusive enquanto uma alteração é aplicada: o site continua aberto). */
 export const noAr = (s: Pick<Site, "status">) => ["no_ar", "ajuste_no_ar", "ajustando_no_ar"].includes(s.status);
@@ -54,7 +71,18 @@ const ATENDENTE = process.env.BOT_ATENDENTE || "Matheus";
 const R = {
   abertura: (nome: string) => [
     `Opa${nome ? ` ${nome}` : ""}, ${ATENDENTE} aqui!`,
-    `Eu monto o site do seu negócio agora, aqui pelo WhatsApp, e você só paga se gostar: R$ ${pricing.site}, uma vez só.`,
+    `Eu monto o site do seu negócio agora, aqui pelo WhatsApp, e você só paga se gostar. E tenho uma boa notícia: o anúncio fala em R$ ${pricing.site}, mas por aqui sai por R$ ${ofertaWhatsapp.site}, uma vez só. Essa condição vale por ${ofertaWhatsapp.dias} dias.`,
+  ],
+  naoEntendiNegocio: "Sem problema! Me fala só o nome do seu negócio (pode ser o seu nome mesmo, se você trabalha por conta). Se tiver Instagram ou site, me manda o link.",
+  fornecedor: "Obrigado pelo contato! No momento não temos interesse, mas fico com o seu contato aqui.",
+  prospeccaoNao: "Tranquilo, obrigado pelo retorno! Se um dia quiser, é só me chamar aqui.",
+  prospeccaoComSite: (nome: string, empresa: string, site: string, preco: number) => [
+    `Opa${nome ? ` ${nome}` : ""}! Achei o site de vocês (${site}).`,
+    `Vou montar uma versão nova do site da ${empresa}, com a logo e as fotos de lá, e te mando a prévia aqui em uns 50 minutos. Você só paga se gostar: R$ ${preco}, uma vez só (condição de ${ofertaWhatsapp.dias} dias).`,
+  ],
+  prospeccaoSemSite: (nome: string, empresa: string, preco: number) => [
+    `Opa${nome ? ` ${nome}` : ""}! Vou montar uma ideia de site pra ${empresa}, sem compromisso: você só paga se gostar, R$ ${preco}, uma vez só (condição de ${ofertaWhatsapp.dias} dias).`,
+    "Vocês têm site ou Instagram? Se tiver, me manda o link que eu uso a logo e as fotos de lá. Se não tiver, me conta o que vocês fazem e de que cidade atendem.",
   ],
   pedeNegocio: "Qual o nome do seu negócio? Se tiver Instagram ou site, me manda o link que eu já puxo as informações de lá.",
   olhando: (onde: string) => `Beleza, já vou dar uma olhada no seu ${onde}.`,
@@ -74,10 +102,10 @@ const R = {
   anotado: "Anotado. Posso começar?",
   comecou: "Fechado! Já estou montando. Te mando a prévia aqui em uns 50 minutos.",
   gerando: "Estou terminando o seu site, já te mando aqui.",
-  previa: (url: string) => [
+  previa: (url: string, oferta: string) => [
     `Pronto! Essa é a prévia do seu site: ${url}`,
     "Abre e me fala o que achou. Se quiser mudar qualquer coisa, é só me falar aqui.",
-    `Ela fica no ar por ${DIAS_PREVIA} dias. Depois disso eu tiro do ar.`,
+    `Ela fica no ar por ${DIAS_PREVIA} dias. Depois disso eu tiro do ar.${oferta}`,
   ],
   ultimoDia: (url: string) => [
     `Passando pra avisar: hoje é o último dia da prévia do seu site no ar (${url}). Amanhã eu tiro do ar.`,
@@ -100,9 +128,14 @@ const R = {
   aguardandoPagamento: "Assim que o pagamento confirmar eu te aviso aqui.",
   pagou: (endereco: string) => [
     "Pagamento confirmado! Muito obrigado 🙌",
-    `Agora eu termino o site: além da página inicial que você viu, entram as páginas Sobre, Serviços, Perguntas frequentes e Contato, todas no mesmo estilo. Ele vai ao ar em até ${pricing.prazoHoras}h em ${endereco} e eu te mando o link aqui.`,
+    `Agora eu termino o site: além da página inicial que você viu, entram as páginas Sobre, Serviços, Perguntas frequentes e Contato, todas no mesmo estilo. Ele vai ao ar em até ${pricing.prazoHoras}h em ${endereco} e eu te mando o link aqui e por e-mail.`,
+    suporteTexto(),
   ],
-  noAr: (url: string) => [`Seu site está no ar: ${url}`, `Nos primeiros ${pricing.diasAlteracaoGratis} dias, qualquer alteração é sem custo. É só me pedir aqui.`],
+  noAr: (url: string) => [
+    `Seu site está no ar: ${url}`,
+    `Nos primeiros ${pricing.diasAlteracaoGratis} dias, qualquer alteração é sem custo. É só me pedir aqui.`,
+    `${suporteTexto()} Também te mandei o link por e-mail.`,
+  ],
   ajusteNoAr: (pago: boolean, url: string | null) =>
     pago ? "Anotado! A equipe faz a alteração e te avisa aqui." : `Anotado! Essa alteração custa R$ ${pricing.alteracao}${url ? `, link do pagamento: ${url}` : ". Já te mando o link do pagamento."}`,
   humano: "Entendi. Vou ver isso pessoalmente e já te respondo aqui.",
@@ -161,6 +194,8 @@ export async function tratarMensagem(m: MensagemRecebida, depois: Depois) {
     if (!texto) return;
     switch (conv.etapa) {
       case "inicio": return await etapaInicio(conv, texto, depois);
+      case "prospeccao": return await etapaProspeccao(conv, texto, depois);
+      case "encerrada": return;
       case "negocio": return await etapaNegocio(conv, texto, depois);
       case "servicos": return await etapaServicos(conv, texto);
       case "fotos": return await etapaFotos(conv, texto);
@@ -187,6 +222,16 @@ async function etapaInicio(conv: Conversa, texto: string, depois: Depois) {
   // Já tem site com este WhatsApp (criado pelo site ou numa conversa antiga).
   if (await assumirSiteDoNumero(conv)) return;
 
+  // Gente vendendo algo para a Supporta (viu o anúncio) não entra no funil.
+  if (texto.length > 60 && !/quero (meu|um) site/i.test(texto)) {
+    const c = await classificarPrimeira(texto).catch(() => ({ tipo: "cliente" as const }));
+    if (c.tipo === "fornecedor") {
+      await salvarConversa(conv.telefone, { etapa: "encerrada" });
+      await falar(conv.telefone, R.fornecedor);
+      await notifyTeam(`Fornecedor no WhatsApp do robô (conversa encerrada): ${conv.nome ?? ""} ${formatarFone(conv.telefone)}`, [texto.slice(0, 300)]);
+      return;
+    }
+  }
   await falar(conv.telefone, R.abertura(primeiroNome(conv.nome)));
   await notifyTeam(`Novo contato no robô: ${conv.nome ?? ""} ${formatarFone(conv.telefone)}`, [texto.slice(0, 300)]);
   if (links.instagram || links.site) return etapaNegocio({ ...conv, etapa: "negocio" }, texto, depois);
@@ -194,12 +239,77 @@ async function etapaInicio(conv: Conversa, texto: string, depois: Depois) {
   await falar(conv.telefone, R.pedeNegocio);
 }
 
+/** Resposta a uma prospecção fria (a conversa começou com mensagem nossa, fora do robô). */
+async function etapaProspeccao(conv: Conversa, texto: string, depois: Depois) {
+  const r = await respostaProspeccao(texto, conv.briefing.prospeccaoTexto ?? "", precoContexto(conv));
+  if (r.intencao === "nao") {
+    await salvarConversa(conv.telefone, { etapa: "encerrada" });
+    return falar(conv.telefone, R.prospeccaoNao);
+  }
+  if (r.intencao === "duvida") return falar(conv.telefone, r.resposta ?? "É uma ideia de site pronta pra vocês, sem compromisso. Quer ver?");
+  const empresa = r.empresa ?? conv.briefing.negocio ?? conv.nome ?? "vocês";
+  const nome = primeiroNome(conv.nome);
+  const preco = precoDe(conv).site;
+  await mesclarBriefing(conv.telefone, { origem: "prospeccao", negocio: empresa, cidade: r.cidade ?? undefined, whatsappSite: conv.telefone.replace(/^55/, "") });
+  // Site da empresa: o citado nas mensagens ou o do Google. Se abrir, a prévia sai direto dele (logo, cores, fotos e textos).
+  const google = await lerGoogle(empresa, r.cidade ?? undefined);
+  const dominio = r.site ?? google?.site;
+  const siteLido = dominio ? await lerSite(dominio) : undefined;
+  if (dominio && siteLido && (siteLido.textos?.length || siteLido.titulo)) {
+    await mesclarBriefing(conv.telefone, { siteAtual: dominio, site: siteLido, google });
+    await salvarConversa(conv.telefone, { etapa: "gerando" });
+    await falar(conv.telefone, R.prospeccaoComSite(nome, empresa, dominio, preco));
+    await notifyTeam(`Prospecção respondeu e virou prévia: ${empresa}`, [formatarFone(conv.telefone), `Site: ${dominio}`]);
+    depois(
+      (async () => {
+        const textoSite = [siteLido.titulo, siteLido.descricao, ...(siteLido.textos ?? [])].filter(Boolean).join("\n").slice(0, 3000);
+        const sv = await extrairServicos(`${r.nicho ?? ""}\n${textoSite}`, { negocio: empresa, site: siteLido });
+        await mesclarBriefing(conv.telefone, { servicos: sv.servicos, cidade: r.cidade ?? sv.cidade ?? undefined, atendeTodoBrasil: sv.atendeTodoBrasil, ramo: sv.ramo, ramoOutro: sv.ramoOutro ?? undefined, frase: sv.frase });
+        await criarPedido(conv.telefone);
+      })().catch(async (err) => {
+        console.error("[bot] prospecção:", (err as Error).message);
+        await salvarConversa(conv.telefone, { etapa: "servicos" });
+        await falar(conv.telefone, R.pedeServicos);
+      }),
+    );
+    return;
+  }
+  if (google) await mesclarBriefing(conv.telefone, { google });
+  await salvarConversa(conv.telefone, { etapa: "negocio" });
+  await falar(conv.telefone, R.prospeccaoSemSite(nome, empresa, preco));
+  await notifyTeam(`Prospecção respondeu: ${empresa}`, [formatarFone(conv.telefone), texto.slice(0, 300)]);
+}
+
+/**
+ * Mensagem que saiu do número sem passar pelo robô. Se é o primeiro contato com o número (prospecção fria),
+ * a conversa nasce em "prospeccao" e o robô responde de acordo quando a pessoa voltar.
+ */
+export async function mensagemEnviadaPorFora(m: { id: string; para: string; texto: string }) {
+  await pausa(8000); // dá tempo do robô gravar as próprias mensagens
+  if (await mensagemExiste(m.id)) return; // foi o robô que mandou
+  if (await clienteFalouHaPouco(m.para)) return; // saudação automática do WhatsApp Business ou resposta manual no meio da conversa
+  const conv = await buscarConversa(m.para);
+  await registrarMensagem({ telefone: m.para, direcao: "out", tipo: "manual", corpo: m.texto, wa_id: m.id });
+  if (conv && (conv.etapa !== "inicio" || (await jaRecebeuDoCliente(m.para)))) return;
+  const atual = conv ?? (await pegarConversa(m.para));
+  await mesclarBriefing(atual.telefone, { origem: "prospeccao", prospeccaoTexto: m.texto.slice(0, 1000) });
+  await salvarConversa(atual.telefone, { etapa: "prospeccao" });
+}
+
 async function etapaNegocio(conv: Conversa, texto: string, depois: Depois) {
   const links = acharLinks(texto);
   const ia = await extrairNegocio(texto);
   const instagram = links.instagram ?? ia.instagram ?? undefined;
   const site = links.site ?? ia.site ?? undefined;
-  const negocio = ia.negocio ?? (instagram || site ? undefined : texto.slice(0, 80));
+  // Prospecção: já sabemos a empresa; sem link, a resposta é sobre o que eles fazem.
+  if (conv.briefing.origem === "prospeccao" && conv.briefing.negocio && !instagram && !site) return etapaServicos(conv, texto);
+  // "Nada", "não tenho", "?" não é nome de negócio: pergunta de novo uma vez.
+  const vazio = !ia.negocio && !instagram && !site && (texto.trim().length < 3 || /^(nada|n[aã]o( tenho| sei)?|nenhum|sem nome|\?+|ok|sim)\W*$/i.test(texto.trim()));
+  if (vazio && !conv.briefing.perguntouNegocioDeNovo) {
+    await mesclarBriefing(conv.telefone, { perguntouNegocioDeNovo: true });
+    return falar(conv.telefone, R.naoEntendiNegocio);
+  }
+  const negocio = ia.negocio ?? (instagram || site ? undefined : vazio ? conv.nome ?? undefined : texto.slice(0, 80));
   const origem: Briefing["origem"] = site ? "site" : instagram ? "instagram" : "whatsapp";
   await mesclarBriefing(conv.telefone, { negocio: negocio ?? conv.briefing.negocio, instagram, siteAtual: site, origem: conv.briefing.origem ?? origem });
   await salvarConversa(conv.telefone, { etapa: "servicos" });
@@ -512,7 +622,7 @@ async function chamarHumano(conv: Conversa, texto: string) {
 async function etapaPrevia(conv: Conversa, texto: string) {
   const site = await siteDe(conv);
   if (!site) return falar(conv.telefone, R.gerando);
-  const r = await interpretarResposta(texto, `O cliente recebeu a prévia do site dele em ${previaUrl(site.slug)}. Ele ainda não pagou.`);
+  const r = await interpretarResposta(texto, `O cliente recebeu a prévia do site dele em ${previaUrl(site.slug)}. Ele ainda não pagou. ${precoContexto(conv)}`);
   switch (r.intencao) {
     case "aprovou":
       await salvarConversa(conv.telefone, { etapa: "dados" });
@@ -535,7 +645,7 @@ async function etapaDados(conv: Conversa, texto: string) {
   const d = await extrairDados(texto);
   const achou = d.nome || d.email || d.documento || d.dominio !== null || d.jaTemDominio;
   if (!achou) {
-    const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e o robô pediu nome, e-mail e CPF/CNPJ para gerar o pagamento, e se quer o endereço incluso, um domínio novo ou um que ele já tem.`);
+    const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e o robô pediu nome, e-mail e CPF/CNPJ para gerar o pagamento, e se quer o endereço incluso, um domínio novo ou um que ele já tem. ${precoContexto(conv)}`);
     if (r.intencao === "ajuste") return pedirAjuste(conv, site, r.ajuste ?? texto);
     if (r.intencao === "humano") return chamarHumano(conv, texto);
     return falar(conv.telefone, [r.resposta ?? "", R.pedeDados(site.slug)[0]].filter(Boolean));
@@ -609,7 +719,7 @@ async function gerarPagamento(conv: Conversa, site: Site) {
   // CNPJ do cliente vai para o rodapé do site dele (CPF nunca aparece).
   if (b.documento?.length === 14) await tryDb("cnpjDoSite", (sql) => sql`update sites set respostas = respostas || ${sql.json({ cnpj: b.documento } as never)} where id = ${site.id}`);
   const comDominio = b.dominio === true;
-  const pag = await linkPagamento({ site, nome: b.responsavel!, email: b.email!, documento: b.documento!, telefone: conv.telefone, dominio: comDominio });
+  const pag = await linkPagamento({ site, nome: b.responsavel!, email: b.email!, documento: b.documento!, telefone: conv.telefone, dominio: comDominio, precoSite: precoDe(conv).site });
   await mesclarBriefing(conv.telefone, { checkoutUrl: pag.url });
   await salvarConversa(conv.telefone, { etapa: "pagamento", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
   if (b.jaTemDominio) {
@@ -625,7 +735,7 @@ async function gerarPagamento(conv: Conversa, site: Site) {
 async function etapaPagamento(conv: Conversa, texto: string) {
   const site = await siteDe(conv);
   if (!site) return falar(conv.telefone, R.gerando);
-  const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e recebeu o link de pagamento: ${conv.briefing.checkoutUrl ?? ""}. Ainda não pagou.`);
+  const r = await interpretarResposta(texto, `O cliente aprovou a prévia (${previaUrl(site.slug)}) e recebeu o link de pagamento: ${conv.briefing.checkoutUrl ?? ""}. Ainda não pagou. ${precoContexto(conv)}`);
   switch (r.intencao) {
     case "pagou":
       return falar(conv.telefone, R.aguardandoPagamento);
@@ -694,7 +804,9 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
   if (evento === "previa") {
     const primeira = conv.etapa === "gerando" || !conv.previa_em;
     await salvarConversa(conv.telefone, { etapa: ["dados", "pagamento"].includes(conv.etapa) ? conv.etapa : "previa", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
-    await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug)) : R.previaNova(previaUrl(site.slug)));
+    const p = precoDe(conv);
+    const oferta = p.oferta ? ` E lembrando: por aqui ele sai por R$ ${p.site} (em vez de R$ ${pricing.site}), condição de ${ofertaWhatsapp.dias} dias.` : "";
+    await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug), oferta) : R.previaNova(previaUrl(site.slug)));
   } else if (evento === "pago") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
     await falar(conv.telefone, R.pagou(`${site.slug}.supporta.com.br`));

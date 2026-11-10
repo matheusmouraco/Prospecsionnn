@@ -46,7 +46,7 @@ export async function lerGoogle(nome: string, cidade?: string): Promise<Briefing
       headers: {
         "content-type": "application/json",
         "X-Goog-Api-Key": key,
-        "X-Goog-FieldMask": "places.formattedAddress,places.nationalPhoneNumber,places.regularOpeningHours,places.rating,places.userRatingCount,places.googleMapsUri",
+        "X-Goog-FieldMask": "places.formattedAddress,places.nationalPhoneNumber,places.regularOpeningHours,places.rating,places.userRatingCount,places.googleMapsUri,places.websiteUri",
       },
       body: JSON.stringify({ textQuery: `${nome} ${cidade ?? ""}`.trim(), languageCode: "pt-BR", regionCode: "BR", maxResultCount: 1 }),
       signal: AbortSignal.timeout(10_000),
@@ -62,6 +62,7 @@ export async function lerGoogle(nome: string, cidade?: string): Promise<Briefing
       nota: p.rating,
       avaliacoes: p.userRatingCount,
       mapsUrl: p.googleMapsUri,
+      site: p.websiteUri ? String(p.websiteUri).replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] : undefined,
     };
   } catch (err) {
     console.warn("[bot] google:", (err as Error).message);

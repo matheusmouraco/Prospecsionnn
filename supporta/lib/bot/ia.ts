@@ -1,5 +1,5 @@
 import { ramos } from "@/lib/criador";
-import { pricing } from "@/lib/plans";
+import { ofertaWhatsapp, pricing } from "@/lib/plans";
 import { custoClaude, registrarCusto } from "./custos";
 import type { Briefing, Servico } from "./db";
 
@@ -44,7 +44,7 @@ const TOM = `Português do Brasil, simples e direto, como uma pessoa falando no 
 
 /** O que o robô pode afirmar sobre a Supporta. Nada além disso. */
 export const FATOS = `Fatos da Supporta (não invente nada além disso):
-- O site profissional custa R$ ${pricing.site} pago uma vez. Fica pronto em até ${pricing.prazoHoras}h depois do pagamento, com até 5 páginas (início, sobre, serviços, perguntas e contato).
+- O site profissional custa R$ ${pricing.site} pago uma vez. Pelo WhatsApp sai por R$ ${ofertaWhatsapp.site}, apresentado como condição de ${ofertaWhatsapp.dias} dias; o preço deste cliente vem no contexto, use ele. Fica pronto em até ${pricing.prazoHoras}h depois do pagamento, com até 5 páginas (início, sobre, serviços, perguntas e contato).
 - Endereço nome.supporta.com.br com hospedagem e SSL incluso no 1º ano. A partir do 2º ano, renova por R$ ${pricing.endereco}/ano. Sem mensalidade, sem fidelidade.
 - Domínio próprio .com.br novo é opcional: R$ ${pricing.dominio}/ano desde o 1º ano (a disponibilidade é vista no registro.br e mandamos as opções). Se o cliente já tem um domínio, ligamos o site nele sem custo nenhum.
 - Alterações sem custo nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega. Depois, R$ ${pricing.alteracao} cada.
@@ -149,5 +149,36 @@ export async function extrairDados(texto: string) {
 - dominioDesejado: o domínio que ele quer ou que já tem (ex: "clinicax.com.br"), se disse.`,
     `Mensagem: """${texto}"""\nJSON: {"nome","email","documento","dominio","jaTemDominio","dominioDesejado"}`,
     300,
+  );
+}
+
+/** Primeira mensagem de quem chegou sozinho: é um possível cliente ou alguém vendendo algo para a Supporta? */
+export async function classificarPrimeira(texto: string) {
+  return json<{ tipo: "cliente" | "fornecedor" | "outro" }>(
+    `Uma empresa que cria sites recebeu esta primeira mensagem no WhatsApp, depois de um anúncio. Classifique:
+- "cliente": quer um site, pergunta preço, manda nome do negócio, cumprimenta ou qualquer coisa de quem pode virar cliente (na dúvida, é cliente).
+- "fornecedor": está oferecendo um produto ou serviço PARA a empresa (sistema, CRM, marketing, parceria comercial, "vi o anúncio de vocês e o nosso sistema pode ajudar").
+- "outro": golpe, engano evidente, mensagem sem relação nenhuma.`,
+    `Mensagem: """${texto}"""\nJSON: {"tipo"}`,
+    100,
+  );
+}
+
+export type RespostaProspeccao = { intencao: "sim" | "nao" | "duvida"; empresa: string | null; site: string | null; nicho: string | null; cidade: string | null; resposta: string | null };
+
+/** Resposta de quem recebeu a nossa mensagem de prospecção fria. */
+export async function respostaProspeccao(texto: string, nossaMensagem: string, preco: string) {
+  return json<RespostaProspeccao>(
+    `${TOM}
+A Supporta (Matheus) mandou uma mensagem de prospecção fria para uma empresa e ela respondeu. Analise:
+- intencao: "sim" se topou, quer ver a ideia, perguntou como funciona com abertura, ou respondeu algo positivo curto ("sim", "pode", "manda", "quero"); "nao" se recusou, pediu para não mandar mais ou disse que não tem interesse; "duvida" se só perguntou algo (quem é, quanto custa) sem dizer sim ou não.
+- empresa: o nome da empresa citado na NOSSA mensagem (ou na resposta), senão null.
+- site: domínio do site da empresa se aparecer em alguma das mensagens, senão null.
+- nicho: o ramo citado na nossa mensagem (ex.: "piso epóxi"), senão null.
+- cidade: cidade ou região citada, senão null.
+- resposta: só para "duvida", 1 ou 2 frases respondendo e terminando com uma pergunta se ele quer ver a ideia do site. ${preco}
+${FATOS}`,
+    `Nossa mensagem: """${nossaMensagem}"""\nResposta dele: """${texto}"""\nJSON: {"intencao","empresa","site","nicho","cidade","resposta"}`,
+    400,
   );
 }

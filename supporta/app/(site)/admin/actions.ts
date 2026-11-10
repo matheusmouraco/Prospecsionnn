@@ -65,3 +65,32 @@ export async function finishRequestAction(formData: FormData) {
   await finishRequest(String(formData.get("id")));
   revalidatePath("/admin");
 }
+
+// ---------- painel de vendas (robô de WhatsApp) ----------
+
+export async function salvarInvestimento(formData: FormData) {
+  await assertAdmin();
+  const mes = String(formData.get("mes") ?? "");
+  const valor = Number(String(formData.get("valor") ?? "").replace(/\./g, "").replace(",", "."));
+  if (!/^\d{4}-\d{2}$/.test(mes) || !(valor >= 0)) return;
+  const { adicionarInvestimento } = await import("@/lib/admin-vendas");
+  await adicionarInvestimento({ mes, canal: String(formData.get("canal") || "Tráfego pago").slice(0, 60), valor, obs: String(formData.get("obs") || "").slice(0, 200) || null });
+  revalidatePath("/admin");
+}
+
+export async function apagarInvestimento(formData: FormData) {
+  await assertAdmin();
+  const { removerInvestimento } = await import("@/lib/admin-vendas");
+  await removerInvestimento(Number(formData.get("id")));
+  revalidatePath("/admin");
+}
+
+export async function devolverConversa(formData: FormData) {
+  await assertAdmin();
+  const etapa = String(formData.get("etapa"));
+  if (!["inicio", "prospeccao", "negocio", "servicos", "fotos", "confirmacao", "previa", "dados", "pagamento", "pago"].includes(etapa)) return;
+  const { devolverAoRobo } = await import("@/lib/admin-vendas");
+  const telefone = String(formData.get("telefone"));
+  await devolverAoRobo(telefone, etapa);
+  revalidatePath(`/admin/conversa/${telefone}`);
+}

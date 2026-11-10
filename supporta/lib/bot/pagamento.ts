@@ -7,9 +7,9 @@ import { absoluteUrl, site as supporta, termsAcceptanceText } from "@/lib/site";
 import { briefingSignature } from "@/lib/tokens";
 
 /** Abre o pagamento do site pelo WhatsApp (mesma assinatura do checkout do site) e devolve o link para mandar ao cliente. */
-export async function linkPagamento(input: { site: Site; nome: string; email: string; documento: string; telefone: string; dominio: boolean }) {
+export async function linkPagamento(input: { site: Site; nome: string; email: string; documento: string; telefone: string; dominio: boolean; precoSite?: number }) {
   const plan = getPlan("pro")!;
-  const { hoje, anual } = chargesFor(input.dominio);
+  const { hoje, anual } = chargesFor(input.dominio, input.precoSite);
   const r = input.site.respostas as Record<string, unknown>;
   const customer = { company: input.site.empresa, name: input.nome, email: input.email, phone: input.telefone.replace(/^55/, ""), cpfCnpj: input.documento };
   const briefing = {

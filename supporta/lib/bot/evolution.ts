@@ -107,3 +107,20 @@ export async function enviarAudio(numero: string, audio: string) {
   const r = await chamar<{ key?: { id?: string } }>("message/sendWhatsAppAudio", { number: numero, audio, delay: 2500, encoding: true }, 60_000);
   return r.key?.id ?? null;
 }
+
+/** Mensagem de texto que saiu do próprio número sem passar pelo robô (prospecção fria, resposta manual, saudação automática). */
+export function lerEnviada(payload: unknown): { id: string; para: string; texto: string } | null {
+  const p = (payload ?? {}) as { event?: string; data?: Dados | Dados[] };
+  const evento = String(p.event ?? "").toLowerCase().replace(/_/g, ".");
+  // Pelo celular chega em messages.upsert; pela API da Evolution (disparador), em send.message.
+  if (evento && evento !== "messages.upsert" && evento !== "send.message") return null;
+  const d = Array.isArray(p.data) ? p.data[0] : p.data;
+  const key = d?.key;
+  if (!d || !key?.id || !key.fromMe) return null;
+  let jid = key.remoteJid ?? "";
+  if (jid.endsWith("@lid") && key.remoteJidAlt) jid = key.remoteJidAlt;
+  if (!jid.endsWith("@s.whatsapp.net")) return null;
+  const msg = d.message ?? {};
+  const texto = String(msg.conversation ?? msg.extendedTextMessage?.text ?? "").trim();
+  return texto ? { id: key.id, para: jid.split("@")[0].replace(/\D/g, ""), texto } : null;
+}

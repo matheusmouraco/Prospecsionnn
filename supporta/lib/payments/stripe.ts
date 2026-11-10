@@ -39,7 +39,7 @@ export const stripeProvider: PaymentProvider = {
 
   async createSubscriptionCheckout(input: CheckoutInput): Promise<CheckoutResult> {
     const items: { nome: string; valor: number; anual: boolean }[] = [
-      { nome: "Site profissional Supporta (pago uma vez)", valor: pricing.site, anual: false },
+      { nome: "Site profissional Supporta (pago uma vez)", valor: input.hoje - (input.dominio ? pricing.dominio : 0), anual: false },
       ...(input.dominio ? [{ nome: "Domínio próprio .com.br, 1º ano", valor: pricing.dominio, anual: false }] : []),
       { nome: "Renovação anual do endereço e hospedagem (a partir do 2º ano)", valor: pricing.endereco, anual: true },
       ...(input.dominio ? [{ nome: "Renovação anual do domínio próprio (a partir do 2º ano)", valor: pricing.dominio, anual: true }] : []),
