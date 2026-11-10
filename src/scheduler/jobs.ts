@@ -41,8 +41,8 @@ export function momento(d: Date = new Date()): Momento {
 
 export const dueJobs = (m: Momento, jobs: Job[] = JOBS) => jobs.filter((j) => j.quando(m));
 
-// Jobs Moura can switch off on Telegram. travas and resumo always run (safety and the daily report).
-export const JOBS_OPCIONAIS = ['importar', 'analisar', 'emails', 'enviar', 'respostas', 'esbocos', 'revisao', 'semana', 'estoque', 'esboco_automatico'];
+// Jobs Moura can switch off on Telegram. travas always runs (safety).
+export const JOBS_OPCIONAIS = ['importar', 'analisar', 'emails', 'enviar', 'respostas', 'esbocos', 'revisao', 'semana', 'estoque', 'esboco_automatico', 'resumo'];
 
 // Applies the Telegram settings: batch size of the daily analysis/emails and how many ready emails to stock.
 export function ajustarJob(job: Job, a: Record<string, string>): Job {
