@@ -38,6 +38,7 @@ import { candidatos, consultarDominio, normalizarDominio, opcoesLivres } from ".
 import { RETORNOS, quandoMandar, quandoParado } from "./retornos";
 import { classificarPrimeira, entenderConfirmacao, entenderFotos, extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, responderLivre, respostaProspeccao, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
+import { escreverFollowUp } from "./openai";
 
 type Depois = (p: Promise<unknown>) => void;
 
@@ -910,7 +911,12 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
     await salvarConversa(conv.telefone, { etapa: ["dados", "pagamento"].includes(conv.etapa) ? conv.etapa : "previa", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
     const p = precoDe(conv);
     const oferta = p.oferta ? ` E lembrando: por aqui ele sai por R$ ${p.site} (em vez de R$ ${pricing.site}), condição de ${ofertaWhatsapp.dias} dias.` : "";
-    await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug), oferta) : R.previaNova(previaUrl(site.slug)));
+    const msg = conv.briefing.mensagemPrevia;
+    if (primeira && msg) {
+      // Mensagem escrita pela equipe para este cliente (ex.: quem ficou com receio de pagar antes).
+      await falar(conv.telefone, [`Pronto! Essa é a prévia do seu site: ${previaUrl(site.slug)}`, msg]);
+      await tryDb("limparMensagemPrevia", (sql) => sql`update conversas set briefing = briefing - 'mensagemPrevia' where telefone = ${conv.telefone}`);
+    } else await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug), oferta) : R.previaNova(previaUrl(site.slug)));
   } else if (evento === "pago") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
     await falar(conv.telefone, R.pagou(`${site.slug}.supporta.com.br`));
@@ -957,7 +963,12 @@ export async function cobrarRetornos(agora = Date.now()) {
     await salvarConversa(c.telefone, { retornos: i + 1, ultimo_retorno_em: new Date(agora) });
     try {
       if (r.tipo === "depois" && r.audio && audio) await mandarAudio(c.telefone, audio);
-      else await falar(c.telefone, r.tipo !== "depois" && r.textoSemAudio && !transcricaoLigada() ? r.textoSemAudio : r.texto);
+      else {
+        const padrao = r.tipo !== "depois" && r.textoSemAudio && !transcricaoLigada() ? r.textoSemAudio : r.texto;
+        const site = await siteDe(c);
+        const objetivo = `o cliente recebeu a prévia do site${site ? ` (${previaUrl(site.slug)})` : ""} e ainda não respondeu. Mensagem no espírito de: "${padrao}". Curta, perguntando o que ele achou ou se quer mudar algo`;
+        await falar(c.telefone, (await followUpPersonalizado(c, objetivo)) ?? padrao);
+      }
       enviados.push(c.telefone);
     } catch (err) {
       console.error("[bot] retorno:", (err as Error).message);
@@ -992,6 +1003,21 @@ export function textoParado(c: Pick<Conversa, "etapa" | "nome" | "briefing" | "t
   return "Vou deixar o seu pedido guardado aqui. Quando quiser continuar, é só me responder que eu sigo de onde parou.";
 }
 
+const OBJETIVO_PARADO = (c: Pick<Conversa, "etapa" | "briefing">, i: number) => {
+  const p = PARADO[c.etapa === "confirmacao" && c.briefing.aguardandoWhatsapp ? "whatsapp" : c.etapa];
+  const falta = p?.falta ?? "o que falta";
+  return i === 0
+    ? `lembrar de leve que falta só ${falta} para você montar o site dele`
+    : i === 1
+      ? `perguntar se ele ainda quer o site, dizendo que falta pouco (${falta})`
+      : "encerrar com educação: o pedido fica guardado e é só responder quando quiser continuar, sem cobrar nada";
+};
+
+/** Follow-up escrito pela OpenAI com o histórico deste cliente (null: usa o texto padrão). */
+async function followUpPersonalizado(c: Conversa, objetivo: string) {
+  return escreverFollowUp({ historico: await conversaTexto(c.telefone, 20), objetivo, nome: primeiroNome(c.nome), contexto: precoContexto(c) });
+}
+
 /** Follow-ups saem um de cada vez, com 5 a 12 minutos entre um e outro (contando todos os clientes), nunca em rajada. */
 async function podeMandarFollowUp(agora: number) {
   return agora - (await ultimoFollowUp()) >= (5 + Math.random() * 7) * 60_000;
@@ -1005,9 +1031,10 @@ export async function cobrarParados(agora = Date.now()) {
     const base = new Date(c.ultima_msg_cliente_em).getTime();
     const ultimo = c.ultimo_retorno_em ? new Date(c.ultimo_retorno_em).getTime() : base;
     const em = quandoParado(c.retornos, base, ultimo, c.telefone);
-    const texto = textoParado(c, c.retornos);
-    if (em === null || agora < em || !texto) continue;
+    const padrao = textoParado(c, c.retornos);
+    if (em === null || agora < em || !padrao) continue;
     if (!(await podeMandarFollowUp(agora))) break;
+    const texto = (await followUpPersonalizado(c, OBJETIVO_PARADO(c, c.retornos))) ?? padrao;
     await salvarConversa(c.telefone, { retornos: c.retornos + 1, ultimo_retorno_em: new Date(agora) });
     try {
       await falar(c.telefone, texto);

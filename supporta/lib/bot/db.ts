@@ -29,6 +29,8 @@ export type Briefing = {
   perguntouServicosDeNovo?: boolean;
   /** O cliente disse que ia mandar a logo/fotos em instantes: na próxima mensagem sem imagem, segue sem elas. */
   esperandoFotos?: boolean;
+  /** Mensagem escrita pela equipe para mandar junto com a primeira prévia (no lugar da padrão). */
+  mensagemPrevia?: string;
   instagramPerfil?: { bio?: string; site?: string; telefone?: string; endereco?: string; seguidores?: number; posts?: string[]; fotoPerfil?: string };
   google?: { endereco?: string; telefone?: string; horario?: string[]; nota?: number; avaliacoes?: number; mapsUrl?: string; site?: string };
   site?: { titulo?: string; descricao?: string; textos?: string[]; logo?: string; imagens?: string[] };
