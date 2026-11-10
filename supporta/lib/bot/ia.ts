@@ -44,6 +44,7 @@ const TOM = `Português do Brasil, simples e direto, como uma pessoa falando no 
 
 /** O que o robô pode afirmar sobre a Supporta. Nada além disso. */
 export const FATOS = `Fatos da Supporta (não invente nada além disso):
+- Fotos: quando o cliente não mandou fotos, a prévia usa fotos fictícias do ramo. Sempre que falar de fotos ou da prévia, peça fotos dele, do trabalho dele ou as que gostaria de ver no site, e diga que troca sem custo.
 - O MAIS IMPORTANTE: o cliente não paga nada agora. Primeiro eu monto o site e mando a prévia; ele só paga depois de ver, e só se gostar. Sempre que ele falar de pagamento, Pix, banco, dinheiro ou desconfiança, deixe isso claro antes de qualquer outra coisa.
 - O site profissional custa R$ ${pricing.site} pago uma vez. Pelo WhatsApp sai por R$ ${ofertaWhatsapp.site}, apresentado como condição de ${ofertaWhatsapp.dias} dias; o preço deste cliente vem no contexto, use ele. Fica pronto em até ${pricing.prazoHoras}h depois do pagamento. É um site de uma página só, completa (apresentação, serviços, sobre, perguntas e contato na mesma página). Mais páginas ou blog é projeto à parte, com outro valor, combinado aqui no WhatsApp.
 - Endereço nome.supporta.com.br com hospedagem e SSL incluso no 1º ano. A partir do 2º ano, renova por R$ ${pricing.endereco}/ano. Sem mensalidade, sem fidelidade.

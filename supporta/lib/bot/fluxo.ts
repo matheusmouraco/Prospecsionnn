@@ -98,13 +98,13 @@ const R = {
   pedeServicos: "O que vocês vendem ou fazem? Se quiser mostrar preço, me passa também. E de que cidade vocês atendem?",
   pedeFotos: (temOnline: boolean) =>
     temOnline
-      ? "Agora me manda a logo e algumas fotos do seu trabalho aqui mesmo. Se preferir, eu uso as do seu site e do Instagram. Se não tiver nada, me fala que eu monto sem."
-      : "Agora me manda a logo e algumas fotos do seu trabalho aqui mesmo. Se não tiver, me fala que eu monto sem.",
+      ? "Agora me manda a logo e algumas fotos suas ou do seu trabalho (ou fotos que você gostaria de ver no site). Se preferir, eu uso as do seu site e do Instagram. Se não tiver agora, eu coloco fotos fictícias e depois a gente troca."
+      : "Agora me manda a logo e algumas fotos suas ou do seu trabalho (ou fotos que você gostaria de ver no site). Se não tiver agora, eu coloco fotos fictícias e depois a gente troca.",
   recebiFotos: (logo: boolean, fotos: number, nome?: string) =>
     logo && fotos ? "Recebi a logo e as fotos!"
     : fotos ? "Recebi as fotos! Sem logo, eu faço uma versão bonita só com o nome."
     : logo ? "Recebi a logo! Sem fotos, eu uso imagens do seu ramo e depois você troca pelas suas se quiser."
-    : `Sem problema, eu monto o site com o nome${nome ? ` ${nome}` : ""} bem trabalhado e imagens do seu ramo. Depois, se quiser, você manda a logo e as fotos e eu troco.`,
+    : `Sem problema, eu monto o site com o nome${nome ? ` ${nome}` : ""} bem trabalhado e coloco fotos fictícias do seu ramo. Depois é só me mandar fotos suas, do seu trabalho ou as que gostaria no site, que eu troco.`,
   aguardoFotos: "Beleza, fico no aguardo. Se não achar, sem problema: eu monto com o nome e depois você troca.",
   pedeWhatsapp: (aqui: string) => `Os botões do site vão levar os clientes pra qual WhatsApp? Se for este mesmo (${aqui}), é só responder "esse". Se for outro, me manda o número com DDD.`,
   whatsappInvalido: 'Não entendi o número. Me manda o WhatsApp com DDD (ex.: 11 91234-5678) ou responda "esse" pra usar este mesmo.',
@@ -114,8 +114,8 @@ const R = {
   previa: (url: string, oferta: string, proprias: boolean) => [
     `Pronto! Essa é a prévia do seu site: ${url}`,
     proprias
-      ? "Usei o que você me mandou e escrevi os textos a partir do que você me contou. É um ponto de partida: textos, fotos, cores, tudo pode ser trocado. É só me falar aqui o que quer mudar."
-      : "Escrevi os textos a partir do que você me contou e coloquei imagens de exemplo do seu ramo. É um ponto de partida: textos, fotos, cores, tudo pode ser trocado. Se tiver fotos do seu trabalho, me manda aqui que eu coloco no lugar.",
+      ? "Usei o que você me mandou e escrevi os textos a partir do que você me contou. É um ponto de partida: textos, fotos, cores, tudo pode ser trocado. Onde faltou foto sua, coloquei fotos fictícias: me manda fotos suas, do seu trabalho ou as que gostaria no site que eu coloco no lugar."
+      : "Escrevi os textos a partir do que você me contou e coloquei fotos fictícias do seu ramo. É um ponto de partida: textos, fotos, cores, tudo pode ser trocado. Me manda fotos suas, do seu trabalho ou as que gostaria no site que eu coloco no lugar.",
     `Ela fica no ar por ${DIAS_PREVIA} dias. Depois disso eu tiro do ar.${oferta}`,
   ],
   ultimoDia: (url: string) => [

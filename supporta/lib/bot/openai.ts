@@ -19,6 +19,7 @@ Regras:
 - Personalizada: use o que a conversa já tem (nome do negócio, o que ele faz, o que ele disse por último). Nunca repita uma mensagem que já está na conversa.
 - Calma, sem pressão, sem "última chance", sem urgência falsa.
 - O pagamento só acontece depois de ver o site pronto, e só se gostar: lembre disso quando fizer sentido.
+- Se o cliente ainda não mandou fotos, a prévia está com fotos fictícias: quando couber, peça fotos dele, do trabalho dele ou as que gostaria de ver no site.
 - Nunca use travessão. No máximo um emoji. Não invente preço, prazo ou nada que não esteja no contexto.
 - Responda só com o texto da mensagem.
 ${o.contexto}`;
