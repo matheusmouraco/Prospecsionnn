@@ -35,7 +35,7 @@ import { transcrever, transcricaoLigada } from "./audio";
 import { baixarMidia, enviarAudio, enviarTexto, evolutionEnabled, marcarLida, type MensagemRecebida } from "./evolution";
 import { DIAS_PREVIA, DIAS_REATIVADA, lerExpiracao, marcarAvisoExpiracao, previaExpirou, previasNoUltimoDia, reativarPrevia } from "./expiracao";
 import { candidatos, consultarDominio, normalizarDominio, opcoesLivres } from "./dominio";
-import { RETORNOS, quandoMandar, quandoParado } from "./retornos";
+import { RETORNOS, quandoDepoisDeAjuste, quandoMandar, quandoParado } from "./retornos";
 import { classificarPrimeira, entenderConfirmacao, entenderFotos, extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, responderLivre, respostaProspeccao, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
 import { escreverFollowUp } from "./openai";
@@ -1003,12 +1003,15 @@ export async function cobrarRetornos(agora = Date.now()) {
     if (LIMITE_FOLLOWUPS <= 1) {
       // Um follow-up só, ~1h depois da prévia (ou da última mensagem do cliente), das 8h às 21h.
       if (c.retornos >= 1) continue;
-      const em = quandoParado(0, base, ultimo, c.telefone)!;
+      const site = await siteDe(c);
+      const r = (site?.respostas ?? {}) as { ajustesPendentes?: string[]; ajustesFeitos?: string[] };
+      const pediuAjuste = (r.ajustesPendentes?.length ?? 0) + (r.ajustesFeitos?.length ?? 0) > 0;
+      // Pediu alteração: espera 4 dias (nunca no mesmo dia); senão, ~1h.
+      const em = pediuAjuste ? quandoDepoisDeAjuste(base, c.telefone) : quandoParado(0, base, ultimo, c.telefone)!;
       if (agora < em) continue;
       if (!(await podeMandarFollowUp(agora))) break;
       await salvarConversa(c.telefone, { retornos: 1, ultimo_retorno_em: new Date(agora) });
       try {
-        const site = await siteDe(c);
         const padrao = "Conseguiu ver o site? Se quiser mudar qualquer coisa, me fala que eu ajusto. Você só paga se gostar.";
         const objetivo = `o cliente recebeu a prévia do site${site ? ` (${previaUrl(site.slug)})` : ""} e não respondeu. Perguntar com leveza o que achou ou se quer mudar algo, lembrando que só paga se gostar`;
         await falar(c.telefone, (await followUpPersonalizado(c, objetivo)) ?? padrao);

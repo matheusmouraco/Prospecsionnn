@@ -72,3 +72,12 @@ test("lembrete de quem parou antes da prévia: 1h, ~1 dia e 3 dias, sempre de di
   const agora = sp("2026-11-10T15:00");
   assert.ok(quandoParado(1, ontem, agora, tel)! >= agora + 12 * H);
 });
+
+test("quem pediu alteração só recebe follow-up 4 dias depois, de dia", async () => {
+  const { quandoDepoisDeAjuste } = await import("../lib/bot/retornos.ts");
+  const base = sp("2026-11-10T15:00");
+  const t = quandoDepoisDeAjuste(base, "5522998021987");
+  assert.ok(t >= base + 96 * H, hhmm(t));
+  const h = new Date(t - 3 * H).getUTCHours();
+  assert.ok(h >= 8 && h < 21, hhmm(t));
+});

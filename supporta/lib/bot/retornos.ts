@@ -90,3 +90,12 @@ export function quandoParado(i: number, base: number, ultimoEnvio: number, telef
   const t = Math.max(base + off * MIN + jitter, ultimoEnvio > base ? ultimoEnvio + INTERVALO_PARADOS : 0);
   return dentroDaJanela(t, jitter);
 }
+
+// Quem já pediu alteração na prévia está no processo: o follow-up só sai 4 dias depois da última versão ou da última
+// mensagem dele (decisão do Moura, 10/nov/2026), nunca no mesmo dia.
+export const DIAS_FOLLOWUP_DEPOIS_DE_AJUSTE = 4;
+
+export function quandoDepoisDeAjuste(base: number, telefone: string): number {
+  const jitter = quebrado(telefone, 20);
+  return dentroDaJanela(base + DIAS_FOLLOWUP_DEPOIS_DE_AJUSTE * 24 * HORA + jitter, jitter);
+}
