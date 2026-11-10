@@ -111,9 +111,11 @@ const R = {
   pedeOk: "Se estiver tudo certo, já começo a montar e em uns 50 minutos te mando a prévia aqui. Você não paga nada agora: só depois de ver o site pronto, e só se gostar.",
   comecou: "Combinado! Já comecei a montar o seu site. Em uns 50 minutos te mando a prévia aqui. Lembrando: você não paga nada agora, só depois de ver, e só se gostar.",
   gerando: "Estou terminando o seu site, já te mando aqui.",
-  previa: (url: string, oferta: string) => [
+  previa: (url: string, oferta: string, proprias: boolean) => [
     `Pronto! Essa é a prévia do seu site: ${url}`,
-    "Abre e me fala o que achou. Se quiser mudar qualquer coisa, é só me falar aqui.",
+    proprias
+      ? "Usei o que você me mandou e escrevi os textos a partir do que você me contou. É um ponto de partida: textos, fotos, cores, tudo pode ser trocado. É só me falar aqui o que quer mudar."
+      : "Escrevi os textos a partir do que você me contou e coloquei imagens de exemplo do seu ramo. É um ponto de partida: textos, fotos, cores, tudo pode ser trocado. Se tiver fotos do seu trabalho, me manda aqui que eu coloco no lugar.",
     `Ela fica no ar por ${DIAS_PREVIA} dias. Depois disso eu tiro do ar.${oferta}`,
   ],
   ultimoDia: (url: string) => [
@@ -382,10 +384,16 @@ async function etapaProspeccao(conv: Conversa, texto: string, depois: Depois) {
  * a conversa nasce em "prospeccao" e o robô responde de acordo quando a pessoa voltar.
  */
 export async function mensagemEnviadaPorFora(m: { id: string; para: string; texto: string }) {
-  await pausa(8000); // dá tempo do robô gravar as próprias mensagens
-  if (await mensagemExiste(m.id)) return; // foi o robô que mandou
-  if (await clienteFalouHaPouco(m.para)) return; // saudação automática do WhatsApp Business ou resposta manual no meio da conversa
+  await pausa(15_000); // dá tempo do robô gravar as próprias mensagens
+  if ((await mensagemExiste(m.id)) || (await roboMandouEsse(m.para, m.texto))) return; // foi o robô que mandou
   const conv = await buscarConversa(m.para);
+  // O Moura respondeu à mão no meio de uma conversa: o robô sai de cena até ser devolvido pelo painel.
+  if (conv && !["inicio", "prospeccao", "encerrada", "humano"].includes(conv.etapa)) {
+    await registrarMensagem({ telefone: m.para, direcao: "out", tipo: "manual", corpo: m.texto, wa_id: m.id });
+    await pausarRobo(conv);
+    return;
+  }
+  if (await clienteFalouHaPouco(m.para)) return; // saudação automática do WhatsApp Business logo depois da 1ª mensagem do cliente
   await registrarMensagem({ telefone: m.para, direcao: "out", tipo: "manual", corpo: m.texto, wa_id: m.id });
   if (conv && (conv.etapa !== "inicio" || (await jaRecebeuDoCliente(m.para)))) return;
   const atual = conv ?? (await pegarConversa(m.para));
@@ -734,9 +742,23 @@ async function pedirAjusteNoAr(conv: Conversa, site: Site, ajuste: string) {
 }
 
 async function chamarHumano(conv: Conversa, texto: string) {
-  await salvarConversa(conv.telefone, { etapa: "humano" });
+  await pausarRobo(conv);
   await falar(conv.telefone, R.humano);
-  await notifyTeam(`Cliente pediu atendimento no WhatsApp: ${conv.briefing.negocio ?? conv.nome ?? ""}`, [formatarFone(conv.telefone), texto.slice(0, 500), "O robô parou nessa conversa. Para devolver, mude a etapa da conversa no banco."]);
+  await notifyTeam(`Cliente pediu atendimento no WhatsApp: ${conv.briefing.negocio ?? conv.nome ?? ""}`, [formatarFone(conv.telefone), texto.slice(0, 500), `O robô parou nessa conversa. Para devolver: https://supporta.com.br/admin/conversa/${conv.telefone}`]);
+}
+
+/** Robô parado nesta conversa (etapa "humano"), guardando onde estava para voltar dali pelo painel. */
+async function pausarRobo(conv: Conversa) {
+  await mesclarBriefing(conv.telefone, { etapaAntesHumano: conv.etapa });
+  await salvarConversa(conv.telefone, { etapa: "humano" });
+}
+
+/** A mesma mensagem já foi gravada como enviada pelo robô nos últimos 3 minutos (o aviso da Evolution chega antes de gravarmos). */
+async function roboMandouEsse(telefone: string, texto: string) {
+  const r = await tryDb("roboMandouEsse", (sql) => sql`
+    select 1 from mensagens where telefone = ${telefone} and direcao = 'out' and tipo <> 'manual' and corpo = ${texto.slice(0, 4000)}
+      and criado_em > now() - interval '3 minutes' limit 1`);
+  return Boolean(r?.length);
 }
 
 async function etapaPrevia(conv: Conversa, texto: string) {
@@ -921,6 +943,17 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
   if (!site) return false;
   const conv = await conversaDoSite(site.id);
   if (!conv) return false;
+  if (conv.etapa === "humano") {
+    // Você está atendendo: a prévia não vai sozinha para o cliente e a etapa não muda; avisos de pagamento e site no ar vão.
+    if (evento === "previa" || evento === "erro") {
+      await mesclarBriefing(conv.telefone, { etapaAntesHumano: "previa" });
+      await notifyTeam(`Prévia pronta (conversa com você, o robô não mandou): ${site.empresa}`, [formatarFone(conv.telefone), previaUrl(site.slug)]);
+      return true;
+    }
+    const texto = evento === "pago" ? R.pagou(`${site.slug}.supporta.com.br`) : evento === "ajustado" ? R.ajustado(siteUrl(site)) : R.noAr(siteUrl(site));
+    await falar(conv.telefone, texto);
+    return true;
+  }
   if (evento === "previa") {
     const primeira = conv.etapa === "gerando" || !conv.previa_em;
     await salvarConversa(conv.telefone, { etapa: ["dados", "pagamento"].includes(conv.etapa) ? conv.etapa : "previa", previa_em: new Date(), retornos: 0, ultimo_retorno_em: null });
@@ -931,7 +964,10 @@ export async function avisarConversa(token: string, evento: "previa" | "no_ar" |
       // Mensagem escrita pela equipe para este cliente (ex.: quem ficou com receio de pagar antes).
       await falar(conv.telefone, [`Pronto! Essa é a prévia do seu site: ${previaUrl(site.slug)}`, msg]);
       await tryDb("limparMensagemPrevia", (sql) => sql`update conversas set briefing = briefing - 'mensagemPrevia' where telefone = ${conv.telefone}`);
-    } else await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug), oferta) : R.previaNova(previaUrl(site.slug)));
+    } else {
+      const proprias = Boolean(site.respostas.logo) || (Array.isArray(site.respostas.fotos) && site.respostas.fotos.length > 0) || Boolean(site.respostas.siteAtual) || Boolean(site.respostas.instagram);
+      await falar(conv.telefone, primeira ? R.previa(previaUrl(site.slug), oferta, proprias) : R.previaNova(previaUrl(site.slug)));
+    }
   } else if (evento === "pago") {
     await salvarConversa(conv.telefone, { etapa: "pago" });
     await falar(conv.telefone, R.pagou(`${site.slug}.supporta.com.br`));

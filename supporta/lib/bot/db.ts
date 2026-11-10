@@ -29,6 +29,8 @@ export type Briefing = {
   perguntouServicosDeNovo?: boolean;
   /** O cliente disse que ia mandar a logo/fotos em instantes: na próxima mensagem sem imagem, segue sem elas. */
   esperandoFotos?: boolean;
+  /** Etapa em que o robô estava quando a conversa passou para atendimento humano (o painel devolve dali). */
+  etapaAntesHumano?: Etapa;
   /** Mensagem escrita pela equipe para mandar junto com a primeira prévia (no lugar da padrão). */
   mensagemPrevia?: string;
   instagramPerfil?: { bio?: string; site?: string; telefone?: string; endereco?: string; seguidores?: number; posts?: string[]; fotoPerfil?: string };

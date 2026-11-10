@@ -30,8 +30,8 @@ export default async function ConversaPage({ params }: { params: Promise<{ telef
       {conv.etapa === "humano" ? (
         <form action={devolverConversa} className="flex flex-wrap items-center gap-3 rounded-2xl border border-bad/40 bg-white p-4 text-sm">
           <input type="hidden" name="telefone" value={telefone} />
-          <span>O robô está parado nesta conversa. Devolver ao robô na etapa:</span>
-          <select name="etapa" defaultValue={conv.site_id ? "previa" : "inicio"} className="rounded-xl border border-line px-3 py-2">
+          <span>O robô está parado nesta conversa (você está atendendo). Devolver ao robô na etapa:</span>
+          <select name="etapa" defaultValue={(conv.briefing as { etapaAntesHumano?: string } | null)?.etapaAntesHumano ?? (conv.site_id ? "previa" : "inicio")} className="rounded-xl border border-line px-3 py-2">
             {["inicio", "prospeccao", "negocio", "servicos", "fotos", "confirmacao", "previa", "dados", "pagamento", "pago"].map((e) => <option key={e} value={e}>{e}</option>)}
           </select>
           <button className="rounded-full bg-ink px-4 py-2 font-medium text-paper">Devolver</button>

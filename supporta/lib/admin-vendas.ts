@@ -114,5 +114,7 @@ export function removerInvestimento(id: number) {
 
 /** Devolve a conversa ao robô (sai da etapa "humano"). */
 export function devolverAoRobo(telefone: string, etapa: string) {
-  return tryDb("devolverAoRobo", (sql) => sql`update conversas set etapa = ${etapa}, atualizado_em = now() where telefone = ${telefone} and etapa = 'humano'`);
+  return tryDb("devolverAoRobo", (sql) => sql`
+    update conversas set etapa = ${etapa}, briefing = briefing - 'etapaAntesHumano', retornos = 0, ultimo_retorno_em = null, atualizado_em = now()
+    where telefone = ${telefone} and etapa = 'humano'`);
 }
