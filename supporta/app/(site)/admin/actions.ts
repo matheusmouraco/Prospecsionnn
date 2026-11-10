@@ -88,7 +88,7 @@ export async function apagarInvestimento(formData: FormData) {
 export async function devolverConversa(formData: FormData) {
   await assertAdmin();
   const etapa = String(formData.get("etapa"));
-  if (!["inicio", "negocio", "servicos", "fotos", "confirmacao", "previa", "dados", "pagamento", "pago"].includes(etapa)) return;
+  if (!["inicio", "prospeccao", "negocio", "servicos", "fotos", "confirmacao", "previa", "dados", "pagamento", "pago"].includes(etapa)) return;
   const { devolverAoRobo } = await import("@/lib/admin-vendas");
   const telefone = String(formData.get("telefone"));
   await devolverAoRobo(telefone, etapa);

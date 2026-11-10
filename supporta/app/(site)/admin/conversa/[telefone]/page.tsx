@@ -32,7 +32,7 @@ export default async function ConversaPage({ params }: { params: Promise<{ telef
           <input type="hidden" name="telefone" value={telefone} />
           <span>O robô está parado nesta conversa. Devolver ao robô na etapa:</span>
           <select name="etapa" defaultValue={conv.site_id ? "previa" : "inicio"} className="rounded-xl border border-line px-3 py-2">
-            {["inicio", "negocio", "servicos", "fotos", "confirmacao", "previa", "dados", "pagamento", "pago"].map((e) => <option key={e} value={e}>{e}</option>)}
+            {["inicio", "prospeccao", "negocio", "servicos", "fotos", "confirmacao", "previa", "dados", "pagamento", "pago"].map((e) => <option key={e} value={e}>{e}</option>)}
           </select>
           <button className="rounded-full bg-ink px-4 py-2 font-medium text-paper">Devolver</button>
         </form>

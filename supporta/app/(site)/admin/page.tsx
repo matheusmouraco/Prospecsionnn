@@ -29,7 +29,7 @@ const STATUS: Record<string, [string, string]> = {
   ajustando_no_ar: ["No ar, ajustando", "bg-ink text-paper"],
 };
 const ETAPA: Record<string, string> = {
-  inicio: "Começou", negocio: "Nome do negócio", servicos: "Serviços", fotos: "Fotos", confirmacao: "Resumo",
+  inicio: "Começou", prospeccao: "Prospecção, sem resposta", encerrada: "Encerrada", negocio: "Nome do negócio", servicos: "Serviços", fotos: "Fotos", confirmacao: "Resumo",
   gerando: "Gerando", previa: "Com a prévia", dados: "Dados do pagamento", pagamento: "Link de pagamento", pago: "Cliente", humano: "Esperando você",
 };
 

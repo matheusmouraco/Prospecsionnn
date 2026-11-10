@@ -35,6 +35,13 @@ export function whatsappDigits() {
 export const botWhatsapp = env(process.env.NEXT_PUBLIC_BOT_WHATSAPP, "+55 11 93621-4697");
 export const botMessage = "Oi! Quero criar o site do meu negócio.";
 
+/** Suporte especializado (humano) mostrado ao cliente quando o site fica pronto. */
+export const suporte = {
+  whatsapp: env(process.env.NEXT_PUBLIC_SUPORTE_WHATSAPP, "+55 11 99264-4010"),
+  email: env(process.env.NEXT_PUBLIC_SUPORTE_EMAIL, "contato@matheusmoura.com.br"),
+};
+export const suporteTexto = () => `Suporte especializado: WhatsApp ${suporte.whatsapp.replace(/^\+55 /, "")} (wa.me/${suporte.whatsapp.replace(/\D/g, "")}) ou ${suporte.email}.`;
+
 export function botWhatsappUrl(message = botMessage) {
   return `https://wa.me/${botWhatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 }

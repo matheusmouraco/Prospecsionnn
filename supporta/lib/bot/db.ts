@@ -2,7 +2,7 @@ import { db, tryDb } from "@/lib/db";
 
 // Conversa de cada número com o robô (migration 0006). Telefone sempre só números, com 55.
 
-export type Etapa = "inicio" | "negocio" | "servicos" | "fotos" | "confirmacao" | "gerando" | "previa" | "dados" | "pagamento" | "pago" | "humano";
+export type Etapa = "inicio" | "prospeccao" | "encerrada" | "negocio" | "servicos" | "fotos" | "confirmacao" | "gerando" | "previa" | "dados" | "pagamento" | "pago" | "humano";
 
 export type Servico = { nome: string; preco: string | null };
 
@@ -22,9 +22,12 @@ export type Briefing = {
   /** Correções que o cliente fez no resumo, antes de gerar. */
   ajustes?: string[];
   /** De onde veio: link do site, do Instagram, da análise (analise.supporta.com.br) ou conversa direta. */
-  origem?: "whatsapp" | "instagram" | "site" | "analise";
+  origem?: "whatsapp" | "instagram" | "site" | "analise" | "prospeccao";
+  /** Mensagem de prospecção fria que mandamos antes de a pessoa responder. */
+  prospeccaoTexto?: string;
+  perguntouNegocioDeNovo?: boolean;
   instagramPerfil?: { bio?: string; site?: string; telefone?: string; endereco?: string; seguidores?: number; posts?: string[]; fotoPerfil?: string };
-  google?: { endereco?: string; telefone?: string; horario?: string[]; nota?: number; avaliacoes?: number; mapsUrl?: string };
+  google?: { endereco?: string; telefone?: string; horario?: string[]; nota?: number; avaliacoes?: number; mapsUrl?: string; site?: string };
   site?: { titulo?: string; descricao?: string; textos?: string[]; logo?: string; imagens?: string[] };
   responsavel?: string;
   email?: string;
@@ -136,4 +139,21 @@ export async function mesclarBriefing(telefone: string, patch: Briefing) {
     update conversas set briefing = briefing || ${sql.json(limpo as never)}, atualizado_em = now()
     where telefone = ${telefone} returning *`;
   return row;
+}
+
+export async function mensagemExiste(waId: string) {
+  const r = await tryDb("mensagemExiste", (sql) => sql`select 1 from mensagens where wa_id = ${waId} limit 1`);
+  return Boolean(r?.length);
+}
+
+/** O cliente mandou mensagem nos últimos `segundos`? (a saudação automática do WhatsApp Business sai junto com a 1ª mensagem dele) */
+export async function clienteFalouHaPouco(telefone: string, segundos = 90) {
+  const r = await tryDb("clienteFalouHaPouco", (sql) => sql`
+    select 1 from mensagens where telefone = ${telefone} and direcao = 'in' and criado_em > now() - make_interval(secs => ${segundos}) limit 1`);
+  return Boolean(r?.length);
+}
+
+export async function jaRecebeuDoCliente(telefone: string) {
+  const r = await tryDb("jaRecebeuDoCliente", (sql) => sql`select 1 from mensagens where telefone = ${telefone} and direcao = 'in' limit 1`);
+  return Boolean(r?.length);
 }

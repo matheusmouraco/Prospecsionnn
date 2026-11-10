@@ -23,7 +23,9 @@ export async function montarRelatorio(): Promise<string> {
         (select count(*) from conversas where etapa = 'gerando')::int as gerando,
         (select count(*) from conversas where etapa = 'previa')::int as em_previa,
         (select count(*) from conversas where etapa in ('dados', 'pagamento'))::int as pagando,
-        (select count(*) from conversas where etapa = 'humano')::int as humano`);
+        (select count(*) from conversas where etapa = 'humano')::int as humano,
+        (select count(*) from conversas where etapa = 'prospeccao')::int as prospeccao,
+        (select count(*) from conversas where etapa = 'prospeccao' and (criado_em at time zone 'America/Sao_Paulo')::date = ${hojeSQL})::int as prospeccao_hoje`);
     const humanos = await sql<{ nome: string | null; telefone: string }[]>`select nome, telefone from conversas where etapa = 'humano' order by atualizado_em desc limit 5`;
     const alteracoes = await sql.unsafe(`
       select s.empresa,
@@ -55,6 +57,7 @@ export async function montarRelatorio(): Promise<string> {
     `• Sites que foram ao ar: ${n.no_ar}`,
     "",
     "*Funil agora*",
+    `• Prospecção fria esperando resposta: ${n.prospeccao} (${n.prospeccao_hoje} enviadas hoje)`,
     `• Respondendo as perguntas: ${n.conversando}`,
     `• Prévia sendo feita: ${n.gerando}`,
     `• Com a prévia, sem decidir: ${n.em_previa}`,
