@@ -16,6 +16,9 @@ import {
   buscarConversa,
   conversaDoSite,
   conversasEsperandoRetorno,
+  conversasParadas,
+  historico,
+  ultimaEnviada,
   mesclarBriefing,
   pegarConversa,
   registrarMensagem,
@@ -29,8 +32,8 @@ import { transcrever, transcricaoLigada } from "./audio";
 import { baixarMidia, enviarAudio, enviarTexto, evolutionEnabled, marcarLida, type MensagemRecebida } from "./evolution";
 import { DIAS_PREVIA, DIAS_REATIVADA, lerExpiracao, marcarAvisoExpiracao, previaExpirou, previasNoUltimoDia, reativarPrevia } from "./expiracao";
 import { candidatos, consultarDominio, normalizarDominio, opcoesLivres } from "./dominio";
-import { RETORNOS, quandoMandar } from "./retornos";
-import { classificarPrimeira, extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, respostaProspeccao, resumoFinal } from "./ia";
+import { RETORNOS, quandoMandar, quandoParado } from "./retornos";
+import { classificarPrimeira, entenderFotos, extrairDados, extrairNegocio, extrairServicos, interpretarResposta, lerImagem, responderLivre, respostaProspeccao, resumoFinal } from "./ia";
 import { linkPagamento } from "./pagamento";
 
 type Depois = (p: Promise<unknown>) => void;
@@ -93,11 +96,12 @@ const R = {
     temOnline
       ? "Agora me manda a logo e algumas fotos do seu trabalho aqui mesmo. Se preferir, eu uso as do seu site e do Instagram. Se não tiver nada, me fala que eu monto sem."
       : "Agora me manda a logo e algumas fotos do seu trabalho aqui mesmo. Se não tiver, me fala que eu monto sem.",
-  recebiFotos: (logo: boolean, fotos: number) =>
+  recebiFotos: (logo: boolean, fotos: number, nome?: string) =>
     logo && fotos ? "Recebi a logo e as fotos!"
     : fotos ? "Recebi as fotos! Sem logo, eu faço uma versão bonita só com o nome."
     : logo ? "Recebi a logo! Sem fotos, eu uso imagens do seu ramo e depois você troca pelas suas se quiser."
-    : "Sem problema, eu monto com imagens do seu ramo e o nome bem trabalhado. Depois, se quiser, você manda as suas e eu troco.",
+    : `Sem problema, eu monto o site com o nome${nome ? ` ${nome}` : ""} bem trabalhado e imagens do seu ramo. Depois, se quiser, você manda a logo e as fotos e eu troco.`,
+  aguardoFotos: "Beleza, fico no aguardo. Se não achar, sem problema: eu monto com o nome e depois você troca.",
   pedeWhatsapp: (aqui: string) => `Os botões do site vão levar os clientes pra qual WhatsApp? Se for este mesmo (${aqui}), é só responder "esse". Se for outro, me manda o número com DDD.`,
   whatsappInvalido: 'Não entendi o número. Me manda o WhatsApp com DDD (ex.: 11 91234-5678) ou responda "esse" pra usar este mesmo.',
   pedeOk: "Posso começar? Em uns 50 minutos te mando a prévia aqui. Você só paga se gostar.",
@@ -149,16 +153,55 @@ const R = {
   erroGerador: "Tive um problema pra terminar o seu site. Já avisei a equipe e a gente te retorna aqui.",
 };
 
+/** Conversa recente em texto (para a IA entender o contexto). */
+async function conversaTexto(telefone: string, limite = 14) {
+  return (await historico(telefone, limite))
+    .filter((m) => !/^\[(audio|imagem|video|sticker|outro)\]$/.test(m.corpo))
+    .map((m) => `${m.direcao === "in" ? "Cliente" : "Matheus"}: ${m.corpo}`)
+    .join("\n");
+}
+
+const ETAPA_TEXTO: Partial<Record<Conversa["etapa"], string>> = {
+  negocio: "Falta o nome do negócio (se não tiver nome, pode ser o nome da pessoa).",
+  servicos: "Falta saber o que o negócio faz ou vende e de que cidade atende.",
+  fotos: "Falta a logo e fotos, que são opcionais: sem elas você monta com o nome e imagens do ramo.",
+  confirmacao: "Falta o WhatsApp dos botões do site ou o ok do cliente para começar a montar.",
+  gerando: "O site está sendo montado; a prévia sai em uns 50 minutos.",
+  previa: "O cliente já recebeu a prévia: pode pedir mudanças ou aprovar.",
+  dados: "Faltam nome completo, e-mail e CPF ou CNPJ para gerar o pagamento.",
+  pagamento: "O link de pagamento já foi enviado.",
+  pago: "O cliente já pagou; o site vai ao ar.",
+};
+
+/** O robô ia mandar exatamente a mesma mensagem de antes: a IA lê a conversa e responde de outro jeito. */
+async function semRepetir(telefone: string, repetida: string) {
+  const conv = await buscarConversa(telefone);
+  const contexto = conv ? `${ETAPA_TEXTO[conv.etapa] ?? ""} ${precoContexto(conv)}` : "";
+  return responderLivre(await conversaTexto(telefone), contexto, repetida);
+}
+
+const igual = (a: string, b: string) => a.replace(/\s+/g, " ").trim().toLowerCase() === b.replace(/\s+/g, " ").trim().toLowerCase();
+
 /** Manda uma ou mais mensagens e guarda no histórico. Sem Evolution configurada (teste local), só registra. */
 async function falar(telefone: string, textos: string | string[]) {
   const lista = Array.isArray(textos) ? textos : [textos];
-  for (const [i, t] of lista.entries()) {
+  // Nunca a mesma mensagem duas vezes seguidas (o cliente sente que fala com uma parede).
+  const ultima = await ultimaEnviada(telefone);
+  let anterior = ultima && Date.now() - new Date(ultima.criado_em).getTime() < 24 * 3600_000 ? ultima.corpo : null;
+  let enviadas = 0;
+  for (let t of lista) {
+    if (anterior && igual(t, anterior)) {
+      t = await semRepetir(telefone, t).catch((err) => (console.error("[bot] sem repetir:", (err as Error).message), ""));
+      if (!t || igual(t, anterior)) continue;
+    }
     // Entre uma mensagem e outra, a pausa de quem termina de digitar e começa a próxima.
-    if (i > 0 && evolutionEnabled()) await pausa(1200 + Math.random() * 1800);
+    if (enviadas > 0 && evolutionEnabled()) await pausa(1200 + Math.random() * 1800);
     let id: string | null = null;
     if (evolutionEnabled()) id = await enviarTexto(telefone, t);
     else console.log(`[bot -> ${telefone}] ${t}`);
     await registrarMensagem({ telefone, direcao: "out", tipo: "texto", corpo: t, wa_id: id });
+    anterior = t;
+    enviadas++;
   }
 }
 
@@ -317,12 +360,14 @@ async function etapaNegocio(conv: Conversa, texto: string, depois: Depois) {
   // Prospecção: já sabemos a empresa; sem link, a resposta é sobre o que eles fazem.
   if (conv.briefing.origem === "prospeccao" && conv.briefing.negocio && !instagram && !site) return etapaServicos(conv, texto);
   // "Nada", "não tenho", "?" não é nome de negócio: pergunta de novo uma vez.
-  const vazio = !ia.negocio && !instagram && !site && (texto.trim().length < 3 || /^(nada|n[aã]o( tenho| sei)?|nenhum|sem nome|\?+|ok|sim)\W*$/i.test(texto.trim()));
+  // Frase comprida sem nome ("vou me organizar e te falo") também não é nome.
+  const frase = texto.trim().split(/\s+/).length > 5;
+  const vazio = !ia.negocio && !instagram && !site && (frase || texto.trim().length < 3 || /^(nada|n[aã]o( tenho| sei)?|nenhum|sem nome|\?+|ok|sim)\W*$/i.test(texto.trim()));
   if (vazio && !conv.briefing.perguntouNegocioDeNovo) {
     await mesclarBriefing(conv.telefone, { perguntouNegocioDeNovo: true });
     return falar(conv.telefone, R.naoEntendiNegocio);
   }
-  const negocio = ia.negocio ?? (instagram || site ? undefined : vazio ? conv.nome ?? undefined : texto.slice(0, 80));
+  const negocio = ia.negocio ?? (instagram || site || frase ? undefined : vazio ? conv.nome ?? undefined : texto.slice(0, 80));
   const origem: Briefing["origem"] = site ? "site" : instagram ? "instagram" : "whatsapp";
   await mesclarBriefing(conv.telefone, { negocio: negocio ?? conv.briefing.negocio, instagram, siteAtual: site, origem: conv.briefing.origem ?? origem });
   await salvarConversa(conv.telefone, { etapa: "servicos" });
@@ -343,6 +388,11 @@ async function enriquecer(telefone: string, q: { instagram?: string; site?: stri
 
 async function etapaServicos(conv: Conversa, texto: string) {
   const r = await extrairServicos(texto, conv.briefing);
+  // Não falou o que faz (perguntou algo, "depois te falo"): responde e pede de novo, com outras palavras, uma vez.
+  if (r.descreveu === false && r.resposta && !conv.briefing.perguntouServicosDeNovo) {
+    await mesclarBriefing(conv.telefone, { perguntouServicosDeNovo: true, negocio: conv.briefing.negocio ?? r.negocio ?? undefined });
+    return falar(conv.telefone, r.resposta);
+  }
   const atual = await mesclarBriefing(conv.telefone, {
     servicos: r.servicos,
     cidade: r.cidade ?? undefined,
@@ -351,9 +401,9 @@ async function etapaServicos(conv: Conversa, texto: string) {
     ramoOutro: r.ramoOutro ?? undefined,
     frase: r.frase,
   });
-  if (!atual.briefing.negocio) await mesclarBriefing(conv.telefone, { negocio: texto.slice(0, 60) });
+  if (!atual.briefing.negocio) await mesclarBriefing(conv.telefone, { negocio: r.negocio ?? conv.nome ?? undefined });
   await salvarConversa(conv.telefone, { etapa: "fotos" });
-  await falar(conv.telefone, [r.confirmacao, R.pedeFotos(Boolean(atual.briefing.instagram || atual.briefing.siteAtual))]);
+  await falar(conv.telefone, [r.confirmacao, R.pedeFotos(Boolean(atual.briefing.instagram || atual.briefing.siteAtual))].filter(Boolean));
 }
 
 async function tratarImagem(conv: Conversa, m: MensagemRecebida) {
@@ -386,13 +436,18 @@ async function tratarImagem(conv: Conversa, m: MensagemRecebida) {
   await seguirParaResumo(depois);
 }
 
+/** Resposta ao pedido de logo e fotos. Quem não tem (dito de qualquer jeito) segue na hora: o site sai com o nome. */
 async function etapaFotos(conv: Conversa, texto: string) {
-  const t = texto.toLowerCase();
-  const semFotos = /n[aã]o tenho|sem logo|sem foto|n[aã]o tem|nenhuma|pode montar|monta sem/.test(t);
-  const usaOnline = /(usa|pega|pode usar).{0,20}(site|insta)/.test(t);
-  const pronto = /pronto|[ée] isso|s[oó] isso|essas|mandei|enviei|acabei|^ok|beleza|pode seguir/.test(t);
-  if (semFotos || usaOnline || pronto || conv.midias.length > 0) return seguirParaResumo(conv);
-  await falar(conv.telefone, R.pedeFotos(Boolean(conv.briefing.instagram || conv.briefing.siteAtual)));
+  if (conv.midias.length > 0) return seguirParaResumo(conv);
+  const r = await entenderFotos(texto, conv.briefing, await conversaTexto(conv.telefone)).catch(() => ({ acao: "seguir" as const, negocio: null, resposta: null }));
+  // "O logotipo é Deusa Turismo": o nome dito aqui vale mais que o anotado antes.
+  if (r.negocio) conv = await mesclarBriefing(conv.telefone, { negocio: r.negocio });
+  if (r.acao === "pergunta" && r.resposta) return falar(conv.telefone, r.resposta);
+  if (r.acao === "vai_mandar" && !conv.briefing.esperandoFotos) {
+    await mesclarBriefing(conv.telefone, { esperandoFotos: true });
+    return falar(conv.telefone, R.aguardoFotos);
+  }
+  return seguirParaResumo(conv);
 }
 
 async function seguirParaResumo(conv: Conversa) {
@@ -400,7 +455,7 @@ async function seguirParaResumo(conv: Conversa) {
   const fotos = conv.midias.filter((x) => x.tipo === "foto").length;
   const online = conv.briefing.instagram || conv.briefing.siteAtual;
   // Sem fotos mandadas mas com site ou Instagram: as fotos saem de lá (importarImagensOnline), não do banco de imagens.
-  const aviso = fotos || !online ? R.recebiFotos(logo, fotos) : logo ? `Recebi a logo! As fotos eu pego do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.` : `Beleza, eu uso a logo e as fotos do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.`;
+  const aviso = fotos || !online ? R.recebiFotos(logo, fotos, conv.briefing.negocio) : logo ? `Recebi a logo! As fotos eu pego do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.` : `Beleza, eu uso a logo e as fotos do seu ${conv.briefing.siteAtual ? "site" : "Instagram"}.`;
   // Antes do resumo: para qual WhatsApp vão as mensagens do site (nem sempre é quem está conversando).
   await mesclarBriefing(conv.telefone, { aguardandoWhatsapp: true });
   await salvarConversa(conv.telefone, { etapa: "confirmacao" });
@@ -427,7 +482,10 @@ async function respostaWhatsapp(conv: Conversa, texto: string) {
 }
 
 const ehOk = (t: string) =>
-  /^(ok|okay|sim|pode|combinado|fechado|fechou|beleza|bora|vamos|isso|certo|show|top|blz|👍|perfeito|manda|t[aá]|tamo|vai|claro)\b/i.test(t.trim()) || /combinado|fechado|pode come[cç]ar|pode fazer|pode seguir/i.test(t);
+  /^(ok|okay|sim|pode|combinado|fechado|fechou|beleza|bora|vamos|isso|certo|show|top|blz|👍|perfeito|manda|t[aá]|tamo|vai|claro)\b/i.test(t.trim()) ||
+  /combinado|fechado|pode come[cç]ar|pode fazer|pode seguir/i.test(t) ||
+  // "Ah, beleza, então. Manda pra mim analisar": concordância curta, sem pedir mudança.
+  (t.length < 90 && /\b(beleza|blz|manda|pode|sim|ok|bora|show|fechou|combinado)\b/i.test(t) && !/\b(muda|mudar|troca|trocar|tira|tirar|coloca|colocar|corrig\w*|errad\w*|n[aã]o|mas)\b/i.test(t));
 
 async function etapaConfirmacao(conv: Conversa, texto: string, depois: Depois) {
   if (conv.briefing.aguardandoWhatsapp) return respostaWhatsapp(conv, texto);
@@ -869,6 +927,45 @@ export async function cobrarRetornos(agora = Date.now()) {
       enviados.push(c.telefone);
     } catch (err) {
       console.error("[bot] retorno:", (err as Error).message);
+    }
+  }
+  return enviados;
+}
+
+// Follow-up de quem parou antes da prévia: curto e dizendo só o que falta.
+const PARADO: Record<string, { primeiro: string; falta: string }> = {
+  negocio: { primeiro: "me manda só o nome do seu negócio que eu já começo o seu site. Você só paga se gostar.", falta: "o nome do seu negócio" },
+  servicos: { primeiro: "me conta rapidinho o que vocês fazem e de que cidade atendem, que eu já começo o seu site.", falta: "o que vocês fazem e a cidade" },
+  fotos: { primeiro: "se não tiver a logo ou fotos agora, sem problema: eu monto com o nome e depois você troca. Posso seguir?", falta: "me dizer se eu sigo sem a logo" },
+  whatsapp: { primeiro: 'só falta me dizer pra qual WhatsApp vão os botões do site (ou "esse", pra usar este mesmo) que eu já começo.', falta: "o WhatsApp dos botões do site" },
+  confirmacao: { primeiro: "posso começar o seu site? É só me dar um ok que em uns 50 minutos te mando a prévia.", falta: "o seu ok pra eu começar" },
+};
+
+export function textoParado(c: Pick<Conversa, "etapa" | "nome" | "briefing">, i: number) {
+  const p = PARADO[c.etapa === "confirmacao" && c.briefing.aguardandoWhatsapp ? "whatsapp" : c.etapa];
+  const nome = primeiroNome(c.nome);
+  if (!p) return null;
+  if (i === 0) return `Oi${nome ? ` ${nome}` : ""}, ${p.primeiro}`;
+  if (i === 1) return `Oi${nome ? ` ${nome}` : ""}! Ainda quer o seu site? Falta pouco: ${p.falta}. Você só paga se gostar.`;
+  return "Vou deixar o seu pedido guardado aqui. Quando quiser continuar, é só me responder que eu sigo de onde parou.";
+}
+
+/** Quem parou de responder antes da prévia: até 3 lembretes curtos (1h, ~1 dia e 3 dias depois), das 8h às 21h. */
+export async function cobrarParados(agora = Date.now()) {
+  const enviados: string[] = [];
+  for (const c of await conversasParadas()) {
+    if (!c.ultima_msg_cliente_em) continue;
+    const base = new Date(c.ultima_msg_cliente_em).getTime();
+    const ultimo = c.ultimo_retorno_em ? new Date(c.ultimo_retorno_em).getTime() : base;
+    const em = quandoParado(c.retornos, base, ultimo, c.telefone);
+    const texto = textoParado(c, c.retornos);
+    if (em === null || agora < em || !texto) continue;
+    await salvarConversa(c.telefone, { retornos: c.retornos + 1, ultimo_retorno_em: new Date(agora) });
+    try {
+      await falar(c.telefone, texto);
+      enviados.push(c.telefone);
+    } catch (err) {
+      console.error("[bot] parado:", (err as Error).message);
     }
   }
   return enviados;

@@ -57,7 +57,8 @@ const listaRamos = ramos.filter((r) => r.slug !== "outro").map((r) => `${r.slug}
 
 export async function extrairNegocio(texto: string) {
   return json<{ negocio: string | null; instagram: string | null; site: string | null }>(
-    `Extraia de uma mensagem de WhatsApp o nome do negócio, o @ do Instagram e o endereço do site. Se só vier o @, deduza um nome legível (ex: "@qualypisos_" vira "Qualy Pisos"). instagram sem @ e sem URL. site só o domínio (ex: "clinicax.com.br"). null quando não houver.`,
+    `Extraia de uma mensagem de WhatsApp o nome do negócio, o @ do Instagram e o endereço do site. Se só vier o @, deduza um nome legível (ex: "@qualypisos_" vira "Qualy Pisos"). instagram sem @ e sem URL. site só o domínio (ex: "clinicax.com.br"). null quando não houver.
+negocio é só o NOME (ex.: "Deusa Tour", "Clínica Sorriso"), nunca uma frase. Se a mensagem não traz um nome ("vou me organizar e te falo", "quero um site", "ainda não tenho nome"), negocio é null.`,
     `Mensagem: """${texto}"""\nJSON: {"negocio": string|null, "instagram": string|null, "site": string|null}`,
     300,
   );
@@ -71,6 +72,12 @@ export type ServicosExtraidos = {
   ramoOutro: string | null;
   frase: string;
   confirmacao: string;
+  /** false quando a mensagem não diz o que o negócio faz (pergunta, "depois te falo"...). */
+  descreveu: boolean;
+  /** Para descreveu=false: resposta natural que responde e pede de novo com outras palavras. */
+  resposta: string | null;
+  /** Nome do negócio, se a resposta citou. */
+  negocio: string | null;
 };
 
 export async function extrairServicos(texto: string, b: Briefing) {
@@ -83,10 +90,44 @@ Um dono de negócio respondeu "o que vocês vendem, com o preço, e de que cidad
 - ramo: um destes slugs: ${listaRamos}, ou "outro".
 - ramoOutro: o ramo em 2 a 4 palavras quando ramo for "outro"; senão null.
 - frase: uma frase de até 160 caracteres dizendo o que o negócio faz e para quem, só com o que foi dito.
-- confirmacao: UMA frase curta começando com "Entendi," repetindo o essencial.`,
+- confirmacao: UMA frase curta começando com "Entendi," repetindo o essencial.
+- negocio: o nome do negócio se a resposta citar um (só o nome, nunca uma frase), senão null.
+- descreveu: false se a mensagem NÃO diz nada do que o negócio faz ou vende (só uma pergunta, "vou me organizar e te falo", "quanto custa?", um cumprimento). Nesse caso servicos vazio e resposta preenchida.
+- resposta: só quando descreveu=false. 1 ou 2 frases: responda o que ele disse ou perguntou (com os fatos abaixo) e peça de novo, com outras palavras, o que o negócio faz e de que cidade atende. Senão null.
+${FATOS}`,
     `Negócio: ${b.negocio ?? "?"}\nBio do Instagram: ${b.instagramPerfil?.bio ?? "-"}\nSite atual: ${b.site?.titulo ?? "-"} ${b.site?.descricao ?? ""}\nResposta: """${texto}"""`,
     900,
   );
+}
+
+export type RespostaFotos = { acao: "seguir" | "vai_mandar" | "pergunta"; negocio: string | null; resposta: string | null };
+
+/** Resposta ao pedido de logo e fotos. Na dúvida, segue: o site sai com o nome bem trabalhado e imagens do ramo. */
+export async function entenderFotos(texto: string, b: Briefing, historico: string) {
+  return json<RespostaFotos>(
+    `${TOM}
+O Matheus pediu a logo e fotos do trabalho para montar o site do cliente. Leia a conversa e a última mensagem e decida:
+- "seguir": o cliente NÃO tem logo ou fotos agora, de qualquer jeito que diga ("não tenho", "não estou tendo no momento", "ainda não", "depois eu mando", "pode fazer sem", "usa as do Instagram"), disse que já mandou tudo, mandou só o nome da marca, ou qualquer coisa que não seja uma pergunta. Na dúvida, "seguir". Nunca prenda o cliente nessa etapa.
+- "vai_mandar": disse que vai mandar AGORA, em instantes ("peraí que vou pegar", "já te mando"). Um "vou ver se acho" vago é "seguir".
+- "pergunta": fez uma pergunta (preço, como funciona, que tipo de foto). resposta: 1 ou 2 frases respondendo com os fatos abaixo e lembrando que, sem logo e sem fotos, você monta com o nome.
+- negocio: se o cliente disse o nome do negócio ou da marca (ex.: "o logotipo é Deusa Turismo", "Deuza tur"), o nome escrito de forma limpa; senão null.
+${FATOS}`,
+    `Nome do negócio anotado: ${b.negocio ?? "?"}\nConversa até aqui:\n${historico}\n\nÚltima mensagem do cliente: """${texto}"""\nJSON: {"acao","negocio": string|null,"resposta": string|null}`,
+    300,
+  );
+}
+
+/** Quando o robô ia mandar a mesma mensagem de novo: lê a conversa e responde como uma pessoa, sem repetir. */
+export async function responderLivre(historico: string, contexto: string, repetida: string) {
+  const r = await json<{ resposta: string }>(
+    `${TOM}
+Você é o Matheus, da Supporta, conversando no WhatsApp com um cliente que quer um site. ${contexto}
+Você ia mandar de novo esta mensagem, que já mandou: """${repetida}""". Não repita. Leia a conversa, responda de verdade ao que o cliente disse por último (se ele disse que não tem algo, aceite e siga; se perguntou, responda) e, se ainda faltar algo, peça com outras palavras, de um jeito mais simples. UMA mensagem curta, no máximo 2 frases.
+${FATOS}`,
+    `Conversa:\n${historico}\nJSON: {"resposta": string}`,
+    300,
+  );
+  return r.resposta;
 }
 
 export type LeituraImagem = { tipo: "logo" | "foto"; alt: string; cores: string[]; qualidade: "boa" | "media" | "ruim" };

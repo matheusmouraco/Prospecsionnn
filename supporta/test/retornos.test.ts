@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { RETORNOS, quandoMandar } from "../lib/bot/retornos.ts";
+import { RETORNOS, quandoMandar, quandoParado } from "../lib/bot/retornos.ts";
 
 const H = 3600_000;
 const sp = (iso: string) => new Date(`${iso}-03:00`).getTime();
@@ -48,4 +48,27 @@ test("prévia de manhã: áudio sai às 20h do mesmo dia e o bom dia no dia segu
   assert.match(t[3], /^11-06 20:/);
   assert.match(t[4], /^11-07 08:/);
   assert.match(t[6], /^11-07 18:/);
+});
+
+test("lembrete de quem parou antes da prévia: 1h, ~1 dia e 3 dias, sempre de dia", () => {
+  const tel = "556191864076";
+  const base = sp("2026-11-10T14:02");
+  const t0 = quandoParado(0, base, base, tel)!;
+  assert.ok(t0 >= base + H && t0 < base + 1.4 * H, hhmm(t0));
+  const t1 = quandoParado(1, base, t0, tel)!;
+  assert.ok(t1 >= base + 22 * H, hhmm(t1));
+  const t2 = quandoParado(2, base, t1, tel)!;
+  assert.ok(t2 >= base + 72 * H, hhmm(t2));
+  assert.equal(quandoParado(3, base, t2, tel), null);
+  for (const t of [t0, t1, t2]) {
+    const h = new Date(t - 3 * H).getUTCHours();
+    assert.ok(h >= 8 && h < 21, hhmm(t));
+  }
+  // Parou à noite: o 1º sai na manhã seguinte, não de madrugada.
+  const noite = sp("2026-11-10T20:30");
+  assert.equal(new Date(quandoParado(0, noite, noite, tel)! - 3 * H).getUTCHours(), 8);
+  // Parou ontem e já mandamos o 1º agora: o 2º espera pelo menos 12h.
+  const ontem = sp("2026-11-09T10:00");
+  const agora = sp("2026-11-10T15:00");
+  assert.ok(quandoParado(1, ontem, agora, tel)! >= agora + 12 * H);
 });

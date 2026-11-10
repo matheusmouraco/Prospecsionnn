@@ -26,6 +26,9 @@ export type Briefing = {
   /** Mensagem de prospecção fria que mandamos antes de a pessoa responder. */
   prospeccaoTexto?: string;
   perguntouNegocioDeNovo?: boolean;
+  perguntouServicosDeNovo?: boolean;
+  /** O cliente disse que ia mandar a logo/fotos em instantes: na próxima mensagem sem imagem, segue sem elas. */
+  esperandoFotos?: boolean;
   instagramPerfil?: { bio?: string; site?: string; telefone?: string; endereco?: string; seguidores?: number; posts?: string[]; fotoPerfil?: string };
   google?: { endereco?: string; telefone?: string; horario?: string[]; nota?: number; avaliacoes?: number; mapsUrl?: string; site?: string };
   site?: { titulo?: string; descricao?: string; textos?: string[]; logo?: string; imagens?: string[] };
@@ -122,6 +125,19 @@ export async function adicionarMidia(telefone: string, midia: Midia) {
 export async function conversasEsperandoRetorno() {
   return (await tryDb("conversasEsperandoRetorno", (sql) => sql<Conversa[]>`
     select * from conversas where etapa in ('previa', 'pagamento') and previa_em is not null and retornos < 10`)) ?? [];
+}
+
+/** Quem parou de responder antes da prévia (follow-up curto). */
+export async function conversasParadas() {
+  return (await tryDb("conversasParadas", (sql) => sql<Conversa[]>`
+    select * from conversas where etapa in ('negocio', 'servicos', 'fotos', 'confirmacao') and ultima_msg_cliente_em is not null and retornos < 3`)) ?? [];
+}
+
+/** Última mensagem que o robô mandou para o número (para nunca mandar a mesma duas vezes seguidas). */
+export async function ultimaEnviada(telefone: string) {
+  const r = await tryDb("ultimaEnviada", (sql) => sql<{ corpo: string; criado_em: Date }[]>`
+    select corpo, criado_em from mensagens where telefone = ${telefone} and direcao = 'out' order by criado_em desc limit 1`);
+  return r?.[0] ?? null;
 }
 
 export async function historico(telefone: string, limite = 12) {

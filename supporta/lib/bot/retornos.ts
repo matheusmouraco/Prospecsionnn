@@ -76,3 +76,17 @@ export function quandoMandar(i: number, base: number, ultimoEnvio: number, telef
   if (agora > alvo + ATRASO_MAXIMO_HORARIO) return { pular: true };
   return { em: dentroDaJanela(alvo, jitter) };
 }
+
+// Follow-up curto para quem parou antes da prévia (nome, serviços, logo, ok): 1h, ~1 dia e 3 dias depois da última mensagem
+// do cliente, sempre das 8h às 21h e com pelo menos 12h entre um e outro (quem parou ontem recebe o 1º assim que abrir a janela).
+export const PARADOS_MIN = [60, 22 * 60, 3 * 24 * 60];
+const INTERVALO_PARADOS = 12 * HORA;
+
+/** Quando mandar o follow-up `i` de uma conversa parada; null quando já mandou todos. */
+export function quandoParado(i: number, base: number, ultimoEnvio: number, telefone: string): number | null {
+  const off = PARADOS_MIN[i];
+  if (off === undefined) return null;
+  const jitter = quebrado(telefone, 10 + i);
+  const t = Math.max(base + off * MIN + jitter, ultimoEnvio > base ? ultimoEnvio + INTERVALO_PARADOS : 0);
+  return dentroDaJanela(t, jitter);
+}
