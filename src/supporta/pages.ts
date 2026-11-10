@@ -18,9 +18,13 @@ export function artigosDe(r: Respostas): Artigo[] {
   return temas.map((t) => ({ ...t, caminho: `/blog/${slugify(t.titulo)}` }));
 }
 
-/** Pages each plan gets after payment. The home ('/') already exists (it is the preview). */
+/**
+ * Pages each plan gets after payment. The home ('/') already exists (it is the preview).
+ * Moura's call (nov/2026): the price covers a one-page site only (saves tokens). Extra pages are a separate,
+ * custom-priced project, switched on by hand with `respostas.multipagina = true`.
+ */
 export function paginasDoPlano(site: SiteRow): PaginaSpec[] {
-  if (site.plano === 'start') return [];
+  if (site.plano === 'start' || (site.respostas as { multipagina?: boolean }).multipagina !== true) return [];
   const r = site.respostas;
   const base: PaginaSpec[] = [
     { caminho: '/sobre', titulo: 'Sobre', instrucao: 'quem é a empresa: o que faz e para quem, como trabalha, os diferenciais informados e a região atendida. Termine com uma chamada para o WhatsApp.' },

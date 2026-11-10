@@ -1,3 +1,4 @@
+import { semLenis } from "./sem-lenis";
 import { site } from "@/lib/site";
 
 export type Dono = { nome: string; cnpj?: string | null };
@@ -33,9 +34,12 @@ export function rodapeSupporta(dono?: Dono): string {
 </footer>`;
 }
 
-/** Troca qualquer rodapé de agência antigo e o crédito "Site feito com Supporta" pelo rodapé com o selo. */
+/**
+ * Troca qualquer rodapé de agência antigo e o crédito "Site feito com Supporta" pelo rodapé com o selo.
+ * Também tira o Lenis (rolagem suave): nos sites já gerados ele só roda se a biblioteca carregar, e no celular a rolagem fica esquisita.
+ */
 export function comSelo(html: string, dono?: Dono): string {
-  const limpo = html
+  const limpo = semLenis(html)
     .replace(/<footer class="rodape-agencia"[\s\S]*?<\/footer>\s*/gi, "")
     .replace(/<p data-secao="credito-supporta"[\s\S]*?<\/p>\s*/gi, "");
   const rodape = rodapeSupporta(dono);

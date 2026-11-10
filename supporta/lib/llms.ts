@@ -73,7 +73,7 @@ export async function llmsFullTxt() {
 
 URL: ${absoluteUrl("/")}
 
-${site.name} cria sites profissionais com IA para pequenas e médias empresas do Brasil. Site com até 5 páginas, hospedagem com SSL e GEO por ${priceLabel(pricing.site)} pagos uma vez, com o endereço nome.supporta.com.br incluso no 1º ano.
+${site.name} cria sites profissionais com IA para pequenas e médias empresas do Brasil. Site de uma página completa, hospedagem com SSL e GEO por ${priceLabel(pricing.site)} pagos uma vez, com o endereço nome.supporta.com.br incluso no 1º ano.
 
 Como funciona, 100% automático: 01 O cliente chama a Supporta no WhatsApp e responde umas perguntas (nome, serviços, cidade, logo e fotos; pode mandar o link do Instagram ou do site). 02 A IA monta o site e ele vê a prévia antes de pagar. 03 Paga ${priceLabel(pricing.site)} uma vez e o site entra no ar em até ${pricing.prazoHoras}h em nome.supporta.com.br. O domínio próprio é combinado pelo WhatsApp.
 

@@ -15,7 +15,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: `Preço do site: R$${pricing.site}, pago uma vez | Supporta`,
   description:
-    `Site profissional com até 5 páginas por ${priceLabel(pricing.site)}, pago uma vez e pronto em até ${pricing.prazoHoras}h. Endereço e hospedagem inclusos no 1º ano; depois, ${priceLabel(pricing.endereco)} por ano. Domínio próprio opcional.`,
+    `Site profissional de uma página completa por ${priceLabel(pricing.site)}, pago uma vez e pronto em até ${pricing.prazoHoras}h. Endereço e hospedagem inclusos no 1º ano; depois, ${priceLabel(pricing.endereco)} por ano. Domínio próprio opcional.`,
   path: "/planos",
 });
 

@@ -60,7 +60,7 @@ export const segments: Segment[] = [
       },
       {
         q: "Serve para escritório pequeno ou arquiteto autônomo?",
-        a: `Serve. O site tem até 5 páginas (início, sobre, serviços, perguntas e contato), o suficiente para quem trabalha sozinho ou para um escritório pequeno, por ${P(pricing.site)} pago uma vez.`,
+        a: `Serve. O site é uma página completa (apresentação, serviços, sobre, perguntas e contato), o suficiente para quem trabalha sozinho ou para um escritório pequeno, por ${P(pricing.site)} pago uma vez.`,
       },
     ],
     mock: {
@@ -205,7 +205,7 @@ export const segments: Segment[] = [
       },
       {
         q: "Posso ter uma página para cada área de atuação?",
-        a: "Pode. As áreas aparecem na página de serviços, e o site tem até 5 páginas. Se o escritório precisa de uma página para cada área, fale com o Matheus pelo WhatsApp (11) 99264-4010 para um projeto personalizado.",
+        a: "Pode. As áreas aparecem na seção de serviços da página. Se o escritório precisa de uma página para cada área, fale com o Matheus pelo WhatsApp (11) 99264-4010 para um projeto personalizado.",
       },
     ],
     mock: {

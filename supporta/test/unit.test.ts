@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { isCnpj, isCpf } from "../lib/documents.ts";
+import { semLenis } from "../lib/sem-lenis.ts";
 import { findMention } from "../lib/monitor/mention.ts";
 import { createToken, readToken } from "../lib/tokens.ts";
 
@@ -37,4 +38,10 @@ test("token assinado: válido, adulterado e expirado", () => {
   assert.equal(readToken<{ cid: string }>(t)?.cid, "abc");
   assert.equal(readToken(`${t.slice(0, -2)}xx`), null);
   assert.equal(readToken(createToken({ cid: "abc" }, -1)), null);
+});
+
+test("sites servidos sem o Lenis (rolagem nativa)", () => {
+  const html = semLenis('<html><body><p>x</p><script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script></body></html>');
+  assert.ok(!html.includes("lenis.min.js"));
+  assert.ok(html.includes("gsap.min.js"));
 });

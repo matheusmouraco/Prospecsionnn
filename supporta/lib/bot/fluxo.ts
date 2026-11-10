@@ -134,7 +134,7 @@ const R = {
   aguardandoPagamento: "Assim que o pagamento confirmar eu te aviso aqui.",
   pagou: (endereco: string) => [
     "Pagamento confirmado! Muito obrigado 🙌",
-    `Agora eu termino o site: além da página inicial que você viu, entram as páginas Sobre, Serviços, Perguntas frequentes e Contato, todas no mesmo estilo. Ele vai ao ar em até ${pricing.prazoHoras}h em ${endereco} e eu te mando o link aqui e por e-mail.`,
+    `Agora eu coloco o site no ar: é a página que você viu, com tudo nela (serviços, perguntas e contato). Ele vai ao ar em até ${pricing.prazoHoras}h em ${endereco} e eu te mando o link aqui e por e-mail.`,
     suporteTexto(),
   ],
   noAr: (url: string) => [

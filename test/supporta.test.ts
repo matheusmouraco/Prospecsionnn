@@ -22,6 +22,12 @@ describe('supporta site rules', () => {
     expect(out).not.toContain('evil.com');
   });
 
+  it('keeps GSAP but drops the Lenis smooth scroll', () => {
+    const out = applySiteRules(page('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>'), WA);
+    expect(out).toContain('gsap.min.js');
+    expect(out).not.toContain('lenis');
+  });
+
   it('rejects forms, invented numbers and foreign images', () => {
     const html = applySiteRules(page('<h1>Padaria</h1><a href="%%WHATSAPP%%">Fale</a><form></form><p>Há 25 anos no bairro</p><img src="https://images.unsplash.com/x.jpg" alt="">'), WA);
     const issues = validateSite(html, { whatsapp: WA, imagens: [], fonteNumeros: 'Padaria Teste' });
@@ -38,10 +44,13 @@ describe('supporta site rules', () => {
 });
 
 describe('supporta plan pages', () => {
-  it('gives each plan its pages', () => {
+  it('one page only, unless extra pages were sold by hand', () => {
     expect(paginasDoPlano(site('start'))).toEqual([]);
-    expect(paginasDoPlano(site('pro')).map((p) => p.caminho)).toEqual(['/sobre', '/servicos', '/perguntas', '/contato']);
-    const premium = paginasDoPlano(site('premium')).map((p) => p.caminho);
+    expect(paginasDoPlano(site('pro'))).toEqual([]);
+    expect(paginasDoPlano(site('premium'))).toEqual([]);
+    const multi = (plano: string) => { const s = site(plano as never); return { ...s, respostas: { ...s.respostas, multipagina: true } }; };
+    expect(paginasDoPlano(multi('pro')).map((p) => p.caminho)).toEqual(['/sobre', '/servicos', '/perguntas', '/contato']);
+    const premium = paginasDoPlano(multi('premium')).map((p) => p.caminho);
     expect(premium).toContain('/blog');
     expect(premium.filter((c) => c.startsWith('/blog/'))).toHaveLength(2);
     expect(menuDe(site('premium'))).toContain('Blog = "/blog"');

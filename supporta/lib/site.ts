@@ -7,7 +7,7 @@ export const site = {
   tagline: "Seu site no ar em até 2 horas.",
   signature: "A IA sempre se apoia em alguma fonte. Faça ser a sua.",
   description:
-    "Site profissional com até 5 páginas, criado pela IA com a sua marca e pronto pro Google e pras IAs. R$99,00 pago uma vez, no ar em até 2 horas.",
+    "Site profissional de uma página completa, criado pela IA com a sua marca e pronto pro Google e pras IAs. R$99,00 pago uma vez, no ar em até 2 horas.",
   whatsapp: env(process.env.NEXT_PUBLIC_WHATSAPP, "+55 11 99264-4010"),
   email: env(process.env.NEXT_PUBLIC_EMAIL, "contato@supporta.com.br"),
   razaoSocial: env(process.env.NEXT_PUBLIC_RAZAO_SOCIAL, "Supporta Tecnologia"),

@@ -25,7 +25,7 @@ const factors = [
 ];
 
 const faq: FaqItem[] = [
-  { q: "Quanto custa um site simples para empresa?", a: `No modelo tradicional, um site de uma página costuma custar alguns milhares de reais de criação, mais hospedagem e domínio. Na Supporta, o site com até 5 páginas custa ${priceLabel(pricing.site)}, pago uma vez, fica pronto em até ${pricing.prazoHoras}h e já vem com endereço e hospedagem no 1º ano.` },
+  { q: "Quanto custa um site simples para empresa?", a: `No modelo tradicional, um site de uma página costuma custar alguns milhares de reais de criação, mais hospedagem e domínio. Na Supporta, o site de uma página completa custa ${priceLabel(pricing.site)}, pago uma vez, fica pronto em até ${pricing.prazoHoras}h e já vem com endereço e hospedagem no 1º ano.` },
   { q: "Por que alguns orçamentos são tão diferentes?", a: "Porque incluem coisas diferentes: alguns entregam só o design, outros incluem textos, SEO, hospedagem e ajustes. Compare sempre o que está incluso, não só o valor." },
   { q: "O que é mais barato a longo prazo?", a: `Compare o total de cada ano. Na Supporta, você paga ${priceLabel(pricing.site)} no 1º ano e ${priceLabel(pricing.endereco)} por ano a partir do 2º para manter endereço e hospedagem. Alterações não têm custo nos primeiros ${pricing.diasAlteracaoGratis} dias e depois custam ${priceLabel(pricing.alteracao)} cada. No modelo tradicional, some criação, hospedagem mensal, domínio e cada ajuste avulso.` },
 ];

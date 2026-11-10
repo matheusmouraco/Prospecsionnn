@@ -49,7 +49,7 @@ export async function handlePaymentEvent(event: PaymentEvent) {
       const mail = assinatura.site_id
         ? noticeEmail("Pagamento confirmado. Seu site está indo ao ar", [
             `Oi, ${assinatura.responsavel.split(" ")[0]}. Pagamento confirmado: o seu site profissional Supporta está pago.`,
-            `Agora entram as páginas Sobre, Serviços, Perguntas frequentes e Contato, e o site vai ao ar em até ${pricing.prazoHoras}h. Você recebe o link no WhatsApp e por e-mail.`,
+            `Agora o site vai ao ar em até ${pricing.prazoHoras}h, com tudo na mesma página (serviços, sobre, perguntas e contato). Você recebe o link no WhatsApp e por e-mail.`,
             `Nos primeiros ${pricing.diasAlteracaoGratis} dias depois da entrega, as alterações são sem custo. É só pedir pelo WhatsApp ${botWhatsapp}.`,
             suporteTexto(),
           ], undefined, { label: "Falar no WhatsApp", href: botWhatsappUrl("Oi! Já paguei o meu site e queria falar sobre ele.") })

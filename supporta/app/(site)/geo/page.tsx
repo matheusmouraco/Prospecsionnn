@@ -82,7 +82,7 @@ const sections = [
     title: "Como a Supporta faz GEO para a sua empresa?",
     answer: "Todo site da Supporta já sai com o GEO completo da base técnica: dados estruturados, llms.txt e robots.txt liberado para as IAs.",
     body: [
-      `O site tem até 5 páginas (início, sobre, serviços, perguntas e contato), com textos escritos pela IA a partir das suas respostas para responder perguntas reais dos seus clientes. Custa ${priceLabel(pricing.site)}, pago uma vez, e fica pronto em até ${pricing.prazoHoras}h.`,
+      `O site é uma página completa (apresentação, serviços, sobre, perguntas e contato), com textos escritos pela IA a partir das suas respostas para responder perguntas reais dos seus clientes. Custa ${priceLabel(pricing.site)}, pago uma vez, e fica pronto em até ${pricing.prazoHoras}h.`,
     ],
   },
 ];

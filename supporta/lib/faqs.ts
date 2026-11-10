@@ -8,7 +8,7 @@ const comDominio = chargesFor(true);
 export const homeFaq: Faq[] = [
   {
     q: "Quanto custa o site da Supporta?",
-    a: `${priceLabel(preco)}, pago uma vez. O site fica pronto em até ${horas}h, com até 5 páginas (início, sobre, serviços, perguntas e contato), feito pela IA a partir das suas respostas e com a sua marca. O endereço nome.supporta.com.br, com hospedagem e SSL, já vem incluso no 1º ano.`,
+    a: `${priceLabel(preco)}, pago uma vez. O site fica pronto em até ${horas}h, em uma página completa (apresentação, serviços, sobre, perguntas e contato), feito pela IA a partir das suas respostas e com a sua marca. O endereço nome.supporta.com.br, com hospedagem e SSL, já vem incluso no 1º ano.`,
   },
   {
     q: "Tem mensalidade?",
@@ -63,7 +63,7 @@ export const billingFaq: Faq[] = [
   },
   {
     q: "O que está incluso nos R$99?",
-    a: `O site completo com até 5 páginas, criado pela IA com a sua marca, feito pro celular, com botão de WhatsApp, Google Maps e GEO. O endereço nome.supporta.com.br, a hospedagem e o SSL vêm inclusos no 1º ano, e as alterações não têm custo nos primeiros ${dias} dias.`,
+    a: `O site completo em uma página, criado pela IA com a sua marca, feito pro celular, com botão de WhatsApp, Google Maps e GEO. O endereço nome.supporta.com.br, a hospedagem e o SSL vêm inclusos no 1º ano, e as alterações não têm custo nos primeiros ${dias} dias.`,
   },
   {
     q: "Quanto custa a renovação?",

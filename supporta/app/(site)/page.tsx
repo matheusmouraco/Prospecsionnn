@@ -24,7 +24,7 @@ import { priceLabel, pricing } from "@/lib/plans";
 export const metadata: Metadata = pageMetadata({
   title: `Supporta | Site profissional por R$${pricing.site}, pago uma vez`,
   description:
-    `Site profissional com até 5 páginas, criado pela IA com a sua marca, por ${priceLabel(pricing.site)} pago uma vez. Pronto em até ${pricing.prazoHoras}h, sem mensalidade, pronto pro Google e pras IAs.`,
+    `Site profissional de uma página completa, criado pela IA com a sua marca, por ${priceLabel(pricing.site)} pago uma vez. Pronto em até ${pricing.prazoHoras}h, sem mensalidade, pronto pro Google e pras IAs.`,
   path: "/",
 });
 

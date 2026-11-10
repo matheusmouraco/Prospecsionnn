@@ -36,7 +36,7 @@ export const plans: Plan[] = [
     pitch: `Pago uma vez, pronto em até ${pricing.prazoHoras}h. Criado pela IA a partir das suas respostas, com a sua marca.`,
     highlight: true,
     features: [
-      "Site completo com até 5 páginas: início, sobre, serviços, perguntas e contato",
+      "Site completo em uma página: apresentação, serviços, sobre, perguntas e contato",
       "Feito pro celular, com botão de WhatsApp e Google Maps",
       "Endereço nome.supporta.com.br e hospedagem com SSL inclusos no 1º ano",
       "GEO: dados estruturados, llms.txt e robots liberado pras IAs",

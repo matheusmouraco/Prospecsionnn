@@ -14,12 +14,13 @@ export interface SiteCheck {
   fonteNumeros: string;
 }
 
-/** WhatsApp link, allowed scripts only, no model-made structured data, no meta robots (it is a real site). */
+/** WhatsApp link, allowed scripts only (no Lenis smooth scroll), no model-made structured data, no meta robots (it is a real site). */
 export function applySiteRules(html: string, whatsapp: string): string {
   let out = html.replace(/%%WHATSAPP%%/g, escapeAttr(whatsapp));
   out = out.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (tag, attrs: string) => {
     const src = attrs.match(/\bsrc\s*=\s*["']([^"']+)["']/i)?.[1];
-    if (src) return SCRIPTS_PERMITIDOS.test(src) ? tag : '';
+    // Lenis (rolagem suave) fica de fora: no celular e no navegador do WhatsApp a rolagem fica "escorregadia" (pedido do Moura).
+    if (src) return SCRIPTS_PERMITIDOS.test(src) && !/lenis/i.test(src) ? tag : '';
     return /application\/ld\+json/i.test(attrs) ? '' : tag;
   });
   return out.replace(/<meta[^>]+name=["']robots["'][^>]*>\s*/gi, '');
