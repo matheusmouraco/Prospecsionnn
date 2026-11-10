@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { detalheSite, mensagensDe } from "@/lib/admin-vendas";
 import { Conversa } from "../../Conversa";
+import { BotaoRobo } from "../../BotaoRobo";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Site | Supporta", robots: { index: false, follow: false } };
@@ -41,6 +42,7 @@ export default async function SitePage({ params }: { params: Promise<{ id: strin
           <a className="rounded-full border border-line px-4 py-2" href={`https://analise.supporta.com.br/${site.slug}`} target="_blank" rel="noopener">Prévia</a>
           {site.publicado_em ? <a className="rounded-full bg-ink px-4 py-2 text-paper" href={endereco} target="_blank" rel="noopener">Site no ar</a> : null}
           {conversa ? <a className="rounded-full bg-[#25D366] px-4 py-2 text-white" href={`https://wa.me/${conversa.telefone}`} target="_blank" rel="noopener">WhatsApp do cliente</a> : null}
+          {conversa ? <BotaoRobo telefone={conversa.telefone} etapa={conversa.etapa} grande /> : null}
         </div>
       </div>
 

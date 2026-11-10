@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { painelVendas } from "@/lib/admin-vendas";
 import { apagarInvestimento, salvarInvestimento } from "./actions";
+import { BotaoRobo } from "./BotaoRobo";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Vendas | Supporta", robots: { index: false, follow: false } };
@@ -78,10 +79,10 @@ export default async function AdminVendas() {
       {humano.length ? (
         <div className="rounded-2xl border border-bad/40 bg-white p-5">
           <h2 className="text-xl tracking-[-0.03em]">Conversas esperando você</h2>
-          <p className="mt-1 text-sm text-graphite">O robô parou nelas. Responda pelo WhatsApp e, se quiser, devolva ao robô na página da conversa.</p>
-          <ul className="mt-3 space-y-1 text-[15px]">
+          <p className="mt-1 text-sm text-graphite">O robô parou nelas. Responda pelo WhatsApp e, quando quiser, devolva ao robô com um clique.</p>
+          <ul className="mt-3 space-y-2 text-[15px]">
             {humano.map((h) => (
-              <li key={h.telefone}><Link className="link" href={`/admin/conversa/${h.telefone}`}>{("empresa" in h ? h.empresa : h.negocio) || h.telefone}</Link> · {fone(h.telefone)}</li>
+              <li key={h.telefone} className="flex flex-wrap items-center gap-3"><span><Link className="link" href={`/admin/conversa/${h.telefone}`}>{("empresa" in h ? h.empresa : h.negocio) || h.telefone}</Link> · {fone(h.telefone)}</span><BotaoRobo telefone={h.telefone} etapa="humano" /></li>
             ))}
           </ul>
         </div>
@@ -150,7 +151,7 @@ export default async function AdminVendas() {
         <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
           <table className="w-full min-w-[980px] text-left text-[14px]">
             <thead className="border-b border-line text-sm text-graphite">
-              <tr>{["Empresa", "Situação", "Cliente", "WhatsApp", "Criado", "Pago em", "Recebido", "Custo API", "Alterações", "Links"].map((h) => <th key={h} className="px-3 py-3 font-medium">{h}</th>)}</tr>
+              <tr>{["Empresa", "Situação", "Robô", "Cliente", "WhatsApp", "Criado", "Pago em", "Recebido", "Custo API", "Alterações", "Links"].map((h) => <th key={h} className="px-3 py-3 font-medium">{h}</th>)}</tr>
             </thead>
             <tbody className="divide-y divide-line">
               {p.sites.map((s) => {
@@ -159,6 +160,7 @@ export default async function AdminVendas() {
                   <tr key={s.id} className="align-top">
                     <td className="px-3 py-3 font-medium"><Link className="link" href={`/admin/site/${s.id}`}>{s.empresa}</Link></td>
                     <td className="px-3 py-3"><span className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs ${cor}`}>{label}</span>{s.etapa === "humano" ? <span className="ml-1 rounded-full bg-bad px-2 py-0.5 text-xs text-white">você</span> : null}</td>
+                    <td className="px-3 py-3"><BotaoRobo telefone={s.telefone} etapa={s.etapa} /></td>
                     <td className="px-3 py-3">{s.contato_nome}<br /><span className="text-graphite">{s.contato_email || ""}</span></td>
                     <td className="whitespace-nowrap px-3 py-3">{fone(s.telefone ?? s.contato_whatsapp)}</td>
                     <td className="whitespace-nowrap px-3 py-3">{data(s.criado_em)}</td>
@@ -184,7 +186,7 @@ export default async function AdminVendas() {
         <div className="mt-4 overflow-x-auto rounded-2xl border border-line bg-white">
           <table className="w-full min-w-[720px] text-left text-[14px]">
             <thead className="border-b border-line text-sm text-graphite">
-              <tr>{["Contato", "Negócio", "Onde parou", "Começou", "Última mensagem", "Custo API"].map((h) => <th key={h} className="px-3 py-3 font-medium">{h}</th>)}</tr>
+              <tr>{["Contato", "Negócio", "Onde parou", "Robô", "Começou", "Última mensagem", "Custo API"].map((h) => <th key={h} className="px-3 py-3 font-medium">{h}</th>)}</tr>
             </thead>
             <tbody className="divide-y divide-line">
               {p.conversas.map((c) => (
@@ -192,6 +194,7 @@ export default async function AdminVendas() {
                   <td className="px-3 py-3"><Link className="link" href={`/admin/conversa/${c.telefone}`}>{c.nome || fone(c.telefone)}</Link><br /><span className="text-graphite">{fone(c.telefone)}</span></td>
                   <td className="px-3 py-3">{c.negocio || "-"}</td>
                   <td className="px-3 py-3">{ETAPA[c.etapa] ?? c.etapa}</td>
+                  <td className="px-3 py-3"><BotaoRobo telefone={c.telefone} etapa={c.etapa} /></td>
                   <td className="whitespace-nowrap px-3 py-3">{data(c.criado_em)}</td>
                   <td className="whitespace-nowrap px-3 py-3">{data(c.ultima)}</td>
                   <td className="px-3 py-3">{brl(c.custo * CAMBIO)}</td>

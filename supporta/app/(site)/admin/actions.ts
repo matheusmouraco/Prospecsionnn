@@ -85,6 +85,18 @@ export async function apagarInvestimento(formData: FormData) {
   revalidatePath("/admin");
 }
 
+/** Botão de um clique do painel: assumir (robô para) ou devolver ao robô. */
+export async function alternarRobo(formData: FormData) {
+  await assertAdmin();
+  const telefone = String(formData.get("telefone") ?? "").replace(/\D/g, "");
+  if (!telefone) return;
+  const { assumirConversa, devolverNaEtapaGuardada } = await import("@/lib/admin-vendas");
+  if (formData.get("acao") === "assumir") await assumirConversa(telefone);
+  else await devolverNaEtapaGuardada(telefone);
+  revalidatePath("/admin");
+  revalidatePath(`/admin/conversa/${telefone}`);
+}
+
 export async function devolverConversa(formData: FormData) {
   await assertAdmin();
   const etapa = String(formData.get("etapa"));
@@ -93,4 +105,5 @@ export async function devolverConversa(formData: FormData) {
   const telefone = String(formData.get("telefone"));
   await devolverAoRobo(telefone, etapa);
   revalidatePath(`/admin/conversa/${telefone}`);
+  revalidatePath("/admin");
 }

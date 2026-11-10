@@ -112,6 +112,21 @@ export function removerInvestimento(id: number) {
   return tryDb("removerInvestimento", (sql) => sql`delete from investimentos where id = ${id}`);
 }
 
+/** Você assume a conversa: o robô para e guarda a etapa em que estava. */
+export function assumirConversa(telefone: string) {
+  return tryDb("assumirConversa", (sql) => sql`
+    update conversas set briefing = briefing || jsonb_build_object('etapaAntesHumano', etapa), etapa = 'humano', atualizado_em = now()
+    where telefone = ${telefone} and etapa <> 'humano'`);
+}
+
+/** Devolve ao robô na etapa guardada (ou na prévia, se já tem site; senão no nome do negócio). */
+export function devolverNaEtapaGuardada(telefone: string) {
+  return tryDb("devolverNaEtapaGuardada", (sql) => sql`
+    update conversas set etapa = coalesce(nullif(briefing->>'etapaAntesHumano', ''), case when site_id is not null then 'previa' else 'negocio' end),
+      briefing = briefing - 'etapaAntesHumano', retornos = 0, ultimo_retorno_em = null, atualizado_em = now()
+    where telefone = ${telefone} and etapa = 'humano'`);
+}
+
 /** Devolve a conversa ao robô (sai da etapa "humano"). */
 export function devolverAoRobo(telefone: string, etapa: string) {
   return tryDb("devolverAoRobo", (sql) => sql`

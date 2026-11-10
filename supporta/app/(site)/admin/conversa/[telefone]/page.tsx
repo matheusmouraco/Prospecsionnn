@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { conversaPorTelefone, mensagensDe } from "@/lib/admin-vendas";
 import { devolverConversa } from "../../actions";
 import { Conversa } from "../../Conversa";
+import { BotaoRobo } from "../../BotaoRobo";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Conversa | Supporta", robots: { index: false, follow: false } };
@@ -24,6 +25,7 @@ export default async function ConversaPage({ params }: { params: Promise<{ telef
         </div>
         <div className="flex flex-wrap gap-3">
           <a className="rounded-full bg-[#25D366] px-4 py-2 text-sm font-medium text-white" href={`https://wa.me/${telefone}`} target="_blank" rel="noopener">Abrir no WhatsApp</a>
+          <BotaoRobo telefone={telefone} etapa={conv.etapa} grande />
           {conv.site_id ? <Link className="rounded-full border border-line px-4 py-2 text-sm" href={`/admin/site/${conv.site_id}`}>Ver o site</Link> : null}
         </div>
       </div>
