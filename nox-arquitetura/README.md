@@ -12,7 +12,9 @@ npm run dev      # http://localhost:3000
 npm run build && npm start
 ```
 
-Deploy na Vercel: criar o projeto com **Root Directory = `nox-arquitetura`**.
+No ar em **https://nox-arquitetura.vercel.app** (projeto `nox-arquitetura` na Vercel, time Matheus Moura's projects).
+
+Para publicar de novo, de dentro desta pasta: `npx vercel deploy --prod --scope team_EZr88WUvWf8Z5tTgpeDfnbBn` (o projeto não está ligado ao Git, então push não publica sozinho).
 
 ## Stack
 
@@ -36,6 +38,6 @@ Next.js 16 (App Router), Tailwind 4, GSAP 3.15 (ScrollTrigger, SplitText), Lenis
 - Cursor próprio que cresce sobre os projetos (só em mouse).
 - `prefers-reduced-motion`: sem preloader, sem Lenis, sem pin. Tudo aparece estático e empilhado. Sem JS a página também é legível.
 
-## Medido (Lighthouse mobile, build de produção local)
+## Medido (Lighthouse mobile)
 
-Performance 92 a 95, Acessibilidade 100, Boas práticas 100, SEO 100. CLS 0.
+Build local: performance 92 a 95. Produção na Vercel: performance 93, Acessibilidade 100, Boas práticas 100, SEO 100, LCP 2,0 s, CLS 0.

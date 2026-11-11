@@ -403,4 +403,4 @@ Cada fase só termina quando os critérios passarem. Sempre em `DRY_RUN=true` at
 
 ## Landing NOX Arquitetura (nov/2026)
 
-- Pasta `nox-arquitetura/`: landing de um escritório fictício (portfólio da agência), app Next.js 16 + Tailwind 4 + GSAP + Lenis, sem relação com o Prospector. Ver `nox-arquitetura/README.md`. Fotos do Unsplash com gradação pelo CDN (`lib/unsplash-loader.ts`); WhatsApp fictício em `lib/data.ts`.
+- Pasta `nox-arquitetura/`: landing de um escritório fictício (portfólio da agência), app Next.js 16 + Tailwind 4 + GSAP + Lenis, sem relação com o Prospector. Ver `nox-arquitetura/README.md`. Fotos do Unsplash com gradação pelo CDN (`lib/unsplash-loader.ts`); WhatsApp fictício em `lib/data.ts`. No ar em https://nox-arquitetura.vercel.app (projeto Vercel `nox-arquitetura`, sem Git ligado: publicar com `npx vercel deploy --prod` de dentro da pasta; o MCP da Vercel não cria projeto, a CLI usa o token da Vercel salvo no ambiente).
