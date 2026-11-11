@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-night: #0e1a24;
+  --color-night-2: #13222f;
+  --color-line: #d4e3ec;
+  --color-cyan: #8fc3d6;
+  --color-paper: #f4efe7;
+  --color-paper-2: #ebe4d8;
+  --color-ink: #0e1a24;
+  --color-graphite: #5d6a74;
+  --font-sans: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jet), ui-monospace, 'SFMono-Regular', monospace;
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-night);
+    color: var(--color-line);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-night);
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-cyan);
+    color: var(--color-night);
+  }
+  :focus-visible {
+    outline: 1px solid var(--color-cyan);
+    outline-offset: 4px;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer components {
+  .mono {
+    font-family: var(--font-mono);
+    font-feature-settings: 'zero' 1;
+    letter-spacing: 0.02em;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hairline {
+    height: 1px;
+    background: currentColor;
+    opacity: 0.22;
+  }
+
+  /* Blueprint grid: two scales of lines, pure CSS so it costs nothing to paint */
+  .bp-grid {
+    background-image:
+      linear-gradient(to right, rgb(212 227 236 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(212 227 236 / 0.07) 1px, transparent 1px),
+      linear-gradient(to right, rgb(212 227 236 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(212 227 236 / 0.035) 1px, transparent 1px);
+    background-size:
+      160px 160px,
+      160px 160px,
+      32px 32px,
+      32px 32px;
+    background-position: -1px -1px;
+  }
+
+  /* SVG drawing language */
+  .draw {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .draw text,
+  svg text.t {
+    fill: currentColor;
+    stroke: none;
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+
+  /* Split lines rendered on the server for the hero title (animated with CSS so LCP never waits for JS) */
+  .line-mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.16em;
+    margin-bottom: -0.16em;
+  }
+  .line-mask > span {
+    display: block;
+    transform: translate3d(0, 0, 0);
+  }
+  .hero-ready .line-mask > span {
+    animation: line-in 1.6s var(--ease-expo) both;
+    animation-delay: calc(var(--i, 0) * 0.09s + 0.15s);
+  }
+  @keyframes line-in {
+    from {
+      transform: translate3d(0, 125%, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* SplitText masks: same descender room as the hero lines */
+  [data-split] .split-mask {
+    padding-bottom: 0.16em;
+    margin-bottom: -0.16em;
+  }
+
+  /* The CTA underline: a single line that grows on hover. Only transform. */
+  .cta-line {
+    transform-origin: left center;
+    transform: scaleX(0.35);
+    transition: transform 0.9s var(--ease-expo);
+  }
+  .group:hover .cta-line,
+  .group:focus-visible .cta-line {
+    transform: scaleX(1);
+  }
+}
+
+/*
+  Progressive enhancement. The inline script in <head> adds .js only when motion is allowed.
+  Elements marked [data-reveal] start hidden and GSAP shows them; without JS (or if GSAP fails
+  to boot in 5s) the page renders in its final state.
+*/
+.js [data-reveal] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ready .line-mask > span {
+    animation: none;
+  }
+}
