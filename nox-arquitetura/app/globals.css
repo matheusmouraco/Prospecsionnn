@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0b0c;
+  --color-ink-2: #141416;
+  --color-bone: #ece8e1;
+  --color-ash: #8b8882;
+  --color-smoke: #3a3936;
+  --color-gold: #a8916a;
+  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --ease-cine: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-ink);
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 1px solid var(--color-gold);
+    outline-offset: 4px;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Display type: tight condensed caps */
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 0.94;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+/* Line masks with room for accents above the cap height (Í, Ê, É, Ú) */
+.ln-mask,
+.mask-line {
+  padding-top: 0.2em;
+  margin-top: -0.2em;
+  padding-bottom: 0.04em;
+  margin-bottom: -0.04em;
+}
+
+/* Hairline label */
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+/* Elements animated in by JS stay hidden only when JS is running, so the page reads fine without it. */
+html.js:not(.reduce) [data-reveal] {
+  visibility: hidden;
+}
+
+/* Preloader is visible only on first visit with JS and motion allowed. */
+.preloader {
+  display: none;
+}
+html.js.preload .preloader {
+  display: flex;
+}
+
+/* Custom cursor only on fine pointers */
+.cursor {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  html.js:not(.reduce) .cursor {
+    display: block;
+  }
+  html.js:not(.reduce) [data-cursor],
+  html.js:not(.reduce) [data-cursor] * {
+    cursor: none;
+  }
+}
+
+/* Projects: stacked when motion is allowed, plain flow otherwise */
+.projects.is-stacked .project-panel {
+  position: absolute;
+  inset: 0;
+}
+.projects.is-stacked .project-panel + .project-panel {
+  clip-path: inset(100% 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hero scroll cue: a short gold segment running down a hairline */
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+.scroll-cue {
+  animation: cue 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
