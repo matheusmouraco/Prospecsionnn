@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f4f1ec;
+  --color-ink: #1e1e1c;
+  --color-mute: #6b675f;
+  --color-clay: #8a4a2f;
+  --color-line: rgb(30 30 28 / 0.16);
+
+  --font-serif: var(--font-fraunces), "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --gutter: 1.25rem;
+  --section: clamp(7.5rem, 16vw, 15rem);
+}
+@media (min-width: 768px) {
+  :root { --gutter: 2.5rem; }
+}
+@media (min-width: 1280px) {
+  :root { --gutter: 3.5vw; }
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-clay);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-clay);
+  outline-offset: 4px;
+}
+
+@layer components {
+/* ---------- Editorial primitives ---------- */
+
+.gutter { padding-inline: var(--gutter); }
+
+.display {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  letter-spacing: -0.012em;
+  word-spacing: 0.06em;
+  line-height: 0.9;
+  font-variant-numeric: lining-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.folio {
+  font-family: var(--font-serif);
+  font-variant-numeric: lining-nums;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--color-clay);
+}
+
+}
+
+/* Paper grain: a single static layer, never animated */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Bottom-to-top image reveal ----------
+   Looks like clip-path: inset(100% 0 0 0) -> inset(0), but is built from two
+   counter-translated layers so only transform is animated (compositor only). */
+.reveal { position: relative; overflow: hidden; }
+.reveal-inner { background: rgb(30 30 28 / 0.06); }
+.reveal-mask, .reveal-inner { position: absolute; inset: 0; overflow: hidden; will-change: transform; }
+.parallax { position: absolute; inset: -9% 0; will-change: transform; }
+.parallax-x { position: absolute; inset: 0 -9%; will-change: transform; }
+.zoom { position: absolute; inset: 0; transform-origin: 50% 60%; }
+
+/* JS-driven elements start hidden only when motion is allowed and JS runs */
+html.js [data-reveal] .reveal-mask { transform: translateY(100%); }
+html.js [data-reveal] .reveal-inner { transform: translateY(-100%); }
+html.js [data-split] { opacity: 0; }
+html.js [data-gcap] { opacity: 0; }
+html.js [data-fade] { opacity: 0; transform: translateY(1.5rem); }
+html.js [data-rule] { transform: scaleX(0); }
+[data-rule] { transform-origin: 0 50%; }
+
+/* SplitText line masks need a little room for descenders */
+.split-line { padding-bottom: 0.08em; margin-bottom: -0.08em; }
+
+/* ---------- Hero (CSS-only so it starts on first paint, before JS) ---------- */
+@keyframes rise { from { transform: translateY(112%); } to { transform: translateY(0); } }
+@keyframes mask-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes mask-down { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes settle { from { transform: scale(1.22); } to { transform: scale(1); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
+@keyframes cue { 0% { transform: scaleY(0); transform-origin: 50% 0; } 45% { transform: scaleY(1); transform-origin: 50% 0; } 55% { transform: scaleY(1); transform-origin: 50% 100%; } 100% { transform: scaleY(0); transform-origin: 50% 100%; } }
+
+.hero-line { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.hero-line > span {
+  display: block;
+  transform: translateY(112%);
+  animation: rise 1.7s var(--ease-expo) forwards;
+  animation-delay: calc(0.15s + var(--i, 0) * 0.13s);
+}
+.hero-img .reveal-mask { animation: mask-up 1.9s var(--ease-expo) 0.35s both; }
+.hero-img .reveal-inner { animation: mask-down 1.9s var(--ease-expo) 0.35s both; }
+.hero-img .zoom { animation: settle 2.6s var(--ease-expo) 0.35s both; }
+.hero-fade { animation: fade-up 1.4s var(--ease-expo) both; animation-delay: var(--d, 0.9s); }
+.cue-line { animation: cue 2.8s var(--ease-expo) 2s infinite; }
+
+/* ---------- Header ---------- */
+.site-header { transition: transform 0.9s var(--ease-expo), opacity 0.9s var(--ease-expo); }
+.site-header[data-hidden="true"] { transform: translateY(-110%); }
+
+/* ---------- Links ---------- */
+.ulink { position: relative; }
+.ulink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.15em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.8s var(--ease-expo);
+}
+.ulink:hover::after, .ulink:focus-visible::after { transform: scaleX(1); transform-origin: 0 50%; }
+
+.wa-link .wa-rule { transform-origin: 0 50%; transition: transform 1.1s var(--ease-expo); }
+.wa-link:hover .wa-rule, .wa-link:focus-visible .wa-rule { transform: scaleX(0.35); }
+.wa-link .wa-arrow { transition: transform 1.1s var(--ease-expo); }
+.wa-link:hover .wa-arrow, .wa-link:focus-visible .wa-arrow { transform: translate(0.12em, -0.12em); }
+
+/* ---------- Gallery ---------- */
+/* Default (no JS or reduced motion): native horizontal scroll with snap */
+.gallery-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.gallery-viewport::-webkit-scrollbar { display: none; }
+.gallery-viewport > * > * { scroll-snap-align: start; }
+html.js .gallery-viewport { overflow: hidden; scroll-snap-type: none; }
+
+/* ---------- Reduced motion: everything in place, nothing moves ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .hero-line > span,
+  .hero-img .reveal-mask,
+  .hero-img .reveal-inner,
+  .hero-img .zoom { transform: none !important; }
+  .hero-fade { opacity: 1 !important; transform: none !important; }
+}
